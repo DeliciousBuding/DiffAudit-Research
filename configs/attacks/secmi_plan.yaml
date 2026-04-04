@@ -3,11 +3,11 @@ task:
   model_family: diffusion
   access_level: black_box
 assets:
-  dataset_id: cifar10-half
+  dataset_id: your-dataset-id
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
-  model_id: cifar10-ddpm
-  model_dir: D:/models/secmi/cifar10
+  dataset_root: REPLACE_WITH_YOUR_DATASET_ROOT
+  model_id: your-model-id
+  model_dir: REPLACE_WITH_YOUR_MODEL_DIR
 attack:
   method: secmi
   num_samples: 8

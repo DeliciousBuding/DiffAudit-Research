@@ -1,3 +1,9 @@
-# Scripts
+# 脚本目录
 
-Put repeatable utility scripts here. Keep one responsibility per script.
+这里放可重复执行的小工具脚本。
+
+## 原则
+
+- 一个脚本只做一件事
+- 优先服务环境验证、资产检查、实验整理
+- 不要把一次性的本地试验命令直接塞进这里

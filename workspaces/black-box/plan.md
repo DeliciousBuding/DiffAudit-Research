@@ -1,6 +1,15 @@
 # 黑盒方向计划
 
-## 主论文
+## 状态面板
+
+- `owner`: 待认领
+- `scope`: 黑盒成员推断、数据集级审计、black-box leakage 线索整理
+- `status`: 进行中
+- `blocked by`: 真实 checkpoint、flagfile、与论文一致的数据布局
+- `next command`: `conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config configs/attacks/secmi_plan.yaml`
+- `last updated`: 2026-04-05
+
+## 主论文与场景
 
 - `2025-324-paper.pdf`
 - `Towards Black-Box Membership Inference Attack for Diffusion Model.pdf`
@@ -11,6 +20,7 @@
 - 主复现：`Black-box Membership Inference Attacks against Fine-tuned Diffusion Models`
 - 对照参考：`Towards Black-Box Membership Inference Attack for Diffusion Models`
 - 场景补充：`CLiD`
+- 审计扩展：`CDI`
 
 ## 一周行动清单
 
@@ -18,10 +28,12 @@
 2. 对比三篇论文需要的资产：checkpoint、flagfile、dataset_root、prompt 或 text 条件
 3. 跑通仓库现有黑盒基础命令：
    - `plan-secmi`
+   - `probe-secmi-assets`
    - `prepare-secmi`
    - `dry-run-secmi`
-4. 形成一份黑盒方向复现计划
+4. 形成一份黑盒方向复现计划和 threat model 对照表
 5. 明确当前缺失的真实资产
+6. 补 `paper-matrix` 与 `experiment-entrypoints` 文档
 
 ## 当前阻塞项
 

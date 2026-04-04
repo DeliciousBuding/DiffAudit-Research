@@ -1,3 +1,13 @@
-# Docs
+# 文档目录
 
-Store architecture notes, experiment protocols, benchmark definitions, and design decisions here.
+这里存放项目级文档，而不是个人临时笔记。
+
+## 建议放什么
+
+- 环境说明
+- GitHub 协作规范
+- 入手指南
+- 架构说明
+- 实验协议
+- benchmark 定义
+- 设计决策记录
