@@ -1,0 +1,9 @@
+assets:
+  dataset_root: D:/datasets/cifar10
+  model_dir: D:/models/secmi/cifar10
+  flagfile_path: D:/models/secmi/cifar10/flagfile.txt
+  checkpoint_hint: D:/models/secmi/cifar10/checkpoint.pt
+notes:
+  owner: your-name
+  purpose: local-only asset mapping example
+  warning: do-not-commit real private asset paths into shared configs
