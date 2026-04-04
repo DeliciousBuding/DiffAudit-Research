@@ -25,6 +25,28 @@ class SecmiArtifacts:
     flagfile_path: str
 
 
+@dataclass(frozen=True)
+class SecmiRunnerSpec:
+    repo_root: str
+    entrypoint_path: str
+    python_module: str
+    checkpoint_path: str
+    flagfile_path: str
+    dataset: str
+    data_root: str
+    t_sec: int
+    k: int
+    batch_size: int
+
+
+REQUIRED_SECMI_WORKSPACE_FILES = (
+    "mia_evals/secmia.py",
+    "mia_evals/dataset_utils.py",
+    "model.py",
+    "diffusion.py",
+)
+
+
 def build_secmi_plan(config: AuditConfig) -> SecmiPlan:
     if config.attack.method != "secmi":
         raise ValueError(f"Unsupported attack method for SecMI plan: {config.attack.method}")
@@ -72,4 +94,47 @@ def resolve_secmi_artifacts(model_dir: str | Path) -> SecmiArtifacts:
     return SecmiArtifacts(
         checkpoint_path=str(checkpoint_path),
         flagfile_path=str(flagfile_path),
+    )
+
+
+def validate_secmi_workspace(workspace_dir: str | Path) -> dict[str, str]:
+    workspace_path = Path(workspace_dir)
+    missing = [
+        relative_path
+        for relative_path in REQUIRED_SECMI_WORKSPACE_FILES
+        if not (workspace_path / relative_path).exists()
+    ]
+    if missing:
+        raise FileNotFoundError(
+            f"SecMI workspace is missing required files: {', '.join(missing)}"
+        )
+
+    return {
+        "status": "ready",
+        "workspace_dir": str(workspace_path),
+        "entrypoint": str(workspace_path / "mia_evals" / "secmia.py"),
+    }
+
+
+def build_secmi_runner_spec(
+    plan: SecmiPlan,
+    artifacts: SecmiArtifacts,
+    repo_root: str | Path,
+) -> SecmiRunnerSpec:
+    repo_path = Path(repo_root)
+    entrypoint_path = repo_path / plan.entrypoint
+    if not entrypoint_path.exists():
+        raise FileNotFoundError(f"SecMI entrypoint not found: {entrypoint_path}")
+
+    return SecmiRunnerSpec(
+        repo_root=str(repo_path),
+        entrypoint_path=str(entrypoint_path),
+        python_module="mia_evals.secmia",
+        checkpoint_path=artifacts.checkpoint_path,
+        flagfile_path=artifacts.flagfile_path,
+        dataset=plan.dataset,
+        data_root=plan.data_root,
+        t_sec=plan.t_sec,
+        k=plan.k,
+        batch_size=plan.batch_size,
     )
