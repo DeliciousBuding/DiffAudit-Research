@@ -13,6 +13,7 @@ from diffaudit.attacks.secmi_adapter import (
     prepare_secmi_adapter,
     probe_secmi_dry_run,
     probe_secmi_runtime,
+    run_synthetic_secmi_stat_smoke,
     run_secmi_dry_run,
     summarize_secmi_adapter,
 )
@@ -85,6 +86,21 @@ def build_parser() -> argparse.ArgumentParser:
         default="external/SecMI/config/CIFAR10.txt",
         help="path to the reference SecMI flagfile template",
     )
+
+    synth_smoke_parser = subparsers.add_parser(
+        "run-secmi-synth-smoke",
+        help="run a synthetic SecMI stat smoke execution",
+    )
+    synth_smoke_parser.add_argument(
+        "--workspace",
+        required=True,
+        help="workspace directory for synthetic smoke artifacts",
+    )
+    synth_smoke_parser.add_argument(
+        "--device",
+        default="cpu",
+        help="device used for the synthetic smoke run",
+    )
     return parser
 
 
@@ -124,6 +140,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "bootstrap-secmi-smoke-assets":
         payload = bootstrap_secmi_smoke_assets(args.target_dir, args.flagfile_source)
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0
+
+    if args.command == "run-secmi-synth-smoke":
+        payload = run_synthetic_secmi_stat_smoke(args.workspace, device=args.device)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
 
