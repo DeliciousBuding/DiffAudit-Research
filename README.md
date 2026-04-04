@@ -96,9 +96,10 @@ workspaces/              多人协作工作区
 对 `SecMI`，推荐命令顺序是：
 
 1. `plan-secmi`
-2. `prepare-secmi`
-3. `dry-run-secmi`
-4. 资产到位后再尝试真实执行
+2. `probe-secmi-assets`
+3. `prepare-secmi`
+4. `dry-run-secmi`
+5. 资产到位后再尝试真实执行
 
 ## 环境搭建
 
@@ -119,6 +120,12 @@ $env:PYTHONPATH='src;.'
 python scripts/verify_env.py
 ```
 
+如果当前 shell 没有激活 conda 环境，也可以直接用：
+
+```powershell
+conda run -n diffaudit-research python scripts/verify_env.py
+```
+
 ## 快速开始
 
 运行 smoke pipeline：
@@ -133,6 +140,13 @@ python -m diffaudit run-smoke --config configs/benchmarks/secmi_smoke.yaml --wor
 ```powershell
 $env:PYTHONPATH='src;.'
 python -m diffaudit plan-secmi --config configs/attacks/secmi_plan.yaml
+```
+
+探测 `SecMI` 资产是否齐全：
+
+```powershell
+$env:PYTHONPATH='src;.'
+python -m diffaudit probe-secmi-assets --config configs/attacks/secmi_plan.yaml
 ```
 
 准备 `SecMI` adapter 上下文：
@@ -150,6 +164,8 @@ python -m diffaudit dry-run-secmi --config configs/attacks/secmi_plan.yaml --rep
 ```
 
 如果缺 checkpoint、flagfile、dataset_root 等真实资产，`dry-run-secmi` 会返回 `blocked` 并直接指出缺失路径。
+
+如果只想先看缺什么资产，不想触发完整运行时导入，优先用 `probe-secmi-assets`。
 
 运行 `SecMI` runtime probe：
 
