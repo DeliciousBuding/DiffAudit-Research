@@ -30,6 +30,8 @@ python -m diffaudit probe-secmi-assets --config configs/attacks/secmi_plan.yaml
 python -m diffaudit dry-run-secmi --config configs/attacks/secmi_plan.yaml --repo-root third_party/secmi
 ```
 
+上面的 `secmi_plan.yaml` 默认是模板。第一次使用前，先参考 `configs/assets/example.local.yaml` 把本地 `dataset_root` 和 `model_dir` 填进去。
+
 如果当前 shell 还没激活 conda，也可以直接写成：
 
 ```powershell

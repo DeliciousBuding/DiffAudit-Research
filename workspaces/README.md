@@ -21,3 +21,17 @@
 - 黑盒计划：`workspaces/black-box/plan.md`
 - 白盒计划：`workspaces/white-box/plan.md`
 - 灰盒计划：`workspaces/gray-box/plan.md`
+- 工程计划：`workspaces/implementation/plan.md`
+
+## 状态面板约定
+
+每个方向的 `plan.md` 建议至少维护这些字段：
+
+- `owner`
+- `scope`
+- `status`
+- `blocked by`
+- `next command`
+- `last updated`
+
+这样团队成员进入任一工作区时，能先看状态，再看背景。
