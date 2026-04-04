@@ -182,6 +182,7 @@ def parse_secmi_flagfile(flagfile_path: str | Path) -> SimpleNamespace:
 
 def run_synthetic_secmi_stat_smoke(workspace: str | Path, device: str = "cpu") -> dict[str, Any]:
     workspace_path = Path(workspace)
+    workspace_path.mkdir(parents=True, exist_ok=True)
     smoke_assets = bootstrap_secmi_smoke_assets(
         target_dir=workspace_path / "synthetic-secmi-assets",
         flagfile_source="",
@@ -218,13 +219,19 @@ def run_synthetic_secmi_stat_smoke(workspace: str | Path, device: str = "cpu") -
     }
     attack_results = module.execute_attack(t_results, type="stat")
 
-    return {
+    result = {
         "status": "ready",
         "auc": round(float(attack_results["auc"]), 6),
         "asr": round(float(attack_results["asr"]), 6),
         "device": device,
         "workspace": str(workspace_path),
     }
+    (workspace_path / "summary.json").write_text(
+        __import__("json").dumps(result, indent=2, ensure_ascii=True),
+        encoding="utf-8",
+    )
+    shutil.rmtree(workspace_path / "synthetic-secmi-assets", ignore_errors=True)
+    return result
 
 
 def probe_secmi_runtime(config: AuditConfig, repo_root: str) -> tuple[int, dict[str, Any]]:
