@@ -41,3 +41,4 @@ tmp/
 # Local environments
 .conda/
 condaenv.*.requirements.txt
+external/
