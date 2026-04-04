@@ -263,6 +263,7 @@ report:
 
     def test_cli_runtime_probe_secmi_reports_ready(self) -> None:
         from diffaudit.cli import main
+        from diffaudit.attacks.secmi_adapter import bootstrap_secmi_smoke_assets
 
         config_text = """
 task:
@@ -288,9 +289,10 @@ report:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
             model_dir = root / "model"
-            model_dir.mkdir()
-            (model_dir / "flagfile.txt").write_text("", encoding="utf-8")
-            (model_dir / "checkpoint.pt").write_text("best", encoding="utf-8")
+            bootstrap_secmi_smoke_assets(
+                target_dir=model_dir,
+                flagfile_source=Path("external/SecMI/config/CIFAR10.txt"),
+            )
 
             config_path = root / "audit.yaml"
             config_path.write_text(

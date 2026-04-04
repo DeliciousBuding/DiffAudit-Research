@@ -170,10 +170,31 @@ def get_intermediate_results(model, FLAGS, data_loader, t_sec, timestep, device=
         x = x[0].to(device)
         x = x * 2 - 1
 
-        x_sec = ddim_multistep(model, FLAGS, x, t_c=0, target_steps=target_steps)
+        x_sec = ddim_multistep(
+            model,
+            FLAGS,
+            x,
+            t_c=0,
+            target_steps=target_steps,
+            device=device,
+        )
         x_sec = x_sec['x_t_target']
-        x_sec_recon = ddim_singlestep(model, FLAGS, x_sec, t_c=target_steps[-1], t_target=target_steps[-1] + timestep)
-        x_sec_recon = ddim_singlestep(model, FLAGS, x_sec_recon['x_t_target'], t_c=target_steps[-1] + timestep, t_target=target_steps[-1])
+        x_sec_recon = ddim_singlestep(
+            model,
+            FLAGS,
+            x_sec,
+            t_c=target_steps[-1],
+            t_target=target_steps[-1] + timestep,
+            device=device,
+        )
+        x_sec_recon = ddim_singlestep(
+            model,
+            FLAGS,
+            x_sec_recon['x_t_target'],
+            t_c=target_steps[-1] + timestep,
+            t_target=target_steps[-1],
+            device=device,
+        )
         x_sec_recon = x_sec_recon['x_t_target']
 
         internal_diffusion_list.append(x_sec)

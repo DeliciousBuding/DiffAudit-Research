@@ -151,6 +151,26 @@ python -m diffaudit dry-run-secmi --config configs/attacks/secmi_plan.yaml --rep
 
 如果缺 checkpoint、flagfile、dataset_root 等真实资产，`dry-run-secmi` 会返回 `blocked` 并直接指出缺失路径。
 
+运行 `SecMI` runtime probe：
+
+```powershell
+$env:PYTHONPATH='src;.'
+python -m diffaudit runtime-probe-secmi --config configs/attacks/secmi_plan.yaml --repo-root third_party/secmi
+```
+
+这个命令不会真正执行攻击，但会校验：
+
+- 资产路径是否存在
+- vendored `SecMI` 模块是否可导入
+- `flagfile` 是否能被解析
+
+生成本地 smoke 资产：
+
+```powershell
+$env:PYTHONPATH='src;.'
+python -m diffaudit bootstrap-secmi-smoke-assets --target-dir tmp/secmi-smoke-assets
+```
+
 ## 参考资料
 
 仓库已经镜像了一批调研期 PDF，位置在 `references/materials/`。
