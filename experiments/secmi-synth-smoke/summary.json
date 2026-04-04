@@ -1,0 +1,7 @@
+{
+  "status": "ready",
+  "auc": 0.5,
+  "asr": 0.75,
+  "device": "cpu",
+  "workspace": "experiments\\secmi-synth-smoke"
+}

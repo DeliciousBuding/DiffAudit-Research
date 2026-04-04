@@ -241,12 +241,14 @@ report:
         from diffaudit.attacks.secmi_adapter import run_synthetic_secmi_stat_smoke
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            result = run_synthetic_secmi_stat_smoke(Path(tmpdir), device="cpu")
-
-        self.assertEqual(result["status"], "ready")
-        self.assertIn("auc", result)
-        self.assertIn("asr", result)
-        self.assertEqual(result["device"], "cpu")
+            workspace = Path(tmpdir)
+            result = run_synthetic_secmi_stat_smoke(workspace, device="cpu")
+            self.assertEqual(result["status"], "ready")
+            self.assertIn("auc", result)
+            self.assertIn("asr", result)
+            self.assertEqual(result["device"], "cpu")
+            self.assertTrue((workspace / "summary.json").exists())
+            self.assertFalse((workspace / "synthetic-secmi-assets").exists())
 
     def test_bootstrap_secmi_smoke_assets_creates_flagfile_and_checkpoint(self) -> None:
         from diffaudit.attacks.secmi_adapter import bootstrap_secmi_smoke_assets
@@ -317,6 +319,28 @@ report:
         self.assertEqual(payload["status"], "ready")
         self.assertIn("flagfile_loaded", payload["checks"])
 
+    def test_cli_runs_secmi_synthetic_smoke(self) -> None:
+        from diffaudit.cli import main
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "run-secmi-synth-smoke",
+                        "--workspace",
+                        tmpdir,
+                        "--device",
+                        "cpu",
+                    ]
+                )
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["device"], "cpu")
+        self.assertIn("auc", payload)
+
     def test_prepares_secmi_adapter_context(self) -> None:
         from diffaudit.attacks.secmi_adapter import prepare_secmi_adapter
         from diffaudit.config import load_audit_config
@@ -364,3 +388,4 @@ report:
 
 if __name__ == "__main__":
     unittest.main()
+
