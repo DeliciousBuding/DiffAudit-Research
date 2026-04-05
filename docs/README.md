@@ -14,8 +14,8 @@
 
 ## 当前核心文档
 
-- [reproduction-status.md](/D:/Code/DiffAudit/Project/docs/reproduction-status.md)：当前各条方法线的真实推进状态
-- [repo-map.md](/D:/Code/DiffAudit/Project/docs/repo-map.md)：仓库目录地图和代码职责说明
-- [environment.md](/D:/Code/DiffAudit/Project/docs/environment.md)：环境与依赖说明
-- [getting-started.md](/D:/Code/DiffAudit/Project/docs/getting-started.md)：新成员上手指南
-- [github-collaboration.md](/D:/Code/DiffAudit/Project/docs/github-collaboration.md)：协作与分支规范
+- [reproduction-status.md](reproduction-status.md)：当前各条方法线的真实推进状态
+- [repo-map.md](repo-map.md)：仓库目录地图和代码职责说明
+- [environment.md](environment.md)：环境与依赖说明
+- [getting-started.md](getting-started.md)：新成员上手指南
+- [github-collaboration.md](github-collaboration.md)：协作与分支规范
