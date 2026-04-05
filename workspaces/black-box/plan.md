@@ -4,10 +4,10 @@
 
 - `owner`: active-thread
 - `scope`: 黑盒成员推断、数据集级审计、black-box leakage 线索整理
-- `status`: 进行中，`Stable Diffusion + DDIM` 最小真实 artifact-mainline 已通，`DiT` 官方 sample smoke 已通
-- `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）虽然可获取，但 target/shadow/member/non-member 的运行时映射仍需核准
-- `next command`: `conda run -n diffaudit-research python -m diffaudit probe-recon-runtime-assets --target-member-dataset path/to/target_member_dataset.pkl --target-nonmember-dataset path/to/target_nonmember_dataset.pkl --shadow-member-dataset path/to/shadow_member_dataset.pkl --shadow-nonmember-dataset path/to/shadow_nonmember_dataset.pkl --target-model-dir path/to/target_lora_checkpoint --shadow-model-dir path/to/shadow_lora_checkpoint --repo-root external/Reconstruction-based-Attack`
-- `last updated`: 2026-04-05
+- `status`: 进行中，`Stable Diffusion + DDIM` 最小真实 runtime-mainline 已通，`DiT` 官方 sample smoke 已通
+- `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的 target/shadow/member/non-member 论文语义仍需核准，并且当前只验证了极小子集
+- `next command`: `conda run -n diffaudit-research python -m diffaudit run-recon-runtime-mainline --target-member-dataset path/to/target_member_dataset.pkl --target-nonmember-dataset path/to/target_nonmember_dataset.pkl --shadow-member-dataset path/to/shadow_member_dataset.pkl --shadow-nonmember-dataset path/to/shadow_nonmember_dataset.pkl --target-model-dir path/to/target_lora_checkpoint --shadow-model-dir path/to/shadow_lora_checkpoint --workspace experiments/recon-runtime-mainline --repo-root external/Reconstruction-based-Attack --scheduler ddim --method threshold`
+- `last updated`: 2026-04-06
 
 ## 主论文与场景
 
@@ -24,8 +24,11 @@
 - `experiments/recon-mainline-smoke/summary.json`
 - `experiments/recon-artifact-summary/summary.json`
 - `experiments/recon-upstream-eval-smoke/summary.json`
+- `experiments/recon-runtime-mainline-ddim-smoke/summary.json`
+- `experiments/recon-runtime-mainline-ddim-smoke/artifact-mainline-final/summary.json`
 - `experiments/variation-synth-smoke/summary.json`
 - `experiments/blackbox-status/summary.json`
+- `experiments/dit-sample-smoke/summary.json`
 
 ## 本地代码上下文
 
@@ -45,12 +48,13 @@
 
 1. 保持 `recon` 统一 mainline smoke 可重复执行，并在拿到 score artifact 后先跑 `probe-recon-score-artifacts` 再转到 `run-recon-artifact-mainline`
 2. 用 `probe-recon-runtime-assets` 先核准本机 `recon` 公开 Zenodo 资产的 target/shadow/member/non-member 映射
-3. 若映射成立，继续把 `run-recon-runtime-mainline` 的自动编排收敛到可断点续跑、无需手工补最后一个 score artifact
+3. 将 `recon` 从 `1-sample` 极小子集扩到更有意义的公开样本规模，并记录运行成本
 4. 把真实 target/shadow score artifact 的命名和目录约束落实到 `recon` 主线
 5. 维持 `DiT` 官方 `sample.py` 路线可重复执行，并视需要补本地 checkpoint 路径
-6. 评估 `variation` 真实 API 调用所需的凭据、预算和 query image 约束
-7. 评估 `CLiD` 的真实 text-to-image 资产是否可在当前机器上最小复现
-8. 维持黑盒状态文档、实验目录和主线命令说明同步
+6. 若能找到 Kandinsky 的 `decoder/prior` LoRA checkpoint，再把该后端接入 `recon` runtime 统一入口
+7. 评估 `variation` 真实 API 调用所需的凭据、预算和 query image 约束
+8. 评估 `CLiD` 的真实 text-to-image 资产是否可在当前机器上最小复现
+9. 维持黑盒状态文档、实验目录和主线命令说明同步
 
 ## 当前阻塞项
 
