@@ -215,6 +215,30 @@ class ReconAttackTests(unittest.TestCase):
         self.assertIn("shadow_auc", result["metrics"])
         self.assertIn("target_auc", result["metrics"])
 
+    def test_probe_recon_score_artifacts_reports_ready(self) -> None:
+        from diffaudit.attacks.recon import probe_recon_score_artifacts
+        import torch
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            artifact_dir = root / "scores"
+            artifact_dir.mkdir()
+            torch_payloads = {
+                "target_member.pt": [([0.91], 1), ([0.88], 1), ([0.86], 1)],
+                "target_non_member.pt": [([0.18], 0), ([0.22], 0), ([0.25], 0)],
+                "shadow_member.pt": [([0.89], 1), ([0.84], 1), ([0.83], 1)],
+                "shadow_non_member.pt": [([0.17], 0), ([0.21], 0), ([0.24], 0)],
+            }
+            for filename, payload in torch_payloads.items():
+                torch.save(payload, artifact_dir / filename)
+
+            result = probe_recon_score_artifacts(artifact_dir)
+
+        self.assertEqual(result["status"], "ready")
+        self.assertTrue(result["checks"]["all_required_files_present"])
+        self.assertEqual(result["sample_counts"]["target_member"], 3)
+        self.assertEqual(result["label_profiles"]["target_non_member"]["negative"], 3)
+
     def test_cli_summarizes_recon_artifacts(self) -> None:
         from diffaudit.cli import main
 
@@ -250,6 +274,38 @@ class ReconAttackTests(unittest.TestCase):
         self.assertEqual(payload["status"], "ready")
         self.assertEqual(payload["mode"], "artifact-summary")
         self.assertIn("target_auc", payload["metrics"])
+
+    def test_cli_probes_recon_score_artifacts(self) -> None:
+        from diffaudit.cli import main
+        import torch
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            artifact_dir = root / "scores"
+            artifact_dir.mkdir()
+            torch_payloads = {
+                "target_member.pt": [([0.91], 1), ([0.88], 1), ([0.86], 1)],
+                "target_non_member.pt": [([0.18], 0), ([0.22], 0), ([0.25], 0)],
+                "shadow_member.pt": [([0.89], 1), ([0.84], 1), ([0.83], 1)],
+                "shadow_non_member.pt": [([0.17], 0), ([0.21], 0), ([0.24], 0)],
+            }
+            for filename, payload in torch_payloads.items():
+                torch.save(payload, artifact_dir / filename)
+
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "probe-recon-score-artifacts",
+                        "--artifact-dir",
+                        str(artifact_dir),
+                    ]
+                )
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["sample_counts"]["shadow_member"], 3)
 
     def test_run_recon_upstream_eval_smoke_writes_summary(self) -> None:
         from diffaudit.attacks.recon import run_recon_upstream_eval_smoke

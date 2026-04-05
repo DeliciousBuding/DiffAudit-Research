@@ -361,6 +361,55 @@ def _write_synthetic_recon_score_artifacts(target_dir: str | Path) -> dict[str, 
     return score_paths
 
 
+def probe_recon_score_artifacts(artifact_dir: str | Path) -> dict[str, object]:
+    artifact_path = Path(artifact_dir)
+    score_paths = {
+        "target_member": artifact_path / "target_member.pt",
+        "target_non_member": artifact_path / "target_non_member.pt",
+        "shadow_member": artifact_path / "shadow_member.pt",
+        "shadow_non_member": artifact_path / "shadow_non_member.pt",
+    }
+    checks = {name: path.exists() for name, path in score_paths.items()}
+    checks["all_required_files_present"] = all(checks.values())
+    missing_keys = [name for name, is_ready in checks.items() if name in score_paths and not is_ready]
+
+    result: dict[str, object] = {
+        "status": "blocked",
+        "artifact_dir": str(artifact_path),
+        "checks": checks,
+        "paths": {name: str(path) for name, path in score_paths.items()},
+        "missing_keys": missing_keys,
+        "missing": [str(score_paths[name]) for name in missing_keys],
+    }
+    if not checks["all_required_files_present"]:
+        return result
+
+    sample_counts: dict[str, int] = {}
+    label_profiles: dict[str, dict[str, int]] = {}
+    binary_label_checks: dict[str, bool] = {}
+    try:
+        for name, path in score_paths.items():
+            scores, labels = _extract_recon_scores(path)
+            sample_counts[name] = int(len(scores))
+            positive = int(labels.sum())
+            negative = int(len(labels) - positive)
+            label_profiles[name] = {
+                "positive": positive,
+                "negative": negative,
+            }
+            binary_label_checks[name] = bool(np.isin(labels, [0, 1]).all())
+    except Exception as exc:
+        result["error"] = str(exc)
+        return result
+
+    checks["all_non_empty"] = all(count > 0 for count in sample_counts.values())
+    checks["all_binary_labels"] = all(binary_label_checks.values())
+    result["sample_counts"] = sample_counts
+    result["label_profiles"] = label_profiles
+    result["status"] = "ready" if checks["all_non_empty"] and checks["all_binary_labels"] else "blocked"
+    return result
+
+
 def summarize_recon_artifacts(
     artifact_dir: str | Path,
     workspace: str | Path,

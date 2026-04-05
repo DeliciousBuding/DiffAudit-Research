@@ -19,6 +19,7 @@ from diffaudit.attacks.recon import (
     build_recon_plan,
     explain_recon_assets,
     probe_recon_dry_run,
+    probe_recon_score_artifacts,
     run_recon_artifact_mainline,
     run_recon_eval_smoke,
     run_recon_mainline_smoke,
@@ -112,6 +113,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="inspect reconstruction-based black-box asset readiness without importing the runtime",
     )
     recon_asset_probe_parser.add_argument("--config", required=True, help="path to audit yaml")
+
+    recon_score_probe_parser = subparsers.add_parser(
+        "probe-recon-score-artifacts",
+        help="inspect reconstruction score artifact readiness for artifact-driven mainline runs",
+    )
+    recon_score_probe_parser.add_argument(
+        "--artifact-dir",
+        required=True,
+        help="directory containing target/shadow member and non-member score artifacts",
+    )
 
     variation_asset_probe_parser = subparsers.add_parser(
         "probe-variation-assets",
@@ -510,6 +521,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "probe-recon-assets":
         config = load_audit_config(args.config)
         payload = explain_recon_assets(config)
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+    if args.command == "probe-recon-score-artifacts":
+        payload = probe_recon_score_artifacts(args.artifact_dir)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
