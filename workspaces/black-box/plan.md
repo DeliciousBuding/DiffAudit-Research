@@ -4,9 +4,9 @@
 
 - `owner`: active-thread
 - `scope`: 黑盒成员推断、数据集级审计、black-box leakage 线索整理
-- `status`: 进行中，`Stable Diffusion + DDIM` 与 `kandinsky_v22` 最小真实 runtime-mainline 已通，`DiT` 官方 sample smoke 已通
+- `status`: 进行中，`Stable Diffusion + DDIM` 的 `10-sample public runtime-mainline` 已通，`kandinsky_v22` 最小真实 runtime-mainline 已通，`DiT` 官方 `step10 sample-smoke` 已通
 - `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的 target/shadow/member/non-member 论文语义仍需核准，并且当前只验证了极小子集
-- `next command`: `conda run -n diffaudit-research python -m diffaudit prepare-recon-public-subset --bundle-root external/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models --output-dir external/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-public-10 --target-count 10 --shadow-count 10`
+- `next command`: `conda run -n diffaudit-research python -m diffaudit run-dit-sample-smoke --workspace experiments/dit-sample-step50 --repo-root external/DiT --model DiT-XL/2 --image-size 256 --num-sampling-steps 50 --seed 0 --ckpt external/DiT/pretrained_models/DiT-XL-2-256x256.pt`
 - `last updated`: 2026-04-06
 
 ## 主论文与场景
@@ -26,11 +26,14 @@
 - `experiments/recon-upstream-eval-smoke/summary.json`
 - `experiments/recon-runtime-mainline-ddim-smoke/summary.json`
 - `experiments/recon-runtime-mainline-ddim-smoke/artifact-mainline-final/summary.json`
+- `experiments/recon-runtime-mainline-ddim-public-10-step10/summary.json`
+- `experiments/recon-runtime-mainline-ddim-public-10-step10/artifact-mainline/summary.json`
 - `experiments/recon-runtime-mainline-kandinsky-public-smoke/summary.json`
 - `experiments/recon-runtime-mainline-kandinsky-public-smoke/artifact-mainline/summary.json`
 - `experiments/variation-synth-smoke/summary.json`
 - `experiments/blackbox-status/summary.json`
 - `experiments/dit-sample-smoke/summary.json`
+- `experiments/dit-sample-step10/summary.json`
 
 ## 本地代码上下文
 
@@ -51,10 +54,10 @@
 
 1. 保持 `recon` 统一 mainline smoke 可重复执行，并在拿到 score artifact 后先跑 `probe-recon-score-artifacts` 再转到 `run-recon-artifact-mainline`
 2. 用 `probe-recon-runtime-assets` 先核准本机 `recon` 公开 Zenodo 资产的 target/shadow/member/non-member 映射
-3. 将 `recon` 从 `1-sample` 极小子集扩到更有意义的公开样本规模，并记录运行成本
+3. 将 `recon` 从 `10-sample public` 再扩到更有意义的公开样本规模，并记录运行成本
 4. 把真实 target/shadow score artifact 的命名和目录约束落实到 `recon` 主线
-5. 维持 `DiT` 官方 `sample.py` 路线可重复执行，并视需要补本地 checkpoint 路径
-6. `kandinsky_v22` public smoke 已通；下一步是把同一公开资产映射扩到更大样本规模，并记录运行成本与指标稳定性
+5. 维持 `DiT` 官方 `sample.py` 路线可重复执行，并把本地 checkpoint 驱动的 `step10` 证据继续往更强步数推进
+6. `kandinsky_v22` public smoke 已通；`Stable Diffusion + DDIM` 的 `10-sample public` 也已通，下一步是把同一公开资产映射继续扩容，并记录运行成本与指标稳定性
 7. 评估 `variation` 真实 API 调用所需的凭据、预算和 query image 约束
 8. 评估 `CLiD` 的真实 text-to-image 资产是否可在当前机器上最小复现
 9. 维持黑盒状态文档、实验目录和主线命令说明同步
