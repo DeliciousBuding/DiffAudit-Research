@@ -43,9 +43,9 @@
 
 如果你刚接手仓库，建议按这个顺序看：
 
-1. [README.md](/D:/Code/DiffAudit/Project/README.md)
-2. [docs/reproduction-status.md](/D:/Code/DiffAudit/Project/docs/reproduction-status.md)
-3. [workspaces/black-box/plan.md](/D:/Code/DiffAudit/Project/workspaces/black-box/plan.md)
-4. [configs/README.md](/D:/Code/DiffAudit/Project/configs/README.md)
-5. [experiments/README.md](/D:/Code/DiffAudit/Project/experiments/README.md)
-6. [src/diffaudit/README.md](/D:/Code/DiffAudit/Project/src/diffaudit/README.md)
+1. [README.md](../README.md)
+2. [docs/reproduction-status.md](reproduction-status.md)
+3. [workspaces/black-box/plan.md](../workspaces/black-box/plan.md)
+4. [configs/README.md](../configs/README.md)
+5. [experiments/README.md](../experiments/README.md)
+6. [src/diffaudit/README.md](../src/diffaudit/README.md)

@@ -41,7 +41,7 @@
 2. 真实 benchmark 不到位前，优先补 smoke 或 artifact summary。
 3. 不要把个人实验脚本直接堆进 `src/diffaudit/` 根目录。
 4. 新命令接入时，默认同时更新：
-   - [README.md](/D:/Code/DiffAudit/Project/README.md)
-   - [configs/README.md](/D:/Code/DiffAudit/Project/configs/README.md)
-   - [experiments/README.md](/D:/Code/DiffAudit/Project/experiments/README.md)
+   - [README.md](../../README.md)
+   - [configs/README.md](../../configs/README.md)
+   - [experiments/README.md](../../experiments/README.md)
    - 对应工作区 `plan.md`

@@ -6,9 +6,9 @@
 
 建议按这个顺序入手：
 
-1. 阅读根目录 [README.md](/D:/Code/DiffAudit/Project/README.md)
-2. 阅读 [docs/environment.md](/D:/Code/DiffAudit/Project/docs/environment.md)
-3. 阅读 [docs/github-collaboration.md](/D:/Code/DiffAudit/Project/docs/github-collaboration.md)
+1. 阅读根目录 [README.md](../README.md)
+2. 阅读 [docs/environment.md](environment.md)
+3. 阅读 [docs/github-collaboration.md](github-collaboration.md)
 4. 进入自己负责的工作区
 5. 跑一次环境验证、资产探针和 `dry-run`
 

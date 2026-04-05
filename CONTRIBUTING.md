@@ -154,4 +154,4 @@ conda run -n diffaudit-research python -m unittest tests.test_attack_registry te
 - `main` 开分支保护
 - 默认通过 PR 合并
 
-具体操作说明见 [docs/github-collaboration.md](/D:/Code/DiffAudit/Project/docs/github-collaboration.md)。
+具体操作说明见 [docs/github-collaboration.md](docs/github-collaboration.md)。
