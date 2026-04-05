@@ -360,6 +360,8 @@ python -m diffaudit run-recon-runtime-mainline --target-member-dataset path/to/t
 
 - `run-recon-runtime-mainline` 现在会优先复用已有的 `score-artifacts/*.pt`
 - 如果某个 artifact 已经生成，重跑时会跳过该项，适合断点续跑
+- `--backend stable_diffusion` 走当前默认的 Stable Diffusion LoRA 推理链
+- `--backend kandinsky_v22` 走上游 `kandinsky2_2_inference.py`，但需要额外提供 target/shadow 的 `decoder_dir` 与 `prior_dir`
 
 若要显式验证 `DDIM` 采样器路径，可追加：
 

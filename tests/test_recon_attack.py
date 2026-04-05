@@ -126,6 +126,33 @@ def create_minimal_recon_repo(repo_root: Path) -> None:
         encoding="utf-8",
     )
     (repo_root / "train_text_to_image_lora.py").write_text("# train", encoding="utf-8")
+    (repo_root / "kandinsky2_2_inference.py").write_text(
+        "import argparse\n"
+        "from pathlib import Path\n"
+        "import torch\n"
+        "\n"
+        "def parse_args():\n"
+        "    parser = argparse.ArgumentParser()\n"
+        "    parser.add_argument('--decoder_dir')\n"
+        "    parser.add_argument('--prior_dir')\n"
+        "    parser.add_argument('--save_dir')\n"
+        "    parser.add_argument('--gpu', type=int, default=0)\n"
+        "    parser.add_argument('--dataset_dir')\n"
+        "    return parser.parse_args()\n"
+        "\n"
+        "def main():\n"
+        "    args = parse_args()\n"
+        "    payload = torch.load(args.dataset_dir)\n"
+        "    count = len(payload.get('text', []))\n"
+        "    save_dir = Path(args.save_dir)\n"
+        "    save_dir.mkdir(parents=True, exist_ok=True)\n"
+        "    for i in range(count):\n"
+        "        (save_dir / f'image_{i+1:02}_01.jpg').write_bytes(b'fake-jpg')\n"
+        "\n"
+        "if __name__ == '__main__':\n"
+        "    main()\n",
+        encoding="utf-8",
+    )
 
 
 def create_recon_dataset_payload(dataset_path: Path, count: int = 3) -> None:
@@ -763,6 +790,73 @@ class ReconAttackTests(unittest.TestCase):
         self.assertEqual(result["artifacts"]["target_member"]["status"], "ready")
         self.assertEqual(result["artifacts"]["target_member"]["stage"], "reused")
         self.assertTrue(result["checks"]["all_artifacts_generated"])
+
+    def test_cli_runs_recon_runtime_mainline_with_kandinsky_backend(self) -> None:
+        from diffaudit.cli import main
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            repo_root = root / "recon"
+            create_minimal_recon_repo(repo_root)
+
+            datasets = {}
+            for name in (
+                "target_member",
+                "target_non_member",
+                "shadow_member",
+                "shadow_non_member",
+            ):
+                dataset_path = root / f"{name}.pt"
+                create_recon_dataset_payload(dataset_path, count=1)
+                datasets[name] = dataset_path
+
+            target_decoder = root / "target-decoder.pt"
+            target_prior = root / "target-prior.pt"
+            shadow_decoder = root / "shadow-decoder.pt"
+            shadow_prior = root / "shadow-prior.pt"
+            for path in (target_decoder, target_prior, shadow_decoder, shadow_prior):
+                path.write_bytes(b"weights")
+
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "run-recon-runtime-mainline",
+                        "--target-member-dataset",
+                        str(datasets["target_member"]),
+                        "--target-nonmember-dataset",
+                        str(datasets["target_non_member"]),
+                        "--shadow-member-dataset",
+                        str(datasets["shadow_member"]),
+                        "--shadow-nonmember-dataset",
+                        str(datasets["shadow_non_member"]),
+                        "--target-model-dir",
+                        str(target_decoder),
+                        "--shadow-model-dir",
+                        str(shadow_decoder),
+                        "--target-decoder-dir",
+                        str(target_decoder),
+                        "--target-prior-dir",
+                        str(target_prior),
+                        "--shadow-decoder-dir",
+                        str(shadow_decoder),
+                        "--shadow-prior-dir",
+                        str(shadow_prior),
+                        "--workspace",
+                        str(root / "recon-runtime-mainline-kandinsky"),
+                        "--repo-root",
+                        str(repo_root),
+                        "--backend",
+                        "kandinsky_v22",
+                    ]
+                )
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["runtime"]["backend"], "kandinsky_v22")
+        self.assertIn("--decoder_dir", payload["artifacts"]["target_member"]["inference"]["command"])
+        self.assertIn("--prior_dir", payload["artifacts"]["target_member"]["inference"]["command"])
 
 
 if __name__ == "__main__":
