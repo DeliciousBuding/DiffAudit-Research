@@ -23,7 +23,7 @@ RECON_WORKSPACE_FILES = (
     "train_text_to_image_lora.py",
 )
 RECON_RUNTIME_DATASET_KEYS = ("text", "image")
-SUPPORTED_RECON_BACKENDS = {"stable_diffusion"}
+SUPPORTED_RECON_BACKENDS = {"stable_diffusion", "kandinsky_v22"}
 SUPPORTED_RECON_SCHEDULERS = {"default", "ddim", "dpm_solver_multistep"}
 
 
@@ -202,6 +202,11 @@ def probe_recon_runtime_assets(
     shadow_nonmember_dataset: str | Path,
     target_model_dir: str | Path,
     shadow_model_dir: str | Path,
+    backend: str = "stable_diffusion",
+    target_decoder_dir: str | Path | None = None,
+    target_prior_dir: str | Path | None = None,
+    shadow_decoder_dir: str | Path | None = None,
+    shadow_prior_dir: str | Path | None = None,
     repo_root: str | Path = "external/Reconstruction-based-Attack",
 ) -> dict[str, object]:
     dataset_paths = {
@@ -234,6 +239,19 @@ def probe_recon_runtime_assets(
 
     workspace_status = validate_recon_workspace(repo_root)
     checks["repo_workspace_ready"] = workspace_status["status"] == "ready"
+    repo_path = Path(repo_root)
+    if backend == "kandinsky_v22":
+        decoder_prior_paths = {
+            "target_decoder_dir": Path(target_decoder_dir) if target_decoder_dir else None,
+            "target_prior_dir": Path(target_prior_dir) if target_prior_dir else None,
+            "shadow_decoder_dir": Path(shadow_decoder_dir) if shadow_decoder_dir else None,
+            "shadow_prior_dir": Path(shadow_prior_dir) if shadow_prior_dir else None,
+        }
+        for key, path in decoder_prior_paths.items():
+            checks[key] = bool(path and path.exists())
+        checks["kandinsky_entrypoint"] = (repo_path / "kandinsky2_2_inference.py").exists()
+    else:
+        decoder_prior_paths = {}
 
     labels = {
         "target_member_dataset": "target_member dataset",
@@ -244,6 +262,16 @@ def probe_recon_runtime_assets(
         "shadow_model_dir": "shadow_model_dir",
         "repo_workspace_ready": "recon repo workspace",
     }
+    if backend == "kandinsky_v22":
+        labels.update(
+            {
+                "target_decoder_dir": "target_decoder_dir",
+                "target_prior_dir": "target_prior_dir",
+                "shadow_decoder_dir": "shadow_decoder_dir",
+                "shadow_prior_dir": "shadow_prior_dir",
+                "kandinsky_entrypoint": "kandinsky entrypoint",
+            }
+        )
     for dataset_name in dataset_profiles:
         labels[f"{dataset_name}_has_text"] = f"{dataset_name} text column"
         labels[f"{dataset_name}_has_image"] = f"{dataset_name} image column"
@@ -259,6 +287,10 @@ def probe_recon_runtime_assets(
         "shadow_model_dir": str(model_paths["shadow_model_dir"]),
         "repo_root": str(Path(repo_root)),
     }
+    if backend == "kandinsky_v22":
+        for key, path in decoder_prior_paths.items():
+            paths[key] = str(path) if path else ""
+        paths["kandinsky_entrypoint"] = str(repo_path / "kandinsky2_2_inference.py")
     missing_keys = [name for name, is_ready in checks.items() if not is_ready]
     missing = [paths.get(name, labels[name]) for name in missing_keys]
     return {
@@ -576,6 +608,10 @@ def run_recon_runtime_mainline(
     gpu: int = 0,
     backend: str = "stable_diffusion",
     scheduler: str = "default",
+    target_decoder_dir: str | Path | None = None,
+    target_prior_dir: str | Path | None = None,
+    shadow_decoder_dir: str | Path | None = None,
+    shadow_prior_dir: str | Path | None = None,
     method: str = "threshold",
     similarity_method: str = "cosine",
     image_encoder: str = "deit",
@@ -591,6 +627,11 @@ def run_recon_runtime_mainline(
         shadow_nonmember_dataset=shadow_nonmember_dataset,
         target_model_dir=target_model_dir,
         shadow_model_dir=shadow_model_dir,
+        backend=backend,
+        target_decoder_dir=target_decoder_dir,
+        target_prior_dir=target_prior_dir,
+        shadow_decoder_dir=shadow_decoder_dir,
+        shadow_prior_dir=shadow_prior_dir,
         repo_root=repo_root,
     )
     workspace_path = Path(workspace)
@@ -658,24 +699,41 @@ def run_recon_runtime_mainline(
                 "label_sum": int(score_labels.sum()),
             }
             continue
-        inference_command = [
-            sys.executable,
-            str((repo_path / "inference.py").resolve()),
-            "--pretrained_model_name_or_path",
-            pretrained_model_name_or_path,
-            "--num_validation_images",
-            str(num_validation_images),
-            "--inference",
-            str(inference_steps),
-            "--output_dir",
-            str(Path(spec["model_dir"]).resolve()),
-            "--data_dir",
-            str(Path(spec["dataset"]).resolve()),
-            "--save_dir",
-            str(generated_dir.resolve()),
-        ]
         if backend == "stable_diffusion":
+            inference_command = [
+                sys.executable,
+                str((repo_path / "inference.py").resolve()),
+                "--pretrained_model_name_or_path",
+                pretrained_model_name_or_path,
+                "--num_validation_images",
+                str(num_validation_images),
+                "--inference",
+                str(inference_steps),
+                "--output_dir",
+                str(Path(spec["model_dir"]).resolve()),
+                "--data_dir",
+                str(Path(spec["dataset"]).resolve()),
+                "--save_dir",
+                str(generated_dir.resolve()),
+            ]
             inference_command.extend(["--scheduler", scheduler])
+        else:
+            decoder_path = target_decoder_dir if artifact_name.startswith("target_") else shadow_decoder_dir
+            prior_path = target_prior_dir if artifact_name.startswith("target_") else shadow_prior_dir
+            inference_command = [
+                sys.executable,
+                str((repo_path / "kandinsky2_2_inference.py").resolve()),
+                "--decoder_dir",
+                str(Path(decoder_path).resolve()),
+                "--prior_dir",
+                str(Path(prior_path).resolve()),
+                "--save_dir",
+                str(generated_dir.resolve()),
+                "--gpu",
+                str(gpu),
+                "--dataset_dir",
+                str(Path(spec["dataset"]).resolve()),
+            ]
         inference_reused = _count_generated_images(generated_dir) >= num_validation_images
         if inference_reused:
             inference_result = {
@@ -790,6 +848,10 @@ def run_recon_runtime_mainline(
             "backend": backend,
             "scheduler": scheduler,
             "pretrained_model_name_or_path": pretrained_model_name_or_path,
+            "target_decoder_dir": str(Path(target_decoder_dir).resolve()) if target_decoder_dir else None,
+            "target_prior_dir": str(Path(target_prior_dir).resolve()) if target_prior_dir else None,
+            "shadow_decoder_dir": str(Path(shadow_decoder_dir).resolve()) if shadow_decoder_dir else None,
+            "shadow_prior_dir": str(Path(shadow_prior_dir).resolve()) if shadow_prior_dir else None,
             "num_validation_images": num_validation_images,
             "inference_steps": inference_steps,
             "gpu": gpu,
