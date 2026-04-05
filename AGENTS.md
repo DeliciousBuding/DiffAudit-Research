@@ -112,6 +112,17 @@
 - dry-run validation
 - vendored 模块 import smoke test
 
+## 文档链接规则
+
+所有 Markdown 文件中的链接必须使用**相对路径**，禁止使用绝对路径。
+
+示例：
+- 从 `docs/README.md` 引用 `docs/reproduction-status.md` → `[reproduction-status.md](reproduction-status.md)`
+- 从 `docs/repo-map.md` 引用根目录 `README.md` → `[README.md](../README.md)`
+- 从 `src/diffaudit/README.md` 引用根目录 → `[README.md](../../README.md)`
+
+理由：仓库会被推送到 GitHub，绝对路径（如 `D:/Code/...`）在 GitHub 上无法解析，导致链接失效。
+
 ## 文档同步规则
 
 新增攻击线或重大能力时，至少同步更新：
