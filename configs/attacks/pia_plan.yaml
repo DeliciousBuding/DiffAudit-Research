@@ -1,0 +1,20 @@
+task:
+  name: pia-plan
+  model_family: diffusion
+  access_level: semi_white_box
+assets:
+  dataset_id: your-dataset-id
+  dataset_name: cifar10
+  dataset_root: REPLACE_WITH_PARENT_OF_DATASET_DIR
+  model_id: your-model-id
+  model_dir: REPLACE_WITH_YOUR_MODEL_DIR
+attack:
+  method: pia
+  num_samples: 8
+  parameters:
+    attacker_name: PIA
+    attack_num: 30
+    interval: 10
+    batch_size: 64
+report:
+  output_dir: experiments/pia-plan
