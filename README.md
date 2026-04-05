@@ -65,7 +65,7 @@ DiffAudit 是一个面向扩散模型的隐私风险审计研究仓库。
 - `CLiD` 的真实 text-to-image 资产驱动执行
 - 完整的审计报告输出层
 
-当前方法线的最新状态见 [docs/reproduction-status.md](/D:/Code/DiffAudit/Project/docs/reproduction-status.md)。
+当前方法线的最新状态见 [docs/reproduction-status.md](docs/reproduction-status.md)。
 
 ## 仓库结构
 
@@ -156,7 +156,7 @@ conda activate diffaudit-research
 python -m ipykernel install --user --name diffaudit-research --display-name "Python (diffaudit-research)"
 ```
 
-环境说明见 [docs/environment.md](/D:/Code/DiffAudit/Project/docs/environment.md)。
+环境说明见 [docs/environment.md](docs/environment.md)。
 
 环境验证：
 
@@ -360,8 +360,8 @@ python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-
 
 说明与索引见：
 
-- [references/README.md](/D:/Code/DiffAudit/Project/references/README.md)
-- [references/materials/README.md](/D:/Code/DiffAudit/Project/references/materials/README.md)
+- [references/README.md](references/README.md)
+- [references/materials/README.md](references/materials/README.md)
 
 这些文件当前被纳入 git，是因为团队还处在调研期，需要共享同一套阅读上下文。
 
@@ -369,10 +369,10 @@ python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-
 
 仓库级规范见：
 
-- [AGENTS.md](/D:/Code/DiffAudit/Project/AGENTS.md)
-- [CONTRIBUTING.md](/D:/Code/DiffAudit/Project/CONTRIBUTING.md)
-- [docs/github-collaboration.md](/D:/Code/DiffAudit/Project/docs/github-collaboration.md)
-- [docs/getting-started.md](/D:/Code/DiffAudit/Project/docs/getting-started.md)
+- [AGENTS.md](AGENTS.md)
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [docs/github-collaboration.md](docs/github-collaboration.md)
+- [docs/getting-started.md](docs/getting-started.md)
 
 推荐的 GitHub 协作方式是：
 
