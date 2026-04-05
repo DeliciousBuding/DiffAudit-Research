@@ -137,6 +137,11 @@ def build_parser() -> argparse.ArgumentParser:
     recon_runtime_probe_parser.add_argument("--shadow-nonmember-dataset", required=True)
     recon_runtime_probe_parser.add_argument("--target-model-dir", required=True)
     recon_runtime_probe_parser.add_argument("--shadow-model-dir", required=True)
+    recon_runtime_probe_parser.add_argument("--backend", default="stable_diffusion")
+    recon_runtime_probe_parser.add_argument("--target-decoder-dir", default=None)
+    recon_runtime_probe_parser.add_argument("--target-prior-dir", default=None)
+    recon_runtime_probe_parser.add_argument("--shadow-decoder-dir", default=None)
+    recon_runtime_probe_parser.add_argument("--shadow-prior-dir", default=None)
     recon_runtime_probe_parser.add_argument(
         "--repo-root",
         default="external/Reconstruction-based-Attack",
@@ -371,6 +376,10 @@ def build_parser() -> argparse.ArgumentParser:
     recon_runtime_mainline_parser.add_argument("--shadow-nonmember-dataset", required=True)
     recon_runtime_mainline_parser.add_argument("--target-model-dir", required=True)
     recon_runtime_mainline_parser.add_argument("--shadow-model-dir", required=True)
+    recon_runtime_mainline_parser.add_argument("--target-decoder-dir", default=None)
+    recon_runtime_mainline_parser.add_argument("--target-prior-dir", default=None)
+    recon_runtime_mainline_parser.add_argument("--shadow-decoder-dir", default=None)
+    recon_runtime_mainline_parser.add_argument("--shadow-prior-dir", default=None)
     recon_runtime_mainline_parser.add_argument(
         "--workspace",
         required=True,
@@ -694,6 +703,11 @@ def main(argv: list[str] | None = None) -> int:
             shadow_nonmember_dataset=args.shadow_nonmember_dataset,
             target_model_dir=args.target_model_dir,
             shadow_model_dir=args.shadow_model_dir,
+            backend=args.backend,
+            target_decoder_dir=args.target_decoder_dir,
+            target_prior_dir=args.target_prior_dir,
+            shadow_decoder_dir=args.shadow_decoder_dir,
+            shadow_prior_dir=args.shadow_prior_dir,
             repo_root=args.repo_root,
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
@@ -832,6 +846,10 @@ def main(argv: list[str] | None = None) -> int:
             gpu=args.gpu,
             backend=args.backend,
             scheduler=args.scheduler,
+            target_decoder_dir=args.target_decoder_dir,
+            target_prior_dir=args.target_prior_dir,
+            shadow_decoder_dir=args.shadow_decoder_dir,
+            shadow_prior_dir=args.shadow_prior_dir,
             method=args.method,
             similarity_method=args.similarity_method,
             image_encoder=args.image_encoder,
