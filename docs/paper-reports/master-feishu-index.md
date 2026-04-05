@@ -3,17 +3,17 @@
 **GitHub 仓库主页**：[DeliciousBuding/DiffAudit](https://github.com/DeliciousBuding/DiffAudit/)
 
 **更新时间**：
-2026-04-06 04:03:17 +08:00
+2026-04-06 04:23:19 +08:00
 
 **文档用途**：供团队内部查看当前研究范围、复现状态、关键阻塞，以及每篇材料的详细阅读报告入口。当前版本已切换到研究归档与展示版口径。
 
 **同步基线提交**：
-830850c
+b1248ae
 
 ## 当前状态概览
 | 模块 | 当前阶段 | 当前判断 | 主要阻塞 | 下一步 |
 | --- | --- | --- | --- | --- |
-| 黑盒 | runtime evidence expanding | 黑盒主线已不止停留在文档刷新，`recon` 已打通 `Stable Diffusion + DDIM` 与 `kandinsky_v22` 的最小真实 runtime-mainline，`DiT` 官方 sample smoke 也已通。 | 公开资产仍只覆盖极小子集，target/shadow/member/non-member 语义映射尚未最终核准。 | 扩大 `recon` 公开子集规模，补统一状态文档与在线索引同步。 |
+| 黑盒 | runtime evidence expanding | 黑盒主线已推进到真实运行证据累积阶段：`recon` 已打通 `Stable Diffusion + DDIM` 的 `10-sample public runtime-mainline`、`kandinsky_v22` 的最小真实 runtime-mainline，`DiT` 本地 checkpoint 驱动的 `step10 sample-smoke` 也已通。 | 公开资产仍未达到论文级 target/shadow/member/non-member 语义核准，`DiT` 也还没进入更强采样证据。 | 扩大 `recon` 公开子集规模，并把 `DiT` 从 `step10 sample-smoke` 推到更强步数或更稳定的本地采样证据。 |
 | 灰盒 | quality-refresh in progress | 灰盒条目已全部建档；其中 SecMI、Structural Memorization、CDI 与 MoFit 四篇已按新规范完成报告、精修原文与 PDF 三件套收口，其余灰盒条目仍沿用旧批次文档。 | 旧批次文档风格和互链尚未统一。 | 继续按同一流程刷新其余灰盒论文，并把方法差异映射到统一实验计划。 |
 | 白盒 | research-ready | 白盒主论文与解释型路线已完成详细阅读报告，研究脉络已经明确。 | 缺 checkpoint、梯度/激活接口与复现实验资产。 | 先补资产，再决定优先复现哪条白盒线。 |
 | 防御/综述 | research-ready + indexed | 综述、防御和扩展方向材料已形成完整阅读归档，可直接支撑团队选题与对外叙事。 | 尚未全部映射为仓库实验路线。 | 按优先级挑选进入下一轮实验实现。 |
@@ -26,7 +26,7 @@
 - 说明：这里区分“已有文档”与“按新规范刷新完成”两种状态，避免把旧草稿误记为已达标展示稿。
 
 ## 当前主线
-当前实验主线仍然是黑盒方向中的微调扩散模型成员推断，但仓库状态已经从单纯文档整理推进到真实运行证据积累阶段。当前最强证据来自 `recon` 的公开最小子集：`Stable Diffusion + DDIM` 与 `kandinsky_v22` 都已经打通 runtime-mainline，`DiT` 则处于官方 sample smoke 已通、尚未进入真实 benchmark 的状态。
+当前实验主线仍然是黑盒方向中的微调扩散模型成员推断，但仓库状态已经从单纯文档整理推进到真实运行证据积累阶段。当前最强证据来自 `recon` 的公开子集：`Stable Diffusion + DDIM` 已经打通 `10-sample public runtime-mainline`，`kandinsky_v22` 也已打通最小真实 runtime-mainline；`DiT` 则已具备本地 checkpoint 驱动的 `step10 sample-smoke`，尚未进入更强采样或 benchmark 级证据。
 
 ## 关键入口
 - 复现状态总览：[docs/reproduction-status.md](https://github.com/DeliciousBuding/DiffAudit/blob/main/docs/reproduction-status.md)
