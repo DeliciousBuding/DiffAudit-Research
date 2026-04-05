@@ -22,3 +22,14 @@
 - 不提交私有数据集或大体积中间产物
 - 可以提交最小 `summary.json` 作为运行证据
 - 真实 benchmark 结果要明确写清楚资产前提和攻击假设
+
+## 当前建议
+
+1. 新增实验目录时，优先只提交 `summary.json`。
+2. 如果一个 smoke 会生成临时配置、权重或图片，默认在命令结束时清理。
+3. 目录命名尽量直接表达：
+   - 方法
+   - 模式
+   - 设备或场景
+
+例如：`pia-runtime-smoke-gpu`、`clid-artifact-summary`、`recon-eval-smoke`。

@@ -51,6 +51,9 @@ DiffAudit 是一个面向扩散模型的隐私风险审计研究仓库。
 - 配置驱动的 smoke pipeline
 - `SecMI` 的计划层、资产解析、workspace 校验、adapter 准备和 dry-run 校验
 - `PIA` 的计划层、资产解析、dry-run、runtime probe 和 synthetic smoke
+- `CLiD` 的计划层、资产解析、dry-run、dry-run smoke 和 artifact summary
+- `recon` 纯黑盒主线的计划层、资产解析、dry-run 和 eval smoke
+- `variation` API-only 黑盒线的计划层、资产解析、dry-run 和 synthetic smoke
 - 最小化 vendored `SecMI` 集成子集
 - 可持续扩展的测试基线
 
@@ -58,7 +61,11 @@ DiffAudit 是一个面向扩散模型的隐私风险审计研究仓库。
 
 - 基于真实 checkpoint 的 `SecMI` 攻击执行
 - 黑盒、白盒、灰盒三条线的系统化 benchmark 结果
+- `recon` 和 `variation` 的真实资产驱动执行
+- `CLiD` 的真实 text-to-image 资产驱动执行
 - 完整的审计报告输出层
+
+当前方法线的最新状态见 [docs/reproduction-status.md](/D:/Code/DiffAudit/Project/docs/reproduction-status.md)。
 
 ## 仓库结构
 

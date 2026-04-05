@@ -22,6 +22,7 @@
 - 白盒计划：`workspaces/white-box/plan.md`
 - 灰盒计划：`workspaces/gray-box/plan.md`
 - 工程计划：`workspaces/implementation/plan.md`
+- 总体复现状态：`docs/reproduction-status.md`
 
 ## 状态面板约定
 
