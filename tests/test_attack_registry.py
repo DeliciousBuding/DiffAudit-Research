@@ -14,6 +14,13 @@ class AttackRegistryTests(unittest.TestCase):
 
         self.assertEqual(planner.__name__, "build_secmi_plan")
 
+    def test_returns_pia_planner(self) -> None:
+        from diffaudit.attacks.registry import get_attack_planner
+
+        planner = get_attack_planner("pia")
+
+        self.assertEqual(planner.__name__, "build_pia_plan")
+
     def test_rejects_unknown_attack(self) -> None:
         from diffaudit.attacks.registry import get_attack_planner
 
@@ -321,6 +328,184 @@ report:
         self.assertEqual(payload["status"], "blocked")
         self.assertIn("flagfile.txt", payload["missing_items"])
         self.assertIn("checkpoint", payload["missing_description"])
+
+    def test_cli_plans_pia(self) -> None:
+        from diffaudit.cli import main
+
+        config_text = """
+task:
+  name: pia-plan
+  model_family: diffusion
+  access_level: semi_white_box
+assets:
+  dataset_id: cifar10-half
+  dataset_name: cifar10
+  dataset_root: D:/datasets
+  model_id: cifar10-ddpm
+  model_dir: D:/checkpoints/pia
+attack:
+  method: pia
+  num_samples: 8
+  parameters:
+    attacker_name: PIA
+    attack_num: 30
+    interval: 10
+report:
+  output_dir: experiments/pia-plan
+"""
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            config_path = Path(tmpdir) / "audit.yaml"
+            config_path.write_text(config_text, encoding="utf-8")
+
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(["plan-pia", "--config", str(config_path)])
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["entrypoint"], "DDPM/attack.py")
+        self.assertEqual(payload["attack_num"], 30)
+        self.assertEqual(payload["interval"], 10)
+
+    def test_cli_probes_pia_assets(self) -> None:
+        from diffaudit.cli import main
+
+        config_text = """
+task:
+  name: pia-probe
+  model_family: diffusion
+  access_level: semi_white_box
+assets:
+  dataset_id: cifar10-half
+  dataset_name: cifar10
+  dataset_root: PLACEHOLDER_DATASET
+  model_id: cifar10-ddpm
+  model_dir: PLACEHOLDER_MODEL
+attack:
+  method: pia
+  num_samples: 8
+  parameters:
+    attacker_name: PIA
+    attack_num: 30
+    interval: 10
+report:
+  output_dir: experiments/pia-probe
+"""
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            dataset_root = root / "data-root"
+            (dataset_root / "cifar10").mkdir(parents=True)
+
+            model_dir = root / "model"
+            model_dir.mkdir()
+            (model_dir / "checkpoint.pt").write_text("checkpoint", encoding="utf-8")
+
+            member_split_root = root / "member_splits"
+            member_split_root.mkdir()
+            (member_split_root / "CIFAR10_train_ratio0.5.npz").write_bytes(b"split")
+
+            config_path = root / "audit.yaml"
+            config_path.write_text(
+                config_text
+                .replace("PLACEHOLDER_DATASET", str(dataset_root).replace("\\", "/"))
+                .replace("PLACEHOLDER_MODEL", str(model_dir).replace("\\", "/")),
+                encoding="utf-8",
+            )
+
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "probe-pia-assets",
+                        "--config",
+                        str(config_path),
+                        "--member-split-root",
+                        str(member_split_root),
+                    ]
+                )
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "ready")
+        self.assertTrue(payload["checks"]["checkpoint"])
+        self.assertTrue(payload["checks"]["member_split"])
+
+    def test_cli_runs_pia_dry_run(self) -> None:
+        from diffaudit.cli import main
+
+        config_text = """
+task:
+  name: pia-dry-run
+  model_family: diffusion
+  access_level: semi_white_box
+assets:
+  dataset_id: cifar10-half
+  dataset_name: cifar10
+  dataset_root: PLACEHOLDER_DATASET
+  model_id: cifar10-ddpm
+  model_dir: PLACEHOLDER_MODEL
+attack:
+  method: pia
+  num_samples: 8
+  parameters:
+    attacker_name: PIA
+    attack_num: 30
+    interval: 10
+report:
+  output_dir: experiments/pia-dry-run
+"""
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            dataset_root = root / "data-root"
+            (dataset_root / "cifar10").mkdir(parents=True)
+
+            model_dir = root / "model"
+            model_dir.mkdir()
+            (model_dir / "checkpoint.pt").write_text("checkpoint", encoding="utf-8")
+
+            member_split_root = root / "member_splits"
+            member_split_root.mkdir()
+            (member_split_root / "CIFAR10_train_ratio0.5.npz").write_bytes(b"split")
+
+            repo_root = root / "PIA"
+            ddpm_root = repo_root / "DDPM"
+            ddpm_root.mkdir(parents=True)
+            (ddpm_root / "attack.py").write_text("# attack", encoding="utf-8")
+            (ddpm_root / "components.py").write_text("class PIA:\n    pass\n", encoding="utf-8")
+            (ddpm_root / "dataset_utils.py").write_text("# dataset utils", encoding="utf-8")
+            (ddpm_root / "model.py").write_text("class UNet:\n    pass\n", encoding="utf-8")
+
+            config_path = root / "audit.yaml"
+            config_path.write_text(
+                config_text
+                .replace("PLACEHOLDER_DATASET", str(dataset_root).replace("\\", "/"))
+                .replace("PLACEHOLDER_MODEL", str(model_dir).replace("\\", "/")),
+                encoding="utf-8",
+            )
+
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "dry-run-pia",
+                        "--config",
+                        str(config_path),
+                        "--repo-root",
+                        str(repo_root),
+                        "--member-split-root",
+                        str(member_split_root),
+                    ]
+                )
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "ready")
+        self.assertTrue(payload["checks"]["workspace_files"])
+        self.assertTrue(payload["checks"]["components_has_pia"])
+        self.assertTrue(payload["checks"]["model_has_unet"])
 
     def test_parses_secmi_flagfile_without_absl_state(self) -> None:
         from diffaudit.attacks.secmi_adapter import parse_secmi_flagfile
