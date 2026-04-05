@@ -135,9 +135,10 @@ workspaces/              多人协作工作区
 2. `probe-recon-assets`
 3. `dry-run-recon`
 4. `run-recon-mainline-smoke`
-5. 有现成 score artifact 时，执行 `run-recon-artifact-mainline`
-6. 需要拆阶段排查时，再分别执行 `run-recon-eval-smoke` / `summarize-recon-artifacts` / `run-recon-upstream-eval-smoke`
-7. 真实资产到位后再接生成、embedding 和攻击评估三阶段执行
+5. 有现成 score artifact 时，先执行 `probe-recon-score-artifacts`
+6. artifact probe 通过后执行 `run-recon-artifact-mainline`
+7. 需要拆阶段排查时，再分别执行 `run-recon-eval-smoke` / `summarize-recon-artifacts` / `run-recon-upstream-eval-smoke`
+8. 真实资产到位后再接生成、embedding 和攻击评估三阶段执行
 
 对 `variation` 这条 API-only 黑盒线，当前推荐命令顺序是：
 
@@ -326,6 +327,10 @@ python -m diffaudit run-recon-mainline-smoke --workspace experiments/recon-mainl
 ```
 
 用现有 `recon` score artifact 运行统一主线：
+
+```powershell
+python -m diffaudit probe-recon-score-artifacts --artifact-dir path/to/recon-scores
+```
 
 ```powershell
 python -m diffaudit run-recon-artifact-mainline --artifact-dir path/to/recon-scores --workspace experiments/recon-artifact-mainline --repo-root external/Reconstruction-based-Attack --method threshold
