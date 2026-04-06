@@ -67,7 +67,7 @@ This is still a toy synthetic-assets execution smoke.
 - paper-aligned `member/non-member` splits are still missing
 - the current result still sits in workspace scope; there is no shared `diffaudit` white-box adapter / CLI yet
 - the tiny toy split triggers expected small-sample warnings in `sklearn`, so the raw toy numbers must not be read as publishable attack signal
-- the blocking hiccup is asset-format compatibility: only `accelerate` `checkpoint-*` directories work with `gen_l2_gradients_DDPM`, and the incoming single-file DDPM checkpoints lack that layout, so the only viable path is to self-train target/shadow checkpoints via `train_unconditional.py` before calling the run paper-aligned
+- the blocking hiccup is asset-format compatibility: the current verified path uses `accelerate` `checkpoint-*` directories with `gen_l2_gradients_DDPM`, and the incoming single-file DDPM checkpoints do not match that layout; on current evidence, the verified next path is to self-train target/shadow checkpoints via `train_unconditional.py` before attempting a paper-aligned run
 
 ## F. Shortest Next Step
 
