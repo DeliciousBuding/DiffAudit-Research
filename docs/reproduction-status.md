@@ -120,40 +120,15 @@
 
 ### 下一个 Agent 接手上下文
 
-以下内容不是建议，而是当前机器上的真实接手上下文。后续 agent 应直接基于这里继续，不要重新摸索流程。
+以下内容仍是当前研究状态，但本机飞书运维规则、命令和源文件映射已经迁移到：
 
-#### 1. 当前文档与归档主线
+- `D:\Code\DiffAudit\LocalOps\feishu\README.md`
+- `D:\Code\DiffAudit\LocalOps\feishu\docs\workspace-rules.md`
+- `D:\Code\DiffAudit\LocalOps\feishu\docs\source-map.md`
 
-- 总索引飞书文档：
-  - `https://www.feishu.cn/docx/ITzEdcyWSoXRqKxuLe3cx4yInEe`
-- 飞书根目录：
-  - `DiffAudit` folder token: `EpmAfeYfYlNNMgd9zwKc0xBCnZd`
-- 论文总目录：
-  - `论文` folder token: `FKbjfHlyMl3rCBdVEc5ciaCSnUA`
-- 当前正式流程统一用：
-  - `--as user`
-- 本地飞书统一 CLI：
-  - [feishu_ops.py](/D:/Code/DiffAudit/LocalOps/paper-pipeline/scripts/feishu_ops.py)
+研究仓库内只保留内容源和状态结论，不再内嵌完整本机飞书运维手册。
 
-#### 2. 已知可直接用的论文目录 token
-
-- 黑盒：
-  - `Towards...` -> `L9lCfhhaTlFbiOduIBecfmLcnFb`
-  - `CLiD` -> `PRDxf5KxQlaYlWd9Fzmca5ivnkf`
-  - `NDSS black-box` -> `PqxffChZYl46ePdH9KMc4JTGnFf`
-  - `VISAPP face` -> `GUl6fMTjMl9GxrdLemGcmkNVn0e`
-- 灰盒：
-  - `SecMI` -> `JEIofxdpklZoUHdxzGrcVi60n7g`
-  - `SIDE` -> `A5HofCRBglXSMxdfiE9cAH8qnnh`
-  - `Structural Memorization` -> `Y7ahfitvilSnBDdLNqUcNcHCnJb`
-  - `PIA` -> `SkDMfYmH4lU8MAd1B5EcMa6mnDb`
-  - `SiMA` -> `Rd7KfrUh9lVlFhdbEH8cZn53nEf`
-  - `small-noise-injection` -> `Dhj2fm9zrloPoXdKLxUcTN3dnmf`
-  - `CDI` -> `EecnfkAhbln1yidSyXOcl6mznic`
-  - `Noise as a Probe` -> `AGcTfITlRlZj7zdpkIocM0bqn6f`
-  - `MoFit` -> `ZjnkfJf1RlYIV6daD8Xc1GMrnAg`
-
-#### 3. 当前最值得继续做的事
+#### 当前最值得继续做的事
 
 接手优先级按下面顺序：
 
@@ -164,14 +139,14 @@
 2. 继续刷新尚未按新规范重发的其余灰盒文档。
 3. 继续替换那些“只有短摘要”的旧精修原文。
 
-#### 4. 当前需要避免重复踩的坑
+#### 当前需要避免重复踩的坑
 
 - 不要让子代理直接做飞书终态。
   - 子代理只负责本地报告和精修原文。
   - 主线程统一做飞书发布、移动、权限和换链。
 - 飞书正文更新不要直接用超长 PowerShell `$md` 命令串。
   - 超长文档会撞命令行长度限制。
-  - 优先用 [feishu_ops.py](/D:/Code/DiffAudit/LocalOps/paper-pipeline/scripts/feishu_ops.py) 的 `sync-report` 子命令。
+  - 统一使用 `LocalOps/feishu` 下的 CLI。
 - PDF 链接策略已经改了：
   - 优先飞书 PDF
   - 飞书没有时才用 GitHub PDF
@@ -181,45 +156,7 @@
   - 中文标题通过 PowerShell 直接创建 doc 时的编码问题
   - 图片 caption 或 born-digital 相对路径导致 `media-insert` 失败
 
-#### 5. 可直接复用的命令
-
-创建或覆盖单篇报告：
-
-```powershell
-py -3 D:\Code\DiffAudit\LocalOps\paper-pipeline\scripts\feishu_ops.py sync-report `
-  D:\Code\DiffAudit\Project\docs\paper-reports\<track>\<paper>-report.md `
-  --doc "<existing-doc-url>" `
-  --title "论文报告：<English Title>"
-```
-
-创建或覆盖单篇精修原文：
-
-```powershell
-py -3 D:\Code\DiffAudit\LocalOps\paper-pipeline\scripts\feishu_ops.py sync-report `
-  D:\Code\DiffAudit\Project\docs\paper-reports\markdown\<track>\<paper>\<paper>-refined.md `
-  --doc "<existing-doc-url>" `
-  --title "OCR精修版：<English Title>"
-```
-
-上传 PDF：
-
-```powershell
-lark-cli drive +upload --as user `
-  --file ".\references\materials\<track>\<paper>.pdf" `
-  --name "<paper>.pdf" `
-  --folder-token "<folder-token>"
-```
-
-移动 docx 到论文目录：
-
-```powershell
-lark-cli drive +move --as user `
-  --file-token "<doc-token>" `
-  --type docx `
-  --folder-token "<folder-token>"
-```
-
-#### 6. 当前实际判断
+#### 当前实际判断
 
 - 文档线已经不是“从零搭流程”的阶段，而是“逐篇把旧批次替换成可展示、可交接、可复核版本”的阶段。
 - 接手 agent 不应再重新设计模板或权限策略。
