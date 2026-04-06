@@ -4,7 +4,7 @@
 
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件似然、结构特征下的成员推断
-- `status`: `PIA single-machine asset probe + preview ready`
+- `status`: `PIA single-machine ready, provenance pending`
 - `blocked by`: 真实 `PIA` runtime mainline 仍未接进 `Project`，当前 DDPM checkpoint 的论文来源尚未核准，团队范围内可复核证据链也还没完全对齐
 - `next step`: 在不申请 GPU 的前提下，决定是先补 `Project` 侧真实 `PIA` 执行封装，还是先核准这批 DDPM checkpoint 的 provenance
 - `last updated`: 2026-04-07

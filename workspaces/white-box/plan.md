@@ -52,7 +52,7 @@
 
 ## 面向论文的可执行路径
 
-- **真实 blocker 决定路径**：新拿到的 CIFAR10 `.pt` checkpoint 不符合 upstream `GSA` 的 `accelerate` `checkpoint-*` layout，无法直接 resume。要在 `white-box` 实验中完成 end-to-end 结果，就必须通过 target/shadow 自训练生成 `checkpoint-*` 目录；这同时也是为什么我们强调 `end-to-end executable` 的 pipeline 而不是 toy metrics。
+- **当前已验证路径**：新拿到的 CIFAR10 `.pt` checkpoint 不符合 upstream `GSA` 的 `accelerate` `checkpoint-*` layout，当前没有证据表明它们可以被直接 resume。基于当前已验证事实，从 `toy end-to-end executable` 继续往前推进的路径是 target/shadow 自训练生成 `checkpoint-*` 目录；如果后续出现兼容的 `checkpoint-*` 目录资产，这条路径可以改写。
 - **最短命令路径**（每一步都在白盒目录、无新共享代码、可用 CPU）：
   1. `tar -xzf /path/to/cifar-10-python.tar.gz -C Project/workspaces/white-box/data/cifar-10-batches-py`（若还没存档，请先在白盒目录下下载或从 `LocalOps` 复制，确保数据只落在 owned files）。
   2. `cd Project/workspaces/white-box/external/GSA/DDPM && conda run -n diffaudit-research python process_DDPM_ds.py --dataset_dir ../../data/cifar-10-batches-py --output_dir ../../runs/gsa-paper-buckets --datanum_target_model 10000 --datanum_per_shadow_model 2000 --number_of_shadow_model 3`，把 CIFAR10 影像变为 `target_model` 与多个 `shadow_model` 文件夹。
