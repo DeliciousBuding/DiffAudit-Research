@@ -23,6 +23,20 @@ For the current `PIA` line, the canonical local asset roots are:
 - member split root: `external/PIA/DDPM`
 - latest verified run root: `workspaces/gray-box/runs/pia-cifar10-graybox-assets-probe-20260407`
 
+## Current Canonical Status
+
+The current canonical state of the `PIA` line is:
+
+- runtime readiness: `single-machine ready`
+- provenance: `pending`
+- external split dependency: `external/PIA/DDPM/CIFAR10_train_ratio0.5.npz`
+
+Interpretation:
+
+- one verified machine can load the canonical checkpoint, dataset root, and external split dependency
+- the line is safe to consume as the next local research input
+- provenance is still pending, so this state must not be upgraded to `paper-aligned`
+
 ## Gate Levels
 
 ### 1. `template-blocked`
@@ -44,7 +58,7 @@ Meaning:
 - canonical local checkpoint path exists
 - canonical local dataset root exists
 - canonical local dataset layout exists
-- member split exists
+- external member split exists
 - `probe-pia-assets`, `dry-run-pia`, and `runtime-probe-pia` all return `ready`
 
 Current evidence:
@@ -78,6 +92,7 @@ This level requires:
 
 - `single-machine-runtime-preview-ready`
 - explicit canonical roots
+- explicit external split dependency
 - explicit provenance status field
 - explicit boundary note about what the current evidence does and does not prove
 
@@ -93,13 +108,31 @@ Allowed statuses:
 
 Current status:
 
-- `source-retained-unverified`
+- `pending`
 
 Reason:
 
 - the checkpoint can be loaded and used by the current adapter
 - the original source bundle is retained
 - paper alignment has not yet been confirmed
+
+Implementation detail:
+
+- the current pending state corresponds to `source-retained-unverified`
+
+## External Split Boundary
+
+The current `PIA` intake still depends on an external split file:
+
+- `external/PIA/DDPM/CIFAR10_train_ratio0.5.npz`
+
+That split is acceptable for the current local intake gate, but it remains an explicit external dependency.
+
+So the current line is:
+
+- `single-machine ready`
+- `provenance pending`
+- `external split retained`
 
 ## Runtime Preview Boundary
 
@@ -124,7 +157,8 @@ Heisenberg / Laplace can treat `PIA` as the next-step local intake only if all i
 - [ ] confirm [probe.json](runs/pia-cifar10-graybox-assets-probe-20260407/probe.json) has `status = ready`
 - [ ] confirm [runtime-probe.json](runs/pia-cifar10-graybox-assets-probe-20260407/runtime-probe.json) has `status = ready`
 - [ ] confirm [runtime-preview.json](runs/pia-cifar10-graybox-assets-probe-20260407/runtime-preview.json) has `status = ready`
-- [ ] carry forward provenance as `source-retained-unverified`
+- [ ] carry forward provenance as `pending` (`source-retained-unverified`)
+- [ ] carry forward the external split dependency explicitly as `external/PIA/DDPM/CIFAR10_train_ratio0.5.npz`
 - [ ] do not upgrade any output to `paper-aligned` without separate provenance confirmation
 
 ## Next Acceptable System Step
