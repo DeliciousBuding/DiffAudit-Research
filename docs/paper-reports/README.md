@@ -35,8 +35,16 @@ docs/paper-reports/
 
 ## Feishu Rules
 
+This repo only defines the report content contract.
+
+Workspace-local Feishu publishing rules and commands now live outside `Project`:
+
+- `D:\Code\DiffAudit\LocalOps\feishu\README.md`
+- `D:\Code\DiffAudit\LocalOps\feishu\docs\workspace-rules.md`
+- `D:\Code\DiffAudit\LocalOps\feishu\docs\source-map.md`
+
+Within `Project`, keep these expectations:
+
 - One report corresponds to one Feishu doc.
 - Each Feishu doc must be readable by anyone with the link.
 - The master Feishu doc should link to the single-report Feishu docs by title.
-- If a figure asset is available, insert it into the single-report Feishu doc after the `Recommended Figure` section.
-- Prefer a cropped figure or table region over a full-page screenshot whenever the page contains significant surrounding body text.
