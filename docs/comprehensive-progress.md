@@ -14,10 +14,10 @@
 | --- | --- | --- |
 | 黑盒攻击 | `较成熟` | `recon` 是当前最强证据线 |
 | 灰盒攻击 | `最成熟` | `PIA` 已进入 real-asset runtime mainline |
-| 白盒攻击 | `闭环已通` | `GSA` 已到 real-asset closed loop ready，但结果还不稳 |
+| 白盒攻击 | `已拿到强结果` | `GSA` 已完成 `1k-3shadow` paper-aligned runtime，AUC 达到 `0.97514` |
 | 黑盒防御 | `基本未落地` | `B-1 / B-2` 仍在设计层 |
 | 灰盒防御 | `有原型` | 接近 `G-1`，但还没形成正式对照 |
-| 白盒防御 | `候选已就位` | `DPDM` 已在本地，尚未形成 `W-1` run |
+| 白盒防御 | `已有 strong-v2 defended multi-shadow comparator` | `DPDM` 已完成基于 defended target + defended shadows 的 strong-v2 comparator，但还不是最终 benchmark |
 | 统一评估表 | `缺失` | 当前最需要补的一块 |
 
 ## 攻击主线
@@ -55,8 +55,18 @@
 - 当前能说的话：
   - 白盒闭环已经打通
   - 资产根、checkpoint-*、bucket 已进入规范结构
+  - `DPDM` 已从环境阻塞推进到真实 CUDA checkpoint
+  - 当前白盒防御的主要技术问题是评估桥接，不是训练缺失
+  - `GSA` 已跑出第一版强白盒结果
+  - `DPDM` target-only comparator 当前接近随机，方向上支持防御有效
+  - `DPDM` multi-shadow comparator 当前也接近随机，方向上继续支持防御有效
+  - `DPDM` 在 defended target-member checkpoint 上仍接近随机，白盒防御信号更明确
+  - `DPDM` 的 defended-target + defended-shadows `strong-v2` comparator 为 `AUC = 0.541199`，仍显著弱于 `GSA = 0.97514`
 - 当前不能说的话：
   - 还不能说白盒论文级复现成功
+  - 还不能说白盒 defense 比较已经完成
+  - 还不能把 `DPDM` target-only comparator写成同口径白盒攻击结果
+  - 还不能把当前 `DPDM strong-v2 defended-target multi-shadow comparator` 写成最终白盒 defense benchmark
 - 当前用途：
   - 作为技术深度补充线
 
@@ -68,7 +78,7 @@
 | --- | --- | --- |
 | 黑盒 | `B-1 / B-2` | 设计方向成立，但还没有正式实现 |
 | 灰盒 | `G-1` | 已有近似原型，最值得先打穿 |
-| 白盒 | `W-1 = DPDM` | 已有仓库基础，适合先落 baseline |
+| 白盒 | `W-1 = DPDM` | 已拿到 strong-v2 defended comparator，下一步是接入统一总表并继续拉高 benchmark 对齐度 |
 
 ### 当前不建议优先做
 
@@ -103,8 +113,8 @@
 1. `PIA baseline + defended`
 2. `SecMI` promote / block 判定
 3. `recon` 主证据口径收口
-4. `GSA` 扩 bucket / 提强度
-5. `DPDM` 接成 `W-1`
+4. `GSA 1k-3shadow`
+5. `DPDM` strong-v2 comparator 接入统一总表
 6. 统一 attack-defense 总表
 
 ## 申报 / PPT 应该怎么讲
@@ -115,7 +125,7 @@
 2. 我们已经在黑盒、灰盒、白盒三种权限下建立了攻击验证能力
 3. 当前最成熟的是灰盒 `PIA`
 4. 我们正在把一个可运行的灰盒防御打成第一版正式闭环
-5. 白盒 `GSA + W-1` 是下一步补强方向
+5. 白盒 `GSA + W-1` 已经进入“强攻击结果已出，strong-v2 defended comparator 已出”的阶段
 
 ## 关联文档
 

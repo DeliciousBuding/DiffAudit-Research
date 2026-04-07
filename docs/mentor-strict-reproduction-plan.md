@@ -59,8 +59,8 @@
 
 当前目标：
 
-1. `GSA` 扩样本、提训练强度
-2. `DPDM` 接成 `W-1`
+1. `GSA` 扩到 `1k-3shadow` 并按更接近上游的口径重跑
+2. `DPDM` 从 smoke checkpoint 推进到第一版 `W-1` baseline
 
 ## 当前按线执行清单
 
@@ -88,11 +88,12 @@
 ### 白盒
 
 - `GSA`
-  - 扩 bucket
+  - 从 `128` 级 bucket 升到 `1000 + 3 shadow`
   - 提高训练强度
-  - 再跑 closed loop
+  - 改用更接近上游的梯度提取与攻击评估配置
 - `W-1`
-  - 接入 `DPDM`
+  - 基于现有 smoke checkpoint 接入白盒攻击评估
+  - 再逐步恢复更强训练设置
 
 ## 统一交付要求
 
@@ -114,6 +115,6 @@
 1. `PIA baseline + defended`
 2. `variation` 真实资产模板
 3. `recon` 主证据口径收口
-4. `GSA` 扩 bucket / 提强度
+4. `GSA 1k-3shadow`
 5. `DPDM -> W-1`
 6. 统一 attack-defense 总表

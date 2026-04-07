@@ -760,6 +760,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="prediction type passed to the official GSA DDPM gradient extractor",
     )
     gsa_runtime_mainline_parser.add_argument(
+        "--paper-aligned",
+        action="store_true",
+        help="use stronger GSA defaults closer to the upstream paper path",
+    )
+    gsa_runtime_mainline_parser.add_argument(
         "--device",
         default="auto",
         choices=["auto", "cpu", "cuda"],
@@ -770,6 +775,106 @@ def build_parser() -> argparse.ArgumentParser:
         default="workspace-verified",
         help="provenance label recorded in the emitted summary",
     )
+
+    dpdm_w1_target_only_parser = subparsers.add_parser(
+        "run-dpdm-w1-target-only",
+        help="run a defense-native target-only white-box comparator for a DPDM W-1 checkpoint",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--workspace",
+        required=True,
+        help="workspace directory for DPDM W-1 comparator artifacts",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--checkpoint-path",
+        required=True,
+        help="path to the DPDM checkpoint file",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--member-dataset-dir",
+        required=True,
+        help="path to member images used for target-only comparison",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--nonmember-dataset-dir",
+        required=True,
+        help="path to non-member images used for target-only comparison",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--dpdm-root",
+        default="external/DPDM",
+        help="path to the local DPDM repository root",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--config-path",
+        default="external/DPDM/configs/cifar10_32/train_eps_10.0.yaml",
+        help="path to the DPDM config used to instantiate the model",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--device",
+        default="cuda",
+        choices=["cpu", "cuda"],
+        help="device used for DPDM target-only comparison",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--sigma-points",
+        type=int,
+        default=8,
+        help="number of deterministic sigma points used per sample",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--max-samples",
+        type=int,
+        default=128,
+        help="optional cap on member and non-member sample counts",
+    )
+    dpdm_w1_target_only_parser.add_argument(
+        "--provenance-status",
+        default="workspace-verified",
+        help="provenance label recorded in the emitted summary",
+    )
+
+    dpdm_w1_shadow_parser = subparsers.add_parser(
+        "run-dpdm-w1-shadow-comparator",
+        help="run a defended shadow-trained white-box comparator for DPDM W-1 checkpoints",
+    )
+    dpdm_w1_shadow_parser.add_argument("--workspace", required=True)
+    dpdm_w1_shadow_parser.add_argument("--target-checkpoint-path", required=True)
+    dpdm_w1_shadow_parser.add_argument("--shadow-checkpoint-path", required=True)
+    dpdm_w1_shadow_parser.add_argument("--target-member-dataset-dir", required=True)
+    dpdm_w1_shadow_parser.add_argument("--target-nonmember-dataset-dir", required=True)
+    dpdm_w1_shadow_parser.add_argument("--shadow-member-dataset-dir", required=True)
+    dpdm_w1_shadow_parser.add_argument("--shadow-nonmember-dataset-dir", required=True)
+    dpdm_w1_shadow_parser.add_argument("--dpdm-root", default="external/DPDM")
+    dpdm_w1_shadow_parser.add_argument(
+        "--config-path",
+        default="external/DPDM/configs/cifar10_32/train_eps_10.0.yaml",
+    )
+    dpdm_w1_shadow_parser.add_argument("--device", default="cuda", choices=["cpu", "cuda"])
+    dpdm_w1_shadow_parser.add_argument("--sigma-points", type=int, default=8)
+    dpdm_w1_shadow_parser.add_argument("--max-samples", type=int, default=128)
+    dpdm_w1_shadow_parser.add_argument("--provenance-status", default="workspace-verified")
+
+    dpdm_w1_multi_shadow_parser = subparsers.add_parser(
+        "run-dpdm-w1-multi-shadow-comparator",
+        help="run a defended multi-shadow white-box comparator for DPDM W-1 checkpoints",
+    )
+    dpdm_w1_multi_shadow_parser.add_argument("--workspace", required=True)
+    dpdm_w1_multi_shadow_parser.add_argument("--target-checkpoint-path", required=True)
+    dpdm_w1_multi_shadow_parser.add_argument("--shadow-checkpoint-paths", nargs="+", required=True)
+    dpdm_w1_multi_shadow_parser.add_argument("--target-member-dataset-dir", required=True)
+    dpdm_w1_multi_shadow_parser.add_argument("--target-nonmember-dataset-dir", required=True)
+    dpdm_w1_multi_shadow_parser.add_argument("--shadow-member-dataset-dirs", nargs="+", required=True)
+    dpdm_w1_multi_shadow_parser.add_argument("--shadow-nonmember-dataset-dirs", nargs="+", required=True)
+    dpdm_w1_multi_shadow_parser.add_argument("--dpdm-root", default="external/DPDM")
+    dpdm_w1_multi_shadow_parser.add_argument(
+        "--config-path",
+        default="external/DPDM/configs/cifar10_32/train_eps_10.0.yaml",
+    )
+    dpdm_w1_multi_shadow_parser.add_argument("--device", default="cuda", choices=["cpu", "cuda"])
+    dpdm_w1_multi_shadow_parser.add_argument("--sigma-points", type=int, default=8)
+    dpdm_w1_multi_shadow_parser.add_argument("--max-samples", type=int, default=128)
+    dpdm_w1_multi_shadow_parser.add_argument("--provenance-status", default="workspace-verified")
 
     local_api_parser = subparsers.add_parser(
         "serve-local-api",
@@ -1191,16 +1296,81 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "run-gsa-runtime-mainline":
         from diffaudit.attacks.gsa import run_gsa_runtime_mainline
 
+        ddpm_num_steps = args.ddpm_num_steps
+        sampling_frequency = args.sampling_frequency
+        if args.paper_aligned:
+            ddpm_num_steps = 1000
+            sampling_frequency = 10
         payload = run_gsa_runtime_mainline(
             workspace=args.workspace,
             assets_root=args.assets_root,
             repo_root=args.repo_root,
             resolution=args.resolution,
-            ddpm_num_steps=args.ddpm_num_steps,
-            sampling_frequency=args.sampling_frequency,
+            ddpm_num_steps=ddpm_num_steps,
+            sampling_frequency=sampling_frequency,
             attack_method=args.attack_method,
             prediction_type=args.prediction_type,
             device=args.device,
+            provenance_status=args.provenance_status,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+    if args.command == "run-dpdm-w1-target-only":
+        from diffaudit.defenses.dpdm_w1 import run_dpdm_w1_target_only_comparator
+
+        payload = run_dpdm_w1_target_only_comparator(
+            workspace=args.workspace,
+            checkpoint_path=args.checkpoint_path,
+            member_dataset_dir=args.member_dataset_dir,
+            nonmember_dataset_dir=args.nonmember_dataset_dir,
+            dpdm_root=args.dpdm_root,
+            config_path=args.config_path,
+            device=args.device,
+            sigma_points=args.sigma_points,
+            max_samples=args.max_samples,
+            provenance_status=args.provenance_status,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+    if args.command == "run-dpdm-w1-shadow-comparator":
+        from diffaudit.defenses.dpdm_w1 import run_dpdm_w1_shadow_comparator
+
+        payload = run_dpdm_w1_shadow_comparator(
+            workspace=args.workspace,
+            target_checkpoint_path=args.target_checkpoint_path,
+            shadow_checkpoint_path=args.shadow_checkpoint_path,
+            target_member_dataset_dir=args.target_member_dataset_dir,
+            target_nonmember_dataset_dir=args.target_nonmember_dataset_dir,
+            shadow_member_dataset_dir=args.shadow_member_dataset_dir,
+            shadow_nonmember_dataset_dir=args.shadow_nonmember_dataset_dir,
+            dpdm_root=args.dpdm_root,
+            config_path=args.config_path,
+            device=args.device,
+            sigma_points=args.sigma_points,
+            max_samples=args.max_samples,
+            provenance_status=args.provenance_status,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+    if args.command == "run-dpdm-w1-multi-shadow-comparator":
+        from diffaudit.defenses.dpdm_w1 import run_dpdm_w1_multi_shadow_comparator
+
+        payload = run_dpdm_w1_multi_shadow_comparator(
+            workspace=args.workspace,
+            target_checkpoint_path=args.target_checkpoint_path,
+            shadow_checkpoint_paths=args.shadow_checkpoint_paths,
+            target_member_dataset_dir=args.target_member_dataset_dir,
+            target_nonmember_dataset_dir=args.target_nonmember_dataset_dir,
+            shadow_member_dataset_dirs=args.shadow_member_dataset_dirs,
+            shadow_nonmember_dataset_dirs=args.shadow_nonmember_dataset_dirs,
+            dpdm_root=args.dpdm_root,
+            config_path=args.config_path,
+            device=args.device,
+            sigma_points=args.sigma_points,
+            max_samples=args.max_samples,
             provenance_status=args.provenance_status,
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))

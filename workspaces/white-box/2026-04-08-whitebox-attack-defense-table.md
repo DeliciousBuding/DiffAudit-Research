@@ -1,0 +1,44 @@
+# 2026-04-08 White-Box Attack-Defense Table
+
+## 主基线
+
+- dataset: `CIFAR-10`
+- model family: `DDPM`
+- attack mainline: `GSA`
+- defense candidate: `W-1 = DPDM`
+
+## 当前对比表
+
+| track | attack | defense | comparator type | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR | evidence level | note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| white-box | `GSA 1k-3shadow` | `none` | paper-aligned runtime mainline | `0.97514` | `0.919` | `0.55` | `0.205` | `runtime-mainline` | current strongest local white-box attack result |
+| white-box | `DPDM W-1` | `DPDM eps10 smoke checkpoint` | target-only comparator | `0.493652` | `0.585938` | `0.015625` | `0.0` | `runtime-smoke` | weaker than attack baseline; target-only only |
+| white-box | `DPDM W-1` | `DPDM eps10 smoke checkpoints x3` | multi-shadow comparator | `0.493652` | `0.5` | `0.015625` | `0.0` | `runtime-smoke` | first defended multi-shadow comparator |
+| white-box | `DPDM W-1` | `DPDM defended-target + smoke checkpoints x3` | defended-target multi-shadow comparator | `0.496338` | `0.5` | `0.015625` | `0.0` | `runtime-smoke` | current most aligned local W-1 comparator |
+| white-box | `DPDM W-1` | `DPDM defended-target + defended-shadows strong-v2 x3` | defended-target multi-shadow comparator | `0.541199` | `0.550781` | `0.0` | `0.0` | `runtime-smoke` | current strongest local W-1 comparator after stronger target/shadow training |
+
+## 当前解释口径
+
+- `GSA 1k-3shadow` 是当前白盒攻击主证据线
+- `W-1` 当前已经不是“只有 checkpoint”，而是有 target-only 和 multi-shadow 两版 comparator
+- `W-1 strong-v2` 比 smoke 版略高，但仍显著弱于 `GSA` 主线，方向上继续支持白盒防御有效
+- 但当前 `W-1` 还不是最终 benchmark，因为结果仍是 `runtime-smoke` 级 comparator
+
+## 关联产物
+
+- attack baseline:
+  - `workspaces/white-box/runs/gsa-runtime-mainline-20260408-cifar10-1k-3shadow/summary.json`
+- target-only defense comparator:
+  - `workspaces/white-box/runs/dpdm-w1-target-only-20260408/summary.json`
+- multi-shadow defense comparator:
+  - `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-20260408/summary.json`
+- defended-target multi-shadow comparator:
+  - `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-20260408/summary.json`
+- defended-target + defended-shadow strong-v2 comparator:
+  - `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv2-20260408/summary.json`
+
+## 下一步
+
+1. 保留这张表作为当前白盒可引用基线
+2. 如果继续扩 `W-1`，优先扩大 comparator 评估规模或继续提高 defended 训练强度，而不是重做攻击线
+3. 后续统一总表直接引用这里的四条 defense 记录
