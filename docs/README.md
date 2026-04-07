@@ -7,6 +7,7 @@
 - `next-run-intake-index.md`: next-run intake gate entrypoints and contracts
 - `mia-defense-research-index.md`: route, literature, and asset mapping for the MIA defense strategy document
 - `mia-defense-execution-checklist.md`: actionable execution checklist derived from the MIA defense strategy document
+- `mentor-strict-reproduction-plan.md`: strict parallel reproduction plan aligned with mentor guidance
 
 这里存放项目级文档，而不是个人临时笔记。
 
@@ -31,3 +32,4 @@
 - [github-collaboration.md](github-collaboration.md)：协作与分支规范
 - [mia-defense-research-index.md](mia-defense-research-index.md)：`mia-defense-document.docx` 的正式研究索引
 - [mia-defense-execution-checklist.md](mia-defense-execution-checklist.md)：基于当前仓库状态整理的执行清单
+- [mentor-strict-reproduction-plan.md](mentor-strict-reproduction-plan.md)：严格按师兄方案收口的三线并行复现计划
