@@ -3,60 +3,77 @@
 ## 状态面板
 
 - `owner`: `research_leader`
-- `scope`: 部分中间信息、条件似然、结构特征下的成员推断
-- `status`: `PIA single-machine ready, provenance pending`
-- `blocked by`: 真实 `PIA` runtime mainline 仍未接进 `Project`，当前 DDPM checkpoint 的论文来源尚未核准，团队范围内可复核证据链也还没完全对齐
-- `next step`: 在不申请 GPU 的前提下，决定是先补 `Project` 侧真实 `PIA` 执行封装，还是先核准这批 DDPM checkpoint 的 provenance
-- `last updated`: 2026-04-07
+- `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
+- `status`: `PIA real-asset runtime-mainline ready; G-1 formalization pending`
+- `blocked by`: `PIA` provenance 尚未升级到 paper-aligned；`SecMI` 真实资产闭环尚未完成；当前 gray-box defense 仍未形成正式同口径对比表
+- `next step`: 继续扩大 `PIA baseline + defended` 的样本量与重复次数，并把现有 defense prototype 正式定义成 `G-1`
+- `last updated`: `2026-04-08`
 
 ## 推荐论文
 
-- `2023-icml-secmi-membership-inference-diffusion-models.pdf`
 - `2024-iclr-pia-proximal-initialization.pdf`
-- `2024-neurips-clid-membership-inference-text-to-image-diffusion.pdf`
+- `2023-icml-secmi-membership-inference-diffusion-models.pdf`
 - `2024-arxiv-structural-memorization-membership-inference-text-to-image-diffusion.pdf`
-- `2026-openreview-mofit-caption-free-membership-inference.pdf`
 - `2025-arxiv-sima-score-based-membership-inference-diffusion-models.pdf`
 - `2025-arxiv-small-noise-injection-membership-inference-diffusion-models.pdf`
+- `2026-openreview-mofit-caption-free-membership-inference.pdf`
 
-## 当前定义建议
+## 当前主线与 baseline
 
-灰盒 = 可访问部分中间扩散信息、噪声预测、条件相关评分或中间去噪结果，但不可访问完整参数和梯度。
+- 主线：`PIA`
+- baseline：`SecMI`
+
+当前判断：
+
+- `PIA` 是当前最成熟、最适合作为“攻击 + 防御”主讲闭环的一条线
+- `SecMI` 是当前应继续推进但不能抢主线资源的 baseline
 
 ## 当前可执行证据
 
+- `workspaces/gray-box/2026-04-07-pia-runtime-mainline.md`
+- `workspaces/gray-box/2026-04-07-pia-real-asset-probe.md`
+- `workspaces/gray-box/pia-intake-gate.md`
+- `workspaces/gray-box/assets/pia/manifest.json`
+- `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260407-cpu/summary.json`
+- `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260407-cpu/summary.json`
 - `experiments/pia-runtime-smoke-cpu/summary.json`
 - `experiments/pia-runtime-smoke-gpu/summary.json`
 - `experiments/pia-synth-smoke-cpu/summary.json`
 - `experiments/pia-synth-smoke-gpu/summary.json`
-- `workspaces/gray-box/runs/pia-followup-20260407/plan.json`
-- `workspaces/gray-box/runs/pia-followup-20260407/probe.json`
-- `workspaces/gray-box/runs/pia-followup-20260407/dry-run.json`
-- `workspaces/gray-box/2026-04-07-pia-real-asset-probe.md`
-- `workspaces/gray-box/pia-intake-gate.md`
-- `workspaces/gray-box/runs/pia-cifar10-graybox-assets-probe-20260407/runtime-preview.json`
-- `experiments/clid-dry-run-smoke/summary.json`
-- `experiments/clid-artifact-summary/summary.json`
+- `experiments/secmi-synth-smoke/summary.json`
+- `experiments/secmi-synth-smoke-gpu/summary.json`
 
 ## 本地代码上下文
 
 - `external/PIA`
-- `external/CLiD`
+- `external/SecMI`
+- `third_party/secmi`
 
-## 起步方案
+## 当前推荐执行顺序
 
-1. 先把灰盒边界定义写清楚
-2. 已把 `PIA` 的真实 `checkpoint + dataset_root + member split` 绑定到本地-only config，并确认单机环境下的 `probe/dry-run/runtime-probe/runtime-preview` 都能在 CPU 上走通
-3. 不再重复 GPU synthetic smoke
-4. 下一步只做两件事中的一件：
-   - 补 `Project` 侧真实 `PIA` 执行封装
-   - 先核准当前 DDPM checkpoint 的 paper provenance
-5. `SecMI` 继续作为第二条 baseline，等 `flagfile + checkpoint` 布局就位再接续
+1. 读透 `PIA` 论文，把攻击依赖的核心信号写清楚
+2. 重新跑 `PIA baseline`
+3. 重新跑 `PIA defended`
+4. 用同一套字段记录：
+   - `AUC`
+   - `ASR`
+   - `TPR@1%FPR`
+   - `TPR@0.1%FPR`
+   - `elapsed_seconds`
+   - `num_samples`
+5. 把现有 defense prototype 正式命名为 `G-1`
+6. 对 `SecMI` 做 promote / block 判定
 
 ## 当前阻塞项
 
-- 同日更早的 `2026-04-07-pia-followup.md` 仍记录模板 config 的 `blocked` 状态；后续单机资产接线结果需要与这份基线一起阅读
-- `PIA` 的真实数据 preview 已经通过，但当前仓库还没有真实 runtime mainline runner
-- 这批新到位的 DDPM checkpoint 能通过当前 probe/runtime-probe，不等于已经核准为论文口径资产
-- 系统 intake 现在有明确的本地准入条件，但还没有被提升成 paper-aligned gate
-- 当前最短下一步不是 GPU，而是执行封装或 provenance 核准
+- `PIA` 当前仍是 `source-retained-unverified`
+- 当前 gray-box defense 只是 runnable hook，不是 validated privacy win
+- `SecMI` 仍缺真实 checkpoint、flagfile 与论文一致 layout
+- 当前还没有 gray-box attack-defense 总表
+
+## 当前最短路径
+
+1. `PIA baseline + defended`
+2. `PIA` provenance 核准
+3. `SecMI` 真实资产闭环或降级
+4. 把 gray-box 对比结果接入统一总表
