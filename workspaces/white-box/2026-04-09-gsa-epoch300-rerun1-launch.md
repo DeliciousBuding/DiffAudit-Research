@@ -64,7 +64,7 @@ Latest confirmed state after the latest runtime check:
 - launcher PID is still alive:
   - `87052`
 - current active stage:
-  - `target` training
+  - `shadow-01` training
 - current visible progress in `target/train.stderr.log`:
   - reached `Epoch 299`
   - reached at least `step 9600`
@@ -79,7 +79,7 @@ Latest confirmed state after the latest runtime check:
     - `checkpoint-6401`
     - `checkpoint-8001`
     - `checkpoint-9600`
-  - no shadow checkpoint roots have started yet
+  - `shadow-01` root has started and current tail has advanced to roughly `Epoch 16 / step 530`
   - no new runtime summary has been produced yet
 - current GPU state during the latest check:
   - `memory.used ~= 6411 MiB`
