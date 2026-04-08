@@ -6,8 +6,8 @@
 - `scope`: 统一黑/灰/白研究规划下的第一优先执行线，负责黑盒成员推断、数据集级审计、black-box leakage 线索整理
 - `status`: 进行中，`recon` 的 black-box 主证据、最佳单指标参考和 `variation` 次主线口径已冻结；当前 `variation` 的真实 API 资产 probe 已正式确认 blocked
 - `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的 target/shadow/member/non-member 论文语义仍需核准；`variation` 真实 query image root 仍缺；`Kandinsky 10/10` 当前本机链路仍异常慢
-- `next command`: no new black-box run; keep wording consistent across `blackbox-status`, `reproduction-status`, and `ROADMAP`
-- `last updated`: 2026-04-08
+- `next command`: no new black-box run; keep wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`
+- `last updated`: 2026-04-09
 
 ## 统一规划定位
 
@@ -78,9 +78,10 @@
 6. `kandinsky_v22` public smoke 已通，但 `10/10` 与单样本直跑当前都异常慢；`Stable Diffusion + DDIM` 的 `100-sample public` 也已通；`DiT step50` 也已补上，下一步是解释 `DDIM step10` / `step30` 的指标差异，并在拿到有效日志前继续暂停 `Kandinsky`
 7. 评估 `variation` 真实 API 调用所需的凭据、预算和 query image 约束
 8. 把 `variation` 明确写成“formal local black-box secondary track”，并同步记录 real-API assets 仍 blocked
-9. 评估 `CLiD` 的真实 text-to-image 资产是否可在当前机器上最小复现
-10. 维持黑盒状态文档、实验目录和主线命令说明同步，并明确这些同步属于统一三线规划下的黑盒执行层收口
-11. 把 `B-1 / B-2` 只记录为 black-box defense backlog，不提前写成已有可比较结果
+9. 把 `main evidence / best single metric reference / secondary track` 三层口径固定到所有状态文档
+10. 评估 `CLiD` 的真实 text-to-image 资产是否可在当前机器上最小复现
+11. 维持黑盒状态文档、实验目录和主线命令说明同步，并明确这些同步属于统一三线规划下的黑盒执行层收口
+12. 把 `B-1 / B-2` 只记录为 black-box defense backlog，不提前写成已有可比较结果
 
 ## 当前阻塞项
 
