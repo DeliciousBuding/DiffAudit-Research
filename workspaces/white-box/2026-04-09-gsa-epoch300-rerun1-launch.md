@@ -66,14 +66,16 @@ Latest confirmed state after launch:
 - current active stage:
   - `target` training
 - current visible progress in `target/train.stderr.log`:
-  - reached `Epoch 91`
-  - reached at least `step 2915`
+  - reached `Epoch 164`
+  - reached at least `step 5275`
 - current visible loss band:
   - roughly `0.015` to `0.08`
 - current checkpoint root state:
   - `target/` exists under the new rerun root
-  - new target checkpoint observed:
+  - target checkpoints observed:
     - `checkpoint-1601`
+    - `checkpoint-3201`
+    - `checkpoint-4801`
   - no shadow checkpoint roots have started yet
   - no new runtime summary has been produced yet
 - current GPU state during the latest check:
