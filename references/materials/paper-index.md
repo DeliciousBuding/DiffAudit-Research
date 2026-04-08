@@ -94,7 +94,7 @@
 - 核心方法 / 结论：作者提出 `TMIA-DM`，摘要里给出的核心做法是：短时攻击使用噪声梯度信息保证攻击成功率，长时攻击使用时序噪声信息提升长期攻击效果。摘要报告在常见扩散模型上，短时攻击 `ASR` 约提升 `5` 个百分点，长时攻击 `ASR` 约提升 `1` 个百分点。
 - 和 DiffAudit 的关系：它对 DiffAudit 的价值不在于替换当前黑盒主线，而在于补强灰盒时间步 / 噪声信号这一研究轴。结合当前仓库的 `PIA` 主线，这篇论文说明“成员信号可能稳定存在于扩散过程的时间相关噪声行为中”，因此更适合作为 `PIA` 的比较论文或下一轮 gray-box 候选，而不是严格黑盒路线。
 - 开源仓库：暂未找到
-- 阅读报告：暂未整理；当前可先参考 [TMIA-DM intake note](../../workspaces/gray-box/2026-04-09-tmia-dm-intake.md)
+- 阅读报告：[本地阅读报告：Temporal Membership Inference Attack Method for Diffusion Models](../../docs/paper-reports/gray-box/2026-crad-temporal-membership-inference-attack-method-diffusion-models-report.md)
 
 ### Score-based Membership Inference on Diffusion Models
 
