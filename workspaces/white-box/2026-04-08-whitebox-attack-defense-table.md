@@ -36,7 +36,7 @@
 - `W-1 strong-v3 3-shadow max256` 也已成功落盘，说明 `strong-v3` 不是偶发成功，而是已进入稳定的中规模 GPU defended 结果阶段
 - `W-1 strong-v3 3-shadow max512` 已稳定完成，说明此前的主要问题是大规模 GPU comparator 稳定性，而不是 checkpoint 无效
 - `W-1 strong-v3 3-shadow full-scale` 已完成并取得 `AUC = 0.488783`，略优于 `strong-v2 full-scale = 0.490813`
-- 当前 `W-1` 还不是最终 benchmark，因为结果仍是 `runtime-smoke` 级 comparator；但白盒下一步已经从“能不能跑”转成“选哪条 defended rung 进统一总表”
+- 当前 `W-1` 还不是最终 benchmark，因为结果仍是 `runtime-smoke` 级 comparator；但白盒当前已经可以把 `strong-v3 full-scale` 固定为 defended 主结果，并把 `strong-v2 full-scale` 保留为参考 rung
 
 ## 关联产物
 
@@ -68,5 +68,6 @@
 ## 下一步
 
 1. 保留这张表作为当前白盒可引用基线
-2. `strong-v3` 已经有 `max128 / max256 / max512 / full-scale` 四条可用 GPU defended comparator，当前需要明确主讲 rung
-3. 后续统一总表应直接引用这里的十一条 defense 记录，并在 `strong-v2 full-scale` 与 `strong-v3 full-scale` 之间固定主结果口径
+2. 将 `strong-v3 full-scale` 固定为当前 defended 主结果
+3. 将 `strong-v2 full-scale` 保留为参考 rung
+4. 后续统一总表只引用这两条 full-scale defended 结果，而不再把全部历史 rung 混成主口径

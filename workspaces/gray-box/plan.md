@@ -5,8 +5,8 @@
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; provisional G-1 established`
-- `blocked by`: `PIA` provenance 尚未升级到 paper-aligned；`SecMI` 真实资产闭环尚未完成；当前 gray-box defense 仍缺同档重复轮次确认
-- `next step`: 把 `GPU512` 结果写入总状态与 intake，固定 `stochastic-dropout = provisional G-1`，然后决定是做 `GPU512` 重复确认还是切到 `SecMI`
+- `blocked by`: `PIA` provenance 尚未升级到 paper-aligned；`SecMI` 当前已判定为 blocked baseline；当前 gray-box defense 仍缺同档重复轮次确认
+- `next step`: 固定 `stochastic-dropout = provisional G-1`，然后决定是做 `GPU512` 重复确认还是继续推进 `PIA` provenance 核准
 - `last updated`: `2026-04-08`
 
 ## 推荐论文
@@ -26,7 +26,7 @@
 当前判断：
 
 - `PIA` 是当前最成熟、最适合作为“攻击 + 防御”主讲闭环的一条线
-- `SecMI` 是当前应继续推进但不能抢主线资源的 baseline
+- `SecMI` 是当前已明确阻塞、不能继续抢主线资源的 baseline
 
 ## 当前可执行证据
 
@@ -73,7 +73,7 @@
    - `elapsed_seconds`
    - `num_samples`
 5. 把现有 defense prototype 正式命名为 `G-1`
-6. 对 `SecMI` 做 promote / block 判定
+6. 固定 `SecMI = blocked baseline`，直到真实资产到位
 
 ## 2026-04-08 新观察
 
@@ -124,13 +124,11 @@
 
 - `PIA` 当前仍是 `source-retained-unverified`
 - 当前 gray-box defense 已出现三档 favorable signal，但仍不是 validated privacy win
-- `SecMI` 仍缺真实 checkpoint、flagfile 与论文一致 layout
-- 当前还没有 gray-box attack-defense 总表
+- `SecMI` 当前 probe 已明确缺真实 `flagfile.txt`
 
 ## 当前最短路径
 
-1. 将 `PIA GPU512 baseline + defended` 接入 gray-box 与全局状态页
-2. 固定 `stochastic-dropout = provisional G-1`
-3. 决定 `GPU512` 重复确认还是切到 `SecMI` promote / block
-4. `PIA` provenance 核准
-5. 把 gray-box 对比结果接入统一总表
+1. 固定 `stochastic-dropout = provisional G-1`
+2. 决定 `GPU512` 重复确认还是继续推进 `PIA` provenance 核准
+3. 保持 `SecMI = blocked baseline`
+4. 复用 [unified table](../implementation/2026-04-08-unified-attack-defense-table.md) 作为灰盒对外引用入口

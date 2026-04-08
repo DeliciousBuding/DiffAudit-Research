@@ -51,7 +51,7 @@
 | --- | --- | --- |
 | 以 `PIA` 作为灰盒主线 | `done` | [manifest.json](../workspaces/gray-box/assets/pia/manifest.json) 和 mainline 已存在 |
 | 将 `SecMI` 保持为灰盒 baseline | `done` | 代码与文献都已落地 |
-| 把 `G-1` 映射为正式灰盒防御原型 | `pending` | 当前只有 dropout-defense 的近似原型，不是正式规范版 |
+| 把 `G-1` 映射为正式灰盒防御原型 | `done` | 当前已固定为 `provisional G-1 = stochastic-dropout` |
 | 把 `G-2` 蒸馏代理模型纳入灰盒路线 | `blocked` | 当前没有正式蒸馏训练链和统一评估 |
 | 把 `CFG 条件信号泄露` 变成独立实验项 | `pending` | 文档提出了问题，但仓库还没有正式实验入口 |
 
@@ -60,7 +60,7 @@
 | 项目 | 状态 | 说明 |
 | --- | --- | --- |
 | 以 `GSA` 作为白盒主线 | `done` | `GSA` 资产根、closed-loop 和 mainline 已落地 |
-| 把 `W-1` 映射到 `DPDM / Diffusion-DP` 路线 | `pending` | 本地已有 [external/DPDM](../external/DPDM)，但未接成正式 run |
+| 把 `W-1` 映射到 `DPDM / Diffusion-DP` 路线 | `done` | 白盒 defended comparator 已落到 [white-box table](../workspaces/white-box/2026-04-08-whitebox-attack-defense-table.md) |
 | 设计 `步骤自适应梯度裁剪` 实验计划 | `pending` | 文档提出了方向，当前仓库未实现 |
 | 把 `W-2` 成员信号对抗训练变成正式训练目标 | `blocked` | 当前还没有训练目标、评价口径和代码路径 |
 | 把 `DDIM Inversion` 白盒泄露分析写成独立评估项 | `pending` | 有文献线索，缺统一实验入口 |
@@ -83,9 +83,9 @@
 
 | 项目 | 状态 | 说明 |
 | --- | --- | --- |
-| 统一 attack / defense 对比表模板 | `pending` | 当前状态文档已分方法记录，但没有统一总表 |
+| 统一 attack / defense 对比表模板 | `done` | 已新增 [unified table](../workspaces/implementation/2026-04-08-unified-attack-defense-table.md) |
 | 统一记录 `AUC / ASR / TPR@低FPR / FID / IS / LPIPS / cost` | `pending` | 需要跨黑灰白统一字段 |
-| 统一记录 defense 前后指标变化 | `pending` | 当前 `PIA` dropout-defense 只是单点实验 |
+| 统一记录 defense 前后指标变化 | `done` | `PIA GPU512` 与 `W-1 strong-v3 full-scale` 已进入统一总表 |
 | 统一记录 provenance / asset_grade / contract_stage | `done` | `PIA` 与 `GSA` 已进入 manifest 体系 |
 
 ## 5. 按当前仓库状态重排的执行顺序

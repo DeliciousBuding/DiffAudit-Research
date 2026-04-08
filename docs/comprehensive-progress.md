@@ -18,7 +18,7 @@
 | 黑盒防御 | `基本未落地` | `B-1 / B-2` 仍在设计层 |
 | 灰盒防御 | `已进入 provisional G-1` | `PIA GPU128/GPU256/GPU512` 下的 `stochastic-dropout` 都把攻击指标压低，但还没到 validated `G-1` |
 | 白盒防御 | `已有 strong-v2 主结果，strong-v3 已推进到 full-scale` | `DPDM` 已完成 stronger defended comparator，当前已拿到 stronger rung 的 full-scale GPU 结果 |
-| 统一评估表 | `缺失` | 当前最需要补的一块 |
+| 统一评估表 | `已有第一版` | 已新增 admitted main results 的跨盒总表 |
 
 ## 攻击主线
 
@@ -86,7 +86,7 @@
 | --- | --- | --- |
 | 黑盒 | `B-1 / B-2` | 设计方向成立，但还没有正式实现 |
 | 灰盒 | `G-1` | 已进入 provisional 形态，并出现三档同口径下降信号，下一步转向重复确认与 provenance 核准 |
-| 白盒 | `W-1 = DPDM` | 已拿到 strong-v2 主结果，也拿到 strong-v3 的 full-scale GPU defended 结果；下一步是把两者一起接入统一总表并决定主讲口径 |
+| 白盒 | `W-1 = DPDM` | 已拿到 strong-v2 主结果，也拿到 strong-v3 的 full-scale GPU defended 结果；当前主讲口径冻结为 `strong-v3 full-scale` |
 
 ### 当前不建议优先做
 
@@ -118,12 +118,11 @@
 
 ## 当前最短执行顺序
 
-1. 固定 `PIA provisional G-1`
-2. `SecMI` promote / block 判定
-3. `recon` 主证据口径收口
-4. `DPDM` strong-v2 full-scale 与 strong-v3 full-scale 一起接入统一总表
-5. 固定白盒 defended 主结果口径
-6. 统一 attack-defense 总表
+1. `SecMI` promote / block 判定
+2. `recon` 主证据口径收口
+3. `variation / Towards` 保持 formal local secondary track
+4. 固定白盒 defended 主结果口径
+5. 基于第一版统一总表继续补质量 / 成本列
 
 ## 申报 / PPT 应该怎么讲
 
