@@ -66,8 +66,8 @@ Latest confirmed state after launch:
 - current active stage:
   - `target` training
 - current visible progress in `target/train.stderr.log`:
-  - reached `Epoch 59`
-  - reached at least `step 1920`
+  - reached `Epoch 91`
+  - reached at least `step 2915`
 - current visible loss band:
   - roughly `0.015` to `0.08`
 - current checkpoint root state:
@@ -76,5 +76,8 @@ Latest confirmed state after launch:
     - `checkpoint-1601`
   - no shadow checkpoint roots have started yet
   - no new runtime summary has been produced yet
+- current GPU state during the latest check:
+  - `memory.used = 6779 MiB`
+  - `utilization = 89%`
 
 So the run is still in the expected first phase and should continue without manual interruption.
