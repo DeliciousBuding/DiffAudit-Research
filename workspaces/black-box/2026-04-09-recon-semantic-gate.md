@@ -38,6 +38,15 @@ As of now:
 This is enough for a local defended black-box evidence chain.
 It is not enough for a full claim that the public asset bundle exactly matches the paper's four-way split semantics.
 
+Additional support now exists in:
+
+- `derived-public-10/mapping-note.md`
+- `derived-public-25/mapping-note.md`
+- `derived-public-50/mapping-note.md`
+- `derived-public-100/mapping-note.md`
+
+These files explicitly record the current local mapping as `shadow_member_proxy`, which strengthens local consistency but still does not remove the semantic gate.
+
 ## C. What Is Allowed To Say
 
 Allowed:

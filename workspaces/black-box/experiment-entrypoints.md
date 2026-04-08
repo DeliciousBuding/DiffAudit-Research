@@ -33,6 +33,7 @@
   - real API blocked / ready 的显式判定
 - 真实恢复模板：
   - 见 [2026-04-09-variation-real-asset-template.md](2026-04-09-variation-real-asset-template.md)
+  - 对应仓库模板：[configs/attacks/variation_real_asset.template.yaml](../../configs/attacks/variation_real_asset.template.yaml)
 
 ## 入口三：`clid-track`
 

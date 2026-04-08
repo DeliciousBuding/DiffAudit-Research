@@ -109,6 +109,10 @@ report:
   output_dir: experiments/variation-real-asset-probe
 ```
 
+Tracked repo template now exists at:
+
+- `configs/attacks/variation_real_asset.template.yaml`
+
 Notes:
 
 - `num_samples` is not the paper claim by itself; it only controls how much the local runner tries to inspect.
