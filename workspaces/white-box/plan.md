@@ -4,9 +4,9 @@
 
 - `owner`: `research_leader`
 - `scope`: 白盒成员推断、梯度级攻击、记忆定位与内部信号审计
-- `status`: `GSA 1k-3shadow paper-aligned runtime complete; W-1 strong-v2 defended comparator complete at max128, max512, and three-shadow max512`
+- `status`: `GSA 1k-3shadow paper-aligned runtime complete; W-1 strong-v2 defended comparator complete at max128, max512, three-shadow max512, and three-shadow full-scale`
 - `blocked by`: `W-1` 仍是 `runtime-smoke` comparator；`DPDM` 与 `GSA` 仍有模型结构不一致；`W-2` 仍缺稳定训练目标与实现
-- `next step`: 将 three-shadow `max512` 结果接入统一总表，并决定下一轮是继续扩 benchmark 规模还是继续提高 defended 训练强度
+- `next step`: 将 three-shadow full-scale 结果接入统一总表，并启动下一档 defended training strength
 - `last updated`: `2026-04-08`
 
 ## 推荐论文
@@ -34,6 +34,7 @@
 - `workspaces/white-box/2026-04-08-dpdm-w1-multi-shadow-strongv2.md`
 - `workspaces/white-box/2026-04-08-dpdm-w1-multi-shadow-strongv2-max512.md`
 - `workspaces/white-box/2026-04-08-dpdm-w1-multi-shadow-strongv2-3shadow-max512.md`
+- `workspaces/white-box/2026-04-08-dpdm-w1-multi-shadow-strongv2-3shadow-full.md`
 - `workspaces/white-box/2026-04-08-whitebox-attack-defense-table.md`
 - `workspaces/white-box/2026-04-08-gsa-1k-3shadow-asset-prep.md`
 - `workspaces/white-box/2026-04-07-gsa-asset-intake.md`
@@ -65,12 +66,12 @@
 - `GSA 1k-3shadow` 训练还没有产出新的 `checkpoint-*`
 - `W-1` 已有正式 defense-vs-attack 对比，但仍是 `runtime-smoke` 级 comparator
 - `DPDM` 当前 checkpoint 既是单文件字典，又不是 `GSA` 的 `UNet2DModel` 架构，不能直接喂给当前提取器
-- 当前 `DPDM` comparator 已扩到 defended target + defended shadows strong-v2，并完成 three-shadow `max512` 比较，但仍不是最终 benchmark
+- 当前 `DPDM` comparator 已扩到 defended target + defended shadows strong-v2，并完成 three-shadow full-scale 比较，但仍不是最终 benchmark
 - `Finding NeMo` 仍缺 neuron-level 分析接口与资产
 - 还缺跨黑/灰/白统一总表
 
 ## 当前最短路径
 
-1. 将 `W-1 strong-v2 3-shadow max512` 与 `GSA 1k-3shadow` 的白盒 attack-defense 对比接入统一总表
-2. 决定下一轮优先扩 benchmark 规模还是继续提高 defended 训练强度
+1. 将 `W-1 strong-v2 3-shadow full-scale` 与 `GSA 1k-3shadow` 的白盒 attack-defense 对比接入统一总表
+2. 启动下一档 stronger defended training rung
 3. 暂不重跑 `GSA` 主攻击线
