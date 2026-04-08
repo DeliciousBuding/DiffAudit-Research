@@ -4,9 +4,9 @@
 
 - `owner`: active-thread
 - `scope`: 统一黑/灰/白研究规划下的第一优先执行线，负责黑盒成员推断、数据集级审计、black-box leakage 线索整理
-- `status`: 进行中，`recon` 是当前最强 black-box evidence line；`variation` 已在本地 CPU 上再次通过 synthetic smoke 且已成为 `blackbox-status` 内的本地 secondary evidence；`DDIM public-100 step30` 仍是黑盒主证据，但当前 black-box 防御仍未正式落地
+- `status`: 进行中，`recon` 的 black-box 主证据、最佳单指标参考和 `variation` 次主线口径已冻结；当前 `variation` 的真实 API 资产 probe 已正式确认 blocked
 - `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的 target/shadow/member/non-member 论文语义仍需核准；`variation` 真实 query image root 仍缺；`Kandinsky 10/10` 当前本机链路仍异常慢
-- `next command`: `conda run -n diffaudit-research python -m diffaudit probe-variation-assets --config tmp/configs/rendered-checks/variation.local.yaml`
+- `next command`: no new black-box run; keep wording consistent across `blackbox-status`, `reproduction-status`, and `ROADMAP`
 - `last updated`: 2026-04-08
 
 ## 统一规划定位
@@ -47,6 +47,7 @@
 - `experiments/recon-runtime-mainline-kandinsky-public-smoke/artifact-mainline/summary.json`
 - `experiments/variation-synth-smoke/summary.json`
 - `experiments/variation-synth-smoke-local-20260408/summary.json`
+- `workspaces/black-box/2026-04-09-recon-evidence-freeze.md`
 - `experiments/blackbox-status/summary.json`
 - `experiments/dit-sample-smoke/summary.json`
 - `experiments/dit-sample-step10/summary.json`
@@ -76,7 +77,7 @@
 5. 维持 `DiT` 官方 `sample.py` 路线可重复执行，并把本地 checkpoint 驱动的 `step50` 证据视需要继续往更高步数或更高分辨率推进
 6. `kandinsky_v22` public smoke 已通，但 `10/10` 与单样本直跑当前都异常慢；`Stable Diffusion + DDIM` 的 `100-sample public` 也已通；`DiT step50` 也已补上，下一步是解释 `DDIM step10` / `step30` 的指标差异，并在拿到有效日志前继续暂停 `Kandinsky`
 7. 评估 `variation` 真实 API 调用所需的凭据、预算和 query image 约束
-8. 把 `variation` 明确写成“formal local black-box secondary track”，方便申报阶段引用
+8. 把 `variation` 明确写成“formal local black-box secondary track”，并同步记录 real-API assets 仍 blocked
 9. 评估 `CLiD` 的真实 text-to-image 资产是否可在当前机器上最小复现
 10. 维持黑盒状态文档、实验目录和主线命令说明同步，并明确这些同步属于统一三线规划下的黑盒执行层收口
 11. 把 `B-1 / B-2` 只记录为 black-box defense backlog，不提前写成已有可比较结果
@@ -86,4 +87,4 @@
 - 公开 `recon` checkpoint 与 dataset 已在本机落地，但运行时语义映射尚未核准
 - 仍缺与论文一致的 target/shadow/member/non-member 直接映射说明
 - 黑盒不同论文的攻击假设并不完全相同，需要统一术语
-- `variation` 当前只有本地 synthetic smoke 与占位配置，没有真实 API 资产
+- `variation` 当前只有本地 synthetic smoke，与正式 blocked 的真实 API 资产探针；没有 query image root 就不能继续往真实 black-box 推进

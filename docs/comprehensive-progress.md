@@ -36,6 +36,7 @@
 - 当前用途：
   - 作为申报和答辩里的“风险存在”主证据
   - `variation` 适合作为第二黑盒候选线补充进申报叙事
+  - 黑盒最终口径现在应区分 `main evidence`、`best single metric reference` 和 `secondary track`
 
 ### 灰盒
 
