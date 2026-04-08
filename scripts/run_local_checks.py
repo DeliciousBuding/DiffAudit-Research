@@ -28,7 +28,7 @@ def main() -> None:
     run([sys.executable, "scripts/bootstrap_research_env.py"], repo_root)
     run([sys.executable, "-m", "diffaudit", "--help"], repo_root)
     run([sys.executable, "-m", "unittest", "tests.test_attack_registry", "tests.test_smoke_pipeline"], repo_root)
-    run([sys.executable, "-m", "pytest", "tests/test_variation_attack.py", "tests/test_render_team_local_configs.py", "-q"], repo_root)
+    run([sys.executable, "-m", "pytest", "tests/test_variation_attack.py", "tests/test_render_team_local_configs.py", "tests/test_init_variation_query_set.py", "-q"], repo_root)
 
     if not args.fast:
         run(
