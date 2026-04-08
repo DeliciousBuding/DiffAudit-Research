@@ -54,8 +54,8 @@
 9. `PIA` 的第一版灰盒防御原型也已通过同一入口落盘：[pia-cifar10-runtime-mainline-dropout-defense-20260407-cpu](../workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260407-cpu/summary.json) 证明了 `stochastic-dropout` 钩子可运行，但当前 tiny local run 下并未带来指标改进，不能把它写成已验证有效防御。
 10. `GSA` 当前最强说法已升级到 [gsa-runtime-mainline-20260408-cifar10-1k-3shadow](../workspaces/white-box/runs/gsa-runtime-mainline-20260408-cifar10-1k-3shadow/summary.json) 所代表的“`1k-3shadow` paper-aligned runtime mainline complete”，不再停留在早期 CPU tiny closed loop。
 11. 白盒当前最强攻击指标已经足够强：`auc=0.97514 / asr=0.919 / tpr@1%fpr=0.55 / tpr@0.1%fpr=0.205`，因此当前白盒下一步不应再把资源优先投到重复攻击复跑，而应优先投到防御对比。
-12. `W-1 / DPDM` 当前也不再是“仓库有了但还没接”。`strong-v3` 现在已经有 CPU 诊断和 GPU three-shadow `max128/max256` 结果，这进一步证明当前白盒主线的瓶颈不是资产，而是更大规模 GPU comparator 稳定性。
-13. 当前 `DPDM` 的真正技术限制已从“环境阻塞”变成“GPU comparator 在更大规模设置下仍不稳定”。也就是说，白盒防御下一步应当同时保留 `strong-v3 max256` 这条更强结果，并继续诊断更大规模 GPU 路径，而不是继续证明 checkpoint 可以被读取。
+12. `W-1 / DPDM` 当前也不再是“仓库有了但还没接”。`strong-v3` 现在已经有 CPU 诊断和 GPU three-shadow `max128/max256/max512/full-scale` 结果，这进一步证明当前白盒主线已经从“资产是否有效”推进到“哪条 defended 结果最适合进入统一总表”。
+13. 当前 `DPDM` 的真正技术限制已从“环境阻塞”转成“如何选择本轮最适合作为主证据的 defended rung”。也就是说，白盒防御下一步不必再证明 checkpoint 可读，而是要在 `strong-v2 full-scale` 与 `strong-v3 full-scale` 之间明确主结果口径。
 14. 白盒当前仍不能写成论文最终复现成功。`GSA` 现在可以合理称为“强本地 paper-aligned baseline”，`W-1` 可以合理称为“已有 stronger defended comparator”，但二者还不是最终论文级 benchmark 对照。
 
 ## 下一步
