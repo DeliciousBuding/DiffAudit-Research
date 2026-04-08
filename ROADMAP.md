@@ -8,40 +8,42 @@
 
 - 让黑盒、灰盒、白盒三条攻击线进入同一套研究与证据规划
 - 让攻击、资产、manifest、summary、防御结果都能被统一记录
-- 在当前阶段形成“至少一条可辩护攻击主线 + 至少一条可比较防御原型”
+- 在当前阶段形成“至少一条可辩护攻击主线 + 至少一条可比较防御原型 + 一张 admitted 统一总表”
 
-当前不追求“所有论文都碰一下”，而追求“把最值得讲、最有证据的几条线真正打穿”。
+当前不追求“所有论文都浅尝一下”，而追求“把最值得讲、最有证据的几条线真正打穿并冻结口径”。
 
 ## 当前综合判断
 
-截至 `2026-04-07`：
+截至 `2026-04-09`：
 
 - 黑盒：
-  - `recon` 是当前最强证据线
-  - `variation` 已可在本地 CPU 上重复跑 synthetic smoke，适合作为第二黑盒候选线保留
-  - `CLiD` 已有证据，但还不是当前最强执行主线
+  - `recon` 已形成冻结主证据口径
+  - `variation` 已形成正式本地次主线，但真实 API 资产 blocked
+  - `CLiD` 保留为补充材料
 - 灰盒：
   - `PIA` 是当前最成熟、最适合做“攻击 + 防御”主讲闭环的一条线
-  - `SecMI` 仍然更像 baseline，而不是当前最该押注的主线
+  - `PIA` 已完成 `GPU128 / GPU256 / GPU512` baseline + defense 与一次 `GPU512` repeat
+  - `PIA` provenance 当前已可写成 `workspace-verified`
+  - `SecMI` 已明确为 `blocked baseline`
 - 白盒：
-  - `GSA` 已到 real-asset closed loop ready
-  - 但现在更像“闭环打通”，还不是论文级稳定攻击结果
+  - `GSA 1k-3shadow` 已形成强攻击结果
+  - `W-1 = DPDM` 已完成 `strong-v2 full-scale` 与 `strong-v3 full-scale` defended comparator
+  - 当前 defended 主口径冻结为 `strong-v3 full-scale`
 - 防御：
-  - 当前最接近正式结果的是灰盒 `G-1` 近似原型
-  - `W-1` 的候选实现 `DPDM` 已在本地，但还没接成正式 baseline
-  - `B-1`、`B-2`、`W-2`、`G-2` 仍主要停留在设计层
+  - 灰盒 `G-1` 当前固定为 `provisional G-1 = stochastic-dropout`
+  - 白盒 `W-1` 已进入 admitted 总表
+  - `B-1`、`B-2`、`W-2`、`G-2` 仍在 backlog
 
 ## 当前优先级
 
 固定顺序：
 
-1. `PIA` 攻击基线稳定化
-2. `PIA + G-1` 正式防御比较
-3. `recon` 主证据口径固化
-4. `GSA` 统计稳定化
-5. `W-1 / DPDM` 第一版基线
-6. `SecMI` 真实资产闭环或明确降级
-7. 统一 attack-defense 对比表
+1. 维持 `PIA + provisional G-1` admitted 主讲口径
+2. 维持 `recon` 冻结口径
+3. 维持 `variation = secondary track + blocked real-API assets`
+4. 维持 `GSA + W-1 strong-v3 full-scale` 白盒口径
+5. 继续补统一 attack-defense 总表中的 `quality/cost`
+6. 让 `Local-API` 继续消费 admitted 结果
 
 ## 主路线
 
@@ -49,7 +51,7 @@
 
 目标：
 
-- 维持 `recon` 作为当前最强 black-box evidence line
+- 维持 `recon` 作为当前 black-box 主证据线
 
 当前主线：
 
@@ -57,21 +59,20 @@
 
 当前要求：
 
-1. 固化 `public-100 step10 / step30` 的解释边界
-2. 继续收口 `target/shadow/member/non-member` 的最可辩护语义
+1. 固化 `main evidence / best single metric reference / secondary track`
+2. 不再把 `variation` 写成真实 API 闭环
 3. 暂不继续无节制扩模型覆盖
-4. 将 `B-1 / B-2` 只登记为 defense backlog，不伪装成已落地结果
-5. 将 `variation/Towards` 明确登记为“local synthetic-smoke verified, real API still blocked”的第二黑盒候选线
+4. 暂不把 `B-1 / B-2` 伪装成已落地结果
 
 完成标准：
 
-- `recon` 主证据、最佳单指标结果、对照基线三者不再混写
+- 黑盒文档、总表、状态页对同一口径描述一致
 
-### Phase 2: 灰盒主讲线打穿
+### Phase 2: 灰盒主讲线冻结
 
 目标：
 
-- 让灰盒形成当前最稳的“攻击 + 防御”可讲闭环
+- 让灰盒形成当前最稳的 admitted “攻击 + 防御”闭环
 
 当前主线：
 
@@ -83,24 +84,22 @@
 
 当前要求：
 
-1. 继续固化 `PIA` 的 canonical roots、provenance 与 summary 口径
-2. 重新跑更大样本、更稳定重复次数的 `PIA runtime mainline`
-3. 把当前 dropout-style defense prototype 正式定义成 `G-1`
-4. 在同一主基线上做出 `PIA baseline vs defended` 正式对比
-5. 给 `SecMI` 一个明确判定：
-   - 要么推进到真实资产闭环
-   - 要么明确降级为 baseline / blocked
+1. 维持 `PIA` 的 canonical roots、manifest、summary 口径
+2. 把当前 provenance 固定为 `workspace-verified`
+3. 把 `stochastic-dropout` 固定为 `provisional G-1`
+4. 保持 `SecMI = blocked baseline`
+5. 当前不为重复已知结论继续重跑 `PIA`
 
 完成标准：
 
-- 至少一条灰盒攻击线具备稳定 `runtime mainline`
-- 至少一条灰盒防御线具备同口径前后对比
+- 灰盒 admitted 主讲线稳定
+- 下一轮是否重启 GPU 具有明确触发条件
 
-### Phase 3: 白盒深度线补强
+### Phase 3: 白盒深度线冻结
 
 目标：
 
-- 让白盒从“闭环已打通”推进到“统计上更可信”
+- 让白盒保持“强攻击 + defended 对照”结构，而不是继续做边际重跑
 
 当前主线：
 
@@ -112,21 +111,22 @@
 
 当前要求：
 
-1. 扩大 `GSA` 的 `target/shadow + member/non-member` bucket 规模
-2. 提高 `checkpoint-*` 的训练强度
-3. 把 `DPDM` 接成正式 `W-1` 基线
-4. 暂缓 `W-2`，直到 `W-1` 有正式结果
+1. 固定 `GSA 1k-3shadow` 为攻击主结果
+2. 固定 `strong-v3 full-scale` 为 defended 主 rung
+3. 保留 `strong-v2 full-scale` 为参考 rung
+4. 暂缓 `W-2`
+5. 当前不继续抢 GPU
 
 完成标准：
 
-- `GSA` 结果不再只是极小样本闭环
-- `W-1` 至少有一版可运行 baseline
+- 白盒主讲口径稳定
+- 统一总表只引用必要 rung
 
 ### Phase 4: 统一评估表
 
 目标：
 
-- 把不同线的结果收口成一份综合进度和统一对比表
+- 把不同线的 admitted 结果收口成一份综合对比表
 
 统一字段：
 
@@ -143,37 +143,38 @@
 
 完成标准：
 
-- 黑盒、灰盒、白盒可以放进同一张对比表
-- 攻击与防御前后结果可以直接比较
+- admitted 结果可直接被系统读取
+- blocked / smoke / secondary 状态不混入主对比表
 
 ## 工作区分工口径
 
 - `workspaces/black-box/`
   - 负责 black-box evidence line
 - `workspaces/gray-box/`
-  - 负责当前主讲线 `PIA` 与灰盒防御
+  - 负责 `PIA` 与灰盒防御
 - `workspaces/white-box/`
-  - 负责 `GSA` 与白盒防御候选
+  - 负责 `GSA` 与 `W-1`
+- `workspaces/implementation/`
+  - 负责 admitted 统一总表
 
 ## 当前执行纪律
 
 - 不把 `smoke / preview / toy` 写成论文复现成功
-- `PIA` 与 `GSA` 论文必须自己读懂，不得只跑代码
-- 在 `CIFAR-10 + DDPM` 的攻击-防御对比表没站稳前，不扩 `CelebA-HQ / ImageNet-64`
-- 每次重要状态变化都必须同步：
-  - [docs/reproduction-status.md](docs/reproduction-status.md)
-  - [docs/comprehensive-progress.md](docs/comprehensive-progress.md)
-  - 对应工作区 README 或主线文档
+- admitted 结果优先写 machine-readable `manifest / summary / table`
+- 在新的真实资产到位前，不扩 `SecMI` 和 `variation` 的真实运行面
+- 每次重要状态变化都同步：
+  - `docs/reproduction-status.md`
+  - `docs/comprehensive-progress.md`
+  - `docs/local-api.md`
+  - 对应工作区主文档
 
 ## 下一步
 
 当前最短路径：
 
-1. 给 `PIA` 补一份真正的“攻击依赖信号”笔记，并据此正式定义 `G-1`
-2. 重新跑 `PIA baseline + defended`，扩大样本量与重复次数
-3. 对 `SecMI` 做 promote / block 决策
-4. 扩大 `GSA` bucket 与训练强度
-5. 把 `DPDM` 接成 `W-1` 第一版白盒防御 baseline
-6. 产出统一 attack-defense 总表
+1. 持续维持 admitted 口径一致
+2. 继续补统一总表 `quality/cost` 说明
+3. 继续让 `Local-API` 读取 admitted 结果，而不是只盯 `recon`
+4. 等新的真实资产或新的研究问题出现后，再安排下一轮 GPU 任务
 
 综合进度入口见 [docs/comprehensive-progress.md](docs/comprehensive-progress.md)。

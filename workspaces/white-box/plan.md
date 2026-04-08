@@ -4,10 +4,10 @@
 
 - `owner`: `research_leader`
 - `scope`: 白盒成员推断、梯度级攻击、记忆定位与内部信号审计
-- `status`: `GSA 1k-3shadow paper-aligned runtime complete; W-1 strong-v2 defended comparator complete; strong-v3 now has valid GPU three-shadow results at max128/max256/max512/full-scale`
-- `blocked by`: `W-1` 仍是 `runtime-smoke` comparator；`DPDM` 与 `GSA` 仍有模型结构不一致；`W-2` 仍缺稳定训练目标与实现；跨黑/灰/白统一总表仍未完全成形
-- `next step`: fold strong-v3 full-scale into the white-box aggregate table, decide whether strong-v2 or strong-v3 is the primary defended rung, then shift GPU priority back to gray-box `PIA`
-- `last updated`: `2026-04-08`
+- `status`: `GSA 1k-3shadow paper-aligned runtime complete; W-1 strong-v3 full-scale frozen as defended main rung; strong-v2 full-scale retained as reference rung`
+- `blocked by`: `W-1` 仍是 defended comparator 而不是最终 benchmark；`DPDM` 与 `GSA` 仍有模型结构不一致；`W-2` 仍缺稳定训练目标与实现
+- `next step`: keep `strong-v3 full-scale` as the admitted defended main rung, stop further white-box reruns for now, and focus on system-side exposure of `GSA + W-1`
+- `last updated`: `2026-04-09`
 
 ## 推荐论文
 
@@ -68,18 +68,16 @@
 
 ## 当前阻塞项
 
-- 现在能证明“闭环已通”，还不能证明“攻击已稳定成立”
-- `GSA 1k-3shadow` 训练还没有产出新的 `checkpoint-*`
-- `W-1` 已有正式 defense-vs-attack 对比，但仍是 `runtime-smoke` 级 comparator
+- 现在能证明“强攻击基线已成立”，但还不能写成论文最终 benchmark
+- `W-1` 已有正式 defense-vs-attack 对比，但仍是 defended comparator 而不是论文最终防御 benchmark
 - `DPDM` 当前 checkpoint 既是单文件字典，又不是 `GSA` 的 `UNet2DModel` 架构，不能直接喂给当前提取器
 - 当前 `DPDM` comparator 已扩到 defended target + defended shadows strong-v2，并完成 three-shadow full-scale 比较，但仍不是最终 benchmark
-- `strong-v3` checkpoint 集合已确认可读，并已成功跑出 three-shadow `max128 / max256 / max512 / full-scale` GPU comparator，但当前仍需确定哪条 defended rung 作为正式主结果
+- `strong-v3` checkpoint 集合已确认可读，并已成功跑出 three-shadow `max128 / max256 / max512 / full-scale` GPU comparator，当前主口径已冻结但仍非论文最终 benchmark
 - `Finding NeMo` 仍缺 neuron-level 分析接口与资产
-- 还缺跨黑/灰/白统一总表
 
 ## 当前最短路径
 
-1. 将 `W-1 strong-v2 full-scale` 与 `strong-v3 full-scale` 一起接入白盒 attack-defense 总表
-2. 固定当前白盒 defended 主结果口径
+1. 固定 `W-1 strong-v3 full-scale` 为当前白盒 defended 主结果
+2. 保留 `strong-v2 full-scale` 作为参考 rung
 3. 暂不重跑 `GSA` 主攻击线
-4. 将 GPU 优先级切回灰盒 `PIA baseline + G-1`
+4. 继续把系统侧优先级转回 admitted 结果接入与灰盒主讲线

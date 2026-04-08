@@ -1,22 +1,18 @@
 # 本地 API
 
-这份文档说明 `Project` 如何与 `Services/Local-API` 对接。
+这份文档说明如何在 `DiffAudit` 研究仓库内启动本地 HTTP API，并把当前 admitted 研究结果和受控任务入口暴露给平台或本机脚本调用。
 
-当前口径已经不是“给 `recon` 暴露一个本地 HTTP 壳”，而是：
+## 目标
 
-- `Project` 继续作为研究与证据源
-- `Services/Local-API` 作为统一控制面与 admitted evidence 读链
-- 黑盒 / 灰盒 / 白盒共用同一套 `catalog / evidence / audit job` 合同
+当前本地 API 的目标不是替代研究 CLI，而是为平台联调提供一个稳定、可查询、可提交受控任务的本地服务层。
 
-## 当前定位
+原则：
 
-`Local-API` 现在负责三件事：
-
-1. 暴露当前 admitted 的研究结果
-2. 提供受控的本地任务提交入口
-3. 为 `Platform` 或本机脚本提供稳定的 HTTP 合同
-
-它不替代研究 CLI，也不复制 `Project` 里的大资产。
+- 优先复用 `experiments/*/summary.json` 与 `workspaces/*/artifacts/*.json`
+- 优先复用现有 runner 与研究仓 admitted 产物
+- 不复制实验大文件到平台仓库
+- 路径型字段保留绝对路径，便于本机调试
+- 平台优先读取 admitted 结果，不自己重拼黑盒/灰盒/白盒口径
 
 ## 启动方式
 
@@ -24,122 +20,160 @@
 
 ```powershell
 cd D:\Code\DiffAudit\Services\Local-API
-powershell -ExecutionPolicy Bypass -File .\run-local-api.ps1
+go run ./cmd/local-api --host 127.0.0.1 --port 8765
 ```
 
-如需显式指定路径：
+覆盖本机目录：
 
 ```powershell
 cd D:\Code\DiffAudit\Services\Local-API
 go run ./cmd/local-api `
   --host 127.0.0.1 `
   --port 8765 `
-  --project-root D:\Code\DiffAudit\Project `
   --experiments-root D:\Code\DiffAudit\Project\experiments `
   --jobs-root D:\Code\DiffAudit\Project\workspaces\local-api\jobs `
-  --repo-root D:\Code\DiffAudit\Project `
-  --execution-mode local
+  --project-root D:\Code\DiffAudit\Project
 ```
 
-## 当前读接口
+当前职责划分：
+
+- Go：HTTP 控制面、job 持久化、目录扫描、子进程调度、admitted 结果读取
+- bundled runners：继续执行 `recon` / `PIA` / `GSA` 的受控 job
+
+## 接口
 
 ### `GET /health`
 
-返回服务状态与绑定路径。
+返回服务状态和本机路径绑定：
 
-### `GET /diagnostics`
+```json
+{
+  "status": "ok",
+  "experiments_root": "D:\\Code\\DiffAudit\\Project\\experiments",
+  "jobs_root": "D:\\Code\\DiffAudit\\Project\\workspaces\\local-api\\jobs"
+}
+```
 
-返回当前执行模式、关键根路径、runner 存在性和 Docker / 调度器配置。
+### `GET /api/v1/models`
+
+返回当前本机已知的模型入口：
+
+- `sd15-ddim`
+- `kandinsky-v22`
+- `dit-xl2-256`
 
 ### `GET /api/v1/catalog`
 
-返回当前 live contract 列表，并在 `project_root` 可用时自动补 intake 元数据。
+返回当前 live contracts 与 admitted intake 信息。
 
-当前已 admitted / live 的核心合同：
+当前可读到的关键信息包括：
 
-- `black-box/recon/sd15-ddim`
-- `gray-box/pia/cifar10-ddpm`
-- `white-box/gsa/ddpm-cifar10`
-
-当前 intake 里已经明确可被系统读取的元数据包括：
-
+- `contract_key`
+- `track`
+- `attack_family`
+- `availability`
+- `evidence_level`
 - `admission_status`
 - `admission_level`
 - `provenance_status`
 - `intake_manifest`
+- `system_gap`
 
-其中：
+当 `project_root` 指向当前研究仓时，灰盒 `PIA` 的 intake 会带出：
 
-- `PIA` 当前 `provenance_status = workspace-verified`
-- `GSA` 当前 `provenance_status = workspace-verified`
+- `admission_status = admitted`
+- `admission_level = system-intake-ready`
+- `provenance_status = workspace-verified`
+
+`system_gap` 用来说明某条 live contract 目前还差什么，便于平台直接展示“还能做什么 / 还缺什么”，而不是重新硬编码解释。
 
 ### `GET /api/v1/evidence/attack-defense-table`
 
-返回当前统一 attack-defense 总表。
+返回研究仓当前 admitted attack-defense 总表。
 
-读取来源：
+当前读取：
 
 - `workspaces/implementation/artifacts/unified-attack-defense-table.json`
 
-当前用途：
+用途：
 
-- 让平台直接消费 admitted 的黑盒 / 灰盒 / 白盒主结果
-- 避免平台侧自己再拼 `recon / PIA / GSA / W-1` 主口径
-
-### `GET /api/v1/evidence/contracts/best?contract_key=...`
-
-返回指定 live contract 的最佳 admitted summary envelope。
-
-示例：
-
-```powershell
-curl "http://127.0.0.1:8765/api/v1/evidence/contracts/best?contract_key=gray-box/pia/cifar10-ddpm"
-curl "http://127.0.0.1:8765/api/v1/evidence/contracts/best?contract_key=white-box/gsa/ddpm-cifar10"
-```
-
-当前意义：
-
-- 去掉平台对 `recon` 专属接口的依赖
-- 让灰盒 / 白盒也能按合同直接读取最佳 admitted 结果
+- 让平台或本机脚本直接读取 admitted main results
+- 避免平台侧重复拼接 `recon / PIA / GSA / W-1` 的主口径
 
 ### `GET /api/v1/experiments/recon/best`
 
-这是保留的兼容接口。
+返回 `recon` 当前最佳证据 summary。
 
-它本质上等价于：
+优先读取：
 
-```text
-GET /api/v1/evidence/contracts/best?contract_key=black-box/recon/sd15-ddim
-```
+- `experiments/blackbox-status/summary.json`
+
+若该聚合文件缺失，则回退为扫描 `experiments/*/summary.json` 并按现有黑盒证据等级选择最佳 `recon` 记录。
+
+当前默认会命中：
+
+- `recon-runtime-mainline-ddim-public-100-step30`
 
 ### `GET /api/v1/experiments/{workspace}/summary`
 
-读取指定 workspace 的 `summary.json`。
+读取某个实验目录下的 `summary.json`。
 
-适合：
+例如：
 
-- 追具体 run
-- 调试某次实验目录
-- 平台进入单次结果详情页
-
-## 当前写接口
+```powershell
+curl http://127.0.0.1:8765/api/v1/experiments/recon-runtime-mainline-ddim-public-100-step30/summary
+```
 
 ### `POST /api/v1/audit/jobs`
 
-当前受控 job 仍以 admitted runner 为准，必须带：
+当前允许的 live job 类型由 `contract_key + job_type` 决定。
 
-- `job_type`
-- `contract_key`
-- `workspace_name`
+当前 live contracts：
 
-当前 live job 主要包括：
+1. `black-box/recon/sd15-ddim`
+2. `gray-box/pia/cifar10-ddpm`
+3. `white-box/gsa/ddpm-cifar10`
 
-- `recon_artifact_mainline`
-- `recon_runtime_mainline`
-- `pia_runtime_mainline`
-- `gsa_runtime_mainline`
+`workspace_name` 会映射到研究仓或本地 API 工作目录下对应的运行产物目录。
 
-示例：灰盒 `PIA`
+job 元数据会写到：
+
+- `workspaces/local-api/jobs/<job_id>.json`
+
+#### 提交 `recon_artifact_mainline`
+
+```json
+{
+  "job_type": "recon_artifact_mainline",
+  "contract_key": "black-box/recon/sd15-ddim",
+  "workspace_name": "api-recon-artifact-mainline",
+  "artifact_dir": "D:\\Code\\DiffAudit\\Project\\experiments\\recon-runtime-mainline-ddim-public-100-step30\\score-artifacts",
+  "repo_root": "D:\\Code\\DiffAudit\\Project\\external\\Reconstruction-based-Attack",
+  "method": "threshold"
+}
+```
+
+#### 提交 `recon_runtime_mainline`
+
+```json
+{
+  "job_type": "recon_runtime_mainline",
+  "contract_key": "black-box/recon/sd15-ddim",
+  "workspace_name": "api-recon-runtime-mainline",
+  "target_member_dataset": "D:\\path\\target_member.pt",
+  "target_nonmember_dataset": "D:\\path\\target_non_member.pt",
+  "shadow_member_dataset": "D:\\path\\shadow_member.pt",
+  "shadow_nonmember_dataset": "D:\\path\\shadow_non_member.pt",
+  "target_model_dir": "D:\\path\\target_checkpoint",
+  "shadow_model_dir": "D:\\path\\shadow_checkpoint",
+  "repo_root": "D:\\Code\\DiffAudit\\Project\\external\\Reconstruction-based-Attack",
+  "backend": "stable_diffusion",
+  "scheduler": "ddim",
+  "method": "threshold"
+}
+```
+
+#### 提交 `pia_runtime_mainline`
 
 ```json
 {
@@ -147,17 +181,19 @@ GET /api/v1/evidence/contracts/best?contract_key=black-box/recon/sd15-ddim
   "contract_key": "gray-box/pia/cifar10-ddpm",
   "workspace_name": "api-pia-runtime-mainline-001",
   "runtime_profile": "docker-default",
-  "repo_root": "D:/Code/DiffAudit/Project/external/PIA",
+  "repo_root": "D:\\Code\\DiffAudit\\Project\\external\\PIA",
+  "assets": {
+    "member_split_root": "D:\\Code\\DiffAudit\\Project\\external\\PIA\\DDPM"
+  },
   "job_inputs": {
-    "config": "D:/Code/DiffAudit/Project/tmp/configs/pia-cifar10-graybox-assets.local.yaml",
+    "config": "D:\\Code\\DiffAudit\\Project\\tmp\\configs\\pia-cifar10-graybox-assets.local.yaml",
     "device": "cpu",
-    "num_samples": "16",
-    "provenance_status": "workspace-verified"
+    "num_samples": "16"
   }
 }
 ```
 
-示例：白盒 `GSA`
+#### 提交 `gsa_runtime_mainline`
 
 ```json
 {
@@ -165,51 +201,84 @@ GET /api/v1/evidence/contracts/best?contract_key=black-box/recon/sd15-ddim
   "contract_key": "white-box/gsa/ddpm-cifar10",
   "workspace_name": "api-gsa-runtime-mainline-001",
   "runtime_profile": "docker-default",
-  "repo_root": "D:/Code/DiffAudit/Project/workspaces/white-box/external/GSA",
+  "repo_root": "D:\\Code\\DiffAudit\\Project\\workspaces\\white-box\\external\\GSA",
+  "assets": {
+    "assets_root": "D:\\Code\\DiffAudit\\Project\\workspaces\\white-box\\assets\\gsa"
+  },
   "job_inputs": {
-    "assets_root": "D:/Code/DiffAudit/Project/workspaces/white-box/assets/gsa",
     "resolution": "32",
     "ddpm_num_steps": "20",
     "sampling_frequency": "2",
-    "attack_method": "1",
-    "provenance_status": "workspace-verified"
+    "attack_method": "1"
   }
 }
 ```
 
-### `GET /api/v1/audit/jobs`
-
-返回已知任务列表。
-
 ### `GET /api/v1/audit/jobs/{job_id}`
 
-返回单个任务状态、命令、输出尾部和 `summary_path`。
+读取 job 当前状态。
 
-## 当前平台接法
+### `GET /api/v1/audit/jobs`
 
-`Platform` 当前应该优先走这条链：
+按创建时间倒序返回当前已知 job 列表。
 
-1. `GET /api/v1/catalog`
-2. `GET /api/v1/evidence/attack-defense-table`
-3. `GET /api/v1/evidence/contracts/best?contract_key=...`
-4. `GET /api/v1/audit/jobs`
-5. `POST /api/v1/audit/jobs`
-6. `GET /api/v1/audit/jobs/{job_id}`
+这个接口的用途是让平台或本机脚本在刷新页面后重新发现已提交任务，而不是只能依赖内存中的 `job_id`。
 
-不建议再继续围绕 `recon` 单独做页面结构或接口假设。
+状态集合：
+
+- `queued`
+- `running`
+- `completed`
+- `failed`
+
+任务完成后会补充：
+
+- `summary_path`
+- `metrics`
+- `stdout_tail`
+- `stderr_tail`
+
+## 并发约束
+
+当前 API 不允许对同一个 `workspace_name` 并发提交多个 `queued/running` 任务。
+
+原因：
+
+- 同一个 workspace 会落到同一实验目录
+- 并发写入会互相覆盖 summary、artifact 和生成图片
+
+如果同一个 workspace 已有活动任务，`POST /api/v1/audit/jobs` 会返回 `409 Conflict`。
+
+## 平台联调建议
+
+平台仓库不要复制研究结果，也不要自己再实现一套攻击执行器或结果聚合器。
+
+平台只需要：
+
+1. 调 `GET /api/v1/models` 获取可用模型入口
+2. 调 `GET /api/v1/catalog` 获取 admitted contract 与 intake 状态
+3. 调 `GET /api/v1/evidence/attack-defense-table` 读取统一主结果
+4. 在需要黑盒单线详情时调 `GET /api/v1/experiments/recon/best`
+5. 调 `GET /api/v1/audit/jobs` 恢复本机已有任务列表
+6. 调 `POST /api/v1/audit/jobs` 提交受控任务
+7. 调 `GET /api/v1/audit/jobs/{job_id}` 轮询状态
 
 ## 当前边界
 
-当前已经打通：
+当前版本还没有做：
 
-- 三盒 live contract 的统一 catalog
-- admitted attack-defense 总表读取
-- 合同级最佳证据摘要读取
-- `recon / PIA / GSA` 的受控任务提交骨架
+- 平台仓库内的反向代理
+- 认证鉴权
+- 多用户 job 隔离
+- 任意 shell 命令执行
+- `variation` / `CLiD` 的真实任务提交
 
-当前仍未打通：
+当前版本已经打通：
 
-- 黑盒防御正式 admitted 结果
-- `variation / Towards` 的真实 API 资产闭环
-- `SecMI` 的真实资产闭环
-- 多用户鉴权与隔离
+- Go 本地 HTTP 服务入口
+- `catalog` admitted intake 查询
+- admitted attack-defense 总表查询
+- `recon` 最佳证据查询
+- 任意已知 workspace 的 summary 查询
+- `recon` / `PIA` / `GSA` live job 的受控提交、列表与状态查询
+- 同 workspace 活动任务的冲突保护
