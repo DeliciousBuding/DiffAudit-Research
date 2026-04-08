@@ -21,6 +21,7 @@
 - `2026-04-08-variation-local-track.md`
 - `2026-04-09-variation-real-asset-template.md`
 - `2026-04-09-recon-semantic-gate.md`
+- `2026-04-09-recon-public-bundle-audit.md`
 - `2026-04-09-blackbox-method-boundary.md`
 
 ## 第一轮建议任务

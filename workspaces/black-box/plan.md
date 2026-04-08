@@ -5,7 +5,7 @@
 - `owner`: active-thread
 - `scope`: 统一黑/灰/白研究规划下的第一优先执行线，负责黑盒成员推断、数据集级审计、black-box leakage 线索整理
 - `status`: 进行中，`recon` 的 black-box 主证据、最佳单指标参考和 `variation` 次主线口径已冻结；当前 `variation` 的真实 API 资产 probe 已正式确认 blocked；`TMIA-DM` 已完成 intake，但被判定为灰盒候选而非黑盒主线
-- `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的 target/shadow/member/non-member 论文语义仍需核准；`variation` 真实 query image root 仍缺；`Kandinsky 10/10` 当前本机链路仍异常慢
+- `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的语义 gate 现已 machine-audited 到 `proxy-shadow-member`，但仍未升级到 paper-aligned；`variation` 真实 query image root 仍缺；`Kandinsky 10/10` 当前本机链路仍异常慢
 - `next command`: no new black-box run; keep wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`
 - `last updated`: 2026-04-09
 
@@ -54,6 +54,7 @@
 - `experiments/variation-synth-smoke/summary.json`
 - `experiments/variation-synth-smoke-local-20260408/summary.json`
 - `workspaces/black-box/2026-04-09-recon-evidence-freeze.md`
+- `workspaces/black-box/2026-04-09-recon-public-bundle-audit.md`
 - `experiments/blackbox-status/summary.json`
 - `experiments/dit-sample-smoke/summary.json`
 - `experiments/dit-sample-step10/summary.json`
@@ -77,7 +78,7 @@
 ## 一周行动清单
 
 1. 保持 `recon` 统一 mainline smoke 可重复执行，并在拿到 score artifact 后先跑 `probe-recon-score-artifacts` 再转到 `run-recon-artifact-mainline`
-2. 用 `probe-recon-runtime-assets` 先核准本机 `recon` 公开 Zenodo 资产的 target/shadow/member/non-member 映射
+2. 复用 `audit-recon-public-bundle` 与 [2026-04-09-recon-public-bundle-audit.md](2026-04-09-recon-public-bundle-audit.md) 持续跟踪本机 `recon` 公开 Zenodo 资产的 target/shadow/member/non-member 语义 gate
 3. 对比 `DDIM public-100 step10` / `step30` 指标差异，并记录运行成本
 4. 把真实 target/shadow score artifact 的命名和目录约束落实到 `recon` 主线
 5. 维持 `DiT` 官方 `sample.py` 路线可重复执行，并把本地 checkpoint 驱动的 `step50` 证据视需要继续往更高步数或更高分辨率推进
@@ -92,7 +93,7 @@
 
 ## 当前阻塞项
 
-- 公开 `recon` checkpoint 与 dataset 已在本机落地，但运行时语义映射尚未核准
+- 公开 `recon` checkpoint 与 dataset 已在本机落地，运行时语义链现在已被 machine-audited，但仍停在 `proxy-shadow-member`
 - 仍缺与论文一致的 target/shadow/member/non-member 直接映射说明
 - 黑盒不同论文的攻击假设并不完全相同，需要统一术语
 - `variation` 当前只有本地 synthetic smoke，与正式 blocked 的真实 API 资产探针；没有 query image root 就不能继续往真实 black-box 推进
