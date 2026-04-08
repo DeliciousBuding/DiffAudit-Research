@@ -121,8 +121,9 @@
 2. `SecMI` promote / block 判定
 3. `recon` 主证据口径收口
 4. `GSA 1k-3shadow`
-5. `DPDM` strong-v2 3-shadow full-scale comparator 接入统一总表
-6. 统一 attack-defense 总表
+5. `DPDM` strong-v2 full-scale 与 strong-v3 full-scale 一起接入统一总表
+6. 固定白盒 defended 主结果口径
+7. 统一 attack-defense 总表
 
 ## 申报 / PPT 应该怎么讲
 
@@ -132,7 +133,7 @@
 2. 我们已经在黑盒、灰盒、白盒三种权限下建立了攻击验证能力
 3. 当前最成熟的是灰盒 `PIA`
 4. 我们正在把一个可运行的灰盒防御打成第一版正式闭环
-5. 白盒 `GSA + W-1` 已经进入“强攻击结果已出，strong-v2 defended comparator 已出且 three-shadow full-scale 已完成”的阶段
+5. 白盒 `GSA + W-1` 已经进入“强攻击结果已出，strong-v2 / strong-v3 defended full-scale comparator 都已完成”的阶段
 
 ## 关联文档
 

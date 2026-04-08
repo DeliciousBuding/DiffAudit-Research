@@ -21,6 +21,8 @@
 | white-box | `DPDM W-1` | `DPDM defended-target + defended-shadows strong-v2 x4` | defended-target three-shadow full-scale comparator | `0.490813` | `0.496` | `0.006` | `0.0` | `runtime-smoke` | full-scale defended comparator; still far below `GSA` attack mainline |
 | white-box | `DPDM W-1` | `DPDM defended-target + defended-shadows strong-v3 x4` | defended-target three-shadow comparator at `max_samples=128` | `0.537048` | `0.519531` | `0.0` | `0.0` | `runtime-smoke` | first successful strong-v3 GPU defended comparator |
 | white-box | `DPDM W-1` | `DPDM defended-target + defended-shadows strong-v3 x4` | defended-target three-shadow comparator at `max_samples=256` | `0.522339` | `0.527344` | `0.003906` | `0.0` | `runtime-smoke` | first medium-scale stable strong-v3 GPU defended comparator |
+| white-box | `DPDM W-1` | `DPDM defended-target + defended-shadows strong-v3 x4` | defended-target three-shadow comparator at `max_samples=512` | `0.5` | `0.5` | `0.0` | `0.0` | `runtime-smoke` | strong-v3 large-scale GPU comparator now completes without silent exit |
+| white-box | `DPDM W-1` | `DPDM defended-target + defended-shadows strong-v3 x4` | defended-target three-shadow full-scale comparator | `0.488783` | `0.4985` | `0.009` | `0.0` | `runtime-smoke` | current strongest strong-v3 defended rung; slightly better than strong-v2 full-scale |
 
 ## 当前解释口径
 
@@ -32,7 +34,9 @@
 - `W-1 strong-v2 3-shadow full-scale` 回到 `AUC = 0.490813`，但仍远低于 `GSA` 主线，说明当前 defended 结果在更大评估规模下仍可辩护
 - `W-1 strong-v3 3-shadow max128` 已经成功落盘，说明 `strong-v3` checkpoint 集合在 GPU 上可执行，但当前还没超过 `strong-v2` 最佳 defended 结果
 - `W-1 strong-v3 3-shadow max256` 也已成功落盘，说明 `strong-v3` 不是偶发成功，而是已进入稳定的中规模 GPU defended 结果阶段
-- 但当前 `W-1` 还不是最终 benchmark，因为结果仍是 `runtime-smoke` 级 comparator
+- `W-1 strong-v3 3-shadow max512` 已稳定完成，说明此前的主要问题是大规模 GPU comparator 稳定性，而不是 checkpoint 无效
+- `W-1 strong-v3 3-shadow full-scale` 已完成并取得 `AUC = 0.488783`，略优于 `strong-v2 full-scale = 0.490813`
+- 当前 `W-1` 还不是最终 benchmark，因为结果仍是 `runtime-smoke` 级 comparator；但白盒下一步已经从“能不能跑”转成“选哪条 defended rung 进统一总表”
 
 ## 关联产物
 
@@ -56,9 +60,13 @@
   - `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-max128-20260408/summary.json`
 - defended-target + defended-shadow three-shadow strong-v3 comparator at `max_samples=256`:
   - `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-max256-20260408/summary.json`
+- defended-target + defended-shadow three-shadow strong-v3 comparator at `max_samples=512`:
+  - `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-max512-20260408/summary.json`
+- defended-target + defended-shadow three-shadow strong-v3 full-scale comparator:
+  - `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/summary.json`
 
 ## 下一步
 
 1. 保留这张表作为当前白盒可引用基线
-2. `strong-v3` 已经有 `max128` 和 `max256` 两条可用 GPU defended comparator，下一步可以进入 `max512`
-3. 后续统一总表直接引用这里的九条 defense 记录
+2. `strong-v3` 已经有 `max128 / max256 / max512 / full-scale` 四条可用 GPU defended comparator，当前需要明确主讲 rung
+3. 后续统一总表应直接引用这里的十一条 defense 记录，并在 `strong-v2 full-scale` 与 `strong-v3 full-scale` 之间固定主结果口径
