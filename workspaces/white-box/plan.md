@@ -35,6 +35,7 @@
 - `workspaces/white-box/2026-04-08-dpdm-w1-multi-shadow-strongv2-max512.md`
 - `workspaces/white-box/2026-04-08-dpdm-w1-multi-shadow-strongv2-3shadow-max512.md`
 - `workspaces/white-box/2026-04-08-dpdm-w1-multi-shadow-strongv2-3shadow-full.md`
+- `workspaces/white-box/2026-04-08-dpdm-strongv3-rung.md`
 - `workspaces/white-box/2026-04-08-whitebox-attack-defense-table.md`
 - `workspaces/white-box/2026-04-08-gsa-1k-3shadow-asset-prep.md`
 - `workspaces/white-box/2026-04-07-gsa-asset-intake.md`
@@ -73,5 +74,5 @@
 ## 当前最短路径
 
 1. 将 `W-1 strong-v2 3-shadow full-scale` 与 `GSA 1k-3shadow` 的白盒 attack-defense 对比接入统一总表
-2. 启动下一档 stronger defended training rung
+2. 吃完 `strong-v3` shadow 序列
 3. 暂不重跑 `GSA` 主攻击线
