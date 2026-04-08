@@ -66,12 +66,14 @@ Latest confirmed state after launch:
 - current active stage:
   - `target` training
 - current visible progress in `target/train.stderr.log`:
-  - reached `Epoch 32`
-  - reached at least `step 1044`
+  - reached `Epoch 59`
+  - reached at least `step 1920`
 - current visible loss band:
-  - roughly `0.02` to `0.08`
+  - roughly `0.015` to `0.08`
 - current checkpoint root state:
-  - only `target/` exists under the new rerun root
+  - `target/` exists under the new rerun root
+  - new target checkpoint observed:
+    - `checkpoint-1601`
   - no shadow checkpoint roots have started yet
   - no new runtime summary has been produced yet
 
