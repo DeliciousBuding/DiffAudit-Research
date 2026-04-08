@@ -68,6 +68,19 @@
       "evidence_level": "runtime-smoke",
       "note": "current strongest local W-1 comparator after stronger target/shadow training",
       "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv2-20260408/summary.json"
+    },
+    {
+      "track": "white-box",
+      "attack": "DPDM W-1",
+      "defense": "DPDM defended-target + defended-shadows strong-v2 x3",
+      "comparator_type": "defended-target multi-shadow comparator at max_samples=512",
+      "auc": 0.537201,
+      "asr": 0.530273,
+      "tpr_at_1pct_fpr": 0.013672,
+      "tpr_at_0_1pct_fpr": 0.0,
+      "evidence_level": "runtime-smoke",
+      "note": "larger defended comparator; result stays far below GSA mainline",
+      "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv2-max512-20260408/summary.json"
     }
   ]
 }
