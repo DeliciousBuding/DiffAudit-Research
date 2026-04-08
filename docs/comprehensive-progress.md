@@ -29,6 +29,7 @@
 - 当前能说的话：
   - 公开资产上的 black-box 风险已经有可引用主证据
   - `variation` 已能在本地 CPU 上重复跑 synthetic smoke
+  - `variation` 的真实 API 资产 probe 已确认 blocked，当前缺 query image root
 - 当前不能说的话：
   - 还不能把 black-box 防御讲成已有结果
   - 还不能把 `variation` 写成真实 API 闭环
@@ -122,7 +123,7 @@
 
 1. 固定 `PIA provisional G-1`
 2. `recon` 主证据口径收口
-3. `variation / Towards` 保持 formal local secondary track
+3. `variation / Towards` 保持 formal local secondary track，并明确 real-API assets blocked
 4. 固定白盒 defended 主结果口径
 5. 基于第一版统一总表继续补质量 / 成本列
 
