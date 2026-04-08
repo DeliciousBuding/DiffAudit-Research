@@ -17,7 +17,7 @@
 | 白盒攻击 | `已拿到强结果` | `GSA` 已完成 `1k-3shadow` paper-aligned runtime，AUC 达到 `0.97514` |
 | 黑盒防御 | `基本未落地` | `B-1 / B-2` 仍在设计层 |
 | 灰盒防御 | `有原型` | 接近 `G-1`，但还没形成正式对照 |
-| 白盒防御 | `已有 strong-v2 defended comparator，且 max512 已重复验证` | `DPDM` 已完成 stronger comparator，并在更大评估规模下重复验证趋势，但还不是最终 benchmark |
+| 白盒防御 | `已有 strong-v2 defended comparator，且 three-shadow max512 已完成` | `DPDM` 已完成更接近 `1k-3shadow` 结构的 defended comparator，但还不是最终 benchmark |
 | 统一评估表 | `缺失` | 当前最需要补的一块 |
 
 ## 攻击主线
@@ -63,6 +63,7 @@
   - `DPDM` 在 defended target-member checkpoint 上仍接近随机，白盒防御信号更明确
   - `DPDM` 的 defended-target + defended-shadows `strong-v2` comparator 为 `AUC = 0.541199`，仍显著弱于 `GSA = 0.97514`
   - `DPDM` 的 `strong-v2 max512` comparator 为 `AUC = 0.537201`，说明更大评估规模下趋势仍未反转
+  - `DPDM` 的 `strong-v2 3-shadow max512` comparator 为 `AUC = 0.462799`，这是当前最接近 defended `1k-3shadow` 结构的本地结果
 - 当前不能说的话：
   - 还不能说白盒论文级复现成功
   - 还不能说白盒 defense 比较已经完成
@@ -79,7 +80,7 @@
 | --- | --- | --- |
 | 黑盒 | `B-1 / B-2` | 设计方向成立，但还没有正式实现 |
 | 灰盒 | `G-1` | 已有近似原型，最值得先打穿 |
-| 白盒 | `W-1 = DPDM` | 已拿到 strong-v2 defended comparator，并完成 `max512` 重复验证；下一步是补齐三 shadow 对齐 |
+| 白盒 | `W-1 = DPDM` | 已拿到 strong-v2 defended comparator，并完成 three-shadow `max512` 对齐；下一步是决定继续扩 benchmark 还是继续抬训练强度 |
 
 ### 当前不建议优先做
 
@@ -115,7 +116,7 @@
 2. `SecMI` promote / block 判定
 3. `recon` 主证据口径收口
 4. `GSA 1k-3shadow`
-5. `DPDM` strong-v2 max512 comparator 接入统一总表
+5. `DPDM` strong-v2 3-shadow max512 comparator 接入统一总表
 6. 统一 attack-defense 总表
 
 ## 申报 / PPT 应该怎么讲
@@ -126,7 +127,7 @@
 2. 我们已经在黑盒、灰盒、白盒三种权限下建立了攻击验证能力
 3. 当前最成熟的是灰盒 `PIA`
 4. 我们正在把一个可运行的灰盒防御打成第一版正式闭环
-5. 白盒 `GSA + W-1` 已经进入“强攻击结果已出，strong-v2 defended comparator 已出且 max512 已重复验证”的阶段
+5. 白盒 `GSA + W-1` 已经进入“强攻击结果已出，strong-v2 defended comparator 已出且 three-shadow max512 已完成”的阶段
 
 ## 关联文档
 

@@ -81,6 +81,19 @@
       "evidence_level": "runtime-smoke",
       "note": "larger defended comparator; result stays far below GSA mainline",
       "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv2-max512-20260408/summary.json"
+    },
+    {
+      "track": "white-box",
+      "attack": "DPDM W-1",
+      "defense": "DPDM defended-target + defended-shadows strong-v2 x4",
+      "comparator_type": "defended-target three-shadow comparator at max_samples=512",
+      "auc": 0.462799,
+      "asr": 0.47168,
+      "tpr_at_1pct_fpr": 0.0,
+      "tpr_at_0_1pct_fpr": 0.0,
+      "evidence_level": "runtime-smoke",
+      "note": "current closest local defended comparator to GSA 1k-3shadow structure",
+      "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv2-3shadow-max512-20260408/summary.json"
     }
   ]
 }
