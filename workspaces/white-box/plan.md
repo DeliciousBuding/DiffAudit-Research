@@ -74,5 +74,5 @@
 ## 当前最短路径
 
 1. 将 `W-1 strong-v2 3-shadow full-scale` 与 `GSA 1k-3shadow` 的白盒 attack-defense 对比接入统一总表
-2. 吃完 `strong-v3` shadow 序列
+2. 补齐 `shadow-01 strong-v3`
 3. 暂不重跑 `GSA` 主攻击线

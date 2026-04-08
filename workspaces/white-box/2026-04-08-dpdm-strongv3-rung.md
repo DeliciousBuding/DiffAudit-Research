@@ -5,7 +5,7 @@
 - `owner`: `research_leader`
 - `updated_at`: `2026-04-08 12:00:00 +08:00`
 - `selected_defense`: `W-1 = DPDM`
-- `current_state`: `target complete; shadow-02 complete; shadow-03 running`
+- `current_state`: `target complete; shadow-02 complete; shadow-03 complete; shadow-01 pending`
 - `gpu_usage`: `single GPU`
 - `evidence_level`: `runtime-smoke`
 
@@ -22,7 +22,9 @@
 - shadow-02:
   - completed under `runs/dpdm-cifar10-shadow02-eps10-gpu-strong-v3`
 - shadow-03:
-  - currently running under `runs/dpdm-cifar10-shadow03-eps10-gpu-strong-v3`
+  - completed under `runs/dpdm-cifar10-shadow03-eps10-gpu-strong-v3`
+- shadow-01:
+  - not started in this rung yet
 
 ## C. Execution Notes
 
@@ -32,5 +34,5 @@
 
 ## D. Next Step
 
-- wait for the strong-v3 shadow sequence to finish
-- then run the next defended comparator on the new strong-v3 checkpoints
+- train `shadow-01 strong-v3`
+- then run the next defended comparator on the complete strong-v3 checkpoint set
