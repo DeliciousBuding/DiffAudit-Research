@@ -24,6 +24,7 @@
   - `PIA` 是当前最成熟、最适合做“攻击 + 防御”主讲闭环的一条线
   - `PIA` 已完成 `GPU128 / GPU256 / GPU512` baseline + defense 与一次 `GPU512` repeat
   - `PIA` provenance 当前已可写成 `workspace-verified`
+  - `PIA` 攻击依赖信号与灰盒成本口径现已补齐到正式说明
   - `SecMI` 已明确为 `blocked baseline`
 - 白盒：
   - `GSA 1k-3shadow` 已形成强攻击结果
@@ -42,7 +43,7 @@
 2. 维持 `recon` 冻结口径
 3. 维持 `variation = secondary track + blocked real-API assets`
 4. 维持 `GSA + W-1 strong-v3 full-scale` 白盒口径
-5. 继续补统一 attack-defense 总表中的 `quality/cost`
+5. 继续维持统一 attack-defense 总表中的 `quality/cost` 与主讲线机理说明一致
 6. 让 `Local-API` 继续消费 admitted 结果
 
 ## 主路线
@@ -173,7 +174,7 @@
 当前最短路径：
 
 1. 持续维持 admitted 口径一致
-2. 继续补统一总表 `quality/cost` 说明
+2. 保持 `PIA` 主讲线的机理说明、成本列和状态页一致
 3. 继续让 `Local-API` 读取 admitted 结果，而不是只盯 `recon`
 4. 等新的真实资产或新的研究问题出现后，再安排下一轮 GPU 任务
 

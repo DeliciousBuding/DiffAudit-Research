@@ -5,8 +5,8 @@
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; provisional G-1 established; provenance now workspace-verified`
-- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；统一质量 / 成本列与攻击依赖信号说明仍未补齐；`SecMI` 当前已判定为 blocked baseline
-- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；不再继续刷样本规模，转向补质量 / 成本列、攻击依赖信号说明和系统侧表述；`SecMI` 只保留为 blocked baseline
+- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`SecMI` 当前已判定为 blocked baseline
+- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；当前攻击依赖信号说明与质量 / 成本列已写入正式说明，不再继续刷样本规模；`SecMI` 只保留为 blocked baseline
 - `last updated`: `2026-04-09`
 
 ## 推荐论文
@@ -64,7 +64,7 @@
 
 1. 读透 `PIA` 论文，把攻击依赖的核心信号写清楚
 2. 固定 `stochastic-dropout = provisional G-1`
-3. 补统一质量 / 成本列与攻击依赖信号说明
+3. 复用 [2026-04-09-pia-signal-and-cost.md](2026-04-09-pia-signal-and-cost.md) 作为灰盒主讲线的机理与成本说明
 4. 保持 `SecMI = blocked baseline`
 5. 将灰盒主结果接入统一总表并持续复用
 
@@ -115,7 +115,7 @@
 ## 当前最短路径
 
 1. 固定 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`
-2. 补统一质量 / 成本列与攻击依赖信号说明
+2. 保持 [2026-04-09-pia-signal-and-cost.md](2026-04-09-pia-signal-and-cost.md) 与状态页一致
 3. 保持 `SecMI = blocked baseline`
 4. 复用 [unified table](../implementation/2026-04-08-unified-attack-defense-table.md) 作为灰盒对外引用入口
 5. 只有在真实 `flagfile + checkpoint root` 到位后，才恢复 `SecMI`

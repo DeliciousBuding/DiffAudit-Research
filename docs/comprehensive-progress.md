@@ -47,6 +47,8 @@
   - `PIA GPU128 / GPU256 / GPU512` 已拿到同口径 baseline + defense 对照，且 defense 指标连续三档都低于 baseline
   - `PIA GPU512` 同档 repeat 也继续维持 defense 优于 baseline
   - `pia_next_run --strict` 已通过，当前 asset line 已可写成 `workspace-verified`
+  - 当前 `PIA` 攻击分数可以明确解释为 `epsilon-trajectory consistency` 信号，而不是泛化的 reconstruction score
+  - `stochastic-dropout` 当前最可辩护的作用机理，是在推理时打散这一致性信号
   - 当前最适合把防御压到这条线上做正式比较
 - 当前不能说的话：
   - 还不能说灰盒防御已经验证有效
@@ -89,7 +91,7 @@
 | 轨道 | 当前最合理防御路线 | 当前判断 |
 | --- | --- | --- |
 | 黑盒 | `B-1 / B-2` | 设计方向成立，但还没有正式实现 |
-| 灰盒 | `G-1` | 已进入 provisional 形态，并出现三档同口径下降信号与一次同档 repeat，下一步转向 provenance 核准与总表补充 |
+| 灰盒 | `G-1` | 已进入 provisional 形态，并出现三档同口径下降信号与一次同档 repeat；当前重点转为机理说明与总表成本口径 |
 | 白盒 | `W-1 = DPDM` | 已拿到 strong-v2 主结果，也拿到 strong-v3 的 full-scale GPU defended 结果；当前主讲口径冻结为 `strong-v3 full-scale` |
 
 ### 当前不建议优先做
@@ -126,7 +128,7 @@
 2. `recon` 主证据口径收口
 3. `variation / Towards` 保持 formal local secondary track，并明确 real-API assets blocked
 4. 固定白盒 defended 主结果口径
-5. 基于第一版统一总表继续补质量 / 成本列
+5. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明一致
 
 ## 申报 / PPT 应该怎么讲
 
