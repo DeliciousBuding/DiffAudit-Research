@@ -5,7 +5,7 @@
   "method": "pia",
   "contract_stage": "target",
   "asset_grade": "single-machine-real-asset",
-  "provenance_status": "source-retained-unverified",
+  "provenance_status": "workspace-verified",
   "evidence_level": "runtime-mainline",
   "checkpoint_root": "workspaces/gray-box/assets/pia/checkpoints/cifar10_ddpm",
   "dataset_root": "workspaces/gray-box/assets/pia/datasets/cifar10",

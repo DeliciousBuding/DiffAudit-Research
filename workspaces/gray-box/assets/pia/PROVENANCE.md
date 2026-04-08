@@ -15,7 +15,7 @@
 - extracted from: `DDPM/ckpt_cifar10.pt`
 - sha256: `55C3F4545BC345522C402EF9C84627BB87BA53049C9541DDF46A6FEB5B0B283E`
 - ownership: `gray-box / PIA`
-- current status: `source-retained-unverified`
+- current status: `workspace-verified`
 
 ### Dataset Archive
 
@@ -57,16 +57,34 @@ Current admitted runtime evidence is anchored to:
 
 Current interpretation:
 
-- the asset line is still `source-retained-unverified`
+- the asset line is now `workspace-verified`
 - the runtime evidence is now both multi-scale and same-scale repeat-supported
 - this is enough for `provisional G-1`
 - this is still not enough for `paper-aligned`
+
+## Next-Run Gate
+
+Machine-readable next-run evidence now exists at:
+
+- relaxed gate:
+  - `workspaces/gray-box/assets/pia/next-run-20260409/manifest.json`
+  - `workspaces/gray-box/assets/pia/next-run-20260409/provenance.json`
+- strict gate:
+  - `workspaces/gray-box/assets/pia/next-run-20260409-strict/manifest.json`
+  - `workspaces/gray-box/assets/pia/next-run-20260409-strict/provenance.json`
+
+Current gate interpretation:
+
+- the relaxed gate proved the current config and member split inputs could be hashed and recorded
+- the strict gate passed after `external/PIA` returned to a clean git state
+- this is enough to promote the local asset line to `workspace-verified`
+- this still does not justify promotion to `paper-aligned`
 
 ## Current Gate Judgment
 
 - `runtime readiness`: `single-machine ready`
 - `asset grade`: `single-machine-real-asset`
-- `provenance status`: `source-retained-unverified`
+- `provenance status`: `workspace-verified`
 - `repeat confirmation`: `GPU512 repeat-confirmed`
 - `paper alignment`: `not confirmed`
 
@@ -84,5 +102,5 @@ Any new `PIA` summary or system-level record must carry:
 - `method = pia`
 - `contract_stage = target`
 - `asset_grade = single-machine-real-asset`
-- `provenance_status = source-retained-unverified`
+- `provenance_status = workspace-verified`
 - `evidence_level` matching the actual command that produced the result

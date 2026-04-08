@@ -15,7 +15,7 @@
         "status": "admitted",
         "level": "system-intake-ready",
         "evidence_level": "runtime-mainline",
-        "provenance_status": "source-retained-unverified"
+        "provenance_status": "workspace-verified"
       },
       "compatibility": {
         "surface": "diffaudit-cli",
