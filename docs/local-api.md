@@ -71,6 +71,19 @@ conda run -n diffaudit-research python -m diffaudit serve-local-api `
 - `kandinsky-v22`
 - `dit-xl2-256`
 
+### `GET /api/v1/evidence/attack-defense-table`
+
+返回研究仓当前第一版统一 attack-defense 总表。
+
+当前读取：
+
+- `workspaces/implementation/artifacts/unified-attack-defense-table.json`
+
+用途：
+
+- 让平台或本机脚本直接读取 admitted main results
+- 避免平台侧重复拼接 `recon / PIA / GSA / W-1` 的主口径
+
 ### `GET /api/v1/experiments/recon/best`
 
 返回 `recon` 当前最佳证据 summary。
