@@ -43,7 +43,7 @@
       "tpr_at_0_1pct_fpr": 0.009766,
       "quality_cost": "single GPU; elapsed_seconds=131.89636",
       "evidence_level": "runtime-mainline",
-      "note": "current provisional G-1; defense signal repeated at 128/256/512",
+      "note": "current provisional G-1; defense signal repeated at 128/256/512 and confirmed once by same-scale repeat",
       "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260408-gpu-512/summary.json"
     },
     {
