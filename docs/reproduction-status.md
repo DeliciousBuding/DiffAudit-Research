@@ -64,17 +64,18 @@
 13. 当前 `DPDM` 的真正技术限制已从“环境阻塞”进一步收缩到“batch32 diagnostic comparator 是否足以继续扩大 same-protocol bridge，还是应保持合同冻结并仅作为诊断证据”。也就是说，白盒防御当前不再需要证明 checkpoint 可读，而是要决定这份第一诊断结果的定位。
 14. 白盒当前仍不能写成论文最终复现成功。`GSA` 现在可以合理称为“强本地 paper-aligned baseline”，`W-1` 可以合理称为“已有 stronger defended comparator”，但二者还不是最终论文级 benchmark 对照。
 15. 当前仓库已经不再缺“第一版统一总表”。[unified-attack-defense-table.md](../workspaces/implementation/2026-04-08-unified-attack-defense-table.md) 已经收口了 admitted main results；后续工作的重点从“有没有表”转成“是否继续补质量 / 成本列，以及是否纳入更多 admitted 行”。
-16. 从 `2026-04-09` 到 `2026-06-04` 的执行顺序现在固定为：先用 [2026-04-09-whitebox-bridge-decision-review](../workspaces/white-box/2026-04-09-whitebox-bridge-decision-review.md) 收口当前 white-box bridge，再用 [2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 收口 `PIA provenance`，黑盒只做 [2026-04-10-recon-explanation-layer](../workspaces/black-box/2026-04-10-recon-explanation-layer.md) 这种解释层吸收，而不是扩新主实验。
-17. `Phase E` 当前只允许停留在 intake。固定排序见 [future-phase-e-intake](future-phase-e-intake.md)：`PIA paper-aligned confirmation` > `Finding NeMo + local memorization + FB-Mem` > `DP-LoRA` > `SecMI unblock` > `TMIA-DM intake`。
+16. 当前 `white-box same-protocol bridge` 已正式以 `保持冻结` 收口；这是一条治理与资源排序决策，不是新的 benchmark 结果，也不改 admitted 合同。
+17. 从 `2026-04-10` 起，当前最值得推进的唯一目标切换为 [2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 的收口。
+18. `Phase E` 当前允许进入准入验证，但不允许直接开跑。固定排序见 [future-phase-e-intake](future-phase-e-intake.md)：`PIA paper-aligned confirmation` > `Finding NeMo + local memorization + FB-Mem` > `DP-LoRA` > `SecMI unblock` > `TMIA-DM intake`。
 
 ## 下一步
 
-1. 在 `2026-04-23` 前完成一次白盒 bridge decision review，并明确 `继续扩大 / 保持冻结 / 失败收口` 三选一。
-2. 在 `2026-04-30` 前把 `batch32 diagnostic comparator` 的定位固定为 `diagnostic` 或 bridge 输出，不允许它在未完成决策前升级成 admitted benchmark。
-3. 在未来 2 周内完成 `PIA provenance dossier`，至少把 checkpoint lineage、source/hash、split provenance、paper protocol mapping 结构固定下来。
-4. 固化 `recon` 公开资产映射与 `public-100 step10 / step30` 的解释口径，并把 `CopyMark` 写进现实边界说明，把频域论文写进解释层设计。
-5. 继续暂停 `Kandinsky 10/10` 与任何新黑盒 GPU 任务；如果只能做一件黑盒工作，优先做文档与边界固化，而不是新 run。
-6. `SecMI` 继续维持 `blocked baseline`；只有在真实 checkpoint root 与 `flagfile.txt` 到位后才恢复到准入验证。
-7. 在 `Phase D` 收口前，只允许推进 `Phase E` intake，不允许放行任何候选进入主 GPU 队列。
+1. 在未来 2 周内完成 `PIA provenance dossier`，至少把 checkpoint lineage、source/hash、split provenance、paper protocol mapping 结构固定下来。
+2. 在 `PIA provenance` 闭环前，不启动 `PIA paper-aligned confirmation`。
+3. 固化 `recon` 公开资产映射与 `public-100 step10 / step30` 的解释口径，并把 `CopyMark` 写进现实边界说明，把频域论文写进解释层设计。
+4. 继续暂停 `Kandinsky 10/10` 与任何新黑盒 GPU 任务；如果只能做一件黑盒工作，优先做文档与边界固化，而不是新 run。
+5. `SecMI` 继续维持 `blocked baseline`；只有在真实 checkpoint root 与 `flagfile.txt` 到位后才恢复到准入验证。
+6. `Phase E` 当前只允许做候选的准入验证，不允许自动占用主 GPU。
+7. 在新的 decisive evidence 或结构性 blocker 出现前，白盒 bridge 保持 `closed-frozen`，不得重新打开。
 
 更新时间：`2026-04-09 20:50:00 +08:00`

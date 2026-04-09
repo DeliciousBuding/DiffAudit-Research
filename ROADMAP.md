@@ -17,7 +17,7 @@
 - `Current Mainline`: `PIA + provisional G-1(all_steps)`
 - `Current Risk Evidence`: `recon DDIM public-100 step30`
 - `Current Depth Line`: `GSA + W-1 strong-v3 full-scale`
-- `Active GPU Question`: `white-box same-protocol bridge`
+- `Active GPU Question`: `none (bridge closed-frozen; next queue not yet released)`
 - `Blocked Candidates`: `SecMI`, `variation real API`, `W-2`, `G-2`
 - `Research-Ready Candidates`: `TMIA-DM`, `Finding NeMo`
 
@@ -29,7 +29,8 @@
 - `recon` 仍是黑盒风险证据主线，而不是当前主讲闭环
 - `GSA epoch300 rerun1` 已是当前白盒攻击主结果，并已写回 admitted 总表、intake 与系统读链
 - `batch_size = 32` 已让 `shadow-02 / shadow-03` checkpoint 恢复可运行
-- 当前 same-protocol bridge 已产出第一份 diagnostic comparator `summary.json`，但仍停留在 `runtime-smoke` 级别，尚未改 admitted 合同
+- 当前 same-protocol bridge 已完成 `保持冻结` 收口
+- 当前 `batch32 diagnostic comparator` 仍停留在 `runtime-smoke / diagnostic` 级别，未改 admitted 合同
 
 ## 当前阶段与 Gate
 
@@ -51,10 +52,17 @@
 
 当前 `2026-04-09` 到 `2026-06-04` 的执行顺序固定为：
 
-1. `white-box same-protocol bridge` 收口
-2. `PIA provenance` dossier 与书面裁决
-3. `recon` 主证据冻结，同时吸收 `CopyMark` 现实边界与频域解释层
-4. `Phase E` 候选池 intake 与排序
+1. `PIA provenance` dossier 与书面裁决
+2. `recon` 主证据冻结，同时吸收 `CopyMark` 现实边界与频域解释层
+3. `Phase E` 候选池 intake 与排序
+4. 下一条 GPU 问题的准入验证
+
+当前阶段判定补充：
+
+- bridge 已完成 `保持冻结` 收口
+- 当前没有新的 active 主 GPU 问题
+- 当前最值得推进的唯一目标切换为：
+  - `PIA checkpoint/source provenance dossier`
 
 进入 `Phase E` 的 gate：
 
@@ -66,7 +74,7 @@
 补充 gate 解释：
 
 - 当前 `batch32 diagnostic comparator` 仍是 `runtime-smoke / diagnostic`
-- `Phase D` 只有在 bridge 完成正式三选一后才算关闭
+- `Phase D` 已完成 frozen-closed 收口
 - `Phase E` 当前固定排序为：
   1. `PIA paper-aligned confirmation`
   2. `Finding NeMo + local memorization + FB-Mem`

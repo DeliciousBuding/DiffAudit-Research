@@ -20,6 +20,12 @@
 | 白盒防御 | `已有 full-scale 主结果，bridge diagnostic 已产生` | `DPDM` 已完成 `strong-v3 full-scale` defended comparator，并额外拿到 batch32 same-protocol diagnostic summary，但尚未进入 admitted 合同 |
 | 统一评估表 | `已有第一版` | 已新增 admitted main results 的跨盒总表 |
 
+当前阶段追加判断：
+
+- `white-box same-protocol bridge` 已完成 `保持冻结` 收口
+- 当前不再有 active 主 GPU 问题
+- 当前最值得推进的唯一目标切换为 `PIA provenance dossier`
+
 ## 攻击主线
 
 ### 黑盒
@@ -87,6 +93,7 @@
   - 当前 same-protocol bridge 的关键训练阻塞已经从“`shadow-02` 无法落盘”收缩到“较高训练规模不稳定”；在清理 orphan `multiprocessing-fork` 后，`batch_size = 32` 已让 `shadow-02 / shadow-03` checkpoint 重新可得
   - 基于这组 batch32 checkpoint，新的 same-protocol diagnostic comparator 已经产出 [dpdm-w1-multi-shadow-comparator-targetmember-sameproto3shadow-batch32-diagnostic-20260409](../workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-sameproto3shadow-batch32-diagnostic-20260409/summary.json)，指标为 `auc=0.541199 / asr=0.515625 / tpr@1%fpr=0.0 / tpr@0.1%fpr=0.0`
   - 这份 batch32 comparator 当前仍是 `runtime-smoke` 级 bridge 诊断结果，不应直接写成新的 admitted 白盒防御主结果
+  - 当前 same-protocol bridge 已正式以 `保持冻结` 收口；这只是治理与资源排序决策，不是新的 benchmark 结果
   - 系统侧对白盒 `GSA` 的 live intake 现在应与 admitted `1k-3shadow` 主结果对齐，而不是继续停在早期 CPU closed-loop
 - 当前不能说的话：
   - 还不能说白盒论文级复现成功
@@ -137,13 +144,13 @@
 
 ## 当前最短执行顺序
 
-1. 用 [2026-04-09-whitebox-bridge-decision-review](../workspaces/white-box/2026-04-09-whitebox-bridge-decision-review.md) 把当前 white-box bridge 收口成 `继续扩大 / 保持冻结 / 失败收口` 的正式三选一
-2. 用 [2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 把 `PIA` 的 `checkpoint/source provenance` blocker 升级成可审查证据包
-3. 保持 `PIA provisional G-1` 主讲口径不变，并继续收口 contract-specific admitted 读链
-4. 保持 `recon` 主证据冻结，同时把 [2026-04-10-recon-explanation-layer](../workspaces/black-box/2026-04-10-recon-explanation-layer.md) 吸收到黑盒边界说明
-5. `variation / Towards` 继续保留为 formal local secondary track，并明确 real-API assets blocked
-6. 在统一表和叙事材料里补齐 `threat model / asset semantics / evidence level / external-validity boundary`
-7. 用 [future-phase-e-intake](future-phase-e-intake.md) 固定 `Phase E` 候选池排序，在 `Phase D` 收口前只做 intake 不抢跑
+1. 用 [2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 把 `PIA` 的 `checkpoint/source provenance` blocker 升级成可审查证据包
+2. 保持 `PIA provisional G-1` 主讲口径不变，并继续收口 contract-specific admitted 读链
+3. 保持 `recon` 主证据冻结，同时把 [2026-04-10-recon-explanation-layer](../workspaces/black-box/2026-04-10-recon-explanation-layer.md) 吸收到黑盒边界说明
+4. `variation / Towards` 继续保留为 formal local secondary track，并明确 real-API assets blocked
+5. 在统一表和叙事材料里补齐 `threat model / asset semantics / evidence level / external-validity boundary`
+6. 用 [future-phase-e-intake](future-phase-e-intake.md) 固定 `Phase E` 候选池排序，并只允许进入准入验证
+7. 在 `PIA provenance` 未闭环前，不放行 `PIA paper-aligned confirmation`
 8. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明与 adaptive gate 一致
 
 ## 申报 / PPT 应该怎么讲
