@@ -134,9 +134,23 @@
 ## 当前默认规则
 
 - 只要 `PIA provenance` 在窗口内解除，`PIA paper-aligned confirmation` 就保持第一优先
-- 如果 `PIA provenance` 未解除，则默认优先推动 `Finding NeMo + local memorization + FB-Mem` 从 intake 升级
+- 当前 `PIA provenance dossier` 已 closed 为 `remain long-term blocker`，因此执行层默认优先推动 `Finding NeMo + local memorization + FB-Mem` 从 intake 升级
 - `DP-LoRA` 不抢第一条新问题
 - `SecMI` 与 `TMIA-DM` 继续后排
+
+## 当前执行层默认放行顺序
+
+在真正进入下一条 GPU 题的准入验证时，当前执行层默认顺序为：
+
+1. `Finding NeMo + local memorization + FB-Mem`
+2. `DP-LoRA`
+3. `SecMI unblock`
+4. `TMIA-DM intake`
+
+补充说明：
+
+- `PIA paper-aligned confirmation` 继续保留文档层条件性第 1 顺位
+- 但在 provenance 条件未变化前，不进入执行层
 
 ## 当前明确不做
 

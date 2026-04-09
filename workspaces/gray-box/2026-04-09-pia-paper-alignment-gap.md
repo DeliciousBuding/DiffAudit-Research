@@ -42,6 +42,10 @@
 
 - `workspaces/gray-box/2026-04-09-pia-provenance-dossier.md`
 
+截至 `2026-04-10` 的当前 closed decision 为：
+
+- `remain long-term blocker`
+
 在此之前，任何系统、文档、PPT、状态页都必须把这条线写成：
 
 - `workspace-verified`

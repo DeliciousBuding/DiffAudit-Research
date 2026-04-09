@@ -19,7 +19,7 @@
 - `Current Depth Line`: `GSA + W-1 strong-v3 full-scale`
 - `Active GPU Question`: `none (bridge closed-frozen; next queue not yet released)`
 - `Blocked Candidates`: `SecMI`, `variation real API`, `W-2`, `G-2`
-- `Research-Ready Candidates`: `TMIA-DM`, `Finding NeMo`
+- `Research-Ready Candidates`: `TMIA-DM`, `Finding NeMo`, `DP-LoRA`
 
 当前研究判断：
 
@@ -31,6 +31,7 @@
 - `batch_size = 32` 已让 `shadow-02 / shadow-03` checkpoint 恢复可运行
 - 当前 same-protocol bridge 已完成 `保持冻结` 收口
 - 当前 `batch32 diagnostic comparator` 仍停留在 `runtime-smoke / diagnostic` 级别，未改 admitted 合同
+- `PIA provenance dossier` 当前已 closed 为 `remain long-term blocker`
 
 ## 当前阶段与 Gate
 
@@ -62,7 +63,7 @@
 - bridge 已完成 `保持冻结` 收口
 - 当前没有新的 active 主 GPU 问题
 - 当前最值得推进的唯一目标切换为：
-  - `PIA checkpoint/source provenance dossier`
+  - `Finding NeMo + local memorization + FB-Mem` 的准入验证准备
 
 进入 `Phase E` 的 gate：
 
@@ -81,6 +82,11 @@
   3. `DP-LoRA`
   4. `SecMI unblock`
   5. `TMIA-DM intake`
+- 执行层当前默认放行顺序为：
+  1. `Finding NeMo + local memorization + FB-Mem`
+  2. `DP-LoRA`
+  3. `SecMI unblock`
+  4. `TMIA-DM intake`
 
 ## GPU 研究规则
 

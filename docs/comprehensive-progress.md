@@ -24,7 +24,8 @@
 
 - `white-box same-protocol bridge` 已完成 `保持冻结` 收口
 - 当前不再有 active 主 GPU 问题
-- 当前最值得推进的唯一目标切换为 `PIA provenance dossier`
+- 当前 `PIA provenance dossier` 已 closed 为 `remain long-term blocker`
+- 当前最值得推进的唯一目标切换为 `Finding NeMo + local memorization + FB-Mem` 的准入验证准备
 
 ## 攻击主线
 
@@ -63,10 +64,11 @@
   - 当前最适合把防御压到这条线上做正式比较
 - 当前不能说的话：
   - 还不能说灰盒防御已经验证有效
-- 当前用途：
+  - 当前用途：
   - 作为当前算法主讲线
   - 作为 `Local-API` contract-specific best summary 的首要 admitted 消费对象
   - 当前只允许写成 `workspace-verified + paper-alignment blocked by checkpoint/source provenance`
+  - 截至 `2026-04-10`，`PIA provenance dossier` 已 closed 为 `remain long-term blocker`
 
 ### 白盒
 
@@ -144,13 +146,13 @@
 
 ## 当前最短执行顺序
 
-1. 用 [2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 把 `PIA` 的 `checkpoint/source provenance` blocker 升级成可审查证据包
-2. 保持 `PIA provisional G-1` 主讲口径不变，并继续收口 contract-specific admitted 读链
-3. 保持 `recon` 主证据冻结，同时把 [2026-04-10-recon-explanation-layer](../workspaces/black-box/2026-04-10-recon-explanation-layer.md) 吸收到黑盒边界说明
-4. `variation / Towards` 继续保留为 formal local secondary track，并明确 real-API assets blocked
-5. 在统一表和叙事材料里补齐 `threat model / asset semantics / evidence level / external-validity boundary`
-6. 用 [future-phase-e-intake](future-phase-e-intake.md) 固定 `Phase E` 候选池排序，并只允许进入准入验证
-7. 在 `PIA provenance` 未闭环前，不放行 `PIA paper-aligned confirmation`
+1. 将 [2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 固定为 `remain long-term blocker`，并保持 `workspace-verified` 口径不漂移
+2. 保持 `recon` 主证据冻结，同时把 [2026-04-10-recon-explanation-layer](../workspaces/black-box/2026-04-10-recon-explanation-layer.md) 吸收到黑盒边界说明
+3. `variation / Towards` 继续保留为 formal local secondary track，并明确 real-API assets blocked
+4. 在统一表和叙事材料里补齐 `threat model / asset semantics / evidence level / external-validity boundary`
+5. 用 [future-phase-e-intake](future-phase-e-intake.md) 固定 `Phase E` 候选池排序，并只允许进入准入验证
+6. 默认把 `Finding NeMo + local memorization + FB-Mem` 作为下一条最可放行候选
+7. `PIA paper-aligned confirmation` 继续保留文档层条件性首位，但执行层视为 `no-go`
 8. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明与 adaptive gate 一致
 
 ## 申报 / PPT 应该怎么讲

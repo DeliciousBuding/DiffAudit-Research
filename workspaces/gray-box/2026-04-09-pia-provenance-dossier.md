@@ -181,9 +181,54 @@ strict gate 已将该文件与 split root tree hash 机器可读固定：
 - [ ] 明确原因（至少一项）：上游 release 无校验、链接易失、license/分发限制、或其他
 - [ ] 固化口径：任何文档/状态页必须携带 `paper-aligned blocked by checkpoint/source provenance`
 
-## 9) 决策记录（待填）
+## 9) 决策记录
 
-- `decision_date`: `TBD`
-- `decision_owner`: `TBD`
-- `chosen_path`: `TBD (A paper-aligned / B long-term blocker)`
-- `rationale`: `TBD`
+- `decision_date`: `2026-04-10`
+- `decision_owner`: `research_leader`
+- `chosen_path`: `B (remain long-term blocker)`
+- `rationale`: `当前证据只足以支撑 workspace-verified，不足以支撑 paper-aligned`
+
+## 10) Round-04 Closed Decision
+
+本轮将 `PIA provenance dossier` 正式 closed 为：
+
+- `B = remain long-term blocker`
+
+这是当前唯一安全结论。
+
+### 直接理由
+
+1. 当前 dossier 自身仍把以下项列为 `待核`：
+   - 上游 release 对齐
+   - checksum / version policy
+   - `external/PIA` upstream 身份闭环
+   - split 语义对齐
+2. `strict next-run provenance gate passed` 只证明：
+   - 本地输入可被机器可读固定
+   - `external/PIA` 当前本地快照在 strict gate 下是 clean
+   - 本地 checkpoint 与本地来源包之间的字节一致性可审查
+3. 上述证据不足以证明：
+   - 导入 checkpoint source 已与论文作者 release bundle 一一对齐
+   - 上游 release 版本 / checksum / split 语义已被单独核准
+
+### 本轮固定口径
+
+- 当前 `PIA` 灰盒主讲线已达到 `workspace-verified + adaptive-reviewed`
+- 但仍不具备升级为 `paper-aligned` 的 provenance 审查闭环
+- 后续统一口径保持：
+  - `workspace-verified`
+  - `paper-aligned blocked by checkpoint/source provenance`
+
+### 不允许的越界写法
+
+- `PIA has completed paper-aligned / paper-faithful reproduction`
+- `strict gate + clean commit + local hash lock prove upstream release identity`
+- `checkpoint / source / split have all been paper-verified`
+
+### 对 Phase E 的直接影响
+
+- `PIA paper-aligned confirmation` 不再作为当前默认首个放行项
+- 文档层可以保留其条件性第 1 顺位
+- 但执行层当前必须视为 `no-go`
+- 在真正放行下一条 GPU 候选时，默认先推进：
+  - `Finding NeMo + local memorization + FB-Mem`
