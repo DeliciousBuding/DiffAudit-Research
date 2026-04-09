@@ -65,6 +65,7 @@
   - `workspaces/white-box/signal-access-matrix.md`
   - `docs/claude-report-4-9-review.md`
   - `workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md`
+  - `workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md`
 
 ## 当前待检验假设
 

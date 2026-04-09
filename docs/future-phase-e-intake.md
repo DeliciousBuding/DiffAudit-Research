@@ -52,6 +52,7 @@
 
 - `workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md`
 - `workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md`
+- `workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md`
 
 ### 进入条件
 

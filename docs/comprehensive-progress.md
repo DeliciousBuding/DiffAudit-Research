@@ -25,7 +25,7 @@
 - `white-box same-protocol bridge` 已完成 `保持冻结` 收口
 - 当前不再有 active 主 GPU 问题
 - 当前 `PIA provenance dossier` 已 closed 为 `remain long-term blocker`
-- `Finding NeMo + local memorization + FB-Mem` 的 intake/eligibility note 已建立，当前最值得推进的唯一目标变为补齐其 `protocol reconciliation + portable observability smoke` 规划
+- `Finding NeMo + local memorization + FB-Mem` 的 intake/eligibility note 已建立，当前最值得推进的唯一目标变为补齐其 `portable observability smoke` 入口合同
 
 ## 攻击主线
 
@@ -99,6 +99,7 @@
   - 系统侧对白盒 `GSA` 的 live intake 现在应与 admitted `1k-3shadow` 主结果对齐，而不是继续停在早期 CPU closed-loop
   - 新的 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md) 已把 `Finding NeMo + local memorization + FB-Mem` 固定为 intake/eligibility-only 候选，并写死了最小 `validation-smoke` gate
   - 新的 [2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 已明确：当前 admitted 白盒资产与 `Finding NeMo` 原始 `Stable Diffusion v1.4 / cross-attention value layers` 协议面不兼容；当前只允许继续做 zero-GPU 的 observability 规划
+  - 新的 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 已把未来 smoke 的 `checkpoint_root / layer selector / sample binding / output schema / scheduler gate` 写成可审查合同，但当前仍未放行 run
 - 当前不能说的话：
   - 还不能说白盒论文级复现成功
   - 还不能说白盒 defense 比较已经完成
@@ -154,7 +155,7 @@
 3. `variation / Towards` 继续保留为 formal local secondary track，并明确 real-API assets blocked
 4. 在统一表和叙事材料里补齐 `threat model / asset semantics / evidence level / external-validity boundary`
 5. 用 [future-phase-e-intake](future-phase-e-intake.md) 固定 `Phase E` 候选池排序，并只允许进入准入验证
-6. 用 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md) 与 [2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 固定 `Finding NeMo + local memorization + FB-Mem` 的 intake gate，并默认把它保留为下一条最可放行候选
+6. 用 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md)、[2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 与 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 固定 `Finding NeMo + local memorization + FB-Mem` 的 intake gate，并默认把它保留为下一条最可放行候选
 7. `PIA paper-aligned confirmation` 继续保留文档层条件性首位，但执行层视为 `no-go`
 8. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明与 adaptive gate 一致
 
