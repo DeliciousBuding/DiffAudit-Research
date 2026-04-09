@@ -63,7 +63,7 @@
 - bridge 已完成 `保持冻结` 收口
 - 当前没有新的 active 主 GPU 问题
 - 当前最值得推进的唯一目标切换为：
-  - `Finding NeMo + local memorization + FB-Mem` 的 intake/eligibility 完整性收口
+  - `Finding NeMo + local memorization + FB-Mem` 的 `protocol reconciliation + portable observability smoke` 规划
 
 进入 `Phase E` 的 gate：
 
@@ -114,6 +114,7 @@
 补充边界：
 
 - `Finding NeMo + local memorization + FB-Mem` 当前只获得了 `eligibility-gated for one minimal validation-smoke only` 的定义
+- 当前 `paper-faithful NeMo on admitted white-box assets = no-go`
 - 在 intake 文档未补齐 `hook 点 / 资产需求 / compute budget / stop conditions / expected artifact` 前，不得申请 GPU
 
 研究侧明确不做：

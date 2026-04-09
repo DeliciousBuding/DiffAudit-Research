@@ -64,6 +64,7 @@
   - `docs/paper-reports/white-box/2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models-report.md`
   - `workspaces/white-box/signal-access-matrix.md`
   - `docs/claude-report-4-9-review.md`
+  - `workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md`
 
 ## 当前待检验假设
 
