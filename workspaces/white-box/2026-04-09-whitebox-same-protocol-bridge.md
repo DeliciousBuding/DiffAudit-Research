@@ -12,6 +12,17 @@
 
 硬约束保持不变：当前 `batch32 diagnostic` 仍是 `runtime-smoke`，不得升 admitted，也不得用于改写 admitted 合同口径。
 
+截至 `2026-04-10` 的当前推荐分支为：
+
+- `保持冻结`
+
+含义是：
+
+- bridge 当前仍是 active 主问题
+- 但当前没有新的 decisive evidence 支撑继续扩大
+- 也没有足够的结构性 blocker 支撑失败收口
+- 因此在下一轮决策节点前，不新增新的 bridge 长 GPU 任务，不改 admitted 合同
+
 ## 当前主合同
 
 - owner: `research_leader`

@@ -124,6 +124,47 @@
 
 只有在 `2026-04-23` 前出现新的明确证据，证明 bridge 放大具有高确定性收益，才允许从默认分支切到 `继续扩大`。
 
+## Round-02 正式推荐结论
+
+- `decision_date`: `2026-04-10`
+- `recommended_branch`: `保持冻结`
+- `decision_grade`: `review-ready`
+- `admitted_change`: `none`
+
+当前把默认建议升级成正式推荐结论，理由固定为：
+
+1. 当前 batch32 结果仍然只是 `runtime-smoke / diagnostic`，还不是可直接进入 admitted 或 benchmark-closure 的 comparator。
+2. 当前 bridge 的主要增量已经体现在“训练链修正被证明有效”，而不是“协议已经打平”。
+3. 当前 `PIA provenance dossier` 仍是主讲线更硬的 blocker；在它未进一步闭环前，继续扩大 bridge 的主 GPU 消耗不具备更高优先级。
+4. 研究层当前没有新的 decisive evidence 支撑把推荐分支切到 `继续扩大`，也没有足够的结构性失败证据把分支切到 `失败收口`。
+
+因此，本轮正式推荐：
+
+- 在 `2026-04-23` 前继续维持 `保持冻结`
+- 不新增 bridge 长 GPU 任务
+- 不改变 admitted 合同
+- 只允许补充用于复核推荐分支的低成本证据和文档边界说明
+
+触发重新评估的条件只有两类：
+
+### 允许从 `保持冻结` 切到 `继续扩大`
+
+- 出现新的、具体的协议增量方案
+- 该方案已经写清：
+  - hypothesis
+  - protocol delta
+  - compute budget
+  - stop condition
+  - expected artifact
+- 且能证明它仍属于当前 bridge 问题，而不是新问题
+
+### 允许从 `保持冻结` 切到 `失败收口`
+
+- 出现可复述、可复现、可指向根因的结构性 blocker
+- 该 blocker 已明确说明：
+  - 为什么当前 route 无法进入同协议 benchmark 面
+  - 为什么继续消耗 GPU 不再有研究收益
+
 ## 时间节点
 
 ### `2026-04-23` 前
