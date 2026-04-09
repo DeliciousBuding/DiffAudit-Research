@@ -1,4 +1,4 @@
-# DiffAudit Roadmap
+# DiffAudit Research Roadmap
 
 ## 目标
 
@@ -10,181 +10,204 @@
 - 让攻击、资产、manifest、summary、防御结果都能被统一记录
 - 在当前阶段形成“至少一条可辩护攻击主线 + 至少一条可比较防御原型 + 一张 admitted 统一总表”
 
-当前不追求“所有论文都浅尝一下”，而追求“把最值得讲、最有证据的几条线真正打穿并冻结口径”。
-
-## 当前综合判断
+## 当前研究快照
 
 截至 `2026-04-09`：
 
-- 黑盒：
-  - `recon` 已形成冻结主证据口径
-  - `variation` 已形成正式本地次主线，但真实 API 资产 blocked
-  - `CLiD` 保留为补充材料
-- 灰盒：
-  - `PIA` 是当前最成熟、最适合做“攻击 + 防御”主讲闭环的一条线
-  - `PIA` 已完成 `GPU128 / GPU256 / GPU512` baseline + defense 与一次 `GPU512` repeat
-  - `PIA` provenance 当前已可写成 `workspace-verified`
-  - `PIA` 攻击依赖信号与灰盒成本口径现已补齐到正式说明
-  - `PIA GPU512` 新的 `adaptive-reviewed baseline + all_steps / late_steps_only` 消融已完成
-  - 当前 defended mainline 候选仍是 `all_steps`，`late_steps_only` 保留为质量优先消融支线
-  - 新归档 `TMIA-DM` 进一步补强了时间相关噪声 / 梯度信号这一灰盒文献轴
-  - `SecMI` 已明确为 `blocked baseline`
-- 白盒：
-  - `GSA 1k-3shadow` 已形成强攻击结果
-  - `W-1 = DPDM` 已完成 `strong-v2 full-scale` 与 `strong-v3 full-scale` defended comparator
-  - 当前 defended 主口径冻结为 `strong-v3 full-scale`
-- 防御：
-  - 灰盒 `G-1` 当前固定为 `provisional G-1 = stochastic-dropout`
-  - `G-1` 的 repeated-query adaptive review 已落地到 `GPU512`
-  - 白盒 `W-1` 已进入 admitted 总表
-  - `B-1`、`B-2`、`W-2`、`G-2` 仍在 backlog
+- `Current Mainline`: `PIA + provisional G-1(all_steps)`
+- `Current Risk Evidence`: `recon DDIM public-100 step30`
+- `Current Depth Line`: `GSA + W-1 strong-v3 full-scale`
+- `Active GPU Question`: `white-box same-protocol bridge`
+- `Blocked Candidates`: `SecMI`, `variation real API`, `W-2`, `G-2`
+- `Research-Ready Candidates`: `TMIA-DM`, `Finding NeMo`
 
-## 当前优先级
+当前研究判断：
 
-固定顺序：
+- `PIA` 仍是当前最成熟、最适合打成“攻击 + 防御”主讲闭环的一条线
+- `PIA` 当前 strongest claim 仍是 `workspace-verified + adaptive-reviewed`
+- `PIA` 当前唯一 `paper-aligned` blocker 是 `checkpoint/source provenance`
+- `recon` 仍是黑盒风险证据主线，而不是当前主讲闭环
+- `GSA epoch300 rerun1` 已是当前白盒攻击主结果，并已写回 admitted 总表、intake 与系统读链
+- `batch_size = 32` 已让 `shadow-02 / shadow-03` checkpoint 恢复可运行
+- 当前 same-protocol bridge 已产出第一份 diagnostic comparator `summary.json`，但仍停留在 `runtime-smoke` 级别，尚未改 admitted 合同
 
-1. 维持 `PIA + provisional G-1` admitted 主讲口径
-2. 维持 `recon` 冻结口径
-3. 维持 `variation = secondary track + blocked real-API assets`
-4. 维持 `GSA + W-1 strong-v3 full-scale` 白盒口径
-5. 继续维持统一 attack-defense 总表中的 `quality/cost`、`adaptive_check` 与主讲线机理说明一致
-6. 让 `Local-API` 继续消费 admitted 结果
+## 当前阶段与 Gate
 
-## 主路线
+默认研究顺序：
 
-### Phase 1: 黑盒证据线稳态化
+1. `Phase A: Freeze Current Admitted Mainlines`
+2. `Phase B: Harden Mainline Read Chain And Blocker Narratives`
+3. `Phase C: Close Active GPU Strengthening Run`
+4. `Phase D: Same-Protocol Benchmark Bridge`
+5. `Phase E: Open Next Research Question`
 
-目标：
+当前主阶段：
 
-- 维持 `recon` 作为当前 black-box 主证据线
+- `Phase D: Same-Protocol Benchmark Bridge`
 
-当前主线：
+当前尾项：
 
-- `recon`
+- `Phase B: Harden Mainline Read Chain And Blocker Narratives`
 
-当前要求：
+当前 `2026-04-09` 到 `2026-06-04` 的执行顺序固定为：
 
-1. 固化 `main evidence / best single metric reference / secondary track`
-2. 不再把 `variation` 写成真实 API 闭环
-3. 暂不继续无节制扩模型覆盖
-4. 暂不把 `B-1 / B-2` 伪装成已落地结果
+1. `white-box same-protocol bridge` 收口
+2. `PIA provenance` dossier 与书面裁决
+3. `recon` 主证据冻结，同时吸收 `CopyMark` 现实边界与频域解释层
+4. `Phase E` 候选池 intake 与排序
 
-完成标准：
+进入 `Phase E` 的 gate：
 
-- 黑盒文档、总表、状态页对同一口径描述一致
+1. `PIA` 的 strongest claim、defended mainline、paper-alignment blocker 都已固定
+2. `GSA rerun1` 与 `W-1 strong-v3 full-scale` 的 same-protocol bridge 合同已经固定
+3. bridge 启动入口已 portable，且不依赖本地 scheduler
+4. bridge 已产出第一份 decisive artifact，并已形成“继续扩大、保持冻结、或收口失败模式”的书面决策
 
-### Phase 2: 灰盒主讲线冻结
+补充 gate 解释：
 
-目标：
+- 当前 `batch32 diagnostic comparator` 仍是 `runtime-smoke / diagnostic`
+- `Phase D` 只有在 bridge 完成正式三选一后才算关闭
+- `Phase E` 当前固定排序为：
+  1. `PIA paper-aligned confirmation`
+  2. `Finding NeMo + local memorization + FB-Mem`
+  3. `DP-LoRA`
+  4. `SecMI unblock`
+  5. `TMIA-DM intake`
 
-- 让灰盒形成当前最稳的 admitted “攻击 + 防御”闭环
+## GPU 研究规则
 
-当前主线：
+- 当前允许主 GPU 任务
+- 但研究侧同一时段只允许一个主线 GPU 问题
+- 当前唯一 active GPU 问题：
+  - `white-box same-protocol bridge`
 
-- `PIA`
+本地 scheduler 边界：
 
-当前 baseline：
+- `LocalOps/paper-resource-scheduler` 是本地治理工具，不是研究仓合同
+- 外部协作者必须可以在没有 scheduler 的前提下：
+  - 建环境
+  - 跑 `probe / dry-run / smoke / mainline`
+  - 在自己的 CPU/GPU 上复现
+  - 提交 PR
+- 因此研究仓文档、命令、校验链都不得把 scheduler 设成硬依赖
 
-- `SecMI`
+当前问题收口后的可用 GPU 问题只允许从下面三类中选一条：
 
-当前要求：
+1. `PIA paper-aligned confirmation`
+2. `SecMI unblock`
+3. `TMIA-DM or Finding NeMo intake`
 
-1. 维持 `PIA` 的 canonical roots、manifest、summary 口径
-2. 把当前 provenance 固定为 `workspace-verified`
-3. 把 `stochastic-dropout` 固定为 `provisional G-1`
-4. 补 `adaptive repeated-query review + structured quality/cost`
-5. 当前优先保留 `all_steps` 为 defended mainline 候选，`late_steps_only` 作为质量优先消融
-6. 保持 `SecMI = blocked baseline`
-7. 当前不为重复已知结论继续重跑 `PIA`
+研究侧明确不做：
 
-完成标准：
+- 不继续重跑已冻结的 `PIA GPU128/256/512`
+- 不继续重跑 admitted `GSA 1k-3shadow`
+- 不在 `variation` 和 `SecMI` 资产未到位时烧 GPU
 
-- 灰盒 admitted 主讲线稳定
-- 下一轮是否重启 GPU 具有明确触发条件
+## Phase A: Freeze Current Admitted Mainlines
 
-### Phase 3: 白盒深度线冻结
+- 目标：
+  - 固定 `recon / PIA / GSA / W-1` 的 admitted 主结果
+- 当前状态：
+  - `mostly complete`
+- 当前 owner / 固定角色：
+  - `research_leader`
+- 进入条件：
+  - 三条攻击线都已形成至少一份可辩护结果
+- 完成标准：
+  - admitted 主结果在总表、manifest、研究文档里不互相冲突
+- 本阶段不做：
+  - 不扩新论文
+  - 不把 `blocked / smoke / secondary` 写成主结果
 
-目标：
+## Phase B: Harden Mainline Read Chain And Blocker Narratives
 
-- 让白盒保持“强攻击 + defended 对照”结构，而不是继续做边际重跑
+- 目标：
+  - 把当前主讲线写成“可讲、可读、可阻塞解释”一致的正式主线
+- 当前状态：
+  - `closure completed`
+- 当前 owner / 固定角色：
+  - `research_leader`
+- 进入条件：
+  - `Phase A` 基本完成
+- 完成标准：
+  - `PIA` strongest claim 固定为 `workspace-verified + adaptive-reviewed`
+  - `all_steps` 固定为 defended mainline
+  - `late_steps_only` 明确为消融，不替代主线
+  - `PIA` 的 `paper-aligned` blocker 固定为 `checkpoint/source provenance`
+  - `GSA` 的 live intake/canonical summary 与 admitted `1k-3shadow` 主结果一致
+- 本阶段不做：
+  - 不因为 GPU 已放开就重跑 `PIA`
+  - 不把 blocker narrative 混成 benchmark 已完成
 
-当前主线：
+## Phase C: Close Active GPU Strengthening Run
 
-- `GSA`
+- 目标：
+  - 收口当前已经启动的 `GSA epoch300 rerun1`，并完成 admitted 决策
+- 当前状态：
+  - `closure completed`
+- 当前 owner / 固定角色：
+  - `research_leader`
+- 进入条件：
+  - 已存在 active GPU 长任务
+- 完成标准：
+  - 形成新的 rerun runtime `summary.json`
+  - 并完成当前 admitted `GSA` 主结果的决策与回写
+  - 当前不再以 rerun promotion 作为 active GPU 问题
+- 本阶段不做：
+  - 不并行再开第二条白盒长任务
+  - 不在 admission review 未完成时改 admitted 主结果
 
-当前防御候选：
+## Phase D: Same-Protocol Benchmark Bridge
 
-- `W-1 = DPDM / Diffusion-DP`
+- 目标：
+  - 让主线从“能讲”推进到更强的同协议对比面
+- 当前状态：
+  - `active`
+- 当前 owner / 固定角色：
+  - `research_leader`
+- 进入条件：
+  - `GSA rerun1` 已稳定成为 admitted 白盒攻击主结果
+- 完成标准：
+  - 白盒 `GSA rerun1` 与 `W-1 strong-v3 full-scale` 的 same-protocol 路线明确
+  - bridge 启动入口已 portable
+  - batch32 训练链已证明可以恢复 `shadow-02 / shadow-03` checkpoint
+  - bridge 已产出第一份 diagnostic comparator summary，并明确它是否继续扩大或保持冻结
+  - 灰盒 `PIA` 是否值得做 `paper-aligned` 确认有清晰 gate
+- 本阶段不做：
+  - 不把 same-protocol bridge 写成 benchmark 已完成
+  - 不把新研究问题提前塞进这阶段
 
-当前要求：
+## Phase E: Open Next Research Question
 
-1. 固定 `GSA 1k-3shadow` 为攻击主结果
-2. 固定 `strong-v3 full-scale` 为 defended 主 rung
-3. 保留 `strong-v2 full-scale` 为参考 rung
-4. 独立资产根上的 `GSA epoch300 rerun1` 可以继续运行，但在产出新的 `summary.json` 前不改 admitted 主口径
-5. 暂缓 `W-2`
-6. 不再新开第二条白盒 GPU 长任务
+- 目标：
+  - 在当前主线收口后开启真正新的问题
+- 当前状态：
+  - `not opened`
+- 当前 owner / 固定角色：
+  - `research_leader`
+  - `总管理 Agent`
+- 进入条件：
+  - `Phase D` 完成
+- 完成标准：
+  - 新问题有明确资产条件、评价指标、退出条件
+  - 同时只允许一条新主 GPU 问题
+- 本阶段不做：
+  - 不为了“GPU 空着”就机械复跑旧结论
+  - 不同时开启两条新主线
 
-完成标准：
+## 研究执行纪律
 
-- 白盒主讲口径稳定
-- 统一总表只引用必要 rung
-
-### Phase 4: 统一评估表
-
-目标：
-
-- 把不同线的 admitted 结果收口成一份综合对比表
-
-统一字段：
-
-- `track`
-- `attack`
-- `defense`
-- `dataset`
-- `model`
-- `AUC`
-- `ASR`
-- `TPR@low-FPR`
-- `quality/cost`
-- `evidence_level`
-
-完成标准：
-
-- admitted 结果可直接被系统读取
-- blocked / smoke / secondary 状态不混入主对比表
-
-## 工作区分工口径
-
-- `workspaces/black-box/`
-  - 负责 black-box evidence line
-- `workspaces/gray-box/`
-  - 负责 `PIA` 与灰盒防御
-- `workspaces/white-box/`
-  - 负责 `GSA` 与 `W-1`
-- `workspaces/implementation/`
-  - 负责 admitted 统一总表
-
-## 当前执行纪律
-
-- 不把 `smoke / preview / toy` 写成论文复现成功
 - admitted 结果优先写 machine-readable `manifest / summary / table`
-- 在新的真实资产到位前，不扩 `SecMI` 和 `variation` 的真实运行面
-- 每次重要状态变化都同步：
-  - `docs/reproduction-status.md`
-  - `docs/comprehensive-progress.md`
-  - `docs/local-api.md`
-  - 对应工作区主文档
+- `PIA` 是当前算法主讲线，不是灰盒补充线
+- `recon` 是当前风险证据线，不是当前主讲防御闭环
+- 白盒 `GSA + W-1` 当前价值在深度与上界，不是申报阶段唯一主讲成果
+- 只要 `LocalOps` scheduler 不存在，研究仓也必须能被别人用来跑实验、提 PR
 
-## 下一步
+## 需要同步的研究文档
 
-当前最短路径：
+每次阶段切换或运行态变化，至少同步：
 
-1. 持续维持 admitted 口径一致
-2. 保持 `PIA` 主讲线的机理说明、成本列和状态页一致
-3. 把 `TMIA-DM` 保持为灰盒候选论文，不误写成黑盒主线
-4. 低频监控 `workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1`
-5. 继续让 `Local-API` 读取 admitted 结果，而不是只盯 `recon`
-6. 等新的真实资产或新的研究问题出现后，再安排下一轮额外 GPU 任务
-
-综合进度入口见 [docs/comprehensive-progress.md](docs/comprehensive-progress.md)。
+- `D:\Code\DiffAudit\Project\ROADMAP.md`
+- `D:\Code\DiffAudit\Project\docs\reproduction-status.md`
+- `D:\Code\DiffAudit\Project\docs\comprehensive-progress.md`
+- `D:\Code\DiffAudit\Project\docs\local-api.md`

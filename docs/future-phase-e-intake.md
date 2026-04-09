@@ -1,0 +1,145 @@
+# Future Phase E Intake
+
+这份文档用于固定 `Phase E` 候选池的排序、进入条件、退出条件与预期产物。
+
+它不是执行许可证。
+
+在 `Phase D: Same-Protocol Benchmark Bridge` 正式收口前，任何候选都只能停留在 intake，不进入执行态。
+
+## 当前固定排序
+
+1. `PIA paper-aligned confirmation`
+2. `Finding NeMo + local memorization + FB-Mem`
+3. `DP-LoRA`
+4. `SecMI unblock`
+5. `TMIA-DM intake`
+
+## 1. PIA paper-aligned confirmation
+
+### 当前定位
+
+如果 `PIA provenance` 被解除，这不是“新题”，而是当前主讲线的升级确认。
+
+### 进入条件
+
+- `Phase D` 已正式关闭
+- `checkpoint/source provenance` 已被单独核准
+- 有明确 delta hypothesis
+- 目标是确认 `paper-aligned`，而不是重复已冻结结论
+
+### 退出条件
+
+- 形成 `paper-aligned confirm / no-confirm` 的正式裁决
+- 不允许无限延长成“再跑一轮看看”
+
+### 预期产物
+
+- 一份 `paper-aligned` 确认结论，或
+- 一份明确 `no-go` 决策
+
+## 2. Finding NeMo + local memorization + FB-Mem
+
+### 当前定位
+
+这是白盒最自然的下一问，用来把当前 `GSA + W-1` 从“能分出来”推进到“为什么会记忆、记在哪里、为什么缓解不彻底”。
+
+### 进入条件
+
+- `Phase D` 已收口
+- 当前 `GSA / W-1` 协议面不再漂移
+- 已有完整 intake，至少包括：
+  - hook 点
+  - 资产需求
+  - 局部记忆诊断目标
+  - 退出条件
+
+### 退出条件
+
+- 至少拿到一份机制证据，回答局部记忆是否可定位、是否与当前成员分离信号一致
+- 或正式以边界说明收口
+
+### 预期产物
+
+- white-box mechanism intake note
+- 局部记忆诊断报告
+- 是否值得升级为正式主线的判断
+
+## 3. DP-LoRA
+
+### 当前定位
+
+这是下一代轻量防御候选，不替换当前 `W-1 = DPDM`。
+
+### 进入条件
+
+- `W-1` 当前 defended rung 已稳定
+- admitted 主口径不再改动
+- 已能定义与 `GSA + DDPM + CIFAR-10` 足够接近的比较协议
+
+### 退出条件
+
+- 形成“是否能成为可比较 defended candidate”的 yes/no 决策
+
+### 预期产物
+
+- `W-2` 级候选 intake
+- comparability note
+- 是否值得进入 admitted 备选表的判断
+
+## 4. SecMI unblock
+
+### 当前定位
+
+它不是当前主讲线，也不是 bridge 后默认第一优先。
+
+### 进入条件
+
+- 真实 `flagfile + checkpoint root` 已到位
+- 已完成 probe / dry-run
+- 能证明这是解除 baseline 阻塞，而不是在资产未齐时烧 GPU
+
+### 退出条件
+
+- 恢复为可执行 baseline，或
+- 正式继续维持 `blocked baseline`
+
+### 预期产物
+
+- unblock memo
+- 最小可执行入口
+- yes/no 执行裁决
+
+## 5. TMIA-DM intake
+
+### 当前定位
+
+当前只作为灰盒候选池文献，不进入黑盒执行面。
+
+### 进入条件
+
+- 已完成协议拆解
+- 已形成资产清单
+- 已定义最小 smoke 入口与退出条件
+
+### 退出条件
+
+- 给出是否值得进入执行面的排序判断
+
+### 预期产物
+
+- intake 文档
+- 资产需求清单
+- 与 `PIA` 的比较定位
+
+## 当前默认规则
+
+- 只要 `PIA provenance` 在窗口内解除，`PIA paper-aligned confirmation` 就保持第一优先
+- 如果 `PIA provenance` 未解除，则默认优先推动 `Finding NeMo + local memorization + FB-Mem` 从 intake 升级
+- `DP-LoRA` 不抢第一条新问题
+- `SecMI` 与 `TMIA-DM` 继续后排
+
+## 当前明确不做
+
+- 不在 `Phase D` 未关闭时放行任何候选进入主 GPU 队列
+- 不把 intake 文档直接写成执行完成
+- 不把 `On the Edge` 和 `MIDST` 并入执行候选

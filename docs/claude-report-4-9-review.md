@@ -257,3 +257,10 @@
 - `On the Edge of Memorization in Diffusion Models`：`https://arxiv.org/abs/2508.17689`
 - `MIDST Challenge at SaTML 2025`：`https://arxiv.org/abs/2603.19185`
 - `Privacy-Preserving Low-Rank Adaptation against Membership Inference Attacks for Latent Diffusion Models`：`https://dblp.org/rec/conf/aaai/GaoWZM25.html`
+
+## 10. 落地承接文档（不改写主线）
+
+为避免把“文献价值”直接误读成“新增执行线”，本仓库把两件当前最应吸收的内容单独落在以下承接文档中：
+
+- 黑盒 `recon` 解释层（`CopyMark` 现实边界 + 频域 post-hoc 设计）：[workspaces/black-box/2026-04-10-recon-explanation-layer.md](../workspaces/black-box/2026-04-10-recon-explanation-layer.md)
+- `Phase E` intake 固定队列（进入/退出条件与预期产物）：[future-phase-e-intake.md](future-phase-e-intake.md)
