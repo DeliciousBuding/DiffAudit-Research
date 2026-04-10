@@ -13,6 +13,8 @@
 - `frequency_paper_classification`: `explanation layer`
 - `gpu_release`: `none`
 - `admitted_change`: `none`
+- `live_reverify_round28`: `non-GPU artifact-mainline reverify consistent with main evidence`
+- `semantic_gate`: `proxy-shadow-member`
 
 ## 目的
 
@@ -62,6 +64,7 @@
 - `retain recon main evidence`
 - `absorb CopyMark as external-validity boundary`
 - `absorb frequency paper as post-hoc explanation layer`
+- `retain non-GPU artifact-mainline reverify as consistency check only`
 
 当前固定不做：
 
@@ -183,6 +186,7 @@
 1. 把 `CopyMark` 吸收到外推边界说明
 2. 把频域论文吸收到 post-hoc explanation design
 3. 持续保持三层黑盒口径不漂移
+4. 用 [2026-04-10-recon-decision-package](2026-04-10-recon-decision-package.md) 与 `recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json` 固定本轮 non-GPU live reverify，不改 admitted 结果
 
 ## 五、未来触发条件
 

@@ -130,6 +130,16 @@ CPU 并行面负责：
 - 一份 decision-grade black-box package
 - 对 `recon` 的 error slice / external-validity boundary 补充说明
 
+Round-28 update:
+
+- 已完成 [2026-04-10-recon-decision-package](../black-box/2026-04-10-recon-decision-package.md)
+- 已新增 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json)
+- 当前状态固定为：
+  - `writing-only / non-GPU`
+  - `admitted_change = none`
+  - `gpu_release = none`
+  - `queue_state = not-requestable`
+
 ### C. 白盒不放行，但继续补零 GPU packet
 
 目标：
@@ -339,11 +349,12 @@ Round-27 update:
 
 ### C2 `Recon explanation / boundary package`
 
-- 目标：冻结黑盒主证据包
+- 目标：保持冻结后的黑盒主证据包与外围文档一致
 - 产物：
+  - `recon decision package`
   - `CopyMark` 边界说明
   - 频域解释层
-  - `recon` error slice note
+  - `non-GPU artifact-mainline reverify`
 
 ### C3 `Finding NeMo observability packet`
 
@@ -419,6 +430,6 @@ Round-27 update:
 
 ## Immediate Next Three
 
-1. 把 `PIA 8GB portability` 的 packet 与 frontier note 写回主状态页，并固定 `GPU128 = quickest portable pair`、`GPU256 = decision rung with cost warning`
-2. 并行完成 `PIA provenance` CPU 补件和 `recon` explanation / boundary package
-3. 在 `Finding NeMo` 继续保持 `zero-GPU hold` 的前提下，准备 `DP-LoRA comparability ladder` 的 release-review packet
+1. 继续补 `PIA provenance` 的 `release/source identity + split provenance + paper protocol mapping` CPU 闭环
+2. 保持 `recon decision package` 冻结，并把外围主文档、状态页和控制态全部对齐；不新开黑盒 run
+3. 在 `Finding NeMo` 继续保持 `zero-GPU hold` 的前提下，准备 `DP-LoRA comparability ladder` 的 release-review packet，形成下一次 GPU 准入审查包

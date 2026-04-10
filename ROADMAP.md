@@ -54,10 +54,8 @@
 当前长期执行顺序固定为：
 
 1. `PIA provenance` dossier 与书面裁决继续作为 CPU 侧长期 blocker 收口
-2. 单卡 `RTX4070 8GB` 的 GPU 默认先服务 `PIA` 当前主线支持任务：
-   - `8GB-safe portability ladder`
-   - `defense-cost frontier`
-3. `recon` 主证据冻结，同时吸收 `CopyMark` 现实边界与频域解释层
+2. `PIA` 当前不再为 `8GB-safe portability ladder / defense-cost frontier` 预留新的 GPU 槽位；`G1-B` 已固定为 `no-go / not-requestable`，当前只继续 CPU 侧 provenance closure
+3. `recon` 当前已冻结为 `decision-grade black-box package`；默认只允许 read-only wording sync，不新开 black-box GPU
 4. `Finding NeMo` 继续保持 `adapter-complete zero-GPU hold`，只扩 observability packet 与 release-review 前置材料
 5. `Phase E` 候选池继续只做 intake 与排序；在 `Finding NeMo` 仍 hold 的前提下，首个值得准备 release-review 的 GPU 候选是 `DP-LoRA comparability ladder`
 6. `SecMI / TMIA-DM / variation real API` 在各自 blocker 解除前继续留在队列外
@@ -71,7 +69,7 @@
 - bridge 已完成 `保持冻结` 收口
 - 当前没有新的 active 主 GPU 问题
 - 当前最值得推进的唯一目标切换为：
-  - `recon` 主证据冻结 + `CopyMark` 边界收口 + 频域解释层固化
+  - `PIA provenance` 的 `release/source identity + split/paper mapping` CPU closure；`recon` 当前进入 frozen maintenance
 
 进入 `Phase E` 的 gate：
 
