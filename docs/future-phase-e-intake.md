@@ -214,6 +214,17 @@
 
 当前只作为灰盒候选池文献，不进入黑盒执行面。
 
+当前 intake 拆解见：
+
+- `workspaces/gray-box/2026-04-10-tmia-dm-intake-decomposition.md`
+
+当前固定结论补充：
+
+- `current_verdict = not-yet`
+- `current_shape = protocol-and-asset decomposition intake`
+- `execution_release = none`
+- `gpu_release = none`
+
 ### 进入条件
 
 - 已完成协议拆解
@@ -223,6 +234,11 @@
 ### 退出条件
 
 - 给出是否值得进入执行面的排序判断
+
+当前已落地裁决：
+
+- `not-yet`
+- 具体形态：`gray-box protocol / asset decomposition intake only`
 
 ### 预期产物
 

@@ -63,7 +63,7 @@
 - bridge 已完成 `保持冻结` 收口
 - 当前没有新的 active 主 GPU 问题
 - 当前最值得推进的唯一目标切换为：
-  - `SecMI unblock` 的 yes/no 决策写作
+  - `TMIA-DM` 的协议与资产拆解 intake
 
 进入 `Phase E` 的 gate：
 

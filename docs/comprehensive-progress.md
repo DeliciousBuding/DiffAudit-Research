@@ -26,7 +26,7 @@
 - 当前不再有 active 主 GPU 问题
 - 当前 `PIA provenance dossier` 已 closed 为 `remain long-term blocker`
 - `Finding NeMo + local memorization + FB-Mem` 的 intake/eligibility note 已建立，且 `activation export adapter` 已固定为 `decision-grade zero-GPU hold`
-- 当前最值得推进的唯一目标切换为：把 `SecMI unblock` 收口成一份 `yes/no` 决策工件
+- 当前最值得推进的唯一目标切换为：把 `TMIA-DM` 收口成一份 `protocol / asset decomposition intake` 工件
 
 ## 攻击主线
 
@@ -162,9 +162,10 @@
 5. 用 [future-phase-e-intake](future-phase-e-intake.md) 与 [2026-04-10-phase-e-intake-ordering-review](../workspaces/intake/2026-04-10-phase-e-intake-ordering-review.md) 固定 `Phase E` 候选池排序，并只允许进入准入验证
 6. 用 [2026-04-10-dplora-comparability-intake](../workspaces/intake/2026-04-10-dplora-comparability-intake.md) 把 `DP-LoRA` 固定为 `comparability / intake hardening only`
 7. 用 [2026-04-10-secmi-unblock-decision](../workspaces/gray-box/2026-04-10-secmi-unblock-decision.md) 把 `SecMI` 固定为 `not-yet / remain blocked baseline`
-8. 用 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md)、[2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 与 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 固定 `Finding NeMo + local memorization + FB-Mem` 的 intake gate，并默认把它保留为下一条最可放行候选
-9. `PIA paper-aligned confirmation` 继续保留文档层条件性首位，但执行层视为 `no-go`
-10. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明与 adaptive gate 一致
+8. 用 [2026-04-10-tmia-dm-intake-decomposition](../workspaces/gray-box/2026-04-10-tmia-dm-intake-decomposition.md) 把 `TMIA-DM` 固定为 `gray-box protocol / asset decomposition intake only`
+9. 用 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md)、[2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 与 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 固定 `Finding NeMo + local memorization + FB-Mem` 的 intake gate，并默认把它保留为下一条最可放行候选
+10. `PIA paper-aligned confirmation` 继续保留文档层条件性首位，但执行层视为 `no-go`
+11. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明与 adaptive gate 一致
 
 ## 申报 / PPT 应该怎么讲
 
