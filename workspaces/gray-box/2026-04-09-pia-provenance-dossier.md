@@ -42,6 +42,8 @@
   - `workspaces/gray-box/2026-04-09-pia-provenance-gate.md`
   - `workspaces/gray-box/assets/pia/next-run-20260409-strict/manifest.json`
   - `workspaces/gray-box/assets/pia/next-run-20260409-strict/provenance.json`
+- upstream identity supplement（补 `origin/main / README line anchors / split shape`）：
+  - `workspaces/gray-box/2026-04-10-pia-provenance-upstream-identity-note.md`
 - 上游声明锚点（用于 paper protocol mapping）：
   - `external/PIA/README.md`
 
@@ -115,7 +117,7 @@ strict gate 已将该文件与 split root tree hash 机器可读固定：
 ### 4.2 仍待闭环点
 
 - `待核`：split 文件的语义是否与论文定义完全一致（成员定义、索引编码、生成方式/种子/脚本）。
-- `待核`：`external/PIA` 的 upstream 身份闭环（remote/tag/commit 对齐），避免“本地 git clean”被误当作“上游版本对齐”。
+- `待核`：`external/PIA` 的 release/source 身份闭环。当前 `origin/main@0d7e08a` 与 README 行锚点已补到 note，但 tag/checksum/file-id 级对齐仍未成立。
 
 ## 5) Paper Protocol Mapping（协议映射，聚焦 provenance）
 
@@ -135,8 +137,10 @@ strict gate 已将该文件与 split root tree hash 机器可读固定：
   - 本地 zip 是否来自 `external/PIA/README.md` 所指向的 release bundle（可审查字段：文件 ID/版本/校验 任一成立）。
 - `待核`：上游 checksum/版本闭环策略
   - 若上游不提供 checksum：团队必须明确“允许什么替代审查证据”才能升 `paper-aligned`（否则永远无法升）。
-- `待核`：`external/PIA` upstream 身份
-  - strict gate 记录了 `git.commit` 与 `git.dirty=false`，但仍需把该 commit 与 upstream remote/tag 的关系写清。
+- `待核`：`external/PIA` release/source 身份
+  - strict gate 记录了 `git.commit` 与 `git.dirty=false`
+  - `2026-04-10-pia-provenance-upstream-identity-note.md` 已补 `origin/main@0d7e08a` 与 README 行锚点
+  - 但 tag/checksum/file-id 级对齐仍未成立
 - `待核`：split 文件语义对齐
   - `.npz` 的成员定义/索引语义与论文协议逐项一致性说明。
 

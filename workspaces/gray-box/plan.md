@@ -6,7 +6,7 @@
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; provenance now workspace-verified`
 - `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`SecMI` 当前已判定为 blocked baseline
-- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；当前先把 `2026-04-10-pia-8gb-portability-ladder-execution-packet.md` 与 `2026-04-10-pia-8gb-supporting-frontier-note.md` 写回主状态页，固定 `GPU128 = quickest portable pair`、`GPU256 = decision rung with cost warning`，并停止任何 `GPU512` 机械复跑；`SecMI` 只保留为 blocked baseline
+- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；当前已将 `2026-04-10-pia-defense-cost-frontier-stop-decision.md` 固定为 `G1-B = no-go / queue_state = not-requestable`，并转回 `2026-04-10-pia-provenance-upstream-identity-note.md` 的 CPU 补件；`SecMI` 只保留为 blocked baseline
 - `last updated`: `2026-04-10`
 
 ## 推荐论文
@@ -44,6 +44,8 @@
 - `workspaces/gray-box/2026-04-09-pia-gpu512-adaptive-ablation.md`
 - `workspaces/gray-box/2026-04-10-pia-8gb-portability-ladder-execution-packet.md`
 - `workspaces/gray-box/2026-04-10-pia-8gb-supporting-frontier-note.md`
+- `workspaces/gray-box/2026-04-10-pia-defense-cost-frontier-stop-decision.md`
+- `workspaces/gray-box/2026-04-10-pia-provenance-upstream-identity-note.md`
 - `workspaces/gray-box/2026-04-09-tmia-dm-intake.md`
 - `workspaces/gray-box/2026-04-08-secmi-blocked.md`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-128/summary.json`
@@ -144,6 +146,10 @@
   - `GPU128 = quickest portable pair`
   - `GPU256 = decision rung with cost warning`
   - `GPU512` 当前不值得再做 mechanical rerun
+- 当前 `G1-B / PIA defense-cost frontier` 已正式收口为：
+  - `no-go`
+  - `queue_state = not-requestable`
+  - 只有在新的 low-cost hypothesis/budget note 被写清后才允许重审 GPU
 
 ## 当前最短路径
 

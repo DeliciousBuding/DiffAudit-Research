@@ -281,6 +281,19 @@ Round-26 update:
   - one `recommended 8GB-safe preset`
 - `admission_effect`: `none`
 
+Round-27 update:
+
+- current verdict:
+  - `no-go`
+- queue state:
+  - `not-requestable`
+- rationale:
+  - `GPU128/GPU256` 已经回答 portability frontier
+  - `GPU256 defense` 成本告警已出现
+  - 当前没有新的 bounded low-cost question 被写成 hypothesis/budget note
+- reopen condition:
+  - only after a new single-question hypothesis/budget/expected-artifact note exists
+
 ## Stage 2: 条件性下一题 GPU 候选
 
 ### G2-A `DP-LoRA comparability ladder`
