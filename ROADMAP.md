@@ -63,7 +63,7 @@
 - bridge 已完成 `保持冻结` 收口
 - 当前没有新的 active 主 GPU 问题
 - 当前最值得推进的唯一目标切换为：
-  - `TMIA-DM` 的协议与资产拆解 intake
+  - `Phase E` 候选口径的高层同步：`phase-e-candidates.json` 独立于 promoted intake contracts
 
 进入 `Phase E` 的 gate：
 
@@ -87,6 +87,8 @@
   2. `DP-LoRA`
   3. `SecMI unblock`
   4. `TMIA-DM intake`
+- `Project/workspaces/intake/phase-e-candidates.json` 是当前唯一 machine-readable candidate ordering mirror
+- `Project/workspaces/intake/index.json.entries[]` 继续只承载 `promoted / system-intake-ready` contracts
 
 ## GPU 研究规则
 

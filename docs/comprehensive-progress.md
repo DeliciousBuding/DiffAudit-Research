@@ -26,7 +26,7 @@
 - 当前不再有 active 主 GPU 问题
 - 当前 `PIA provenance dossier` 已 closed 为 `remain long-term blocker`
 - `Finding NeMo + local memorization + FB-Mem` 的 intake/eligibility note 已建立，且 `activation export adapter` 已固定为 `decision-grade zero-GPU hold`
-- 当前最值得推进的唯一目标切换为：把 `TMIA-DM` 收口成一份 `protocol / asset decomposition intake` 工件
+- 当前最值得推进的唯一目标切换为：把 `Phase E` 候选池的高层口径与 machine-readable candidate registry 同步收口，而不是提前放行任何候选
 
 ## 攻击主线
 
@@ -160,6 +160,7 @@
 3. `variation / Towards` 继续保留为 formal local secondary track，并明确 real-API assets blocked
 4. 在统一表和叙事材料里补齐 `threat model / asset semantics / evidence level / external-validity boundary`
 5. 用 [future-phase-e-intake](future-phase-e-intake.md) 与 [2026-04-10-phase-e-intake-ordering-review](../workspaces/intake/2026-04-10-phase-e-intake-ordering-review.md) 固定 `Phase E` 候选池排序，并只允许进入准入验证
+5.1 用 [2026-04-10-intake-registry-phase-e-boundary-review](../workspaces/intake/2026-04-10-intake-registry-phase-e-boundary-review.md) 与 [phase-e-candidates.json](../workspaces/intake/phase-e-candidates.json) 把 machine-readable candidate ordering 从 `index.json.entries[]` 的 promoted contract 面里剥离出来
 6. 用 [2026-04-10-dplora-comparability-intake](../workspaces/intake/2026-04-10-dplora-comparability-intake.md) 把 `DP-LoRA` 固定为 `comparability / intake hardening only`
 7. 用 [2026-04-10-secmi-unblock-decision](../workspaces/gray-box/2026-04-10-secmi-unblock-decision.md) 把 `SecMI` 固定为 `not-yet / remain blocked baseline`
 8. 用 [2026-04-10-tmia-dm-intake-decomposition](../workspaces/gray-box/2026-04-10-tmia-dm-intake-decomposition.md) 把 `TMIA-DM` 固定为 `gray-box protocol / asset decomposition intake only`
