@@ -12,7 +12,7 @@
 - `track`: `white-box`
 - `candidate`: `Finding NeMo + local memorization + FB-Mem`
 - `decision`: `intake-admit / execution-no-go`
-- `current_rank`: `Phase E execution-layer default #1`
+- `current_rank`: `Phase E intake review priority #1`
 - `depends_on`: `Phase D closed-frozen stays unchanged`
 - `admitted_change`: `none`
 
@@ -45,7 +45,7 @@
 
 ## 候选定位
 
-`Finding NeMo + local memorization + FB-Mem` 当前之所以成为执行层默认第一候选，不是因为它已经具备执行许可证，而是因为：
+`Finding NeMo + local memorization + FB-Mem` 当前之所以位于 intake review priority #1，不是因为它已经具备执行许可证，而是因为：
 
 1. `PIA paper-aligned confirmation` 已因 provenance 长期 blocker 退回执行层 `no-go`
 2. white-box bridge 已完成 `closed-frozen` 收口，不再占用主 GPU 注意力

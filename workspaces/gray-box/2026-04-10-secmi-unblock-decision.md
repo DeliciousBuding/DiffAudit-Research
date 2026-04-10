@@ -4,7 +4,7 @@
 
 这份文档只回答一个问题：
 
-- `SecMI` 当前是否已经解除 `blocked baseline`，足以进入执行层准入验证。
+- `SecMI` 当前是否已经解除 `blocked baseline`，足以重新进入 `Phase E` intake review。
 
 它不是：
 
@@ -19,7 +19,7 @@
 - `PIA paper-aligned confirmation = document-layer conditional rank 1, execution-layer no-go`
 - `Finding NeMo = zero-GPU hold`
 - `DP-LoRA = comparability / intake hardening only`
-- `SecMI = execution-layer default order #3`
+- `SecMI = intake review priority #3`
 
 ## 当前已知事实
 
@@ -87,13 +87,14 @@
 
 当前这份 decision 只说明：
 
-- `SecMI` 继续保留在执行层第 3 候选
+- `SecMI` 继续保留在 intake review priority #3
 
 它不说明：
 
 - `SecMI` 已越过 `Finding NeMo` 或 `DP-LoRA`
 - `SecMI` 已可申请 GPU
 - `SecMI` 已恢复为可执行 baseline
+- `SecMI` 已进入 released queue item
 
 ## 当前明确不做
 

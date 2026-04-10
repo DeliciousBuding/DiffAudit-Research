@@ -4,7 +4,7 @@
 
 这份文档只回答一个问题：
 
-- `TMIA-DM` 当前是否已经足够进入执行层准入验证，还是仍应停留在 `protocol / asset decomposition intake`。
+- `TMIA-DM` 当前是否已经足够进入更深一层 `Phase E` intake review，还是仍应停留在 `protocol / asset decomposition intake`。
 
 它不是：
 
@@ -101,13 +101,14 @@
 
 当前这份文档只说明：
 
-- `TMIA-DM` 继续保留在执行层第 4 候选
+- `TMIA-DM` 继续保留在 intake review priority #4
 
 它不说明：
 
 - `TMIA-DM` 已超越 `SecMI`
 - `TMIA-DM` 已经值得占用 GPU
 - `TMIA-DM` 已经有本地执行入口
+- `TMIA-DM` 已进入 released queue item
 
 ## 下一步
 

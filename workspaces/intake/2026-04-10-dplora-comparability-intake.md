@@ -4,7 +4,7 @@
 
 这份文档只回答一个问题：
 
-- `DP-LoRA` 当前是否已经足够进入执行层准入验证，还是仍应停留在 `comparability / intake hardening`。
+- `DP-LoRA` 当前是否已经足够进入更深一层 `Phase E` intake review，还是仍应停留在 `comparability / intake hardening`。
 
 它不是：
 
@@ -38,7 +38,7 @@
 
 ## 为什么现在值得推进
 
-1. `Finding NeMo` 已固定为 `zero-GPU hold`，当前执行层默认第 2 候选需要更清晰的 comparability 定义。
+1. `Finding NeMo` 已固定为 `zero-GPU hold`，当前 intake review priority #2 候选需要更清晰的 comparability 定义。
 2. `DP-LoRA` 的工程吸引力明确存在：它代表从全模型 DP 训练转向参数高效适配的轻量防御方向。
 3. 当前最缺的不是“再找一个白盒防御名字”，而是写清它与 `W-1 = DPDM` 到底是否可比、如何可比、何时值得进入准入验证。
 
@@ -127,13 +127,14 @@
 
 当前这份文档只说明：
 
-- `DP-LoRA` 是执行层默认第 2 候选
+- `DP-LoRA` 是 intake review priority #2
 
 它不说明：
 
 - `DP-LoRA` 已获得 run release
 - `DP-LoRA` 应抢在 `Finding NeMo` 前面
 - `DP-LoRA` 已经值得占用 GPU
+- `DP-LoRA` 已进入 released queue item
 
 ## 下一步
 

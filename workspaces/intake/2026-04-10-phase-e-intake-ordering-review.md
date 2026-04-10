@@ -83,10 +83,10 @@
 
 ### B. DP-LoRA
 
-- `current_status = research-ready candidate`
+- `current_status = not-yet`
 - `current_shape = defended-track successor intake`
 
-保留在执行层第 2 顺位的原因：
+保留在 intake review priority #2 的原因：
 
 1. 与 `W-1 = DPDM` 的 defended 叙事天然相邻
 2. 其价值主要在未来 defended comparator 扩展，而不是当前主讲线升级
@@ -97,7 +97,7 @@
 - `current_status = blocked baseline`
 - `current_shape = asset-unblock dependent`
 
-保留在执行层第 3 顺位的原因：
+保留在 intake review priority #3 的原因：
 
 1. 价值首先是“恢复 baseline 可执行”，不是立即产生新主讲线
 2. 当前仍缺真实 `flagfile + checkpoint root`
@@ -108,7 +108,7 @@
 - `current_status = literature-stage intake`
 - `current_shape = protocol-and-asset decomposition pending`
 
-保留在执行层第 4 顺位的原因：
+保留在 intake review priority #4 的原因：
 
 1. 当前仍主要是文献轴候选，不是已收口的执行候选
 2. 需要额外拆协议、资产和最小 smoke 入口
@@ -120,6 +120,7 @@
 - `document_layer_conditional_rank_1 = PIA paper-aligned confirmation`
 - `intake_review_priority_order = Finding NeMo > DP-LoRA > SecMI unblock > TMIA-DM intake`
 - `current_operational_change = none`
+- none of the priority numbers above create a released queue item or GPU authorization
 
 ## 为什么现在值得写这份文档
 
