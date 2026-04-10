@@ -62,5 +62,5 @@ powershell -ExecutionPolicy Bypass -File tools/pia_next_run/run.ps1 `
 - The config and member split inputs are hashed.
 - The referenced `external/PIA` repo is clean under strict validation.
 - This is enough to lock the local asset line at `workspace-verified`.
-- It is still not enough to promote the line to `paper-aligned`, because the imported checkpoint source has not been confirmed as paper-faithful.
+- It is still not enough to promote the line to `paper-aligned`, because release identity, source-bundle version/checksum alignment, `external/PIA` upstream identity, and split semantics remain unverified under the closed provenance dossier.
 - This gate is not a release signal for `PIA paper-aligned confirmation`; until provenance materially changes, execution-layer status remains `no-go`.

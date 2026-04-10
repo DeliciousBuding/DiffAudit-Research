@@ -159,7 +159,7 @@ strict gate 已将该文件与 split root tree hash 机器可读固定：
 
 > 这部分必须是 checklist；结论只能落在 A 或 B 之一，否则 blocker 永远口头化。
 
-### A. 升级为 `paper-aligned`
+### A. 重新激活 `paper-aligned` 审查的条件（当前不是 active review path）
 
 必须全部满足：
 
@@ -174,7 +174,7 @@ strict gate 已将该文件与 split root tree hash 机器可读固定：
   - [ ] 重新跑 strict next-run gate 并留存新的 manifest/provenance
   - [ ] 重新跑一次 runtime mainline 作为最小复核（规模可最小化）
 
-### B. 固化为长期 blocker（不再追求 paper-aligned）
+### B. 当前 closed default path：固化为长期 blocker
 
 必须全部满足：
 
