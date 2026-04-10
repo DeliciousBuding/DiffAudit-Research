@@ -58,9 +58,27 @@ powershell -ExecutionPolicy Bypass -File tools/pia_next_run/run.ps1 `
 
 ## Interpretation
 
-- The gray-box `PIA` line now has a clean machine-readable next-run provenance gate.
+- The gray-box `PIA` line obtained a clean machine-readable next-run provenance gate on `2026-04-09`.
 - The config and member split inputs are hashed.
-- The referenced `external/PIA` repo is clean under strict validation.
+- The referenced `external/PIA` repo was clean under that strict validation snapshot.
 - This is enough to lock the local asset line at `workspace-verified`.
 - It is still not enough to promote the line to `paper-aligned`, because release identity, source-bundle version/checksum alignment, `external/PIA` upstream identity, and split semantics remain unverified under the closed provenance dossier.
 - This gate is not a release signal for `PIA paper-aligned confirmation`; until provenance materially changes, execution-layer status remains `no-go`.
+
+## Current-Time Caveat
+
+This note is a historical gate record, not a present-tense cleanliness claim.
+
+As of `2026-04-10 round-29`, a new strict redo at:
+
+- `workspaces/gray-box/assets/pia/next-run-20260410-round29-strict-redo`
+
+returned:
+
+- `validation.ok = false`
+- `error = repo_root is dirty`
+
+Therefore:
+
+- `2026-04-09 strict gate passed` remains valid historical evidence
+- but `external/PIA is currently clean` is no longer an allowed statement

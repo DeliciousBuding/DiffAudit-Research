@@ -44,6 +44,8 @@
   - `workspaces/gray-box/assets/pia/next-run-20260409-strict/provenance.json`
 - upstream identity supplement（补 `origin/main / README line anchors / split shape`）：
   - `workspaces/gray-box/2026-04-10-pia-provenance-upstream-identity-note.md`
+- split / protocol delta supplement（补 `strict redo / code anchors / paper protocol delta`）：
+  - `workspaces/gray-box/2026-04-10-pia-provenance-split-protocol-delta.md`
 - 上游声明锚点（用于 paper protocol mapping）：
   - `external/PIA/README.md`
 
@@ -116,8 +118,15 @@ strict gate 已将该文件与 split root tree hash 机器可读固定：
 
 ### 4.2 仍待闭环点
 
-- `待核`：split 文件的语义是否与论文定义完全一致（成员定义、索引编码、生成方式/种子/脚本）。
+- `已补`：split shape 与代码消费路径
+  - 当前 `ratio0.5` split 的 `50/50` 互斥结构，以及 `main.py / dataset_utils.py` 的 `mia_train_idxs / mia_eval_idxs` 消费路径已可审查
+- `待核`：paper-faithful split / protocol 对齐
+  - 当前仍缺“随机四次划分”的生成路径、种子与四组 split 资产固化
+  - 当前仍缺“四个模型 + surrogate tau transfer”的 provenance 资产链
 - `待核`：`external/PIA` 的 release/source 身份闭环。当前 `origin/main@0d7e08a` 与 README 行锚点已补到 note，但 tag/checksum/file-id 级对齐仍未成立。
+- `待核`：strict-clean redo 的当前时态闭环
+  - `2026-04-09` strict gate 是 clean historical snapshot
+  - `2026-04-10` strict redo 已因 `repo_root dirty` 失败，未来若再做 strict review 必须先清理当前 pycache 漂移
 
 ## 5) Paper Protocol Mapping（协议映射，聚焦 provenance）
 
@@ -128,6 +137,7 @@ strict gate 已将该文件与 split root tree hash 机器可读固定：
 | “预训练 checkpoint 可下载” | `workspaces/gray-box/assets/pia/sources/OneDrive_1_2026-4-7.zip` | `external/PIA/README.md` 提供入口；本地留存 zip+hash | `待核`：该 zip 与上游入口中的具体文件 ID/版本/校验对齐 |
 | “DDPM CIFAR10 checkpoint 文件” | `OneDrive_1_2026-4-7.zip:DDPM/ckpt_cifar10.pt` 与 `.../checkpoint.pt` | 条目存在；条目 hash == canonical hash | `待核`：是否与论文实验所用 checkpoint 同一 release 版本 |
 | “repo 提供 split” | `external/PIA/DDPM/CIFAR10_train_ratio0.5.npz` | `external/PIA/README.md` 明确列出；strict gate 固定 hash | `待核`：split 的语义/生成路径与论文协议逐项对齐 |
+| “论文中随机四次二分并训练四个模型做 τ transfer” | 当前仅有单个 `CIFAR10_train_ratio0.5.npz` 与单条 canonical 运行线 | paper report line anchors + local code anchors 已补齐 | `待核`：random-four-split generation / four-model provenance |
 
 ## 6) 未闭环点（必须明确，禁止口头漂移）
 
@@ -143,6 +153,8 @@ strict gate 已将该文件与 split root tree hash 机器可读固定：
   - 但 tag/checksum/file-id 级对齐仍未成立
 - `待核`：split 文件语义对齐
   - `.npz` 的成员定义/索引语义与论文协议逐项一致性说明。
+- `待核`：strict-clean redo 的当前时态闭环
+  - 当前 strict redo 已失败，未来若要重新激活 release-review，必须先清理 `external/PIA` 当前 pycache 漂移并重跑 strict gate。
 
 ## 7) 允许/禁止话术（必须执行）
 

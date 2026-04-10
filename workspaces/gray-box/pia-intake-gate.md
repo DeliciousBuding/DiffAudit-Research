@@ -34,9 +34,10 @@ The current canonical state of the `PIA` line is:
 Interpretation:
 
 - one verified machine can load the canonical checkpoint, dataset root, and external split dependency
-- the current next-run gate has now hashed the config and member split inputs and re-checked `external/PIA` in a clean state
+- the historical next-run gate hashed the config and member split inputs and once re-checked `external/PIA` in a clean state
 - the line is safe to consume as the next local research input
 - provenance is now `workspace-verified`, so only `paper-aligned` remains blocked
+- `paper-aligned` still remains blocked not only on release/source identity, but also on the CIFAR10 random-four-split / four-model protocol gap relative to the current single fixed split
 
 ## Gate Levels
 
@@ -115,8 +116,9 @@ Reason:
 
 - the checkpoint can be loaded and used by the current adapter
 - the original source bundle is retained
-- a machine-readable next-run gate now exists
-- the strict next-run gate passes with a clean `external/PIA`
+- a machine-readable next-run gate exists
+- the `2026-04-09` strict next-run gate passed under a clean `external/PIA` snapshot
+- the current repo state must still be re-checked before any future strict release review
 - paper alignment has not yet been confirmed
 
 Implementation detail:

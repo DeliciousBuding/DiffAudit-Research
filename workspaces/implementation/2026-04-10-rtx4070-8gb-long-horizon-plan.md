@@ -347,6 +347,15 @@ Round-27 update:
   - split provenance mapping
   - paper protocol mapping delta
 
+Round-29 update:
+
+- 已完成 [2026-04-10-pia-provenance-split-protocol-delta](../gray-box/2026-04-10-pia-provenance-split-protocol-delta.md)
+- 已新增 [next-run-20260410-round29-strict-redo/manifest.json](../gray-box/assets/pia/next-run-20260410-round29-strict-redo/manifest.json)
+- 当前新结论固定为：
+  - `split shape aligned locally`
+  - `paper-faithful random-four-split / four-model tau-transfer protocol still open`
+  - `strict redo currently dirty, so any future strict review must first restore repo cleanliness`
+
 ### C2 `Recon explanation / boundary package`
 
 - 目标：保持冻结后的黑盒主证据包与外围文档一致
