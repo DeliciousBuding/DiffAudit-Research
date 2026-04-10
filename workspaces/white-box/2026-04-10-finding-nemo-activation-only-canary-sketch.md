@@ -331,10 +331,10 @@
 - `implementation_sketch = ready`
 - `code_change = bounded adapter implemented`
 - `gpu_release = none`
-- `next_required_decision = whether adapter-complete should remain zero-GPU hold or move into future smoke review`
+- `next_required_decision = completed as zero-GPU hold / future smoke review remains separately blocked`
 - `implementation_review`:
   - `workspaces/white-box/2026-04-10-finding-nemo-activation-export-adapter-review.md`
 
 当前结论固定为：
 
-这份文档最初只把未来 `activation-only canary` 的实现草案写成 review-ready 形状；截至当前，仓内已经落下一个受限的 CPU-only adapter，但它仍不构成 run release。
+这份文档最初只把未来 `activation-only canary` 的实现草案写成 review-ready 形状；截至当前，仓内已经落下一个受限的 CPU-only adapter，且这条线已被正式固定为 `zero-GPU hold`，仍不构成 run release。

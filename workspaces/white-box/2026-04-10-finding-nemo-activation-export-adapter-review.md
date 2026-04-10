@@ -16,10 +16,13 @@
 ## 当前裁决
 
 - `decision_scope`: `Project-only bounded adapter implementation`
+- `decision_grade`: `decision-grade`
+- `recommended_branch`: `zero-GPU hold`
 - `implementation_status`: `implemented`
 - `track`: `white-box`
 - `gpu_release`: `none`
 - `active_gpu_question`: `none`
+- `queue_state`: `not-requestable`
 - `admitted_change`: `none`
 - `paper-faithful NeMo on current admitted white-box assets`: `no-go`
 
@@ -91,15 +94,37 @@
 5. 任何 neuron ablation / reactivation
 6. 任何 `FB-Mem explains W-1 gap` 叙事
 
-## 下一步
+## Formal Decision
 
-下一步不再是继续补实现，而是做一份 decision-grade review：
+当前正式推荐分支固定为：
 
-- 当前这个 `activation export adapter` 是否已经足够让 `Finding NeMo` 维持在 `zero-GPU adapter-complete hold`
-- 还是还需要继续留在 `not-yet`
+- `zero-GPU hold`
 
-在这份 review 完成前，固定结论保持：
+理由固定为：
+
+1. `adapter implemented` 只证明 code path 可用，不证明 `validation-smoke` 已获放行。
+2. 当前 admitted 白盒资产与原始 `Finding NeMo` 协议面仍结构性不兼容。
+3. 当前 line 仍缺一份单独的 release review，去说明为什么一次 future smoke 值得占用注意力。
+4. 当前任何继续放大都更容易制造 `adapter = run release` 的误读，而不是提升 scientific clarity。
+
+因此，在未来出现新的明确 release 触发前，固定结论保持：
 
 - `gpu_release = none`
 - `active_gpu_question = none`
+- `queue_state = not-requestable`
 - `white-box same-protocol bridge = closed-frozen`
+
+## Future Release Trigger
+
+只有当下面条件同时满足时，才允许重审一次 future smoke：
+
+1. 有单独的 release review，把目标写成 `why one minimal validation-smoke is worth reconsidering now`。
+2. 该 review 写清：
+   - hypothesis
+   - compute budget
+   - expected artifact
+   - stop conditions
+3. 它仍保持：
+   - `gpu_release = none` 直到 review 通过
+   - 不触发新的 benchmark / admitted 叙事
+   - 不把当前 adapter code path 直接偷换成 GPU 问题

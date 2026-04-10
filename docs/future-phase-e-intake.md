@@ -55,6 +55,13 @@
 - `workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md`
 - `workspaces/white-box/2026-04-10-finding-nemo-activation-export-adapter-review.md`
 
+当前固定结论补充：
+
+- `activation export adapter = implemented`
+- `current verdict = zero-GPU hold`
+- `queue_state = not-requestable`
+- 这仍不是 `go`
+
 ### 进入条件
 
 - `Phase D` 已收口
@@ -76,6 +83,11 @@
 - 形成一次 intake 级 `go / not-yet / no-go` 裁决
 - 若 `go`，最多只允许申请一次最小 `validation-smoke`
 - 若 `not-yet / no-go`，则继续停留在 intake，不进入执行态
+
+当前已落地裁决：
+
+- `not-yet`
+- 具体形态：`adapter-complete zero-GPU hold`
 
 ### 预期产物
 
