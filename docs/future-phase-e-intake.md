@@ -137,6 +137,17 @@
 
 这是下一代轻量防御候选，不替换当前 `W-1 = DPDM`。
 
+当前 intake 评审见：
+
+- `workspaces/intake/2026-04-10-dplora-comparability-intake.md`
+
+当前固定结论补充：
+
+- `current_verdict = not-yet`
+- `execution_release = none`
+- `gpu_release = none`
+- 当前只允许推进 `comparability / intake hardening`
+
 ### 进入条件
 
 - `W-1` 当前 defended rung 已稳定
@@ -146,6 +157,11 @@
 ### 退出条件
 
 - 形成“是否能成为可比较 defended candidate”的 yes/no 决策
+
+当前已落地裁决：
+
+- `not-yet`
+- 具体形态：`comparability / intake hardening only`
 
 ### 预期产物
 

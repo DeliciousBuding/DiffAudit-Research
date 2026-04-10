@@ -63,7 +63,7 @@
 - bridge 已完成 `保持冻结` 收口
 - 当前没有新的 active 主 GPU 问题
 - 当前最值得推进的唯一目标切换为：
-  - `Phase E` 候选池的 decision-grade intake ordering 收口
+  - `DP-LoRA` 的 comparability / intake hardening
 
 进入 `Phase E` 的 gate：
 
