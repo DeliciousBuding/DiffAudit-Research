@@ -18,7 +18,7 @@
 
 当前允许写出的结论只有三类：
 
-1. `go for one minimal validation-smoke`
+1. `eligible for one future separate release-review reconsideration`
 2. `not-yet: intake incomplete`
 3. `no-go: remain intake`
 
@@ -150,7 +150,7 @@
 
 ## 最小允许首跑形状
 
-如果未来通过 gate，当前最多只允许一轮 `validation-smoke`：
+如果未来经过单独 release review 重审，当前最多只允许保留一轮最小 `validation-smoke` 作为上限设想：
 
 1. 固定单一 admitted 白盒攻击资产和单一已冻结 defended rung
 2. 只验证一个最小 hook 链是否可用：
@@ -184,9 +184,9 @@
 
 1. 一份 `white-box mechanism intake note`
 2. 一份 `asset + protocol compatibility memo`
-3. 一份最小 `validation-smoke` 计划
+3. 一份最小 future release-review packet
 4. 一条明确裁决：
-   - `promote to one minimal validation-smoke`
+   - `eligible for one future separate release-review reconsideration`
    - `remain intake / not-yet`
    - `no-go`
 
@@ -199,7 +199,7 @@
 
 ## Eligibility Gate
 
-`Finding NeMo + local memorization + FB-Mem` 只有在以下条件同时满足后，才允许从候选升级为“一次最小 validation-smoke 可申请”：
+`Finding NeMo + local memorization + FB-Mem` 只有在以下条件同时满足后，才允许从候选升级为“可进入一次未来单独 release review 的重审范围”：
 
 1. `Phase D` 已按 `closed-frozen` 收口，bridge 不再占用主 GPU 注意力
 2. `GSA rerun1` 与 `W-1 strong-v3 full-scale` 的 admitted 口径继续冻结
@@ -213,13 +213,13 @@
 6. compute budget / stop conditions / expected artifact 已提前写死
 7. 目标被定义为 `new-question intake validation`，而不是 bridge 变相续跑
 
-## Go / No-Go / Not-Yet 规则
+## Reconsider / No-Go / Not-Yet 规则
 
-### Go
+### Reconsider
 
 只允许放行到：
 
-- `one minimal validation-smoke`
+- `one future separate release-review reconsideration`
 
 不是：
 
@@ -264,4 +264,4 @@
 
 当前结论固定为：
 
-`Finding NeMo + local memorization + FB-Mem` 现在只获得了 `eligibility-gated for one minimal validation-smoke only` 的定义，还没有获得任何新长 GPU run 的授权。
+`Finding NeMo + local memorization + FB-Mem` 现在只获得了“未来单独 release review 可重审一次最小 validation-smoke 上限”的定义，还没有获得任何新长 GPU run 的授权。

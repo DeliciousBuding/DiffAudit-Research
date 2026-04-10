@@ -72,7 +72,7 @@
 
 1. intake 已最完整
 2. contract / sketch / adapter / hold review 已形成闭环
-3. 一旦未来要重审一次最小 smoke，这条线的准备度最高
+3. 一旦未来要重审一次单独 release review，这条线的准备度最高
 
 当前不允许的误写：
 
