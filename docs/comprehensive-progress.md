@@ -104,11 +104,11 @@
   - 这份 batch32 comparator 当前仍是 `runtime-smoke` 级 bridge 诊断结果，不应直接写成新的 admitted 白盒防御主结果
   - 当前 same-protocol bridge 已正式以 `保持冻结` 收口；这只是治理与资源排序决策，不是新的 benchmark 结果
   - 系统侧对白盒 `GSA` 的 live intake 现在应与 admitted `1k-3shadow` 主结果对齐，而不是继续停在早期 CPU closed-loop
-  - 新的 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md) 已把 `Finding NeMo + local memorization + FB-Mem` 固定为 intake/eligibility-only 候选，并写死了最小 `validation-smoke` gate
+  - 新的 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md) 已把 `Finding NeMo + local memorization + FB-Mem` 固定为 intake/eligibility-only 候选，并把任何 future `validation-smoke` 压回 `separate release-review reconsideration` 的条件性上限
   - 新的 [2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 已明确：当前 admitted 白盒资产与 `Finding NeMo` 原始 `Stable Diffusion v1.4 / cross-attention value layers` 协议面不兼容；当前只允许继续做 zero-GPU 的 observability 规划
   - 新的 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 已把未来 smoke 的 `checkpoint_root / layer selector / sample binding / output schema / scheduler gate` 写成可审查合同；本轮又把它落实成 `read-only contract-probe`
   - `src/diffaudit/attacks/gsa_observability.py` 与 `probe-gsa-observability-contract` 已在 `Project` 内实现零 GPU 的合同解析入口，并已在真实 admitted 资产上返回 `status = ready`
-  - 本轮新增 `export-gsa-observability-canary` 与 `export_gsa_observability_canary`，已在 `Project` 内实现 CPU-only 的 sample-pair activation export，并写出 `summary.json + records.jsonl + tensor artifacts`
+  - 本轮新增 `export-gsa-observability-canary` 与 `export_gsa_observability_canary`，已在 `Project` 内实现 CPU-only 的 sample-pair activation export，并在 [finding-nemo-observability-canary-20260410-round24](../workspaces/white-box/runs/finding-nemo-observability-canary-20260410-round24/summary.json) 写出 `summary.json + records.jsonl + tensor artifacts`
   - 新的 [2026-04-10-finding-nemo-activation-export-adapter-review](../workspaces/white-box/2026-04-10-finding-nemo-activation-export-adapter-review.md) 已把这批实现正式固定为 `zero-GPU hold / queue not-requestable`
   - [2026-04-10-finding-nemo-activation-only-canary-sketch](../workspaces/white-box/2026-04-10-finding-nemo-activation-only-canary-sketch.md) 继续保留为边界文档，但当前不再能写成“尚未开始 activation export”
 - 当前不能说的话：

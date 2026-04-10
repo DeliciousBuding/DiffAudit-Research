@@ -122,10 +122,10 @@
 
 补充边界：
 
-- `Finding NeMo + local memorization + FB-Mem` 当前只获得了 `eligibility-gated for one minimal validation-smoke only` 的定义
+- `Finding NeMo + local memorization + FB-Mem` 当前只保留 `future separate release-review reconsideration` 的条件性上限
 - 当前 `paper-faithful NeMo on admitted white-box assets = no-go`
 - 当前 `portable observability smoke` 已进入 `read-only contract-probe + cpu-only activation-export adapter implemented`
-- 当前已固定为 `zero-GPU hold / queue not-requestable`
+- 当前已固定为 `adapter-complete zero-GPU hold / queue not-requestable`
 - 在 intake 文档未补齐 `hook 点 / 资产需求 / compute budget / stop conditions / expected artifact` 前，不得申请 GPU
 
 研究侧明确不做：
