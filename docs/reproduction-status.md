@@ -68,7 +68,7 @@
 17. 截至当前，[2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 已 closed 为 `remain long-term blocker`；因此当前 `PIA` 最强口径继续固定为 `workspace-verified + paper-alignment blocked by checkpoint/source provenance`。
 18. 当前最值得推进的唯一目标已从 `PIA provenance dossier / checkpoint-source provenance` 的 decision-grade blocker hardening 顺延到 `recon` 主证据冻结 + `CopyMark` 边界收口 + 频域解释层固化，而不是继续尝试把任何黑盒解释层补丁写成新执行线。
 19. `Phase E` 当前允许进入准入验证，但不允许直接开跑。文档层固定排序仍见 [future-phase-e-intake](future-phase-e-intake.md)，但当前准入验证优先顺序已改为：`Finding NeMo + local memorization + FB-Mem` > `DP-LoRA` > `SecMI unblock` > `TMIA-DM intake`。
-20. 新的 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md) 已把 `Finding NeMo + local memorization + FB-Mem` 固定为 `intake/eligibility only`；当前最多只允许申请一次最小 `validation-smoke`，不授权任何新长 GPU run。
+20. 新的 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md) 与 [2026-04-10-phase-e-finding-nemo-intake-hold-decision](../workspaces/intake/2026-04-10-phase-e-finding-nemo-intake-hold-decision.md) 已把 `Finding NeMo + local memorization + FB-Mem` 固定为 `intake/eligibility only + zero-GPU hold`；当前不授权任何新长 GPU run，也不把它写成当前最小 smoke 可申请项。
 21. 新的 [2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 已明确当前 admitted 白盒资产与 `Finding NeMo` 原始 `Stable Diffusion v1.4 / cross-attention value layers` 面不兼容；当前只允许继续推进 zero-GPU 的 `portable observability smoke` 规划。
 22. 新的 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 已把未来 smoke 的 `checkpoint_root / layer selector / sample binding / output schema / scheduler gate` 写成 review-ready 合同；当前仓内既有 `read-only contract probe`，也有 CPU-only activation export adapter。
 23. 新增 `export_gsa_observability_canary` 与 `export-gsa-observability-canary` 后，当前 `Finding NeMo` 的 read chain 已不再停留在纯文档层；它已经能为固定 member/control pair 写出 `summary.json + records.jsonl + tensor artifacts`。
@@ -107,7 +107,7 @@
 
 1. 将 `PIA provenance` 的当前状态固定为 `remain long-term blocker`，保持 `workspace-verified + paper-alignment blocked by checkpoint/source provenance` 一致口径。
 2. 在 provenance 条件未变化前，不启动 `PIA paper-aligned confirmation`。
-3. 把 `Finding NeMo + local memorization + FB-Mem` 保持为当前最完整的 intake dossier，并继续只做准入验证，不直接开跑。
+3. 把 `Finding NeMo + local memorization + FB-Mem` 保持为当前最完整的 intake dossier，并以 [2026-04-10-phase-e-finding-nemo-intake-hold-decision](../workspaces/intake/2026-04-10-phase-e-finding-nemo-intake-hold-decision.md) 作为当前单一 hold 锚点；继续只做准入验证，不直接开跑。
 3.1 当前已补 `portable observability smoke` 合同、`activation-only canary` 草案、只读 `contract-probe` 和 CPU-only `activation export adapter`；当前这条线已正式固定为 `zero-GPU hold`，未来若继续推进，只能重新发起单独 release review，仍不得把 `Finding NeMo` 写成 execution-ready 或 GPU-ready。
 4. 固化 `recon` 公开资产映射与 `public-100 step10 / step30` 的解释口径，并把 `CopyMark` 写进现实边界说明，把频域论文写进解释层设计。
 5. 继续暂停 `Kandinsky 10/10` 与任何新黑盒 GPU 任务；如果只能做一件黑盒工作，优先做文档与边界固化，而不是新 run。

@@ -74,7 +74,7 @@
 
 它当前回答的问题不是“已经证明了什么机制”，而是：
 
-- 是否值得申请一次最小 `validation-smoke`
+- 是否值得在未来单独 review 中重审一次最小 `validation-smoke`
 - 当前最小 hook 面、资产需求和退出条件是否已经足够清楚
 
 详细 intake 见：
@@ -83,12 +83,14 @@
 - `workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md`
 - `workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md`
 - `workspaces/white-box/2026-04-10-finding-nemo-activation-export-adapter-review.md`
+- `workspaces/intake/2026-04-10-phase-e-finding-nemo-intake-hold-decision.md`
 
 当前固定结论补充：
 
 - `activation export adapter = implemented`
 - `current verdict = zero-GPU hold`
 - `current boundary = non-GPU only; remains an intake dossier until a separate hypothesis/budget review exists`
+- `current decisive artifact = phase-e-finding-nemo-intake-hold-decision`
 - 这仍不是 `go`
 
 ### 进入条件
@@ -109,8 +111,8 @@
 
 ### 退出条件
 
-- 形成一次 intake 级 `go / not-yet / no-go` 裁决
-- 若 `go`，最多只允许申请一次最小 `validation-smoke`
+- 形成一次 intake 级 `reconsider / not-yet / no-go` 裁决
+- 若 `reconsider`，最多只允许保留一次未来单独重审最小 `validation-smoke` 的上限设想
 - 若 `not-yet / no-go`，则继续停留在 intake，不进入执行态
 
 当前已落地裁决：
@@ -121,8 +123,8 @@
 ### 预期产物
 
 - white-box mechanism intake note
-- one minimal `validation-smoke` plan
-- `go / not-yet / no-go` 裁决
+- one future separate review packet
+- `reconsider / not-yet / no-go` 裁决
 
 ## 3. DP-LoRA
 
