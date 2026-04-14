@@ -88,9 +88,9 @@ conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config 
 
 ## 当前已验证的 GPU 栈
 
-- `torch==2.5.1+cu121`
-- `torchvision==0.20.1+cu121`
-- `torchaudio==2.5.1+cu121`
+- `torch==2.11.0+cu128`
+- `torchvision==0.26.0+cu128`
+- `torchaudio==2.11.0+cu128`
 
 ## 验证环境
 
