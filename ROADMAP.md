@@ -281,7 +281,7 @@ If two tasks are similar, prefer:
 - status: completed
 - must be updated when new verdicts or new ideas appear
 
-#### ⬜ `X-3` Keep system-consumable structure in sync
+#### ✅ `X-3` Keep system-consumable structure in sync
 
 Goal:
 
@@ -291,9 +291,22 @@ Goal:
 
 Tasks:
 
-- [ ] `X-3.1` audit whether latest verdicts are reflected in comparison artifacts
-- [ ] `X-3.2` audit whether latest verdicts change project narrative
-- [ ] `X-3.3` mark any Platform/Runtime-facing field additions or boundary changes
+- [x] `X-3.1` audit whether latest verdicts are reflected in comparison artifacts
+- [x] `X-3.2` audit whether latest verdicts change project narrative
+- [x] `X-3.3` mark any Platform/Runtime-facing field additions or boundary changes
+
+Status:
+
+- completed for the current gray-box mainline and challenger state
+- canonical evidence anchor:
+  - `workspaces/implementation/2026-04-16-graybox-system-sync-verdict.md`
+
+Verdict:
+
+- system-consumable gray-box artifacts now reflect the current truth:
+  - `PIA` remains the admitted headline
+  - `TMIA-DM late-window` is the strongest active challenger
+  - defended gray-box remains multi-family rather than collapsing back to `PIA` only
 
 Value: ⭐⭐⭐
 Budget: CPU-only
@@ -741,7 +754,7 @@ This is a preference order, not a prison.
 ### Top now
 
 1. ⬜ `GB-1` second gray-box defense
-2. ⬜ `X-3` system-consumable sync
+2. ✅ `X-3` system-consumable sync
 3. ⬜ `BB-3` CLiD boundary-quality upgrade
 4. ⬜ `X-4` cross-box exploration lane
 5. ⬜ `WB-2` second white-box verdict
@@ -823,6 +836,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 05:35 | Wrote the defended gray-box operating-point comparison: `PIA` stays the defended headline by continuity, but `TMIA-DM late-window` remains the strongest defended challenger rather than being neutralized by dropout |
 | 2026-04-16 05:45 | Scaled defended `TMIA-DM late-window` to `GPU256`: the line stayed positive at `AUC = 0.825867`, slightly trailing defended `PIA` on headline metrics but remaining much stronger on low-FPR behavior |
 | 2026-04-16 05:55 | Repeated defended `TMIA-DM late-window GPU256` with `seed1`; the line held at `AUC = 0.82164 / ASR = 0.765625`, confirming that the defended challenger also remains stable at the higher rung |
+| 2026-04-16 06:00 | Synchronized the unified attack-defense artifacts to the new gray-box reality: `PIA` remains headline, `TMIA-DM late-window` is now the strongest challenger, and defended gray-box stays multi-family |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |

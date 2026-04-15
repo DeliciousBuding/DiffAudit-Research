@@ -1,6 +1,6 @@
 {
   "schema": "diffaudit.attack_defense_table.v1",
-  "updated_at": "2026-04-15T04:00:00+08:00",
+  "updated_at": "2026-04-16T06:00:00+08:00",
   "dataset": "CIFAR-10",
   "model_family": "DDPM",
   "rows": [
@@ -193,6 +193,36 @@
       "note": "current gray-box defended main result after repeated-query review; all_steps remains stronger than late_steps_only while keeping surrogate quality drift small",
       "boundary": "workspace-verified + adaptive-reviewed + paper-alignment blocked by checkpoint/source provenance",
       "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/summary.json"
+    },
+    {
+      "track": "gray-box",
+      "attack": "TMIA-DM late-window GPU256 (repeat-confirmed)",
+      "defense": "none",
+      "model": "CIFAR-10 DDPM",
+      "auc": 0.837814,
+      "asr": 0.787109,
+      "tpr_at_1pct_fpr": 0.050781,
+      "tpr_at_0_1pct_fpr": 0.015625,
+      "quality_cost": "batch_size=8; 256 samples per split; single GPU serial; late-window [80,100,120]; repeat-confirmed at GPU128 and GPU256",
+      "evidence_level": "runtime-challenger",
+      "note": "strongest active gray-box challenger; repeat-confirmed on both GPU128 and GPU256 and now mature enough for system-consumable comparison artifacts",
+      "boundary": "workspace-verified + repeat-confirmed challenger; not yet promoted over the admitted PIA headline",
+      "source": "workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r2-seed1/summary.json"
+    },
+    {
+      "track": "gray-box",
+      "attack": "TMIA-DM late-window GPU256 (repeat-confirmed)",
+      "defense": "stochastic-dropout (all_steps)",
+      "model": "CIFAR-10 DDPM",
+      "auc": 0.82164,
+      "asr": 0.765625,
+      "tpr_at_1pct_fpr": 0.042969,
+      "tpr_at_0_1pct_fpr": 0.019531,
+      "quality_cost": "batch_size=8; 256 samples per split; single GPU serial; late-window [80,100,120]; defended repeat-confirmed at GPU128 and GPU256",
+      "evidence_level": "runtime-challenger",
+      "note": "defended gray-box is still multi-family; dropout weakens TMIA-DM late-window but does not eliminate it",
+      "boundary": "workspace-verified + repeat-confirmed defended challenger; not yet promoted above the admitted defended PIA headline",
+      "source": "workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-256-r2-seed1/summary.json"
     },
     {
       "track": "gray-box",
