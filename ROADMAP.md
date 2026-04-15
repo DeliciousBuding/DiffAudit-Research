@@ -569,16 +569,21 @@ Canonical evidence anchor:
 - `workspaces/black-box/2026-04-16-blackbox-next-lane-score-package-selection-verdict.md`
 - `workspaces/black-box/2026-04-16-blackbox-score-package-alignment-verdict.md`
 - `workspaces/black-box/2026-04-16-blackbox-score-package-contract-selection-verdict.md`
+- `workspaces/black-box/2026-04-16-blackbox-score-package-aligned-comparator-verdict.md`
 
 Updated verdict:
 
 - `BB-6.1` closes as `negative but useful`
 - current blocker is protocol/asset mismatch, not missing score logic
-- `BB-6.2 / BB-6.3` are not yet requestable on the mixed current artifact set
+- one aligned semantic-aux comparator on the selected contract surface is now `execution-positive`:
+  - `public-50 step10 / celeba_partial_target / 16 / 16`
+  - `AUC = 0.859375`, `ASR = 0.8125`, `TPR@1%FPR = 0.625`
+- this keeps `BB-6` alive, but does not yet complete `BB-6.2 / BB-6.3`
 - the next bounded step, if this lane continues, is one aligned semantic-aux comparator on:
   - `Recon DDIM public-50 step10`
   - same `celeba_partial_target/checkpoint-25000` contract surface
   - keep `public-100 step30` untouched as the headline package during first alignment
+  - then extract the matching `Recon` scalar surface on the same aligned split and test one simple package rule
 
 Value: ⭐⭐⭐
 
