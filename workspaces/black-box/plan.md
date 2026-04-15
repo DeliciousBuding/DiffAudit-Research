@@ -56,6 +56,7 @@
 - `workspaces/black-box/2026-04-15-blackbox-second-signal-semantic-aux-verdict.md`
 - `workspaces/black-box/runs/semantic-aux-classifier-probe-20260415-r1/summary.json`
 - `workspaces/black-box/runs/semantic-aux-classifier-comparator-20260415-r1/summary.json`
+- `workspaces/black-box/runs/semantic-aux-classifier-comparator-20260416-r2/summary.json`
 - `workspaces/black-box/2026-04-09-recon-evidence-freeze.md`
 - `workspaces/black-box/2026-04-09-recon-public-bundle-audit.md`
 - `experiments/blackbox-status/summary.json`
@@ -93,6 +94,17 @@
 11. 保持 `TMIA-DM` 只作为灰盒候选论文，不写进黑盒执行层级
 12. 维持黑盒状态文档、实验目录和主线命令说明同步，并明确这些同步属于统一三线规划下的黑盒执行层收口
 13. 把 `B-1 / B-2` 只记录为 black-box defense backlog，不提前写成已有可比较结果
+
+## 2026-04-16 新观察
+
+- `semantic-aux-classifier-comparator-20260416-r2` 已在相同协议下完成 `32 / 32` 放大量级 comparator：
+  - `AUC = 0.90918`
+  - `ASR = 0.84375`
+  - `TPR@1%FPR = 0.25`
+- 该结果与上一档 `16 / 16` comparator (`AUC = 0.910156`) 基本同向稳定，没有出现放大后信号塌缩
+- 当前结论：
+  - `semantic-auxiliary-classifier` 仍是 black-box leading challenger
+  - 这条线适合继续做 bounded hypothesis，而不是机械扩样本
 
 ## 当前阻塞项
 
