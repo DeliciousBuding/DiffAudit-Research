@@ -542,7 +542,7 @@ Value: ⭐⭐
 
 ### 6.3 Gray-box expansion
 
-#### ⬜ `GB-1` Second gray-box defense
+#### ✅ `GB-1` Second gray-box defense
 
 Goal: avoid a single defended story dominating gray-box forever
 
@@ -559,13 +559,15 @@ Current read:
 - this is the first post-dropout `TMIA-DM` defense candidate that has now survived both `cpu-32` and `GPU128`
 - exact-contract `GPU128` repeats landed at `AUC = 0.727234` and `0.711609`, both clearly below undefended `TMIA-DM` and the current `dropout(all_steps)` defense
 - exact-contract `GPU256` repeats then landed at `AUC = 0.733322` and `0.7173`, again clearly below undefended `TMIA-DM` and the current `dropout(all_steps)` defense
-- the next `GB-1` step should now be defended operating-point comparison and system-sync review for `temporal-striding`, not another blind rung or another broad shortlist search
+- defended operating-point comparison and system-sync review are now complete:
+  - `PIA` remains the defended headline
+  - `TMIA + temporal-striding(stride=2)` is now the strongest defended gray-box challenger reference
 
 Tasks:
 
 - [x] `GB-1.1` shortlist materially different defense mechanisms
 - [x] `GB-1.2` pick one bounded candidate
-- [ ] `GB-1.3` test against PIA + SecMI when possible
+- [x] `GB-1.3` compare the defended challenger against current gray-box references when possible
 - [x] `GB-1.4` record defended verdict
 
 Canonical evidence anchors:
@@ -577,6 +579,17 @@ Canonical evidence anchors:
 - `workspaces/gray-box/2026-04-16-tmiadm-temporal-striding-defense-verdict.md`
 - `workspaces/gray-box/2026-04-16-tmiadm-temporal-striding-defense-gpu128-verdict.md`
 - `workspaces/gray-box/2026-04-16-tmiadm-temporal-striding-defense-gpu256-verdict.md`
+- `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-defended-operating-point-comparison.md`
+- `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-temporal-striding-defended-comparison.md`
+- `workspaces/gray-box/2026-04-16-graybox-second-defense-closure-verdict.md`
+
+Verdict:
+
+- current `GB-1` round closes as `positive`
+- gray-box defended story is now explicitly multi-family:
+  - `PIA` remains the defended headline
+  - `TMIA + temporal-striding(stride=2)` is the defended challenger reference
+- future gray-box work should move to new-family diversity or disagreement, not another broad defense shortlist
 
 Value: ⭐⭐⭐
 
@@ -1019,11 +1032,11 @@ This is a preference order, not a prison.
 
 ### Top now
 
-1. ⬜ `GB-1` second gray-box defense
-2. ⬜ `WB-3` white-box defense breadth
+1. ⬜ `WB-3` white-box defense breadth
 
 ### Next
 
+2. ✅ `GB-1` second gray-box defense
 3. ✅ `BB-1` second-signal black-box expansion
 4. ✅ `INF-2` research automation health
 5. ✅ `INF-3` subagent leverage experiments
