@@ -913,9 +913,9 @@ Current read:
 
 Tasks:
 
-- [ ] `GB-6.1` select one honest local target family for the first contract
-- [ ] `GB-6.2` write the minimum asset/interface checklist
-- [ ] `GB-6.3` define the first bounded smoke and `gpu_release` gate
+- [x] `GB-6.1` select one honest local target family for the first contract
+- [x] `GB-6.2` write the minimum asset/interface checklist
+- [x] `GB-6.3` define the first bounded smoke and `gpu_release` gate
 
 Canonical evidence anchor:
 
@@ -923,7 +923,11 @@ Canonical evidence anchor:
 
 Selection verdict:
 
-- `GB-6` is the new live CPU-first lane
+- `GB-6` now closes as `positive but bounded`
+- first honest local target family:
+  - `SD1.5 + celeba_partial_target/checkpoint-25000`
+- first bounded smoke:
+  - `one member + one non-member interface canary`
 - `gpu_release = none`
 
 Value: ⭐⭐⭐
@@ -1212,7 +1216,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-6 Noise-as-a-Probe protocol / asset contract` is now the current top-priority CPU-first lane.
+No currently open top-priority lane is execution-ready without a fresh implementation or release decision.
 
 Current release posture:
 
@@ -1221,7 +1225,7 @@ Current release posture:
 
 ### Next
 
-1. ⬜ `GB-6` Noise-as-a-Probe protocol / asset contract
+1. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
 2. ✅ `GB-5` genuinely-new-family selector
 3. ✅ `WB-5` DP-LoRA comparability dossier
 4. ✅ `BB-6` same-protocol cross-method score package
@@ -1322,6 +1326,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 08:45 | Closed `WB-5.3` and the current `WB-5` lane as `positive but bounded`: `DP-LoRA` now has explicit no-go and future GPU-release triggers, so the successor lane is governance-ready but still below release and below admitted upgrade |
 | 2026-04-16 08:55 | Re-opened the next live CPU-first lane as `GB-5 genuinely-new-family selector`: current gray-box packaging is strong enough for now, black-box remains in `no immediate rerun`, and the next research value lies in selecting one truly new gray-box family plus its first bounded smoke |
 | 2026-04-16 09:10 | Closed `GB-5` positively: selected `Noise as a Probe` as the next genuinely new gray-box family, rejected `MoFit / SIDe / SimA reopen / structural memorization reopen` for now, and opened `GB-6` as the CPU-first protocol / asset contract lane with `gpu_release = none` |
+| 2026-04-16 09:20 | Closed `GB-6` as `positive but bounded`: the first honest local `Noise as a Probe` target family is `SD1.5 + celeba_partial_target/checkpoint-25000`, the first bounded smoke is a one-member/one-non-member interface canary, and `gpu_release` remains `none` until prompt source, custom-noise path, and canary schema are frozen |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
