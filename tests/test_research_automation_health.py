@@ -88,6 +88,94 @@ class ResearchAutomationHealthTests(unittest.TestCase):
                 result["friction_points"],
             )
 
+    def test_audit_marks_actionable_untracked_run_summary_as_friction(self) -> None:
+        from diffaudit.research_automation_health import audit_research_automation_health
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            (root / "ROADMAP.md").write_text(
+                "\n".join(
+                    [
+                        "### Top now",
+                        "1. ⬜ `GB-1` second gray-box defense",
+                        "### Next",
+                        "6. ⬜ `INF-2` research automation health",
+                        "### Then",
+                        "10. ⬜ `INF-3` subagent leverage experiments",
+                        "- canonical evidence anchor:",
+                        "  - `workspaces/black-box/runs/test-run/summary.json`",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            summary_path = root / "workspaces" / "black-box" / "runs" / "test-run" / "summary.json"
+            summary_path.parent.mkdir(parents=True, exist_ok=True)
+            summary_path.write_text("{}", encoding="utf-8")
+            (root / "workspaces" / "black-box" / "note.md").write_text(
+                "- `next GPU candidate`: `test`\n- `active_gpu_question`: `none`\n",
+                encoding="utf-8",
+            )
+
+            import subprocess
+
+            subprocess.run(["git", "-C", str(root), "init"], check=True, capture_output=True)
+
+            result = audit_research_automation_health(root)
+
+            self.assertEqual(result["counts"]["untracked_run_summaries"], 1)
+            self.assertEqual(result["counts"]["actionable_untracked_run_summaries"], 1)
+            self.assertEqual(result["status"], "friction detected")
+            self.assertIn(
+                "some active run-summary anchors point to untracked files and need add discipline",
+                result["friction_points"],
+            )
+
+    def test_audit_excludes_legacy_run_summary_mentions_from_actionable_friction(self) -> None:
+        from diffaudit.research_automation_health import audit_research_automation_health
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            (root / ".gitignore").write_text("workspaces/black-box/runs/\n", encoding="utf-8")
+            (root / "ROADMAP.md").write_text(
+                "\n".join(
+                    [
+                        "### Top now",
+                        "1. ⬜ `GB-1` second gray-box defense",
+                        "### Next",
+                        "6. ⬜ `INF-2` research automation health",
+                        "### Then",
+                        "10. ⬜ `INF-3` subagent leverage experiments",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            summary_path = root / "workspaces" / "black-box" / "runs" / "test-run" / "summary.json"
+            summary_path.parent.mkdir(parents=True, exist_ok=True)
+            summary_path.write_text("{}", encoding="utf-8")
+            legacy_dir = root / "legacy"
+            legacy_dir.mkdir()
+            (legacy_dir / "old-note.md").write_text(
+                "- `workspaces/black-box/runs/test-run/summary.json`\n",
+                encoding="utf-8",
+            )
+            (root / "workspaces" / "black-box" / "note.md").write_text(
+                "- `next GPU candidate`: `test`\n- `active_gpu_question`: `none`\n",
+                encoding="utf-8",
+            )
+
+            import subprocess
+
+            subprocess.run(["git", "-C", str(root), "init"], check=True, capture_output=True)
+
+            result = audit_research_automation_health(root)
+
+            self.assertEqual(result["counts"]["legacy_run_summaries"], 1)
+            self.assertEqual(result["counts"]["actionable_run_summaries"], 0)
+            self.assertNotIn(
+                "some active run-summary anchors point to ignored files and need force-add discipline",
+                result["friction_points"],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

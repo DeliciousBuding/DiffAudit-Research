@@ -22,7 +22,7 @@ New behavior:
    - `legacy_reference`
    - `active_reference`
 2. compute actionable counts separately from total counts
-3. only treat active ignored/missing anchors as true friction
+3. treat active ignored / untracked / missing anchors as true friction
 
 Updated audit artifact:
 
@@ -36,6 +36,7 @@ The refined audit now reports:
 - `actionable_run_summaries = 159`
 - `actionable_tracked_run_summaries = 3`
 - `actionable_ignored_run_summaries = 156`
+- `actionable_untracked_run_summaries = 0`
 - `actionable_missing_run_summaries = 2`
 
 This is better than the previous mixed bucket because placeholder references are no longer conflated with active drift.
@@ -49,6 +50,7 @@ The repository still has real anchor hygiene friction, but the automation layer 
 1. template placeholders are no longer treated as if they were active broken references;
 2. the remaining friction signal is narrower and more actionable:
    - active ignored summaries
+   - active untracked summaries
    - active missing summaries
 3. this is enough to close the current `INF-2.3` round without pretending that all anchor drift is fixed.
 

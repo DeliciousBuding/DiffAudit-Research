@@ -287,12 +287,14 @@
     "run_summary_mentions": 162,
     "tracked_run_summaries": 3,
     "ignored_run_summaries": 159,
+    "untracked_run_summaries": 0,
     "missing_run_summaries": 5,
     "template_placeholder_run_summaries": 3,
     "legacy_run_summaries": 0,
     "actionable_run_summaries": 159,
     "actionable_tracked_run_summaries": 3,
     "actionable_ignored_run_summaries": 156,
+    "actionable_untracked_run_summaries": 0,
     "actionable_missing_run_summaries": 2
   },
   "friction_points": [

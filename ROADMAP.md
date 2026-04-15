@@ -960,7 +960,10 @@ Verdict:
 - bounded automation now exists to audit exactly those signals in one pass
 - `INF-2.3` now also completes positively:
   - template placeholders are no longer conflated with active broken references
-  - remaining friction is now reported more honestly as active ignored/missing anchor issues
+  - remaining friction is now reported more honestly as active ignored/untracked/missing anchor issues
+- later hardening from `INF-3.2` also closed two review-found gaps:
+  - active untracked anchors now count as actionable friction
+  - git path checks no longer assume Windows-only separator normalization
 
 Carry-forward rule:
 
@@ -975,7 +978,7 @@ Goal: determine when optional subagents actually improve research throughput
 Tasks:
 
 - [x] `INF-3.1` test paper-scout subagent workflow
-- [ ] `INF-3.2` test code-review subagent workflow
+- [x] `INF-3.2` test code-review subagent workflow
 - [x] `INF-3.3` test backlog-critic or experiment-auditor workflow
 - [ ] `INF-3.4` record what should become standard and what should stay optional
 
@@ -984,17 +987,23 @@ Status:
 - first paper-scout and backlog-critic experiments completed
 - canonical evidence anchor:
   - `workspaces/implementation/2026-04-16-subagent-paper-scout-verdict.md`
+  - `workspaces/implementation/2026-04-16-subagent-code-review-verdict.md`
   - `workspaces/implementation/2026-04-16-subagent-backlog-critic-verdict.md`
 
 Verdict:
 
 - the read-only paper-scout workflow is also `positive`
 - it identified `SimA cpu-32 timestep rescan` as the shortest credible next gray-box candidate-generation branch, while explicitly rejecting a premature jump to `MoFit / noise-as-a-probe / SIDe`
+- the read-only code-review workflow is also `positive`
+- it surfaced two real hardening gaps in the automation-health patch:
+  - active untracked anchors were not yet counted as friction
+  - git path classification still assumed Windows-style separator rewriting
 - the read-only backlog-critic workflow is `positive` in the current repo state
 - it created real leverage precisely because many recent box-local branches had just closed
 - it independently selected `X-4.1 cross-box agreement analysis` as the highest-value next live task
 - current standardization rule:
   - use paper-scout when multiple literature candidates exist but local implementation distance differs sharply
+  - use code-review subagents for automation/tooling commits that affect audit truth or canonical evidence generation
   - use backlog-critic after multiple closures or when the priority ladder may have drifted
   - keep it optional for trivial or obviously single-path loops
 
@@ -1009,14 +1018,14 @@ This is a preference order, not a prison.
 ### Top now
 
 1. ⬜ `BB-1` second-signal black-box expansion
-2. ⬜ `INF-2` research automation health
-3. ⬜ `WB-4` white-box feature/trajectory upgrade
-4. ⬜ `INF-3` subagent leverage experiments
+2. ⬜ `INF-3` subagent leverage experiments
+3. ⬜ `GB-1` second gray-box defense
+4. ⬜ `WB-3` white-box defense breadth
 
 ### Next
 
-5. ⬜ `GB-1` second gray-box defense
-6. ⬜ `WB-3` white-box defense breadth
+5. ✅ `INF-2` research automation health
+6. ✅ `WB-4` white-box feature/trajectory upgrade
 7. ✅ `X-3` system-consumable sync
 8. ✅ `BB-3` CLiD boundary-quality upgrade
 9. ✅ `X-4` cross-box exploration lane

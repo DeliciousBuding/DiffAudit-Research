@@ -60,9 +60,8 @@ def extract_repo_signals(repo_root: Path) -> dict[str, list[dict[str, str]]]:
 
 
 def _git_path_status(repo_root: Path, relative_path: str) -> str:
-    target = relative_path.replace("/", "\\")
     tracked = subprocess.run(
-        ["git", "-C", str(repo_root), "ls-files", "--error-unmatch", "--", target],
+        ["git", "-C", str(repo_root), "ls-files", "--error-unmatch", "--", relative_path],
         capture_output=True,
         text=True,
         check=False,
@@ -70,7 +69,7 @@ def _git_path_status(repo_root: Path, relative_path: str) -> str:
     if tracked.returncode == 0:
         return "tracked"
     ignored = subprocess.run(
-        ["git", "-C", str(repo_root), "check-ignore", "--", target],
+        ["git", "-C", str(repo_root), "check-ignore", "--", relative_path],
         capture_output=True,
         text=True,
         check=False,
@@ -104,11 +103,13 @@ def audit_research_automation_health(repo_root: Path) -> dict[str, object]:
 
     tracked_count = sum(1 for item in run_anchor_checks if item["git_status"] == "tracked")
     ignored_count = sum(1 for item in run_anchor_checks if item["git_status"] == "ignored")
+    untracked_count = sum(1 for item in run_anchor_checks if item["git_status"] == "untracked")
     missing_count = sum(1 for item in run_anchor_checks if not item["exists"])
     template_count = sum(1 for item in run_anchor_checks if item["classification"] == "template_placeholder")
     legacy_count = sum(1 for item in run_anchor_checks if item["classification"] == "legacy_reference")
     actionable_checks = [item for item in run_anchor_checks if item["classification"] == "active_reference"]
     actionable_ignored_count = sum(1 for item in actionable_checks if item["git_status"] == "ignored")
+    actionable_untracked_count = sum(1 for item in actionable_checks if item["git_status"] == "untracked")
     actionable_missing_count = sum(1 for item in actionable_checks if not item["exists"])
     actionable_tracked_count = sum(1 for item in actionable_checks if item["git_status"] == "tracked")
 
@@ -119,10 +120,16 @@ def audit_research_automation_health(repo_root: Path) -> dict[str, object]:
         friction_points.append("no explicit active GPU state markers found in markdown notes")
     if actionable_ignored_count > 0:
         friction_points.append("some active run-summary anchors point to ignored files and need force-add discipline")
+    if actionable_untracked_count > 0:
+        friction_points.append("some active run-summary anchors point to untracked files and need add discipline")
     if actionable_missing_count > 0:
         friction_points.append("some active run-summary anchors point to missing files")
 
-    status = "healthy enough with bounded friction" if not actionable_missing_count and not actionable_ignored_count else "friction detected"
+    status = (
+        "healthy enough with bounded friction"
+        if not actionable_missing_count and not actionable_ignored_count and not actionable_untracked_count
+        else "friction detected"
+    )
     return {
         "status": status,
         "priority_ladder": ladder,
@@ -135,12 +142,14 @@ def audit_research_automation_health(repo_root: Path) -> dict[str, object]:
             "run_summary_mentions": len(run_anchor_checks),
             "tracked_run_summaries": tracked_count,
             "ignored_run_summaries": ignored_count,
+            "untracked_run_summaries": untracked_count,
             "missing_run_summaries": missing_count,
             "template_placeholder_run_summaries": template_count,
             "legacy_run_summaries": legacy_count,
             "actionable_run_summaries": len(actionable_checks),
             "actionable_tracked_run_summaries": actionable_tracked_count,
             "actionable_ignored_run_summaries": actionable_ignored_count,
+            "actionable_untracked_run_summaries": actionable_untracked_count,
             "actionable_missing_run_summaries": actionable_missing_count,
         },
         "friction_points": friction_points,
