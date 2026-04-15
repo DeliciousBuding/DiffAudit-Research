@@ -397,7 +397,7 @@ Promotion standard:
 
 Value: ⭐⭐⭐
 
-#### ⬜ `BB-2` Scoring and calibration upgrades
+#### ✅ `BB-2` Scoring and calibration upgrades
 
 Goal: improve black-box signal quality without pretending every scoring tweak is a new method family
 
@@ -415,12 +415,24 @@ Current read:
 Tasks:
 
 - [x] `BB-2.1` MSE-weighted or multi-score challenger
-- [ ] `BB-2.2` bounded fusion experiments
+- [x] `BB-2.2` bounded fusion experiments
 - [x] `BB-2.3` document whether calibration changes ranking or only threshold
 
 Canonical evidence anchor:
 
 - `workspaces/black-box/2026-04-16-blackbox-semantic-aux-scoring-verdict.md`
+- `workspaces/black-box/runs/semantic-aux-fusion-20260416-r1/summary.json`
+- `workspaces/black-box/2026-04-16-blackbox-semantic-aux-fusion-verdict.md`
+
+Updated verdict:
+
+- bounded fusion also closes as `negative but useful`
+- on `16 / 16`, no tested fusion candidate beat `mean_cos`
+- on `32 / 32`, the best bounded fusion (`cosine_pair_zmean`) only improved `AUC` from `0.916992` to `0.918945`
+- that `+0.001953` gain is below the promotion bar and remains almost rank-identical to `mean_cos`
+- current semantic-aux scoring truth is therefore:
+  - `mean_cos` remains the preferred simple score reference
+  - current logistic and bounded fusion variants are refinements of the same ordering, not a stronger new score family
 
 Value: ⭐⭐
 
