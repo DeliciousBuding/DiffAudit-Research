@@ -14,6 +14,9 @@ from diffaudit.attacks.pia_adapter import (
     _build_pia_subset_loader,
     _compute_auc,
     _compute_threshold_metrics,
+    _dropout_is_active_for_timestep,
+    _normalize_dropout_activation_schedule,
+    _resolve_late_step_threshold,
     load_pia_model,
     prepare_pia_runtime,
     probe_pia_assets,
@@ -37,6 +40,8 @@ def _collect_eps_predictions_for_timestep(
     alpha_bars: torch.Tensor,
     device: str,
     noise_seed: int,
+    dropout_activation_schedule: str = "off",
+    late_step_threshold: int | None = None,
 ) -> torch.Tensor:
     predictions: list[torch.Tensor] = []
     alpha_bar_t = alpha_bars[int(timestep)].to(device=device)
@@ -44,7 +49,15 @@ def _collect_eps_predictions_for_timestep(
     sqrt_one_minus_alpha = torch.sqrt(1.0 - alpha_bar_t)
     generator = torch.Generator(device=device if device.startswith("cuda") else "cpu")
     generator.manual_seed(int(noise_seed) + int(timestep))
-    model.eval()
+    was_training = model.training
+    if _dropout_is_active_for_timestep(
+        dropout_activation_schedule,
+        timestep=int(timestep),
+        late_step_threshold=late_step_threshold,
+    ):
+        model.train()
+    else:
+        model.eval()
     with torch.no_grad():
         for batch, _ in loader:
             normalized = batch.to(device) * 2 - 1
@@ -62,6 +75,7 @@ def _collect_eps_predictions_for_timestep(
                 dtype=torch.long,
             )
             predictions.append(model(noisy, t=timestep_tensor).detach().cpu())
+    model.train(was_training)
     return torch.cat(predictions, dim=0)
 
 
@@ -72,6 +86,8 @@ def _collect_eps_predictions_for_timesteps(
     alpha_bars: torch.Tensor,
     device: str,
     noise_seed: int,
+    dropout_activation_schedule: str = "off",
+    late_step_threshold: int | None = None,
 ) -> torch.Tensor:
     timestep_predictions = [
         _collect_eps_predictions_for_timestep(
@@ -81,6 +97,8 @@ def _collect_eps_predictions_for_timesteps(
             alpha_bars=alpha_bars,
             device=device,
             noise_seed=noise_seed,
+            dropout_activation_schedule=dropout_activation_schedule,
+            late_step_threshold=late_step_threshold,
         )
         for timestep in timesteps
     ]
@@ -170,6 +188,9 @@ def run_tmiadm_protocol_probe(
     scan_timesteps: list[int] | tuple[int, ...] | None = None,
     aggregation_p_norm: int | float = 2,
     noise_seed: int = 0,
+    stochastic_dropout_defense: bool = False,
+    dropout_activation_schedule: str = "off",
+    late_step_threshold: int | None = None,
     provenance_status: str = "workspace-verified",
 ) -> dict[str, Any]:
     started_at = time.perf_counter()
@@ -195,6 +216,18 @@ def run_tmiadm_protocol_probe(
         member_split_root=split_root,
     )
     selected_max_samples = max_samples or runtime_context.plan.num_samples
+    resolved_schedule = _normalize_dropout_activation_schedule(
+        dropout_activation_schedule,
+        stochastic_dropout_defense=stochastic_dropout_defense,
+    )
+    resolved_late_step_threshold = _resolve_late_step_threshold(
+        attack_num=max(len(scan_timesteps or [20, 40, 60, 80, 100, 120]) - 1, 1),
+        interval=max(
+            int((scan_timesteps or [20, 40, 60, 80, 100, 120])[1] - (scan_timesteps or [20, 40, 60, 80, 100, 120])[0]),
+            1,
+        ) if len(scan_timesteps or [20, 40, 60, 80, 100, 120]) > 1 else 1,
+        late_step_threshold=late_step_threshold,
+    )
     member_loader, member_indices = _build_pia_subset_loader(
         dataset=runtime_context.plan.dataset,
         dataset_dir=asset_summary["paths"]["dataset_dir"],
@@ -221,6 +254,8 @@ def run_tmiadm_protocol_probe(
         alpha_bars=alpha_bars,
         device=device,
         noise_seed=noise_seed,
+        dropout_activation_schedule=resolved_schedule,
+        late_step_threshold=resolved_late_step_threshold,
     )
     nonmember_predictions = _collect_eps_predictions_for_timesteps(
         model=model,
@@ -229,6 +264,8 @@ def run_tmiadm_protocol_probe(
         alpha_bars=alpha_bars,
         device=device,
         noise_seed=noise_seed,
+        dropout_activation_schedule=resolved_schedule,
+        late_step_threshold=resolved_late_step_threshold,
     )
 
     member_family_scores = _compute_tmiadm_family_scores(
@@ -297,6 +334,12 @@ def run_tmiadm_protocol_probe(
             "aggregation_p_norm": float(aggregation_p_norm),
             "noise_seed": int(noise_seed),
             "elapsed_seconds": round(time.perf_counter() - started_at, 6),
+        },
+        "defense": {
+            "name": "stochastic-dropout" if stochastic_dropout_defense else "none",
+            "enabled": bool(stochastic_dropout_defense),
+            "dropout_activation_schedule": resolved_schedule,
+            "late_step_threshold": int(resolved_late_step_threshold),
         },
         "sample_count_per_split": int(len(member_indices)),
         "family_metrics": family_metrics,
