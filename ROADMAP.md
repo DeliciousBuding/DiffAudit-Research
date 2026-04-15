@@ -942,13 +942,14 @@ Tasks:
 
 - [x] `INF-2.1` identify friction points in current run/update workflow
 - [x] `INF-2.2` add bounded automation where it reduces repeated human babysitting
-- [ ] `INF-2.3` improve run artifact consistency or summary templates if needed
+- [x] `INF-2.3` improve run artifact consistency or summary templates if needed
 
 Status:
 
 - first automation-health round completed
 - canonical evidence anchor:
   - `workspaces/implementation/2026-04-16-research-automation-health-verdict.md`
+  - `workspaces/implementation/2026-04-16-run-anchor-consistency-verdict.md`
   - `workspaces/implementation/artifacts/research-automation-health-20260416.json`
 
 Verdict:
@@ -957,8 +958,9 @@ Verdict:
 - current autonomous workflow had one repeated-friction gap:
   - priority ladder, next GPU candidate, GPU-idle reason, and run-summary anchor hygiene were discoverable only by repeated manual scanning
 - bounded automation now exists to audit exactly those signals in one pass
-- the remaining open piece is `INF-2.3`:
-  - tighten template and anchor consistency where run-summary mentions still resolve to ignored or placeholder paths
+- `INF-2.3` now also completes positively:
+  - template placeholders are no longer conflated with active broken references
+  - remaining friction is now reported more honestly as active ignored/missing anchor issues
 
 Carry-forward rule:
 

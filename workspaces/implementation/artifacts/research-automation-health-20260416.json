@@ -2,20 +2,22 @@
   "status": "friction detected",
   "priority_ladder": {
     "Top now": [
-      "1. \u2b1c `GB-1` second gray-box defense",
-      "2. \u2705 `X-3` system-consumable sync",
-      "3. \u2705 `BB-3` CLiD boundary-quality upgrade",
-      "4. \u2705 `X-4` cross-box exploration lane",
-      "5. \u2705 `WB-2` second white-box verdict"
+      "1. \u2b1c `BB-1` second-signal black-box expansion",
+      "2. \u2b1c `INF-2` research automation health",
+      "3. \u2b1c `WB-4` white-box feature/trajectory upgrade",
+      "4. \u2b1c `INF-3` subagent leverage experiments"
     ],
     "Next": [
-      "6. \u2b1c `INF-2` research automation health",
-      "7. \u2b1c `GB-3` new gray-box family",
-      "8. \u2b1c `BB-4` mitigation-aware black-box evaluation",
-      "9. \u2b1c `WB-3` white-box defense breadth"
+      "5. \u2b1c `GB-1` second gray-box defense",
+      "6. \u2b1c `WB-3` white-box defense breadth",
+      "7. \u2705 `X-3` system-consumable sync",
+      "8. \u2705 `BB-3` CLiD boundary-quality upgrade",
+      "9. \u2705 `X-4` cross-box exploration lane"
     ],
     "Then": [
-      "10. \u2b1c `INF-3` subagent leverage experiments"
+      "10. \u2705 `WB-2` second white-box verdict",
+      "11. \u2705 `GB-3` new gray-box family",
+      "12. \u2705 `BB-4` mitigation-aware black-box evaluation"
     ]
   },
   "gpu_candidates": [
@@ -41,7 +43,7 @@
     },
     {
       "path": "ROADMAP.md",
-      "line": "899",
+      "line": "958",
       "text": "- priority ladder, next GPU candidate, GPU-idle reason, and run-summary anchor hygiene were discoverable only by repeated manual scanning"
     },
     {
@@ -122,6 +124,7 @@
       "source_path": "AGENTS.md",
       "source_line": 287,
       "run_summary_path": "workspaces/<lane>/runs/<run-name>/summary.json",
+      "classification": "template_placeholder",
       "exists": false,
       "git_status": "ignored"
     },
@@ -129,6 +132,7 @@
       "source_path": "docs/comprehensive-progress.md",
       "source_line": 54,
       "run_summary_path": "workspaces/black-box/runs/clid-threshold-compatibility-20260416-r1/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -136,6 +140,7 @@
       "source_path": "docs/comprehensive-progress.md",
       "source_line": 118,
       "run_summary_path": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-sameproto3shadow-batch32-diagnostic-20260409/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -143,6 +148,7 @@
       "source_path": "docs/comprehensive-progress.md",
       "source_line": 126,
       "run_summary_path": "workspaces/white-box/runs/finding-nemo-observability-canary-20260410-round24/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -150,6 +156,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 25,
       "run_summary_path": "workspaces/black-box/runs/clid-threshold-compatibility-20260416-r1/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -157,6 +164,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 34,
       "run_summary_path": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260410-cpu-32-adaptive/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -164,6 +172,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 34,
       "run_summary_path": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260410-cpu-32-allsteps-adaptive/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -171,6 +180,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 34,
       "run_summary_path": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260410-gpu-128-adaptive/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -178,6 +188,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 34,
       "run_summary_path": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260410-gpu-128-allsteps-adaptive/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -185,6 +196,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 34,
       "run_summary_path": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260410-gpu-256-adaptive/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -192,6 +204,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 34,
       "run_summary_path": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260410-gpu-256-allsteps-adaptive/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -199,6 +212,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 41,
       "run_summary_path": "workspaces/white-box/runs/gsa-runtime-mainline-20260408-cifar10-1k-3shadow/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -206,6 +220,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 41,
       "run_summary_path": "workspaces/white-box/runs/gsa-runtime-mainline-20260409-cifar10-1k-3shadow-epoch300-rerun1/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -213,6 +228,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 41,
       "run_summary_path": "workspaces/white-box/runs/gsa-runtime-mainline-20260409-cifar10-1k-3shadow-epoch300-rerun1/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -220,6 +236,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 42,
       "run_summary_path": "workspaces/white-box/runs/finding-nemo-observability-canary-20260410-round24/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -227,6 +244,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 42,
       "run_summary_path": "workspaces/white-box/runs/finding-nemo-observability-canary-20260410-round24/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -234,6 +252,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 43,
       "run_summary_path": "workspaces/white-box/runs/dpdm-w1-target-only-20260408/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -241,6 +260,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 43,
       "run_summary_path": "workspaces/white-box/runs/dpdm-w1-shadow-comparator-20260408/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -248,6 +268,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 43,
       "run_summary_path": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-20260408/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     },
@@ -255,6 +276,7 @@
       "source_path": "docs/reproduction-status.md",
       "source_line": 43,
       "run_summary_path": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-20260408/summary.json",
+      "classification": "active_reference",
       "exists": true,
       "git_status": "ignored"
     }
@@ -262,13 +284,19 @@
   "counts": {
     "gpu_candidate_markers": 9,
     "idle_reason_markers": 40,
-    "run_summary_mentions": 160,
-    "tracked_run_summaries": 1,
+    "run_summary_mentions": 162,
+    "tracked_run_summaries": 3,
     "ignored_run_summaries": 159,
-    "missing_run_summaries": 5
+    "missing_run_summaries": 5,
+    "template_placeholder_run_summaries": 3,
+    "legacy_run_summaries": 0,
+    "actionable_run_summaries": 159,
+    "actionable_tracked_run_summaries": 3,
+    "actionable_ignored_run_summaries": 156,
+    "actionable_missing_run_summaries": 2
   },
   "friction_points": [
-    "some run-summary anchors point to ignored files and need force-add discipline",
-    "some run-summary anchors point to missing files"
+    "some active run-summary anchors point to ignored files and need force-add discipline",
+    "some active run-summary anchors point to missing files"
   ]
 }

@@ -4,6 +4,22 @@ from pathlib import Path
 
 
 class ResearchAutomationHealthTests(unittest.TestCase):
+    def test_classify_run_summary_mention_distinguishes_placeholder_legacy_and_active(self) -> None:
+        from diffaudit.research_automation_health import classify_run_summary_mention
+
+        self.assertEqual(
+            classify_run_summary_mention("AGENTS.md", "workspaces/<lane>/runs/<run-name>/summary.json"),
+            "template_placeholder",
+        )
+        self.assertEqual(
+            classify_run_summary_mention("legacy/old.md", "workspaces/black-box/runs/real/summary.json"),
+            "legacy_reference",
+        )
+        self.assertEqual(
+            classify_run_summary_mention("docs/reproduction-status.md", "workspaces/black-box/runs/real/summary.json"),
+            "active_reference",
+        )
+
     def test_extract_priority_ladder_groups_sections(self) -> None:
         from diffaudit.research_automation_health import extract_priority_ladder
 
@@ -24,7 +40,7 @@ class ResearchAutomationHealthTests(unittest.TestCase):
         self.assertEqual(result["Next"][0], "6. ⬜ `INF-2` research automation health")
         self.assertEqual(result["Then"][0], "10. ⬜ `INF-3` subagent leverage experiments")
 
-    def test_audit_marks_ignored_run_summary_as_friction(self) -> None:
+    def test_audit_marks_only_actionable_ignored_run_summary_as_friction(self) -> None:
         from diffaudit.research_automation_health import audit_research_automation_health
 
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -45,6 +61,10 @@ class ResearchAutomationHealthTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
+            (root / "AGENTS.md").write_text(
+                "- `workspaces/<lane>/runs/<run-name>/summary.json`\n",
+                encoding="utf-8",
+            )
             summary_path = root / "workspaces" / "black-box" / "runs" / "test-run" / "summary.json"
             summary_path.parent.mkdir(parents=True, exist_ok=True)
             summary_path.write_text("{}", encoding="utf-8")
@@ -61,9 +81,10 @@ class ResearchAutomationHealthTests(unittest.TestCase):
 
             self.assertEqual(result["counts"]["gpu_candidate_markers"], 1)
             self.assertEqual(result["counts"]["idle_reason_markers"], 1)
-            self.assertEqual(result["counts"]["ignored_run_summaries"], 1)
+            self.assertEqual(result["counts"]["template_placeholder_run_summaries"], 1)
+            self.assertEqual(result["counts"]["actionable_ignored_run_summaries"], 1)
             self.assertIn(
-                "some run-summary anchors point to ignored files and need force-add discipline",
+                "some active run-summary anchors point to ignored files and need force-add discipline",
                 result["friction_points"],
             )
 

@@ -5,6 +5,15 @@ import subprocess
 from pathlib import Path
 
 RUN_SUMMARY_PATTERN = re.compile(r"workspaces/[^\s`)]*/runs/[^\s`)]*/summary\.json")
+NON_ACTIONABLE_SOURCE_PREFIXES = ("legacy/",)
+
+
+def classify_run_summary_mention(source_path: str, run_summary_path: str) -> str:
+    if "<" in run_summary_path or ">" in run_summary_path:
+        return "template_placeholder"
+    if source_path.startswith(NON_ACTIONABLE_SOURCE_PREFIXES):
+        return "legacy_reference"
+    return "active_reference"
 
 
 def extract_priority_ladder(roadmap_text: str) -> dict[str, list[str]]:
@@ -81,11 +90,13 @@ def audit_research_automation_health(repo_root: Path) -> dict[str, object]:
     for item in repo_signals["run_summary_mentions"]:
         rel_path = item["text"]
         file_path = repo_root / Path(rel_path)
+        classification = classify_run_summary_mention(item["path"], rel_path)
         run_anchor_checks.append(
             {
                 "source_path": item["path"],
                 "source_line": int(item["line"]),
                 "run_summary_path": rel_path,
+                "classification": classification,
                 "exists": file_path.exists(),
                 "git_status": _git_path_status(repo_root, rel_path),
             }
@@ -94,18 +105,24 @@ def audit_research_automation_health(repo_root: Path) -> dict[str, object]:
     tracked_count = sum(1 for item in run_anchor_checks if item["git_status"] == "tracked")
     ignored_count = sum(1 for item in run_anchor_checks if item["git_status"] == "ignored")
     missing_count = sum(1 for item in run_anchor_checks if not item["exists"])
+    template_count = sum(1 for item in run_anchor_checks if item["classification"] == "template_placeholder")
+    legacy_count = sum(1 for item in run_anchor_checks if item["classification"] == "legacy_reference")
+    actionable_checks = [item for item in run_anchor_checks if item["classification"] == "active_reference"]
+    actionable_ignored_count = sum(1 for item in actionable_checks if item["git_status"] == "ignored")
+    actionable_missing_count = sum(1 for item in actionable_checks if not item["exists"])
+    actionable_tracked_count = sum(1 for item in actionable_checks if item["git_status"] == "tracked")
 
     friction_points = []
     if not repo_signals["gpu_candidates"]:
         friction_points.append("no explicit next GPU candidate markers found in markdown notes")
     if not repo_signals["idle_reasons"]:
         friction_points.append("no explicit active GPU state markers found in markdown notes")
-    if ignored_count > 0:
-        friction_points.append("some run-summary anchors point to ignored files and need force-add discipline")
-    if missing_count > 0:
-        friction_points.append("some run-summary anchors point to missing files")
+    if actionable_ignored_count > 0:
+        friction_points.append("some active run-summary anchors point to ignored files and need force-add discipline")
+    if actionable_missing_count > 0:
+        friction_points.append("some active run-summary anchors point to missing files")
 
-    status = "healthy enough with bounded friction" if not missing_count else "friction detected"
+    status = "healthy enough with bounded friction" if not actionable_missing_count and not actionable_ignored_count else "friction detected"
     return {
         "status": status,
         "priority_ladder": ladder,
@@ -119,6 +136,12 @@ def audit_research_automation_health(repo_root: Path) -> dict[str, object]:
             "tracked_run_summaries": tracked_count,
             "ignored_run_summaries": ignored_count,
             "missing_run_summaries": missing_count,
+            "template_placeholder_run_summaries": template_count,
+            "legacy_run_summaries": legacy_count,
+            "actionable_run_summaries": len(actionable_checks),
+            "actionable_tracked_run_summaries": actionable_tracked_count,
+            "actionable_ignored_run_summaries": actionable_ignored_count,
+            "actionable_missing_run_summaries": actionable_missing_count,
         },
         "friction_points": friction_points,
     }
