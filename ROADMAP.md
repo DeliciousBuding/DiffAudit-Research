@@ -333,6 +333,7 @@ Status:
 - completed for the current cross-box handoff-sync round
 - canonical evidence anchor:
   - `workspaces/implementation/2026-04-16-crossbox-handoff-review.md`
+  - `workspaces/implementation/2026-04-16-crossbox-agreement-analysis.md`
 
 Verdict:
 
@@ -348,6 +349,13 @@ Handoff decision:
 
 - sync `Leader` and competition-material wording now
 - no mandatory `Platform` or `Runtime` schema change is required in this round
+
+Latest follow-up:
+
+- `X-4.1` cross-box agreement analysis also completes positively:
+  - all three boxes now agree that leakage risk is real, but they support different project roles
+  - `black-box = existence proof`, `gray-box = main attack-defense story`, `white-box = depth / upper bound`
+  - no new GPU admission question is justified by this analysis alone
 
 Carry-forward rule:
 
