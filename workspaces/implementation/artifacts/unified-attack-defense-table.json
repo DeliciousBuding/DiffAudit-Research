@@ -1,6 +1,6 @@
 {
   "schema": "diffaudit.attack_defense_table.v1",
-  "updated_at": "2026-04-16T06:00:00+08:00",
+  "updated_at": "2026-04-16T07:20:00+08:00",
   "dataset": "CIFAR-10",
   "model_family": "DDPM",
   "rows": [
@@ -223,6 +223,21 @@
       "note": "defended gray-box is still multi-family; dropout weakens TMIA-DM late-window but does not eliminate it",
       "boundary": "workspace-verified + repeat-confirmed defended challenger; not yet promoted above the admitted defended PIA headline",
       "source": "workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-256-r2-seed1/summary.json"
+    },
+    {
+      "track": "gray-box",
+      "attack": "TMIA-DM late-window GPU256 (repeat-confirmed)",
+      "defense": "temporal-striding (stride=2)",
+      "model": "CIFAR-10 DDPM",
+      "auc": 0.7173,
+      "asr": 0.662109,
+      "tpr_at_1pct_fpr": 0.019531,
+      "tpr_at_0_1pct_fpr": 0.011719,
+      "quality_cost": "batch_size=8; 256 samples per split; single GPU serial; requested window [80,100,120]; effective window [80,120]; repeat-confirmed at cpu32, GPU128, and GPU256",
+      "evidence_level": "runtime-challenger",
+      "note": "current strongest defended TMIA-DM branch; materially stronger than TMIA + dropout, but still challenger-specific rather than the admitted defended project headline",
+      "boundary": "workspace-verified + repeat-confirmed defended challenger; not yet promoted above the admitted defended PIA headline",
+      "source": "workspaces/gray-box/runs/tmiadm-cifar10-late-window-temporal-striding-defense-20260416-gpu-256-r2-seed1/summary.json"
     },
     {
       "track": "gray-box",

@@ -625,9 +625,12 @@ Current read:
   - `TMIA-DM late-window` is now the strongest challenger line, with credible low-FPR advantages
 - defended operating-point comparison is now explicit too:
   - `stochastic-dropout(all_steps)` weakens both families
-  - but `TMIA-DM late-window` remains the strongest defended challenger, not a collapsed side branch
+  - `TMIA-DM late-window` remains the strongest defended challenger family, not a collapsed side branch
+- defended challenger ordering has now changed inside the `TMIA-DM` family:
+  - `TMIA + temporal-striding(stride=2)` is materially stronger than `TMIA + dropout(all_steps)` on the `GPU256` defended rung
+  - summary-layer gray-box artifacts should therefore prefer `temporal-striding` as the defended challenger reference
 - `GB-4` should stay narrow until either `TMIA-DM` strengthens further or a different second family lands
-  - current best reading is `headline plus challenger`, not `single-family gray-box story`
+  - current best reading is `headline plus challenger plus TMIA-specific defended branch`, not `single-family gray-box story`
 
 Tasks:
 
@@ -640,6 +643,7 @@ Canonical evidence anchor:
 - `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-long-window-comparison.md`
 - `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-operating-point-comparison.md`
 - `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-defended-operating-point-comparison.md`
+- `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-temporal-striding-defended-comparison.md`
 
 Value: ⭐⭐
 
@@ -873,6 +877,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 06:35 | Added `TMIA-DM temporal-striding(stride=2)` as a new defense family, verified it with a failing test first, and got two repeat-positive `cpu-32` rungs (`AUC = 0.697266 / 0.696289`), so the next gate is one minimal `GPU128` rung rather than another wide defense search |
 | 2026-04-16 06:55 | Scaled `TMIA-DM temporal-striding(stride=2)` to `GPU128` and repeated it with `seed1`; the defense held at `AUC = 0.727234 / 0.711609`, making it the strongest TMIA-specific defended candidate and moving the next gate to one `GPU256` rung |
 | 2026-04-16 07:10 | Scaled `TMIA-DM temporal-striding(stride=2)` to `GPU256` and repeated it with `seed1`; the defense held at `AUC = 0.733322 / 0.7173`, so the branch is now repeat-confirmed through scale and should move to defended operating-point comparison plus system-sync review |
+| 2026-04-16 07:20 | Completed the defended comparison and system-layer sync: `TMIA + temporal-striding(stride=2)` now supersedes `TMIA + dropout` as the strongest defended gray-box challenger in comparison artifacts and the unified attack-defense table |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |

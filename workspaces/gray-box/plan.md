@@ -6,7 +6,7 @@
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed`
 - `blocked by`: `PIA` 仍未升级到 `paper-aligned`；灰盒当前仍缺把新 defended challenger 写进更高层摘要的比较与消费层同步；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；三个低成本候选 `epsilon-precision-throttling / epsilon-output-noise / input-gaussian-blur` 都已被 bounded smoke 否掉；当前 `SimA` feasibility 虽可执行但强度过弱`
-- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；把 `SecMI` 固定为独立 corroboration line 而不是 blocked baseline；不再为 naive `PIA + SecMI` fusion 消耗预算；`SimA` 当前不放 GPU；`TMIA-DM` 的 `late_steps_only` 与 `timestep-jitter` 两个 challenger-specific 防御假设都已证伪为弱解，而新的 `temporal-striding(stride=2)` 已在 `cpu-32 / GPU128 / GPU256` 上重复压低 `TMIA-DM late-window`，当前最短下一步应是 defended operating-point comparison 与 system sync review，而不是继续广撒防御 shortlist、重开 `short_window`/naive fusion，或直接跳到 `MoFit`
+- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；把 `SecMI` 固定为独立 corroboration line 而不是 blocked baseline；不再为 naive `PIA + SecMI` fusion 消耗预算；`SimA` 当前不放 GPU；`TMIA-DM` 的 `late_steps_only` 与 `timestep-jitter` 两个 challenger-specific 防御假设都已证伪为弱解，而新的 `temporal-striding(stride=2)` 已在 `cpu-32 / GPU128 / GPU256` 上重复压低 `TMIA-DM late-window`，且 defended comparison + system sync 已落地；当前最短下一步应是更高层 handoff review 或切去别的 lane，而不是继续在 gray-box 内机械加 rung、重开 `short_window`/naive fusion，或直接跳到 `MoFit`
 - `last updated`: `2026-04-16`
 
 ## 推荐论文
@@ -194,3 +194,4 @@
 13. 新的 `TMIA-DM late-window temporal-striding(stride=2)` 已完成两个 `cpu-32` repeat，`AUC` 从 `0.823242 / 0.760742` 降到 `0.697266 / 0.696289`；结论是它成为当前最值得过 `GPU128` gate 的 challenger-specific 新防御假设，但还不能直接写成第二 defended comparator
 14. `TMIA-DM late-window temporal-striding(stride=2)` 已完成两个 `GPU128` repeat，`AUC` 进一步压到 `0.727234 / 0.711609`；结论是它已成为当前最强的 `TMIA-DM`-specific defended candidate，下一门槛是单个 `GPU256` scale rung，而不是重新回到 defense shortlist
 15. `TMIA-DM late-window temporal-striding(stride=2)` 已完成两个 `GPU256` repeat，`AUC` 维持在 `0.733322 / 0.7173`；结论是它已成为 repeat-confirmed 的 scale-positive defended candidate，下一门槛不再是更多盲目 rung，而是 defended operating-point comparison 与系统层摘要同步审查
+16. defended operating-point comparison 与统一总表 sync 已完成；结论是 `TMIA + temporal-striding` 现在应取代 `TMIA + dropout`，成为更高层 gray-box defended challenger 摘要里的首选 defended reference
