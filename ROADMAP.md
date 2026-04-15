@@ -522,6 +522,9 @@ Current read:
 - first defended `TMIA-DM GPU256` rung kept the line alive at scale:
   - `AUC = 0.825867`, `ASR = 0.746094`
   - the line is slightly behind defended `PIA` on headline metrics but remains far stronger on low-FPR behavior
+- second defended `TMIA-DM GPU256` rung confirmed scale stability:
+  - `AUC = 0.82164`, `ASR = 0.765625`
+  - the defended challenger is now repeat-confirmed at both `GPU128` and `GPU256`
 
 Tasks:
 
@@ -559,6 +562,8 @@ Canonical evidence anchor:
   - `workspaces/gray-box/2026-04-16-tmiadm-dropout-defense-repeat-verdict.md`
 - dropout-defense gpu256 rung verdict:
   - `workspaces/gray-box/2026-04-16-tmiadm-dropout-defense-gpu256-rung-verdict.md`
+- dropout-defense gpu256 repeat verdict:
+  - `workspaces/gray-box/2026-04-16-tmiadm-dropout-defense-gpu256-repeat-verdict.md`
 
 Value: ⭐⭐
 
@@ -817,6 +822,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 05:25 | Repeated the defended `TMIA-DM late-window GPU128` rung with `seed1`; the line held at `AUC = 0.819397`, confirming that the current dropout defense weakens but does not eliminate the challenger |
 | 2026-04-16 05:35 | Wrote the defended gray-box operating-point comparison: `PIA` stays the defended headline by continuity, but `TMIA-DM late-window` remains the strongest defended challenger rather than being neutralized by dropout |
 | 2026-04-16 05:45 | Scaled defended `TMIA-DM late-window` to `GPU256`: the line stayed positive at `AUC = 0.825867`, slightly trailing defended `PIA` on headline metrics but remaining much stronger on low-FPR behavior |
+| 2026-04-16 05:55 | Repeated defended `TMIA-DM late-window GPU256` with `seed1`; the line held at `AUC = 0.82164 / ASR = 0.765625`, confirming that the defended challenger also remains stable at the higher rung |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
