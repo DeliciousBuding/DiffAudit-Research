@@ -6,7 +6,7 @@
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed`
 - `blocked by`: `PIA` 仍未升级到 `paper-aligned`；灰盒当前仍缺第二条 defended comparator；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；三个低成本候选 `epsilon-precision-throttling / epsilon-output-noise / input-gaussian-blur` 都已被 bounded smoke 否掉；当前 `SimA` feasibility 虽可执行但强度过弱`
-- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；把 `SecMI` 固定为独立 corroboration line 而不是 blocked baseline；不再为 naive `PIA + SecMI` fusion 消耗预算；`SimA` 当前不放 GPU；`TMIA-DM` 已完成首轮 CPU protocol probe，当前最短下一步是围绕 `long_window` 做 bounded repeat/refine，而不是重开 `short_window`/naive fusion、立即放 GPU，或直接跳到 `MoFit`
+- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；把 `SecMI` 固定为独立 corroboration line 而不是 blocked baseline；不再为 naive `PIA + SecMI` fusion 消耗预算；`SimA` 当前不放 GPU；`TMIA-DM long_window` 已完成一次 bounded repeat，当前最短下一步是做 same-split `PIA vs TMIA-DM long_window` 比较或再做一个更窄的 `long_window` refine/repeat，而不是重开 `short_window`/naive fusion、立即放 GPU，或直接跳到 `MoFit`
 - `last updated`: `2026-04-16`
 
 ## 推荐论文
@@ -190,4 +190,4 @@
 9. 不把 `epsilon-output-noise` 或 `input-gaussian-blur` 重开成 GPU 题；下一候选必须明显区别于小幅输入/输出扰动
 10. 若 `G-2 distillation` 仍无正式训练/评估链，则灰盒下一活跃任务应先转到 `GB-3` 新 family 选择，而不是继续机械扩第二防御小 smoke
 11. 当前 `GB-3 / SimA` 已完成 bounded CPU feasibility，但结论是 strength-negative；下一灰盒活跃任务已重选为 `TMIA-DM protocol / asset decomposition`
-12. 当前 `TMIA-DM` 已完成最小 `protocol probe`：`long_window` 为正、`short_window` 为负、naive fusion 无增益；下一条非 GPU 任务应是围绕 `long_window` 做 bounded repeat/refine，再决定是否值得申请 GPU
+12. 当前 `TMIA-DM` 已完成最小 `protocol probe` 且 `long_window` 在第二个 `cpu-32` seed 上仍为正，但幅度回落到中等稳定；下一条非 GPU 任务应是补 `PIA vs TMIA-DM long_window` same-split 比较或更窄的 `long_window` refine，再决定是否值得申请 GPU
