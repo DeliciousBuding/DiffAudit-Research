@@ -945,22 +945,24 @@ This is a preference order, not a prison.
 
 ### Top now
 
-1. ⬜ `GB-1` second gray-box defense
-2. ✅ `X-3` system-consumable sync
-3. ✅ `BB-3` CLiD boundary-quality upgrade
-4. ✅ `X-4` cross-box exploration lane
-5. ✅ `WB-2` second white-box verdict
+1. ⬜ `BB-1` second-signal black-box expansion
+2. ⬜ `INF-2` research automation health
+3. ⬜ `WB-4` white-box feature/trajectory upgrade
+4. ⬜ `INF-3` subagent leverage experiments
 
 ### Next
 
-6. ⬜ `INF-2` research automation health
-7. ⬜ `GB-3` new gray-box family
-8. ⬜ `BB-4` mitigation-aware black-box evaluation
-9. ⬜ `WB-3` white-box defense breadth
+5. ⬜ `GB-1` second gray-box defense
+6. ⬜ `WB-3` white-box defense breadth
+7. ✅ `X-3` system-consumable sync
+8. ✅ `BB-3` CLiD boundary-quality upgrade
+9. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
-10. ⬜ `INF-3` subagent leverage experiments
+10. ✅ `WB-2` second white-box verdict
+11. ✅ `GB-3` new gray-box family
+12. ✅ `BB-4` mitigation-aware black-box evaluation
 
 ---
 
