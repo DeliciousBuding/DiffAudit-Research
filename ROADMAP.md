@@ -479,16 +479,35 @@ Value: ⭐⭐
 
 ### 6.4 White-box expansion
 
-#### ⬜ `WB-1` Gradient extraction blocker resolution
+#### ✅ `WB-1` Gradient extraction blocker resolution
 
 Goal: decide whether the current white-box blocker is solvable or should become a hard no-go for now
 
 Tasks:
 
-- [ ] `WB-1.1` run gradient extraction directly
-- [ ] `WB-1.2` capture root cause
-- [ ] `WB-1.3` fix or classify blocker
-- [ ] `WB-1.4` verify with one minimal job
+- [x] `WB-1.1` run gradient extraction directly
+- [x] `WB-1.2` capture root cause
+- [x] `WB-1.3` fix or classify blocker
+- [x] `WB-1.4` verify with one minimal job
+
+Status:
+
+- completed with a direct upstream replay on the admitted target-member asset line
+- canonical evidence anchor:
+  - `workspaces/white-box/2026-04-15-whitebox-gradient-extraction-direct-verdict.md`
+
+Verdict:
+
+- white-box direct gradient extraction is runnable on the current admitted asset line
+- `attack_method = 2` is not the blocker
+- the real execution-layer root causes were:
+  - wrong dataset mode when `--dataset_name cifar10` is forced onto imagefolder-style assets
+  - missing output parent directory before `torch.save(...)`
+
+Carry-forward rule:
+
+- stop treating gradient extraction as a fundamental white-box blocker
+- move `WB-2` to a narrower follow-up question instead of a blind blocker hunt
 
 Value: ⭐⭐⭐
 
@@ -577,23 +596,22 @@ This is a preference order, not a prison.
 
 ### Top now
 
-1. ⬜ `WB-1` gradient extraction blocker resolution
-2. ⬜ `GB-1` second gray-box defense
-3. ⬜ `X-3` system-consumable sync
-4. ⬜ `BB-3` CLiD boundary-quality upgrade
-5. ⬜ `X-4` cross-box exploration lane
+1. ⬜ `GB-1` second gray-box defense
+2. ⬜ `X-3` system-consumable sync
+3. ⬜ `BB-3` CLiD boundary-quality upgrade
+4. ⬜ `X-4` cross-box exploration lane
+5. ⬜ `WB-2` second white-box verdict
 
 ### Next
 
-6. ⬜ `WB-2` second white-box verdict
-7. ⬜ `INF-2` research automation health
-8. ⬜ `GB-3` new gray-box family
-9. ⬜ `BB-4` mitigation-aware black-box evaluation
+6. ⬜ `INF-2` research automation health
+7. ⬜ `GB-3` new gray-box family
+8. ⬜ `BB-4` mitigation-aware black-box evaluation
+9. ⬜ `WB-3` white-box defense breadth
 
 ### Then
 
-10. ⬜ `WB-3` white-box defense breadth
-11. ⬜ `INF-3` subagent leverage experiments
+10. ⬜ `INF-3` subagent leverage experiments
 
 ---
 
@@ -638,6 +656,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-15 23:55 | Closed `GB-2` with the `PIA vs SecMI` disagreement verdict; promoted `SecMI` to corroboration line and rejected naive gray-box fusion |
 | 2026-04-16 00:15 | Closed the current `BB-1` branch as a positive `semantic-auxiliary-classifier` challenger and kept `Recon` as the black-box headline |
 | 2026-04-16 00:45 | Re-ran the semantic auxiliary challenger at `32 / 32`; metrics stayed stable and the challenger remained promotion-worthy |
+| 2026-04-16 01:35 | Closed `WB-1` positively: direct GSA gradient extraction works, and the blocker reduced to dataset-mode mismatch plus missing output-directory hygiene |
 
 ---
 

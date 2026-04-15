@@ -4,9 +4,9 @@
 
 - `owner`: `research_leader`
 - `scope`: 白盒成员推断、梯度级攻击、记忆定位与内部信号审计
-- `status`: `GSA epoch300 rerun1 admitted as white-box attack main evidence; W-1 strong-v3 full-scale frozen as defended main rung; strong-v2 full-scale retained as reference rung; same-protocol bridge is the only active white-box GPU question`
-- `blocked by`: `W-1` 仍是 defended comparator 而不是最终 benchmark；`DPDM` 与 `GSA` 仍有模型结构不一致；`W-2` 仍缺稳定训练目标与实现
-- `next step`: keep `strong-v3 full-scale` as the admitted defended main rung, treat rerun1 promotion as completed, and shift white-box work to same-protocol bridge plus portable execution entry`
+- `status`: `GSA epoch300 rerun1 admitted as white-box attack main evidence; W-1 strong-v3 full-scale frozen as defended main rung; strong-v2 full-scale retained as reference rung; direct GSA gradient extraction verified on admitted assets`
+- `blocked by`: `W-1` 仍是 defended comparator 而不是最终 benchmark；`DPDM` 与 `GSA` 仍有模型结构不一致；第二白盒线仍未形成 distinct verdict`
+- `next step`: keep `strong-v3 full-scale` as the admitted defended main rung, stop treating gradient extraction as the main blocker, and shift white-box work to second-line verdict plus bridge-contract hygiene`
 - `last updated`: `2026-04-09`
 
 ## 推荐论文
@@ -78,6 +78,7 @@
 - `strong-v3` checkpoint 集合已确认可读，并已成功跑出 three-shadow `max128 / max256 / max512 / full-scale` GPU comparator，当前主口径已冻结但仍非论文最终 benchmark
 - `Finding NeMo` 仍缺 neuron-level 分析接口与资产
 - 当前白盒最大问题已不是“能不能继续把攻击跑高”，而是 `GSA` 与 `DPDM/W-1` 仍不在同一个协议面上
+- 直接 upstream `gen_l2_gradients_DDPM.py` 在 admitted target-member assets 上已被重新验证为可跑；当前执行层问题已缩到 dataset-mode 与 output-path hygiene，而不是梯度提取本身
 
 ## 当前最短路径
 
