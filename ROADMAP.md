@@ -933,6 +933,67 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ⬜ `GB-7` Noise-as-a-Probe implementation-surface review
+
+Goal: decide whether the current repo already has enough primitives for the first interface canary, or whether a real implementation block still remains
+
+Current read:
+
+- target-side SD1.5 + LoRA loading already exists
+- target-side prompt-conditioned generation already exists
+- VAE encode/decode plus `DDIMScheduler` stepping already exists
+- image-distance scoring already exists
+- but the repo still lacks an explicit reusable `DDIM inversion + custom-noise target-generation` path
+
+Tasks:
+
+- [x] `GB-7.1` audit current code for target generation primitives
+- [x] `GB-7.2` audit current code for inversion / custom-noise gaps
+- [x] `GB-7.3` record whether the interface canary is implementation-ready or still blocked by glue code
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-noise-as-probe-implementation-surface-review.md`
+
+Selection verdict:
+
+- `GB-7` now closes as `positive but bounded`
+- current repo is not yet end-to-end canary-ready
+- missing block:
+  - reusable `DDIM inversion + custom-noise target-generation` glue
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
+#### ⬜ `GB-8` Noise-as-a-Probe canary scaffold
+
+Goal: build the smallest reusable local harness that can power the one-member/one-non-member interface canary
+
+Current read:
+
+- the contract is frozen
+- the implementation surface is partially ready
+- the remaining work is now concrete code, not more abstract candidate review
+
+Tasks:
+
+- [ ] `GB-8.1` choose whether to extend an existing script or add a dedicated canary script
+- [ ] `GB-8.2` implement inversion + custom-noise generation glue
+- [ ] `GB-8.3` define the first canary output schema
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-noise-as-probe-canary-scaffold-selection.md`
+
+Selection verdict:
+
+- `GB-8` is the new live CPU-first lane
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.4 White-box expansion
@@ -1216,7 +1277,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-No currently open top-priority lane is execution-ready without a fresh implementation or release decision.
+`GB-8 Noise-as-a-Probe canary scaffold` is now the current top-priority CPU-first lane.
 
 Current release posture:
 
@@ -1225,25 +1286,27 @@ Current release posture:
 
 ### Next
 
-1. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
-2. ✅ `GB-5` genuinely-new-family selector
-3. ✅ `WB-5` DP-LoRA comparability dossier
-4. ✅ `BB-6` same-protocol cross-method score package
-5. ✅ `WB-3` white-box defense breadth
-6. ✅ `GB-1` second gray-box defense
-7. ✅ `BB-1` second-signal black-box expansion
-8. ✅ `INF-2` research automation health
-9. ✅ `INF-3` subagent leverage experiments
-10. ✅ `WB-4` white-box feature/trajectory upgrade
-11. ✅ `X-3` system-consumable sync
-12. ✅ `BB-3` CLiD boundary-quality upgrade
-13. ✅ `X-4` cross-box exploration lane
+1. ⬜ `GB-8` Noise-as-a-Probe canary scaffold
+2. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
+3. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
+4. ✅ `GB-5` genuinely-new-family selector
+5. ✅ `WB-5` DP-LoRA comparability dossier
+6. ✅ `BB-6` same-protocol cross-method score package
+7. ✅ `WB-3` white-box defense breadth
+8. ✅ `GB-1` second gray-box defense
+9. ✅ `BB-1` second-signal black-box expansion
+10. ✅ `INF-2` research automation health
+11. ✅ `INF-3` subagent leverage experiments
+12. ✅ `WB-4` white-box feature/trajectory upgrade
+13. ✅ `X-3` system-consumable sync
+14. ✅ `BB-3` CLiD boundary-quality upgrade
+15. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
-14. ✅ `WB-2` second white-box verdict
-15. ✅ `GB-3` new gray-box family
-16. ✅ `BB-4` mitigation-aware black-box evaluation
+16. ✅ `WB-2` second white-box verdict
+17. ✅ `GB-3` new gray-box family
+18. ✅ `BB-4` mitigation-aware black-box evaluation
 
 ---
 
@@ -1327,6 +1390,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 08:55 | Re-opened the next live CPU-first lane as `GB-5 genuinely-new-family selector`: current gray-box packaging is strong enough for now, black-box remains in `no immediate rerun`, and the next research value lies in selecting one truly new gray-box family plus its first bounded smoke |
 | 2026-04-16 09:10 | Closed `GB-5` positively: selected `Noise as a Probe` as the next genuinely new gray-box family, rejected `MoFit / SIDe / SimA reopen / structural memorization reopen` for now, and opened `GB-6` as the CPU-first protocol / asset contract lane with `gpu_release = none` |
 | 2026-04-16 09:20 | Closed `GB-6` as `positive but bounded`: the first honest local `Noise as a Probe` target family is `SD1.5 + celeba_partial_target/checkpoint-25000`, the first bounded smoke is a one-member/one-non-member interface canary, and `gpu_release` remains `none` until prompt source, custom-noise path, and canary schema are frozen |
+| 2026-04-16 09:35 | Closed `GB-7` as `positive but bounded`: the repo already has target-side SD1.5+LoRA loading, latent-diffusion stepping, and distance scoring pieces, but still lacks reusable `DDIM inversion + custom-noise target-generation` glue; the next live lane is now `GB-8 Noise-as-a-Probe canary scaffold` |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
