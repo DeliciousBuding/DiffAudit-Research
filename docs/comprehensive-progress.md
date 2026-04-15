@@ -40,7 +40,9 @@
 - 当前能说的话：
   - 公开资产上的 black-box 风险已经有可引用主证据
   - `variation` 已能在本地 CPU 上重复跑 synthetic smoke
-  - `variation` 的真实 API 资产 probe 已确认 blocked，当前缺 query image root
+  - `variation` 的真实 API 资产 probe 已确认 blocked，当前缺 query image root；但这条线现在已经是 `contract-ready blocked`：
+    - 第一硬门槛是 `query_image_root / query images`
+    - 后续复开仍必须补齐 `endpoint/proxy + query budget + frozen parameters`
   - `CLiD` 当前边界已从泛化的“local bridge”进一步收紧到 `evaluator-near local clip-only corroboration`：
     - 目标侧本地 rung 的两个输出文件在跳过首行后可解析成 `100 x 5` 数值矩阵，接近 released `cal_clid_th.py` 的输入形状
     - 但 full threshold-evaluator 仍缺 shadow train/test pair，且已执行 rung 的文件头仍暴露旧 user-cache `diff_path`

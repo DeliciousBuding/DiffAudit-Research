@@ -7,7 +7,7 @@
 - `status`: 进行中，`recon` 的 black-box 主证据、最佳单指标参考和 `variation` 次主线口径已冻结；`semantic-auxiliary-classifier` 已落成当前 leading new-family challenger；当前 `variation` 的真实 API 资产 probe 已正式确认 blocked；`TMIA-DM` 已完成 intake，但被判定为灰盒候选而非黑盒主线
 - `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的语义 gate 现已 machine-audited 到 `proxy-shadow-member`，但仍未升级到 paper-aligned；`variation` 真实 query image root 仍缺；`Kandinsky 10/10` 当前本机链路仍异常慢
 - `next command`: no immediate black-box rerun; keep `Recon / CLiD / semantic-auxiliary-classifier` wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`; turn `variation` recovery into an explicit asset contract instead of speculative reruns
-- `next command`: no immediate black-box rerun; keep `Recon / CLiD / semantic-auxiliary-classifier` wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`; treat `semantic-aux` multi-feature scoring as `negative but useful` unless a new feature family appears; turn `variation` recovery into an explicit asset contract instead of speculative reruns
+- `next command`: no immediate black-box rerun; keep `Recon / CLiD / semantic-auxiliary-classifier` wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`; treat `semantic-aux` multi-feature scoring as `negative but useful` unless a new feature family appears; keep `variation` blocked unless the explicit asset contract is filled with real `query_image_root + endpoint + budget`
 - `last updated`: 2026-04-16
 
 ## 统一规划定位
@@ -118,4 +118,7 @@
 - 仍缺与论文一致的 target/shadow/member/non-member 直接映射说明
 - 黑盒不同论文的攻击假设并不完全相同，需要统一术语
 - `variation` 当前只有本地 synthetic smoke，与正式 blocked 的真实 API 资产探针；没有 query image root 就不能继续往真实 black-box 推进
+- `variation` 的恢复条件现在已经 contract-ready：
+  - 第一硬门槛仍是 `query_image_root / query images`
+  - endpoint/proxy、budget 和固定参数则是复开前必须补齐的后续门槛
 - `TMIA-DM` 已确认不是严格黑盒，如果口径管理不严，后续汇报很容易把它误归进黑盒

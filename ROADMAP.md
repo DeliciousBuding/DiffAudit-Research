@@ -438,6 +438,31 @@ Tasks:
 
 Value: ⭐⭐
 
+#### ✅ `BB-5` Variation asset-contract clarification
+
+Goal: remove ambiguity around what exactly is needed before `variation` can leave blocked state
+
+Current read:
+
+- `variation` is no longer blocked in a vague or exploratory sense
+- the repo already has a concrete recovery contract:
+  - `query_image_root / query images`
+  - real variation endpoint or equivalent proxy
+  - explicit query budget
+  - frozen attack parameters
+- the first hard gate remains `query_image_root`, not runner code
+
+Tasks:
+
+- [x] `BB-5.1` review the existing blocked note and recovery template
+- [x] `BB-5.2` record the explicit unblock contract
+
+Canonical evidence anchor:
+
+- `workspaces/black-box/2026-04-16-variation-asset-contract-verdict.md`
+
+Value: ⭐⭐
+
 ---
 
 ### 6.3 Gray-box expansion
