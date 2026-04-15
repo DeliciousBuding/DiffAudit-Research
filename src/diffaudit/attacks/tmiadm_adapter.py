@@ -105,6 +105,32 @@ def _collect_eps_predictions_for_timesteps(
     return torch.stack(timestep_predictions, dim=1)
 
 
+def _resolve_effective_timesteps(
+    timesteps: list[int],
+    timestep_jitter_radius: int = 0,
+    noise_seed: int = 0,
+    defaults: PiaDefaults | None = None,
+) -> list[int]:
+    if int(timestep_jitter_radius) <= 0:
+        return [int(timestep) for timestep in timesteps]
+    config = defaults or PiaDefaults()
+    generator = torch.Generator(device="cpu")
+    generator.manual_seed(int(noise_seed))
+    effective: list[int] = []
+    for index, timestep in enumerate(timesteps):
+        offset = int(
+            torch.randint(
+                low=-int(timestep_jitter_radius),
+                high=int(timestep_jitter_radius) + 1,
+                size=(1,),
+                generator=generator,
+            ).item()
+        )
+        jittered = max(0, min(config.T - 1, int(timestep) + offset))
+        effective.append(int(jittered))
+    return effective
+
+
 def _zscore(scores: torch.Tensor) -> torch.Tensor:
     mean = scores.mean()
     std = scores.std(unbiased=False)
@@ -191,6 +217,7 @@ def run_tmiadm_protocol_probe(
     stochastic_dropout_defense: bool = False,
     dropout_activation_schedule: str = "off",
     late_step_threshold: int | None = None,
+    timestep_jitter_radius: int = 0,
     provenance_status: str = "workspace-verified",
 ) -> dict[str, Any]:
     started_at = time.perf_counter()
@@ -246,11 +273,16 @@ def run_tmiadm_protocol_probe(
     )
 
     timesteps = [int(t) for t in (scan_timesteps or [20, 40, 60, 80, 100, 120])]
+    effective_timesteps = _resolve_effective_timesteps(
+        timesteps,
+        timestep_jitter_radius=timestep_jitter_radius,
+        noise_seed=noise_seed,
+    )
     alpha_bars = _alpha_bar_schedule()
     member_predictions = _collect_eps_predictions_for_timesteps(
         model=model,
         loader=member_loader,
-        timesteps=timesteps,
+        timesteps=effective_timesteps,
         alpha_bars=alpha_bars,
         device=device,
         noise_seed=noise_seed,
@@ -260,7 +292,7 @@ def run_tmiadm_protocol_probe(
     nonmember_predictions = _collect_eps_predictions_for_timesteps(
         model=model,
         loader=nonmember_loader,
-        timesteps=timesteps,
+        timesteps=effective_timesteps,
         alpha_bars=alpha_bars,
         device=device,
         noise_seed=noise_seed,
@@ -331,15 +363,23 @@ def run_tmiadm_protocol_probe(
             "num_samples": int(len(member_indices)),
             "weights_key": weights_key,
             "scan_timesteps": timesteps,
+            "effective_timesteps": effective_timesteps,
             "aggregation_p_norm": float(aggregation_p_norm),
             "noise_seed": int(noise_seed),
             "elapsed_seconds": round(time.perf_counter() - started_at, 6),
         },
         "defense": {
-            "name": "stochastic-dropout" if stochastic_dropout_defense else "none",
-            "enabled": bool(stochastic_dropout_defense),
+            "name": (
+                "stochastic-dropout"
+                if stochastic_dropout_defense
+                else "timestep-jitter"
+                if int(timestep_jitter_radius) > 0
+                else "none"
+            ),
+            "enabled": bool(stochastic_dropout_defense or int(timestep_jitter_radius) > 0),
             "dropout_activation_schedule": resolved_schedule,
             "late_step_threshold": int(resolved_late_step_threshold),
+            "timestep_jitter_radius": int(timestep_jitter_radius),
         },
         "sample_count_per_split": int(len(member_indices)),
         "family_metrics": family_metrics,
