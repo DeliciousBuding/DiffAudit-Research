@@ -885,15 +885,30 @@ Updated verdict:
 
 Value: ⭐⭐
 
-#### ⬜ `WB-4` White-box feature/trajectory upgrade
+#### ✅ `WB-4` White-box feature/trajectory upgrade
 
 Goal: revisit deeper white-box analysis if and only if blocker cost becomes reasonable
 
 Tasks:
 
-- [ ] `WB-4.1` write hypothesis first
-- [ ] `WB-4.2` run lightweight probe
-- [ ] `WB-4.3` record whether it changes story
+- [x] `WB-4.1` write hypothesis first
+- [x] `WB-4.2` run lightweight probe
+- [x] `WB-4.3` record whether it changes story
+
+Canonical evidence anchor:
+
+- `workspaces/white-box/2026-04-16-whitebox-feature-trajectory-verdict.md`
+
+Verdict:
+
+- the migrated DDPM observability contract still resolves cleanly on current admitted assets
+- but that readiness still does not change white-box story:
+  - `gpu_release = none`
+  - `validation-smoke release = none`
+  - `admitted_change = none`
+- current feature/trajectory branch is therefore `negative but useful`:
+  - entry plumbing exists
+  - story-level upgrade still does not
 
 Value: ⭐
 
