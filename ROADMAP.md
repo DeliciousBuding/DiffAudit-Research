@@ -408,7 +408,8 @@ Current read:
 - `stochastic-dropout(all_steps)` remains the only defended gray-box mainline
 - `epsilon-precision-throttling` is already a negative bounded candidate
 - new bounded candidate `epsilon-output-noise (std = 0.1)` also landed negative on `cpu-32`, so it should not be released to GPU
-- the next `GB-1` candidate should be more materially different from direct `epsilon` output corruption
+- `input-gaussian-blur (sigma = 1.0)` landed even more negatively on `cpu-32`, strengthening rather than weakening the attack
+- the next `GB-1` candidate should be more materially different than small output-side or input-side perturbations
 
 Tasks:
 
@@ -421,6 +422,7 @@ Canonical evidence anchors:
 
 - `workspaces/gray-box/2026-04-15-graybox-defense-precision-throttling-note.md`
 - `workspaces/gray-box/2026-04-15-graybox-epsilon-output-noise-defense-verdict.md`
+- `workspaces/gray-box/2026-04-15-graybox-input-blur-defense-verdict.md`
 
 Value: ⭐⭐⭐
 
@@ -689,6 +691,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 00:15 | Closed the current `BB-1` branch as a positive `semantic-auxiliary-classifier` challenger and kept `Recon` as the black-box headline |
 | 2026-04-16 00:45 | Re-ran the semantic auxiliary challenger at `32 / 32`; metrics stayed stable and the challenger remained promotion-worthy |
 | 2026-04-16 01:05 | Rejected `GB-1` bounded candidate `epsilon-output-noise (std=0.1)` on `cpu-32`; it did not beat baseline and should not be released to GPU |
+| 2026-04-16 01:20 | Rejected `GB-1` bounded candidate `input-gaussian-blur (sigma=1.0)` on `cpu-32`; it strengthened the attack and should not be released to GPU |
 | 2026-04-16 01:35 | Closed `WB-1` positively: direct GSA gradient extraction works, and the blocker reduced to dataset-mode mismatch plus missing output-directory hygiene |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |

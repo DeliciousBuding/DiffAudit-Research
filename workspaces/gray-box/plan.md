@@ -5,8 +5,8 @@
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed`
-- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；灰盒当前仍缺第二条 defended comparator；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；两个低成本输出侧候选 `epsilon-precision-throttling / epsilon-output-noise` 都已被 bounded smoke 否掉`
-- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；把 `SecMI` 固定为独立 corroboration line 而不是 blocked baseline；不再为 naive `PIA + SecMI` fusion 消耗预算；若再动 GPU，优先材料更不同的 gray-box defense 或新 family
+- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；灰盒当前仍缺第二条 defended comparator；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；三个低成本候选 `epsilon-precision-throttling / epsilon-output-noise / input-gaussian-blur` 都已被 bounded smoke 否掉`
+- `next step`: 保持 `stochastic-dropout = provisional G-1 (repeat-confirmed at GPU512)`；把 `SecMI` 固定为独立 corroboration line 而不是 blocked baseline；不再为 naive `PIA + SecMI` fusion 消耗预算；若再动 GPU，优先材料更不同、且不只是小幅输入/输出扰动的 gray-box defense 或新 family
 - `last updated`: `2026-04-16`
 
 ## 推荐论文
@@ -156,6 +156,7 @@
   - `PIA` 仍是 defended gray-box mainline
   - `PIA + SecMI` 的简单融合不值得升格为当前 gray-box 新分支
   - `epsilon-output-noise (std = 0.1)` 在 `cpu-32` bounded smoke 上也未能压低攻击，因此不应作为下一个 GPU defended candidate
+  - `input-gaussian-blur (sigma = 1.0)` 在 `cpu-32` bounded smoke 上进一步放大了攻击，因此也不应作为下一个 GPU defended candidate
 
 ## 2026-04-10 新观察
 
@@ -185,4 +186,4 @@
 6. 保持 `SecMI = corroboration line`，不回退到 blocked wording
 7. 复用 [unified table](../implementation/2026-04-08-unified-attack-defense-table.md) 作为灰盒对外引用入口
 8. 不再为 naive `PIA + SecMI` ensemble 追加预算，除非先写出新的 gating hypothesis
-9. 不把 `epsilon-output-noise` 重开成 GPU 题；下一候选必须明显区别于输出侧 `epsilon` 扰动
+9. 不把 `epsilon-output-noise` 或 `input-gaussian-blur` 重开成 GPU 题；下一候选必须明显区别于小幅输入/输出扰动
