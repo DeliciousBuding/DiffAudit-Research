@@ -370,24 +370,31 @@ Tasks:
 - [x] `BB-1.1` caption-space probe
 - [x] `BB-1.2` feature-space probe
 - [ ] `BB-1.3` timestep-selective reconstruction probe
-- [ ] `BB-1.4` prompt-response consistency probe
+- [x] `BB-1.4` prompt-response consistency probe
 
 Status:
 
 - completed for the current leading challenger branch
 - canonical evidence anchor:
   - `workspaces/black-box/2026-04-15-blackbox-second-signal-semantic-aux-verdict.md`
+  - `workspaces/black-box/2026-04-16-blackbox-prompt-response-consistency-verdict.md`
+  - `workspaces/black-box/runs/prompt-response-consistency-20260416-r1/summary.json`
 
 Verdict:
 
 - the returned-image `semantic-auxiliary-classifier` landed as a real black-box challenger
 - bounded local comparator metrics (`AUC = 0.910156`, `ASR = 0.875`) are strong enough for promotion into challenger status
 - scaled follow-up run `semantic-aux-classifier-comparator-20260416-r2` stayed stable at `AUC = 0.90918`, confirming the signal survives a `32 / 32` comparator
+- bounded prompt-response consistency probe now closes negatively on the same local outputs:
+  - `AUC = 0.481445`
+  - `AUC gain vs mean_cos = -0.435547`
+  - this confirms the current challenger is not being driven by prompt-to-return alignment
 - this branch adds real method-family diversity, but it does not replace the frozen `Recon` headline
 
 Carry-forward rule:
 
 - keep this line in challenger status
+- keep `BB-1.4` closed unless the conditioning protocol changes materially
 - only escalate with a new bounded hypothesis; do not spend budget on aimless scale-up
 
 Promotion standard:
