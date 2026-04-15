@@ -1016,17 +1016,21 @@ Current read:
 
 Tasks:
 
-- [ ] `GB-9.1` define the smallest honest calibration set policy
-- [ ] `GB-9.2` define the first expansion rung beyond `1 + 1`
-- [ ] `GB-9.3` keep `gpu_release` and narrative boundary explicit
+- [x] `GB-9.1` define the smallest honest calibration set policy
+- [x] `GB-9.2` define the first expansion rung beyond `1 + 1`
+- [x] `GB-9.3` keep `gpu_release` and narrative boundary explicit
 
 Canonical evidence anchor:
 
-- `workspaces/gray-box/2026-04-16-noise-as-probe-interface-canary-verdict.md`
+- `workspaces/gray-box/2026-04-16-noise-as-probe-calibration-expansion-policy.md`
 
 Selection verdict:
 
-- `GB-9` is the new live CPU-first lane
+- `GB-9` now closes as `positive`
+- smallest honest calibration set:
+  - `8` prior non-members
+- first expansion rung:
+  - `8 members + 8 eval non-members + 8 calibration non-members`
 - `gpu_release = none`
 
 Value: ⭐⭐⭐
@@ -1315,7 +1319,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-9 Noise-as-a-Probe calibration / expansion policy` is now the current top-priority CPU-first lane.
+No currently open top-priority lane is execution-ready without a fresh bounded runtime decision.
 
 Current release posture:
 
@@ -1324,7 +1328,7 @@ Current release posture:
 
 ### Next
 
-1. ⬜ `GB-9` Noise-as-a-Probe calibration / expansion policy
+1. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
 2. ✅ `GB-8` Noise-as-a-Probe canary scaffold
 3. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
 4. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
@@ -1433,6 +1437,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 09:45 | Closed `GB-8.1` positively: the first `Noise as a Probe` canary should use a dedicated script rather than overloading the current semantic-aux or structural-memorization scripts; helper reuse is allowed, but the surface itself should stay family-specific |
 | 2026-04-16 10:00 | Closed `GB-8.2/GB-8.3` as `positive`: added a dedicated `Noise as a Probe` interface-canary scaffold script with prompt-source freeze, latent inversion, custom-noise target generation, and explicit canary artifact schema; the lane remains below release and `gpu_release` stays `none` until real runtime verification lands |
 | 2026-04-16 10:15 | Closed the first `Noise as a Probe` interface canary as `positive but bounded`: the end-to-end local path now runs on `SD1.5 + celeba_partial_target/checkpoint-25000` for `1 member + 1 non-member`, but the next live lane shifts to calibration / expansion policy rather than premature benchmark or release claims |
+| 2026-04-16 10:25 | Closed `GB-9` positively: fixed the smallest honest `Noise as a Probe` calibration / expansion policy to `8` prior non-members for calibration and a first bounded rung of `8 members + 8 eval non-members + 8 calibration non-members`, while keeping `gpu_release = none` |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
