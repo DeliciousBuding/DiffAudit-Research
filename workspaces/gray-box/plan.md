@@ -188,3 +188,4 @@
 8. 不再为 naive `PIA + SecMI` ensemble 追加预算，除非先写出新的 gating hypothesis
 9. 不把 `epsilon-output-noise` 或 `input-gaussian-blur` 重开成 GPU 题；下一候选必须明显区别于小幅输入/输出扰动
 10. 若 `G-2 distillation` 仍无正式训练/评估链，则灰盒下一活跃任务应先转到 `GB-3` 新 family 选择，而不是继续机械扩第二防御小 smoke
+11. 当前 `GB-3` 已优先选定 `SimA`；下一实现任务应是 bounded CPU feasibility，而不是先开 GPU

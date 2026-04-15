@@ -470,12 +470,22 @@ Candidate directions:
 - SIDe
 - another paper-backed gray-box mechanism
 
+Current read:
+
+- after repeated negative `GB-1` perturbation candidates, gray-box expansion should favor new-family diversity
+- `SimA` is the current best next family because it is materially different from `PIA` yet still fits the current CIFAR-10 DDPM asset line
+- `TMIA-DM` and `MoFit` remain valid future branches, but not the shortest next execution path
+
 Tasks:
 
-- [ ] `GB-3.1` choose one family
-- [ ] `GB-3.2` write feasibility note
+- [x] `GB-3.1` choose one family
+- [x] `GB-3.2` write feasibility note
 - [ ] `GB-3.3` implement probe or smoke
 - [ ] `GB-3.4` record verdict
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-graybox-new-family-sima-selection.md`
 
 Value: ⭐⭐
 
@@ -696,6 +706,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 01:20 | Rejected `GB-1` bounded candidate `input-gaussian-blur (sigma=1.0)` on `cpu-32`; it strengthened the attack and should not be released to GPU |
 | 2026-04-16 01:30 | Reviewed the gray-box second-defense shortlist: cheap perturbation candidates are exhausted for now, so the next active gray-box step should pivot to `G-2` unblock/design or `GB-3` new-family exploration |
 | 2026-04-16 01:35 | Closed `WB-1` positively: direct GSA gradient extraction works, and the blocker reduced to dataset-mode mismatch plus missing output-directory hygiene |
+| 2026-04-16 01:40 | Selected `SimA` as the next gray-box family (`GB-3`), with a bounded CPU feasibility path on the current CIFAR-10 DDPM asset line |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
