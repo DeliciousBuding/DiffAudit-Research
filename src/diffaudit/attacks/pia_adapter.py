@@ -156,6 +156,7 @@ def _build_pia_eps_getter(
     model: torch.nn.Module,
     dropout_activation_schedule: str = "off",
     late_step_threshold: int | None = None,
+    epsilon_output_noise_std: float = 0.0,
 ):
     class RuntimeEpsGetter(components_module.EpsGetter):
         def __call__(
@@ -176,7 +177,10 @@ def _build_pia_eps_getter(
             else:
                 self.model.eval()
             timestep = torch.ones([xt.shape[0]], device=xt.device, dtype=torch.long) * int(t or 0)
-            return self.model(xt, t=timestep)
+            eps_prediction = self.model(xt, t=timestep)
+            if float(epsilon_output_noise_std) > 0.0:
+                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(epsilon_output_noise_std)
+            return eps_prediction
 
     return RuntimeEpsGetter(model)
 
@@ -190,6 +194,7 @@ def _build_pia_attacker(
     device: str,
     dropout_activation_schedule: str = "off",
     late_step_threshold: int | None = None,
+    epsilon_output_noise_std: float = 0.0,
     defaults: PiaDefaults | None = None,
 ):
     config = defaults or PiaDefaults()
@@ -202,6 +207,7 @@ def _build_pia_attacker(
         model,
         dropout_activation_schedule=dropout_activation_schedule,
         late_step_threshold=late_step_threshold,
+        epsilon_output_noise_std=epsilon_output_noise_std,
     )
     return attacker_cls(
         betas,
@@ -421,6 +427,7 @@ def _predict_surrogate_images(
     device: str,
     dropout_activation_schedule: str,
     late_step_threshold: int | None,
+    epsilon_output_noise_std: float = 0.0,
     surrogate_batch_size: int = 64,
 ) -> torch.Tensor:
     if batches.numel() == 0:
@@ -441,6 +448,8 @@ def _predict_surrogate_images(
             normalized = chunk.to(device) * 2 - 1
             timestep = torch.zeros(normalized.shape[0], device=device, dtype=torch.long)
             eps_prediction = model(normalized, t=timestep)
+            if float(epsilon_output_noise_std) > 0.0:
+                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(epsilon_output_noise_std)
             surrogate = torch.clamp((normalized - eps_prediction + 1.0) / 2.0, 0.0, 1.0)
             surrogate_chunks.append(surrogate.detach().cpu())
     model.train(was_training)
@@ -946,6 +955,7 @@ def run_pia_runtime_mainline(
     batch_size: int = 8,
     stochastic_dropout_defense: bool = False,
     dropout_activation_schedule: str = "off",
+    epsilon_output_noise_std: float = 0.0,
     adaptive_query_repeats: int = 1,
     late_step_threshold: int | None = None,
     provenance_status: str = "source-retained-unverified",
@@ -1020,6 +1030,7 @@ def run_pia_runtime_mainline(
         device=device,
         dropout_activation_schedule=resolved_schedule,
         late_step_threshold=late_step_threshold,
+        epsilon_output_noise_std=epsilon_output_noise_std,
     )
 
     split_root = Path(member_split_root) if member_split_root else Path(repo_root) / "DDPM"
@@ -1123,6 +1134,7 @@ def run_pia_runtime_mainline(
         device=device,
         dropout_activation_schedule="off",
         late_step_threshold=late_step_threshold,
+        epsilon_output_noise_std=0.0,
     )
     active_surrogates = _predict_surrogate_images(
         model,
@@ -1130,12 +1142,25 @@ def run_pia_runtime_mainline(
         device=device,
         dropout_activation_schedule=resolved_schedule,
         late_step_threshold=late_step_threshold,
+        epsilon_output_noise_std=epsilon_output_noise_std,
     )
     quality = _compute_surrogate_quality_metrics(
         reference_images=reference_batches,
         active_images=active_surrogates,
-        baseline_images=baseline_surrogates if resolved_schedule != "off" else None,
+        baseline_images=baseline_surrogates if (resolved_schedule != "off" or float(epsilon_output_noise_std) > 0.0) else None,
     )
+
+    defense_name = "none"
+    defense_stage = "baseline"
+    if stochastic_dropout_defense and float(epsilon_output_noise_std) > 0.0:
+        defense_name = "stochastic-dropout+epsilon-output-noise"
+        defense_stage = "candidate-g2"
+    elif stochastic_dropout_defense:
+        defense_name = "stochastic-dropout"
+        defense_stage = "provisional-g1"
+    elif float(epsilon_output_noise_std) > 0.0:
+        defense_name = "epsilon-output-noise"
+        defense_stage = "candidate-g2"
 
     result = {
         "status": "ready",
@@ -1176,12 +1201,13 @@ def run_pia_runtime_mainline(
             "elapsed_seconds": round(time.perf_counter() - started_at, 6),
         },
         "defense": {
-            "name": "stochastic-dropout" if stochastic_dropout_defense else "none",
-            "enabled": bool(stochastic_dropout_defense),
+            "name": defense_name,
+            "enabled": bool(stochastic_dropout_defense or float(epsilon_output_noise_std) > 0.0),
             "dropout_activation_schedule": resolved_schedule,
             "late_step_threshold": int(late_step_threshold),
+            "epsilon_output_noise_std": float(epsilon_output_noise_std),
         },
-        "defense_stage": "provisional-g1" if stochastic_dropout_defense else "baseline",
+        "defense_stage": defense_stage,
         "sample_count_per_split": int(member_score_tensor.shape[0]),
         "metrics": metrics,
         "adaptive_check": adaptive_check,
