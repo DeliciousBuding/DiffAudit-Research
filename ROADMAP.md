@@ -1022,13 +1022,14 @@ Current read:
 
 Tasks:
 
-- [ ] `WB-5.1` write the `DP-LoRA` protocol-overlap note against the current admitted `DDPM/CIFAR-10 + GSA/W-1` line
+- [x] `WB-5.1` write the `DP-LoRA` protocol-overlap note against the current admitted `DDPM/CIFAR-10 + GSA/W-1` line
 - [ ] `WB-5.2` define one minimal local config candidate instead of a vague future defense idea
 - [ ] `WB-5.3` define explicit `no-go` and future `gpu_release` triggers
 
 Canonical evidence anchor:
 
 - `workspaces/intake/2026-04-16-phase-e-registry-refresh-and-dplora-selection-verdict.md`
+- `workspaces/white-box/2026-04-16-dplora-protocol-overlap-note.md`
 
 Selection verdict:
 
@@ -1037,6 +1038,9 @@ Selection verdict:
 - `Finding NeMo` remains `zero-GPU hold`
 - `TMIA-DM` should no longer remain on the `Phase E` intake candidate surface
 - `gpu_release = none`
+- `WB-5.1` now closes as `positive but bounded`:
+  - `DP-LoRA` has real defense-family overlap with the current white-box story
+  - but only at `partial-overlap` level, not same-protocol comparability
 
 Value: ⭐⭐⭐
 Budget: CPU-only
@@ -1140,7 +1144,7 @@ This is a preference order, not a prison.
 Current release posture:
 
 - `gpu_release = none`
-- `next_gpu_candidate = none until WB-5 writes protocol overlap, minimal config, and no-go triggers`
+- `next_gpu_candidate = none until WB-5 writes the minimal config candidate and no-go triggers`
 
 ### Next
 
@@ -1238,6 +1242,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 07:30 | Tightened the `CLiD` black-box boundary from generic local bridge wording to `evaluator-near local clip-only corroboration`: current target-side outputs are `100 x 5` numeric matrices after header-skip, but full `cal_clid_th.py` alignment remains blocked on missing shadow-side files and cache-root leakage in the executed rung header |
 | 2026-04-16 07:40 | Added a reusable zero-GPU `CLiD` threshold-compatibility audit tool and ran it on the current target100 rung; the result is now machine-readable (`target_pair.ready=true`, `shadow_pair.ready=false`) and closes the current `BB-3` boundary-tightening step without pretending to have a paper-aligned benchmark |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
+| 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
