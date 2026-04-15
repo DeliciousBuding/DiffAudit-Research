@@ -556,8 +556,11 @@ Current read:
 - run-level same-split comparison is now explicit:
   - `PIA cpu-32` remains clearly ahead of `TMIA-DM long_window` across both bounded repeats
   - current `TMIA-DM` therefore does not justify role swap or immediate disagreement-exploitation work
+- GPU-level operating-point comparison is now also explicit:
+  - `PIA` remains the safest single headline on global-ranking metrics
+  - `TMIA-DM late-window` is now the strongest challenger line, with credible low-FPR advantages
 - `GB-4` should stay narrow until either `TMIA-DM` strengthens further or a different second family lands
-  - current best reading is `secondary corroboration candidate`, not `mainline challenger`
+  - current best reading is `headline plus challenger`, not `single-family gray-box story`
 
 Tasks:
 
@@ -568,6 +571,7 @@ Tasks:
 Canonical evidence anchor:
 
 - `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-long-window-comparison.md`
+- `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-operating-point-comparison.md`
 
 Value: ⭐⭐
 
@@ -789,6 +793,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 04:30 | Repeated `TMIA-DM late-window GPU128` with `seed1`; the line stayed strong at `AUC = 0.836975`, upgrading it from a first positive GPU rung to a repeat-confirmed gray-box challenger |
 | 2026-04-16 04:40 | Scaled `TMIA-DM late-window` to `GPU256`: the line stayed strong at `AUC = 0.839554 / ASR = 0.765625`, reaching near-parity with `PIA GPU256` while improving low-FPR detection |
 | 2026-04-16 04:50 | Repeated `TMIA-DM late-window GPU256` with `seed1`; the line held at `AUC = 0.837814 / ASR = 0.787109`, confirming that the challenger remains stable at the higher rung |
+| 2026-04-16 05:00 | Wrote the gray-box operating-point comparison: `PIA` remains the safest headline on global metrics, while `TMIA-DM late-window` has become the strongest low-FPR challenger line |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
