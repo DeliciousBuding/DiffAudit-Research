@@ -76,7 +76,7 @@ DiffAudit 是一个面向扩散模型的隐私风险审计研究仓库。
 当前方法线的最新状态见 [docs/reproduction-status.md](docs/reproduction-status.md)。
 研究仓库的一页综合进度见 [docs/comprehensive-progress.md](docs/comprehensive-progress.md)。
 黑盒结果的统一机读汇总见 `experiments/blackbox-status/summary.json`。
-本地 HTTP API 说明见 [docs/local-api.md](docs/local-api.md)。
+执行控制面说明见 `D:\Code\DiffAudit\Runtime-Server\README.md`。`Research` 只保留研究代码、资产与 admitted 结果，不再承载活跃 HTTP 服务入口。
 
 ## 仓库结构
 
@@ -466,11 +466,11 @@ python -m diffaudit dry-run-variation --config configs/attacks/variation_plan.ya
 python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke
 ```
 
-启动本地 API 服务（Go 控制面，推荐）：
+启动本地 Runtime Server 服务（Go 控制面，推荐）：
 
 ```powershell
-cd ..\Services\Local-API
-go run ./cmd/local-api --host 127.0.0.1 --port 8765
+cd ..\Runtime-Server
+go run ./cmd/runtime --host 127.0.0.1 --port 8765
 ```
 
 Python FastAPI 入口当前仅保留为临时兼容层，不再作为默认控制面入口。

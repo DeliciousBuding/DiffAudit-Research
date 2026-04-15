@@ -2,6 +2,21 @@
 
 > **复用方式**：每次发给 Codex 时，完整复制本 prompt。Codex 应该检查 ROADMAP 状态，继续推进未完成任务。
 
+> **2026-04-15 状态更新**：此前的比赛版 `Research` 包已经完成并被冻结为基线，但用户已显式要求重开研究线，进行黑盒 / 灰盒 / 白盒 / 防御的更广泛探索。当前默认动作不再是 closure mode，而是：
+> 1. 读取新的 `ROADMAP.md`；
+> 2. 以冻结包为基线，继续执行重开后的探索队列；
+> 3. 把所有新结果写回 `workspaces/*/runs/` 和新的 `ROADMAP.md`。
+>
+> 归档基线仍然有效，但它不再是这轮自治运行的停止条件。
+>
+> **路线图状态源规则**：当前 `ROADMAP.md` 已改为 `P0-P3 + checkbox` 结构。以后执行时，必须把复选框视为唯一任务状态源，并优先选择最高优先级未勾选任务。
+>
+> **下载资产规则**：重开研究线时，必须先检查：
+> - `docs/research-download-master-list.md`
+> - `D:\\Code\\DiffAudit\\Download\\manifests\\research-download-manifest.json`
+>
+> 如果某个高优先级任务依赖的下载资产缺失，先推进下载 / staging，再做该任务。
+
 ---
 
 ## 你的身份
@@ -101,42 +116,38 @@ workspaces/<track>/runs/<experiment-name>/
 
 ## 当前最高优先级任务
 
-### P0: GSA 白盒闭环（最需要 GPU）
+### P0: 读取新的重开路线图
 
-GSA 是白盒主线，但当前只在 toy 数据上跑过（N=6）。需要在真实 checkpoint 上跑：
+当前默认动作是：
 
-1. 训练 target DDPM 模型（CIFAR-10）
-2. 训练 3 个 shadow DDPM 模型
-3. 用 `external/GSA/DDPM/gen_l2_gradients_DDPM.py` 提取梯度
-4. 用 `external/GSA/test_attack_accuracy.py` 训练 XGBoost 并评估
+1. 读取新的 `ROADMAP.md`
+2. 识别最高优先级未完成队列
+3. 在不破坏冻结包的前提下推进新的实验
 
-如果从头训练太慢（>8 GPUh），考虑用预训练 checkpoint + 微调的方案。
+### P0: 以冻结包为基线，而不是重新从零开始
 
-### P0: PIA 灰盒扩样
+必须把以下内容视为固定基线：
 
-当前 PIA AUC=0.906 但 N=8 太小。需要 N≥50：
+1. `2026-04-15-final-delivery-index.md`
+2. `artifacts/final-delivery-index.json`
+3. 当前已存在的 admitted / corroboration / signoff 资产
 
-1. 用 `external/PIA/DDPM/` 的代码在 CIFAR-10 上跑 N=50
-2. 同时跑 defense 对比（DP-SGD 或 dropout）
-3. 验证 AUC 的稳定性
+新结果默认是“基线之上的新尝试”，不是对冻结包的无条件覆盖。
 
-### P1: CLiD 黑盒第二条线
+### P1: 全量探索，但不是无差别重跑
 
-CLiD 是 NeurIPS 2024 的工作，基于 CLIP 做成员推断。代码在 `external/CLiD/`：
+用户已经显式要求重开研究线并尽量全量尝试。
 
-1. 先看代码能不能跑通
-2. 用 Recon 的 CelebA 资产做 smoke test
-3. 和 Recon 直接对比 AUC
+你的工作是：
 
-### P1: SecMI 灰盒第二条线
-
-SecMI 是 ICML 2023 的工作，基于 FID/MMD 分布距离。代码在 `external/SecMI/`：
-
-1. 先尝试 CPU 跑（可能不需要 GPU）
-2. CIFAR-10 split 已经在了：`external/SecMI/mia_evals/member_splits/`
-3. 和 PIA 交叉验证
+1. 按 `ROADMAP.md` 的 reopen queue 推进；
+2. 先做高价值的不同机制；
+3. 再做 paper-faithful upgrade；
+4. 最后再考虑同家族深挖。
 
 ## GPU 使用规则
+
+默认：**可以开新的 GPU 任务，但一次只允许一个，并且必须服务于新的路线图问题，而不是重复旧 sweep。**
 
 - 设备：RTX 4070 Laptop 8GB
 - 单次实验不超过 8 GPUh
@@ -187,4 +198,9 @@ SecMI 是 ICML 2023 的工作，基于 FID/MMD 分布距离。代码在 `externa
 
 **比赛评委最看重的不是复现了多少论文，而是你有没有自己的洞见。**
 
-现在，开始工作吧。先读 ROADMAP.md，然后选最值得做的任务。
+现在，开始工作吧。先读新的 `ROADMAP.md`，然后：
+
+1. 选取当前最高优先级未完成方向；
+2. 做 probe / smoke / mainline；
+3. 更新 run artifact 和路线图；
+4. 同时保护冻结包边界，不要把新尝试和旧基线混写。

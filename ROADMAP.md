@@ -1,586 +1,220 @@
-# DiffAudit Research ROADMAP — 4.19 Competition Sprint
+# DiffAudit Research ROADMAP — P0-P3 Reopened Queue
 
 > Last updated: 2026-04-15
-> Deadline: 2026-04-19 (Computer Design Competition)
-> Hardware: RTX 4070 Laptop 8GB (single GPU) + CPU sidecars
+> Mode: reopened research after frozen competition package
+> Rule: one GPU task at a time, every task must produce a concrete verdict
 
 ---
 
-## Executive Summary
+## 0. How To Use This Roadmap
 
-This roadmap covers **all research directions** for DiffAudit's competition entry. It is designed to be given to an autonomous research agent (Codex GPT-5.4) who will execute GPU runs, explore new methods, and drive the evidence base forward. The agent should use this as a **living document** — updating it as new results come in, new directions emerge, and old directions are resolved.
+- Checked items are already done.
+- Unchecked items are active backlog.
+- Always pick the highest-priority unchecked item unless the user explicitly reprioritizes.
+- New experiments must compare against the frozen baseline package instead of silently replacing it.
+- When a task finishes, update this file and the relevant `workspaces/<track>/runs/` artifacts immediately.
 
-### Core Philosophy
+Frozen reference package:
 
-1. **Evidence first, governance second** — Admitted results matter, but we need *more* admitted results, not more paperwork about existing ones.
-2. **GPU time is precious but not sacred** — Every GPU run should answer a real question, but don't let gate-keeping prevent experiments.
-3. **Innovation beats replication** — Original ideas and novel combinations beat mechanical reproduction of papers.
-4. **Three lines + defenses = complete story** — Black-box, Gray-box, White-box attacks, plus defense comparisons, form the competition narrative.
-
----
-
-## Part 0: Current Admitted Baselines (DO NOT CHANGE THESE)
-
-These are the fixed reference points. All new work should compare against or complement these:
-
-| Line | Method | Dataset | Best AUC | Status | Notes |
-|------|--------|---------|----------|--------|-------|
-| Black-box | Recon (DDIM public-100, step30) | CelebA (fine-tuned) | **0.849** | Admitted | Controlled protocol; CopyMark = boundary layer |
-| Black-box | Recon (DDIM public-50, step10) | CelebA (fine-tuned) | Best single-metric ref | Admitted | |
-| Gray-box | PIA (CIFAR-10, N=8, CPU) | CIFAR-10 | **0.906** | Workspace-verified | N too small; checkpoint/source provenance blocked |
-| White-box | GSA (CIFAR-10, 1k-3shadow, epoch300) | CIFAR-10 | **0.489** (rerun1) | Admitted | Toy-ish; needs real checkpoints |
-| Exploratory | SMP-LoRA | Various | ~0.63 max | Exploratory | O03/O04/no-TF32 all failed; T06 optimizer/lr pending |
-| Defense | PIA stochastic dropout | CIFAR-10 | No improvement | Prototype | Only shifts threshold, no ranking improvement |
-
-### Key External Assets Available
-
-- `external/recon-assets/` — NDSS 2025 black-box checkpoints (CelebA shadow/target, partial variants)
-- `external/PIA/` — PIA implementation (DDPM, GradTTS, Stable Diffusion variants)
-- `external/SecMI/` — SecMI implementation (CIFAR-10 splits included)
-- `external/CLiD/` — CLiD implementation (CLIP-based, SD training code)
-- `external/Reconstruction-based-Attack/` — BLIP + LoRA reconstruction attack
-- `external/DiT/` — DiT diffusion implementation
-- `external/DPDM/` — DPDM defense implementation
-- `workspaces/white-box/external/GSA/` — GSA upstream code (DDPM + Imagen)
+- human index: `workspaces/implementation/2026-04-15-final-delivery-index.md`
+- machine index: `workspaces/implementation/artifacts/final-delivery-index.json`
+- archived competition sprint roadmap:
+  - `legacy/2026-04-15-competition-sprint-roadmap-archived.md`
+- download master list:
+  - `docs/research-download-master-list.md`
+- download manifest:
+  - `D:\Code\DiffAudit\Download\manifests\research-download-manifest.json`
 
 ---
 
-## Part 1: Black-box Lines (Expand & Strengthen)
+## 1. Frozen Baseline Completed
 
-### B1: Recon (Current Mainline) — OPTIMIZATION
-
-**Status**: AUC 0.849 is solid but could be higher. The DDIM protocol has room for hyperparameter tuning.
-
-**Open Questions**:
-- What timestep range [5, 50] gives best AUC? Current uses step30 for main, step10 for best-metric.
-- Does increasing shadow model count from 3 improve attack signal?
-- Can we combine multiple timesteps into an ensemble score?
-- What about varying the DDIM eta parameter (between DDIM and DDPM)?
-- Can we use different reconstruction loss functions (LPIPS vs L2 vs L1)?
-
-**GPU Tasks**:
-- `B1-G1`: Timestep sweep [5, 10, 15, 20, 25, 30, 40, 50] on existing recon assets. Budget: 2-4 GPUh.
-- `B1-G2`: Shadow count comparison [3, 5, 7] at optimal timestep. Budget: 3-6 GPUh.
-- `B1-G3`: DDIM eta sweep [0.0, 0.25, 0.5, 0.75, 1.0] to understand DDIM↔DDPM transition effect. Budget: 2-4 GPUh.
-- `B1-G4`: LPIPS perceptual loss vs L2 reconstruction. May improve semantic alignment. Budget: 2 GPUh.
-
-**CPU Tasks**:
-- Error slice analysis: which samples are misclassified? Is there a pattern (e.g., image complexity, frequency content)?
-- Integrate frequency-domain paper insights: do high-frequency samples have lower attack scores?
-- Cost analysis: query complexity vs AUC tradeoff curve.
-
-### B2: CLiD (NeurIPS 2024) — NEW BLACK-BOX LINE
-
-**Status**: Code exists in `external/CLiD/` and `src/diffaudit/attacks/clid.py`. Uses CLIP features for membership inference on text-to-image diffusion models. **Has not been executed yet.**
-
-**Why CLiD matters**:
-- Independent black-box method from Recon — if both show signals, the evidence is much stronger.
-- Uses a completely different mechanism (CLIP feature space vs reconstruction error).
-- Can run on the same CelebA assets as Recon for direct comparison.
-- NeurIPS 2024 publication adds credibility.
-
-**GPU Tasks**:
-- `B2-G1`: CLiD smoke test on existing recon assets (CelebA fine-tuned). Adapt CLiD's pipeline to use our model checkpoints. Budget: 2-4 GPUh.
-- `B2-G2`: Full CLiD run with proper member/non-member split. Compare AUC directly with Recon. Budget: 4-8 GPUh.
-- `B2-G3`: CLiD + Recon ensemble: does combining CLIP features + reconstruction error improve AUC beyond either alone? Budget: 2 GPUh.
-
-**CPU Tasks**:
-- Asset compatibility analysis: can CLiD's code consume our CelebA checkpoints directly?
-- Threat model comparison: how does CLiD's assumptions differ from Recon?
-- If CLiD fails: diagnose why (CLIP model compatibility? feature extraction pipeline?)
-
-### B3: Variation / Towards (API-only) — UNBLOCK
-
-**Status**: Code exists but blocked by real API asset availability. Has run synthetic smoke on CPU.
-
-**Open Questions**:
-- Can we simulate API responses using our local models? (i.e., treat local model outputs as "API responses")
-- What minimal API surface is needed? (just image generation? or also loss scores?)
-- Can we adapt the variation attack to work in a "local API" mode against our own models?
-
-**Tasks**:
-- `B3-C1`: Implement "local API wrapper" that exposes our Recon DDIM model as a generation-only API.
-- `B3-G1`: Run variation attack against local API wrapper. Budget: 2 GPUh.
-
-### B4: Novel Black-box Ideas — INNOVATION
-
-**Don't be limited by existing papers. Think about what's unique about diffusion models and how to exploit it:**
-
-**Brainstorming Directions**:
-1. **Noise trajectory analysis**: Can we distinguish member vs non-member by analyzing how the denoising trajectory differs? Members might have "smoother" or "more confident" denoising paths.
-2. **Output variance across timesteps**: Do member samples show more consistent outputs when noise is re-sampled at different timesteps?
-3. **Prompt sensitivity**: For text-conditioned models, do member images respond differently to prompt perturbations?
-4. **Classifier-free guidance scale**: Does varying the CFG scale reveal different membership signals?
-5. **Cross-model agreement**: If we have multiple fine-tuned models, do members get consistently "better" reconstructions across all of them?
-6. **Latent space analysis**: Can we detect membership in the latent space of autoencoder-based diffusion models (e.g., Stable Diffusion's VAE)?
-7. **Temporal consistency**: For iterative generation, does the intermediate output sequence differ between members and non-members?
-
-**GPU/CPU Tasks**:
-- `B4-X1`: Pick 2-3 most promising ideas above and prototype them. Start with CPU-friendly probes.
-- `B4-X2`: For any idea that shows signal on small samples, design a proper GPU experiment.
-- `B4-X3**: Write up negative results too — knowing what *doesn't* work is valuable for the competition defense.
+- [x] Black-box admitted headline exists: `Recon DDIM public-100 step30`, `AUC 0.849`
+- [x] Black-box best single-metric rung exists: `Recon public-50 step10`, `AUC 0.866`
+- [x] Black-box corroboration exists: `CLiD` local `100 / 100` target-family rungs
+- [x] Gray-box runtime mainline exists: `PIA 512 / 512` and `1024 / 1024`
+- [x] Gray-box defended comparator exists: stochastic dropout `all_steps`
+- [x] Gray-box corroboration exists: `SecMI stat 0.885833`, `NNS 0.946286`
+- [x] White-box upper bound exists: `GSA 0.998192`
+- [x] White-box defended comparator exists: `DPDM W-1 strong-v3 0.488783`
+- [x] Unified evidence table exists
+- [x] Attack-defense matrix exists
+- [x] Threat-model comparison exists
+- [x] Competition answer pack / brief / FAQ / speaker notes exist
+- [x] Presentation manifest / checksums / signoff / handoff exist
 
 ---
 
-## Part 2: Gray-box Lines (Expand & Validate)
+## 2. P0 — Highest-Value Reopen Tasks
 
-### G1: PIA (Current Mainline) — SCALE UP
+### Download and staging
 
-**Status**: AUC 0.906 on N=8 is promising but sample size is too small for competition. Needs N≥50 validation.
+- [ ] `P0-DL-1` Verify all first-wave assets from `docs/research-download-master-list.md` are present in `D:\Code\DiffAudit\Download\...`
+- [ ] `P0-DL-2` Ingest any newly downloaded assets into repo-consumable locations or config pointers
+- [ ] `P0-DL-3` Record exact asset provenance / path mapping for anything newly staged
 
-**Critical Open Questions**:
-- Does AUC hold at N=50? N=100? Or does it drop with more samples?
-- What's the optimal attack_num and interval for CIFAR-10 DDPM?
-- Can we get meaningful results on 8GB with smart batching?
-- How does the proximal initialization parameter (the key PIA innovation) affect results?
+### Gray-box defense diversification
 
-**GPU Tasks**:
-- `G1-G1`: **Priority #1** — PIA on CIFAR-10 with N=50. Use existing DDPM checkpoint. Budget: 4-8 GPUh.
-- `G1-G2**: PIA with N=100 if G1-G1 succeeds. Budget: 8-12 GPUh.
-- `G1-G3**: Proximal initialization ablation: vary the proximal weight [0.1, 0.3, 0.5, 0.7, 0.9] to find optimal setting. Budget: 3-5 GPUh.
-- `G1-G4**: PIA on Stable Diffusion variant (if assets available). Does PIA transfer to latent diffusion? Budget: 8-16 GPUh.
+Dependencies:
 
-**Defense Tasks** (run alongside attack tasks):
-- `G1-D1**: DP-SGD training on CIFAR-10 DDPM, then run PIA attack. Does DP help? Budget: 4-8 GPUh for training + 2-4h for attack.
-- `G1-D2**: Stochastic dropout defense (already prototyped) — re-run with N=50 for proper evaluation. Budget: 2 GPUh.
-- `G1-D3**: Noise injection defense — add calibrated noise during inference and measure attack degradation. Budget: 1-2 GPUh.
+- `SH-DS-01`
+- `GB-WT-01` preferred if a SecMI-linked defense route is used
 
-**CPU Tasks**:
-- Checkpoint provenance: track down the exact DDPM checkpoint source, training config, and member split generation process.
-- If the checkpoint is self-trained: document the full training recipe so competitors can reproduce.
-- If the checkpoint is from upstream: verify the member split matches the paper's protocol.
+- [ ] `P0-GD-1` Choose one gray-box defense mechanism that is materially different from stochastic dropout
+- [ ] `P0-GD-2` Write a short hypothesis note explaining why this defense might change ranking structure, not just threshold
+- [ ] `P0-GD-3` Implement a smoke/probe run on existing CIFAR-10 gray-box assets
+- [ ] `P0-GD-4` If smoke is promising, run a mainline comparator and write `summary.json`
+- [ ] `P0-GD-5` Update gray-box comparison note and attack-defense matrix with the verdict
 
-### G2: SecMI (ICML 2023) — UNBLOCK & RUN
+### Black-box mitigation line
 
-**Status**: Code in `external/SecMI/` and `src/diffaudit/attacks/secmi.py`. Has CIFAR-10 member splits. **Has never been executed.** Based on FID/MMD distribution distance — potentially CPU-runnable.
+Dependencies:
 
-**Why SecMI matters**:
-- Completely different mechanism from PIA (distribution distance vs proximal optimization).
-- If both SecMI and PIA show signals on CIFAR-10, gray-box has two independent confirmation lines.
-- May not need GPU — uses ResNet feature extractor + statistical tests.
-- ICML 2023 publication.
+- `SH-DS-02`
+- `SH-DS-03`
+- `SH-WT-01`
+- `SH-WT-02`
 
-**GPU Tasks**:
-- `G2-G1`: SecMI on CIFAR-10 with existing splits. Start with CPU probe first. If ResNet feature extraction needs GPU, budget: 2-4 GPUh.
+- [ ] `P0-BM-1` Choose one realistic black-box mitigation direction
+- [ ] `P0-BM-2` Define the black-box threat model and utility constraints before implementation
+- [ ] `P0-BM-3` Implement a minimal probe against the current `Recon / CLiD` asset stack
+- [ ] `P0-BM-4` If the mitigation is viable, run a comparator and record attack degradation
+- [ ] `P0-BM-5` Write a short note explaining whether this is competition-usable or only exploratory
 
-**CPU Tasks**:
-- `G2-C1`: SecMI smoke test on CPU. Check if the ResNet feature extractor runs on CPU with acceptable speed.
-- `G2-C2`: Asset validation: verify CIFAR-10 splits in `external/SecMI/mia_evals/member_splits/` are compatible with our setup.
-- `G2-C3`: If SecMI runs on CPU, run full pipeline and compare with PIA results.
+### CLiD paper-faithful upgrade
 
-### G3: SIMA (Score-based) — NEW GRAY-BOX LINE
+Dependencies:
 
-**Status**: Paper exists (`2025-arxiv-sima-score-based-membership-inference-diffusion-models`). Uses score-based methods for membership inference. **No code implementation yet.**
+- `SH-WT-01`
+- `SH-WT-02`
+- `BB-SUP-02` if obtainable
 
-**Why SIMA matters**:
-- Score-based approach is fundamentally different from both PIA and SecMI.
-- Could be the third independent gray-box line.
-- May work well on the same CIFAR-10 assets.
-
-**Tasks**:
-- `G3-C1`: Read and summarize the SIMA paper. Extract the core algorithm, asset requirements, and expected outputs.
-- `G3-C2`: Implement a minimal SIMA prototype based on the paper. Can we reuse components from PIA's diffusion code?
-- `G3-G1`: If prototype shows promise, run on CIFAR-10. Budget: TBD after implementation.
-
-### G4: MoFit (2026, Caption-free) — EVALUATE
-
-**Status**: Paper exists (`2026-openreview-mofit-caption-free-membership-inference`). Caption-free approach — doesn't need text descriptions.
-
-**Tasks**:
-- `G4-C1`: Paper reading and feasibility assessment. Does MoFit work on image-only diffusion models?
-- `G4-C2**: If feasible, outline implementation plan.
-
-### G5: Noise-as-a- Probe (2026) — EVALUATE
-
-**Status**: Paper exists (`2026-arxiv-noise-as-a-probe-membership-inference-diffusion-models`). Uses noise injection as a probing mechanism.
-
-**Tasks**:
-- `G5-C1`: Paper reading and feasibility assessment.
-- `G5-C2**: Could this be combined with PIA? (Use noise injection to enhance PIA's proximal signal.)
-
-### G6: Novel Gray-box Ideas — INNOVATION
-
-**Gray-box = partial model access. What can we do with gradients, intermediate activations, or limited parameter access?**
-
-**Brainstorming Directions**:
-1. **Gradient norm analysis**: Do member samples produce different gradient norms during fine-tuning? Simple but potentially effective.
-2. **Activation pattern clustering**: Do member samples cluster differently in activation space compared to non-members?
-3. **Layer-wise sensitivity**: Which layers of the diffusion model are most informative for membership inference? Can we do layer-by-layer analysis?
-4. **Training checkpoint comparison**: Compare model weights before and after fine-tuning on specific samples. Do members leave larger "traces"?
-5. **Score function analysis**: The denoising score function might behave differently on members vs non-members. Can we measure this directly?
-6. **Fine-tuning trajectory**: Track how the model changes during fine-tuning. Do member samples get "learned" faster?
-7. **Cross-sample interaction**: Does the presence of one member affect the attack signal on another member? (Interference effects)
-
-**Tasks**:
-- `G6-X1`: Pick 2-3 most promising ideas. Prototype on CPU with existing CIFAR-10 assets.
-- `G6-X2`: For any idea showing signal, design proper GPU experiment.
+- [ ] `P0-CL-1` Audit the current local `CLiD` bridge against the paper protocol
+- [ ] `P0-CL-2` List the minimum missing pieces needed to honestly tighten the boundary
+- [ ] `P0-CL-3` Execute one paper-alignment upgrade step instead of another same-family target rung
+- [ ] `P0-CL-4` Decide whether `CLiD` stays “local corroboration” or can be promoted toward “paper-aligned local benchmark”
 
 ---
 
-## Part 3: White-box Lines (Close the Gap)
+## 3. P1 — New Attack Families
 
-### W1: GSA (Current Mainline) — REAL ASSETS RUN
+### Gray-box new family
 
-**Status**: End-to-end pipeline works but only on toy synthetic data (N=6 per split). AUC on toy data is meaningless. **The biggest gap in our research.**
+Dependencies:
 
-**What's Needed**:
-1. **Real checkpoints**: Train target and shadow DDPM models on CIFAR-10 with proper member/non-member splits.
-2. **Proper scale**: N≥100 per split (member and non-member, target and shadow).
-3. **Paper-aligned protocol**: Match the GSA paper's training setup as closely as possible.
+- relevant `GB-PAP-*` asset for the chosen family
 
-**GPU Tasks**:
-- `W1-G1`: **Priority #2** — Train DDPM on CIFAR-10 for target model. Budget: 8-16 GPUh (depending on convergence).
-- `W1-G2`: Train 3 shadow models on CIFAR-10 (different random splits). Budget: 24-48 GPUh total.
-- `W1-G3**: Run GSA gradient extraction on real checkpoints. Budget: 4-8 GPUh.
-- `W1-G4**: Train XGBoost attack model and evaluate. Budget: 1-2 GPUh (or CPU).
+- [ ] `P1-GA-1` Pick exactly one of `SIMA / MoFit / Noise-as-a-probe / SIDe / structural memorization`
+- [ ] `P1-GA-2` Produce a paper-to-code feasibility note
+- [ ] `P1-GA-3` Implement a minimal prototype
+- [ ] `P1-GA-4` Run a smoke/probe and record either signal or negative result
+- [ ] `P1-GA-5` Decide whether the line deserves a mainline GPU run
 
-**Alternative Approach** (if full training is too expensive):
-- Use pre-trained DDPM checkpoints from HuggingFace or other sources.
-- Fine-tune on small CIFAR-10 subsets to create "target" vs "shadow" distinction.
-- This is faster than training from scratch but still gives real gradient signals.
+### Black-box new family
 
-**CPU Tasks**:
-- `W1-C1`: Survey available pre-trained DDPM checkpoints. Can we find compatible ones?
-- `W1-C2`: If using pre-trained: design the fine-tuning protocol to create proper member/non-member splits.
-- `W1-C3`: XGBoost attack model training can run on CPU once gradients are extracted.
+Dependencies:
 
-### W2: GSA Improvements — INNOVATION
+- `SH-DS-02`
+- `SH-WT-01`
+- `SH-WT-02`
+- `SH-WT-03` if caption-side black-box probing is used
 
-**Beyond the baseline GSA paper, what can we improve?**
+- [ ] `P1-BA-1` Pick one black-box direction beyond `Recon + CLiD`
+- [ ] `P1-BA-2` Define assets, access assumptions, and scoring rule
+- [ ] `P1-BA-3` Implement a small-sample probe
+- [ ] `P1-BA-4` If signal exists, run a proper comparator against current black-box baselines
 
-**Ideas**:
-1. **Better gradient features**: Instead of raw L2 gradients, can we use normalized gradients, gradient directions, or gradient statistics?
-2. **Multi-timestep gradients**: GSA uses gradients at a single timestep. What if we aggregate gradients across multiple timesteps?
-3. **Layer-specific analysis**: Which UNet layers carry the most membership signal? Can we focus on those layers?
-4. **Non-XGBoost classifiers**: Try neural network classifiers on gradient features. Might capture non-linear patterns better.
-5. **Gradient ensembling**: Combine gradients from multiple noise levels or multiple generation steps.
+### White-box second line
 
-**Tasks**:
-- `W2-X1`: For any idea above that seems promising, prototype on the existing toy data first (fast iteration).
-- `W2-X2**: If toy data shows signal, include in the real-asset GSA run.
+Dependencies:
 
-### W3: Finding NeMo (NeurIPS 2024) — EVALUATE & INTEGRATE
+- `WB-SUP-01` preferred for `NeMo`
+- `WB-PAP-01` if falling through to `Local Mirror`
 
-**Status**: Adapter is implemented but on zero-GPU hold. Paper about localizing memorization neurons in diffusion models.
-
-**Why NeMo matters**:
-- Complements GSA: GSA is gradient-based, NeMo is neuron-based. Two different white-box approaches.
-- Could provide a completely different type of white-box evidence.
-- The "memorization neuron" concept is intuitive for competition presentation.
-
-**Tasks**:
-- `W3-C1`: Review the existing adapter implementation. What's blocking execution?
-- `W3-C2**: If the blocker is asset-related, design a minimal execution path with available assets.
-- `W3-G1**: Minimal smoke test on CIFAR-10 with existing DDPM checkpoint. Budget: 2-4 GPUh.
-
-### W4: Local Mirror (2025 PoPETS) — EVALUATE
-
-**Status**: Paper exists (`2025-local-mirror-white-box-membership-inference-diffusion-models`). **No code yet.**
-
-**Tasks**:
-- `W4-C1`: Paper reading and feasibility assessment.
-- `W4-C2**: Compare with GSA: does Local Mirror offer something GSA doesn't?
-- `W4-C3**: If promising, sketch implementation plan.
-
-### W5: Novel White-box Ideas — INNOVATION
-
-**White-box = full model access. What creative attacks become possible?**
-
-**Brainstorming Directions**:
-1. **Hessian-based analysis**: Do member samples have different loss landscape curvature? The Hessian (second derivatives) might reveal memorization.
-2. **Influence functions**: Classic ML technique — compute how much each training point affects the model's predictions on test points.
-3. **Training data extraction**: Instead of just detecting membership, can we partially reconstruct training data from model weights? (More dramatic for competition.)
-4. **Neuron activation patterns**: Do specific neurons fire differently for member vs non-member samples?
-5. **Weight differential analysis**: Compare a fine-tuned model with its pre-trained version. Which weights changed most? Do those weights correlate with member data?
-6. **Attention map analysis**: For transformer-based diffusion models (DiT), do attention patterns differ for members?
-7. **Gradient flow visualization**: Visualize how gradients propagate through the network for member vs non-member samples.
-
-**Tasks**:
-- `W5-X1`: Pick 2-3 most visually compelling ideas (competition judges like visualizations!).
-- `W5-X2`: Prototype on existing toy data for fast iteration.
-- `W5-X3**: For ideas that work, integrate with real-asset GSA pipeline.
+- [ ] `P1-WA-1` Turn `NeMo` from adapter-ready into a real executed verdict
+- [ ] `P1-WA-2` If `NeMo` blocks, document the blocker precisely and move to `Local Mirror`
+- [ ] `P1-WA-3` Produce one real “2nd white-box line” verdict, positive or negative
 
 ---
 
-## Part 4: Defense Lines (Critical for Competition)
+## 4. P2 — Deepening Existing Lines
 
-**The competition judges WILL ask: "How do you defend against these attacks?"** We need systematic defense comparisons.
+### PIA / SecMI deepening
 
-### D1: DP-SGD Training
+- [ ] `P2-GS-1` Extend `SecMI` beyond corroboration by testing defended or disagreement-analysis variants
+- [ ] `P2-GS-2` Reopen `PIA` only if the new variable is genuinely different from scale-only reruns
+- [ ] `P2-GS-3` If reopened, document the hypothesis before the run
 
-**What**: Train diffusion models with Differential Privacy (DP-SGD).
-**Expected**: Higher privacy budget (epsilon) = weaker attack, lower utility.
+### GSA deepening
 
-**GPU Tasks**:
-- `D1-G1`: Train CIFAR-10 DDPM with DP-SGD at epsilon = [1, 5, 10, 50, 100]. Budget: 8-16 GPUh total.
-- `D1-G2**: Run all three attack lines (Recon, PIA, GSA) on each DP model. Budget: 8-16 GPUh.
-- `D1-G3**: Plot Privacy-Utility Tradeoff (PUT) curve: attack AUC vs model quality (FID).
+- [ ] `P2-WG-1` Test one meaningful `GSA` feature upgrade
+- [ ] `P2-WG-2` Compare the upgraded feature against current `GSA` baseline
+- [ ] `P2-WG-3` Keep or reject the upgrade with a written verdict
 
-### D2: Gradient Obfuscation
+### Recon optimization
 
-**What**: Modify gradients during white-box access (gradient clipping, noise addition, quantization).
-**Expected**: Obfuscation reduces GSA attack strength.
-
-**GPU/CPU Tasks**:
-- `D2-G1`: Implement gradient noise injection as a defense wrapper around GSA gradient extraction. Budget: 1-2 GPUh.
-- `D2-C1**: Implement gradient clipping defense. Run on CPU with existing gradient artifacts.
-- `D2-C2**: Compare multiple obfuscation methods side by side.
-
-### D3: Detection-based Defense
-
-**What**: Detect and block attack queries (e.g., unusual query patterns, repeated sampling).
-**Expected**: Attack success rate drops if attack queries are detected.
-
-**Tasks**:
-- `D3-C1`: Analyze attack query patterns from Recon/PIA/GSA. What makes them detectable?
-- `D3-C2**: Implement simple detection rules (query count, input distribution).
-- `D3-G1**: Test detection effectiveness against our own attacks.
-
-### D4: Model Modification Defense
-
-**What**: Modify the model post-training to reduce memorization (e.g., unlearning, fine-tuning on non-member data).
-**Expected**: Attack signal weakens without significant utility loss.
-
-**GPU Tasks**:
-- `D4-G1**: Fine-tune CIFAR-10 DDPM on a held-out non-member set ("defensive fine-tuning"). Budget: 4-8 GPUh.
-- `D4-G2**: Run PIA before and after defensive fine-tuning. Budget: 4 GPUh.
-
-### D5: Defense Comparison Table
-
-**Goal**: Produce a comprehensive defense comparison table for the competition.
-
-| Defense | Recon AUC | PIA AUC | GSA AUC | FID | Training Cost |
-|---------|-----------|---------|---------|-----|---------------|
-| None (baseline) | 0.849 | 0.906 | TBD | TBD | - |
-| DP-SGD (eps=10) | ? | ? | ? | ? | ? |
-| DP-SGD (eps=50) | ? | ? | ? | ? | ? |
-| Gradient Noise | - | - | ? | - | - |
-| Defensive FT | ? | ? | ? | ? | ? |
-| Dropout | 0.906* | 0.906* | - | ? | - |
+- [ ] `P2-BR-1` Reopen `Recon` only with a concrete hypothesis (`eta`, fusion, loss, or timestep logic)
+- [ ] `P2-BR-2` Run one bounded probe
+- [ ] `P2-BR-3` Promote only if it changes the black-box story materially
 
 ---
 
-## Part 5: Cross-cutting Research
+## 5. P3 — Cross-Cutting / Stretch
 
-### X1: Unified Evidence Table
-
-**Goal**: All results from all lines should feed into a single comparison table.
-
-**Schema** (expand existing `result-schema.md`):
-```json
-{
-  "run_id": "unique identifier",
-  "track": "black-box | gray-box | white-box",
-  "method": "recon | pia | gsa | clid | secmi | ...",
-  "dataset": "CIFAR-10 | CelebA | ...",
-  "model": "DDPM | DDIM | SD1.5 | ...",
-  "member_n": 100,
-  "non_member_n": 100,
-  "shadow_n": 3,
-  "metrics": {
-    "auc": 0.85,
-    "asr": 0.82,
-    "tpr_at_1pct_fpr": 0.75,
-    "tpr_at_0_1pct_fpr": 0.65
-  },
-  "cost": {
-    "gpu_hours": 4.5,
-    "api_queries": 1000,
-    "memory_gb": 6.2
-  },
-  "defense": "none | dp-sgd-eps10 | ...",
-  "device": "RTX4070-8GB",
-  "timestamp": "2026-04-15T...",
-  "status": "admitted | candidate | blocked",
-  "notes": "..."
-}
-```
-
-### X2: Attack-Defense Matrix
-
-**Goal**: For each attack line, show how different defenses affect the result. This is the most important table for the competition.
-
-### X3: Threat Model Comparison
-
-**Goal**: Clearly document what access each attack line requires, so judges can understand the practical implications.
-
-| Attack | Model Access | Data Access | Compute | AUC |
-|--------|-------------|-------------|---------|-----|
-| Recon | API only (generation) | Query budget | Medium | 0.849 |
-| CLiD | API only (generation) + CLIP | Query budget | Medium | ? |
-| PIA | Weights + gradients | Training split info | High | 0.906 |
-| SecMI | Weights | Feature extractor | Low-Medium | ? |
-| GSA | Full weights + gradients | Shadow datasets | Very High | ? |
-
-### X4: Novel Research Ideas — Think Beyond Papers
-
-**The competition rewards originality. Don't just reproduce papers — create new insights.**
-
-**Directions to explore**:
-1. **Attack transferability**: Does an attack that works on DDPM also work on DiT? On Stable Diffusion? On Kandinsky?
-2. **Dataset dependence**: Are some datasets more vulnerable? (CIFAR-10 vs CelebA vs LSUN)
-3. **Model size scaling**: Do larger models leak more or less membership information?
-4. **Fine-tuning depth**: How many fine-tuning steps until membership signal appears? Is there a "danger zone"?
-5. **Combined attack scoring**: Can we combine scores from multiple attacks into a super-attack? (e.g., Recon score + PIA score + GSA score → ensemble)
-6. **Temporal attack evolution**: How does the attack signal evolve during fine-tuning? (snapshot the model every N steps and run the attack)
-7. **Adversarial defense**: Can an adversary specifically craft non-member samples that look like members to confuse the attack?
+- [ ] `P3-X-1` Try one cross-method ensemble that still preserves an honest threat model
+- [ ] `P3-X-2` Try one transfer/generalization question across model families or datasets
+- [ ] `P3-X-3` Try one temporal or training-trajectory analysis question
+- [ ] `P3-X-4` Produce at least one judge-friendly visualization from any successful reopened line
 
 ---
 
-## Part 6: Execution Priority
+## 6. Reopen Guardrails
 
-### Immediate Priorities (4.15 - 4.17)
+- [ ] Do not run two GPU jobs at once
+- [ ] Do not rerun another same-family `PIA` sweep without a new hypothesis
+- [ ] Do not rerun another target-side `CLiD` rung just to increase count
+- [ ] Do not spend GPU on cosmetic scale-up that does not change the narrative
+- [ ] Do not overwrite frozen baseline package semantics with exploratory results
 
-1. **W1-G1/G2**: Train real DDPM checkpoints for GSA. This is the biggest gap. If full training takes too long, use pre-trained + fine-tune approach.
-2. **G1-G1**: PIA on N=50 CIFAR-10. Scale up from N=8 to get competition-grade results.
-3. **B2-G1**: CLiD smoke test. Quick win — if it works, we get a second black-box line immediately.
-4. **G2-C1/G2-G1**: SecMI on CIFAR-10. May run on CPU, making it a free data point.
-
-### Secondary Priorities (4.17 - 4.18)
-
-5. **D1-G1**: DP-SGD training + attack comparison. Defense results are critical for competition.
-6. **B1-G1**: Recon timestep sweep. Optimize the existing mainline.
-7. **W1-G3/G4**: GSA on real checkpoints. Complete the white-box line.
-8. **G1-D1/D2**: PIA defense comparison.
-
-### Final Push (4.18 - 4.19)
-
-9. **X1/X2/X3**: Compile all results into unified tables.
-10. Any remaining GPU tasks that showed promise in earlier stages.
-11. Write competition materials: evidence summary, methodology, defense analysis.
+These are process rules, not deliverables. Keep them checked unless you explicitly violate one and explain why.
 
 ---
 
-## Part 7: GPU Budget Summary
+## 7. Promotion Criteria
 
-| Task | Priority | Est. GPUh | Status |
-|------|----------|-----------|--------|
-| W1-G1: DDPM target training | P0 | 8-16 | Not started |
-| W1-G2: 3x shadow training | P0 | 24-48 | Not started |
-| G1-G1: PIA N=50 | P0 | 4-8 | Not started |
-| B2-G1: CLiD smoke | P1 | 2-4 | Not started |
-| G2-G1: SecMI | P1 | 0-4 (maybe CPU) | Not started |
-| D1-G1: DP-SGD training | P1 | 8-16 | Not started |
-| B1-G1: Recon timestep sweep | P2 | 2-4 | Not started |
-| W1-G3: GSA gradient extraction | P2 | 4-8 | Not started |
-| G1-G2: PIA N=100 | P2 | 8-12 | Depends on G1-G1 |
-| B2-G2: CLiD full run | P2 | 4-8 | Depends on B2-G1 |
-| G1-D1: PIA DP defense | P2 | 4-8 | Not started |
-| D1-G2: Attack all DP models | P2 | 8-16 | Depends on D1-G1 |
-| **Total** | | **76-156 GPUh** | |
+A reopened result is worth promoting only if it changes at least one of:
 
-**Reality check**: RTX 4070 8GB, ~156 GPUh total. At 24h/day (plugged in), that's ~6.5 days. Competition is 4.19, so we have 4 days = 96 GPUh. **We must be selective.**
+1. attack strength
+2. defense story
+3. boundary quality
+4. paper-faithful alignment
+5. cross-method diversity
 
-**Recommended cut**: Focus on P0 + select P1. Skip P2 unless P0 tasks finish early.
-- P0 only: ~38-76 GPUh (2-3 days, feasible)
-- P0 + P1: ~54-96 GPUh (3-4 days, tight but possible)
-- Everything: 76-156 GPUh (not feasible before 4.19)
+If it changes none of the above, log it as:
+
+- `failed`
+- `no-go`
+- or `negative but useful`
 
 ---
 
-## Part 8: Autonomous Agent Instructions
+## 8. Completion Rule For This Reopened Roadmap
 
-**This section is for the Codex research agent. Read carefully.**
+This reopened roadmap is complete only when all of the following are true:
 
-### Your Role
-
-You are a research scientist working on DiffAudit, a diffusion model membership inference audit platform. Your job is to:
-
-1. **Execute experiments** from this roadmap (GPU runs on RTX 4070 8GB)
-2. **Explore new ideas** not listed here — use your judgment to find high-value directions
-3. **Update this document** as you make progress — cross out completed tasks, add new findings
-4. **Write results** to `workspaces/<track>/runs/` with proper `summary.json` format
-5. **Be creative** — don't just follow the roadmap blindly. If you see a better direction, take it.
-
-### Your Constraints
-
-- **Hardware**: Single RTX 4070 8GB laptop GPU. Be memory-efficient. Use `--batch-size`, gradient checkpointing, mixed precision.
-- **Time**: Competition deadline 2026-04-19. Prioritize high-impact experiments.
-- **Assets**: Use existing checkpoints and datasets in `external/` and `workspaces/` directories.
-- **Reproducibility**: Every run should have a config, seed, and clear provenance.
-
-### Your Freedom
-
-- **You can deviate from this roadmap.** If you find a better approach, document it and pursue it.
-- **You can combine methods.** If PIA + SecMI ensemble seems promising, try it.
-- **You can implement new attacks.** If you read a paper and think "this would work great here," implement it.
-- **You can skip tasks.** If a task seems low-value after investigation, mark it as skipped with reasoning.
-- **You should invent.** The best competition entries have something novel. Find it.
-
-### Reporting Format
-
-For each experiment, write:
-
-```markdown
-## Experiment: <name>
-- Date: YYYY-MM-DD
-- Track: black-box | gray-box | white-box | defense
-- GPU hours used: X.X
-- Dataset: ...
-- Model: ...
-- Method: ...
-- Results: { auc: X, asr: Y, ... }
-- Status: admitted | candidate | failed | no-go
-- Notes: ...
-```
-
-Then update `summary.json` in the appropriate `workspaces/<track>/runs/<run-name>/` directory.
+- [ ] At least one materially different new gray-box defense line has a verdict
+- [ ] At least one credible black-box mitigation line has a verdict
+- [ ] At least one paper-faithful upgrade attempt has a verdict
+- [ ] At least one newly implemented attack family beyond the frozen package has a verdict
+- [ ] At least one second white-box line (`NeMo` or equivalent) has a real verdict
+- [ ] Cross-cutting section has at least one useful result or negative result
 
 ---
 
-## Part 9: Competition Readiness Checklist
-
-By 2026-04-19, we need:
-
-- [ ] Black-box: At least 1 strong result (Recon AUC ≥ 0.85) + preferably 2nd line (CLiD)
-- [ ] Gray-box: PIA N≥50 result with stable AUC + preferably SecMI confirmation
-- [ ] White-box: GSA on real checkpoints with meaningful AUC (not toy data)
-- [ ] Defense: At least 2 defense methods compared against main attacks
-- [ ] Unified evidence table with all results
-- [ ] Attack-defense comparison matrix
-- [ ] Threat model comparison table
-- [ ] Competition presentation materials
-
----
-
-## Appendix: Paper Library
-
-### Black-box Papers
-- 2025-NDSS: Black-box membership inference fine-tuned diffusion models (Recon) — **ADMITTED**
-- 2024-NeurIPS: CLiD membership inference text-to-image diffusion — **CODE READY**
-- 2024-ArXiv: Towards black-box membership inference diffusion models (Variation) — **BLOCKED**
-- 2025-VISAPP: Membership inference face fine-tuned latent diffusion — **READ ONLY**
-
-### Gray-box Papers
-- 2024-ICLR: PIA proximal initialization — **ADMITTED, NEEDS SCALE-UP**
-- 2023-ICML: SecMI membership inference diffusion models — **CODE READY, NOT RUN**
-- 2025-ArXiv: SIMA score-based membership inference — **PAPER READ**
-- 2026-OpenReview: MoFit caption-free membership inference — **PAPER READ**
-- 2026-ArXiv: Noise-as-a-probe membership inference — **PAPER READ**
-- 2024-ArXiv: SIDe extracting training data unconditional diffusion — **PAPER READ**
-- 2024-ArXiv: Structural memorization membership inference — **PAPER READ**
-
-### White-box Papers
-- 2025-PoPETS: White-box membership inference diffusion models (GSA) — **ADMITTED, TOY DATA**
-- 2024-NeurIPS: Finding NeMo localizing memorization neurons — **ADAPTER READY**
-- 2025-Local Mirror: White-box membership inference diffusion models — **PAPER READ**
-
-### Defense Papers
-- 2025-NDSS: Diffence fencing membership privacy diffusion models — **PAPER READ**
-- 2025-AAAI: Privacy-preserving LoRA membership inference LDM — **PAPER READ**
-- 2024-ArXiv: Dual model defense diffusion membership inference — **PAPER READ**
-- 2025-ArXiv: Defending diffusion models membership inference higher-order Langevin — **PAPER READ**
-- DPDM — **CODE READY**
-
-### Survey Papers
-- 2025-NeurIPS: Tracing the roots origin attribution diffusion trajectories — **REPORT DONE**
-- Survey index: diffusion privacy literature — **DONE**
-
----
-
-## Changelog
+## 9. Changelog
 
 | Date | Change |
 |------|--------|
-| 2026-04-15 | Complete rewrite: competition sprint roadmap, expanded all lines, added innovation directions |
-| 2026-04-09 | Previous governance-focused version (archived) |
+| 2026-04-15 | Archived the previous competition-sprint roadmap to `legacy/2026-04-15-competition-sprint-roadmap-archived.md` |
+| 2026-04-15 | Replaced the root roadmap with a P0-P3 checkbox-based reopened full-exploration roadmap |
+| 2026-04-15 | Added a download master list, machine-readable download manifest, and explicit asset dependencies for reopened tasks |
