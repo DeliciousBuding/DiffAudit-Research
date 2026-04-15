@@ -1066,6 +1066,34 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: single bounded GPU rung
 
+#### ⬜ `GB-11` Noise-as-a-Probe expansion repeat
+
+Goal: decide whether the first successful `8 / 8 / 8` rung survives a disjoint repeat, or whether it was only a lucky split
+
+Current read:
+
+- the first `8 / 8 / 8` rung was positive but bounded
+- the highest-value uncertainty now is split sensitivity, not canary plumbing
+
+Tasks:
+
+- [x] `GB-11.1` run one disjoint repeat of the `8 / 8 / 8` rung
+- [x] `GB-11.2` compare direction, not just absolute threshold values
+- [x] `GB-11.3` decide whether the branch is now repeat-positive or still one-off
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-noise-as-probe-expansion-repeat-verdict.md`
+
+Selection verdict:
+
+- `GB-11` now closes as `positive but bounded`
+- the branch is now `repeat-positive` on bounded `8 / 8 / 8` rungs
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: single bounded GPU rung
+
 ---
 
 ### 6.4 White-box expansion
@@ -1349,7 +1377,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-No currently open top-priority lane is execution-ready without a fresh bounded repeat or release decision.
+No currently open top-priority lane is execution-ready without a fresh threshold-hardening or larger-rung decision.
 
 Current release posture:
 
@@ -1358,23 +1386,24 @@ Current release posture:
 
 ### Next
 
-1. ✅ `GB-10` Noise-as-a-Probe first expansion rung
-2. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
-3. ✅ `GB-8` Noise-as-a-Probe canary scaffold
-4. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
-5. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
-6. ✅ `GB-5` genuinely-new-family selector
-7. ✅ `WB-5` DP-LoRA comparability dossier
-8. ✅ `BB-6` same-protocol cross-method score package
-9. ✅ `WB-3` white-box defense breadth
-10. ✅ `GB-1` second gray-box defense
-11. ✅ `BB-1` second-signal black-box expansion
-12. ✅ `INF-2` research automation health
-13. ✅ `INF-3` subagent leverage experiments
-14. ✅ `WB-4` white-box feature/trajectory upgrade
-15. ✅ `X-3` system-consumable sync
-16. ✅ `BB-3` CLiD boundary-quality upgrade
-17. ✅ `X-4` cross-box exploration lane
+1. ✅ `GB-11` Noise-as-a-Probe expansion repeat
+2. ✅ `GB-10` Noise-as-a-Probe first expansion rung
+3. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
+4. ✅ `GB-8` Noise-as-a-Probe canary scaffold
+5. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
+6. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
+7. ✅ `GB-5` genuinely-new-family selector
+8. ✅ `WB-5` DP-LoRA comparability dossier
+9. ✅ `BB-6` same-protocol cross-method score package
+10. ✅ `WB-3` white-box defense breadth
+11. ✅ `GB-1` second gray-box defense
+12. ✅ `BB-1` second-signal black-box expansion
+13. ✅ `INF-2` research automation health
+14. ✅ `INF-3` subagent leverage experiments
+15. ✅ `WB-4` white-box feature/trajectory upgrade
+16. ✅ `X-3` system-consumable sync
+17. ✅ `BB-3` CLiD boundary-quality upgrade
+18. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
@@ -1470,6 +1499,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 10:15 | Closed the first `Noise as a Probe` interface canary as `positive but bounded`: the end-to-end local path now runs on `SD1.5 + celeba_partial_target/checkpoint-25000` for `1 member + 1 non-member`, but the next live lane shifts to calibration / expansion policy rather than premature benchmark or release claims |
 | 2026-04-16 10:25 | Closed `GB-9` positively: fixed the smallest honest `Noise as a Probe` calibration / expansion policy to `8` prior non-members for calibration and a first bounded rung of `8 members + 8 eval non-members + 8 calibration non-members`, while keeping `gpu_release = none` |
 | 2026-04-16 10:40 | Closed `GB-10` as `positive but bounded`: the first `8 / 8 / 8` `Noise as a Probe` expansion rung kept member-vs-nonmember mean `MSE` separation alive and yielded a simple calibration threshold with `accuracy = 0.75 / TPR = 0.75 / FPR = 0.25`, but the branch still remains below any release-grade claim |
+| 2026-04-16 10:55 | Closed `GB-11` as `positive but bounded`: a disjoint repeat of the `8 / 8 / 8` `Noise as a Probe` rung remained same-directional with member mean `MSE` still below non-member mean `MSE`, so the branch is now `repeat-positive` rather than a one-split fluke, while `gpu_release` still remains `none` |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
