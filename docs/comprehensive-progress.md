@@ -139,6 +139,13 @@
 | 轨道 | 当前最合理防御路线 | 当前判断 |
 | --- | --- | --- |
 | 黑盒 | `B-1 / B-2` | 设计方向成立，但还没有正式实现 |
+
+当前补充判断：
+
+- 第一条更像真实部署层缓解的黑盒 mitigation 已经试过：
+  - `served-image-sanitization = JPEG quality 70 + resize 512 -> 448 -> 512`
+  - 在本地 `CLiD clip` bridge 上没有压低攻击指标
+- 因此黑盒防御当前应继续写成 `not-yet-landed`，而不是“完全没试过”
 | 灰盒 | `G-1` | 已进入 provisional 形态，并出现三档同口径下降信号与一次同档 repeat；新的 adaptive review 仍支持 `all_steps`，`late_steps_only` 则保留为质量优先消融 |
 | 白盒 | `W-1 = DPDM` | 已拿到 strong-v2 主结果，也拿到 strong-v3 的 full-scale GPU defended 结果；当前主讲口径冻结为 `strong-v3 full-scale` |
 

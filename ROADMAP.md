@@ -429,12 +429,27 @@ Value: ⭐⭐
 
 Goal: test black-box methods under at least one more realistic mitigation condition
 
+Current read:
+
+- the first realistic deployment-side mitigation candidate is now explicit:
+  - `served-image-sanitization`
+  - implemented as mild `JPEG recompression + resize 512 -> 448 -> 512`
+- a bounded `CLiD clip` probe has already been executed on that mitigation:
+  - sanitized probe `AUC = 1.0 / ASR = 1.0 / TPR@1%FPR = 1.0`
+  - frozen local baseline also `AUC = 1.0 / ASR = 1.0 / TPR@1%FPR = 1.0`
+- utility remained high enough (`mean PSNR = 38.286 dB`, `mean MAE = 1.879`) that the null result is meaningful
+- current black-box mitigation verdict is therefore `negative but useful no-go`
+
 Tasks:
 
-- [ ] `BB-4.1` design protocol
-- [ ] `BB-4.2` select mitigation
-- [ ] `BB-4.3` evaluate recon + CLiD or new challenger
-- [ ] `BB-4.4` record quality-cost-utility trade-off
+- [x] `BB-4.1` design protocol
+- [x] `BB-4.2` select mitigation
+- [x] `BB-4.3` evaluate recon + CLiD or new challenger
+- [x] `BB-4.4` record quality-cost-utility trade-off
+
+Canonical evidence anchor:
+
+- `workspaces/black-box/2026-04-16-blackbox-served-image-mitigation-verdict.md`
 
 Value: ⭐⭐
 

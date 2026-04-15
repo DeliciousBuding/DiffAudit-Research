@@ -7,7 +7,7 @@
 - `status`: 进行中，`recon` 的 black-box 主证据、最佳单指标参考和 `variation` 次主线口径已冻结；`semantic-auxiliary-classifier` 已落成当前 leading new-family challenger；当前 `variation` 的真实 API 资产 probe 已正式确认 blocked；`TMIA-DM` 已完成 intake，但被判定为灰盒候选而非黑盒主线
 - `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的语义 gate 现已 machine-audited 到 `proxy-shadow-member`，但仍未升级到 paper-aligned；`variation` 真实 query image root 仍缺；`Kandinsky 10/10` 当前本机链路仍异常慢
 - `next command`: no immediate black-box rerun; keep `Recon / CLiD / semantic-auxiliary-classifier` wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`; turn `variation` recovery into an explicit asset contract instead of speculative reruns
-- `next command`: no immediate black-box rerun; keep `Recon / CLiD / semantic-auxiliary-classifier` wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`; treat `semantic-aux` multi-feature scoring as `negative but useful` unless a new feature family appears; keep `variation` blocked unless the explicit asset contract is filled with real `query_image_root + endpoint + budget`
+- `next command`: no immediate black-box rerun; keep `Recon / CLiD / semantic-auxiliary-classifier` wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`; treat `semantic-aux` multi-feature scoring as `negative but useful` unless a new feature family appears; keep `variation` blocked unless the explicit asset contract is filled with real `query_image_root + endpoint + budget`; keep `served-image-sanitization` recorded as a first black-box mitigation no-go instead of reopening JPEG-only tuning
 - `last updated`: 2026-04-16
 
 ## 统一规划定位
@@ -111,6 +111,10 @@
   - `semantic-auxiliary-classifier` 仍是 black-box leading challenger
   - 当前多特征 logistic 校准没有带来新的排序信息，`mean_cos` 已经捕获了这条线的大部分黑盒信号
   - 这条线适合继续做 bounded hypothesis，而不是机械扩样本
+- `served-image-sanitization` 的第一条黑盒缓解 probe 也已经收口：
+  - `CLiD` sanitized probe 与 frozen baseline 都保持 `AUC = 1.0 / ASR = 1.0 / TPR@1%FPR = 1.0`
+  - 但 utility check 仍显示 mild perturbation（`mean PSNR = 38.286 dB`）
+  - 所以这条黑盒 mitigation 当前是 `negative but useful no-go`
 
 ## 当前阻塞项
 
