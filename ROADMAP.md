@@ -1006,6 +1006,41 @@ Verdict:
 
 Value: ⭐
 
+#### ⬜ `WB-5` DP-LoRA comparability dossier
+
+Goal: open the next honest white-box successor lane without pretending execution readiness or benchmark comparability too early
+
+Current read:
+
+- `WB-3` closed with `none selected`, so the next white-box budget should move to candidate generation rather than fake breadth execution
+- `Finding NeMo` remains under a stricter `zero-GPU hold` and still requires a separate hypothesis/budget review before any reopen
+- `DP-LoRA` already has a defined CPU-first dossier shape in the long-horizon plan:
+  - `protocol overlap note`
+  - `minimal config candidate`
+  - `no-go triggers`
+- `phase-e-candidates.json` had become stale because `TMIA-DM` was still listed as an intake-only candidate after promotion into an executed gray-box challenger branch
+
+Tasks:
+
+- [ ] `WB-5.1` write the `DP-LoRA` protocol-overlap note against the current admitted `DDPM/CIFAR-10 + GSA/W-1` line
+- [ ] `WB-5.2` define one minimal local config candidate instead of a vague future defense idea
+- [ ] `WB-5.3` define explicit `no-go` and future `gpu_release` triggers
+
+Canonical evidence anchor:
+
+- `workspaces/intake/2026-04-16-phase-e-registry-refresh-and-dplora-selection-verdict.md`
+
+Selection verdict:
+
+- current reselection round is `positive`
+- `DP-LoRA` becomes the next live `CPU-first` lane
+- `Finding NeMo` remains `zero-GPU hold`
+- `TMIA-DM` should no longer remain on the `Phase E` intake candidate surface
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.5 Infrastructure, automation, and agent leverage
@@ -1100,26 +1135,32 @@ This is a preference order, not a prison.
 
 ### Top now
 
-No currently open top-priority lane is execution-ready without a fresh candidate-generation or confirmation decision.
+`WB-5 DP-LoRA comparability dossier` is now the current top-priority CPU-first lane.
+
+Current release posture:
+
+- `gpu_release = none`
+- `next_gpu_candidate = none until WB-5 writes protocol overlap, minimal config, and no-go triggers`
 
 ### Next
 
-1. ✅ `BB-6` same-protocol cross-method score package
-2. ✅ `WB-3` white-box defense breadth
-3. ✅ `GB-1` second gray-box defense
-4. ✅ `BB-1` second-signal black-box expansion
-5. ✅ `INF-2` research automation health
-6. ✅ `INF-3` subagent leverage experiments
-7. ✅ `WB-4` white-box feature/trajectory upgrade
-8. ✅ `X-3` system-consumable sync
-9. ✅ `BB-3` CLiD boundary-quality upgrade
-10. ✅ `X-4` cross-box exploration lane
+1. ⬜ `WB-5` DP-LoRA comparability dossier
+2. ✅ `BB-6` same-protocol cross-method score package
+3. ✅ `WB-3` white-box defense breadth
+4. ✅ `GB-1` second gray-box defense
+5. ✅ `BB-1` second-signal black-box expansion
+6. ✅ `INF-2` research automation health
+7. ✅ `INF-3` subagent leverage experiments
+8. ✅ `WB-4` white-box feature/trajectory upgrade
+9. ✅ `X-3` system-consumable sync
+10. ✅ `BB-3` CLiD boundary-quality upgrade
+11. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
-11. ✅ `WB-2` second white-box verdict
-12. ✅ `GB-3` new gray-box family
-13. ✅ `BB-4` mitigation-aware black-box evaluation
+12. ✅ `WB-2` second white-box verdict
+13. ✅ `GB-3` new gray-box family
+14. ✅ `BB-4` mitigation-aware black-box evaluation
 
 ---
 
@@ -1196,6 +1237,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 07:20 | Completed the defended comparison and system-layer sync: `TMIA + temporal-striding(stride=2)` now supersedes `TMIA + dropout` as the strongest defended gray-box challenger in comparison artifacts and the unified attack-defense table |
 | 2026-04-16 07:30 | Tightened the `CLiD` black-box boundary from generic local bridge wording to `evaluator-near local clip-only corroboration`: current target-side outputs are `100 x 5` numeric matrices after header-skip, but full `cal_clid_th.py` alignment remains blocked on missing shadow-side files and cache-root leakage in the executed rung header |
 | 2026-04-16 07:40 | Added a reusable zero-GPU `CLiD` threshold-compatibility audit tool and ran it on the current target100 rung; the result is now machine-readable (`target_pair.ready=true`, `shadow_pair.ready=false`) and closes the current `BB-3` boundary-tightening step without pretending to have a paper-aligned benchmark |
+| 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
