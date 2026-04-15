@@ -521,9 +521,21 @@ Possible branches:
 - NeMo if blocker removed
 - another non-GSA family
 
+Current live path:
+
+- `GSA2 comparator`
+- canonical evidence anchor:
+  - `workspaces/white-box/2026-04-16-whitebox-gsa2-target-side-canary.md`
+
+Current read:
+
+- `Finding NeMo` is already closed negatively for the current wave
+- `Local Mirror` still collapses back into the admitted `GSA` family
+- `GSA2 attack_method=2` target-side extraction now works on both member and non-member target splits, so this is the only bounded second-line branch that remains execution-eligible right now
+
 Tasks:
 
-- [ ] `WB-2.1` choose path based on `WB-1`
+- [x] `WB-2.1` choose path based on `WB-1`
 - [ ] `WB-2.2` implement and test
 - [ ] `WB-2.3` record verdict
 
@@ -657,6 +669,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 00:15 | Closed the current `BB-1` branch as a positive `semantic-auxiliary-classifier` challenger and kept `Recon` as the black-box headline |
 | 2026-04-16 00:45 | Re-ran the semantic auxiliary challenger at `32 / 32`; metrics stayed stable and the challenger remained promotion-worthy |
 | 2026-04-16 01:35 | Closed `WB-1` positively: direct GSA gradient extraction works, and the blocker reduced to dataset-mode mismatch plus missing output-directory hygiene |
+| 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 
 ---
 

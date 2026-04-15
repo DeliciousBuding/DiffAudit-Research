@@ -79,6 +79,7 @@
 - `Finding NeMo` 仍缺 neuron-level 分析接口与资产
 - 当前白盒最大问题已不是“能不能继续把攻击跑高”，而是 `GSA` 与 `DPDM/W-1` 仍不在同一个协议面上
 - 直接 upstream `gen_l2_gradients_DDPM.py` 在 admitted target-member assets 上已被重新验证为可跑；当前执行层问题已缩到 dataset-mode 与 output-path hygiene，而不是梯度提取本身
+- 当前 `WB-2` 的 live path 已固定为 `GSA2 comparator`；target-member 与 target-nonmember 两侧的 `attack_method = 2` canary 都已成功落盘，但 full comparator verdict 仍未完成
 
 ## 当前最短路径
 
