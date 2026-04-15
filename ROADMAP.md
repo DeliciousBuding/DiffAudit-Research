@@ -516,11 +516,23 @@ Value: ⭐⭐
 
 Goal: if a second family lands, determine whether disagreement is useful or redundant
 
+Current read:
+
+- run-level same-split comparison is now explicit:
+  - `PIA cpu-32` remains clearly ahead of `TMIA-DM long_window` across both bounded repeats
+  - current `TMIA-DM` therefore does not justify role swap or immediate disagreement-exploitation work
+- `GB-4` should stay narrow until either `TMIA-DM` strengthens further or a different second family lands
+  - current best reading is `secondary corroboration candidate`, not `mainline challenger`
+
 Tasks:
 
-- [ ] `GB-4.1` compare on aligned split
+- [x] `GB-4.1` compare on aligned split
 - [ ] `GB-4.2` measure correlation and disagreement
 - [ ] `GB-4.3` test whether disagreement improves actionability
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-pia-vs-tmiadm-long-window-comparison.md`
 
 Value: ⭐⭐
 
@@ -735,6 +747,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 02:20 | Upgraded `TMIA-DM` from generic intake to `protocol-ready but not execution-released`: local signal surface, access assumption, asset fit, and minimal smoke entry are now explicit |
 | 2026-04-16 03:05 | Ran the first bounded `TMIA-DM` CPU-32 protocol probe: `long_window` is locally positive (`AUC = 0.702148`) while `short_window` is negative and naive fusion is not useful, so the family is promising but still not GPU-released |
 | 2026-04-16 03:20 | Repeated the bounded `TMIA-DM long_window` probe at `cpu-32` with `seed1`: the branch stayed positive (`AUC = 0.663086`) but softened, so it is repeat-positive yet still below GPU release threshold |
+| 2026-04-16 03:35 | Compared `PIA` against `TMIA-DM long_window` on the same local `cpu-32` split: `PIA` stayed clearly ahead, so `TMIA-DM` remains a secondary refinement/corroboration branch rather than the gray-box headline |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
