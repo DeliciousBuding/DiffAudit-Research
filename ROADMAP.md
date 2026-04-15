@@ -322,16 +322,33 @@ Budget: bounded CPU-first, GPU only if justified
 
 ### 6.2 Black-box expansion
 
-#### ⬜ `BB-1` Second-signal black-box expansion
+#### ✅ `BB-1` Second-signal black-box expansion
 
 Goal: land a second black-box direction that is not just a mild variant of current image-similarity lines
 
 Tasks:
 
-- [ ] `BB-1.1` caption-space probe
-- [ ] `BB-1.2` feature-space probe
+- [x] `BB-1.1` caption-space probe
+- [x] `BB-1.2` feature-space probe
 - [ ] `BB-1.3` timestep-selective reconstruction probe
 - [ ] `BB-1.4` prompt-response consistency probe
+
+Status:
+
+- completed for the current leading challenger branch
+- canonical evidence anchor:
+  - `workspaces/black-box/2026-04-15-blackbox-second-signal-semantic-aux-verdict.md`
+
+Verdict:
+
+- the returned-image `semantic-auxiliary-classifier` landed as a real black-box challenger
+- bounded local comparator metrics (`AUC = 0.910156`, `ASR = 0.875`) are strong enough for promotion into challenger status
+- this branch adds real method-family diversity, but it does not replace the frozen `Recon` headline
+
+Carry-forward rule:
+
+- keep this line in challenger status
+- only escalate with a new bounded hypothesis; do not spend budget on aimless scale-up
 
 Promotion standard:
 
@@ -560,23 +577,22 @@ This is a preference order, not a prison.
 ### Top now
 
 1. ⬜ `WB-1` gradient extraction blocker resolution
-2. ⬜ `BB-1` second-signal black-box expansion
-3. ⬜ `GB-1` second gray-box defense
-4. ⬜ `X-3` system-consumable sync
-5. ⬜ `BB-3` CLiD boundary-quality upgrade
+2. ⬜ `GB-1` second gray-box defense
+3. ⬜ `X-3` system-consumable sync
+4. ⬜ `BB-3` CLiD boundary-quality upgrade
+5. ⬜ `X-4` cross-box exploration lane
 
 ### Next
 
-6. ⬜ `X-4` cross-box exploration lane
-7. ⬜ `WB-2` second white-box verdict
-8. ⬜ `INF-2` research automation health
-9. ⬜ `GB-3` new gray-box family
+6. ⬜ `WB-2` second white-box verdict
+7. ⬜ `INF-2` research automation health
+8. ⬜ `GB-3` new gray-box family
+9. ⬜ `BB-4` mitigation-aware black-box evaluation
 
 ### Then
 
-10. ⬜ `BB-4` mitigation-aware black-box evaluation
-11. ⬜ `WB-3` white-box defense breadth
-12. ⬜ `INF-3` subagent leverage experiments
+10. ⬜ `WB-3` white-box defense breadth
+11. ⬜ `INF-3` subagent leverage experiments
 
 ---
 
@@ -619,6 +635,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-15 22:30 | Added root alignment and broad exploration rules |
 | 2026-04-15 23:10 | Reorganized roadmap into continuous autonomous research system with self-cycling loop, optional subagent policy, and long-running backlog expansion rules |
 | 2026-04-15 23:55 | Closed `GB-2` with the `PIA vs SecMI` disagreement verdict; promoted `SecMI` to corroboration line and rejected naive gray-box fusion |
+| 2026-04-16 00:15 | Closed the current `BB-1` branch as a positive `semantic-auxiliary-classifier` challenger and kept `Recon` as the black-box headline |
 
 ---
 
