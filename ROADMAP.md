@@ -971,7 +971,7 @@ Carry-forward rule:
 
 Value: ⭐⭐⭐
 
-#### ⬜ `INF-3` Subagent leverage experiments
+#### ✅ `INF-3` Subagent leverage experiments
 
 Goal: determine when optional subagents actually improve research throughput
 
@@ -980,15 +980,16 @@ Tasks:
 - [x] `INF-3.1` test paper-scout subagent workflow
 - [x] `INF-3.2` test code-review subagent workflow
 - [x] `INF-3.3` test backlog-critic or experiment-auditor workflow
-- [ ] `INF-3.4` record what should become standard and what should stay optional
+- [x] `INF-3.4` record what should become standard and what should stay optional
 
 Status:
 
-- first paper-scout and backlog-critic experiments completed
+- three bounded read-only subagent experiments completed
 - canonical evidence anchor:
   - `workspaces/implementation/2026-04-16-subagent-paper-scout-verdict.md`
   - `workspaces/implementation/2026-04-16-subagent-code-review-verdict.md`
   - `workspaces/implementation/2026-04-16-subagent-backlog-critic-verdict.md`
+  - `workspaces/implementation/2026-04-16-subagent-standardization-verdict.md`
 
 Verdict:
 
@@ -1001,6 +1002,7 @@ Verdict:
 - the read-only backlog-critic workflow is `positive` in the current repo state
 - it created real leverage precisely because many recent box-local branches had just closed
 - it independently selected `X-4.1 cross-box agreement analysis` as the highest-value next live task
+- `INF-3.4` now also closes as `positive`
 - current standardization rule:
   - use paper-scout when multiple literature candidates exist but local implementation distance differs sharply
   - use code-review subagents for automation/tooling commits that affect audit truth or canonical evidence generation
@@ -1017,14 +1019,14 @@ This is a preference order, not a prison.
 
 ### Top now
 
-1. ⬜ `BB-1` second-signal black-box expansion
-2. ⬜ `INF-3` subagent leverage experiments
-3. ⬜ `GB-1` second gray-box defense
-4. ⬜ `WB-3` white-box defense breadth
+1. ⬜ `GB-1` second gray-box defense
+2. ⬜ `WB-3` white-box defense breadth
 
 ### Next
 
-5. ✅ `INF-2` research automation health
+3. ✅ `BB-1` second-signal black-box expansion
+4. ✅ `INF-2` research automation health
+5. ✅ `INF-3` subagent leverage experiments
 6. ✅ `WB-4` white-box feature/trajectory upgrade
 7. ✅ `X-3` system-consumable sync
 8. ✅ `BB-3` CLiD boundary-quality upgrade
