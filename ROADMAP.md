@@ -538,6 +538,35 @@ Canonical evidence anchor:
 
 Value: ⭐⭐
 
+#### ⬜ `BB-6` Same-protocol cross-method score package
+
+Goal: test whether the current black-box headline and challenger can form a bounded package that improves actionability without pretending to be a new family
+
+Current read:
+
+- `Recon` remains the black-box headline
+- `semantic-auxiliary-classifier` remains the leading new-family challenger
+- current `semantic-aux` scoring and fusion line is already closed unless:
+  - a new feature family appears, or
+  - a same-protocol cross-method score package appears
+- the shortest honest reopen path is therefore:
+  - align existing `Recon` and `semantic-aux` score artifacts under one bounded comparison contract
+- current release posture:
+  - `gpu_release = none`
+  - first pass should stay CPU-only
+
+Tasks:
+
+- [ ] `BB-6.1` align `Recon` and `semantic-aux` score artifacts under one same-protocol comparison contract
+- [ ] `BB-6.2` test one bounded score package against the best single method
+- [ ] `BB-6.3` record whether the package changes actionability or only calibration
+
+Canonical evidence anchor:
+
+- `workspaces/black-box/2026-04-16-blackbox-next-lane-score-package-selection-verdict.md`
+
+Value: ⭐⭐⭐
+
 ---
 
 ### 6.3 Gray-box expansion
@@ -1048,25 +1077,25 @@ This is a preference order, not a prison.
 
 ### Top now
 
-No currently open top-priority lane is execution-ready without a fresh candidate-generation or intake decision.
+1. ⬜ `BB-6` same-protocol cross-method score package
 
 ### Next
 
-1. ✅ `WB-3` white-box defense breadth
-2. ✅ `GB-1` second gray-box defense
-3. ✅ `BB-1` second-signal black-box expansion
-4. ✅ `INF-2` research automation health
-5. ✅ `INF-3` subagent leverage experiments
-6. ✅ `WB-4` white-box feature/trajectory upgrade
-7. ✅ `X-3` system-consumable sync
-8. ✅ `BB-3` CLiD boundary-quality upgrade
-9. ✅ `X-4` cross-box exploration lane
+2. ✅ `WB-3` white-box defense breadth
+3. ✅ `GB-1` second gray-box defense
+4. ✅ `BB-1` second-signal black-box expansion
+5. ✅ `INF-2` research automation health
+6. ✅ `INF-3` subagent leverage experiments
+7. ✅ `WB-4` white-box feature/trajectory upgrade
+8. ✅ `X-3` system-consumable sync
+9. ✅ `BB-3` CLiD boundary-quality upgrade
+10. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
-10. ✅ `WB-2` second white-box verdict
-11. ✅ `GB-3` new gray-box family
-12. ✅ `BB-4` mitigation-aware black-box evaluation
+11. ✅ `WB-2` second white-box verdict
+12. ✅ `GB-3` new gray-box family
+13. ✅ `BB-4` mitigation-aware black-box evaluation
 
 ---
 
