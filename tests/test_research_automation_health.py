@@ -1,0 +1,72 @@
+import tempfile
+import unittest
+from pathlib import Path
+
+
+class ResearchAutomationHealthTests(unittest.TestCase):
+    def test_extract_priority_ladder_groups_sections(self) -> None:
+        from diffaudit.research_automation_health import extract_priority_ladder
+
+        roadmap_text = """
+### Top now
+1. ⬜ `GB-1` second gray-box defense
+2. ✅ `X-3` system sync
+
+### Next
+6. ⬜ `INF-2` research automation health
+
+### Then
+10. ⬜ `INF-3` subagent leverage experiments
+"""
+        result = extract_priority_ladder(roadmap_text)
+
+        self.assertEqual(result["Top now"][0], "1. ⬜ `GB-1` second gray-box defense")
+        self.assertEqual(result["Next"][0], "6. ⬜ `INF-2` research automation health")
+        self.assertEqual(result["Then"][0], "10. ⬜ `INF-3` subagent leverage experiments")
+
+    def test_audit_marks_ignored_run_summary_as_friction(self) -> None:
+        from diffaudit.research_automation_health import audit_research_automation_health
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            (root / ".gitignore").write_text("workspaces/black-box/runs/\n", encoding="utf-8")
+            (root / "ROADMAP.md").write_text(
+                "\n".join(
+                    [
+                        "### Top now",
+                        "1. ⬜ `GB-1` second gray-box defense",
+                        "### Next",
+                        "6. ⬜ `INF-2` research automation health",
+                        "### Then",
+                        "10. ⬜ `INF-3` subagent leverage experiments",
+                        "- canonical evidence anchor:",
+                        "  - `workspaces/black-box/runs/test-run/summary.json`",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            summary_path = root / "workspaces" / "black-box" / "runs" / "test-run" / "summary.json"
+            summary_path.parent.mkdir(parents=True, exist_ok=True)
+            summary_path.write_text("{}", encoding="utf-8")
+            (root / "workspaces" / "black-box" / "note.md").write_text(
+                "- `next GPU candidate`: `test`\n- `active_gpu_question`: `none`\n",
+                encoding="utf-8",
+            )
+
+            import subprocess
+
+            subprocess.run(["git", "-C", str(root), "init"], check=True, capture_output=True)
+
+            result = audit_research_automation_health(root)
+
+            self.assertEqual(result["counts"]["gpu_candidate_markers"], 1)
+            self.assertEqual(result["counts"]["idle_reason_markers"], 1)
+            self.assertEqual(result["counts"]["ignored_run_summaries"], 1)
+            self.assertIn(
+                "some run-summary anchors point to ignored files and need force-add discipline",
+                result["friction_points"],
+            )
+
+
+if __name__ == "__main__":
+    unittest.main()

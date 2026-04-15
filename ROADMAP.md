@@ -882,9 +882,29 @@ Goal: make the repository easier for a long-running autonomous agent to operate
 
 Tasks:
 
-- [ ] `INF-2.1` identify friction points in current run/update workflow
-- [ ] `INF-2.2` add bounded automation where it reduces repeated human babysitting
+- [x] `INF-2.1` identify friction points in current run/update workflow
+- [x] `INF-2.2` add bounded automation where it reduces repeated human babysitting
 - [ ] `INF-2.3` improve run artifact consistency or summary templates if needed
+
+Status:
+
+- first automation-health round completed
+- canonical evidence anchor:
+  - `workspaces/implementation/2026-04-16-research-automation-health-verdict.md`
+  - `workspaces/implementation/artifacts/research-automation-health-20260416.json`
+
+Verdict:
+
+- the new automation round is `positive`, but audited repo health is still `friction detected`
+- current autonomous workflow had one repeated-friction gap:
+  - priority ladder, next GPU candidate, GPU-idle reason, and run-summary anchor hygiene were discoverable only by repeated manual scanning
+- bounded automation now exists to audit exactly those signals in one pass
+- the remaining open piece is `INF-2.3`:
+  - tighten template and anchor consistency where run-summary mentions still resolve to ignored or placeholder paths
+
+Carry-forward rule:
+
+- use the automation-health audit as a CPU-side preflight, not as a substitute for research judgment
 
 Value: ⭐⭐⭐
 
