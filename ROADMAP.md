@@ -979,12 +979,13 @@ Current read:
 Tasks:
 
 - [x] `GB-8.1` choose whether to extend an existing script or add a dedicated canary script
-- [ ] `GB-8.2` implement inversion + custom-noise generation glue
-- [ ] `GB-8.3` define the first canary output schema
+- [x] `GB-8.2` implement inversion + custom-noise generation glue
+- [x] `GB-8.3` define the first canary output schema
 
 Canonical evidence anchor:
 
 - `workspaces/gray-box/2026-04-16-noise-as-probe-canary-scaffold-selection.md`
+- `workspaces/gray-box/2026-04-16-noise-as-probe-canary-scaffold-implementation-verdict.md`
 
 Selection verdict:
 
@@ -992,6 +993,12 @@ Selection verdict:
 - `GB-8.1` now closes as `positive`
   - selected option:
     - dedicated canary script
+- `GB-8.2` now closes as `positive`
+  - dedicated script added:
+    - `scripts/run_noise_as_probe_interface_canary.py`
+- `GB-8.3` now closes as `positive`
+  - canary output schema is now explicit in the new dedicated scaffold
+- current `GB-8` lane closes as `positive but bounded`
 - `gpu_release = none`
 
 Value: ⭐⭐⭐
@@ -1280,7 +1287,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-8 Noise-as-a-Probe canary scaffold` is now the current top-priority CPU-first lane.
+No currently open top-priority lane is execution-ready without a fresh implementation verification or release decision.
 
 Current release posture:
 
@@ -1289,7 +1296,7 @@ Current release posture:
 
 ### Next
 
-1. ⬜ `GB-8` Noise-as-a-Probe canary scaffold
+1. ✅ `GB-8` Noise-as-a-Probe canary scaffold
 2. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
 3. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
 4. ✅ `GB-5` genuinely-new-family selector
@@ -1395,6 +1402,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 09:20 | Closed `GB-6` as `positive but bounded`: the first honest local `Noise as a Probe` target family is `SD1.5 + celeba_partial_target/checkpoint-25000`, the first bounded smoke is a one-member/one-non-member interface canary, and `gpu_release` remains `none` until prompt source, custom-noise path, and canary schema are frozen |
 | 2026-04-16 09:35 | Closed `GB-7` as `positive but bounded`: the repo already has target-side SD1.5+LoRA loading, latent-diffusion stepping, and distance scoring pieces, but still lacks reusable `DDIM inversion + custom-noise target-generation` glue; the next live lane is now `GB-8 Noise-as-a-Probe canary scaffold` |
 | 2026-04-16 09:45 | Closed `GB-8.1` positively: the first `Noise as a Probe` canary should use a dedicated script rather than overloading the current semantic-aux or structural-memorization scripts; helper reuse is allowed, but the surface itself should stay family-specific |
+| 2026-04-16 10:00 | Closed `GB-8.2/GB-8.3` as `positive`: added a dedicated `Noise as a Probe` interface-canary scaffold script with prompt-source freeze, latent inversion, custom-noise target generation, and explicit canary artifact schema; the lane remains below release and `gpu_release` stays `none` until real runtime verification lands |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
