@@ -1,6 +1,6 @@
 # DiffAudit Research ROADMAP — Continuous Autonomous Mainline
 
-> Last updated: 2026-04-16 02:05
+> Last updated: 2026-04-16 02:12
 > Mode: continuous autonomous research
 > Owner: `Researcher`
 > Rule: one active GPU task at a time, every task must end in a concrete verdict
@@ -532,13 +532,13 @@ Current read:
 - `Finding NeMo` is already closed negatively for the current wave
 - `Local Mirror` still collapses back into the admitted `GSA` family
 - `GSA2 attack_method=2` target-side extraction now works on both member and non-member target splits, so this is the only bounded second-line branch that remains execution-eligible right now
-- first shadow-side extension also succeeded on `shadow-01-member` under the same direct extraction contract
-- the next gating step is `shadow-01-nonmember`; until that lands, `WB-2` stays in bounded canary/comparator-progress mode rather than a promoted second-line verdict
+- the first shadow-side pair now also succeeds under the same direct extraction contract (`shadow-01-member` and `shadow-01-nonmember`)
+- the next gating step is no longer canary completion, but a bounded comparator verdict on whether `GSA2` adds real value versus admitted `GSA1`
 
 Tasks:
 
 - [x] `WB-2.1` choose path based on `WB-1`
-- [ ] `WB-2.2` implement and test
+- [x] `WB-2.2` implement and test
 - [ ] `WB-2.3` record verdict
 
 Value: ⭐⭐
@@ -673,6 +673,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 01:35 | Closed `WB-1` positively: direct GSA gradient extraction works, and the blocker reduced to dataset-mode mismatch plus missing output-directory hygiene |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
+| 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
 
 ---
 
