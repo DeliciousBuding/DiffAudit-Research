@@ -5,8 +5,8 @@
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; gray-box current gpu question = none`
-- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；新的 `MoFit` lane 已具备 real scaffold、record append、score/trace update path 和最小 optimization helper，但 surrogate optimization、fitted-embedding optimization 与真实 target-model score computation 仍未接入`
-- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；灰盒当前 live CPU-first lane 已推进到 `MoFit real latent-path integration`；下一步应把真实 surrogate / fitted-embedding loop 接入现有 scaffold update path，并生成真实 `L_cond / L_uncond / mofit_score``
+- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；新的 `MoFit` lane 已具备 real scaffold、record append、score/trace update path、optimization helper 与 latent-loss contract，但真实 SD1.5 target-model path 仍未接入`
+- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；灰盒当前 live CPU-first lane 已推进到 `MoFit real target-path wiring`；下一步应把新的 latent-loss contract 接入 caption bootstrap、真实 latent path 与 `UNet` noise-prediction`
 - `last updated`: `2026-04-16`
 
 ## 推荐论文
@@ -63,6 +63,7 @@
 - `workspaces/gray-box/2026-04-16-mofit-record-schema-integration-verdict.md`
 - `workspaces/gray-box/2026-04-16-mofit-score-trace-update-verdict.md`
 - `workspaces/gray-box/2026-04-16-mofit-optimization-helper-verdict.md`
+- `workspaces/gray-box/2026-04-16-mofit-latent-loss-contract-verdict.md`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-256/summary.json`
@@ -110,8 +111,9 @@
 11. record-level placeholder schema 已接入，`records.jsonl` 现在已固定包含 `l_cond / l_uncond / mofit_score` 与 trace paths
 12. score/trace update API 已接入，未来优化循环现在可以把真实 step trace 和 score 写回现有 schema
 13. 最小 optimization helper 已接入，当前可在 toy loss 上验证 surrogate/embedding trace 收敛
-14. 在真实 latent surrogate path、fitted-embedding path 与真实 `L_MoFit` score 接入前，继续保持 `gpu_release = none`
-15. 如果 `MoFit` 也被证明不具备 honest bounded entry，再切去别的 lane 处理更高价值问题
+14. latent-path loss contract 已接入，当前 helper、record schema 与 `mofit_score` 语义已经统一
+15. 在真实 latent surrogate path、fitted-embedding path 与真实 `L_MoFit` score 接入前，继续保持 `gpu_release = none`
+16. 如果 `MoFit` 也被证明不具备 honest bounded entry，再切去别的 lane 处理更高价值问题
 
 ## 2026-04-08 新观察
 

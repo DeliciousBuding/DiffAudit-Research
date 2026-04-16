@@ -185,6 +185,87 @@ class MoFitScaffoldTests(unittest.TestCase):
         self.assertLess(trace[-1]["loss"], trace[0]["loss"])
         self.assertLess(abs(float(optimized.item()) + 0.25), abs(float(initial.item()) + 0.25))
 
+    def test_compute_mofit_loss_terms_returns_cond_uncond_and_score(self) -> None:
+        from diffaudit.attacks.mofit_scaffold import compute_mofit_loss_terms
+
+        latent = torch.tensor([[1.0]], dtype=torch.float32)
+        target_noise = torch.tensor([[0.0]], dtype=torch.float32)
+        cond_embed = torch.tensor([[2.0]], dtype=torch.float32)
+        uncond_embed = torch.tensor([[0.5]], dtype=torch.float32)
+
+        def predict_noise_fn(
+            latent_value: torch.Tensor,
+            timestep: int,
+            embed_value: torch.Tensor,
+        ) -> torch.Tensor:
+            return latent_value + embed_value + float(timestep) * 0.0
+
+        losses = compute_mofit_loss_terms(
+            latent=latent,
+            timestep=10,
+            target_noise=target_noise,
+            cond_embedding=cond_embed,
+            uncond_embedding=uncond_embed,
+            predict_noise_fn=predict_noise_fn,
+        )
+
+        self.assertAlmostEqual(losses["l_cond"], 9.0)
+        self.assertAlmostEqual(losses["l_uncond"], 2.25)
+        self.assertAlmostEqual(losses["mofit_score"], 6.75)
+
+    def test_build_mofit_loss_functions_work_with_optimization_helpers(self) -> None:
+        from diffaudit.attacks.mofit_scaffold import (
+            build_embedding_loss_fn,
+            build_surrogate_loss_fn,
+            run_embedding_optimization,
+            run_surrogate_optimization,
+        )
+
+        target_noise = torch.tensor([[0.0]], dtype=torch.float32)
+        timestep = 10
+        uncond_embedding = torch.tensor([[0.0]], dtype=torch.float32)
+
+        def predict_noise_fn(
+            latent_value: torch.Tensor,
+            timestep_value: int,
+            embed_value: torch.Tensor,
+        ) -> torch.Tensor:
+            return latent_value + embed_value + float(timestep_value) * 0.0
+
+        initial_surrogate = torch.tensor([[2.0]], dtype=torch.float32)
+        surrogate_loss_fn = build_surrogate_loss_fn(
+            timestep=timestep,
+            target_noise=target_noise,
+            uncond_embedding=uncond_embedding,
+            predict_noise_fn=predict_noise_fn,
+        )
+        optimized_surrogate, surrogate_trace = run_surrogate_optimization(
+            initial_value=initial_surrogate,
+            loss_fn=surrogate_loss_fn,
+            steps=4,
+            lr=0.25,
+        )
+        self.assertLess(surrogate_trace[-1]["loss"], surrogate_trace[0]["loss"])
+
+        initial_embedding = torch.tensor([[1.5]], dtype=torch.float32)
+        embedding_loss_fn = build_embedding_loss_fn(
+            latent=optimized_surrogate,
+            timestep=timestep,
+            target_noise=target_noise,
+            predict_noise_fn=predict_noise_fn,
+        )
+        optimized_embedding, embedding_trace = run_embedding_optimization(
+            initial_value=initial_embedding,
+            loss_fn=embedding_loss_fn,
+            steps=5,
+            lr=0.2,
+        )
+        self.assertLess(embedding_trace[-1]["loss"], embedding_trace[0]["loss"])
+        self.assertLess(
+            abs(float((optimized_surrogate + optimized_embedding).item())),
+            abs(float((optimized_surrogate + initial_embedding).item())),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

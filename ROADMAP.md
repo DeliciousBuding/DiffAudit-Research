@@ -1789,6 +1789,46 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ⬜ `GB-27` MoFit latent-path loss contract
+
+Goal: encode the real latent-path loss contract in code so future `MoFit` optimization loops optimize the same score structure the lane intends to report
+
+Current read:
+
+- `GB-26` already added minimal optimization helpers
+- the next honest missing piece is now the score contract itself:
+  - `L_cond`
+  - `L_uncond`
+  - `mofit_score`
+- that contract should be verified on toy differentiable predictors before wiring into real SD1.5 code
+
+Tasks:
+
+- [x] `GB-27.1` write failing tests for the loss-contract helpers
+- [x] `GB-27.2` implement the minimal contract helpers
+- [x] `GB-27.3` rerun tests and confirm the score contract is now real
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-mofit-latent-loss-contract-verdict.md`
+
+Selection verdict:
+
+- `GB-27` now closes as `positive but bounded`
+- the scaffold now exposes:
+  - `compute_mofit_loss_terms(...)`
+  - `build_surrogate_loss_fn(...)`
+  - `build_embedding_loss_fn(...)`
+- this unifies:
+  - optimization helpers
+  - record schema
+  - `mofit_score` semantics
+- the lane still remains below smoke because the contract is not yet wired into the real SD1.5 target-model path
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.4 White-box expansion
@@ -2618,6 +2658,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 16:20 | Closed `GB-24` as `positive but bounded`: the `MoFit` scaffold now supports per-sample record append and trace placeholder creation, and `records.jsonl` now carries `l_cond / l_uncond / mofit_score` as frozen placeholder fields; the lane still remains below smoke because those values are not yet produced by actual optimization loops |
 | 2026-04-16 16:30 | Closed `GB-25` as `positive but bounded`: the `MoFit` scaffold now has a real score/trace update path, so future optimization loops can write step traces and `l_cond / l_uncond / mofit_score` back into the frozen schema; the lane still remains below smoke because the actual optimization loops are not yet implemented |
 | 2026-04-16 16:40 | Closed `GB-26` as `positive but bounded`: the `MoFit` lane now has minimal reusable surrogate and embedding optimization helpers, verified on toy losses with fresh tests; the next step is to wire those helpers into the real latent-diffusion target path so `L_cond / L_uncond / mofit_score` become target-model-derived rather than placeholder values |
+| 2026-04-16 16:50 | Closed `GB-27` as `positive but bounded`: the `MoFit` lane now has a real latent-path loss contract in code, so future optimization loops can target `L_cond / L_uncond / mofit_score` consistently; the next step is to wire that contract into the actual SD1.5 target-model path rather than toy differentiable predictors |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |

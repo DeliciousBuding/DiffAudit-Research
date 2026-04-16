@@ -190,3 +190,51 @@ def run_embedding_optimization(
         optimizer.step()
         trace.append({"step": step, "loss": float(loss.detach().item())})
     return current.detach(), trace
+
+
+def compute_mofit_loss_terms(
+    *,
+    latent: torch.Tensor,
+    timestep: int,
+    target_noise: torch.Tensor,
+    cond_embedding: torch.Tensor,
+    uncond_embedding: torch.Tensor,
+    predict_noise_fn,
+) -> dict[str, float]:
+    cond_prediction = predict_noise_fn(latent, timestep, cond_embedding)
+    uncond_prediction = predict_noise_fn(latent, timestep, uncond_embedding)
+    l_cond = torch.mean((cond_prediction - target_noise) ** 2)
+    l_uncond = torch.mean((uncond_prediction - target_noise) ** 2)
+    return {
+        "l_cond": float(l_cond.detach().item()),
+        "l_uncond": float(l_uncond.detach().item()),
+        "mofit_score": float((l_cond - l_uncond).detach().item()),
+    }
+
+
+def build_surrogate_loss_fn(
+    *,
+    timestep: int,
+    target_noise: torch.Tensor,
+    uncond_embedding: torch.Tensor,
+    predict_noise_fn,
+):
+    def loss_fn(current_latent: torch.Tensor) -> torch.Tensor:
+        prediction = predict_noise_fn(current_latent, timestep, uncond_embedding)
+        return torch.mean((prediction - target_noise) ** 2)
+
+    return loss_fn
+
+
+def build_embedding_loss_fn(
+    *,
+    latent: torch.Tensor,
+    timestep: int,
+    target_noise: torch.Tensor,
+    predict_noise_fn,
+):
+    def loss_fn(current_embedding: torch.Tensor) -> torch.Tensor:
+        prediction = predict_noise_fn(latent, timestep, current_embedding)
+        return torch.mean((prediction - target_noise) ** 2)
+
+    return loss_fn
