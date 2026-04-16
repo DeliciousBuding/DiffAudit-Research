@@ -1948,6 +1948,45 @@ Selection verdict:
 Value: ⭐⭐
 Budget: CPU-only
 
+#### ⬜ `GB-31` MoFit script-level canary execution implementation
+
+Goal: turn the existing `run_mofit_interface_canary.py` entry from scaffold initialization into a bounded script-level execution path
+
+Current read:
+
+- `GB-30` already froze the script-level implementation surface
+- the next honest missing piece is now the orchestration itself:
+  - bounded row loading with `offset/limit`
+  - script-level split execution
+  - mounting the existing sample-level helper into the canary entry
+  - updating `summary.json` to reflect execution rather than scaffold-only state
+- this should still stay CPU-only and unit-test-backed first; it is not yet a fresh real-asset launch
+
+Tasks:
+
+- [x] `GB-31.1` write failing tests for script-level row loading and canary orchestration
+- [x] `GB-31.2` implement the bounded canary execution path in `run_mofit_interface_canary.py`
+- [x] `GB-31.3` rerun `MoFit` test sweeps and confirm no helper-layer regressions
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-mofit-script-level-canary-implementation-verdict.md`
+
+Selection verdict:
+
+- `GB-31` now closes as `positive but bounded`
+- the script now additionally exposes:
+  - `load_rows(...)`
+  - `MoFitCanaryRunner.execute_row(...)`
+  - `run_split(...)`
+  - `run_canary(...)`
+- this upgrades `run_mofit_interface_canary.py` from scaffold-only initialization to bounded canary orchestration
+- the current evidence is still unit-test-backed rather than a fresh real-asset launch on the admitted local stack
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.4 White-box expansion
@@ -2781,6 +2820,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 17:05 | Closed `GB-28` as `positive but bounded`: the `MoFit` lane now has a real helper-layer bridge onto the `SD1.5` target-model path, including `UNet(...).sample` predictor adaptation and guided target-noise construction, both verified by fresh TDD-style tests; the lane still remains below smoke because caption bootstrap, sample-level record execution, and end-to-end optimization loops are not yet assembled |
 | 2026-04-16 17:20 | Closed `GB-29` as `positive but bounded`: the `MoFit` lane now has a real sample-level helper path that resolves prompts from metadata or bounded fallback, appends/finalizes records, runs surrogate and embedding optimization, and writes traces plus `L_cond / L_uncond / mofit_score` back into schema; the lane still remains below smoke because this helper is not yet mounted into a script-level run over actual local assets and model-loading substrate |
 | 2026-04-16 17:30 | Closed `GB-30` as `positive but bounded`: the script-level execution surface is now frozen; the next honest path is to extend `run_mofit_interface_canary.py` rather than create another `MoFit` script, and to reuse the structural-memorization substrate for row loading, caption bootstrap, prompt encoding, image-to-latent encoding, and `UNet` target-path calls |
+| 2026-04-16 17:45 | Closed `GB-31` as `positive but bounded`: `run_mofit_interface_canary.py` now owns bounded row loading, split execution, runner-side mounting of the sample-level helper, and summary-state upgrade from `scaffold_only` to `canary_executed`, all verified by fresh script-level TDD plus a full `MoFit` regression sweep; the lane still remains below smoke because this path has not yet been freshly launched on the admitted local asset stack |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
