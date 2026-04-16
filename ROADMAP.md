@@ -364,6 +364,10 @@ Latest follow-up:
   - one cross-box scalar would still be dishonest because access level, metric semantics, and narrative role differ materially across boxes
   - current honest structure remains layered role-based summary, not fused ranking
   - `gpu_release = none`
+- `X-4.3` transfer/portability review now closes as `negative but useful`:
+  - no honest portability probe is ready to start
+  - the branch remains `needs-assets` because paired dataset/model contracts are still missing
+  - `gpu_release = none`
 
 Carry-forward rule:
 
