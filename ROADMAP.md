@@ -2586,6 +2586,42 @@ Selection verdict:
 Value: ⭐⭐
 Budget: CPU-only review
 
+#### ⬜ `GB-49` CDI paired-surface mismatch review
+
+Goal: decide whether the weak `SecMI 2048` paired surface reflects real scale degradation, subset mismatch, or export/config drift
+
+Current read:
+
+- the widened `2048` paired surface already failed the promotion gate
+- the next honest question is diagnostic, not promotional
+- this task must explain whether the current weak packet should be preserved as real method truth or isolated as a contract bug
+
+Tasks:
+
+- [x] `GB-49.1` compare the old strong `1024` packet against the new `2048` packet at prefix/suffix level
+- [x] `GB-49.2` audit whether the new `SecMI` export changed score contract or runtime parameters
+- [x] `GB-49.3` freeze the next post-review lane and GPU posture
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-cdi-paired-surface-mismatch-review.md`
+
+Selection verdict:
+
+- `GB-49` now closes as `negative but clarifying`
+- the current mismatch is best explained by `export/config drift`, not by proven `SecMI` scale collapse
+- the strongest concrete drift is:
+  - old strong references used `t_sec = 100`
+  - the weak `2048` export used `t_sec = 20`
+- keep `1024` as the last aligned paired reference
+- keep the weak `2048` packet as mismatch truth, not promotion truth
+- `gpu_release = none`
+- the next live task is:
+  - `SecMI paired-surface repair contract review`
+
+Value: ⭐⭐⭐
+Budget: CPU-only review
+
 ---
 
 ### 6.4 White-box expansion
@@ -3274,7 +3310,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-48` CDI paired-feature extension review is now closed.
+`GB-49` CDI paired-surface mismatch review is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -3282,20 +3318,21 @@ Current release posture:
 
 - `gpu_release = none`
 - `next_gpu_candidate = none`
-- `next_live_cpu_lane = CDI paired-surface mismatch review`
+- `next_live_cpu_lane = SecMI paired-surface repair contract review`
 
 ### Next
 
-1. ✅ `GB-48` CDI paired-feature extension review
-2. ✅ `GB-47` SecMI-PIA 2048 paired-surface verdict
-3. ✅ `GB-46` PIA 2048 CDI rung verdict
-4. ✅ `GB-45` PIA 2048 CDI rung runtime-health review
-5. ✅ `GB-44` CDI internal canary execution
-6. ✅ `GB-43` CDI feature / collection-surface review
-7. ✅ `GB-42` CDI protocol / asset contract
-8. ✅ `GB-41` Post-MoFit gray-box next-family reselection
-9. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
-10. ✅ `WB-17` DP-LoRA harmonized local board verdict
+1. ✅ `GB-49` CDI paired-surface mismatch review
+2. ✅ `GB-48` CDI paired-feature extension review
+3. ✅ `GB-47` SecMI-PIA 2048 paired-surface verdict
+4. ✅ `GB-46` PIA 2048 CDI rung verdict
+5. ✅ `GB-45` PIA 2048 CDI rung runtime-health review
+6. ✅ `GB-44` CDI internal canary execution
+7. ✅ `GB-43` CDI feature / collection-surface review
+8. ✅ `GB-42` CDI protocol / asset contract
+9. ✅ `GB-41` Post-MoFit gray-box next-family reselection
+10. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
+11. ✅ `WB-17` DP-LoRA harmonized local board verdict
 5. ✅ `WB-16` DP-LoRA local evaluator hardening
 6. ✅ `WB-15` DP-LoRA secondary-metric harmonization audit
 7. ✅ `WB-14` DP-LoRA next-question review
@@ -3446,6 +3483,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 22:00 | Closed `GB-46` as `positive but cost-heavy`: the `PIA 2048` rung finished successfully and preserved the gray-box signal (`AUC = 0.833109`, `ASR = 0.769043`), so it is worth keeping as the reusable `PIA` surface for `CDI` paired follow-up, but its `1723s` runtime is a real cost warning and does not justify more same-family `PIA` scaling by itself |
 | 2026-04-16 22:15 | Closed `GB-47` as `mixed but useful`: the bounded `SecMI 2048` paired-surface export succeeded technically, but the resulting `stat` quality fell sharply (`AUC = 0.569096`) and cross-method agreement weakened materially, so the widened paired surface is not yet stable enough for immediate paired `CDI` promotion |
 | 2026-04-16 22:20 | Closed `GB-48` as `negative but useful`: `CDI` now has a landed first canary plus a larger `PIA` surface, but the new `SecMI 2048` mismatch means the lane should not yet promote into paired `PIA + SecMI` feature scoring; the next honest move is a CPU-side mismatch review rather than another GPU escalation |
+| 2026-04-16 22:35 | Closed `GB-49` as `negative but clarifying`: the new weak `SecMI 2048` paired packet is not primarily a scale-collapse result, because its own first `1024` prefix is already weak; the strongest current explanation is export/config drift, especially the jump from the admitted `SecMI` contract at `t_sec = 100` to the new export at `t_sec = 20`, so `gpu_release` stays `none` and the next live lane becomes `SecMI paired-surface repair contract review` |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
