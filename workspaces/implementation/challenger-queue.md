@@ -12,7 +12,7 @@
 - gray-box currently has no immediate next-family execution lane
 - white-box currently has no immediate next-hypothesis execution lane
 - the next live CPU-first priority should therefore move to:
-  - `distinct white-box defended-family import / selection`
+  - `ranking-sensitive variable search`
 
 This queue should now be read with three distinctions:
 
@@ -27,33 +27,32 @@ This queue should now be read with three distinctions:
 
 ## Top 3 Priorities
 
-### 1. `WB-CH-1` Distinct white-box defended-family import / selection
-
-- `status`: `ready-for-selection`
-- `expected value`: ⭐⭐
-- `mode`: `CPU-only candidate generation`
-- `why now`:
-  - `DP-LoRA` is already bounded and frozen below new GPU release
-  - `GSA2` is same-family corroboration only
-  - `Finding NeMo` is still `not-requestable`
-
-### 2. `GB-CH-2` Ranking-sensitive variable search
+### 1. `GB-CH-2` Ranking-sensitive variable search
 
 - `status`: `ready-for-selection`
 - `expected value`: ⭐⭐
 - `mode`: `CPU-only hypothesis writing`
-- `why next`:
+- `why now`:
   - it stays within gray-box without reopening dead latent-diffusion branches
   - it can still generate a bounded disagreement question without forcing GPU first
 
-### 3. `XB-CH-2` Transfer / portability probes
+### 2. `XB-CH-2` Transfer / portability probes
 
 - `status`: `needs-assets`
 - `expected value`: ⭐⭐
 - `mode`: `asset-triggered review`
-- `why third`:
+- `why next`:
   - still potentially valuable cross-box
   - but it remains below ready CPU-only selection because honest contracts are still missing
+
+### 3. `GB-CH-3` Noise as a Probe latent-diffusion promotion path
+
+- `status`: `hold`
+- `expected value`: ⭐
+- `mode`: `contract-shift triggered only`
+- `why third`:
+  - still a real branch historically
+  - but current contract-shift review already closed negative, so it stays below immediate selection
 
 ---
 
@@ -117,13 +116,13 @@ This queue should now be read with three distinctions:
 
 #### `WB-CH-1` Distinct defended-family import / selection
 
-- `status`: `ready-for-selection`
-- `expected value`: ⭐⭐
+- `status`: `reviewed / closed-negative`
+- `expected value`: ⭐
 - `note`:
-  - this is candidate generation only
-  - not `DP-LoRA` reruns
-  - not `GSA2` scale-up
-  - not `Finding NeMo` reopen under current contract
+  - no distinct import-ready defended family is available in the current round
+  - `GSA2` stays same-family corroboration
+  - `DP-LoRA` stays bounded branch continuation
+  - `Finding NeMo` stays observability hold
 
 #### `WB-CH-2` `Finding NeMo`
 
@@ -173,8 +172,8 @@ This queue should now be read with three distinctions:
 
 ## Recommended Next Order
 
-1. `WB-CH-1` distinct white-box defended-family import / selection
-2. `GB-CH-2` ranking-sensitive variable search
-3. `XB-CH-2` transfer / portability probes
+1. `GB-CH-2` ranking-sensitive variable search
+2. `XB-CH-2` transfer / portability probes
+3. `GB-CH-3` Noise as a Probe latent-diffusion promotion path
 
 This order is deliberately CPU-first and does **not** authorize any new GPU run by itself.
