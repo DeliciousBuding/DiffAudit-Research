@@ -5,8 +5,8 @@
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; MoFit is now current-contract hold; CDI is now selected as the next CPU-first gray-box extension lane; gray-box current gpu question = none`
-- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；`MoFit` 在当前 local contract 下只给出 tiny weak-positive gap；`CDI` 虽已选为下一条 live lane，但集合级 `P/U` schema、set-level significance pipeline 与第一条 canary 合同仍未冻结`
-- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；下一步正式切入 `CDI protocol / asset contract` 与后续 `feature / collection-surface review`，只在 `MoFit` contract 实质变化时才重开`
+- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；`MoFit` 在当前 local contract 下只给出 tiny weak-positive gap；`CDI` 的 first canary shape 已冻结，但集合级 `audit_summary / p-value` 执行链与更大 shared paired-score surface 仍未落盘`
+- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；下一步进入 `CDI` 的 internal canary design/execution，同时将更大的 `PIA` shared-score surface refresh 作为 paired-method follow-up 的首选 GPU 题`
 - `last updated`: `2026-04-16`
 
 ## 推荐论文
@@ -80,6 +80,7 @@
 - `workspaces/gray-box/2026-04-16-mofit-current-contract-hold-verdict.md`
 - `workspaces/gray-box/2026-04-16-post-mofit-next-family-reselection.md`
 - `workspaces/gray-box/2026-04-16-cdi-protocol-asset-contract.md`
+- `workspaces/gray-box/2026-04-16-cdi-feature-collection-surface-review.md`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-256/summary.json`
@@ -126,6 +127,9 @@
 10. `CDI` 当前应写成 `gray-box collection-level audit extension`，而不是单样本 MIA 替代线
 11. `CDI` 的第一步必须保持 `CPU-only + contract-first`，并冻结 `P/U/control/test` collection schema、首个可复用 score source 与 Welch-`t` audit summary contract
 12. `CDI` 的 honest local surface 当前固定为共享 local `CIFAR-10 DDPM` score contract，不应一开始跳到 `SD1.5`、latent-diffusion 或 white-box-only feature path
+13. `CDI` 的 first bounded canary 已冻结为：现有 `1024 / 1024` shared surface 上的 deterministic `512 / 512` control-test partition + `SecMI stat only`
+14. paired `PIA + SecMI` 当前保留为下一条 extension，而不是 first canary 默认值
+15. 当前最有价值的 GPU follow-up 不是重开旧 family，而是把 `PIA` 的 shared-score surface 扩大，供 `CDI` 的 paired-method follow-up 直接消费
 
 ## 2026-04-08 新观察
 
