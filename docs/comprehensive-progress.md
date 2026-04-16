@@ -71,7 +71,7 @@
 ### 灰盒
 
 - 主线：`PIA`
-- baseline：`SecMI`（当前已判定为 `blocked baseline`）
+- corroboration：`SecMI`
 - 当前能说的话：
   - `PIA` 已经不是 smoke，而是真实资产 mainline
   - `PIA GPU128 / GPU256 / GPU512` 已拿到同口径 baseline + defense 对照，且 defense 指标连续三档都低于 baseline
@@ -81,13 +81,25 @@
   - 当前 `PIA` 攻击分数可以明确解释为 `epsilon-trajectory consistency` 信号，而不是泛化的 reconstruction score
   - `stochastic-dropout` 当前最可辩护的作用机理，是在推理时打散这一致性信号
   - 当前 gray-box 新一轮重点已从“多开 run”切到 `off / all_steps / late_steps_only + repeated-query adaptive review + structured quality/cost`
-  - 新归档的 `TMIA-DM` 说明时间相关噪声 / 梯度信号也是灰盒成员推断的正式文献方向，但它当前仍只是 research-ready 候选
+  - `SecMI` 已完成 full-split local execution，当前应写成独立 corroboration line，而不是 `blocked baseline`
+  - `TMIA-DM` 已不再只是 intake 候选：
+    - 现在是当前最强的 packaged gray-box challenger
+    - 在 attack-side operating-point comparison 中对 `PIA` 构成真实竞争
+    - 在 defended side 也保留了 `TMIA + temporal-striding` 这一条 challenger reference
+  - `Noise as a Probe` 已不再只是 paper-side备选：
+    - 当前 local `SD1.5 + celeba_partial_target/checkpoint-25000` 路径已经跑通
+    - `8 / 8 / 8` 与 `16 / 16 / 16` 两档都已 repeat-positive
+    - 当前应写成 `strengthened bounded challenger candidate`
   - 新整理的 `PIA / TMIA-DM / SimA / MoFit` 文献轴已经统一到“时间 / 噪声 / 条件信号”叙事上
   - 当前最适合把防御压到这条线上做正式比较
 - 当前不能说的话：
   - 还不能说灰盒防御已经验证有效
-  - 当前用途：
+  - 还不能说 `Noise as a Probe` 已经取代 `TMIA-DM` 的 packaged challenger 位置
+  - 还不能说 `Noise as a Probe` 已经可以替换 `PIA` 的 headline 地位
+- 当前用途：
   - 作为当前算法主讲线
+  - `TMIA-DM` 作为当前最强 packaged gray-box challenger
+  - `Noise as a Probe` 作为新 latent-diffusion challenger candidate 的有界补充线
   - 作为 `Local-API` contract-specific best summary 的首要 admitted 消费对象
   - 当前只允许写成 `workspace-verified + paper-alignment blocked by checkpoint/source provenance`
   - 截至 `2026-04-10`，`PIA provenance dossier` 已 closed 为 `remain long-term blocker`
@@ -191,11 +203,12 @@
 5. 在统一表和叙事材料里补齐 `threat model / asset semantics / evidence level / external-validity boundary`
 6. 用 [future-phase-e-intake](future-phase-e-intake.md) 与 [2026-04-10-phase-e-intake-ordering-review](../workspaces/intake/2026-04-10-phase-e-intake-ordering-review.md) 固定 `Phase E` 候选池排序，并只允许进入准入验证
 5.1 用 [2026-04-10-intake-registry-phase-e-boundary-review](../workspaces/intake/2026-04-10-intake-registry-phase-e-boundary-review.md) 与 [phase-e-candidates.json](../workspaces/intake/phase-e-candidates.json) 把 machine-readable candidate ordering 从 `index.json.entries[]` 的 promoted contract 面里剥离出来
-7. 用 [2026-04-10-secmi-unblock-decision](../workspaces/gray-box/2026-04-10-secmi-unblock-decision.md) 把 `SecMI` 固定为 `not-yet / remain blocked baseline`
-8. 用 [2026-04-10-tmia-dm-intake-decomposition](../workspaces/gray-box/2026-04-10-tmia-dm-intake-decomposition.md) 把 `TMIA-DM` 固定为 `gray-box protocol / asset decomposition intake only`
-9. 用 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md)、[2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 与 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 固定 `Finding NeMo + local memorization + FB-Mem` 的 intake gate，并把它保留为当前最完整的 intake dossier
-10. `PIA paper-aligned confirmation` 继续保留文档层条件性首位，但执行层视为 `no-go`
-11. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明与 adaptive gate 一致
+7. 保持 `SecMI = independent corroboration line`，不要再回退成 `blocked baseline`
+8. 保持 `TMIA-DM = strongest packaged gray-box challenger`，并继续复用 defended challenger 比较口径
+9. 将 `Noise as a Probe` 固定为 `new latent-diffusion challenger candidate with repeat-positive bounded local evidence`
+10. 用 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md)、[2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 与 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 固定 `Finding NeMo + local memorization + FB-Mem` 的 intake gate，并把它保留为当前最完整的 intake dossier
+11. `PIA paper-aligned confirmation` 继续保留文档层条件性首位，但执行层视为 `no-go`
+12. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明与 adaptive gate 一致
 
 ## 申报 / PPT 应该怎么讲
 
