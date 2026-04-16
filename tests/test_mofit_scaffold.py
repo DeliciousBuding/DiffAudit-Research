@@ -88,6 +88,64 @@ class MoFitScaffoldTests(unittest.TestCase):
             self.assertEqual(record["surrogate_trace_path"], surrogate_trace.as_posix())
             self.assertEqual(record["embedding_trace_path"], embedding_trace.as_posix())
 
+    def test_finalize_mofit_record_updates_scores_and_traces(self) -> None:
+        from diffaudit.attacks.mofit_scaffold import (
+            append_mofit_record,
+            finalize_mofit_record,
+            initialize_mofit_scaffold,
+        )
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            run_root = Path(tmpdir) / "mofit-scaffold"
+            initialize_mofit_scaffold(
+                run_root=run_root,
+                target_family="sd15-plus-celeba_partial_target-checkpoint-25000",
+                caption_source="metadata-with-blip-fallback",
+                surrogate_steps=8,
+                embedding_steps=12,
+                member_count=1,
+                nonmember_count=1,
+            )
+            record = append_mofit_record(
+                run_root=run_root,
+                split="member",
+                file_name="sample.png",
+                prompt_source="metadata",
+                prompt_text="face portrait",
+            )
+
+            finalized = finalize_mofit_record(
+                run_root=run_root,
+                file_name="sample.png",
+                split="member",
+                l_cond=1.25,
+                l_uncond=0.75,
+                mofit_score=0.5,
+                surrogate_trace=[{"step": 0, "loss": 1.0}, {"step": 1, "loss": 0.8}],
+                embedding_trace=[{"step": 0, "loss": 0.6}, {"step": 1, "loss": 0.4}],
+            )
+
+            self.assertEqual(finalized["l_cond"], 1.25)
+            self.assertEqual(finalized["l_uncond"], 0.75)
+            self.assertEqual(finalized["mofit_score"], 0.5)
+
+            lines = (run_root / "records.jsonl").read_text(encoding="utf-8").splitlines()
+            row = json.loads(lines[0])
+            self.assertEqual(row["l_cond"], 1.25)
+            self.assertEqual(row["l_uncond"], 0.75)
+            self.assertEqual(row["mofit_score"], 0.5)
+
+            surrogate_trace = Path(record["surrogate_trace_path"])
+            embedding_trace = Path(record["embedding_trace_path"])
+            self.assertEqual(
+                json.loads(surrogate_trace.read_text(encoding="utf-8")),
+                [{"step": 0, "loss": 1.0}, {"step": 1, "loss": 0.8}],
+            )
+            self.assertEqual(
+                json.loads(embedding_trace.read_text(encoding="utf-8")),
+                [{"step": 0, "loss": 0.6}, {"step": 1, "loss": 0.4}],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

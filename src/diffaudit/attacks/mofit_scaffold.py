@@ -107,3 +107,44 @@ def append_mofit_record(
     with records_path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(record) + "\n")
     return record
+
+
+def finalize_mofit_record(
+    *,
+    run_root: Path,
+    file_name: str,
+    split: str,
+    l_cond: float,
+    l_uncond: float,
+    mofit_score: float,
+    surrogate_trace: list[dict],
+    embedding_trace: list[dict],
+) -> dict:
+    safe_stem = Path(file_name).stem
+    record_key = f"{split}-{safe_stem}"
+    surrogate_trace_path = run_root / "traces" / "surrogate" / f"{record_key}.json"
+    embedding_trace_path = run_root / "traces" / "embedding" / f"{record_key}.json"
+    surrogate_trace_path.write_text(json.dumps(surrogate_trace, indent=2), encoding="utf-8")
+    embedding_trace_path.write_text(json.dumps(embedding_trace, indent=2), encoding="utf-8")
+
+    records_path = run_root / "records.jsonl"
+    updated_rows: list[dict] = []
+    for raw_line in records_path.read_text(encoding="utf-8").splitlines():
+        if not raw_line.strip():
+            continue
+        row = json.loads(raw_line)
+        if row.get("split") == split and row.get("file_name") == file_name:
+            row["l_cond"] = l_cond
+            row["l_uncond"] = l_uncond
+            row["mofit_score"] = mofit_score
+        updated_rows.append(row)
+
+    records_path.write_text(
+        "".join(json.dumps(row) + "\n" for row in updated_rows),
+        encoding="utf-8",
+    )
+
+    for row in updated_rows:
+        if row.get("split") == split and row.get("file_name") == file_name:
+            return row
+    raise ValueError(f"Could not find record for split={split!r}, file_name={file_name!r}")

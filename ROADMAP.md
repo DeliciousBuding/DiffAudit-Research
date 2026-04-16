@@ -1719,6 +1719,41 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ⬜ `GB-25` MoFit score / trace update path
+
+Goal: connect the dedicated `MoFit` scaffold to a real score/trace update API so future optimization loops can write values into the frozen schema
+
+Current read:
+
+- `GB-24` already created per-sample records and placeholder traces
+- the next honest missing piece is not new schema, but a real update path for:
+  - surrogate trace
+  - embedding trace
+  - `l_cond / l_uncond / mofit_score`
+
+Tasks:
+
+- [x] `GB-25.1` write a failing test for score/trace update
+- [x] `GB-25.2` implement the minimal update helper
+- [x] `GB-25.3` rerun tests and confirm the update path is real
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-mofit-score-trace-update-verdict.md`
+
+Selection verdict:
+
+- `GB-25` now closes as `positive but bounded`
+- the scaffold now has a real update path for:
+  - surrogate trace JSON
+  - embedding trace JSON
+  - `l_cond / l_uncond / mofit_score`
+- the lane still remains below smoke because the optimization loops that generate those values are not yet implemented
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.4 White-box expansion
@@ -2546,6 +2581,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 15:55 | Closed `GB-22` positively: `MoFit` now has a frozen dedicated scaffold choice (`scripts/run_mofit_interface_canary.py`) plus a minimum artifact schema (`summary.json`, `records.jsonl`, surrogate/embedding traces); the next live CPU-first step is to implement that script, and `gpu_release` remains `none` |
 | 2026-04-16 16:10 | Closed `GB-23` as `positive but bounded`: the frozen `MoFit` dedicated scaffold is now real code and passes both TDD-style unit verification and a fresh script execution check, producing `summary.json`, `records.jsonl`, and trace directories; the lane still stays below smoke because surrogate optimization, fitted-embedding optimization, and real `L_MoFit` scoring are not yet implemented |
 | 2026-04-16 16:20 | Closed `GB-24` as `positive but bounded`: the `MoFit` scaffold now supports per-sample record append and trace placeholder creation, and `records.jsonl` now carries `l_cond / l_uncond / mofit_score` as frozen placeholder fields; the lane still remains below smoke because those values are not yet produced by actual optimization loops |
+| 2026-04-16 16:30 | Closed `GB-25` as `positive but bounded`: the `MoFit` scaffold now has a real score/trace update path, so future optimization loops can write step traces and `l_cond / l_uncond / mofit_score` back into the frozen schema; the lane still remains below smoke because the actual optimization loops are not yet implemented |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
