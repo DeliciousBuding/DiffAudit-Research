@@ -1692,6 +1692,37 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ⬜ `WB-13` DP-LoRA comparator admission packet refresh
+
+Goal: rewrite the stale `baseline vs SMP-LoRA vs W-1` admission packet so it matches the completed local comparator board rather than the old pre-board framing
+
+Current read:
+
+- `WB-12` already refreshed the release-review logic
+- but the intake packet itself still points at stale comparator framing and stale stop conditions
+- the next honest CPU step is therefore to refresh the packet object, not to invent a new experiment
+
+Tasks:
+
+- [x] `WB-13.1` identify which parts of the old admission packet are now stale
+- [x] `WB-13.2` rewrite the packet around the completed local board
+- [x] `WB-13.3` freeze whether the refreshed packet releases any new GPU question
+
+Canonical evidence anchor:
+
+- `workspaces/intake/2026-04-16-dplora-comparator-admission-packet-refresh.md`
+
+Selection verdict:
+
+- `WB-13` now closes as `positive`
+- the old packet is now explicitly stale
+- the refreshed packet now centers the completed local comparator board
+- it also freezes `gpu_release = none`
+- no new GPU question is released by the packet itself
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.5 Infrastructure, automation, and agent leverage
@@ -1786,7 +1817,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`WB-12` DP-LoRA comparator release-review refresh is now closed.
+`WB-13` DP-LoRA comparator admission packet refresh is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -1797,37 +1828,38 @@ Current release posture:
 
 ### Next
 
-1. ✅ `WB-12` DP-LoRA comparator release-review refresh
-2. ✅ `WB-11` DP-LoRA local comparator board refresh verdict
-3. ✅ `WB-10` DP-LoRA W-1 local-surface refresh feasibility
-4. ✅ `WB-9` DP-LoRA comparator schema-alignment contract
-5. ✅ `WB-8` DP-LoRA comparator artifact-board preflight
-6. ✅ `WB-7` DP-LoRA comparator contract reconciliation
-7. ✅ `WB-6` DP-LoRA comparator release review
-8. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
-9. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
-10. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
-11. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
-12. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
-13. ✅ `GB-12` Noise-as-a-Probe threshold hardening
-14. ✅ `GB-11` Noise-as-a-Probe expansion repeat
-15. ✅ `GB-10` Noise-as-a-Probe first expansion rung
-16. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
-17. ✅ `GB-8` Noise-as-a-Probe canary scaffold
-18. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
-19. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
-20. ✅ `GB-5` genuinely-new-family selector
-21. ✅ `WB-5` DP-LoRA comparability dossier
-22. ✅ `BB-6` same-protocol cross-method score package
-23. ✅ `WB-3` white-box defense breadth
-24. ✅ `GB-1` second gray-box defense
-25. ✅ `BB-1` second-signal black-box expansion
-26. ✅ `INF-2` research automation health
-27. ✅ `INF-3` subagent leverage experiments
-28. ✅ `WB-4` white-box feature/trajectory upgrade
-29. ✅ `X-3` system-consumable sync
-30. ✅ `BB-3` CLiD boundary-quality upgrade
-31. ✅ `X-4` cross-box exploration lane
+1. ✅ `WB-13` DP-LoRA comparator admission packet refresh
+2. ✅ `WB-12` DP-LoRA comparator release-review refresh
+3. ✅ `WB-11` DP-LoRA local comparator board refresh verdict
+4. ✅ `WB-10` DP-LoRA W-1 local-surface refresh feasibility
+5. ✅ `WB-9` DP-LoRA comparator schema-alignment contract
+6. ✅ `WB-8` DP-LoRA comparator artifact-board preflight
+7. ✅ `WB-7` DP-LoRA comparator contract reconciliation
+8. ✅ `WB-6` DP-LoRA comparator release review
+9. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
+10. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
+11. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
+12. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
+13. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
+14. ✅ `GB-12` Noise-as-a-Probe threshold hardening
+15. ✅ `GB-11` Noise-as-a-Probe expansion repeat
+16. ✅ `GB-10` Noise-as-a-Probe first expansion rung
+17. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
+18. ✅ `GB-8` Noise-as-a-Probe canary scaffold
+19. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
+20. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
+21. ✅ `GB-5` genuinely-new-family selector
+22. ✅ `WB-5` DP-LoRA comparability dossier
+23. ✅ `BB-6` same-protocol cross-method score package
+24. ✅ `WB-3` white-box defense breadth
+25. ✅ `GB-1` second gray-box defense
+26. ✅ `BB-1` second-signal black-box expansion
+27. ✅ `INF-2` research automation health
+28. ✅ `INF-3` subagent leverage experiments
+29. ✅ `WB-4` white-box feature/trajectory upgrade
+30. ✅ `X-3` system-consumable sync
+31. ✅ `BB-3` CLiD boundary-quality upgrade
+32. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
@@ -1937,6 +1969,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 13:35 | Closed `WB-10` positively: the required `W-1` local-surface alignment step is already operationally feasible as an evaluation-only refresh, because baseline, frozen `SMP-LoRA`, and frozen `W-1 strong-v3` all point to the same legacy `gsa-cifar10-1k-3shadow` asset family and the existing comparator entrypoint already supports checkpoint reuse plus `max_samples` control |
 | 2026-04-16 09:03 | Closed `WB-11` as `positive but bounded`: the first honest same-asset local comparator board now exists, and on the shared local `AUC` metric it orders `frozen SMP-LoRA (0.34375) < refreshed W-1 local63 (0.474175) < baseline (0.5565217391304348)`; this upgrades successor-lane truth but still does not change admitted white-box claims |
 | 2026-04-16 09:20 | Closed `WB-12` as `positive but bounded`: the old `WB-6` release-review gate is now superseded by a stronger bounded reading, because the successor lane is no longer merely `bridge-positive` but now has one completed same-asset local comparator win over refreshed `W-1`; this strengthens white-box queue truth but still does not justify immediate new GPU release |
+| 2026-04-16 09:30 | Closed `WB-13` positively: the stale `baseline vs SMP-LoRA vs W-1` admission packet has now been refreshed around the completed local comparator board, replacing old `batch14 throughput` framing and pre-board stop conditions with the current bounded truth and explicitly freezing `gpu_release = none` |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
