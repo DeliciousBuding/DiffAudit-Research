@@ -1535,6 +1535,37 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ⬜ `WB-8` DP-LoRA comparator artifact-board preflight
+
+Goal: decide whether the reconciled `baseline vs frozen SMP-LoRA vs W-1` board is already supported by honest local artifacts, or whether a schema/eval-surface mismatch still blocks future release review
+
+Current read:
+
+- `WB-7` fixed the right comparator board
+- but a board can still be conceptually right while artifact-incomplete
+- the next honest CPU check is therefore artifact-board preflight, not GPU escalation
+
+Tasks:
+
+- [x] `WB-8.1` verify baseline and frozen SMP-LoRA local artifacts
+- [x] `WB-8.2` verify current `W-1` reference artifact and metric surface
+- [x] `WB-8.3` decide whether the board is already release-review-ready
+
+Canonical evidence anchor:
+
+- `workspaces/white-box/2026-04-16-dplora-comparator-artifact-board-preflight.md`
+
+Selection verdict:
+
+- `WB-8` now closes as `negative but useful`
+- the reconciled board is still blocked by schema/eval-surface mismatch
+- `baseline` and frozen `SMP-LoRA` align locally
+- `W-1` remains on a different and larger evaluation surface
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.5 Infrastructure, automation, and agent leverage
@@ -1629,7 +1660,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`WB-7` DP-LoRA comparator contract reconciliation is now closed.
+`WB-8` DP-LoRA comparator artifact-board preflight is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -1640,32 +1671,33 @@ Current release posture:
 
 ### Next
 
-1. ✅ `WB-7` DP-LoRA comparator contract reconciliation
-2. ✅ `WB-6` DP-LoRA comparator release review
-3. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
-4. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
-5. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
-6. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
-7. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
-8. ✅ `GB-12` Noise-as-a-Probe threshold hardening
-9. ✅ `GB-11` Noise-as-a-Probe expansion repeat
-10. ✅ `GB-10` Noise-as-a-Probe first expansion rung
-11. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
-12. ✅ `GB-8` Noise-as-a-Probe canary scaffold
-13. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
-14. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
-15. ✅ `GB-5` genuinely-new-family selector
-16. ✅ `WB-5` DP-LoRA comparability dossier
-17. ✅ `BB-6` same-protocol cross-method score package
-18. ✅ `WB-3` white-box defense breadth
-19. ✅ `GB-1` second gray-box defense
-20. ✅ `BB-1` second-signal black-box expansion
-21. ✅ `INF-2` research automation health
-22. ✅ `INF-3` subagent leverage experiments
-23. ✅ `WB-4` white-box feature/trajectory upgrade
-24. ✅ `X-3` system-consumable sync
-25. ✅ `BB-3` CLiD boundary-quality upgrade
-26. ✅ `X-4` cross-box exploration lane
+1. ✅ `WB-8` DP-LoRA comparator artifact-board preflight
+2. ✅ `WB-7` DP-LoRA comparator contract reconciliation
+3. ✅ `WB-6` DP-LoRA comparator release review
+4. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
+5. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
+6. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
+7. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
+8. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
+9. ✅ `GB-12` Noise-as-a-Probe threshold hardening
+10. ✅ `GB-11` Noise-as-a-Probe expansion repeat
+11. ✅ `GB-10` Noise-as-a-Probe first expansion rung
+12. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
+13. ✅ `GB-8` Noise-as-a-Probe canary scaffold
+14. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
+15. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
+16. ✅ `GB-5` genuinely-new-family selector
+17. ✅ `WB-5` DP-LoRA comparability dossier
+18. ✅ `BB-6` same-protocol cross-method score package
+19. ✅ `WB-3` white-box defense breadth
+20. ✅ `GB-1` second gray-box defense
+21. ✅ `BB-1` second-signal black-box expansion
+22. ✅ `INF-2` research automation health
+23. ✅ `INF-3` subagent leverage experiments
+24. ✅ `WB-4` white-box feature/trajectory upgrade
+25. ✅ `X-3` system-consumable sync
+26. ✅ `BB-3` CLiD boundary-quality upgrade
+27. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
@@ -1770,6 +1802,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 12:35 | Closed `GB-17` as `negative but useful`: `Noise as a Probe` still has no honest minimal defended-extension gate on the current local `SD1.5` contract, because direct `stochastic-dropout` port is not real on a U-Net whose dropout modules all sit at `p=0.0`, and direct `temporal-striding` would redefine the attack rather than add a bounded defense |
 | 2026-04-16 12:50 | Closed `WB-6` positively: the `DP-LoRA` successor lane should stay alive, but the next honest white-box question is still the frozen `baseline vs SMP-LoRA vs W-1` comparator review rather than immediate GPU validation, because current local SMP-LoRA evidence is bridge-positive yet still lacks a fresh comparator verdict against `W-1` |
 | 2026-04-16 13:00 | Closed `WB-7` positively: the existing comparator packet is still directionally right but contract-stale, because it points at older `T06 batch14 throughput` artifacts instead of the newly frozen `lambda=0.1 / rank=4 / epochs=10` local candidate; future release review should therefore use only the reconciled `baseline vs frozen SMP-LoRA vs W-1` board |
+| 2026-04-16 13:10 | Closed `WB-8` as `negative but useful`: the reconciled `baseline vs frozen SMP-LoRA vs W-1` board is conceptually right but not yet release-review-ready, because baseline/SMP-LoRA live on a local `63 / 63` evaluation surface while `W-1 strong-v3 full-scale` is still reported on a larger `target_eval_size = 2000` surface with a different metric schema |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
