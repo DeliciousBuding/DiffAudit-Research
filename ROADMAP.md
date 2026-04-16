@@ -837,6 +837,44 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ✅ `GB-63` Second gray-box defense mechanism selection review
+
+Goal: freeze which current gray-box defense mechanism should count as the honest second mechanism after black-box candidate refresh closed negatively and gray-box regained the near-term innovation slot
+
+Current read:
+
+- `PIA + stochastic-dropout(all_steps)` remains the admitted defended headline
+- `TMIA-DM late-window + temporal-striding(stride=2)` is already the strongest defended challenger-specific branch
+- cheap perturbation candidates have already closed negatively
+- `Noise as a Probe` has no honest defended-extension gate on the current contract
+- `MoFit` remains `current-contract hold`
+
+Tasks:
+
+- [x] `GB-63.1` compare current defended mechanism candidates by mechanism distinctness, repeat evidence, and narrative value
+- [x] `GB-63.2` reject candidates that are already negative, contract-blocked, or hold-only
+- [x] `GB-63.3` freeze the next live CPU-first lane after the selection
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-17-second-graybox-defense-mechanism-selection-review.md`
+
+Selection verdict:
+
+- `GB-63` now closes as `positive but bounded`
+- freeze:
+  - `PIA + stochastic-dropout(all_steps)` as admitted defended headline
+  - `TMIA-DM late-window + temporal-striding(stride=2)` as the selected second gray-box defense mechanism
+- do not rewrite this as a project-wide replacement defense
+- keep:
+  - `gpu_release = none`
+  - `next_gpu_candidate = none`
+- `next_live_cpu_lane` is now:
+  - `distinct white-box defended-family import / selection`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.3 Gray-box expansion
@@ -3933,7 +3971,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`BB-8` black-box next-family candidate-generation refresh review is now closed.
+`GB-63` second gray-box defense mechanism selection review is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -3941,19 +3979,20 @@ Current release posture:
 
 - `gpu_release = none`
 - `next_gpu_candidate = none`
-- `next_live_cpu_lane = second gray-box defense mechanism selection`
+- `next_live_cpu_lane = distinct white-box defended-family import / selection`
 
 ### Next
 
-1. ✅ `BB-8` black-box next-family candidate-generation refresh review
-2. ✅ `X-9` cross-box closure-round system sync review
-3. ✅ `WB-19` white-box post-breadth next-hypothesis selection review
-4. ✅ `GB-62` gray-box post-noise contract-shift reselection review
-5. ✅ `GB-61` Noise as a Probe contract-shift review
-6. ✅ `GB-60` Noise as a Probe promotion-gap review
-7. ✅ `GB-59` gray-box post-CDI lane reselection review
-8. ✅ `GB-58` CDI paired-scorer consumer handoff note
-9. ✅ `GB-50` SecMI paired-surface repair contract review
+1. ✅ `GB-63` second gray-box defense mechanism selection review
+2. ✅ `BB-8` black-box next-family candidate-generation refresh review
+3. ✅ `X-9` cross-box closure-round system sync review
+4. ✅ `WB-19` white-box post-breadth next-hypothesis selection review
+5. ✅ `GB-62` gray-box post-noise contract-shift reselection review
+6. ✅ `GB-61` Noise as a Probe contract-shift review
+7. ✅ `GB-60` Noise as a Probe promotion-gap review
+8. ✅ `GB-59` gray-box post-CDI lane reselection review
+9. ✅ `GB-58` CDI paired-scorer consumer handoff note
+10. ✅ `GB-50` SecMI paired-surface repair contract review
 10. ✅ `GB-49` CDI paired-surface mismatch review
 11. ✅ `GB-48` CDI paired-feature extension review
 12. ✅ `GB-47` SecMI-PIA 2048 paired-surface verdict
@@ -4131,6 +4170,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-17 01:35 | Closed `WB-19` as `negative but clarifying`: white-box also no longer exposes an honest immediate next-hypothesis execution lane, because `DP-LoRA` is already frozen as a bounded metric-split branch, `Finding NeMo` remains not-requestable, and `GSA2` is only same-family corroboration; therefore the next live CPU-first slot should now move to `cross-box closure-round system sync review`, while `gpu_release` and `next_gpu_candidate` remain `none` |
 | 2026-04-17 01:50 | Closed `X-9` as `positive`: after the gray-box and white-box closure round, the summary layer and challenger queue were partially stale; they now reflect the current repo truth that `active GPU question = none`, box-local immediate execution lanes are closed, and the next live CPU-first slot should move to `black-box next-family candidate-generation refresh review` |
 | 2026-04-17 02:05 | Closed `BB-8` as `negative but clarifying`: the black-box refresh review found no honest ready next-family promotion candidate, because the visible options are either same-family continuation (`semantic-aux`), boundary-only (`CLiD`), needs-assets (`variation`), or better classified outside immediate black-box promotion (`dataset-audit-track / CDI`); keep `gpu_release = none`, keep `next_gpu_candidate = none`, and move the next live CPU-first slot to `second gray-box defense mechanism selection` |
+| 2026-04-17 02:20 | Closed `GB-63` as `positive but bounded`: after black-box candidate refresh yielded the near-term slot back, gray-box second-defense selection could now be frozen cleanly; `TMIA-DM late-window + temporal-striding(stride=2)` is the only materially different defense mechanism with repeat/scale support, while cheap perturbations are already negative, `Noise as a Probe` has no defended-extension gate, and `MoFit` remains hold, so keep `gpu_release = none`, keep `next_gpu_candidate = none`, and move the next live CPU-first slot to `distinct white-box defended-family import / selection` |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |

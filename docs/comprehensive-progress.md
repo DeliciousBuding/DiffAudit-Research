@@ -6,7 +6,7 @@
 
 ## 当前一句话
 
-当前仓库已经具备三条攻击线的基本骨架；白盒/灰盒主讲线现在固定为成熟主线 `PIA + GSA/W-1` 加一条保留中的探索主线 `SMP-LoRA / DP-LoRA`。但后者已不再处于“等待 optimizer/lr frontier 放行”的阶段：它已经拿到一张 bounded harmonized local comparator board，并因此从早前的 clean local-win 叙事收缩为 `metric-split bounded exploration branch`。当前 `active GPU question = none`，而 black-box 的 next-family refresh 也已 closed-negative，说明现有黑盒候选要么同家族、要么边界/资产阻塞、要么已被 gray-box 吸收；因此当前优先级应转向 `second gray-box defense mechanism selection`。
+当前仓库已经具备三条攻击线的基本骨架；白盒/灰盒主讲线现在固定为成熟主线 `PIA + GSA/W-1` 加一条保留中的探索主线 `SMP-LoRA / DP-LoRA`。但后者已不再处于“等待 optimizer/lr frontier 放行”的阶段：它已经拿到一张 bounded harmonized local comparator board，并因此从早前的 clean local-win 叙事收缩为 `metric-split bounded exploration branch`。当前 `active GPU question = none`；black-box 的 next-family refresh 已 closed-negative，而 gray-box 的 second defense mechanism 也已完成选择并冻结为 `TMIA-DM + temporal-striding`，因此当前优先级应转向 `distinct white-box defended-family import / selection`。
 
 ## 进度总览
 
@@ -33,7 +33,7 @@
   - `Local Mirror` 不提供第二防御家族
 - [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 已把黑盒五件套固定为 decision-grade package，本轮 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json) 又在 CPU 上复算到相同 headline metrics，且不改 admitted 结果
 - [2026-04-10-pia-provenance-split-protocol-delta](../workspaces/gray-box/2026-04-10-pia-provenance-split-protocol-delta.md) 已把 `split shape aligned locally / random-four-split protocol still open / strict redo currently dirty` 三点固定为新的 provenance supplement
-- 当前最值得推进的唯一目标切到：在 black-box candidate refresh 也收口之后，把近端创新压力转回 gray-box 的第二防御机制选择；`SMP-LoRA / DP-LoRA` 继续固定为 `bounded exploration branch + no-new-gpu-question`，`PIA provenance` 继续作为 CPU sidecar blocker，`recon` 继续保持 frozen maintenance，而 black-box 只在 genuinely new family 或真实 asset/boundary change 出现后再复开
+- 当前最值得推进的唯一目标切到：在 black-box candidate refresh 与 gray-box second-defense selection 都收口之后，把近端创新压力转向 `white-box defended-family import / selection`；`SMP-LoRA / DP-LoRA` 继续固定为 `bounded exploration branch + no-new-gpu-question`，gray-box 当前保持 `PIA + stochastic-dropout` headline 与 `TMIA-DM + temporal-striding` second-mechanism 结构，`PIA provenance` 继续作为 CPU sidecar blocker，而 black-box 只在 genuinely new family 或真实 asset/boundary change 出现后再复开
 
 ## 攻击主线
 
