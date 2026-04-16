@@ -3016,6 +3016,47 @@ Selection verdict:
 Value: ⭐⭐
 Budget: CPU-only reselection
 
+#### ⬜ `GB-60` Noise as a Probe promotion-gap review
+
+Goal: decide what exact gap still blocks `Noise as a Probe` from promotion into the packaged gray-box challenger layer, and whether any honest promotion path exists on the current latent-diffusion contract
+
+Current read:
+
+- `Noise as a Probe` already has repeat-positive bounded evidence
+- it is already mentionable above lane-local notes
+- defended extension already closed as `no-go for now`
+- the remaining unresolved question is therefore no longer execution, but comparability and promotion boundary
+
+Tasks:
+
+- [x] `GB-60.1` define the exact blocker between bounded candidate and packaged challenger
+- [x] `GB-60.2` decide whether the current local contract supports any honest direct promotion path
+- [x] `GB-60.3` freeze the next CPU-side lane if promotion is still blocked
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-17-noise-as-probe-promotion-gap-review.md`
+
+Selection verdict:
+
+- `GB-60` now closes as `negative but clarifying`
+- current blocker is:
+  - `same-surface comparability`
+- `Noise as a Probe` remains:
+  - `strengthened bounded challenger candidate`
+  - `mentionable`
+  - `not promotion-ready`
+- defended extension is confirmed not to be the missing shortcut
+- current local latent-diffusion contract has:
+  - `no honest direct promotion path`
+- `gpu_release = none`
+- `next_gpu_candidate = none`
+- the next live task is:
+  - `Noise as a Probe contract-shift review`
+
+Value: ⭐⭐
+Budget: CPU-only review
+
 ---
 
 ### 6.4 White-box expansion
@@ -3704,7 +3745,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-59` gray-box post-CDI lane reselection review is now closed.
+`GB-60` Noise as a Probe promotion-gap review is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -3712,17 +3753,17 @@ Current release posture:
 
 - `gpu_release = none`
 - `next_gpu_candidate = none`
-- `next_live_cpu_lane = Noise as a Probe promotion-gap review`
+- `next_live_cpu_lane = Noise as a Probe contract-shift review`
 
 ### Next
 
-1. ✅ `GB-59` gray-box post-CDI lane reselection review
-2. ✅ `GB-58` CDI paired-scorer consumer handoff note
-3. ✅ `GB-57` CDI paired-scorer machine-readable contract note
-4. ✅ `GB-56` CDI paired-scorer default-run policy note
-5. ✅ `GB-55` CDI paired-scorer summary-layer sync
-6. ✅ `GB-54` CDI paired-scorer boundary review
-7. ✅ `GB-53` CDI paired-feature scorer design
+1. ✅ `GB-60` Noise as a Probe promotion-gap review
+2. ✅ `GB-59` gray-box post-CDI lane reselection review
+3. ✅ `GB-58` CDI paired-scorer consumer handoff note
+4. ✅ `GB-57` CDI paired-scorer machine-readable contract note
+5. ✅ `GB-56` CDI paired-scorer default-run policy note
+6. ✅ `GB-55` CDI paired-scorer summary-layer sync
+7. ✅ `GB-54` CDI paired-scorer boundary review
 8. ✅ `GB-50` SecMI paired-surface repair contract review
 9. ✅ `GB-49` CDI paired-surface mismatch review
 10. ✅ `GB-48` CDI paired-feature extension review
@@ -3896,6 +3937,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-17 00:10 | Closed `GB-57` as `positive`: internal paired `CDI` canaries now emit a stable machine-readable contract in `audit_summary.json`, including policy request/effective mode, component-reporting requirement, and explicit `headline/external=false` boundary flags; higher-layer consumers no longer need to infer these rules from Markdown alone |
 | 2026-04-17 00:20 | Closed `GB-58` as `positive`: higher-layer consumers now have an explicit paired-`CDI` read order and anti-overclaim rule; `Leader/materials` should consume contract-first and keep to boundary flags plus notes, while any future `Platform/Runtime` consumer must hard-gate on the machine-readable contract and keep scorer weights/details diagnostic-only, so `gpu_release` remains `none` and the next live CPU lane becomes `gray-box post-CDI lane reselection review` |
 | 2026-04-17 00:35 | Closed `GB-59` as `positive`: once `CDI` scorer interpretation was frozen, the highest-value gray-box question was no longer another `CDI` follow-up or a weak-family reopen; the best next CPU-first lane is now `Noise as a Probe promotion-gap review`, because it is the strongest unpromoted new mechanism and its defended-extension path already closed as `no-go`, leaving promotion/comparability as the real blocker; `gpu_release` and `next_gpu_candidate` both remain `none` |
+| 2026-04-17 00:50 | Closed `GB-60` as `negative but clarifying`: `Noise as a Probe` is no longer blocked on execution truth, but it still has no honest direct promotion path because the packaged gray-box challenger board remains anchored on the shared `DDPM/CIFAR10` surface while this branch lives on a separate `SD1.5 + target-family LoRA` latent-diffusion contract; defended extension is also already a `no-go`, so the next CPU-side question becomes `Noise as a Probe contract-shift review`, with `gpu_release` and `next_gpu_candidate` still fixed at `none` |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |

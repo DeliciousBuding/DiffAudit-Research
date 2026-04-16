@@ -6,7 +6,7 @@
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; MoFit is now current-contract hold; CDI contract review and first internal canary both landed; PIA 2048 shared-score surface landed; repaired SecMI 2048 paired surface now also landed and recovers the old strong paired regime; CDI paired-feature scorer design now also landed; CDI paired scorer boundary is now frozen to default-internal-only; summary-layer wording is now synchronized; default-run policy is now frozen; machine-readable contract is now emitted; consumer handoff rule is now also landed; gray-box current gpu question = none`
 - `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；`MoFit` 在当前 local contract 下只给出 tiny weak-positive gap`
-- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；当前下一步转到 `Noise as a Probe promotion-gap review`，优先判断这条 latent-diffusion 新机制到底缺什么 comparability / promotion 条件，而不是继续过度解读 paired `CDI` scorer`
+- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；当前下一步转到 `Noise as a Probe contract-shift review`，判断是否值得为这条 latent-diffusion 新机制建立同表面对照合同，否则就继续维持 bounded-candidate 状态`
 - `last updated`: `2026-04-17`
 
 ## 推荐论文
@@ -95,6 +95,7 @@
 - `workspaces/gray-box/2026-04-17-cdi-paired-scorer-machine-readable-contract-note.md`
 - `workspaces/gray-box/2026-04-17-cdi-paired-scorer-consumer-handoff-note.md`
 - `workspaces/gray-box/2026-04-17-graybox-post-cdi-lane-reselection-review.md`
+- `workspaces/gray-box/2026-04-17-noise-as-probe-promotion-gap-review.md`
 - `workspaces/gray-box/runs/cdi-internal-canary-20260416-r1/audit_summary.json`
 - `workspaces/gray-box/runs/cdi-paired-canary-20260417-r3-contract/audit_summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1/summary.json`
@@ -161,6 +162,7 @@
 26. `CDI paired-scorer machine-readable contract note` 已完成：新的 paired canary artifact 已显式写出 `contract.name / version / feature_mode / paired_scorer_policy_requested / paired_scorer_policy_effective / component_reporting_required / headline_use_allowed / external_evidence_allowed`，因此更高层消费者现在可以直接读 contract 字段而不是回推 Markdown 规则
 27. `CDI paired-scorer consumer handoff note` 已完成：当前 paired `CDI` artifact 的 higher-layer 消费顺序已冻结为 `contract -> feature_mode -> metrics -> notes -> analysis`；其中 `Leader / materials` 只应消费 contract 边界字段与 internal-only 说明，future `Platform / Runtime` 也必须先看 `headline_use_allowed = false / external_evidence_allowed = false` 再决定是否展示 paired 标签；因此当前下一步不是重讲 paired `t`，而是转入灰盒 post-`CDI` 下一条 live lane 的重选 review
 28. `gray-box post-CDI lane reselection review` 已完成：在 `CDI` boundary / contract / consumer handoff 都冻结后，当前最值得开的灰盒 CPU-first lane 不再是 `TMIA` 包装回环、`SimA` 弱 reopen、`MoFit` hold reopen 或 `structural memorization` 负向重试；新的优先项应是 `Noise as a Probe promotion-gap review`，因为它是当前最强的未升格新机制，而 defended extension 在当前合同上又已明确是 `no-go`
+29. `Noise as a Probe promotion-gap review` 已完成：当前阻止这条线升格的已经不是 execution truth，而是 comparability gap；它运行在 `SD1.5 + celeba_partial_target` 的 latent-diffusion 合同上，无法直接加入当前以 `DDPM/CIFAR10 + PIA/TMIA-DM` 为核心的 packaged challenger board，而 defended extension 又已判成 `no-go`；因此当前下一步不是 promotion 或 GPU，而是先判断是否值得建立一张同表面对照合同
 
 ## 2026-04-08 新观察
 
