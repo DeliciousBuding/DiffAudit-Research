@@ -1473,6 +1473,37 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ⬜ `WB-6` DP-LoRA comparator release review
+
+Goal: decide whether the `DP-LoRA` successor lane should now move to immediate GPU validation, or whether the next honest live question is still the frozen `baseline vs SMP-LoRA vs W-1` comparator review
+
+Current read:
+
+- `WB-5` already froze protocol overlap, minimal local candidate, and no-go triggers
+- local historical evidence is strong enough to keep the lane alive
+- but there is still no fresh comparator verdict against `W-1`
+
+Tasks:
+
+- [x] `WB-6.1` review whether current local evidence is enough to justify keeping the lane alive
+- [x] `WB-6.2` review whether any new GPU question exists beyond the historical best point
+- [x] `WB-6.3` decide the next live white-box question for this lane
+
+Canonical evidence anchor:
+
+- `workspaces/white-box/2026-04-16-dplora-comparator-release-review.md`
+
+Selection verdict:
+
+- `WB-6` now closes as `positive`
+- the next honest white-box question is still:
+  - `baseline vs SMP-LoRA vs W-1 comparator`
+- immediate GPU release remains `none`
+- current `DP-LoRA` lane stays `positive but bounded`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.5 Infrastructure, automation, and agent leverage
@@ -1567,7 +1598,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-17` defended-extension feasibility review is now closed.
+`WB-6` DP-LoRA comparator release review is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -1578,30 +1609,31 @@ Current release posture:
 
 ### Next
 
-1. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
-2. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
-3. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
-4. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
-5. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
-6. ✅ `GB-12` Noise-as-a-Probe threshold hardening
-7. ✅ `GB-11` Noise-as-a-Probe expansion repeat
-8. ✅ `GB-10` Noise-as-a-Probe first expansion rung
-9. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
-10. ✅ `GB-8` Noise-as-a-Probe canary scaffold
-11. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
-12. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
-13. ✅ `GB-5` genuinely-new-family selector
-14. ✅ `WB-5` DP-LoRA comparability dossier
-15. ✅ `BB-6` same-protocol cross-method score package
-16. ✅ `WB-3` white-box defense breadth
-17. ✅ `GB-1` second gray-box defense
-18. ✅ `BB-1` second-signal black-box expansion
-19. ✅ `INF-2` research automation health
-20. ✅ `INF-3` subagent leverage experiments
-21. ✅ `WB-4` white-box feature/trajectory upgrade
-22. ✅ `X-3` system-consumable sync
-23. ✅ `BB-3` CLiD boundary-quality upgrade
-24. ✅ `X-4` cross-box exploration lane
+1. ✅ `WB-6` DP-LoRA comparator release review
+2. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
+3. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
+4. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
+5. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
+6. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
+7. ✅ `GB-12` Noise-as-a-Probe threshold hardening
+8. ✅ `GB-11` Noise-as-a-Probe expansion repeat
+9. ✅ `GB-10` Noise-as-a-Probe first expansion rung
+10. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
+11. ✅ `GB-8` Noise-as-a-Probe canary scaffold
+12. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
+13. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
+14. ✅ `GB-5` genuinely-new-family selector
+15. ✅ `WB-5` DP-LoRA comparability dossier
+16. ✅ `BB-6` same-protocol cross-method score package
+17. ✅ `WB-3` white-box defense breadth
+18. ✅ `GB-1` second gray-box defense
+19. ✅ `BB-1` second-signal black-box expansion
+20. ✅ `INF-2` research automation health
+21. ✅ `INF-3` subagent leverage experiments
+22. ✅ `WB-4` white-box feature/trajectory upgrade
+23. ✅ `X-3` system-consumable sync
+24. ✅ `BB-3` CLiD boundary-quality upgrade
+25. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
@@ -1704,6 +1736,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 12:10 | Closed `GB-15` positively: `Noise as a Probe` is now strong enough to count as a strengthened bounded challenger candidate, but it still should not replace `TMIA-DM` as the strongest packaged gray-box challenger because it lacks same-protocol comparability, defended evidence, and higher-layer operating-point comparison |
 | 2026-04-16 12:20 | Closed `GB-16` positively: the higher-layer gray-box summary is now synchronized to current truth, replacing stale `SecMI blocked / TMIA intake-only` wording with `SecMI corroboration / TMIA packaged challenger / Noise as a Probe strengthened bounded challenger candidate` while preserving `PIA` as the headline |
 | 2026-04-16 12:35 | Closed `GB-17` as `negative but useful`: `Noise as a Probe` still has no honest minimal defended-extension gate on the current local `SD1.5` contract, because direct `stochastic-dropout` port is not real on a U-Net whose dropout modules all sit at `p=0.0`, and direct `temporal-striding` would redefine the attack rather than add a bounded defense |
+| 2026-04-16 12:50 | Closed `WB-6` positively: the `DP-LoRA` successor lane should stay alive, but the next honest white-box question is still the frozen `baseline vs SMP-LoRA vs W-1` comparator review rather than immediate GPU validation, because current local SMP-LoRA evidence is bridge-positive yet still lacks a fresh comparator verdict against `W-1` |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
