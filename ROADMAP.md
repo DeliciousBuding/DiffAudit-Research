@@ -356,6 +356,10 @@ Latest follow-up:
   - all three boxes now agree that leakage risk is real, but they support different project roles
   - `black-box = existence proof`, `gray-box = main attack-defense story`, `white-box = depth / upper bound`
   - no new GPU admission question is justified by this analysis alone
+- refreshed `X-4.1` also completes positively after the `DP-LoRA` lane-status downgrade:
+  - the same layered project narrative still holds
+  - and the new white-box truth actually makes it cleaner, because `DP-LoRA / SMP-LoRA` now sits explicitly below top-layer white-box wording as a `metric-split bounded exploration branch`
+  - `gpu_release = none` remains unchanged
 
 Carry-forward rule:
 
