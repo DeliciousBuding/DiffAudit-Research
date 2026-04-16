@@ -360,6 +360,10 @@ Latest follow-up:
   - the same layered project narrative still holds
   - and the new white-box truth actually makes it cleaner, because `DP-LoRA / SMP-LoRA` now sits explicitly below top-layer white-box wording as a `metric-split bounded exploration branch`
   - `gpu_release = none` remains unchanged
+- `X-4.2` score calibration/fusion review now closes as `negative but useful`:
+  - one cross-box scalar would still be dishonest because access level, metric semantics, and narrative role differ materially across boxes
+  - current honest structure remains layered role-based summary, not fused ranking
+  - `gpu_release = none`
 
 Carry-forward rule:
 
