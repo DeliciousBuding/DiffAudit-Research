@@ -6,7 +6,7 @@
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; MoFit is now current-contract hold; CDI contract review and first internal canary both landed; PIA 2048 shared-score surface landed; repaired SecMI 2048 paired surface now also landed and recovers the old strong paired regime; CDI paired-feature scorer design now also landed; CDI paired scorer boundary is now frozen to default-internal-only; summary-layer wording is now synchronized; default-run policy is now frozen; machine-readable contract is now emitted; consumer handoff rule is now also landed; gray-box current gpu question = none`
 - `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；`MoFit` 在当前 local contract 下只给出 tiny weak-positive gap`
-- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；当前下一步转到 `gray-box post-noise contract-shift reselection review`，在 latent-diffusion 同表面对照合同也判成低价值后，重新选择更值得开的 CPU-first lane`
+- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；当前 gray-box 不再继续占用下一条 live CPU-first slot，而是把优先级让给 `white-box post-breadth next-hypothesis selection review`
 - `last updated`: `2026-04-17`
 
 ## 推荐论文
@@ -97,6 +97,7 @@
 - `workspaces/gray-box/2026-04-17-graybox-post-cdi-lane-reselection-review.md`
 - `workspaces/gray-box/2026-04-17-noise-as-probe-promotion-gap-review.md`
 - `workspaces/gray-box/2026-04-17-noise-as-probe-contract-shift-review.md`
+- `workspaces/gray-box/2026-04-17-graybox-post-noise-contract-shift-reselection-review.md`
 - `workspaces/gray-box/runs/cdi-internal-canary-20260416-r1/audit_summary.json`
 - `workspaces/gray-box/runs/cdi-paired-canary-20260417-r3-contract/audit_summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1/summary.json`
@@ -165,6 +166,7 @@
 28. `gray-box post-CDI lane reselection review` 已完成：在 `CDI` boundary / contract / consumer handoff 都冻结后，当前最值得开的灰盒 CPU-first lane 不再是 `TMIA` 包装回环、`SimA` 弱 reopen、`MoFit` hold reopen 或 `structural memorization` 负向重试；新的优先项应是 `Noise as a Probe promotion-gap review`，因为它是当前最强的未升格新机制，而 defended extension 在当前合同上又已明确是 `no-go`
 29. `Noise as a Probe promotion-gap review` 已完成：当前阻止这条线升格的已经不是 execution truth，而是 comparability gap；它运行在 `SD1.5 + celeba_partial_target` 的 latent-diffusion 合同上，无法直接加入当前以 `DDPM/CIFAR10 + PIA/TMIA-DM` 为核心的 packaged challenger board，而 defended extension 又已判成 `no-go`；因此当前下一步不是 promotion 或 GPU，而是先判断是否值得建立一张同表面对照合同
 30. `Noise as a Probe contract-shift review` 已完成：即便把问题放宽到 latent-diffusion 同表面对照合同，当前也不值得建板，因为同表面上只有 `Noise as a Probe` 一条是真正 repeat-positive，`MoFit` 仍只是 tiny weak-positive hold，`structural memorization` 仍是 direction-negative；现在硬建 board 只会制造伪可比性，而不会改变项目级主线判断
+31. `gray-box post-noise contract-shift reselection review` 已完成：在 `Noise as a Probe` 的 promotion-gap 与 contract-shift 都收口后，gray-box 已不再暴露高价值的 immediate next-family CPU lane；当前最诚实的做法不是继续在 latent-diffusion 支线上空转，而是承认 gray-box 进入 `stable mainline + no-new-gpu-question + no immediate next-family ask` 状态，并把下一条 live CPU-first slot 让给 white-box 的新假设选择
 
 ## 2026-04-08 新观察
 

@@ -3095,6 +3095,45 @@ Selection verdict:
 Value: ⭐⭐
 Budget: CPU-only review
 
+#### ⬜ `GB-62` Gray-box post-noise contract-shift reselection review
+
+Goal: decide whether gray-box should still keep the next live CPU-first slot after the `Noise as a Probe` promotion and contract-shift questions both closed negatively
+
+Current read:
+
+- gray-box headline / defended challenger / corroboration / `CDI` extension are all already stable
+- `Noise as a Probe` no longer has either:
+  - an honest direct promotion path, or
+  - an honest latent-diffusion same-surface board worth building now
+- `MoFit` remains hold and `structural memorization` remains negative
+- so the remaining question is lane priority, not another gray-box sub-branch
+
+Tasks:
+
+- [x] `GB-62.1` compare gray-box keep-going vs lane-yield options
+- [x] `GB-62.2` decide whether gray-box still owns the next live CPU-first slot
+- [x] `GB-62.3` freeze the next lane and GPU posture
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-17-graybox-post-noise-contract-shift-reselection-review.md`
+
+Selection verdict:
+
+- `GB-62` now closes as `negative but clarifying`
+- gray-box should now yield the next live CPU-first slot
+- reason:
+  - current gray-box mainline truth is stable
+  - latent-diffusion side branches no longer expose a strong immediate next question
+  - further immediate gray-box reselection would be low-value churn
+- `gpu_release = none`
+- `next_gpu_candidate = none`
+- the next live task is:
+  - `white-box post-breadth next-hypothesis selection review`
+
+Value: ⭐⭐
+Budget: CPU-only reselection
+
 ---
 
 ### 6.4 White-box expansion
@@ -3783,7 +3822,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-61` Noise as a Probe contract-shift review is now closed.
+`GB-62` gray-box post-noise contract-shift reselection review is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -3791,17 +3830,17 @@ Current release posture:
 
 - `gpu_release = none`
 - `next_gpu_candidate = none`
-- `next_live_cpu_lane = gray-box post-noise contract-shift reselection review`
+- `next_live_cpu_lane = white-box post-breadth next-hypothesis selection review`
 
 ### Next
 
-1. ✅ `GB-61` Noise as a Probe contract-shift review
-2. ✅ `GB-60` Noise as a Probe promotion-gap review
-3. ✅ `GB-59` gray-box post-CDI lane reselection review
-4. ✅ `GB-58` CDI paired-scorer consumer handoff note
-5. ✅ `GB-57` CDI paired-scorer machine-readable contract note
-6. ✅ `GB-56` CDI paired-scorer default-run policy note
-7. ✅ `GB-55` CDI paired-scorer summary-layer sync
+1. ✅ `GB-62` gray-box post-noise contract-shift reselection review
+2. ✅ `GB-61` Noise as a Probe contract-shift review
+3. ✅ `GB-60` Noise as a Probe promotion-gap review
+4. ✅ `GB-59` gray-box post-CDI lane reselection review
+5. ✅ `GB-58` CDI paired-scorer consumer handoff note
+6. ✅ `GB-57` CDI paired-scorer machine-readable contract note
+7. ✅ `GB-56` CDI paired-scorer default-run policy note
 8. ✅ `GB-50` SecMI paired-surface repair contract review
 9. ✅ `GB-49` CDI paired-surface mismatch review
 10. ✅ `GB-48` CDI paired-feature extension review
@@ -3977,6 +4016,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-17 00:35 | Closed `GB-59` as `positive`: once `CDI` scorer interpretation was frozen, the highest-value gray-box question was no longer another `CDI` follow-up or a weak-family reopen; the best next CPU-first lane is now `Noise as a Probe promotion-gap review`, because it is the strongest unpromoted new mechanism and its defended-extension path already closed as `no-go`, leaving promotion/comparability as the real blocker; `gpu_release` and `next_gpu_candidate` both remain `none` |
 | 2026-04-17 00:50 | Closed `GB-60` as `negative but clarifying`: `Noise as a Probe` is no longer blocked on execution truth, but it still has no honest direct promotion path because the packaged gray-box challenger board remains anchored on the shared `DDPM/CIFAR10` surface while this branch lives on a separate `SD1.5 + target-family LoRA` latent-diffusion contract; defended extension is also already a `no-go`, so the next CPU-side question becomes `Noise as a Probe contract-shift review`, with `gpu_release` and `next_gpu_candidate` still fixed at `none` |
 | 2026-04-17 01:05 | Closed `GB-61` as `negative but clarifying`: even after widening the question to a latent-diffusion same-surface board, the current evidence still does not justify building one, because `Noise as a Probe` is the only repeat-positive branch there while `MoFit` remains hold and `structural memorization` remains direction-negative; the board would add pseudo-comparability rather than stronger truth, so `gpu_release` and `next_gpu_candidate` remain `none`, and the next live CPU lane becomes `gray-box post-noise contract-shift reselection review` |
+| 2026-04-17 01:20 | Closed `GB-62` as `negative but clarifying`: after both latent-diffusion follow-up questions closed, gray-box no longer exposes a high-value immediate next-family lane; its headline, challenger, corroboration, and internal `CDI` extension are all already stable, so the next live CPU-first slot should now move to `white-box post-breadth next-hypothesis selection review`, while `gpu_release` and `next_gpu_candidate` stay at `none` |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
