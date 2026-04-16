@@ -3057,6 +3057,44 @@ Selection verdict:
 Value: ⭐⭐
 Budget: CPU-only review
 
+#### ⬜ `GB-61` Noise as a Probe contract-shift review
+
+Goal: decide whether it is worth establishing a separate latent-diffusion same-surface comparison contract for `Noise as a Probe`, or whether that would still create low-value pseudo-comparability
+
+Current read:
+
+- `Noise as a Probe` is the only latent-diffusion branch on its current surface with repeat-positive bounded signal
+- `MoFit` on the same broad latent-diffusion target-family direction is still `current-contract hold`
+- `structural memorization` on the same broad surface is still direction-negative
+- so the remaining question is whether a latent-diffusion auxiliary board would create real leverage or only more bookkeeping
+
+Tasks:
+
+- [x] `GB-61.1` audit the smallest honest latent-diffusion same-surface board candidate
+- [x] `GB-61.2` decide whether current same-surface evidence is strong enough to justify that board
+- [x] `GB-61.3` freeze the next post-review lane and GPU posture
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-17-noise-as-probe-contract-shift-review.md`
+
+Selection verdict:
+
+- `GB-61` now closes as `negative but clarifying`
+- do **not** build the latent-diffusion same-surface board yet
+- reason:
+  - only `Noise as a Probe` is currently repeat-positive on that surface
+  - `MoFit` is still tiny weak-positive under hold
+  - `structural memorization` is still direction-negative
+  - and their score semantics remain too heterogeneous for a strong packaged comparator board
+- `gpu_release = none`
+- `next_gpu_candidate = none`
+- the next live task is:
+  - `gray-box post-noise contract-shift reselection review`
+
+Value: ⭐⭐
+Budget: CPU-only review
+
 ---
 
 ### 6.4 White-box expansion
@@ -3745,7 +3783,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-60` Noise as a Probe promotion-gap review is now closed.
+`GB-61` Noise as a Probe contract-shift review is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -3753,17 +3791,17 @@ Current release posture:
 
 - `gpu_release = none`
 - `next_gpu_candidate = none`
-- `next_live_cpu_lane = Noise as a Probe contract-shift review`
+- `next_live_cpu_lane = gray-box post-noise contract-shift reselection review`
 
 ### Next
 
-1. ✅ `GB-60` Noise as a Probe promotion-gap review
-2. ✅ `GB-59` gray-box post-CDI lane reselection review
-3. ✅ `GB-58` CDI paired-scorer consumer handoff note
-4. ✅ `GB-57` CDI paired-scorer machine-readable contract note
-5. ✅ `GB-56` CDI paired-scorer default-run policy note
-6. ✅ `GB-55` CDI paired-scorer summary-layer sync
-7. ✅ `GB-54` CDI paired-scorer boundary review
+1. ✅ `GB-61` Noise as a Probe contract-shift review
+2. ✅ `GB-60` Noise as a Probe promotion-gap review
+3. ✅ `GB-59` gray-box post-CDI lane reselection review
+4. ✅ `GB-58` CDI paired-scorer consumer handoff note
+5. ✅ `GB-57` CDI paired-scorer machine-readable contract note
+6. ✅ `GB-56` CDI paired-scorer default-run policy note
+7. ✅ `GB-55` CDI paired-scorer summary-layer sync
 8. ✅ `GB-50` SecMI paired-surface repair contract review
 9. ✅ `GB-49` CDI paired-surface mismatch review
 10. ✅ `GB-48` CDI paired-feature extension review
@@ -3938,6 +3976,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-17 00:20 | Closed `GB-58` as `positive`: higher-layer consumers now have an explicit paired-`CDI` read order and anti-overclaim rule; `Leader/materials` should consume contract-first and keep to boundary flags plus notes, while any future `Platform/Runtime` consumer must hard-gate on the machine-readable contract and keep scorer weights/details diagnostic-only, so `gpu_release` remains `none` and the next live CPU lane becomes `gray-box post-CDI lane reselection review` |
 | 2026-04-17 00:35 | Closed `GB-59` as `positive`: once `CDI` scorer interpretation was frozen, the highest-value gray-box question was no longer another `CDI` follow-up or a weak-family reopen; the best next CPU-first lane is now `Noise as a Probe promotion-gap review`, because it is the strongest unpromoted new mechanism and its defended-extension path already closed as `no-go`, leaving promotion/comparability as the real blocker; `gpu_release` and `next_gpu_candidate` both remain `none` |
 | 2026-04-17 00:50 | Closed `GB-60` as `negative but clarifying`: `Noise as a Probe` is no longer blocked on execution truth, but it still has no honest direct promotion path because the packaged gray-box challenger board remains anchored on the shared `DDPM/CIFAR10` surface while this branch lives on a separate `SD1.5 + target-family LoRA` latent-diffusion contract; defended extension is also already a `no-go`, so the next CPU-side question becomes `Noise as a Probe contract-shift review`, with `gpu_release` and `next_gpu_candidate` still fixed at `none` |
+| 2026-04-17 01:05 | Closed `GB-61` as `negative but clarifying`: even after widening the question to a latent-diffusion same-surface board, the current evidence still does not justify building one, because `Noise as a Probe` is the only repeat-positive branch there while `MoFit` remains hold and `structural memorization` remains direction-negative; the board would add pseudo-comparability rather than stronger truth, so `gpu_release` and `next_gpu_candidate` remain `none`, and the next live CPU lane becomes `gray-box post-noise contract-shift reselection review` |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
