@@ -15,13 +15,23 @@ from scipy.stats import ttest_ind
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run a bounded internal CDI-style collection canary.")
     parser.add_argument("--run-root", type=Path, required=True)
-    parser.add_argument("--secmi-scores", type=Path, required=True)
+    parser.add_argument("--secmi-scores", type=Path, default=None)
+    parser.add_argument("--secmi-run-root", type=Path, default=None)
     parser.add_argument("--pia-scores", type=Path, default=None)
+    parser.add_argument(
+        "--paired-scorer",
+        choices=("none", "control-z-linear"),
+        default="none",
+        help="Optional paired scorer fitted only on the control split and applied to the test split.",
+    )
     parser.add_argument("--control-size", type=int, default=512)
     parser.add_argument("--test-size", type=int, default=512)
     parser.add_argument("--resamples", type=int, default=1)
     parser.add_argument("--seed", type=int, default=0)
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.secmi_scores is None and args.secmi_run_root is None:
+        parser.error("One of --secmi-scores or --secmi-run-root is required.")
+    return args
 
 
 def load_score_payload(path: Path) -> dict[str, Any]:
@@ -35,6 +45,22 @@ def load_score_payload(path: Path) -> dict[str, Any]:
         "nonmember_scores": nonmember_scores,
         "member_indices": member_indices,
         "nonmember_indices": nonmember_indices,
+    }
+
+
+def load_score_payload_from_run_root(run_root: Path) -> dict[str, Any]:
+    member_path = run_root / "secmi_member_scores.npy"
+    nonmember_path = run_root / "secmi_nonmember_scores.npy"
+    if not member_path.exists() or not nonmember_path.exists():
+        raise FileNotFoundError(
+            f"Expected SecMI score arrays under {run_root}, but found member={member_path.exists()} "
+            f"nonmember={nonmember_path.exists()}."
+        )
+    return {
+        "member_scores": np.load(member_path).astype(float).tolist(),
+        "nonmember_scores": np.load(nonmember_path).astype(float).tolist(),
+        "member_indices": None,
+        "nonmember_indices": None,
     }
 
 
@@ -79,11 +105,96 @@ def _vector(values: list[float], indices: list[int]) -> np.ndarray:
     return np.asarray([float(values[idx]) for idx in indices], dtype=float)
 
 
+def _safe_std(values: np.ndarray) -> float:
+    std = float(np.std(values, ddof=0))
+    return std if std > 1e-12 else 1.0
+
+
+def build_control_z_linear_paired_scorer(
+    *,
+    collections: dict[str, list[int]],
+    secmi_payload: dict[str, Any],
+    pia_payload: dict[str, Any],
+) -> dict[str, Any]:
+    feature_payloads = {
+        "secmi_stat": secmi_payload,
+        "pia": pia_payload,
+    }
+    split_map = {
+        "P_ctrl": ("member_scores", collections["P_ctrl"]),
+        "P_test": ("member_scores", collections["P_test"]),
+        "U_ctrl": ("nonmember_scores", collections["U_ctrl"]),
+        "U_test": ("nonmember_scores", collections["U_test"]),
+    }
+
+    feature_details: dict[str, dict[str, Any]] = {}
+    positive_gaps: dict[str, float] = {}
+    for feature_name, payload in feature_payloads.items():
+        ctrl_member = _vector(payload["member_scores"], collections["P_ctrl"])
+        ctrl_nonmember = _vector(payload["nonmember_scores"], collections["U_ctrl"])
+        ctrl_all = np.concatenate([ctrl_member, ctrl_nonmember])
+        center = float(ctrl_all.mean())
+        scale = _safe_std(ctrl_all)
+
+        z_vectors: dict[str, np.ndarray] = {}
+        for split_name, (score_key, indices) in split_map.items():
+            raw_values = _vector(payload[score_key], indices)
+            z_vectors[split_name] = (raw_values - center) / scale
+
+        control_gap = float(z_vectors["P_ctrl"].mean() - z_vectors["U_ctrl"].mean())
+        positive_gaps[feature_name] = max(control_gap, 0.0)
+        feature_details[feature_name] = {
+            "center": center,
+            "scale": scale,
+            "control_gap": control_gap,
+            "z_vectors": z_vectors,
+        }
+
+    total_gap = float(sum(positive_gaps.values()))
+    if total_gap <= 1e-12:
+        weight = 1.0 / float(len(feature_payloads))
+        weights = {name: weight for name in feature_payloads}
+    else:
+        weights = {name: positive_gaps[name] / total_gap for name in feature_payloads}
+
+    paired_vectors: dict[str, np.ndarray] = {}
+    for split_name in split_map:
+        paired_vectors[split_name] = sum(
+            weights[name] * feature_details[name]["z_vectors"][split_name] for name in feature_payloads
+        )
+
+    paired_stats = one_sided_welch_greater(paired_vectors["P_test"], paired_vectors["U_test"])
+    return {
+        "name": "control-z-linear",
+        "weights": weights,
+        "features": {
+            name: {
+                "center": details["center"],
+                "scale": details["scale"],
+                "control_gap": details["control_gap"],
+            }
+            for name, details in feature_details.items()
+        },
+        "vectors": paired_vectors,
+        "feature_vectors": {
+            name: details["z_vectors"] for name, details in feature_details.items()
+        },
+        "metrics": {
+            "paired_p_test_mean": float(paired_vectors["P_test"].mean()),
+            "paired_u_test_mean": float(paired_vectors["U_test"].mean()),
+            "paired_t_statistic": paired_stats["t_statistic"],
+            "paired_p_value": paired_stats["p_value"],
+            "paired_control_gap": float(paired_vectors["P_ctrl"].mean() - paired_vectors["U_ctrl"].mean()),
+        },
+    }
+
+
 def build_sample_rows(
     *,
     collections: dict[str, list[int]],
     secmi_payload: dict[str, Any],
     pia_payload: dict[str, Any] | None,
+    paired_scorer: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     split_specs = (
@@ -107,6 +218,10 @@ def build_sample_rows(
             }
             if pia_payload is not None:
                 row["pia_score"] = float(pia_payload[score_key][source_idx])
+            if paired_scorer is not None:
+                row["paired_score"] = float(paired_scorer["vectors"][split_name][local_idx])
+                row["secmi_z_score"] = float(paired_scorer["feature_vectors"]["secmi_stat"][split_name][local_idx])
+                row["pia_z_score"] = float(paired_scorer["feature_vectors"]["pia"][split_name][local_idx])
             rows.append(row)
     return rows
 
@@ -128,7 +243,12 @@ def run_internal_canary(args: argparse.Namespace) -> dict[str, Any]:
     args.run_root.mkdir(parents=True, exist_ok=True)
     start = time.perf_counter()
 
-    secmi_payload = orient_memberness(load_score_payload(args.secmi_scores))
+    raw_secmi_payload = (
+        load_score_payload(args.secmi_scores)
+        if args.secmi_scores is not None
+        else load_score_payload_from_run_root(args.secmi_run_root)
+    )
+    secmi_payload = orient_memberness(raw_secmi_payload)
     pia_payload = orient_memberness(load_score_payload(args.pia_scores)) if args.pia_scores is not None else None
 
     collections = build_collection_split(
@@ -138,10 +258,19 @@ def run_internal_canary(args: argparse.Namespace) -> dict[str, Any]:
         test_size=args.test_size,
     )
 
+    paired_scorer = None
+    if pia_payload is not None and args.paired_scorer == "control-z-linear":
+        paired_scorer = build_control_z_linear_paired_scorer(
+            collections=collections,
+            secmi_payload=secmi_payload,
+            pia_payload=pia_payload,
+        )
+
     rows = build_sample_rows(
         collections=collections,
         secmi_payload=secmi_payload,
         pia_payload=pia_payload,
+        paired_scorer=paired_scorer,
     )
 
     secmi_p_test = _vector(secmi_payload["member_scores"], collections["P_test"])
@@ -153,7 +282,11 @@ def run_internal_canary(args: argparse.Namespace) -> dict[str, Any]:
         "track": "gray-box",
         "method": "cdi-internal-canary",
         "surface": "cifar10-ddpm-shared-score-contract",
-        "feature_mode": "secmi-stat-only" if pia_payload is None else "paired-pia-secmi",
+        "feature_mode": (
+            "secmi-stat-only"
+            if pia_payload is None
+            else ("paired-pia-secmi-control-z-linear" if paired_scorer is not None else "paired-pia-secmi")
+        ),
         "control_size": args.control_size,
         "test_size": args.test_size,
         "resamples": args.resamples,
@@ -167,6 +300,7 @@ def run_internal_canary(args: argparse.Namespace) -> dict[str, Any]:
         },
         "analysis": {
             "secmi_memberness_orientation": secmi_payload["memberness_orientation"],
+            "paired_scorer": paired_scorer["name"] if paired_scorer is not None else "none",
         },
         "artifacts": {
             "collections": str((args.run_root / "collections.json").as_posix()),
@@ -193,6 +327,12 @@ def run_internal_canary(args: argparse.Namespace) -> dict[str, Any]:
             }
         )
         summary["analysis"]["pia_memberness_orientation"] = pia_payload["memberness_orientation"]
+    if paired_scorer is not None:
+        summary["metrics"].update(paired_scorer["metrics"])
+        summary["analysis"]["paired_scorer_details"] = {
+            "weights": paired_scorer["weights"],
+            "features": paired_scorer["features"],
+        }
 
     (args.run_root / "collections.json").write_text(
         json.dumps({"collections": collections}, indent=2, ensure_ascii=False),

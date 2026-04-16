@@ -4,6 +4,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import numpy as np
+
 
 def _load_script_module():
     root = Path(__file__).resolve().parents[1]
@@ -62,7 +64,9 @@ class CdiInternalCanaryTests(unittest.TestCase):
             args = module.argparse.Namespace(
                 run_root=root / "run",
                 secmi_scores=secmi_scores,
+                secmi_run_root=None,
                 pia_scores=None,
+                paired_scorer="none",
                 control_size=2,
                 test_size=2,
                 resamples=1,
@@ -125,7 +129,9 @@ class CdiInternalCanaryTests(unittest.TestCase):
             args = module.argparse.Namespace(
                 run_root=root / "run",
                 secmi_scores=secmi_scores,
+                secmi_run_root=None,
                 pia_scores=pia_scores,
+                paired_scorer="none",
                 control_size=2,
                 test_size=2,
                 resamples=1,
@@ -145,6 +151,75 @@ class CdiInternalCanaryTests(unittest.TestCase):
             ]
             self.assertIn("pia_score", rows[0])
             self.assertEqual(rows[0]["source_index"], 10)
+
+    def test_run_internal_canary_emits_control_z_linear_paired_scores(self) -> None:
+        module = _load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            secmi_scores = root / "secmi_scores.json"
+            pia_scores = root / "pia_scores.json"
+            secmi_scores.write_text(
+                json.dumps(
+                    {
+                        "member_scores": [0.95, 0.85, 0.75, 0.65],
+                        "nonmember_scores": [0.05, 0.15, 0.25, 0.35],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            pia_scores.write_text(
+                json.dumps(
+                    {
+                        "member_scores": [10.0, 9.0, 8.0, 7.0],
+                        "nonmember_scores": [1.0, 2.0, 3.0, 4.0],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            args = module.argparse.Namespace(
+                run_root=root / "run",
+                secmi_scores=secmi_scores,
+                secmi_run_root=None,
+                pia_scores=pia_scores,
+                paired_scorer="control-z-linear",
+                control_size=2,
+                test_size=2,
+                resamples=1,
+                seed=0,
+            )
+
+            summary = module.run_internal_canary(args)
+
+            self.assertEqual(summary["feature_mode"], "paired-pia-secmi-control-z-linear")
+            self.assertIn("paired_p_test_mean", summary["metrics"])
+            self.assertIn("paired_u_test_mean", summary["metrics"])
+            self.assertGreater(summary["metrics"]["paired_p_test_mean"], summary["metrics"]["paired_u_test_mean"])
+            weights = summary["analysis"]["paired_scorer_details"]["weights"]
+            self.assertAlmostEqual(sum(weights.values()), 1.0)
+
+            rows = [
+                json.loads(line)
+                for line in (args.run_root / "sample_scores.jsonl").read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            self.assertIn("paired_score", rows[0])
+            self.assertIn("secmi_z_score", rows[0])
+            self.assertIn("pia_z_score", rows[0])
+
+    def test_load_score_payload_from_run_root_reads_npy_artifacts(self) -> None:
+        module = _load_script_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            run_root = Path(tmpdir)
+            np.save(run_root / "secmi_member_scores.npy", np.asarray([0.9, 0.8], dtype=float))
+            np.save(run_root / "secmi_nonmember_scores.npy", np.asarray([0.1, 0.2], dtype=float))
+
+            payload = module.load_score_payload_from_run_root(run_root)
+            self.assertEqual(payload["member_scores"], [0.9, 0.8])
+            self.assertEqual(payload["nonmember_scores"], [0.1, 0.2])
+            self.assertIsNone(payload["member_indices"])
 
     def test_orient_memberness_negates_lower_is_more_member_like_scores(self) -> None:
         module = _load_script_module()
