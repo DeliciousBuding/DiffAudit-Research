@@ -6,7 +6,7 @@
 
 ## 当前一句话
 
-当前仓库已经具备三条攻击线的基本骨架；白盒/灰盒主讲线现在固定为成熟主线 `PIA + GSA/W-1` 加一条保留中的探索主线 `SMP-LoRA / DP-LoRA`。但后者已不再处于“等待 optimizer/lr frontier 放行”的阶段：它已经拿到一张 bounded harmonized local comparator board，并因此从早前的 clean local-win 叙事收缩为 `metric-split bounded exploration branch`。当前 `active GPU question = none`；black-box 的 next-family refresh、gray-box 的 second-defense selection，以及 white-box 的 distinct defended-family import review 都已收口，说明当前三盒都没有新的 ready import/release 题，所以当前优先级应转向 `ranking-sensitive variable search`。
+当前仓库已经具备三条攻击线的基本骨架；白盒/灰盒主讲线现在固定为成熟主线 `PIA + GSA/W-1` 加一条保留中的探索主线 `SMP-LoRA / DP-LoRA`。但后者已不再处于“等待 optimizer/lr frontier 放行”的阶段：它已经拿到一张 bounded harmonized local comparator board，并因此从早前的 clean local-win 叙事收缩为 `metric-split bounded exploration branch`。当前 `active GPU question = none`；black-box 的 next-family refresh、gray-box 的 second-defense selection，以及 white-box 的 distinct defended-family import review 都已收口，而 `GB-64` 又把下一条 gray-box 变量搜索具体收敛到 `PIA vs TMIA-DM confidence-gated switching design review`。
 
 ## 进度总览
 
@@ -33,7 +33,7 @@
   - `Local Mirror` 不提供第二防御家族
 - [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 已把黑盒五件套固定为 decision-grade package，本轮 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json) 又在 CPU 上复算到相同 headline metrics，且不改 admitted 结果
 - [2026-04-10-pia-provenance-split-protocol-delta](../workspaces/gray-box/2026-04-10-pia-provenance-split-protocol-delta.md) 已把 `split shape aligned locally / random-four-split protocol still open / strict redo currently dirty` 三点固定为新的 provenance supplement
-- 当前最值得推进的唯一目标切到：在 black-box candidate refresh、gray-box second-defense selection 与 white-box distinct-family import review 都收口之后，把近端创新压力转向 `ranking-sensitive variable search`；`SMP-LoRA / DP-LoRA` 继续固定为 `bounded exploration branch + no-new-gpu-question`，gray-box 当前保持 `PIA + stochastic-dropout` headline 与 `TMIA-DM + temporal-striding` second-mechanism 结构，white-box 当前仍只有一个真实 defended family，而 black-box 只在 genuinely new family 或真实 asset/boundary change 出现后再复开
+- 当前最值得推进的唯一目标切到：在 black-box candidate refresh、gray-box second-defense selection 与 white-box distinct-family import review 都收口之后，把近端创新压力转向 `PIA vs TMIA-DM confidence-gated switching design review`；`SMP-LoRA / DP-LoRA` 继续固定为 `bounded exploration branch + no-new-gpu-question`，gray-box 当前保持 `PIA + stochastic-dropout` headline 与 `TMIA-DM + temporal-striding` second-mechanism 结构，white-box 当前仍只有一个真实 defended family，而 black-box 只在 genuinely new family 或真实 asset/boundary change 出现后再复开
 
 ## 攻击主线
 

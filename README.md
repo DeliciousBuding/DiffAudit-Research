@@ -66,7 +66,7 @@ DiffAudit 是一个面向扩散模型的隐私风险审计研究仓库。
 - 可持续扩展的测试基线
 - `SecMI` 的真实 full-split 本地执行与 gray-box corroboration line
 - `CDI` 的 first internal canary、repaired paired `2048` surface，以及 default internal paired scorer
-- 当前 `active GPU question = none`；cross-box sync、black-box candidate refresh、gray-box second-defense selection 与 white-box distinct-family import review 都已完成，且白盒也未筛出 import-ready defended family，所以近端优先级已转向 `ranking-sensitive variable search`，而不是机械追加同家族 run
+- 当前 `active GPU question = none`；cross-box sync、black-box candidate refresh、gray-box second-defense selection 与 white-box distinct-family import review 都已完成，而 `GB-64` 又把下一条 gray-box CPU-first lane 收敛到 `PIA vs TMIA-DM confidence-gated switching design review`，而不是机械追加同家族 run
 
 仓库目前还没有完成：
 

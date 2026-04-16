@@ -168,6 +168,7 @@
 30. `Noise as a Probe contract-shift review` 已完成：即便把问题放宽到 latent-diffusion 同表面对照合同，当前也不值得建板，因为同表面上只有 `Noise as a Probe` 一条是真正 repeat-positive，`MoFit` 仍只是 tiny weak-positive hold，`structural memorization` 仍是 direction-negative；现在硬建 board 只会制造伪可比性，而不会改变项目级主线判断
 31. `gray-box post-noise contract-shift reselection review` 已完成：在 `Noise as a Probe` 的 promotion-gap 与 contract-shift 都收口后，gray-box 已不再暴露高价值的 immediate next-family CPU lane；当前最诚实的做法不是继续在 latent-diffusion 支线上空转，而是承认 gray-box 进入 `stable mainline + no-new-gpu-question + no immediate next-family ask` 状态，并把下一条 live CPU-first slot 让给 white-box 的新假设选择
 32. `second gray-box defense mechanism selection review` 已完成：在 black-box candidate refresh 也收口之后，gray-box 当前终于可以把第二防御机制冻结下来；`TMIA-DM late-window + temporal-striding(stride=2)` 是唯一还通过了机制差异、repeat/scale 证据和 narrative 价值三重筛选的候选，而 `epsilon-precision-throttling / epsilon-output-noise / input-gaussian-blur` 都已负结论、`Noise as a Probe` 没有 defended-extension gate、`MoFit` 仍是 hold，因此当前不应再为灰盒开新 GPU 题，下一 CPU-first lane 转给 `distinct white-box defended-family import / selection`
+33. `ranking-sensitive variable search review` 已完成：在 white-box distinct-family import 也收口后，当前最值得开的灰盒变量搜索不应回到 `PIA vs SecMI` 的 naive disagreement 复读，而应转向 `PIA vs TMIA-DM` 的 bounded-positive same-split 组合迹象；因此下一条 CPU-first lane 应具体收敛为 `PIA vs TMIA-DM confidence-gated switching design review`，而不是继续停留在泛化的 `ranking-sensitive variable search` 标签
 
 ## 2026-04-08 新观察
 

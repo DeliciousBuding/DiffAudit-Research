@@ -12,7 +12,7 @@
 - gray-box currently has no immediate next-family execution lane
 - white-box currently has no immediate next-hypothesis execution lane
 - the next live CPU-first priority should therefore move to:
-  - `ranking-sensitive variable search`
+  - `PIA vs TMIA-DM confidence-gated switching design review`
 
 This queue should now be read with three distinctions:
 
@@ -29,12 +29,13 @@ This queue should now be read with three distinctions:
 
 ### 1. `GB-CH-2` Ranking-sensitive variable search
 
-- `status`: `ready-for-selection`
+- `status`: `reviewed / selected`
 - `expected value`: ⭐⭐
 - `mode`: `CPU-only hypothesis writing`
 - `why now`:
   - it stays within gray-box without reopening dead latent-diffusion branches
   - it can still generate a bounded disagreement question without forcing GPU first
+  - current selected next step is `PIA vs TMIA-DM confidence-gated switching design review`
 
 ### 2. `XB-CH-2` Transfer / portability probes
 
