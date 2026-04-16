@@ -68,3 +68,42 @@ def initialize_mofit_scaffold(
         "surrogate_trace_dir": surrogate_trace_dir.as_posix(),
         "embedding_trace_dir": embedding_trace_dir.as_posix(),
     }
+
+
+def append_mofit_record(
+    *,
+    run_root: Path,
+    split: str,
+    file_name: str,
+    prompt_source: str,
+    prompt_text: str,
+) -> dict:
+    traces_root = run_root / "traces"
+    surrogate_trace_dir = traces_root / "surrogate"
+    embedding_trace_dir = traces_root / "embedding"
+    surrogate_trace_dir.mkdir(parents=True, exist_ok=True)
+    embedding_trace_dir.mkdir(parents=True, exist_ok=True)
+
+    safe_stem = Path(file_name).stem
+    record_key = f"{split}-{safe_stem}"
+    surrogate_trace_path = surrogate_trace_dir / f"{record_key}.json"
+    embedding_trace_path = embedding_trace_dir / f"{record_key}.json"
+    surrogate_trace_path.write_text("[]", encoding="utf-8")
+    embedding_trace_path.write_text("[]", encoding="utf-8")
+
+    record = {
+        "split": split,
+        "file_name": file_name,
+        "prompt_source": prompt_source,
+        "prompt_text": prompt_text,
+        "surrogate_trace_path": surrogate_trace_path.as_posix(),
+        "embedding_trace_path": embedding_trace_path.as_posix(),
+        "l_cond": None,
+        "l_uncond": None,
+        "mofit_score": None,
+    }
+
+    records_path = run_root / "records.jsonl"
+    with records_path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(record) + "\n")
+    return record
