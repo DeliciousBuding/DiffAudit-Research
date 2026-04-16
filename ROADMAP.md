@@ -365,6 +365,37 @@ Carry-forward rule:
 Value: ⭐⭐⭐
 Budget: bounded CPU-first, GPU only if justified
 
+#### ✅ `X-5` White-box summary-layer resync
+
+Goal:
+
+- sync the repository-level summary layer after the `DP-LoRA` lane was reduced to a bounded metric-split exploration branch
+
+Tasks:
+
+- [x] `X-5.1` audit whether `docs/comprehensive-progress.md` still reflects old `SMP-LoRA` wording
+- [x] `X-5.2` rewrite white-box and summary-layer wording around current `DP-LoRA` truth
+- [x] `X-5.3` mark whether higher-layer material sync is suggested
+
+Status:
+
+- current summary-layer resync completed
+- canonical evidence anchor:
+  - `workspaces/implementation/2026-04-16-whitebox-summary-layer-resync.md`
+
+Verdict:
+
+- the summary layer was stale
+- it still described `SMP-LoRA` as if the next live question were `T06 optimizer/lr frontier`
+- it now reflects the current bounded truth:
+  - `DP-LoRA / SMP-LoRA` remains alive
+  - but only as a `metric-split bounded exploration branch`
+  - with `gpu_release = none`
+- `competition_material_sync = suggested`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.2 Black-box expansion

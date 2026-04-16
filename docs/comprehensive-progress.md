@@ -6,7 +6,7 @@
 
 ## 当前一句话
 
-当前仓库已经具备三条攻击线的基本骨架；而 `2026-04-13` 这一轮的最新控制进一步把算法主线固定成双线并列：成熟主线是 `PIA + GSA/W-1`，探索主线是 `SMP-LoRA`。后者已经把 `O02/O03/O04` 的三条稳定化尝试全部收口：`no-TF32` 三次结果最终落成 `0.3957 / 0.3838 / 0.5306`，`O04 seed7 run1` 回退到 `AUC=0.5188`，新的 `O03 epoch40 run1` 更进一步回退到 `AUC=0.6349`。因此下一条唯一值得放行的 GPU 问题已收敛为 `T06 optimizer/lr frontier`，而当前 active GPU question 仍保持 `none`，直到 admission packet 被单独放行。
+当前仓库已经具备三条攻击线的基本骨架；而白盒/灰盒主讲线现在固定为成熟主线 `PIA + GSA/W-1` 加一条保留中的探索主线 `SMP-LoRA / DP-LoRA`。但后者已不再处于“等待 optimizer/lr frontier 放行”的阶段：它已经拿到一张 bounded harmonized local comparator board，并因此从早前的 clean local-win 叙事收缩为 `metric-split bounded exploration branch`。当前 active GPU question 仍保持 `none`。
 
 ## 进度总览
 
@@ -33,7 +33,7 @@
   - `Local Mirror` 不提供第二防御家族
 - [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 已把黑盒五件套固定为 decision-grade package，本轮 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json) 又在 CPU 上复算到相同 headline metrics，且不改 admitted 结果
 - [2026-04-10-pia-provenance-split-protocol-delta](../workspaces/gray-box/2026-04-10-pia-provenance-split-protocol-delta.md) 已把 `split shape aligned locally / random-four-split protocol still open / strict redo currently dirty` 三点固定为新的 provenance supplement
-- 当前最值得推进的唯一目标切到：把双主线口径压实，并把 `SMP-LoRA` 的下一题固定成 `T06 optimizer/lr frontier`；`PIA provenance` 继续作为 CPU sidecar blocker；`recon` 当前进入 frozen maintenance，而不是继续扩 run
+- 当前最值得推进的唯一目标切到：把双主线口径压实，并把 `SMP-LoRA / DP-LoRA` 明确固定为 `bounded exploration branch + no-new-gpu-question`；`PIA provenance` 继续作为 CPU sidecar blocker；`recon` 当前进入 frozen maintenance，而不是继续扩 run
 
 ## 攻击主线
 
@@ -126,6 +126,16 @@
   - `DPDM` 的 `strong-v3 3-shadow max256` comparator 为 `AUC = 0.522339`，说明这条更强训练 rung 已经推进到中规模 GPU defended 结果
   - `DPDM` 的 `strong-v3 3-shadow max512` comparator 为 `AUC = 0.5`，说明 stronger training rung 已推进到更大规模 GPU defended 结果
   - `DPDM` 的 `strong-v3 3-shadow full-scale` comparator 为 `AUC = 0.488783`，说明 stronger training rung 已完成 full-scale defended 结果
+  - `DP-LoRA / SMP-LoRA` 当前已经不是 intake-only 候选：
+    - 它先拿到了一张 same-asset local comparator board
+    - 随后在 hardened evaluator 下又得到一张 harmonized local board
+    - 但这张 harmonized board 不是 clean dominance：
+      - frozen `SMP-LoRA` 仍然优于本地 `W-1`
+      - 但 `baseline` 在本地 `AUC` 上优于 frozen `SMP-LoRA`
+    - 因此当前最诚实口径是：
+      - `successor lane alive`
+      - `metric-split bounded local evidence`
+      - `no-new-gpu-question`
   - 当前 same-protocol bridge 的关键训练阻塞已经从“`shadow-02` 无法落盘”收缩到“较高训练规模不稳定”；在清理 orphan `multiprocessing-fork` 后，`batch_size = 32` 已让 `shadow-02 / shadow-03` checkpoint 重新可得
   - 基于这组 batch32 checkpoint，新的 same-protocol diagnostic comparator 已经产出 [dpdm-w1-multi-shadow-comparator-targetmember-sameproto3shadow-batch32-diagnostic-20260409](../workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-sameproto3shadow-batch32-diagnostic-20260409/summary.json)，指标为 `auc=0.541199 / asr=0.515625 / tpr@1%fpr=0.0 / tpr@0.1%fpr=0.0`
   - 这份 batch32 comparator 当前仍是 `runtime-smoke` 级 bridge 诊断结果，不应直接写成新的 admitted 白盒防御主结果
@@ -196,7 +206,7 @@
 ## 当前最短执行顺序
 
 1. 继续把 `PIA + GSA/W-1` 固定为成熟主线，并保持 admitted/system narrative 不漂移
-2. 将 [2026-04-13-smp-lora-t06-optimizer-lr-frontier-admission-packet](../workspaces/intake/2026-04-13-smp-lora-t06-optimizer-lr-frontier-admission-packet.md) 固定为 `SMP-LoRA` 的唯一下一题 packet
+2. 将 `SMP-LoRA / DP-LoRA` 固定为当前 `bounded exploration branch`，并明确当前 `no-new-gpu-question`；只有在出现 genuinely new bounded hypothesis 时才重新放行
 3. 将 [2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 固定为 CPU sidecar blocker，并保持 `workspace-verified + paper-alignment blocked by checkpoint/source provenance` 不漂移
 4. 保持 [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 作为当前黑盒固定包，并明确它继续是 `writing-only / non-GPU / no admitted change`
 4. `variation / Towards` 继续保留为 formal local secondary track，并明确 real-API assets blocked
