@@ -439,6 +439,38 @@ Verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ✅ `X-7` Phase E high-layer doc sync
+
+Goal:
+
+- synchronize the highest-value `Phase E` summary docs after the machine-readable registry was reduced to a sparse-hold surface
+
+Tasks:
+
+- [x] `X-7.1` identify stale `Phase E` ordering wording in high-layer docs
+- [x] `X-7.2` rewrite those docs around current sparse-hold truth
+- [x] `X-7.3` preserve the distinction between document-layer conditional items, intake-only candidates, and executed bounded exploration branches
+
+Status:
+
+- current high-layer doc sync completed
+- canonical evidence anchor:
+  - `workspaces/intake/2026-04-16-phase-e-high-layer-doc-sync-verdict.md`
+
+Verdict:
+
+- `docs/future-phase-e-intake.md` and `docs/reproduction-status.md` were stale
+- they still carried old `DP-LoRA / SecMI unblock / TMIA-DM intake` candidate-ordering wording after the sparse-registry refresh
+- they now reflect the current honest split:
+  - `PIA paper-aligned confirmation = document-layer conditional only`
+  - `Finding NeMo = the only remaining intake-only candidate, under zero-GPU hold`
+  - `DP-LoRA / SMP-LoRA = bounded exploration branch`
+  - `SecMI = independent corroboration line`
+  - `TMIA-DM = strongest packaged gray-box challenger`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.2 Black-box expansion
@@ -2254,6 +2286,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 07:30 | Tightened the `CLiD` black-box boundary from generic local bridge wording to `evaluator-near local clip-only corroboration`: current target-side outputs are `100 x 5` numeric matrices after header-skip, but full `cal_clid_th.py` alignment remains blocked on missing shadow-side files and cache-root leakage in the executed rung header |
 | 2026-04-16 07:40 | Added a reusable zero-GPU `CLiD` threshold-compatibility audit tool and ran it on the current target100 rung; the result is now machine-readable (`target_pair.ready=true`, `shadow_pair.ready=false`) and closes the current `BB-3` boundary-tightening step without pretending to have a paper-aligned benchmark |
 | 2026-04-16 14:45 | Closed `X-6` positively: `phase-e-candidates.json` had become stale again after recent lane-status closures, so the registry is now refreshed into a sparse-hold posture; `DP-LoRA` is removed because it is no longer intake-only, `SecMI unblock` is removed because it no longer matches repo truth, and `Finding NeMo` remains the only intake-only candidate while `PIA paper-aligned confirmation` stays document-layer conditional only |
+| 2026-04-16 15:00 | Closed `X-7` positively: the highest-value `Phase E` summary docs are now aligned to the sparse-hold registry; `PIA paper-aligned confirmation` remains document-layer conditional only, `Finding NeMo` is the only remaining intake-only candidate under zero-GPU hold, and the old `DP-LoRA / SecMI unblock / TMIA-DM intake` candidate-ordering wording has been removed in favor of current lane truth |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |

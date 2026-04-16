@@ -67,7 +67,7 @@
 16. 当前 `white-box same-protocol bridge` 已正式以 `保持冻结` 收口；这是一条治理与资源排序决策，不是新的 benchmark 结果，也不改 admitted 合同。
 17. 截至当前，[2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 已 closed 为 `remain long-term blocker`；因此当前 `PIA` 最强口径继续固定为 `workspace-verified + paper-aligned blocked by checkpoint/source provenance`。
 18. [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 已把 `recon` 黑盒五件套冻结为 decision-grade package；在 `2026-04-12` 的 GPU 利用率重规划后，当前唯一 released GPU question 先切到 `SMP-LoRA O01` 的 `lambda=0.05` rescue run，但该 run 最终 stalled 于 `step_10200`，且 salvage evaluation 为 `AUC=0.5770 / Accuracy=0.5`、差于 baseline `AUC=0.5565`。随后 `O02` 的同路径结果继续扩展为：`rank1(batch12 throughput)=0.4056 / 0.4264 / 0.4773`、`rank1(batch12 legacy)=0.4224`、`rank1(batch13 throughput)=0.4482`、`rank1(batch14 throughput)=0.3708 / 0.4188 / 0.2971 / 0.4083 / 0.5250 / 0.4929 / 0.4431`、`rank1(batch14 legacy)=0.6485`、`rank1(batch14 workers4)=0.65625`、`rank1(batch14 workers6)=0.5322`、`rank1(batch14 no-bench)=0.6389`、`rank1(batch14 no-TF32)=0.3957`、`rank1(batch14 seed123)=0.6222`、`rank1(batch14 seed42)=0.6625`、`rank1(batch15 throughput)=0.3139 / 0.6250`、`rank1(batch16 throughput)=0.5554`、`rank2(batch12 throughput)=0.4847`、`rank4(batch12 throughput)=0.5532`、`rank4(batch8 throughput)=0.6159`、`rank4(batch8 legacy replay1/rerun2)=0.4872 / 0.4944`。这说明 `batch13` 没有超过 `batch12` 带宽，`batch15` 不是可复现最优而是 unstable no-go，`batch16` 已明确退化，而 `batch14` 虽然凭吞吐路径成为当前最强候选，但它的七次 workers8 结果仍只能支持 `strongest candidate with variance note`。`batch14 legacy=0.6485` 继续证明收益依赖 throughput_mode；`workers4/6`、`no-bench`、`seed123/42` 都没有给出稳定化答案，`no-TF32` 只有一次正向样本。当前 `active_gpu_question` 已回到 `none`，`PIA provenance` 保持 CPU sidecar blocker，`split/protocol mismatch` 继续只保留为边界与 review gate。
-19. `Phase E` 当前允许进入准入验证，但不允许直接开跑。当前准入验证优先顺序已改为：`SMP-LoRA T06 optimizer/lr frontier` > `Finding NeMo + local memorization + FB-Mem` > `SecMI unblock` > `TMIA-DM intake`；`PIA paper-aligned confirmation` 继续只保留文档层条件位，不构成当前 GPU release。
+19. `Phase E` 当前仍只允许进入准入验证，不允许直接开跑；但 machine-readable 候选面现在已经进一步收缩成 `sparse-hold`：`PIA paper-aligned confirmation` 继续只保留文档层条件位，而 `Finding NeMo + local memorization + FB-Mem` 是当前唯一 remaining intake-only candidate，且状态固定为 `zero-GPU hold`，不构成当前 GPU release。
 20. 新的 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md) 与 [2026-04-10-phase-e-finding-nemo-intake-hold-decision](../workspaces/intake/2026-04-10-phase-e-finding-nemo-intake-hold-decision.md) 已把 `Finding NeMo + local memorization + FB-Mem` 固定为 `intake/eligibility only + zero-GPU hold`；当前不授权任何新长 GPU run，也不把它写成当前最小 smoke 可申请项。
 21. 新的 [2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 已明确当前 admitted 白盒资产与 `Finding NeMo` 原始 `Stable Diffusion v1.4 / cross-attention value layers` 面不兼容；当前只允许继续推进 zero-GPU 的 `portable observability smoke` 规划。
 22. 新的 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 已把未来 smoke 的 `checkpoint_root / layer selector / sample binding / output schema / scheduler gate` 写成 review-ready 合同；当前仓内既有 `read-only contract probe`，也有 CPU-only activation export adapter。
@@ -84,34 +84,34 @@
    - 当前结论只成立于 `fine-tuned / controlled / public-subset / proxy-shadow-member` 语义下
    - 不等于真实预训练模型版权取证已成立
 26.2 本轮新的 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json) 已在 CPU 上复算出 `auc=0.849 / asr=0.51 / tpr@1%fpr=1.0`；它只构成 `non-GPU artifact-mainline reverify`，不构成 admitted upgrade。
-27. 新的 [2026-04-10-phase-e-intake-ordering-review](../workspaces/intake/2026-04-10-phase-e-intake-ordering-review.md) 已把 `Phase E` 队列正式拆成：
+27. 新的 [2026-04-10-phase-e-intake-ordering-review](../workspaces/intake/2026-04-10-phase-e-intake-ordering-review.md) 与 [2026-04-16-phase-e-sparse-registry-refresh-verdict](../workspaces/intake/2026-04-16-phase-e-sparse-registry-refresh-verdict.md) 已把当前 `Phase E` 候选面固定成：
    - 文档层条件排序：`PIA paper-aligned confirmation`
-   - 准入验证优先顺序：`Finding NeMo > DP-LoRA > SecMI unblock > TMIA-DM intake`
+   - intake-only sparse hold：`Finding NeMo`
 27.1 新的 [2026-04-10-intake-registry-phase-e-boundary-review](../workspaces/intake/2026-04-10-intake-registry-phase-e-boundary-review.md) 与 [phase-e-candidates.json](../workspaces/intake/phase-e-candidates.json) 已把 machine-readable candidate ordering 从 `index.json.entries[]` 中剥离；当前必须保持：
    - `index.json.entries[] = promoted / system-intake-ready contracts only`
    - `phase-e-candidates.json = candidate ordering / status only`
    - `phase-e-candidates.json` 不构成 `Local-API` promoted contract surface
-28. 新的 [2026-04-10-dplora-comparability-intake](../workspaces/intake/2026-04-10-dplora-comparability-intake.md) 已把 `DP-LoRA` 固定为：
-   - `current_verdict = not-yet`
-   - `comparability / intake hardening only`
-   - 不构成 execution release、GPU release 或 `W-1` 替代宣告
-29. 新的 [2026-04-10-secmi-unblock-decision](../workspaces/gray-box/2026-04-10-secmi-unblock-decision.md) 已把 `SecMI` 固定为：
-   - `current_verdict = not-yet`
-   - `current_state = blocked baseline`
-   - blocker 继续是 `real flagfile + matching checkpoint root`
-30. 新的 [2026-04-10-tmia-dm-intake-decomposition](../workspaces/gray-box/2026-04-10-tmia-dm-intake-decomposition.md) 已把 `TMIA-DM` 固定为：
-   - `current_verdict = not-yet`
-   - `current_shape = protocol-and-asset decomposition intake`
-   - 继续是 gray-box 候选，不构成 black-box 执行线或当前 gray-box 执行线
+28. `DP-LoRA / SMP-LoRA` 当前已经不再是 intake-only 候选；它已走完一条 executed white-box exploration lane，并被固定为：
+   - `metric-split bounded exploration branch`
+   - `no-new-gpu-question`
+   - 不构成当前 intake review priority，也不构成当前 GPU release
+29. `SecMI` 当前也不再是 `SecMI unblock`；它已固定为：
+   - `independent corroboration line`
+   - 不再属于 asset-blocked baseline reopen
+   - 不再属于当前 `Phase E` intake-only candidate ordering
+30. `TMIA-DM` 当前也不再是 intake decomposition 项；它已固定为：
+   - `strongest packaged gray-box challenger`
+   - 不再属于当前 `Phase E` intake-only candidate ordering
+   - 不构成 black-box 执行线
 
 ## 下一步
 
 1. 固定 `PIA + GSA/W-1` 为成熟主线，并保持 admitted/system narrative 一致。
-2. 将 `SMP-LoRA` 的下一题固定为 [2026-04-13-smp-lora-t06-optimizer-lr-frontier-admission-packet](../workspaces/intake/2026-04-13-smp-lora-t06-optimizer-lr-frontier-admission-packet.md)。
+2. 将 `SMP-LoRA / DP-LoRA` 的当前状态固定为 `bounded exploration branch + no-new-gpu-question`，只有在出现 genuinely new bounded hypothesis 时才允许重开。
 3. 将 `PIA provenance` 的当前状态固定为 `remain long-term blocker`，保持 `workspace-verified + paper-alignment blocked by checkpoint/source provenance` 一致口径。
 4. 把 `Finding NeMo + local memorization + FB-Mem` 保持为当前最完整的 intake dossier，并继续只做准入验证，不直接开跑。
 5. 保持 [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 为当前冻结黑盒包，并把外围叙事文档中的 `main evidence / best single metric reference / secondary track / boundary / explanation` 角色区分全部对齐。
-6. `SecMI` 继续维持 `blocked baseline`；只有在真实 checkpoint root 与 `flagfile.txt` 到位后才恢复到准入验证。
+6. `SecMI` 继续维持 `independent corroboration line`，不再回退成 `blocked baseline`。
 7. 在新的 decisive evidence 或结构性 blocker 出现前，白盒 bridge 保持 `closed-frozen`，不得重新打开。
 
-更新时间：`2026-04-10 22:51:31 +08:00`
+更新时间：`2026-04-16 15:00:00 +08:00`

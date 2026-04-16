@@ -25,9 +25,6 @@
 
 1. `PIA paper-aligned confirmation`
 2. `Finding NeMo + local memorization + FB-Mem`
-3. `DP-LoRA`
-4. `SecMI unblock`
-5. `TMIA-DM intake`
 
 ## 当前正式解释
 
@@ -37,11 +34,8 @@
    - 文档层条件性第 1 顺位
    - 当前执行层 `no-go`
 2. `Finding NeMo + local memorization + FB-Mem`
-3. `DP-LoRA`
-4. `SecMI unblock`
-5. `TMIA-DM intake`
 
-其中 2-5 才构成当前准入验证优先顺序。
+其中只有 2 仍构成当前 intake-only 准入验证优先顺序，而且它当前仍是 `zero-GPU hold`。
 
 ## 1. PIA paper-aligned confirmation
 
@@ -241,30 +235,29 @@
 ## 当前默认规则
 
 - 只要 `PIA provenance` 在窗口内解除，`PIA paper-aligned confirmation` 就保持第一优先
-- 当前 `PIA provenance dossier` 已 closed 为 `remain long-term blocker`，因此当前只保留 `Finding NeMo + local memorization + FB-Mem` 作为最完整的 intake dossier 参考，不把它写成当前 queue 偏好
+- 当前 `PIA provenance dossier` 已 closed 为 `remain long-term blocker`，因此当前只保留 `Finding NeMo + local memorization + FB-Mem` 作为唯一 remaining intake-only candidate，不把它写成当前 queue 偏好
 - 在 provenance blocker 未发生实质变化前，`PIA paper-aligned confirmation` 不计入当前可释放队列，也不计入当前准入验证优先顺序
 - 这里的 `decision-grade` 只指 intake/eligibility 决策质量，不指 admitted 升级，不指 benchmark-ready，也不指 GPU 已放行
-- `DP-LoRA` 不抢第一条新问题
-- `SecMI` 与 `TMIA-DM` 继续后排
 - `Finding NeMo` 当前虽然仍列在 intake review priority #1，但状态已固定为 `zero-GPU hold`
+- `DP-LoRA / SMP-LoRA` 已不再停留在 intake-only 候选面，而是已经进入并完成一条 bounded exploration branch
+- `SecMI unblock` 与 `TMIA-DM intake` 也都已移出当前 intake-only 候选排序面
 - 单卡长期排程见 [2026-04-10-rtx4070-8gb-long-horizon-plan](../workspaces/implementation/2026-04-10-rtx4070-8gb-long-horizon-plan.md)
 - 上述长期排程不改变候选排序；它只额外规定：在 `Finding NeMo` 继续 `zero-GPU hold` 的前提下，它不进入实际 GPU 预排程
-- 因此当前最值得准备 release-review packet 的 GPU 候选是 `DP-LoRA comparability ladder`，而不是直接放行 `Finding NeMo`
 
 ## 当前准入验证优先顺序
 
 在真正进入下一条 GPU 题的准入验证时，当前候选审查顺序为：
 
 1. `Finding NeMo + local memorization + FB-Mem`
-2. `DP-LoRA`
-3. `SecMI unblock`
-4. `TMIA-DM intake`
 
 补充说明：
 
 - `PIA paper-aligned confirmation` 继续保留文档层条件性第 1 顺位
 - 但在 provenance 条件未变化前，不进入执行层
 - `Finding NeMo + local memorization + FB-Mem` 当前只是当前最完整的 intake dossier 参考，不构成当前 GPU release，也不构成近期待申请项
+- `DP-LoRA / SMP-LoRA` 当前应读作已执行过的 bounded exploration branch，而不是当前 intake-only 候选
+- `SecMI` 当前应读作独立 corroboration line，而不是 `SecMI unblock`
+- `TMIA-DM` 当前应读作 strongest packaged gray-box challenger，而不是 `TMIA-DM intake`
 - 这份“准入验证优先顺序”不等于现在立刻执行；它只定义未来 intake review 的顺序
 
 ## 当前明确不做
