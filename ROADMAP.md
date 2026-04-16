@@ -2297,6 +2297,87 @@ Selection verdict:
 Value: ⭐⭐
 Budget: CPU-only
 
+#### ⬜ `GB-41` Post-MoFit gray-box next-family reselection
+
+Goal: decide which bounded live lane is now most worth opening after `MoFit` closed as `current-contract hold` and all three boxes still say `gpu_release = none`
+
+Current read:
+
+- black-box is already stabilized at `no-new-gpu-question`
+- white-box reopen candidates remain either `zero-GPU hold` or `metric-split bounded exploration branch + no-new-gpu-question`
+- gray-box still offers the best project-level story impact, but its current single-sample side branches are now closed, held, or already packaged
+- the next honest move is therefore another bounded gray-box family / contract selection, not more `MoFit` runtime
+
+Tasks:
+
+- [x] `GB-41.1` compare black-box hold, white-box reconsideration, old gray-box branch reopen, and remaining genuinely new gray-box directions
+- [x] `GB-41.2` select one next live lane and reject the weaker alternatives for now
+- [x] `GB-41.3` define the immediate first task shape for the selected lane
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-post-mofit-next-family-reselection.md`
+
+Selection verdict:
+
+- `GB-41` now closes as `positive`
+- the selected next live lane is:
+  - `GB-42 CDI protocol / asset contract`
+- reason:
+  - current repo already has reusable `PIA / SecMI` gray-box score surfaces on a shared local `CIFAR-10 DDPM` contract
+  - `CDI` opens a genuinely new `collection-level audit / evidence aggregation` direction with stronger audit-facing value than another single-sample rerun
+  - `SIDe` remains more bridge-like and less immediately reusable on current repo surfaces
+- `gpu_release = none`
+- `next_gpu_candidate = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
+#### ⬜ `GB-42` CDI protocol / asset contract
+
+Goal: decide whether the current repo can support one honest first `CDI`-style gray-box collection-level audit lane, and freeze the minimum contract before any execution claim
+
+Current read:
+
+- `GB-41` already selected `CDI` as the next live lane
+- current repo already has:
+  - mature gray-box signal producers (`PIA`, `SecMI`)
+  - same-split comparison truth
+  - machine-readable per-sample score artifacts on the shared local `CIFAR-10 DDPM` surface
+- current repo still lacks:
+  - `P/U/control/test` collection schema
+  - set-level significance pipeline
+  - first audit-summary artifact contract
+
+Tasks:
+
+- [x] `GB-42.1` freeze one honest local target family and initial score source
+- [x] `GB-42.2` define the minimum artifact schema for a first `CDI`-style internal audit canary
+- [x] `GB-42.3` record explicit no-go triggers and the next contract-first follow-up task
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-cdi-protocol-asset-contract.md`
+
+Selection verdict:
+
+- `GB-42` now closes as `positive but bounded`
+- the repo is ready for a real `CDI` contract-first lane
+- but only as:
+  - `gray-box collection-level audit extension`
+  - `CPU-only`
+  - `paper-inspired, not paper-faithful`
+- the selected local surface is:
+  - `CIFAR-10 DDPM` shared-score contract
+- the selected initial signal source is:
+  - existing gray-box per-sample score artifacts, starting from `SecMI stat` and optionally paired `PIA`
+- the next honest live task is:
+  - `CDI feature / collection-surface review`
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.4 White-box expansion
@@ -2985,7 +3066,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`WB-18` DP-LoRA post-harmonized lane-status review is now closed.
+`GB-42` CDI protocol / asset contract is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -2993,46 +3074,49 @@ Current release posture:
 
 - `gpu_release = none`
 - `next_gpu_candidate = none`
+- `next_live_cpu_lane = CDI feature / collection-surface review`
 
 ### Next
 
-1. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
-2. ✅ `WB-17` DP-LoRA harmonized local board verdict
-3. ✅ `WB-16` DP-LoRA local evaluator hardening
-4. ✅ `WB-15` DP-LoRA secondary-metric harmonization audit
-5. ✅ `WB-14` DP-LoRA next-question review
-6. ✅ `WB-13` DP-LoRA comparator admission packet refresh
-7. ✅ `WB-12` DP-LoRA comparator release-review refresh
-8. ✅ `WB-11` DP-LoRA local comparator board refresh verdict
-9. ✅ `WB-10` DP-LoRA W-1 local-surface refresh feasibility
-10. ✅ `WB-9` DP-LoRA comparator schema-alignment contract
-11. ✅ `WB-8` DP-LoRA comparator artifact-board preflight
-12. ✅ `WB-7` DP-LoRA comparator contract reconciliation
-13. ✅ `WB-6` DP-LoRA comparator release review
-14. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
-15. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
-16. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
-17. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
-18. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
-19. ✅ `GB-12` Noise-as-a-Probe threshold hardening
-20. ✅ `GB-11` Noise-as-a-Probe expansion repeat
-21. ✅ `GB-10` Noise-as-a-Probe first expansion rung
-22. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
-23. ✅ `GB-8` Noise-as-a-Probe canary scaffold
-24. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
-25. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
-26. ✅ `GB-5` genuinely-new-family selector
-27. ✅ `WB-5` DP-LoRA comparability dossier
-28. ✅ `BB-6` same-protocol cross-method score package
-29. ✅ `WB-3` white-box defense breadth
-30. ✅ `GB-1` second gray-box defense
-31. ✅ `BB-1` second-signal black-box expansion
-32. ✅ `INF-2` research automation health
-33. ✅ `INF-3` subagent leverage experiments
-34. ✅ `WB-4` white-box feature/trajectory upgrade
-35. ✅ `X-3` system-consumable sync
-36. ✅ `BB-3` CLiD boundary-quality upgrade
-37. ✅ `X-4` cross-box exploration lane
+1. ✅ `GB-42` CDI protocol / asset contract
+2. ✅ `GB-41` Post-MoFit gray-box next-family reselection
+3. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
+4. ✅ `WB-17` DP-LoRA harmonized local board verdict
+5. ✅ `WB-16` DP-LoRA local evaluator hardening
+6. ✅ `WB-15` DP-LoRA secondary-metric harmonization audit
+7. ✅ `WB-14` DP-LoRA next-question review
+8. ✅ `WB-13` DP-LoRA comparator admission packet refresh
+9. ✅ `WB-12` DP-LoRA comparator release-review refresh
+10. ✅ `WB-11` DP-LoRA local comparator board refresh verdict
+11. ✅ `WB-10` DP-LoRA W-1 local-surface refresh feasibility
+12. ✅ `WB-9` DP-LoRA comparator schema-alignment contract
+13. ✅ `WB-8` DP-LoRA comparator artifact-board preflight
+14. ✅ `WB-7` DP-LoRA comparator contract reconciliation
+15. ✅ `WB-6` DP-LoRA comparator release review
+16. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
+17. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
+18. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
+19. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
+20. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
+21. ✅ `GB-12` Noise-as-a-Probe threshold hardening
+22. ✅ `GB-11` Noise-as-a-Probe expansion repeat
+23. ✅ `GB-10` Noise-as-a-Probe first expansion rung
+24. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
+25. ✅ `GB-8` Noise-as-a-Probe canary scaffold
+26. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
+27. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
+28. ✅ `GB-5` genuinely-new-family selector
+29. ✅ `WB-5` DP-LoRA comparability dossier
+30. ✅ `BB-6` same-protocol cross-method score package
+31. ✅ `WB-3` white-box defense breadth
+32. ✅ `GB-1` second gray-box defense
+33. ✅ `BB-1` second-signal black-box expansion
+34. ✅ `INF-2` research automation health
+35. ✅ `INF-3` subagent leverage experiments
+36. ✅ `WB-4` white-box feature/trajectory upgrade
+37. ✅ `X-3` system-consumable sync
+38. ✅ `BB-3` CLiD boundary-quality upgrade
+39. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
@@ -3140,6 +3224,8 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 19:10 | Closed `GB-38` as `weak-positive but still below promotion`: the valid micro-rung improves score direction relative to the canary, with member mean `-0.0019168` above nonmember mean `-0.0022683`, but the absolute gap (`0.0003515`) remains small; the next honest live task is one final bounded CPU review rung or a direct hold/no-go if that rung is rejected on cost grounds |
 | 2026-04-16 20:10 | Closed `GB-39` as `weak-positive but still bounded`: after replaying the final bounded CPU review rung on the current environment (`mofit-sd15-celeba-reviewrung-20260416-cpu-r2`), the lane again shows member mean `-0.0039209` above nonmember mean `-0.0044675`, but the gap (`0.0005466`) remains too small for promotion or GPU release |
 | 2026-04-16 20:15 | Closed `GB-40` as `current-contract hold`: with execution feasibility, micro-rung, and final review-rung all closed, the current `MoFit` contract is now documented as execution-positive but signal-weak; further mechanical CPU rung expansion is no longer justified, and reopen requires a materially changed contract rather than more of the same |
+| 2026-04-16 20:35 | Closed `GB-41` positively: after `MoFit` moved to `current-contract hold` and black-box / white-box still remained at `gpu_release = none`, the next honest live lane is not a reopen of old branches but a new gray-box extension; `CDI` wins because it can reuse current `PIA / SecMI` score surfaces to open a collection-level audit direction without new GPU cost |
+| 2026-04-16 20:50 | Closed `GB-42` as `positive but bounded`: the repo is now judged ready for a real `CDI` contract-first lane on the shared local `CIFAR-10 DDPM` score surface, but only as a CPU-only collection-level audit extension; the next live task should freeze reusable per-sample score inputs and the first honest `P/U` collection contract before any execution claim |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |

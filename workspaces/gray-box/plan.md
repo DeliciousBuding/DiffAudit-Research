@@ -4,9 +4,9 @@
 
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
-- `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; gray-box current gpu question = none`
-- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；新的 `MoFit` lane 在 fresh canary、micro-rung 与 final bounded CPU review rung 后仍只给出 tiny weak-positive gap，当前 contract 已不值得继续机械扩`
-- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；灰盒当前 `MoFit` lane 已转入 `current-contract hold`；下一步应切出新的 live lane，或只在 `MoFit` 的 contract 发生实质变化时才重开`
+- `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; MoFit is now current-contract hold; CDI is now selected as the next CPU-first gray-box extension lane; gray-box current gpu question = none`
+- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；`MoFit` 在当前 local contract 下只给出 tiny weak-positive gap；`CDI` 虽已选为下一条 live lane，但集合级 `P/U` schema、set-level significance pipeline 与第一条 canary 合同仍未冻结`
+- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；下一步正式切入 `CDI protocol / asset contract` 与后续 `feature / collection-surface review`，只在 `MoFit` contract 实质变化时才重开`
 - `last updated`: `2026-04-16`
 
 ## 推荐论文
@@ -18,6 +18,7 @@
 - `2025-arxiv-small-noise-injection-membership-inference-diffusion-models.pdf`
 - `2026-crad-temporal-membership-inference-attack-method-diffusion-models.pdf`
 - `2026-openreview-mofit-caption-free-membership-inference.pdf`
+- `2025-cvpr-cdi-copyrighted-data-identification-diffusion-models.pdf`
 
 ## 当前主线与 baseline
 
@@ -77,6 +78,8 @@
 - `workspaces/gray-box/2026-04-16-mofit-cpu-microrung-score-review.md`
 - `workspaces/gray-box/2026-04-16-mofit-final-cpu-reviewrung-verdict.md`
 - `workspaces/gray-box/2026-04-16-mofit-current-contract-hold-verdict.md`
+- `workspaces/gray-box/2026-04-16-post-mofit-next-family-reselection.md`
+- `workspaces/gray-box/2026-04-16-cdi-protocol-asset-contract.md`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-256/summary.json`
@@ -117,25 +120,12 @@
 4. 将灰盒当前状态明确写成 `no-new-gpu-question`，直到出现 genuinely new mechanism 或真实 contract shift
 5. 把 `SecMI` 固定为 `independent corroboration line`，把 `PIA vs SecMI` 固定为 `naive fusion = no-go`
 6. 复用 [2026-04-09-pia-signal-and-cost.md](2026-04-09-pia-signal-and-cost.md) 与 [2026-04-09-graybox-signal-axis-note.md](2026-04-09-graybox-signal-axis-note.md) 维持灰盒主讲线机理与信号轴叙事
-7. 当前下一条 genuinely new family 已重选为 `MoFit`，先做 `protocol / asset contract` 与 implementation-surface review，不提前开 smoke
-8. `MoFit` 当前实现层结论是：必须走 dedicated scaffold，而不是复用 `structural memorization` 或 `semantic-aux` 脚本
-9. `MoFit` 的 dedicated scaffold 名称与 minimum artifact schema 已冻结为 `run_mofit_interface_canary.py + summary.json / records.jsonl / trace artifacts`
-10. dedicated scaffold 已实现并通过单测与 fresh 脚本执行验证，但当前仍只到 `scaffold_only`
-11. record-level placeholder schema 已接入，`records.jsonl` 现在已固定包含 `l_cond / l_uncond / mofit_score` 与 trace paths
-12. score/trace update API 已接入，未来优化循环现在可以把真实 step trace 和 score 写回现有 schema
-13. 最小 optimization helper 已接入，当前可在 toy loss 上验证 surrogate/embedding trace 收敛
-14. latent-path loss contract 已接入，当前 helper、record schema 与 `mofit_score` 语义已经统一
-15. 真实 `UNet`-style target-path helper bridge 已落地，当前 helper 层现在可以接 `UNet(...).sample` 输出并生成 guided target noise
-16. sample-level execution helper 已落地，当前 helper 层现在可以完成 prompt bootstrap、record append/finalize、trace 写回与最终 score writeback
-17. 脚本级实现面已收敛：下一步应扩展现有 `run_mofit_interface_canary.py`，而不是再开第二个 `MoFit` 脚本
-18. script-level canary implementation 已落地，当前 `run_mofit_interface_canary.py` 已能做 bounded orchestration，而不再只是初始化 scaffold
-19. first-launch CPU budget 已在代码里收紧到 `bounded-cpu-first`；当前默认首发配置为 `member=1 / nonmember=1 / surrogate=1 / embedding=2 / cpu`
-20. fresh real-asset canary 已执行成功，但当前 `mofit_score` 在 member/nonmember 上都极接近 `0` 且方向性弱，暂不支持直接放大 rung
-21. `2x2 / 2+4 / cpu` micro-rung 已执行完成；score direction 比 canary 更稳定，但量级仍弱，只能写成 `weak-positive but still below promotion`
-22. final bounded CPU review rung 已在当前环境 replay 复现；gap 虽继续扩大到 `+0.0005466`，但仍属 tiny weak-positive，不足以支撑继续 scale
-23. 当前 `MoFit` lane 已进入 `current-contract hold`：不再继续机械 CPU rung，也不释放 GPU
-24. 只有在 target-family、caption/bootstrap、surrogate objective、embedding objective 或 score definition 发生实质变化时，才允许重开 `MoFit`
-25. 如果 `MoFit` 也被证明不具备 honest bounded entry，再切去别的 lane 处理更高价值问题
+7. `MoFit` 当前最终 verdict 已固定为 `execution-positive but signal-weak / current-contract hold`
+8. `MoFit` 只有在 target-family、caption/bootstrap、surrogate objective、embedding objective 或 score definition 发生实质变化时，才允许重开
+9. 当前下一条 live lane 已重选为 `CDI`
+10. `CDI` 当前应写成 `gray-box collection-level audit extension`，而不是单样本 MIA 替代线
+11. `CDI` 的第一步必须保持 `CPU-only + contract-first`，并冻结 `P/U/control/test` collection schema、首个可复用 score source 与 Welch-`t` audit summary contract
+12. `CDI` 的 honest local surface 当前固定为共享 local `CIFAR-10 DDPM` score contract，不应一开始跳到 `SD1.5`、latent-diffusion 或 white-box-only feature path
 
 ## 2026-04-08 新观察
 
