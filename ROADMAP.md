@@ -633,6 +633,45 @@ Updated verdict:
 
 Value: ⭐⭐⭐
 
+#### ⬜ `BB-7` Post-second-signal black-box next-question review
+
+Goal: decide whether black-box currently still contains any honest new GPU-worthy question, after `semantic-auxiliary-classifier` stabilized as the leading challenger and the current side branches were either bounded, blocked, or closed
+
+Current read:
+
+- `Recon` remains the frozen black-box headline
+- `semantic-auxiliary-classifier` remains the leading second-signal challenger
+- current scoring/fusion work already closed as `negative but useful`
+- `CLiD` is now fixed to `evaluator-near local clip-only corroboration`
+- `variation` is now `contract-ready blocked`
+- the remaining question is therefore lane status and GPU release, not more same-family execution
+
+Tasks:
+
+- [x] `BB-7.1` review whether any current black-box branch still exposes a real new GPU-worthy question
+- [x] `BB-7.2` decide whether current challenger / corroboration / blocked branches justify more bounded execution or should now be frozen
+- [x] `BB-7.3` record the carry-forward rule for future black-box reopen conditions
+
+Canonical evidence anchor:
+
+- `workspaces/black-box/2026-04-16-post-second-signal-blackbox-next-question-review.md`
+
+Selection verdict:
+
+- `BB-7` now closes as `negative but stabilizing`
+- black-box currently has `no-new-gpu-question`
+- current stable hierarchy is:
+  - `Recon = headline`
+  - `semantic-auxiliary-classifier = leading challenger`
+  - `CLiD = corroboration / boundary-only`
+  - `variation = contract-ready blocked`
+- future black-box reopen should require a genuinely new feature family or a real asset/boundary change, not more scoring-only retries or mechanical scale-up
+- `gpu_release = none`
+- `next_gpu_candidate = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.3 Gray-box expansion
@@ -2183,6 +2222,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 07:20 | Completed the defended comparison and system-layer sync: `TMIA + temporal-striding(stride=2)` now supersedes `TMIA + dropout` as the strongest defended gray-box challenger in comparison artifacts and the unified attack-defense table |
 | 2026-04-16 07:30 | Tightened the `CLiD` black-box boundary from generic local bridge wording to `evaluator-near local clip-only corroboration`: current target-side outputs are `100 x 5` numeric matrices after header-skip, but full `cal_clid_th.py` alignment remains blocked on missing shadow-side files and cache-root leakage in the executed rung header |
 | 2026-04-16 07:40 | Added a reusable zero-GPU `CLiD` threshold-compatibility audit tool and ran it on the current target100 rung; the result is now machine-readable (`target_pair.ready=true`, `shadow_pair.ready=false`) and closes the current `BB-3` boundary-tightening step without pretending to have a paper-aligned benchmark |
+| 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
 | 2026-04-16 08:35 | Closed `WB-5.2` as `positive but bounded`: the minimal local translation candidate is now frozen to `lambda=0.1 / rank=4 / epochs=10` on the local `DDPM/CIFAR10 + GSA` bridge, while `gpu_release` still stays `none` and the next gate becomes explicit no-go / future gpu-release triggers |
