@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 import torch
 
 
@@ -265,6 +266,96 @@ class MoFitScaffoldTests(unittest.TestCase):
             abs(float((optimized_surrogate + optimized_embedding).item())),
             abs(float((optimized_surrogate + initial_embedding).item())),
         )
+
+    def test_build_unet_noise_predictor_adapts_unet_style_forward(self) -> None:
+        from diffaudit.attacks.mofit_scaffold import build_unet_noise_predictor
+
+        captured: dict[str, torch.Tensor] = {}
+
+        def unet_forward(
+            latent_value: torch.Tensor,
+            timestep_value: torch.Tensor,
+            embedding_value: torch.Tensor,
+        ) -> SimpleNamespace:
+            captured["latent_shape"] = torch.tensor(latent_value.shape)
+            captured["timestep"] = timestep_value.detach().clone()
+            captured["embedding_dtype"] = torch.tensor([1 if embedding_value.dtype == latent_value.dtype else 0])
+            embed_scalar = embedding_value.mean(dim=-1, keepdim=True).to(dtype=latent_value.dtype)
+            return SimpleNamespace(sample=latent_value + embed_scalar)
+
+        predictor = build_unet_noise_predictor(unet_forward)
+        latent = torch.tensor([[1.0]], dtype=torch.float32)
+        embedding = torch.tensor([[2.0]], dtype=torch.float64)
+
+        prediction = predictor(latent, 13, embedding)
+
+        self.assertTrue(torch.equal(captured["latent_shape"], torch.tensor([1, 1])))
+        self.assertEqual(captured["timestep"].dtype, torch.long)
+        self.assertEqual(captured["timestep"].shape, torch.Size([1]))
+        self.assertEqual(int(captured["timestep"].item()), 13)
+        self.assertEqual(int(captured["embedding_dtype"].item()), 1)
+        self.assertTrue(torch.allclose(prediction, torch.tensor([[3.0]], dtype=torch.float32)))
+
+    def test_real_path_helpers_bridge_unet_style_predictor_and_target_noise(self) -> None:
+        from diffaudit.attacks.mofit_scaffold import (
+            build_embedding_loss_fn,
+            build_surrogate_loss_fn,
+            build_unet_noise_predictor,
+            compute_guided_target_noise,
+            compute_mofit_loss_terms,
+        )
+
+        def unet_forward(
+            latent_value: torch.Tensor,
+            timestep_value: torch.Tensor,
+            embedding_value: torch.Tensor,
+        ) -> SimpleNamespace:
+            del timestep_value
+            embed_scalar = embedding_value.mean(dim=-1, keepdim=True).to(dtype=latent_value.dtype)
+            return SimpleNamespace(sample=latent_value + embed_scalar)
+
+        predictor = build_unet_noise_predictor(unet_forward)
+        latent = torch.tensor([[1.0]], dtype=torch.float32)
+        cond_embedding = torch.tensor([[2.0]], dtype=torch.float32)
+        uncond_embedding = torch.tensor([[0.5]], dtype=torch.float32)
+        target_noise = compute_guided_target_noise(
+            latent=latent,
+            timestep=10,
+            cond_embedding=cond_embedding,
+            uncond_embedding=uncond_embedding,
+            guidance_scale=1.0,
+            predict_noise_fn=predictor,
+        )
+
+        losses = compute_mofit_loss_terms(
+            latent=latent,
+            timestep=10,
+            target_noise=target_noise,
+            cond_embedding=cond_embedding,
+            uncond_embedding=uncond_embedding,
+            predict_noise_fn=predictor,
+        )
+
+        self.assertAlmostEqual(float(target_noise.item()), 3.0)
+        self.assertAlmostEqual(losses["l_cond"], 0.0)
+        self.assertAlmostEqual(losses["l_uncond"], 2.25)
+        self.assertAlmostEqual(losses["mofit_score"], -2.25)
+
+        surrogate_loss_fn = build_surrogate_loss_fn(
+            timestep=10,
+            target_noise=target_noise,
+            uncond_embedding=uncond_embedding,
+            predict_noise_fn=predictor,
+        )
+        embedding_loss_fn = build_embedding_loss_fn(
+            latent=latent,
+            timestep=10,
+            target_noise=target_noise,
+            predict_noise_fn=predictor,
+        )
+
+        self.assertAlmostEqual(float(surrogate_loss_fn(latent).item()), 2.25)
+        self.assertAlmostEqual(float(embedding_loss_fn(cond_embedding).item()), 0.0)
 
 
 if __name__ == "__main__":

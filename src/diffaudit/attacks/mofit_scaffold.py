@@ -5,6 +5,10 @@ from pathlib import Path
 import torch
 
 
+def _coerce_timestep_tensor(timestep: int, latent: torch.Tensor) -> torch.Tensor:
+    return torch.tensor([int(timestep)], device=latent.device, dtype=torch.long)
+
+
 def build_mofit_summary(
     *,
     target_family: str,
@@ -210,6 +214,37 @@ def compute_mofit_loss_terms(
         "l_uncond": float(l_uncond.detach().item()),
         "mofit_score": float((l_cond - l_uncond).detach().item()),
     }
+
+
+def build_unet_noise_predictor(unet_forward_fn):
+    def predict_noise_fn(
+        latent: torch.Tensor,
+        timestep: int,
+        embedding: torch.Tensor,
+    ) -> torch.Tensor:
+        timestep_tensor = _coerce_timestep_tensor(timestep, latent)
+        embedding_on_latent = embedding.to(device=latent.device, dtype=latent.dtype)
+        output = unet_forward_fn(latent, timestep_tensor, embedding_on_latent)
+        sample = getattr(output, "sample", output)
+        if not isinstance(sample, torch.Tensor):
+            raise TypeError("UNet forward output must expose a tensor sample.")
+        return sample
+
+    return predict_noise_fn
+
+
+def compute_guided_target_noise(
+    *,
+    latent: torch.Tensor,
+    timestep: int,
+    cond_embedding: torch.Tensor,
+    uncond_embedding: torch.Tensor,
+    guidance_scale: float,
+    predict_noise_fn,
+) -> torch.Tensor:
+    cond_prediction = predict_noise_fn(latent, timestep, cond_embedding)
+    uncond_prediction = predict_noise_fn(latent, timestep, uncond_embedding)
+    return uncond_prediction + float(guidance_scale) * (cond_prediction - uncond_prediction)
 
 
 def build_surrogate_loss_fn(
