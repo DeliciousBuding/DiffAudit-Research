@@ -2972,6 +2972,50 @@ Selection verdict:
 Value: ⭐⭐
 Budget: CPU-only handoff sync
 
+#### ⬜ `GB-59` Gray-box post-CDI lane reselection review
+
+Goal: decide which gray-box lane is now most worth opening after the `CDI` paired-scorer boundary and consumer handoff are both closed
+
+Current read:
+
+- `CDI` is now frozen as an internal collection-level audit extension
+- `TMIA-DM + temporal-striding` is already the strongest defended challenger reference
+- `MoFit` is on current-contract hold
+- `SimA` and `structural memorization` remain below reopen threshold
+- `Noise as a Probe` is the strongest unpromoted genuinely new gray-box mechanism still carrying an unresolved promotion/comparability question
+
+Tasks:
+
+- [x] `GB-59.1` compare post-`CDI` candidate lanes against current gray-box story needs
+- [x] `GB-59.2` select one next live CPU-first lane and reject weaker reopens for now
+- [x] `GB-59.3` freeze GPU posture and immediate task shape for the selected lane
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-17-graybox-post-cdi-lane-reselection-review.md`
+
+Selection verdict:
+
+- `GB-59` now closes as `positive`
+- gray-box still has `gpu_release = none`
+- the selected next live lane is:
+  - `Noise as a Probe promotion-gap review`
+- reason:
+  - `Noise as a Probe` is now the strongest unpromoted new gray-box mechanism
+  - defended extension on the current latent-diffusion contract already closed as `no-go for now`
+  - so the highest-value remaining CPU-side question is whether the branch has any honest promotion/comparability path at all
+- rejected for now:
+  - `TMIA-DM` packaging reopen
+  - `SimA reopen`
+  - `MoFit reopen`
+  - `structural memorization reopen`
+- `next_gpu_candidate = none`
+- the next live task is:
+  - `Noise as a Probe promotion-gap review`
+
+Value: ⭐⭐
+Budget: CPU-only reselection
+
 ---
 
 ### 6.4 White-box expansion
@@ -3660,7 +3704,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-58` CDI paired-scorer consumer handoff note is now closed.
+`GB-59` gray-box post-CDI lane reselection review is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -3668,17 +3712,17 @@ Current release posture:
 
 - `gpu_release = none`
 - `next_gpu_candidate = none`
-- `next_live_cpu_lane = gray-box post-CDI lane reselection review`
+- `next_live_cpu_lane = Noise as a Probe promotion-gap review`
 
 ### Next
 
-1. ✅ `GB-58` CDI paired-scorer consumer handoff note
-2. ✅ `GB-57` CDI paired-scorer machine-readable contract note
-3. ✅ `GB-56` CDI paired-scorer default-run policy note
-4. ✅ `GB-55` CDI paired-scorer summary-layer sync
-5. ✅ `GB-54` CDI paired-scorer boundary review
-6. ✅ `GB-53` CDI paired-feature scorer design
-7. ✅ `GB-52` CDI paired-feature re-promotion review
+1. ✅ `GB-59` gray-box post-CDI lane reselection review
+2. ✅ `GB-58` CDI paired-scorer consumer handoff note
+3. ✅ `GB-57` CDI paired-scorer machine-readable contract note
+4. ✅ `GB-56` CDI paired-scorer default-run policy note
+5. ✅ `GB-55` CDI paired-scorer summary-layer sync
+6. ✅ `GB-54` CDI paired-scorer boundary review
+7. ✅ `GB-53` CDI paired-feature scorer design
 8. ✅ `GB-50` SecMI paired-surface repair contract review
 9. ✅ `GB-49` CDI paired-surface mismatch review
 10. ✅ `GB-48` CDI paired-feature extension review
@@ -3851,6 +3895,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-17 00:00 | Closed `GB-56` as `positive`: the paired scorer now has an explicit default-run policy and the canary script default aligns to it: `--paired-scorer auto` enables `control-z-linear` when paired inputs are present and falls back to component-only mode otherwise; paired runs must continue to report `paired + SecMI + PIA` together, so the line is easier to reuse without widening its claim boundary |
 | 2026-04-17 00:10 | Closed `GB-57` as `positive`: internal paired `CDI` canaries now emit a stable machine-readable contract in `audit_summary.json`, including policy request/effective mode, component-reporting requirement, and explicit `headline/external=false` boundary flags; higher-layer consumers no longer need to infer these rules from Markdown alone |
 | 2026-04-17 00:20 | Closed `GB-58` as `positive`: higher-layer consumers now have an explicit paired-`CDI` read order and anti-overclaim rule; `Leader/materials` should consume contract-first and keep to boundary flags plus notes, while any future `Platform/Runtime` consumer must hard-gate on the machine-readable contract and keep scorer weights/details diagnostic-only, so `gpu_release` remains `none` and the next live CPU lane becomes `gray-box post-CDI lane reselection review` |
+| 2026-04-17 00:35 | Closed `GB-59` as `positive`: once `CDI` scorer interpretation was frozen, the highest-value gray-box question was no longer another `CDI` follow-up or a weak-family reopen; the best next CPU-first lane is now `Noise as a Probe promotion-gap review`, because it is the strongest unpromoted new mechanism and its defended-extension path already closed as `no-go`, leaving promotion/comparability as the real blocker; `gpu_release` and `next_gpu_candidate` both remain `none` |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
