@@ -90,6 +90,11 @@
     - 当前 local `SD1.5 + celeba_partial_target/checkpoint-25000` 路径已经跑通
     - `8 / 8 / 8` 与 `16 / 16 / 16` 两档都已 repeat-positive
     - 当前应写成 `strengthened bounded challenger candidate`
+  - `CDI` 当前已不再只是 paper-side collection idea：
+    - first internal canary 已落盘
+    - repaired `PIA + SecMI` paired `2048` surface 已落盘
+    - `control-z-linear` 已冻结为 default internal paired scorer
+    - 但它仍只应写成 internal audit-shape extension，而不是 headline scorer 或外部版权级证据
   - 新整理的 `PIA / TMIA-DM / SimA / MoFit` 文献轴已经统一到“时间 / 噪声 / 条件信号”叙事上
   - 当前最适合把防御压到这条线上做正式比较
 - 当前不能说的话：

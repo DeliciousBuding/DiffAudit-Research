@@ -64,10 +64,11 @@ DiffAudit 是一个面向扩散模型的隐私风险审计研究仓库。
 - `variation` API-only 黑盒线的计划层、资产解析、dry-run 和 synthetic smoke
 - 最小化 vendored `SecMI` 集成子集
 - 可持续扩展的测试基线
+- `SecMI` 的真实 full-split 本地执行与 gray-box corroboration line
+- `CDI` 的 first internal canary、repaired paired `2048` surface，以及 default internal paired scorer
 
 仓库目前还没有完成：
 
-- 基于真实 checkpoint 的 `SecMI` 攻击执行
 - 黑盒、白盒、灰盒三条线的系统化 benchmark 结果
 - `recon` 和 `variation` 的真实资产驱动执行
 - `CLiD` 的真实 text-to-image 资产驱动执行

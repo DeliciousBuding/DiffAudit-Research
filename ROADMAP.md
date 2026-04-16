@@ -2802,6 +2802,42 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only review
 
+#### ⬜ `GB-55` CDI paired-scorer summary-layer sync
+
+Goal: update summary-layer entry points so new sessions and higher-layer materials reflect the frozen `CDI` paired-scorer boundary
+
+Current read:
+
+- `GB-54` already froze the current scorer boundary
+- but key summary-layer entry points still lag behind that boundary or omit `CDI` entirely
+
+Tasks:
+
+- [x] `GB-55.1` update gray-box README wording
+- [x] `GB-55.2` update Research README summary wording
+- [x] `GB-55.3` update comprehensive progress gray-box wording
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-cdi-paired-scorer-summary-layer-sync.md`
+
+Selection verdict:
+
+- `GB-55` now closes as `positive`
+- summary-layer entry points now reflect the current `CDI` truth:
+  - first internal canary landed
+  - repaired paired `2048` surface landed
+  - `control-z-linear` = default internal paired scorer
+  - not headline scorer
+  - not external evidence
+- `competition_material_sync = recommended`
+- `gpu_release = none`
+- the next live task is:
+  - `CDI paired-scorer default-run policy note`
+
+Value: ⭐⭐
+Budget: CPU-only sync
+
 ---
 
 ### 6.4 White-box expansion
@@ -3490,7 +3526,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-54` CDI paired-scorer boundary review is now closed.
+`GB-55` CDI paired-scorer summary-layer sync is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -3498,26 +3534,27 @@ Current release posture:
 
 - `gpu_release = none`
 - `next_gpu_candidate = none`
-- `next_live_cpu_lane = CDI paired-scorer summary-layer sync`
+- `next_live_cpu_lane = CDI paired-scorer default-run policy note`
 
 ### Next
 
-1. ✅ `GB-54` CDI paired-scorer boundary review
-2. ✅ `GB-53` CDI paired-feature scorer design
-3. ✅ `GB-52` CDI paired-feature re-promotion review
-4. ✅ `GB-51` SecMI-PIA 2048 repaired paired-surface rerun
-5. ✅ `GB-50` SecMI paired-surface repair contract review
-6. ✅ `GB-49` CDI paired-surface mismatch review
-7. ✅ `GB-48` CDI paired-feature extension review
-8. ✅ `GB-47` SecMI-PIA 2048 paired-surface verdict
-9. ✅ `GB-46` PIA 2048 CDI rung verdict
-10. ✅ `GB-45` PIA 2048 CDI rung runtime-health review
-11. ✅ `GB-44` CDI internal canary execution
-12. ✅ `GB-43` CDI feature / collection-surface review
-13. ✅ `GB-42` CDI protocol / asset contract
-14. ✅ `GB-41` Post-MoFit gray-box next-family reselection
-15. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
-16. ✅ `WB-17` DP-LoRA harmonized local board verdict
+1. ✅ `GB-55` CDI paired-scorer summary-layer sync
+2. ✅ `GB-54` CDI paired-scorer boundary review
+3. ✅ `GB-53` CDI paired-feature scorer design
+4. ✅ `GB-52` CDI paired-feature re-promotion review
+5. ✅ `GB-51` SecMI-PIA 2048 repaired paired-surface rerun
+6. ✅ `GB-50` SecMI paired-surface repair contract review
+7. ✅ `GB-49` CDI paired-surface mismatch review
+8. ✅ `GB-48` CDI paired-feature extension review
+9. ✅ `GB-47` SecMI-PIA 2048 paired-surface verdict
+10. ✅ `GB-46` PIA 2048 CDI rung verdict
+11. ✅ `GB-45` PIA 2048 CDI rung runtime-health review
+12. ✅ `GB-44` CDI internal canary execution
+13. ✅ `GB-43` CDI feature / collection-surface review
+14. ✅ `GB-42` CDI protocol / asset contract
+15. ✅ `GB-41` Post-MoFit gray-box next-family reselection
+16. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
+17. ✅ `WB-17` DP-LoRA harmonized local board verdict
 5. ✅ `WB-16` DP-LoRA local evaluator hardening
 6. ✅ `WB-15` DP-LoRA secondary-metric harmonization audit
 7. ✅ `WB-14` DP-LoRA next-question review
@@ -3674,6 +3711,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 23:10 | Closed `GB-52` as `positive but bounded`: once the repaired `2048` paired surface landed, the original paired-promotion blocker disappeared; paired `PIA + SecMI` feature promotion may now reopen, but the landed `SecMI-only` first canary remains valid history and the next live lane should be `CDI paired-feature scorer design`, not another immediate GPU question |
 | 2026-04-16 23:25 | Closed `GB-53` as `positive but bounded`: the repo now has one honest paired `CDI` scorer design on the repaired `2048` shared surface, implemented as a control-fitted `SecMI stat + PIA` `control-z-linear` scorer; the bounded internal canary is positive (`paired_t = 30.027926`) and modestly exceeds the stronger single feature, but the line still remains internal audit-shape evidence rather than external copyright-grade proof |
 | 2026-04-16 23:40 | Closed `GB-54` as `positive but constrained`: the paired scorer remains strongly positive under the reversed half-split review and its weights stay stable near `SecMI 0.52 / PIA 0.48`, so it is no longer just a one-off paired canary; however it does not consistently dominate `SecMI`, so the honest boundary is `default internal paired scorer on the repaired 2048 surface`, not headline scorer or external evidence |
+| 2026-04-16 23:50 | Closed `GB-55` as `positive`: gray-box README, Research README, and comprehensive progress now all reflect the current `CDI` truth and boundary, so fresh sessions no longer need to reconstruct it indirectly from lane-local notes; this round does not change GPU posture, but it does create a clear materials-sync recommendation |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
