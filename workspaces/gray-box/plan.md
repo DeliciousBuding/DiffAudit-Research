@@ -5,8 +5,8 @@
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
 - `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; gray-box current gpu question = none`
-- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；新的 `MoFit` lane 已完成 fresh local CPU canary，但当前 score gap 仍极小且方向性不足，尚不支持直接放大 rung`
-- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；灰盒当前 live CPU-first lane 已推进到 `MoFit CPU micro-rung design`；下一步应先设计一个仍然有界的 `2x2 / 2+4 step` CPU micro-rung，再决定是否执行`
+- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；新的 `MoFit` lane 已完成 fresh local CPU canary，但当前 score gap 仍极小且方向性不足，当前 blocker 已从“能否执行”收窄成“2x2 / 2+4 step` CPU micro-rung 是否仍然 direction-weak”`
+- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；灰盒当前 live CPU-first lane 已推进到 `MoFit CPU micro-rung execution`；下一步应按已冻结的 `member=2 / nonmember=2 / surrogate=2 / embedding=4 / cpu` 预算执行单次 micro-rung`
 - `last updated`: `2026-04-16`
 
 ## 推荐论文
@@ -72,6 +72,7 @@
 - `workspaces/gray-box/2026-04-16-mofit-launch-budget-tightening-verdict.md`
 - `workspaces/gray-box/2026-04-16-mofit-fresh-real-asset-canary-verdict.md`
 - `workspaces/gray-box/2026-04-16-mofit-canary-score-shape-review.md`
+- `workspaces/gray-box/2026-04-16-mofit-cpu-microrung-design.md`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-256/summary.json`
@@ -126,8 +127,9 @@
 18. script-level canary implementation 已落地，当前 `run_mofit_interface_canary.py` 已能做 bounded orchestration，而不再只是初始化 scaffold
 19. first-launch CPU budget 已在代码里收紧到 `bounded-cpu-first`；当前默认首发配置为 `member=1 / nonmember=1 / surrogate=1 / embedding=2 / cpu`
 20. fresh real-asset canary 已执行成功，但当前 `mofit_score` 在 member/nonmember 上都极接近 `0` 且方向性弱，暂不支持直接放大 rung
-21. 在 bounded CPU micro-rung、真实 latent surrogate path、fitted-embedding path 与真实 `L_MoFit` score 完整接入前，继续保持 `gpu_release = none`
-22. 如果 `MoFit` 也被证明不具备 honest bounded entry，再切去别的 lane 处理更高价值问题
+21. 当前最小下一 rung 已冻结为 `member=2 / nonmember=2 / surrogate=2 / embedding=4 / cpu`
+22. 在 bounded CPU micro-rung、真实 latent surrogate path、fitted-embedding path 与真实 `L_MoFit` score 完整接入前，继续保持 `gpu_release = none`
+23. 如果 `MoFit` 也被证明不具备 honest bounded entry，再切去别的 lane 处理更高价值问题
 
 ## 2026-04-08 新观察
 

@@ -2125,6 +2125,41 @@ Selection verdict:
 Value: ⭐⭐
 Budget: CPU-only
 
+#### ⬜ `GB-36` MoFit CPU micro-rung design
+
+Goal: freeze the smallest next CPU rung that can add signal after the fresh canary without reopening wasteful budget behavior
+
+Current read:
+
+- `GB-35` already concluded that the fresh canary is execution-positive but score-inconclusive
+- the next honest question is no longer whether to run more, but exactly how much more to run while staying bounded
+- before launching again, the rung budget, stop condition, and promotion rule should be written down explicitly
+
+Tasks:
+
+- [x] `GB-36.1` define the smallest next bounded row/step envelope
+- [x] `GB-36.2` define stop conditions and no-go triggers
+- [x] `GB-36.3` freeze the next live task as micro-rung execution rather than open-ended exploration
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-mofit-cpu-microrung-design.md`
+
+Selection verdict:
+
+- `GB-36` now closes as `positive`
+- the next bounded CPU rung is frozen to:
+  - `member_limit = 2`
+  - `nonmember_limit = 2`
+  - `surrogate_steps = 2`
+  - `embedding_steps = 4`
+  - `device = cpu`
+- the next honest live task is now `MoFit CPU micro-rung execution`
+- `gpu_release = none`
+
+Value: ⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.4 White-box expansion
@@ -2963,6 +2998,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 18:10 | Closed `GB-33` positively: the `MoFit` canary now defaults to a bounded CPU-first launch profile (`member=1 / nonmember=1 / surrogate=1 / embedding=2 / cpu`), with the effective profile propagated through `run_canary` and `summary.json`, verified by fresh script-level TDD plus full `MoFit` regression sweep; the next honest live step is now one fresh real local CPU canary under that tightened profile |
 | 2026-04-16 18:35 | Closed `GB-34` as `positive but bounded`: the first fresh admitted local CPU `MoFit` canary now exists on `SD1.5 + celeba_partial_target/checkpoint-25000` under the bounded CPU-first profile, after resolving two real execution blockers (`resolution` propagation and inference-tensor graph freezing); execution feasibility is now closed, but the observed score gap is still tiny |
 | 2026-04-16 18:40 | Closed `GB-35` as `inconclusive but still alive`: the first fresh canary shows monotonic optimization traces but only tiny negative `mofit_score` gaps for both member and nonmember, so the family is not execution-dead but also not ready for direct rung expansion; the next live task should be a bounded CPU micro-rung design/review |
+| 2026-04-16 18:45 | Closed `GB-36` positively: the next bounded CPU rung is now frozen to `2x2` rows with `2/4` optimization steps on CPU, plus explicit stop conditions and no-go triggers; the next honest live task is micro-rung execution rather than another open-ended design loop |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
