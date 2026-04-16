@@ -1847,6 +1847,37 @@ Selection verdict:
 Value: ⭐⭐⭐⭐
 Budget: one bounded GPU rerender pair
 
+#### ⬜ `WB-18` DP-LoRA post-harmonized lane-status review
+
+Goal: decide the honest current status of the `DP-LoRA` successor lane after the harmonized local board, and freeze whether it currently contains any new GPU-worthy question
+
+Current read:
+
+- `WB-17` already replaced the old clean local-win story with a `metric-split local board`
+- the next honest question is now lane status, not another rerender
+- this task decides whether `DP-LoRA` remains an active GPU branch or should explicitly enter `no-new-gpu-question`
+
+Tasks:
+
+- [x] `WB-18.1` decide which parts of the old local-win story still survive
+- [x] `WB-18.2` decide whether the lane still contains any new GPU-worthy question
+- [x] `WB-18.3` sync the white-box lane plan to the new truth
+
+Canonical evidence anchor:
+
+- `workspaces/white-box/2026-04-16-dplora-post-harmonized-lane-status-review.md`
+
+Selection verdict:
+
+- `WB-18` now closes as `mixed but stabilizing`
+- the successor lane remains alive as a bounded exploration branch
+- but the clean local-win story is gone
+- the lane now explicitly enters `no-new-gpu-question`
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.5 Infrastructure, automation, and agent leverage
@@ -1941,7 +1972,7 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`WB-17` DP-LoRA harmonized local board verdict is now closed.
+`WB-18` DP-LoRA post-harmonized lane-status review is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
@@ -1952,42 +1983,43 @@ Current release posture:
 
 ### Next
 
-1. ✅ `WB-17` DP-LoRA harmonized local board verdict
-2. ✅ `WB-16` DP-LoRA local evaluator hardening
-3. ✅ `WB-15` DP-LoRA secondary-metric harmonization audit
-4. ✅ `WB-14` DP-LoRA next-question review
-5. ✅ `WB-13` DP-LoRA comparator admission packet refresh
-6. ✅ `WB-12` DP-LoRA comparator release-review refresh
-7. ✅ `WB-11` DP-LoRA local comparator board refresh verdict
-8. ✅ `WB-10` DP-LoRA W-1 local-surface refresh feasibility
-9. ✅ `WB-9` DP-LoRA comparator schema-alignment contract
-10. ✅ `WB-8` DP-LoRA comparator artifact-board preflight
-11. ✅ `WB-7` DP-LoRA comparator contract reconciliation
-12. ✅ `WB-6` DP-LoRA comparator release review
-13. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
-14. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
-15. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
-16. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
-17. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
-18. ✅ `GB-12` Noise-as-a-Probe threshold hardening
-19. ✅ `GB-11` Noise-as-a-Probe expansion repeat
-20. ✅ `GB-10` Noise-as-a-Probe first expansion rung
-21. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
-22. ✅ `GB-8` Noise-as-a-Probe canary scaffold
-23. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
-24. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
-25. ✅ `GB-5` genuinely-new-family selector
-26. ✅ `WB-5` DP-LoRA comparability dossier
-27. ✅ `BB-6` same-protocol cross-method score package
-28. ✅ `WB-3` white-box defense breadth
-29. ✅ `GB-1` second gray-box defense
-30. ✅ `BB-1` second-signal black-box expansion
-31. ✅ `INF-2` research automation health
-32. ✅ `INF-3` subagent leverage experiments
-33. ✅ `WB-4` white-box feature/trajectory upgrade
-34. ✅ `X-3` system-consumable sync
-35. ✅ `BB-3` CLiD boundary-quality upgrade
-36. ✅ `X-4` cross-box exploration lane
+1. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
+2. ✅ `WB-17` DP-LoRA harmonized local board verdict
+3. ✅ `WB-16` DP-LoRA local evaluator hardening
+4. ✅ `WB-15` DP-LoRA secondary-metric harmonization audit
+5. ✅ `WB-14` DP-LoRA next-question review
+6. ✅ `WB-13` DP-LoRA comparator admission packet refresh
+7. ✅ `WB-12` DP-LoRA comparator release-review refresh
+8. ✅ `WB-11` DP-LoRA local comparator board refresh verdict
+9. ✅ `WB-10` DP-LoRA W-1 local-surface refresh feasibility
+10. ✅ `WB-9` DP-LoRA comparator schema-alignment contract
+11. ✅ `WB-8` DP-LoRA comparator artifact-board preflight
+12. ✅ `WB-7` DP-LoRA comparator contract reconciliation
+13. ✅ `WB-6` DP-LoRA comparator release review
+14. ✅ `GB-17` Noise-as-a-Probe defended-extension feasibility review
+15. ✅ `GB-16` Noise-as-a-Probe summary-layer sync
+16. ✅ `GB-15` Noise-as-a-Probe challenger-boundary review
+17. ✅ `GB-14` Noise-as-a-Probe larger-rung repeat
+18. ✅ `GB-13` Noise-as-a-Probe larger bounded rung
+19. ✅ `GB-12` Noise-as-a-Probe threshold hardening
+20. ✅ `GB-11` Noise-as-a-Probe expansion repeat
+21. ✅ `GB-10` Noise-as-a-Probe first expansion rung
+22. ✅ `GB-9` Noise-as-a-Probe calibration / expansion policy
+23. ✅ `GB-8` Noise-as-a-Probe canary scaffold
+24. ✅ `GB-7` Noise-as-a-Probe implementation-surface review
+25. ✅ `GB-6` Noise-as-a-Probe protocol / asset contract
+26. ✅ `GB-5` genuinely-new-family selector
+27. ✅ `WB-5` DP-LoRA comparability dossier
+28. ✅ `BB-6` same-protocol cross-method score package
+29. ✅ `WB-3` white-box defense breadth
+30. ✅ `GB-1` second gray-box defense
+31. ✅ `BB-1` second-signal black-box expansion
+32. ✅ `INF-2` research automation health
+33. ✅ `INF-3` subagent leverage experiments
+34. ✅ `WB-4` white-box feature/trajectory upgrade
+35. ✅ `X-3` system-consumable sync
+36. ✅ `BB-3` CLiD boundary-quality upgrade
+37. ✅ `X-4` cross-box exploration lane
 
 ### Then
 
@@ -2102,6 +2134,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 10:00 | Closed `WB-15` as `negative but useful`: the remaining harmonization question is real, but current frozen `baseline / SMP-LoRA` local outputs are not artifact-safe for post-hoc upgrade because the evaluator does not persist score artifacts and still uses an unseeded random split; the next honest move is evaluator hardening before any rerender |
 | 2026-04-16 10:10 | Closed `WB-16` positively: the local evaluator now records an explicit evaluation seed, emits defended-style secondary metrics, and supports persisted score/probability artifacts, removing the evaluator-side blocker that made harmonization rerenders unsafe |
 | 2026-04-16 10:25 | Closed `WB-17` as `mixed but useful`: under the hardened evaluator, frozen `SMP-LoRA` still beats `W-1` on local `AUC` and `ASR`, but the old `WB-11` one-line local ordering no longer survives because `baseline` now beats frozen `SMP-LoRA` on `AUC`; the harmonized local board is therefore a metric-split board rather than a clean dominance story |
+| 2026-04-16 10:40 | Closed `WB-18` as `mixed but stabilizing`: after the harmonized local board, the `DP-LoRA` successor lane remains alive only as a bounded exploration branch; the clean local-win story is gone, and the lane now explicitly enters `no-new-gpu-question` until a genuinely new bounded hypothesis appears |
 | 2026-04-16 01:55 | Fixed `WB-2` path selection on `GSA2 comparator`; target-side `attack_method=2` canaries succeeded on both member and non-member splits |
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
