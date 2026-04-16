@@ -4,9 +4,9 @@
 
 - `owner`: `research_leader`
 - `scope`: 部分中间信息、条件相关评分、噪声预测与结构特征下的成员推断
-- `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; MoFit is now current-contract hold; CDI contract review and first internal canary both landed; gray-box current active GPU question = PIA shared-score surface refresh for CDI paired follow-up`
-- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；`MoFit` 在当前 local contract 下只给出 tiny weak-positive gap；`CDI` 的 first canary 已落盘，但 paired-feature extension 仍依赖更大的 shared paired-score surface 与后续 scorer design`
-- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；继续等待活跃中的 `PIA 2048` shared-score surface GPU rung，并在其结束后立即进入 `CDI` 的 paired-feature extension review`
+- `status`: `PIA real-asset runtime-mainline ready; GPU128/GPU256/GPU512 baseline + defended pairs landed; GPU512 rerun confirmed; GPU128/GPU256 adaptive portability pair landed on RTX4070 8GB; provisional G-1 established; SecMI full-split corroboration landed; PIA-vs-SecMI disagreement verdict landed; TMIA-DM late-window + temporal-striding(stride=2) is now the strongest defended gray-box challenger reference; Noise as a Probe is a strengthened bounded challenger candidate; MoFit is now current-contract hold; CDI contract review and first internal canary both landed; PIA 2048 shared-score surface now also landed; gray-box current active GPU question = SecMI paired-surface export on 2048 for CDI paired follow-up`
+- `blocked by`: `PIA` 仍未升级到 `paper-aligned`；`PIA + SecMI` 还没有 promotion-worthy 的 fusion story；当前 `SimA` feasibility 与 later-timestep rescan 虽都可执行但仍明显偏弱；`structural memorization` 当前 local faithful approximation 也已落成 `negative but useful`；`Noise as a Probe` 在当前 local `SD1.5` 合同上没有 honest defended-extension gate；`MoFit` 在当前 local contract 下只给出 tiny weak-positive gap；`CDI` 的 first canary 已落盘，但 paired-feature extension 仍缺同一 `2048` surface 上的 `SecMI` 配对导出与后续 scorer design`
+- `next step`: 保持 `PIA + stochastic-dropout(all_steps)` 为 admitted defended headline；保持 `TMIA-DM late-window + temporal-striding(stride=2)` 为 strongest defended challenger reference；保持 `Noise as a Probe` 为 strengthened bounded challenger candidate；保持 `MoFit` 为 `current-contract hold`；当前下一步直接切到 `SecMI 2048 paired-surface export / disagreement run`，用它补齐 `CDI` 的 paired-feature extension 输入面`
 - `last updated`: `2026-04-16`
 
 ## 推荐论文
@@ -82,7 +82,10 @@
 - `workspaces/gray-box/2026-04-16-cdi-protocol-asset-contract.md`
 - `workspaces/gray-box/2026-04-16-cdi-feature-collection-surface-review.md`
 - `workspaces/gray-box/2026-04-16-cdi-internal-canary-verdict.md`
+- `workspaces/gray-box/2026-04-16-pia-2048-cdi-rung-runtime-health-review.md`
+- `workspaces/gray-box/2026-04-16-pia-2048-cdi-rung-verdict.md`
 - `workspaces/gray-box/runs/cdi-internal-canary-20260416-r1/audit_summary.json`
+- `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260408-gpu-128/summary.json`
 - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-256/summary.json`
@@ -133,6 +136,8 @@
 14. paired `PIA + SecMI` 当前保留为下一条 extension，而不是 first canary 默认值
 15. 当前最有价值的 GPU follow-up 不是重开旧 family，而是把 `PIA` 的 shared-score surface 扩大，供 `CDI` 的 paired-method follow-up 直接消费
 16. `CDI` 的 first internal canary 已经真实落盘，并且在 memberness orientation 显式归一后给出强同向 Welch statistic；这证明当前 lane 已经从 contract truth 升级到 execution truth
+17. 活跃中的 `PIA 2048` GPU rung 目前仍在真实计算，但已超过最简单线性时长预期且尚未吐出首批 artifact；因此当前策略不是无限等待，而是保留到显式 runtime-health cap 后再决定继续或止损
+18. `PIA 2048` rung 现已完成并被固定为 `positive but cost-heavy`：它足以作为 `CDI` paired follow-up 的新 `PIA` surface，但不足以单独再放行更大的同家族 `PIA` 扩档
 
 ## 2026-04-08 新观察
 

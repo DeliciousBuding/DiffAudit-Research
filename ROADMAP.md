@@ -2456,6 +2456,72 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ⬜ `GB-45` PIA 2048 CDI rung runtime-health review
+
+Goal: decide whether the currently active `PIA 2048 shared-score surface` GPU rung is still healthy enough to keep alive for the `CDI` lane, or whether it has already become a wasteful silent run
+
+Current read:
+
+- the active rung is:
+  - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1`
+- the same `diffaudit-research` Python process remains alive and keeps occupying `cuda:0`
+- GPU utilization and memory use still indicate real compute activity
+- but the run has not emitted first-wave artifacts yet, so it cannot be left on indefinite patience
+
+Tasks:
+
+- [x] `GB-45.1` compare the active rung against the known `PIA 1024 adaptive` runtime reference
+- [x] `GB-45.2` decide whether the active rung should continue or be stopped immediately
+- [x] `GB-45.3` record an explicit runtime-health cap instead of leaving the GPU task open-ended
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-pia-2048-cdi-rung-runtime-health-review.md`
+
+Selection verdict:
+
+- `GB-45` now closes as `positive but bounded`
+- keep the active `PIA 2048` GPU rung alive for now
+- but only under an explicit runtime-health cap
+- if the rung still fails to emit first-wave artifacts after roughly `40` minutes wall-clock from launch, stop it and record a blocker verdict rather than continuing indefinite silent burn
+
+Value: ⭐⭐
+Budget: CPU-only governance review
+
+#### ⬜ `GB-46` PIA 2048 CDI rung verdict
+
+Goal: decide whether the completed `PIA 2048 shared-score surface` rung should be retained as a useful `CDI` paired-feature surface, or classified as too expensive to matter
+
+Current read:
+
+- the rung completed and emitted:
+  - `summary.json`
+  - `scores.json`
+  - `adaptive-scores.json`
+- compared with the `1024` reference rung, the signal remains alive but cost grew much more sharply than the cleanest linear expectation
+
+Tasks:
+
+- [x] `GB-46.1` compare `2048` against the `1024 adaptive` reference on signal quality
+- [x] `GB-46.2` compare runtime cost and decide whether the rung remains worth keeping
+- [x] `GB-46.3` freeze the next GPU move for the `CDI` lane
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1/summary.json`
+- `workspaces/gray-box/2026-04-16-pia-2048-cdi-rung-verdict.md`
+
+Selection verdict:
+
+- `GB-46` now closes as `positive but cost-heavy`
+- the new `2048` rung is worth retaining as a reusable `PIA` shared-score surface for `CDI`
+- but it does not justify more same-family `PIA` scaling by itself
+- the next highest-value GPU move is now:
+  - bounded `SecMI` export / disagreement analysis on the same `2048` subset, using this new `PIA` score surface
+
+Value: ⭐⭐⭐
+Budget: one bounded GPU rung completed
+
 ---
 
 ### 6.4 White-box expansion
@@ -3144,24 +3210,26 @@ This is a preference order, not a prison.
 
 ### Top now
 
-`GB-44` CDI internal canary execution is now closed.
+`GB-46` PIA 2048 CDI rung verdict is now closed.
 
 No immediate GPU lane should be opened until a new bounded comparison or defended-extension question is selected.
 
 Current release posture:
 
 - `gpu_release = none`
-- `next_gpu_candidate = active PIA 2048 shared-score surface refresh for CDI paired follow-up`
-- `next_live_cpu_lane = CDI paired-feature extension review after the active GPU rung closes`
+- `next_gpu_candidate = SecMI 2048 paired-surface export / disagreement run for CDI paired follow-up`
+- `next_live_cpu_lane = CDI paired-feature extension review after the next bounded GPU export`
 
 ### Next
 
-1. ✅ `GB-44` CDI internal canary execution
-2. ✅ `GB-43` CDI feature / collection-surface review
-3. ✅ `GB-42` CDI protocol / asset contract
-4. ✅ `GB-41` Post-MoFit gray-box next-family reselection
-5. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
-6. ✅ `WB-17` DP-LoRA harmonized local board verdict
+1. ✅ `GB-46` PIA 2048 CDI rung verdict
+2. ✅ `GB-45` PIA 2048 CDI rung runtime-health review
+3. ✅ `GB-44` CDI internal canary execution
+4. ✅ `GB-43` CDI feature / collection-surface review
+5. ✅ `GB-42` CDI protocol / asset contract
+6. ✅ `GB-41` Post-MoFit gray-box next-family reselection
+7. ✅ `WB-18` DP-LoRA post-harmonized lane-status review
+8. ✅ `WB-17` DP-LoRA harmonized local board verdict
 5. ✅ `WB-16` DP-LoRA local evaluator hardening
 6. ✅ `WB-15` DP-LoRA secondary-metric harmonization audit
 7. ✅ `WB-14` DP-LoRA next-question review
@@ -3308,6 +3376,8 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 20:50 | Closed `GB-42` as `positive but bounded`: the repo is now judged ready for a real `CDI` contract-first lane on the shared local `CIFAR-10 DDPM` score surface, but only as a CPU-only collection-level audit extension; the next live task should freeze reusable per-sample score inputs and the first honest `P/U` collection contract before any execution claim |
 | 2026-04-16 21:10 | Closed `GB-43` as `positive but bounded`: the current repo already supports one bounded internal `CDI` canary on the existing `1024 / 1024` shared local surface; the first canary should stay `SecMI stat only` with a deterministic `512 / 512` control-test partition, while paired `PIA + SecMI` is pushed to the next extension and the most useful GPU follow-up becomes a larger `PIA` shared-score surface refresh |
 | 2026-04-16 21:40 | Closed `GB-44` as `positive but bounded`: the first real internal `CDI` canary now runs on existing `SecMI` score artifacts and emits `collections.json + sample_scores.jsonl + audit_summary.json`; the resulting Welch test is strongly same-directional after explicit memberness normalization, so the lane now has execution truth rather than only a contract note |
+| 2026-04-16 21:55 | Closed `GB-45` as `positive but bounded`: the active `PIA 2048` rung for the `CDI` lane is still genuinely alive on `cuda:0`, but it has remained artifact-silent longer than the cleanest naive runtime expectation; keep it alive for now, but only under an explicit `~40min from launch` runtime-health cap rather than indefinite silent waiting |
+| 2026-04-16 22:00 | Closed `GB-46` as `positive but cost-heavy`: the `PIA 2048` rung finished successfully and preserved the gray-box signal (`AUC = 0.833109`, `ASR = 0.769043`), so it is worth keeping as the reusable `PIA` surface for `CDI` paired follow-up, but its `1723s` runtime is a real cost warning and does not justify more same-family `PIA` scaling by itself |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |
