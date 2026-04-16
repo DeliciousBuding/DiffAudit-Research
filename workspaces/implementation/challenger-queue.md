@@ -12,7 +12,7 @@
 - gray-box currently has no immediate next-family execution lane
 - white-box currently has no immediate next-hypothesis execution lane
 - the next live CPU-first priority should therefore move to:
-  - `black-box next-family candidate-generation refresh review`
+  - `second gray-box defense mechanism selection`
 
 This queue should now be read with three distinctions:
 
@@ -27,35 +27,35 @@ This queue should now be read with three distinctions:
 
 ## Top 3 Priorities
 
-### 1. `BB-CH-1` Black-box next-family candidate-generation refresh
-
-- `status`: `ready-for-selection`
-- `expected value`: ⭐⭐⭐
-- `mode`: `CPU-only review`
-- `why now`:
-  - black-box still needs a second truly different family
-  - current box-local lane is stable enough that candidate-generation is higher value than maintenance churn
-  - this is the best immediate place to reopen method diversity without spending GPU first
-
-### 2. `GB-CH-1` Second gray-box defense mechanism selection
+### 1. `GB-CH-1` Second gray-box defense mechanism selection
 
 - `status`: `ready-for-selection`
 - `expected value`: ⭐⭐⭐
 - `mode`: `CPU-first design / selection`
-- `why not immediate`:
+- `why now`:
   - gray-box mainline is already stable
-  - immediate latent-diffusion follow-ups just closed negatively
-  - only a materially different new mechanism should reopen this box
+  - immediate latent-diffusion follow-ups already closed negatively
+  - black-box candidate refresh also just closed without a new ready family
+  - only a materially different new mechanism now has honest lane-opening value
 
-### 3. `WB-CH-1` Distinct white-box defended-family import / selection
+### 2. `WB-CH-1` Distinct white-box defended-family import / selection
 
 - `status`: `ready-for-selection`
 - `expected value`: ⭐⭐
 - `mode`: `CPU-only candidate generation`
-- `why not immediate`:
+- `why next`:
   - `DP-LoRA` is already bounded and frozen below new GPU release
   - `GSA2` is same-family corroboration only
   - `Finding NeMo` is still `not-requestable`
+
+### 3. `GB-CH-2` Ranking-sensitive variable search
+
+- `status`: `ready-for-selection`
+- `expected value`: ⭐⭐
+- `mode`: `CPU-only hypothesis writing`
+- `why third`:
+  - it stays within gray-box without reopening dead latent-diffusion branches
+  - it can still generate a bounded disagreement question without forcing GPU first
 
 ---
 
@@ -65,14 +65,12 @@ This queue should now be read with three distinctions:
 
 #### `BB-CH-1` Caption/semantic-family refresh
 
-- `status`: `ready-for-selection`
-- `expected value`: ⭐⭐⭐
-- `scope`:
-  - caption-space
-  - feature-space
-  - other genuinely new semantic black-box families
-- `note`:
-  - do not assume old CLIP/BLIP blocker wording is still authoritative without a fresh repo-grounded check
+- `status`: `reviewed / closed-negative`
+- `expected value`: ⭐
+- `reason`:
+  - the refresh review found no honest ready next-family promotion candidate
+  - visible options collapse into same-family continuation, boundary-only work, needs-assets, or gray-box-owned audit expansion
+  - do not reopen black-box candidate generation unless a real new family or asset/boundary shift appears
 
 #### `BB-CH-2` Variation real-asset unblock
 
@@ -176,8 +174,8 @@ This queue should now be read with three distinctions:
 
 ## Recommended Next Order
 
-1. `BB-CH-1` black-box next-family candidate-generation refresh review
-2. `GB-CH-1` second gray-box defense mechanism selection
-3. `WB-CH-1` distinct white-box defended-family import / selection
+1. `GB-CH-1` second gray-box defense mechanism selection
+2. `WB-CH-1` distinct white-box defended-family import / selection
+3. `GB-CH-2` ranking-sensitive variable search
 
 This order is deliberately CPU-first and does **not** authorize any new GPU run by itself.

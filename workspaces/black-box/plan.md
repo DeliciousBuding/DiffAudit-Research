@@ -6,7 +6,7 @@
 - `scope`: 统一黑/灰/白研究规划下的第一优先执行线，负责黑盒成员推断、数据集级审计、black-box leakage 线索整理
 - `status`: 进行中，`recon` 的 black-box 主证据、最佳单指标参考和 `variation` 次主线口径已冻结；`semantic-auxiliary-classifier` 已落成当前 leading new-family challenger；`CLiD` 已收紧到 `evaluator-near local clip-only corroboration`；`served-image-sanitization` 已记为 mitigation `no-go`；黑盒当前 `gpu question = none`
 - `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的语义 gate 现已 machine-audited 到 `proxy-shadow-member`，但仍未升级到 paper-aligned；`CLiD` 仍缺 shadow-side evaluator assets；`variation` 真实 `query_image_root` 仍缺；`semantic-auxiliary-classifier` 当前也还没有 genuinely new feature family；`Kandinsky 10/10` 当前本机链路仍异常慢
-- `next command`: no immediate black-box rerun; current next live CPU-first lane should be `black-box next-family candidate-generation refresh review`; keep `Recon / CLiD / semantic-auxiliary-classifier / variation` wording consistent across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`; keep `semantic-aux` scoring/fusion as `negative but useful` unless a new feature family appears; keep `variation` blocked unless the explicit asset contract is filled with real `query_image_root + endpoint + budget`; keep `served-image-sanitization` recorded as a first black-box mitigation no-go
+- `next command`: no immediate black-box rerun or candidate promotion; the `black-box next-family candidate-generation refresh review` closed negative, so black-box should now keep `Recon / CLiD / semantic-auxiliary-classifier / variation` wording fixed across `blackbox-status`, `reproduction-status`, `comprehensive-progress`, and `ROADMAP`; keep `semantic-aux` scoring/fusion as `negative but useful` unless a genuinely new feature family appears; keep `variation` blocked unless the explicit asset contract is filled with real `query_image_root + endpoint + budget`; keep `served-image-sanitization` recorded as a first black-box mitigation no-go; the next live CPU-first lane is now `second gray-box defense mechanism selection`
 - `last updated`: 2026-04-17
 
 ## 统一规划定位
@@ -121,3 +121,6 @@
   - 第一硬门槛仍是 `query_image_root / query images`
   - endpoint/proxy、budget 和固定参数则是复开前必须补齐的后续门槛
 - `TMIA-DM` 已确认不是严格黑盒，如果口径管理不严，后续汇报很容易把它误归进黑盒
+- `2026-04-17` 的 black-box candidate refresh review 也已收口：
+  - 当前看得到的候选要么还是 `semantic-aux` 同家族延展，要么是 `CLiD` 边界升级、`variation` 资产复开，或者已被 gray-box `CDI` 吸收的集合审计方向
+  - 因此黑盒当前仍没有 honest ready next-family promotion candidate
