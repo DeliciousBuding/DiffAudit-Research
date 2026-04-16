@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+import torch
 
 
 class MoFitScaffoldTests(unittest.TestCase):
@@ -145,6 +146,44 @@ class MoFitScaffoldTests(unittest.TestCase):
                 json.loads(embedding_trace.read_text(encoding="utf-8")),
                 [{"step": 0, "loss": 0.6}, {"step": 1, "loss": 0.4}],
             )
+
+    def test_run_surrogate_optimization_reduces_toy_loss(self) -> None:
+        from diffaudit.attacks.mofit_scaffold import run_surrogate_optimization
+
+        initial = torch.tensor([2.0], dtype=torch.float32)
+
+        def loss_fn(current: torch.Tensor) -> torch.Tensor:
+            return ((current - 0.5) ** 2).mean()
+
+        optimized, trace = run_surrogate_optimization(
+            initial_value=initial,
+            loss_fn=loss_fn,
+            steps=4,
+            lr=0.25,
+        )
+
+        self.assertEqual(len(trace), 4)
+        self.assertLess(trace[-1]["loss"], trace[0]["loss"])
+        self.assertLess(abs(float(optimized.item()) - 0.5), abs(float(initial.item()) - 0.5))
+
+    def test_run_embedding_optimization_reduces_toy_loss(self) -> None:
+        from diffaudit.attacks.mofit_scaffold import run_embedding_optimization
+
+        initial = torch.tensor([1.5], dtype=torch.float32)
+
+        def loss_fn(current: torch.Tensor) -> torch.Tensor:
+            return ((current + 0.25) ** 2).mean()
+
+        optimized, trace = run_embedding_optimization(
+            initial_value=initial,
+            loss_fn=loss_fn,
+            steps=5,
+            lr=0.2,
+        )
+
+        self.assertEqual(len(trace), 5)
+        self.assertLess(trace[-1]["loss"], trace[0]["loss"])
+        self.assertLess(abs(float(optimized.item()) + 0.25), abs(float(initial.item()) + 0.25))
 
 
 if __name__ == "__main__":

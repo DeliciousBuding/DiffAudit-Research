@@ -1754,6 +1754,41 @@ Selection verdict:
 Value: ⭐⭐⭐
 Budget: CPU-only
 
+#### ⬜ `GB-26` MoFit optimization helpers
+
+Goal: add the smallest reusable optimization helpers needed before wiring `MoFit` into the real target-model latent path
+
+Current read:
+
+- `GB-25` already created the update path for scores and traces
+- the next honest missing piece is now the optimization substrate itself:
+  - a surrogate helper
+  - an embedding helper
+- these helpers should be verified on toy losses before touching the real latent path
+
+Tasks:
+
+- [x] `GB-26.1` write failing tests for surrogate and embedding optimization helpers
+- [x] `GB-26.2` implement the minimal helpers
+- [x] `GB-26.3` rerun tests and confirm the helpers actually reduce toy loss
+
+Canonical evidence anchor:
+
+- `workspaces/gray-box/2026-04-16-mofit-optimization-helper-verdict.md`
+
+Selection verdict:
+
+- `GB-26` now closes as `positive but bounded`
+- the scaffold now exposes:
+  - `run_surrogate_optimization(...)`
+  - `run_embedding_optimization(...)`
+- both are verified on toy losses with fresh tests
+- the lane still remains below smoke because those helpers are not yet wired into the real target-model path
+- `gpu_release = none`
+
+Value: ⭐⭐⭐
+Budget: CPU-only
+
 ---
 
 ### 6.4 White-box expansion
@@ -2582,6 +2617,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 16:10 | Closed `GB-23` as `positive but bounded`: the frozen `MoFit` dedicated scaffold is now real code and passes both TDD-style unit verification and a fresh script execution check, producing `summary.json`, `records.jsonl`, and trace directories; the lane still stays below smoke because surrogate optimization, fitted-embedding optimization, and real `L_MoFit` scoring are not yet implemented |
 | 2026-04-16 16:20 | Closed `GB-24` as `positive but bounded`: the `MoFit` scaffold now supports per-sample record append and trace placeholder creation, and `records.jsonl` now carries `l_cond / l_uncond / mofit_score` as frozen placeholder fields; the lane still remains below smoke because those values are not yet produced by actual optimization loops |
 | 2026-04-16 16:30 | Closed `GB-25` as `positive but bounded`: the `MoFit` scaffold now has a real score/trace update path, so future optimization loops can write step traces and `l_cond / l_uncond / mofit_score` back into the frozen schema; the lane still remains below smoke because the actual optimization loops are not yet implemented |
+| 2026-04-16 16:40 | Closed `GB-26` as `positive but bounded`: the `MoFit` lane now has minimal reusable surrogate and embedding optimization helpers, verified on toy losses with fresh tests; the next step is to wire those helpers into the real latent-diffusion target path so `L_cond / L_uncond / mofit_score` become target-model-derived rather than placeholder values |
 | 2026-04-16 14:25 | Closed `BB-7` as `negative but stabilizing`: after the second-signal challenger, scoring review, `CLiD` boundary tightening, mitigation no-go, and `variation` asset-contract clarification, black-box currently has no honest new GPU-worthy question; keep `Recon` as headline, `semantic-auxiliary-classifier` as leading challenger, `CLiD` as corroboration-only, and `variation` as contract-ready blocked until a genuinely new feature family or real asset change appears |
 | 2026-04-16 08:05 | Refreshed the `Phase E` candidate registry after recent lane promotions and selected `WB-5 DP-LoRA comparability dossier` as the next live CPU-first lane; `Finding NeMo` remains `zero-GPU hold`, `TMIA-DM` is removed from intake-only candidate ordering, and `gpu_release` stays `none` |
 | 2026-04-16 08:20 | Closed `WB-5.1` as `positive but bounded`: `DP-LoRA` has real white-box defense-family overlap and a local `SMP-LoRA under DDPM/CIFAR10` bridge hint, but the current relation to admitted `GSA/W-1` remains `partial-overlap only`, so `gpu_release` still stays `none` and the next gate is the minimal local config candidate |

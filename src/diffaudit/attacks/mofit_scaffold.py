@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import torch
 
 
 def build_mofit_summary(
@@ -148,3 +149,44 @@ def finalize_mofit_record(
         if row.get("split") == split and row.get("file_name") == file_name:
             return row
     raise ValueError(f"Could not find record for split={split!r}, file_name={file_name!r}")
+
+
+def run_surrogate_optimization(
+    *,
+    initial_value: torch.Tensor,
+    loss_fn,
+    steps: int,
+    lr: float,
+) -> tuple[torch.Tensor, list[dict]]:
+    current = initial_value.detach().clone().requires_grad_(True)
+    trace: list[dict] = []
+    for step in range(steps):
+        loss = loss_fn(current)
+        loss.backward()
+        grad = current.grad
+        if grad is None:
+            raise RuntimeError("Surrogate optimization produced no gradient.")
+        with torch.no_grad():
+            current -= lr * grad.sign()
+        trace.append({"step": step, "loss": float(loss.detach().item())})
+        current = current.detach().requires_grad_(True)
+    return current.detach(), trace
+
+
+def run_embedding_optimization(
+    *,
+    initial_value: torch.Tensor,
+    loss_fn,
+    steps: int,
+    lr: float,
+) -> tuple[torch.Tensor, list[dict]]:
+    current = torch.nn.Parameter(initial_value.detach().clone())
+    optimizer = torch.optim.Adam([current], lr=lr)
+    trace: list[dict] = []
+    for step in range(steps):
+        optimizer.zero_grad(set_to_none=True)
+        loss = loss_fn(current)
+        loss.backward()
+        optimizer.step()
+        trace.append({"step": step, "loss": float(loss.detach().item())})
+    return current.detach(), trace
