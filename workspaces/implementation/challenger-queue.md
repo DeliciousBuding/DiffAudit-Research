@@ -10,8 +10,8 @@
 
 - `active GPU question = none`
 - `next_gpu_candidate = none`
-- `current execution lane = X-86 non-graybox next-lane reselection after X-85 admitted-summary sync review`
-- `current CPU sidecar = I-A higher-layer boundary maintenance`
+- `current execution lane = I-A higher-layer boundary maintenance` (CPU sidecar, stable)
+- `X-86→X-91` sequence completed: G1-A deferred (TMIA-DM 512-sample gap), B-M0 Candidate A hold-review-only (CPU-bound shadow-LR), I-A maintenance complete, all higher-layer docs synced
 - `I-D.1` is now closed as `positive but bounded` on the frozen `Stable Diffusion v1.5 base + celeba_partial_target/checkpoint-25000` local canary contract
 - `I-D.2` is now closed as `positive but bounded` on a real single-GPU `8 / 8 / 8` packet, with `generation_guidance_scale = 7.5` widening raw separation over `3.5` but fixed thresholds failing to transfer across scales
 - `I-D.3` is now closed as `positive but bounded`: hidden-guidance jitter disrupts attack calibration on average, but current mixed-packet evidence is still seed-sensitive and below low-FPR / adaptive release
