@@ -6,7 +6,7 @@
 | 线索 | 模型 | 攻击 | 防御 | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR | 能说的话 | 不能说的话 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 黑盒 | `Stable Diffusion v1.5 + DDIM` | `recon DDIM public-100 step30` | `none` | `0.849` | `0.51` | `1.0` | `n/a` | 最弱权限下风险已可观测，当前黑盒主证据成立 | 不说成最终 exploit，不外推到完整真实世界 benchmark |
-| 灰盒 | `CIFAR-10 DDPM` | `PIA GPU512 baseline` | `stochastic-dropout(all_steps)` | `0.841339 -> 0.828075` | `0.786133 -> 0.767578` | `0.058594 -> 0.052734` | `0.011719 -> 0.009766` | 当前最成熟的攻击-防御闭环，攻击信号与 defended pairing 都已 admitted，且必须与 bounded repeated-query adaptive 边界一起按四指标阅读 | 不说成已 paper-faithful fully reproduced，不说 provenance blocker 已解除，不说 validated privacy protection |
+| 灰盒 | `CIFAR-10 DDPM` | `PIA GPU512 baseline` | `stochastic-dropout(all_steps)` | `0.841339 -> 0.828075` | `0.786133 -> 0.767578` | `0.058594 -> 0.052734` | `0.011719 -> 0.009766` | 当前最成熟的攻击-防御闭环，PIA 攻击信号应读作 epsilon-trajectory consistency，stochastic-dropout 通过推理期随机化打散该一致性信号，且必须与 bounded repeated-query adaptive 边界一起按四指标阅读 | 不说成已 paper-faithful fully reproduced，不说 provenance blocker 已解除，不说 validated privacy protection |
 | 白盒 | `CIFAR-10 DDPM / DPDM` | `GSA 1k-3shadow` | `W-1 strong-v3 full-scale` | `0.998192 / 0.488783` | `0.9895 / 0.4985` | `0.987 / 0.009` | `0.432 / 0.0` | 展示高权限风险上界与 defended contrast | 不说成 final paper benchmark，不把 closed-frozen bridge 写成新执行线 |
 
 这张一页表本身也必须遵守灰盒四指标合同，不能让读者先看到 `AUC / ASR`、再在正文里补 low-FPR 与 adaptive 边界。
@@ -14,7 +14,7 @@
 ## 2. 已 admit 的主线成果（可直接拿到 4C 材料）
 
 - **黑盒 risk evidence（`recon DDIM public-100 step30`）**：AUC 0.849、ASR 0.51、TPR@1%FPR 1.0，在 controlled/public-subset/proxy-shadow-member 数据上运行，是当前最弱权限下观测成员泄露的 admitted 证据。对外侧重“risk exists”而非“终极 benchmark”。  
-- **灰盒 PIA 基线与 defended（GPU512 baseline，G-1 stochastic-dropout all_steps defended）**：baseline `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR = 0.841339 / 0.786133 / 0.058594 / 0.011719`，defended `= 0.828075 / 0.767578 / 0.052734 / 0.009766`。这组结果必须按四指标一起读，并同时读作：`workspace-verified + adaptive-reviewed + bounded repeated-query adaptive boundary + paper-alignment blocked by checkpoint/source provenance`，不能被误读成“已复现论文版本”或“已验证隐私保护”。  
+- **灰盒 PIA 基线与 defended（GPU512 baseline，G-1 stochastic-dropout all_steps defended）**：baseline `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR = 0.841339 / 0.786133 / 0.058594 / 0.011719`，defended `= 0.828075 / 0.767578 / 0.052734 / 0.009766`。PIA 攻击信号应读作 epsilon-trajectory consistency，stochastic-dropout 通过推理期随机化打散该一致性信号。这组结果必须按四指标一起读，并同时读作：`workspace-verified + adaptive-reviewed + bounded repeated-query adaptive boundary + paper-alignment blocked by checkpoint/source provenance`，不能被误读成”已复现论文版本”或”已验证隐私保护”。  
 - **白盒 GSA + W-1 bridge**：GSA 1k-3shadow 攻击跑出 AUC 0.998192 / ASR 0.9895，W-1 strong-v3 full-scale defended run AUC 0.488783 / ASR 0.4985，放在 same-protocol “closed-frozen” comparator 上，用于展示高权限下的风险上界与 defended contrast，而不是声称已完成 benchmark。
 
 每条主线都应配上 `track/attack/defense/auc/asr/evidence_level` 字段以及 `boundary`（如 recon = fine-tuned+controlled, PIA = workspace-verified + blocked provenance, GSA/W-1 = admitted bridge but not final paper benchmark），此结构已写在 `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json`，Platform/Local-API 可以直接取用。
