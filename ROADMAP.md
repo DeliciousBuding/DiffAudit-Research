@@ -345,8 +345,14 @@ Current truth:
 - `X-83` is now closed as `positive`: once the stale-entry sync is cleared, no blocked/hold branch honestly reopens and no new active `I-A` residue is visible, so the honest next move becomes bounded non-graybox candidate-surface expansion rather than another forced `I-A` microtask
 - `X-84` is now closed as `positive`: the restored non-graybox candidate surface is `cross-box admitted-summary quality/cost read-path hardening`, because all immediate box-local reopens remain frozen/blocked while the unified table already carries richer `quality_cost / evidence_level / boundary` fields that higher-layer admitted summaries do not foreground enough yet
 - `X-85` is now closed as `positive`: the admitted summary now explicitly exposes `Evidence Level` and `Quality / Cost`, so higher-layer readers no longer have to infer execution scale and evidence grade only from headline metrics plus free-text boundary notes
-- the current live review lane is now `G1-A larger shared-surface tri-score rerun review pending separate bounded GPU review after X-89`
-- `next_gpu_candidate` is now `G1-A larger shared-surface tri-score rerun review pending separate bounded GPU review`
+- `X-86` is now closed as `positive`: after X-85, G1-A blocker resolution identified as next honest lane
+- `X-87` is now closed as `positive`: G1-A/X-90 deferred to `needs-assets` (TMIA-DM 512-sample gap conflicts with CPU-first classification)
+- `X-88` is now closed as `positive`: after G1-A defer, redirected to root ROADMAP B-M0 Candidate A per 2026-04-17 override
+- `B-M0 Candidate A bounded GPU review` is now closed as `hold-review-only`: shadow-LR white-box loss-score follow-up is CPU-bound offline evaluation, not GPU question
+- `X-89` is now closed as `positive`: after B-M0 window close (both candidates CPU-bound, no GPU release), return to I-A CPU sidecar
+- the current live lane is now `I-A higher-layer boundary maintenance` (CPU sidecar)
+- `active_gpu_question = none`
+- `next_gpu_candidate = none` (G1-A deferred-needs-assets, B-M0 Candidate A hold-review-only)
 - the current CPU sidecar is `I-A higher-layer boundary maintenance`
 - any new GPU release still requires a separate bounded GPU review that freezes shared-surface identity, host-fit budget, story delta, and kill gate before any fire decision
 
