@@ -40,9 +40,9 @@
 - `I-B` 当前应读作 `actual bounded falsifier`
 - `I-C` 当前应读作 `translated-contract-only + negative falsifier`
 - `I-D` 已落下 bounded conditional packet 与 negative actual defense rerun，但当前没有 genuinely new bounded successor lane
-- 当前 live `CPU-first` lane 是 `X-86 non-graybox next-lane reselection after X-85 admitted-summary sync review`
-- 当前 CPU sidecar 是 `I-A higher-layer boundary maintenance`
-- 如果没有更新事实覆盖它，默认优先执行 `X-86`，重新判断在 stale-entry sync 与 admitted-summary sync 都完成之后哪条 non-graybox lane 最值得拿下一个 CPU-first 槽位，而不是继续做 wording-only work 或直接跳到 `LiRA / Strong LiRA`
+- 当前 live `CPU-first` lane 是 `I-A higher-layer boundary maintenance` (CPU sidecar)
+- `X-86→X-89` 序列已完成：G1-A deferred (TMIA-DM 512-sample gap)，B-M0 Candidate A hold-review-only (CPU-bound shadow-LR)，返回 I-A CPU sidecar
+- 如果没有更新事实覆盖它，继续 I-A 维护或监控 I-B/I-C/I-D 新 bounded hypothesis，而不是继续做 wording-only work 或直接跳到 `LiRA / Strong LiRA`
 
 始终同时维护三件事：
 
