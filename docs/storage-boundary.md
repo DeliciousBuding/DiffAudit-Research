@@ -223,5 +223,7 @@
 - 运行结果放 `Research/workspaces/<lane>/runs/`
 - 只有最小 vendored 依赖才进 `Research/third_party/`
 
+目录名该怎么统一，见 [download-naming-policy.md](download-naming-policy.md)。
+
 
 

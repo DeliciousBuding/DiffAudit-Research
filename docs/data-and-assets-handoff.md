@@ -31,6 +31,8 @@
 
 详细规则见 [storage-boundary.md](storage-boundary.md)。
 
+如果你想知道 `Download/` 里为什么有些目录名像资产名、有些像来源名，再看 [download-naming-policy.md](download-naming-policy.md)。
+
 ## 2. Fastest Way To Match Our Assets
 
 如果你能从项目机器或共享盘拿到完整资产目录，最快方式是直接复制整个目录：

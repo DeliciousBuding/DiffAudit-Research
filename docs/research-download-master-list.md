@@ -37,6 +37,8 @@ Machine-readable mirror:
 
 That manifest is local to the machine and not committed with `Research`. The committed source of truth for a teammate is this document plus [data-and-assets-handoff.md](data-and-assets-handoff.md).
 
+命名规范与当前 source-trace 例外，见 [download-naming-policy.md](download-naming-policy.md)。
+
 ---
 
 ## 2. Shared Assets
