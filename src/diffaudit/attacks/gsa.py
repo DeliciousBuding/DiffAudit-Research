@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
+import hashlib
 from pathlib import Path
 from typing import Any
 
@@ -61,7 +63,7 @@ def _dataset_has_files(dataset_dir: str | Path) -> bool:
     dataset_path = Path(dataset_dir)
     if not dataset_path.exists():
         return False
-    return any(path.is_file() for path in dataset_path.rglob("*"))
+    return bool(_iter_dataset_files(dataset_path))
 
 
 def _discover_shadow_specs(
@@ -231,7 +233,29 @@ def _resolve_runtime_device(device: str) -> str:
 
 
 def _iter_dataset_files(dataset_dir: str | Path) -> list[Path]:
-    return sorted(path for path in Path(dataset_dir).rglob("*") if path.is_file())
+    allowed_suffixes = {".png", ".jpg", ".jpeg", ".bmp", ".webp"}
+    return sorted(
+        path
+        for path in Path(dataset_dir).rglob("*")
+        if path.is_file() and path.suffix.lower() in allowed_suffixes
+    )
+
+
+def _filter_dataset_files_by_sample_ids(
+    dataset_files: list[Path],
+    sample_id_allowlist: list[int] | None,
+) -> list[Path]:
+    if not sample_id_allowlist:
+        return list(dataset_files)
+    allowed = {int(value) for value in sample_id_allowlist}
+    selected: list[Path] = []
+    for path in dataset_files:
+        match = re.search(r"-(\d+)\.[^.]+$", path.name)
+        if match is None:
+            continue
+        if int(match.group(1)) in allowed:
+            selected.append(path)
+    return selected
 
 
 def _load_gsa_image_tensor(
@@ -244,6 +268,24 @@ def _load_gsa_image_tensor(
     tensor = torch.from_numpy(array).permute(2, 0, 1)
     tensor = (tensor - 0.5) / 0.5
     return tensor.unsqueeze(0).to(device)
+
+
+def _draw_loss_score_noise(
+    *,
+    shape: tuple[int, ...],
+    device: torch.device,
+    dtype: torch.dtype,
+    noise_seed: int | None,
+    sample_key: str,
+) -> torch.Tensor:
+    if noise_seed is None:
+        return torch.randn(shape, device=device, dtype=dtype)
+
+    seed_material = f"{int(noise_seed)}:{sample_key}".encode("utf-8")
+    derived_seed = int.from_bytes(hashlib.sha256(seed_material).digest()[:8], "big", signed=False)
+    generator = torch.Generator(device=device.type)
+    generator.manual_seed(derived_seed)
+    return torch.randn(shape, device=device, dtype=dtype, generator=generator)
 
 
 def _load_frozen_mask_summary(mask_summary: str | Path) -> dict[str, Any]:
@@ -421,6 +463,8 @@ def _extract_gsa_loss_scores(
     prediction_type: str,
     device: str,
     extraction_max_samples: int | None = None,
+    sample_id_allowlist: list[int] | None = None,
+    noise_seed: int | None = None,
 ) -> dict[str, Any]:
     from diffaudit.attacks.gsa_observability import (
         _build_gsa_noise_scheduler,
@@ -441,6 +485,10 @@ def _extract_gsa_loss_scores(
     )
     dataset_root = Path(dataset_dir)
     dataset_files = _iter_dataset_files(dataset_root)
+    dataset_files = _filter_dataset_files_by_sample_ids(
+        dataset_files,
+        sample_id_allowlist=sample_id_allowlist,
+    )
     if extraction_max_samples is not None:
         dataset_files = dataset_files[: int(extraction_max_samples)]
     timestep_stride = max(1, int(ddpm_num_steps / sampling_frequency))
@@ -452,7 +500,14 @@ def _extract_gsa_loss_scores(
     for index, image_path in enumerate(dataset_files):
         clean_image = _load_gsa_image_tensor(image_path=image_path, resolution=resolution, device=resolved_device)
         clean_batch = clean_image.repeat(len(timestep_values), 1, 1, 1)
-        noise = torch.randn(clean_batch.shape, device=clean_batch.device, dtype=clean_batch.dtype)
+        sample_key = image_path.relative_to(dataset_root).as_posix()
+        noise = _draw_loss_score_noise(
+            shape=tuple(clean_batch.shape),
+            device=clean_batch.device,
+            dtype=clean_batch.dtype,
+            noise_seed=noise_seed,
+            sample_key=sample_key,
+        )
         timesteps = torch.tensor(timestep_values, device=clean_batch.device).long()
         noisy_images = scheduler.add_noise(clean_batch, noise, timesteps)
 
@@ -506,7 +561,7 @@ def _extract_gsa_loss_scores(
         records.append(
             {
                 "sample_index": index,
-                "sample_path": image_path.relative_to(dataset_root).as_posix(),
+                "sample_path": sample_key,
                 "loss_score": score,
             }
         )
@@ -533,6 +588,7 @@ def _extract_gsa_loss_scores(
         "checkpoint_dir": str(resolved_checkpoint_dir),
         "sample_count": len(dataset_files),
         "score_stats": score_stats,
+        "noise_seed": int(noise_seed) if noise_seed is not None else None,
     }
 
 
@@ -1336,6 +1392,7 @@ def export_gsa_loss_score_packet(
     attack_method: int = 1,
     prediction_type: str = "epsilon",
     extraction_max_samples: int | None = None,
+    sample_id_allowlist: list[int] | None = None,
     device: str = "cpu",
     provenance_status: str = "workspace-verified",
 ) -> dict[str, Any]:
@@ -1425,6 +1482,7 @@ def export_gsa_loss_score_packet(
             prediction_type=prediction_type,
             device=device,
             extraction_max_samples=extraction_max_samples,
+            sample_id_allowlist=sample_id_allowlist,
         )
         export_results[job_name] = export_result
         if export_result["status"] != "ready":
@@ -1468,6 +1526,7 @@ def export_gsa_loss_score_packet(
             "attack_method": int(attack_method),
             "prediction_type": prediction_type,
             "extraction_max_samples": int(extraction_max_samples) if extraction_max_samples is not None else None,
+            "sample_id_allowlist_count": int(len(sample_id_allowlist)) if sample_id_allowlist is not None else None,
         },
         "exports": export_results,
         "notes": [

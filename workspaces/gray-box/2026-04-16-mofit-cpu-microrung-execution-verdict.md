@@ -22,7 +22,7 @@ Regression sweep before launch:
 
 Fresh micro-rung launch:
 
-- `conda run -n diffaudit-research python D:\Code\DiffAudit\Research\scripts\run_mofit_interface_canary.py --launch-profile cpu-micro-rung --run-root D:\Code\DiffAudit\Research\workspaces\gray-box\runs\mofit-sd15-celeba-microrung-20260416-cpu-r2 --member-dir D:\Code\DiffAudit\Research\workspaces\black-box\runs\clid-paper-align-asset-prep-20260415-r1\datasets\member --nonmember-dir D:\Code\DiffAudit\Research\workspaces\black-box\runs\clid-paper-align-asset-prep-20260415-r1\datasets\nonmember --model-dir D:\Code\DiffAudit\Download\shared\weights\stable-diffusion-v1-5 --lora-dir D:\Code\DiffAudit\Research\external\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models\model-checkpoints\celeba_partial_target\checkpoint-25000 --blip-dir D:\Code\DiffAudit\Download\shared\weights\blip-image-captioning-large`
+- `conda run -n diffaudit-research python D:\Code\DiffAudit\Research\scripts\run_mofit_interface_canary.py --launch-profile cpu-micro-rung --run-root D:\Code\DiffAudit\Research\workspaces\gray-box\runs\mofit-sd15-celeba-microrung-20260416-cpu-r2 --member-dir D:\Code\DiffAudit\Research\workspaces\black-box\runs\clid-paper-align-asset-prep-20260415-r1\datasets\member --nonmember-dir D:\Code\DiffAudit\Research\workspaces\black-box\runs\clid-paper-align-asset-prep-20260415-r1\datasets\nonmember --model-dir D:\Code\DiffAudit\Download\shared\weights\stable-diffusion-v1-5 --lora-dir D:\\Code\\DiffAudit\\Download\\black-box\\supplementary\\recon-assets\\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models\model-checkpoints\celeba_partial_target\checkpoint-25000 --blip-dir D:\Code\DiffAudit\Download\shared\weights\blip-image-captioning-large`
 - final result:
   - `status = canary_executed`
   - `executed_member_count = 2`
@@ -66,3 +66,4 @@ Execution note:
 - `root_sync = none`
 - `platform_runtime_handoff = none`
 - `competition_material_sync = none`
+

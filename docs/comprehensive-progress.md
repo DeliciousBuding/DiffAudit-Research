@@ -6,18 +6,18 @@
 
 ## 当前一句话
 
-当前仓库已经具备三条攻击线的基本骨架；白盒/灰盒主讲线现在固定为成熟主线 `PIA + GSA/W-1` 加一条保留中的探索主线 `SMP-LoRA / DP-LoRA`。但后者已不再处于“等待 optimizer/lr frontier 放行”的阶段：它已经拿到一张 bounded harmonized local comparator board，并因此从早前的 clean local-win 叙事收缩为 `metric-split bounded exploration branch`。当前 `active GPU question = none`；`PIA vs TMIA-DM confidence-gated switching` 已完成首个真实 offline packet，但结论是 `negative but useful`，所以 gray-box 已让出下一个 `CPU-first` 槽位。当前最诚实状态因此更新为：GPU 继续空闲，`next_gpu_candidate = none`；`X-66` 已确认 broadened `I-B` stack 仍没有 genuinely new bounded successor hypothesis，因为这些附加材料要么只是历史 intake / observability plumbing，要么仍然绑定在 paper-faithful `SD1.4 / LAION / memorized prompts / SSCD` 协议面上，而不是当前 admitted `DDPM/CIFAR10` 表面；`X-67` 把主槽位重新收敛回 `I-A` 后，`X-68` 又确认 `I-A` 只剩一条真实但很窄的 carry-forward 残余，即 `Leader` 顶层一页表仍会诱导 `AUC / ASR` 优先读取；该残余现已清掉。随后 `X-70` 恢复出一条新的非灰盒候选面：`WB-CH-4 white-box loss-feature challenger family`，`X-71` 确认当前唯一诚实的近端入口是 bounded `LSA*`-style same-asset lane，`X-72` 冻结出“合同成立但当前没有 loss-score artifact”，`X-73` 把 export path 收紧到独立的 in-repo internal helper / CLI surface，`X-74` 把这条 surface 真正落成并完成一轮 bounded real-asset smoke，`X-75` 又把第一条 honest packet 固定为 `threshold-style + shadow-oriented + shadow-threshold-transfer + extraction_max_samples = 64`，`X-76` 则把 evaluator surface 真正落成并在真实 bounded smoke 上验证出 `shadow-only transfer` 与 `target self-board diagnostic-only` 的 honesty boundary，`X-77` 又把第一条 real bounded actual packet 真正落成并给出 `AUC = 0.699463 / ASR = 0.632812 / TPR@1%FPR = 0.03125 / TPR@0.1%FPR = 0.03125` 的 transferred target board，`X-78` 则把这条 branch 冻结为 `bounded auxiliary white-box evidence / below release-grade low-FPR honesty / below immediate same-family follow-up`，`X-79` 又把 repo-level 主槽位重新收回到 `I-A`，`X-80` 清掉了 `mainline-narrative.md` 的 active residue，`X-81` 确认下一步应先做 stale-entry sync，`X-82` 则把活跃 higher-layer 读链重新拉齐，`X-83` 又确认 stale sync 清掉之后仍没有 blocked/hold branch honest reopen，因此应恢复一条新的 non-graybox candidate surface，`X-84` 又把这条 surface 真正恢复成 `cross-box admitted-summary quality/cost read-path hardening`；现在 `X-85` 已经把 admitted summary 明确升级为 `metrics + evidence level + quality/cost + boundary` 的可消费读链，因此当前 live lane 已前推到 `X-86 non-graybox next-lane reselection after X-85 admitted-summary sync review`，CPU sidecar 继续保持为 `I-A higher-layer boundary maintenance`。
+当前仓库已从“继续找下一条 GPU 题”切到“报告驱动的长期主线收敛”。`PIA + GSA/W-1` 仍是当前成熟主线，但最新真实 packet 已经让近端优先级再次收口：`06-g1a` 的 per-sample `H1/H2` 都已在真实 `256` packet 上 miss，`H5` 只保留为 internal-only set-level governance fallback；`05-cross-box` 已在 enlarged `GSA + PIA` matched packet 上完成更强的 full-overlap repeated holdout，并确认 stable tail-lift；随后第一版 bounded `H4` 也已落地，但只给出 auxiliary/cost-saver 读法，因此 near-term active slot 现已从 `05` 继续让给 `04-defense`。但 `04` 当前也已经把 `H2 privacy-aware adapter` 的 packet-scale 问题走完了第一轮最小验证：canonical `probe-h2-assets`、`prepare-h2-contract`、`run-h2-defense-pilot`、`review-h2-defense-pilot` 已在 admitted CIFAR10 资产上 landed，冻结了 `checkpoint-9600/model.safetensors`、`1000 / 1000` `32 x 32 x 3` `RGB` 资产身份；随后最小 `4 / 4` CPU follow-up 也已落地。当前更准确的 `H2` 读法已从 `minimal contract-complete but first bounded review negative` 收紧成 `minimal contract-complete + bounded 4/4 follow-up negative but useful`：`1 / 1` transfer-only board 全零，而 `4 / 4` board 已出现非零 target-transfer（`AUC = 0.5 / ASR = 0.375 / TPR@1%FPR = 0.5 / TPR@0.1%FPR = 0.5`），说明它不只是纯退化板；但 baseline 与 defended 四项 delta 仍然都是 `0.0`，所以它依然不能写成 execution-ready successor，也不能升为 `next_gpu_candidate`。`02` 退到为 `04/05` 输送 second signal 的 sidecar 位置，而它的 enabling gap 与第一轮 fusion review 也已进一步收口：`SimA` packet-score export 已 landed，且 `PIA + SimA logistic_2feature` 在 frozen `461 / 474` packet 上给出稳定 `AUC / ASR` 增益与部分 `TPR@1%FPR` 改善，但没有稳定 `TPR@0.1%FPR` lift，因此 gray-box 现在应再次让出下一条 `CPU-first` 槽位。`03` 固定为 white-box distinct second family 的 medium-horizon gap，`01` 固定为 parked black-box candidate pool。当前 `active GPU question = none`，`04-H2` 也已经做完一次最小 packet-scale 放大并再次关停；因此当前 live lane 已切到 `X-141 non-graybox next-lane reselection after X-140 stale-entry sync`，而不是继续机械扩 `H2`。
 
 ## 进度总览
 
 | 维度 | 当前判断 | 备注 |
 | --- | --- | --- |
-| 黑盒攻击 | `较成熟` | `recon` 是当前最强证据线 |
-| 灰盒攻击 | `最成熟` | `PIA` 已进入 real-asset runtime mainline |
-| 白盒攻击 | `已冻结 admitted 主结果` | `GSA` 的 `epoch300 rerun1` 已写回 admitted 主结果，AUC 为 `0.998192` |
+| 黑盒攻击 | `主证据稳定，近端后置` | `recon` 是当前最强证据线；black-box 当前更像候选池而不是近端主槽位 |
+| 灰盒攻击 | `最成熟 + sidecar可扩展` | `PIA` 已进入 real-asset runtime mainline；`SimA` 已 execution-feasible but weak，且 `PIA + SimA logistic_2feature` 已给出 bounded `AUC / ASR` 增益，但最严 `TPR@0.1%FPR` 没有稳定 lift，因此当前仍只应读作 auxiliary sidecar |
+| 白盒攻击 | `主结果稳定，distinct second family 仍缺` | `GSA` 已写回 admitted 主结果；`activation-subspace fingerprint` 是当前最干净的 medium-horizon 缺口 |
 | 黑盒防御 | `基本未落地` | `B-1 / B-2` 仍在设计层 |
-| 灰盒防御 | `已进入 provisional G-1 + adaptive gate completed` | `PIA GPU128/GPU256/GPU512` 三档与一次 `GPU512` 同档 repeat 都显示 `stochastic-dropout` 压低指标；新的 `GPU512` adaptive-reviewed baseline + `all_steps / late_steps_only` 已落地；round-26 的 `GPU128/GPU256 adaptive portability pair` 又在 `RTX4070 8GB` 上给出同向结果，其中 `GPU128` 是 quickest portable pair，`GPU256` 带 cost warning |
-| 白盒防御 | `已有 full-scale 主结果，bridge diagnostic 已产生` | `DPDM` 已完成 `strong-v3 full-scale` defended comparator，并额外拿到 batch32 same-protocol diagnostic summary，但尚未进入 admitted 合同 |
+| 灰盒防御 | `已有当前 defended story，下一步应更受控` | `stochastic-dropout` 仍是当前 defended story；报告更支持 selective successor，而不是继续 blanket 变体 |
+| 白盒防御 | `已有 defended comparator，下一步转 post-training family` | `DPDM` 仍是当前 defended comparator；更值得长期看的是真正的 subspace edit / unlearning successor |
 | 统一评估表 | `已有第一版` | 已新增 admitted main results 的跨盒总表 |
 
 当前阶段追加判断：
@@ -40,7 +40,23 @@
   - `Local Mirror` 不提供第二防御家族
 - [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 已把黑盒五件套固定为 decision-grade package，本轮 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json) 又在 CPU 上复算到相同 headline metrics，且不改 admitted 结果
 - [2026-04-10-pia-provenance-split-protocol-delta](../workspaces/gray-box/2026-04-10-pia-provenance-split-protocol-delta.md) 已把 `split shape aligned locally / random-four-split protocol still open / strict redo currently dirty` 三点固定为新的 provenance supplement
-- `X-86→X-89` 序列已完成：`X-86` 识别 G1-A blocker resolution，`X-87` 把 G1-A/X-90 deferred 为 `needs-assets`（TMIA-DM 512-sample gap），`X-88` 重定向到 root ROADMAP B-M0 Candidate A（bounded shadow-LR white-box loss-score follow-up），B-M0 Candidate A bounded GPU review 决策为 `hold-review-only`（CPU-bound 离线评估），`X-89` 在 B-M0 window 关闭后（两条候选均 CPU-bound，无 GPU release）返回 I-A CPU sidecar。当前 `active_gpu_question = none`，`next_gpu_candidate = none`，继续 I-A higher-layer boundary maintenance。 
+- `X-86→X-89` 序列已完成：`X-86` 识别 G1-A blocker resolution，`X-87` 把 G1-A/X-90 deferred 为 `needs-assets`（TMIA-DM 512-sample gap），`X-88` 重定向到 root ROADMAP B-M0 Candidate A（bounded shadow-LR white-box loss-score follow-up），B-M0 Candidate A bounded GPU review 决策为 `hold-review-only`（CPU-bound 离线评估），`X-89` 在 B-M0 window 关闭后（两条候选均 CPU-bound，无 GPU release）返回 I-A CPU sidecar。当前 `active_gpu_question = none`，`next_gpu_candidate = none`，继续 I-A higher-layer boundary maintenance。
+- issue #10 已关闭为 `positive hardening`：`recon` 现在有独立的 strict Stage 0 paper gate（`check-recon-stage0-paper-gate`），它会在当前公开 bundle 只证明 `proxy-shadow-member / local-semantic-chain-ready` 时明确返回 `blocked`，防止把 local-ready 误读成 paper-aligned `Attack-I`。
+- GPT-5.4 round-2 报告已完成 long-horizon 收敛，而最近真实 packet 又把 active slot 进一步收口为：
+  - `05-cross-box` = 当前 near-term active 主线
+  - `04-defense` = 当前受控 successor scouting 主线
+  - `02-gray-box` = second-signal sidecar
+  - `03-white-box` = medium-horizon gap
+  - `01-black-box` = parked candidate pool
+  - `06-g1a` = governance fallback preserved after per-sample miss
+- `05-cross-box` 现在也已有 enlarged full-overlap pairboard：
+  - shared packet = `461 member / 474 nonmember`
+  - `logistic_2feature` 在 `AUC` 上 `4/5` 胜，在 `TPR@1%FPR` 与 `TPR@0.1%FPR` 上 `5/5` 全胜
+  - `weighted_average` 仍只适合保留为 tail-only auxiliary fusion
+  - 当前最诚实口径是 `stable low-FPR tail-lift confirmed on enlarged matched packet`
+  - 第一版 bounded `H4` 现已完成，但只落在 auxiliary/cost-saver 边界上
+  - 因此 `05` 当前保留 promoted `H1/H2` 结果，active slot 则继续让给 `04`
+- 这意味着未来 30 天不应再把 `01-06` 读成六条平行执行线，而应读成 `05 -> 04` 的 active chain + `02/03/01` 的支持链 + `06` 的治理退路
 
 ## 攻击主线
 
@@ -50,6 +66,7 @@
 - 次主线候选：`variation`（对应 `Towards Black-Box`）
 - 当前能说的话：
   - 公开资产上的 black-box 风险已经有可引用主证据
+  - `recon` strict paper-faithful `Attack-I` 入口现在有可执行 Stage 0 gate；当前正确结果仍是 `blocked / paper_aligned_semantics = false`
   - `variation` 已能在本地 CPU 上重复跑 synthetic smoke
   - `variation` 的真实 API 资产 probe 已确认 blocked，当前缺 query image root；但这条线现在已经是 `contract-ready blocked`：
     - 第一硬门槛是 `query_image_root / query images`
@@ -222,25 +239,90 @@
 ## 当前最短执行顺序
 
 1. 继续把 `PIA + GSA/W-1` 固定为成熟主线，并保持 admitted/system narrative 不漂移
-2. 将 `SMP-LoRA / DP-LoRA` 固定为当前 `bounded exploration branch`，并明确当前 `no-new-gpu-question`；只有在出现 genuinely new bounded hypothesis 时才重新放行
-3. 将 [2026-04-09-pia-provenance-dossier](../workspaces/gray-box/2026-04-09-pia-provenance-dossier.md) 固定为 CPU sidecar blocker，并保持 `workspace-verified + paper-alignment blocked by checkpoint/source provenance` 不漂移
-4. 已完成一轮非灰盒 `CPU-first` lane reselection，并已将 `PIA provenance dossier` 的 higher-layer boundary sync、`I-B.1 minimum honest protocol bridge`、`I-B.2 bounded localization observable selection`、`I-B.3 bounded local intervention proposal`、`I-B.4 quality-vs-defense metric contract`、`I-B.5 first bounded localization/intervention packet selection`、`I-B.6` first executable localization/intervention packet、`I-B.7` bounded attack-side evaluation packet selection、`I-B.8` bounded attack-side evaluation packet control、`I-B.9` first honest intervention-on/off bounded review contract selection、`I-B.10` intervention-on/off bounded review surface implementation、`I-B.11` execution-budget review、`I-B.12` extraction-side bounded cap implementation、`I-B.13` launch review、`I-B.14` first actual bounded admitted packet、`I-B.15` boundary review、`X-16` next-lane reselection、`X-17` higher-layer sync、本轮 `I-A refresh after negative actual I-B packet`、`X-18` next-lane reselection、`XB-CH-2` blocker refresh、`X-19` 真实 lane 选择、`X-20` stale-entry sync、`X-21` reselection、`X-22` residue audit、`X-23` reselection、`X-24` residual cleanup、`X-25` reselection、`X-26` provenance maintenance review、`X-27` reselection、`X-28` shared-surface contract freeze review、`X-29` reselection、`X-30` carry-forward audit、`X-31` stale-entry sync、`X-32` reselection、`X-33` stale intake sync、`X-34` reselection、`X-35` candidate-surface expansion、`X-36` successor freeze、`X-37` reselection、`X-38` stale-surface sync、`X-39` reselection、`X-40` candidate-surface expansion、`X-41` hypothesis generation、`X-42` contract review、`X-43` pairboard identity freeze、`X-44` agreement-board contract review、`X-45` scalar contract freeze、`X-46` agreement-board read、`X-47` reselection、`X-48` stale-entry sync、`X-49` reselection、`X-50` `I-A` higher-layer boundary maintenance audit、`X-51` reselection、`X-52` materials stale-entry sync、`X-53` reselection、`X-54` `I-B` successor freeze、`X-55` reselection、`X-56` `I-C` successor freeze、`X-57` reselection、`X-58` stale-entry sync、`X-59` reselection、`X-60` candidate-surface expansion、`X-61` black-box paper-backed scoping、`X-62` reselection、`X-63` `I-A` residue audit、`X-64` reselection、`X-65` `I-B` candidate-surface expansion、`X-66` broadened `I-B` scoping、`X-67` reselection、`X-68` `I-A` carry-forward audit、`X-69` reselection、`X-70` non-graybox candidate-surface expansion、`X-71` white-box loss-feature scoping、`X-72` same-asset contract review、`X-73` export-surface review、`X-74` export-surface implementation、`X-75` first-packet selection 与 `X-76` evaluator implementation 都收口；当前执行项已前推为 `X-77 white-box bounded loss-score first actual packet after X-76 evaluator implementation`，`next_gpu_candidate = none`，CPU sidecar 为 `I-A higher-layer boundary maintenance`
-5. 继续维持 `I-A` 的更硬技术创新合同：
-   - formal statement
-   - adaptive attacker
-   - `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR`
-6. 保持 [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 作为当前黑盒固定包，并明确它继续是 `writing-only / non-GPU / no admitted change`
-7. `variation / Towards` 继续保留为 formal local secondary track，并明确 real-API assets blocked
-8. 在统一表和叙事材料里补齐 `threat model / asset semantics / evidence level / external-validity boundary`
-9. 用 [future-phase-e-intake](future-phase-e-intake.md) 与 [2026-04-10-phase-e-intake-ordering-review](../workspaces/intake/2026-04-10-phase-e-intake-ordering-review.md) 固定 `Phase E` 候选池排序，并只允许进入准入验证
-10. 用 [2026-04-10-intake-registry-phase-e-boundary-review](../workspaces/intake/2026-04-10-intake-registry-phase-e-boundary-review.md) 与 [phase-e-candidates.json](../workspaces/intake/phase-e-candidates.json) 把 machine-readable candidate ordering 从 `index.json.entries[]` 的 promoted contract 面里剥离出来
-11. 保持 `SecMI = independent corroboration line`，不要再回退成 `blocked baseline`
-12. 保持 `TMIA-DM = strongest packaged gray-box challenger`，并继续复用 defended challenger 比较口径
-13. 将 `Noise as a Probe` 固定为 `new latent-diffusion challenger candidate with repeat-positive bounded local evidence`
-14. 用 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md)、[2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 与 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 保留 `Finding NeMo + local memorization + FB-Mem` 的历史 intake gate，但当前 branch 应以 `I-B` packet 与 post-packet boundary review 为准，而不是继续把它当作活跃 intake dossier
-15. `PIA paper-aligned confirmation` 继续保留文档层条件性首位，但执行层视为 `no-go`
-16. 基于第一版统一总表继续补质量 / 成本列，并保持灰盒机理说明与 adaptive gate 一致
-17. 如当前或后续 packet 改变了 exported fields / packet contract / summary logic / runner requirement，允许 `Researcher` 直接对接 `Platform / Runtime-Server`，但默认先做 note-level handoff，不要机械跨仓
+2. 将 `06-H1 temporal QR surrogate` 固定为当前 `X-90` blocker-resolution 默认路线；只有当它过不了 teacher-calibrated gate 时，才切到 `06-H2 RMIA/BASE temporal LR`
+   - 当前 repo 已经落地 `06-H1` 的真实 packet surface，并在 `64 -> 128 -> 256` 上完成 first actual teacher-calibrated validation
+   - 当前固定 `H1` packet 在 `256` 上停在 `Spearman = 0.748677 / Pearson = 0.790525 / AUC = 0.687477`，相对 `TMIA-DM long_window teacher AUC = 0.850357` 仍有明显差距
+   - 第一版固定 `H2` packet 现也已在真实 `256` calibration packet 上执行，primary `late-window mean` 仅到 `AUC = 0.644142 / TPR@1%FPR = 0.007812 / threshold_cv = 0.806137`
+   - 因此 `06` 的当前读法已经从 `H1 miss -> H2 fallback` 进一步收敛成 `per-sample H1/H2 both miss`；下一步是 `H5` 治理退路或 lane-yield，而不是继续对这两版 packet 做 `512` transfer
+3. 将 `05-H1/H2` 固定为当前 cross-box 主执行包：
+   - 一张 canonical `GSA + PIA` shared score table
+   - `best single / weighted average / 2-feature logistic`
+   - `support / disconfirm / neutral`
+   - repo 内 pairboard infra 已经落地，且 `GSA loss-score-export` 已可直接进入 shared-index intersection
+   - 当前真实 `PIA 512 adaptive x GSA bounded actual loss-score` shared subset 只有 `3 member + 4 nonmember`，因此现在的 next gate 是更大的 matched shared packet，而不是提前写 fusion 结论
+   - `tail-gated cascade` 只在前两者有正增益后再开
+4. 将 `04` 固定为受控 successor scouting：
+   - 默认只开 `H1 risk-targeted SISS`
+  - `H2 privacy-aware adapter` 作为紧邻 fallback，但当前真实状态已更新为 `prototype-implemented / contract-incomplete`
+   - `H1` 现在已经不只是口头优先级：repo 内已落地一个 CPU-first `prepare-risk-targeted-unlearning-pilot` surface，并在当前 full-overlap `GSA + PIA` shared board 上导出了 `k=16/32/64` forget/control lists
+   - 当前 `Top10%(GSA) ∩ Top10%(PIA)` member overlap 只有 `8/461`，所以第一轮真实 ladder 还不能走纯交集，只能走 `aggregate-percentile`
+   - 第一档真实 `k32 / 32-step / CUDA` retain+forget pilot 也已经执行，说明这条线不是“只能写 prep”；当前 canonical run 还额外暴露出 target-member 目录的 duplicate-id 事实，因此 live 训练文件数是 `33 forget / 967 retain`，而不是简单的 `32 / 933`
+  - 第一张挂到 pilot 上的 attack-side `forgotten subset` 诊断板也已落地，但读数并不乐观：在 borrowed-shadow 的 `defense-unaware threshold-transfer` 下，`AUC` 从 `0.774691` 掉到 `0.755401`，两档 low-FPR `TPR` 都从 `0.222222` 掉到 `0.027778`
+  - `retained high-risk companion` 板也已经存在，但读法仍只是 `mixed/weak`：`AUC` 从 `0.703431` 掉到 `0.670752`，两档 low-FPR `TPR` 只从 `0.083333` 回到 `0.111111`
+  - 第一张 full-split board 现也已落地在 `1000 member / 1000 nonmember` 上，且 target-wide 读法仍然负向：`AUC` 从 `0.618043` 掉到 `0.596696`，`ASR` 从 `0.5515` 升到 `0.5665`，两档 low-FPR `TPR` 从 `0.018 / 0.006` 掉到 `0.011 / 0.003`
+  - 因此 `04` 当前最诚实的 attached-read stack 已经不是“只看一个负向 forgotten subset”，而是 `forgotten negative + retained mixed/weak + full-split negative`
+  - 现在 repo 还多了一层更公平的 target-side control：`GSA` review export 支持 same-noise paired rerun
+  - 在这条更强 surface 上，三张板仍然没有翻正：
+    - forgotten：`AUC 0.845679 -> 0.827932`
+    - retained：`AUC 0.601307 -> 0.597222`
+    - full split：`AUC 0.623331 -> 0.617696`
+  - paired-noise full-split 的 score shift 也没有显示出强烈的 forgotten-targeted 效应，而更像 broad global shift
+  - 所以当前不只是“还没有 defense-aware rerun”，而是“当前这个 `k32` instantiation 本身就还不值得去吃 defense-aware rerun 的成本”
+  - 随后第一档 pure-intersection lower-bound pilot `k8` 也已真实落地：这是当前第一条不靠 `aggregate-percentile`、而是完全靠 `Top10%` overlap 的 forget set
+  - `k8` 的读法是 `cleaner but too weak`：
+    - forgotten subset 基本完全持平
+    - retained companion 不再保留 `k16` 那种 tail 改善
+    - full split 依然近中性，但不足以抵消它的过度收紧
+  - 所以当前 `04` 的最诚实 lead 不是 `k8`，而仍然是 `k16`
+  - 此后又补了一档最小 changed pilot：`k16`，即只把 forget set 从 `32` 收到 `16`，其他训练超参数不动
+  - 这档 `k16` 在 paired-noise 三板上的读法明显优于 `k32`：
+    - forgotten：`AUC` 仍略降，但 low-FPR tails 从 `0.315789` 升到 `0.368421`
+    - retained：`AUC` 持平，tails 从 `0.235294` 升到 `0.294118`
+    - full split：接近中性，`AUC 0.623331 -> 0.622141`
+  - paired-noise full-split 的 shift 也从 `k32` 的 `~+0.0075` global drift 收到 `k16` 的 `~+0.0018` level
+  - 因此当前 `04` 的最诚实读法不再是“只有一个弱 pilot”，而是“`k32` 已基本判弱，`k16` 是当前 best working instantiation，但仍未到 defense-positive”
+  - 此后又补了一档单变量 `k16 + alpha-up` follow-up（`alpha = 0.75`，其余不动），但这档结果是 `negative but useful`：
+    - forgotten subset 没有比原始 `k16` 再变好，只是把 `AUC` 从 `0.885965` 继续压到 `0.883041`
+    - retained companion 明显回退，原先 `k16` 保留下来的 tails 改善直接消失，`AUC` 也从 `0.781046` 掉到 `0.774510`
+    - full split 虽然 `AUC` 形式上更接近中性，但 `TPR@1%FPR` 从 `0.026` 掉到 `0.024`，`ASR` 也略变差
+  - 因此当前 `04` 的控制读法再次收紧：原始 `k16` 仍是 best working instantiation，而“继续加 forget pressure”已经不再是 open lever；如果同家族继续走，只能先做 CPU-side selective-variable review，而不是立刻再放一个 GPU rerun
+  - 这一层 selective-variable review 现在也已被进一步收成一个具体的 conditional candidate：若 `04-H1` 后续还要在同家族内继续，第一档 honest 候选不再是 `alpha` 或 `k`，而是 `k16 + mixture_lambda-down`；当前冻结的第一档中强度参数是 `mixture_lambda = 0.4375`
+  - 但这档 `k16 + mixture_lambda-down` 现也已经真实执行，而且同样落成 `negative but useful`：
+    - forgotten subset 的 low-FPR tails 从原始 `k16` 的 `0.368421` 掉到 `0.263158`
+    - retained companion 的 tails 也从 `0.294118` 掉到 `0.176471`
+    - full split 虽然 `AUC` 略升到 `0.624224`、`ASR` 略降到 `0.5550`，但 `TPR@1%FPR` 反而从 `0.026` 掉到 `0.021`
+  - 所以当前 `04` 的更硬结论已经进一步收口为：原始 `k16` 仍是唯一保得住的 working instantiation，而同家族 scalar tuning 现在不再是 honest immediate GPU path
+  - post-`H1` family review 也已经补齐：
+    - repo 当前只有 `04-H1` 的 canonical `diffaudit` 级实现、CLI 与 review contract
+    - `04-H2 privacy-aware adapter` 现在已有 prototype implementation / script / tests / bounded CPU smoke，且 canonical `probe-h2-assets`、`prepare-h2-contract`、`run-h2-defense-pilot`、`review-h2-defense-pilot` 都已 landed
+    - 它的第一张 same-packet review 确实是 `transfer-only + 1/1 + all-zero`
+    - 但最小 `4 / 4` follow-up 也已经真实执行：target-transfer 不再纯零，却仍然没有任何 defended-vs-baseline delta
+    - 因此 `04` 的当前读法已经变成 `H2 should yield after one minimal packet-scale follow-up`，而不是继续自动放大或提 GPU
+  - 这对 `Runtime/Platform` 的含义也已经固定：
+    - 当前 sharper `04` 边界只需要 higher-layer wording 同步
+    - `Research -> Runtime -> Platform` 不需要新增 schema 或协议
+   - `H3` 只允许作为 cheap sidecar，不许与 `H1/H2` 并推
+5. 将 `02` 固定为 sidecar enabling line，而不是独立主槽位：
+   - `SimA` 当前只保留为 `execution-feasible but weak` scorer
+   - 不直接重开 plain `SimA` scorer rerun
+   - `SimA` packet-score export 已 landed，`member_scores / nonmember_scores / indices` 已可导出
+   - 第一轮 `PIA + SimA` bounded full-overlap pairboard 已 landed：
+     - `logistic_2feature` 在 `5 / 5` repeated holdout 上稳定提升 `AUC / ASR`
+     - `TPR@1%FPR` 只给出部分改善
+     - `TPR@0.1%FPR` 没有稳定 lift
+   - 因此 `PIA + SimA` 仍保留为 auxiliary gray-box sidecar，而不是 promoted next lane
+   - 最后才看 `suspicion-gated late-step perturbation`
+6. 将 `03` 固定为 medium-horizon gap：
+   - `activation-subspace fingerprint` 是当前最干净的白盒 second family
+   - `risky-subspace pruning` 是当前最值得保留的 post-training defense 候选
+   - 但它不应抢占 `05 -> 04 -> 06` 的近端槽位
+7. 将 `01` 固定为 parked black-box candidate pool：
+   - 先冻结 `recon` comparator rung
+   - 再保留 `response-cloud geometry / strength-response / micro-bag statistical audit`
+   - 当前不允许它消耗近端主资源
+8. 保持 `SecMI = independent corroboration line`、`TMIA-DM = strongest packaged gray-box challenger`、`Noise as a Probe = bounded challenger candidate` 这些既有真值不漂移
+9. 基于统一表继续补质量 / 成本 / boundary 列，并保持 low-FPR 与 adaptive 解释优先
+10. 若 `06/05/04` 任一方向改变 exported fields / packet contract / summary logic / runner requirement，允许 `Researcher` 对接 `Platform / Runtime-Server`，但默认仍先做 note-level handoff
 
 ## 申报 / PPT 应该怎么讲
 
@@ -256,6 +338,7 @@
 
 - 逐线状态：[reproduction-status.md](reproduction-status.md)
 - 主线叙事：[mainline-narrative.md](mainline-narrative.md)
+- GPT-5.4 原始结果包：[report-bundles/gpt54/round2-results](report-bundles/gpt54/round2-results)（第二轮） / [report-bundles/gpt54/round1-results](report-bundles/gpt54/round1-results)（第一轮）
 - 防御文档索引：[mia-defense-research-index.md](mia-defense-research-index.md)
 - 防御执行清单：[mia-defense-execution-checklist.md](mia-defense-execution-checklist.md)
 - 研究仓路线图：[../ROADMAP.md](../ROADMAP.md)

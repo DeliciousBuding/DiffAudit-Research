@@ -5,9 +5,9 @@
 - `owner`: active-thread
 - `scope`: 统一黑/灰/白研究规划下的第一优先执行线，负责黑盒成员推断、数据集级审计、black-box leakage 线索整理
 - `status`: 进行中，`recon` 的 black-box 主证据、最佳单指标参考和 `variation` 次主线口径已冻结；`semantic-auxiliary-classifier` 已落成当前 leading new-family challenger；`CLiD` 已收紧到 `evaluator-near local clip-only corroboration`；`served-image-sanitization` 已记为 mitigation `no-go`；`X-61` 又进一步确认 paper-backed backlog 里没有新的 promotable family，因此黑盒当前重新回到 `stable but not innovation-leading`
-- `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的语义 gate 现已 machine-audited 到 `proxy-shadow-member`，但仍未升级到 paper-aligned；`CLiD` 仍缺 shadow-side evaluator assets；`variation` 真实 `query_image_root` 仍缺；`semantic-auxiliary-classifier` 当前也还没有 genuinely new feature family；`Kandinsky 10/10` 当前本机链路仍异常慢；剩余 face-image LDM 论文路线当前又落在 domain-specific collection-level risk note，且缺 bounded local execution contract
+- `blocked by`: `recon` 公开资产包（DOI: `10.5281/zenodo.13371475`）的语义 gate 现已 machine-audited 到 `proxy-shadow-member`，并且 issue #10 已补上 strict Stage 0 paper gate；该 gate 当前会明确返回 `blocked / paper_aligned_semantics = false`，所以它仍未升级到 paper-aligned；`CLiD` 仍缺 shadow-side evaluator assets；`variation` 真实 `query_image_root` 仍缺；`semantic-auxiliary-classifier` 当前也还没有 genuinely new feature family；`Kandinsky 10/10` 当前本机链路仍异常慢；剩余 face-image LDM 论文路线当前又落在 domain-specific collection-level risk note，且缺 bounded local execution contract
 - `next command`: keep black-box wording fixed to `Recon / semantic-auxiliary-classifier / CLiD / variation` and do not promote a GPU question; `X-61` already closed the remaining paper-backed scouting surface as `negative but useful`, so black-box should now yield the live slot back to the cross-box control plane while only reopening on a genuinely distinct bounded family or real asset/boundary shift
-- `last updated`: 2026-04-17
+- `last updated`: 2026-04-21
 
 ## 统一规划定位
 
@@ -88,8 +88,9 @@
 4. 固定 `variation = contract-ready blocked`，在真实资产到位前只允许保持 blocked contract，不开结果型 run
 5. 固定黑盒当前状态为 `no-new-gpu-question`，直到出现 genuinely new feature family 或真实 asset/boundary change
 6. 复用 `audit-recon-public-bundle` 与 [2026-04-09-recon-public-bundle-audit.md](2026-04-09-recon-public-bundle-audit.md) 持续跟踪 `recon` 语义 gate，并强制带上 `proxy-shadow-member` 限制
-7. 维持黑盒状态文档、实验目录和主线命令说明同步，并明确这些同步属于统一三线规划下的黑盒执行层收口
-8. 把 `B-1 / B-2` 只记录为 black-box defense backlog，不提前写成已有可比较结果
+7. 如果要启动 strict paper-faithful `Attack-I`，必须先跑 `check-recon-stage0-paper-gate`；当前公开 bundle 的正确结果是 `blocked`，不是 paper-aligned release
+8. 维持黑盒状态文档、实验目录和主线命令说明同步，并明确这些同步属于统一三线规划下的黑盒执行层收口
+9. 把 `B-1 / B-2` 只记录为 black-box defense backlog，不提前写成已有可比较结果
 
 ## 2026-04-16 新观察
 
@@ -114,6 +115,7 @@
 ## 当前阻塞项
 
 - 公开 `recon` checkpoint 与 dataset 已在本机落地，运行时语义链现在已被 machine-audited，但仍停在 `proxy-shadow-member`
+- issue #10 已把这层边界落成可执行 Stage 0 gate：`check-recon-stage0-paper-gate` 当前应返回 `blocked`，阻止把 local-ready bundle 当成 strict paper-faithful `Attack-I`
 - 仍缺与论文一致的 target/shadow/member/non-member 直接映射说明
 - 黑盒不同论文的攻击假设并不完全相同，需要统一术语
 - `variation` 当前只有本地 synthetic smoke，与正式 blocked 的真实 API 资产探针；没有 query image root 就不能继续往真实 black-box 推进

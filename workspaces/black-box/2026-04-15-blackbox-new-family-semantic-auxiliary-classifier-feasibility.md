@@ -73,7 +73,7 @@ Primary local assets:
   - `D:\Code\DiffAudit\Research\workspaces\black-box\runs\clid-paper-align-asset-prep-20260415-r1\datasets\member`
   - `D:\Code\DiffAudit\Research\workspaces\black-box\runs\clid-paper-align-asset-prep-20260415-r1\datasets\nonmember`
 - target-side fine-tuned adapter:
-  - `D:\Code\DiffAudit\Research\external\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models\model-checkpoints\celeba_target\checkpoint-25000`
+  - `D:\\Code\\DiffAudit\\Download\\black-box\\supplementary\\recon-assets\\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models\model-checkpoints\celeba_target\checkpoint-25000`
 
 Optional feature backbones:
 
@@ -127,3 +127,4 @@ Otherwise keep it as:
 - `current task`: `P1-BA-1 / P1-BA-2`
 - `next GPU candidate`: `semantic-auxiliary-classifier black-box probe on local CelebA target-family stack`
 - `current CPU task after this note`: implement the returned-image feature extractor and bounded query loop for `P1-BA-3`
+

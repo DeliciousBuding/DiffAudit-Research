@@ -85,7 +85,7 @@ Current local assets that make this feasible:
   - `D:\Code\DiffAudit\Research\workspaces\black-box\runs\clid-paper-align-asset-prep-20260415-r1\datasets\member`
   - `D:\Code\DiffAudit\Research\workspaces\black-box\runs\clid-paper-align-asset-prep-20260415-r1\datasets\nonmember`
 - current target-side LoRA:
-  - `D:\Code\DiffAudit\Research\external\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models\model-checkpoints\celeba_target\checkpoint-25000`
+  - `D:\\Code\\DiffAudit\\Download\\black-box\\supplementary\\recon-assets\\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models\model-checkpoints\celeba_target\checkpoint-25000`
 
 Local implementation leverage:
 
@@ -137,3 +137,4 @@ Promotion criterion:
 - `current task`: `P1-GA-1 / P1-GA-2`
 - `next GPU candidate`: `structural memorization smoke on local CelebA target-family subset`
 - `current CPU task after this note`: implement the bounded scorer for `P1-GA-3`
+

@@ -60,6 +60,37 @@
 
 这些变化会影响 Leader 的讲法、答辩补充口径和 challenger queue 说明，但**不**改变 admitted 主表。
 
+## 3.1 报告驱动后的近端执行顺序
+
+`GPT-5.4` 两轮报告吸收后，Leader 需要把“我们下一步在做什么”从旧的散点式描述，改成一条更诚实的近端执行链：
+
+- admitted 三线 headline 不变，仍然只讲 `recon / PIA / GSA-W1`
+- 但执行顺序已经压成 `05 -> 04 -> 06`
+- 当前 live slot 已进一步让到 `04`
+- `05-cross-box` 现在是 low-FPR shared-score 主线：
+  - `GSA + PIA` enlarged full-overlap pairboard 已落地到 `461 / 474`
+  - `logistic_2feature` 在 `AUC` 上 `4/5` 胜，在两条 low-FPR tail 上 `5/5` 全胜
+  - bounded `H4` 首包也已执行，但只够写成 auxiliary/cost-saver
+  - 不要把它讲成 generic cross-box scalar 已成立；要讲成“`05` 已固定 promoted result，而当前 active slot 已切到 `04`”
+- `04-defense` 现在是 successor scouting 主线：
+  - 只挑一个 bounded family
+  - 不要把它讲成三条防御线并推
+- `06-g1a` 现在退到治理退路：
+  - `H1/H2` 的 per-sample 路线都已在真实 packet 上 miss
+  - `H5` 保留，但只是 internal-only governance fallback
+  - 不要再把它讲成近端主动执行槽位
+  - 再做 `best-single / weighted / logistic / support-disconfirm-neutral`
+  - 只在 shared split 上看到稳定 tail lift 时，才允许后续 cascade
+- `04-defense` 现在是 successor scouting 主线：
+  - 一次只选一个 family
+  - 默认 `risk-targeted SISS`
+  - `adapter` 只作为 fallback
+- `02` 只保留 sidecar second signal 身位，优先 `SimA`
+- `03` 固定为 medium-horizon white-box gap
+- `01` 固定为 parked black-box candidate pool
+
+Leader 的正确说法不是“我们又多了六个方向”，而是“我们用外部报告把未来 30 天压成一条更窄、更诚实的执行链，并且 admitted 主讲面没有漂移”。
+
 ## 4. 创新/差异化亮点（直接可在 4C 材料中提及）
 
 1. Recon 证据线不是孤立 payload，而是可反复 eyeball 的 evidence chain：主证据 + best single metric reference + metadata 全部写进 unified table，能说明“我们用一条可复现流程在证明风险存在”。  

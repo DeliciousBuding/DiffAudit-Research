@@ -12,12 +12,18 @@ import torch
 
 from diffaudit.attacks.pia_adapter import (
     PiaDefaults,
+    _build_pia_packet_loader,
     _build_pia_subset_loader,
     _compute_auc,
     _compute_threshold_metrics,
+    _load_packet_indices_file,
+    _validate_packet_indices,
+    build_pia_plan,
     load_pia_model,
+    load_pia_ddpm_modules,
     prepare_pia_runtime,
     probe_pia_assets,
+    validate_pia_workspace,
 )
 from diffaudit.config import AuditConfig
 
@@ -228,6 +234,222 @@ def run_sima_runtime_feasibility(
         "notes": [
             "SimA feasibility uses a single-query score-norm statistic over DDPM denoiser outputs.",
             "This is a bounded local feasibility result, not yet a promoted gray-box challenger verdict.",
+        ],
+    }
+    (workspace_path / "summary.json").write_text(
+        json.dumps(result, indent=2, ensure_ascii=True),
+        encoding="utf-8",
+    )
+    return result
+
+
+def export_sima_packet_scores(
+    config: AuditConfig,
+    workspace: str | Path,
+    repo_root: str | Path = "external/PIA",
+    member_split_root: str | Path | None = None,
+    device: str = "cpu",
+    packet_size: int = 4,
+    member_offset: int = 0,
+    nonmember_offset: int = 0,
+    member_index_file: str | Path | None = None,
+    nonmember_index_file: str | Path | None = None,
+    batch_size: int = 4,
+    timestep: int = 20,
+    p_norm: int | float = 4,
+    noise_seed: int = 0,
+    provenance_status: str = "workspace-verified",
+) -> dict[str, Any]:
+    if device.lower() != "cpu":
+        raise ValueError("SimA packet export is CPU-first and does not authorize GPU use.")
+
+    workspace_path = Path(workspace)
+    workspace_path.mkdir(parents=True, exist_ok=True)
+    plan = build_pia_plan(config)
+    validate_pia_workspace(repo_root)
+    split_root = Path(member_split_root) if member_split_root else Path(repo_root) / "DDPM"
+    asset_summary = probe_pia_assets(
+        dataset=plan.dataset,
+        dataset_root=plan.data_root,
+        model_dir=plan.model_dir,
+        member_split_root=split_root,
+    )
+    if asset_summary["status"] != "ready":
+        result = {
+            "status": "blocked",
+            "track": "gray-box",
+            "method": "sima",
+            "paper": "SimA_arXiv2025",
+            "mode": "packet-score-export",
+            "gpu_release": "none",
+            "admitted_change": "none",
+            "asset_probe": asset_summary,
+            "artifact_paths": {
+                "summary": str(workspace_path / "summary.json"),
+            },
+        }
+        (workspace_path / "summary.json").write_text(
+            json.dumps(result, indent=2, ensure_ascii=True),
+            encoding="utf-8",
+        )
+        return result
+
+    _, model_module = load_pia_ddpm_modules(repo_root)
+    model, weights_key = load_pia_model(asset_summary["paths"]["checkpoint"], model_module, device=device)
+
+    with np.load(asset_summary["paths"]["member_split"]) as split_payload:
+        member_all = split_payload["mia_train_idxs"].tolist()
+        nonmember_all = split_payload["mia_eval_idxs"].tolist()
+    if (member_index_file is None) != (nonmember_index_file is None):
+        raise ValueError("SimA explicit packet export requires both member_index_file and nonmember_index_file")
+
+    selection_mode = "offset-slice"
+    selected_packet_size: int | None = max(1, int(packet_size))
+    if member_index_file is not None and nonmember_index_file is not None:
+        selection_mode = "explicit-index-files"
+        member_indices = _load_packet_indices_file(member_index_file)
+        nonmember_indices = _load_packet_indices_file(nonmember_index_file)
+        _validate_packet_indices(member_indices, member_all, "member")
+        _validate_packet_indices(nonmember_indices, nonmember_all, "nonmember")
+        if len(member_indices) == len(nonmember_indices):
+            selected_packet_size = int(len(member_indices))
+        else:
+            selected_packet_size = None
+    else:
+        member_indices = member_all[int(member_offset) : int(member_offset) + int(selected_packet_size)]
+        nonmember_indices = nonmember_all[int(nonmember_offset) : int(nonmember_offset) + int(selected_packet_size)]
+        if len(member_indices) < int(selected_packet_size) or len(nonmember_indices) < int(selected_packet_size):
+            raise ValueError("Requested SimA packet exceeds available member/non-member indices")
+
+    member_loader = _build_pia_packet_loader(
+        dataset=plan.dataset,
+        dataset_dir=asset_summary["paths"]["dataset_dir"],
+        packet_indices=member_indices,
+        batch_size=batch_size,
+    )
+    nonmember_loader = _build_pia_packet_loader(
+        dataset=plan.dataset,
+        dataset_dir=asset_summary["paths"]["dataset_dir"],
+        packet_indices=nonmember_indices,
+        batch_size=batch_size,
+    )
+
+    alpha_bars = _alpha_bar_schedule()
+    member_scores = _score_loader_for_timestep(
+        model,
+        member_loader,
+        timestep=int(timestep),
+        alpha_bars=alpha_bars,
+        device=device,
+        p_norm=p_norm,
+        noise_seed=noise_seed,
+    )
+    nonmember_scores = _score_loader_for_timestep(
+        model,
+        nonmember_loader,
+        timestep=int(timestep),
+        alpha_bars=alpha_bars,
+        device=device,
+        p_norm=p_norm,
+        noise_seed=noise_seed,
+    )
+
+    records: list[dict[str, Any]] = []
+    for position, (split_index, score) in enumerate(
+        zip(member_indices, member_scores.tolist(), strict=True)
+    ):
+        records.append(
+            {
+                "membership": "member",
+                "packet_position": int(position),
+                "split_index": int(split_index),
+                "score": round(float(score), 6),
+                "timestep": int(timestep),
+                "p_norm": float(p_norm),
+            }
+        )
+    for position, (split_index, score) in enumerate(
+        zip(nonmember_indices, nonmember_scores.tolist(), strict=True)
+    ):
+        records.append(
+            {
+                "membership": "nonmember",
+                "packet_position": int(position),
+                "split_index": int(split_index),
+                "score": round(float(score), 6),
+                "timestep": int(timestep),
+                "p_norm": float(p_norm),
+            }
+        )
+
+    records_path = workspace_path / "sample_scores.jsonl"
+    records_path.write_text(
+        "\n".join(json.dumps(record, ensure_ascii=True) for record in records) + "\n",
+        encoding="utf-8",
+    )
+    scores_path = workspace_path / "scores.json"
+    scores_path.write_text(
+        json.dumps(
+            {
+                "member_scores": [round(float(value), 6) for value in member_scores.tolist()],
+                "nonmember_scores": [round(float(value), 6) for value in nonmember_scores.tolist()],
+                "member_indices": [int(value) for value in member_indices],
+                "nonmember_indices": [int(value) for value in nonmember_indices],
+            },
+            indent=2,
+            ensure_ascii=True,
+        ),
+        encoding="utf-8",
+    )
+
+    member_score_mean = float(member_scores.mean().item())
+    nonmember_score_mean = float(nonmember_scores.mean().item())
+    result = {
+        "status": "ready",
+        "track": "gray-box",
+        "method": "sima",
+        "paper": "SimA_arXiv2025",
+        "mode": "packet-score-export",
+        "device": "cpu",
+        "gpu_release": "none",
+        "admitted_change": "none",
+        "provenance_status": provenance_status,
+        "artifact_paths": {
+            "summary": str(workspace_path / "summary.json"),
+            "sample_scores": str(records_path),
+            "scores": str(scores_path),
+        },
+        "runtime": {
+            "repo_root": str(Path(repo_root)),
+            "dataset_root": plan.data_root,
+            "member_split_root": str(split_root),
+            "weights_key": weights_key,
+            "batch_size": int(batch_size),
+            "selection_mode": selection_mode,
+            "packet_size": int(selected_packet_size) if selected_packet_size is not None else None,
+            "member_packet_size": int(len(member_indices)),
+            "nonmember_packet_size": int(len(nonmember_indices)),
+            "timestep": int(timestep),
+            "p_norm": float(p_norm),
+            "noise_seed": int(noise_seed),
+        },
+        "packet": {
+            "member_indices": member_indices,
+            "nonmember_indices": nonmember_indices,
+            "member_score_mean": round(member_score_mean, 6),
+            "nonmember_score_mean": round(nonmember_score_mean, 6),
+            "member_control_score_gap": round(member_score_mean - nonmember_score_mean, 6),
+        },
+        "checks": {
+            **asset_summary["checks"],
+            "sample_scores_written": len(records),
+            "packet_scores_generated": True,
+            "device_cpu_only": True,
+        },
+        "notes": [
+            "This scaffold exports packet-local SimA scores on a fixed member/non-member packet.",
+            "It reuses the current DDPM/CIFAR10 runtime line without promoting SimA to challenger-ready status.",
+            "It is a CPU-first bridge artifact for pairboard and support-fusion analysis, not a benchmark or GPU release.",
         ],
     }
     (workspace_path / "summary.json").write_text(

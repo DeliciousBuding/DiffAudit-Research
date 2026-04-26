@@ -68,8 +68,9 @@ When entering this repository, always read in this order:
 4. `D:\Code\DiffAudit\Research\docs\researcher-agent-architecture.md`
 5. `D:\Code\DiffAudit\Research\README.md`
 6. `D:\Code\DiffAudit\Research\docs\comprehensive-progress.md`
-7. `D:\Code\DiffAudit\Download\manifests\research-download-manifest.json`
-8. the relevant workspace README or plan if the task is already lane-specific
+7. `D:\Code\DiffAudit\Research\docs\report-bundles\gpt54\round2-results` if the current task depends on GPT-5.4 raw round-2 reports; consult `D:\Code\DiffAudit\Research\docs\report-bundles\gpt54\round1-results` when first-round context is needed
+8. `D:\\Code\\DiffAudit\\Download\\manifests\research-download-manifest.json`
+9. the relevant workspace README or plan if the task is already lane-specific
 
 Do not start by editing code blindly.
 
@@ -377,3 +378,5 @@ If the listed backlog is exhausted:
 The correct end state is not passive waiting.
 
 The correct end state is a controlled self-expanding research loop.
+
+

@@ -63,7 +63,7 @@ python scripts/render_team_local_configs.py
 conda run -n diffaudit-research python -m diffaudit plan-recon --config configs/attacks/recon_plan.yaml
 conda run -n diffaudit-research python -m diffaudit plan-variation --config configs/attacks/variation_plan.yaml
 conda run -n diffaudit-research python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke-local
-conda run -n diffaudit-research python -m diffaudit audit-recon-public-bundle --bundle-root external/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models
+conda run -n diffaudit-research python -m diffaudit audit-recon-public-bundle --bundle-root D:\Code\DiffAudit\Download\black-box\supplementary\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models
 python scripts/init_variation_query_set.py --root D:/path/to/variation-query-set
 ```
 
@@ -108,3 +108,6 @@ conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root
 4. 黑盒入口里误用 `SecMI`，它属于灰盒 baseline。
 5. `TMIA-DM` 已归档但属于灰盒候选，不要把它写成黑盒主线。
 6. `variation` 的真实恢复首先缺 query image set，不是先缺 API 代码。
+
+
+

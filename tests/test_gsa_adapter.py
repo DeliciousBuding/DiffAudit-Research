@@ -38,6 +38,78 @@ def create_minimal_gsa_assets(assets_root: Path) -> None:
 
 
 class GsaAdapterTests(unittest.TestCase):
+    def test_draw_loss_score_noise_is_deterministic_per_seed_and_sample(self) -> None:
+        from diffaudit.attacks.gsa import _draw_loss_score_noise
+
+        noise_a = _draw_loss_score_noise(
+            shape=(2, 3),
+            device=torch.device("cpu"),
+            dtype=torch.float32,
+            noise_seed=7,
+            sample_key="target-member/00-data_batch_1-00011.png",
+        )
+        noise_b = _draw_loss_score_noise(
+            shape=(2, 3),
+            device=torch.device("cpu"),
+            dtype=torch.float32,
+            noise_seed=7,
+            sample_key="target-member/00-data_batch_1-00011.png",
+        )
+        noise_c = _draw_loss_score_noise(
+            shape=(2, 3),
+            device=torch.device("cpu"),
+            dtype=torch.float32,
+            noise_seed=7,
+            sample_key="target-member/00-data_batch_1-00012.png",
+        )
+
+        self.assertTrue(torch.equal(noise_a, noise_b))
+        self.assertFalse(torch.equal(noise_a, noise_c))
+
+    def test_iter_dataset_files_ignores_non_image_artifacts(self) -> None:
+        from diffaudit.attacks.gsa import _iter_dataset_files
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            dataset_root = root / "dataset"
+            dataset_root.mkdir(parents=True)
+            (dataset_root / "dataset.json").write_text("{}", encoding="utf-8")
+            (dataset_root / "notes.txt").write_text("ignored", encoding="utf-8")
+            (dataset_root / "00-data_batch_1-00011.png").write_bytes(b"x")
+            (dataset_root / "00-data_batch_1-00012.JPG").write_bytes(b"x")
+
+            dataset_files = _iter_dataset_files(dataset_root)
+
+        self.assertEqual(
+            [path.name for path in dataset_files],
+            ["00-data_batch_1-00011.png", "00-data_batch_1-00012.JPG"],
+        )
+
+    def test_filter_dataset_files_by_sample_ids_selects_matching_suffixes(self) -> None:
+        from diffaudit.attacks.gsa import _filter_dataset_files_by_sample_ids
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            dataset_root = root / "dataset"
+            dataset_root.mkdir(parents=True)
+            files = []
+            for name in (
+                "00-data_batch_1-00011.png",
+                "00-data_batch_1-00123.png",
+                "00-data_batch_1-04567.png",
+                "ignored.txt",
+            ):
+                path = dataset_root / name
+                path.write_bytes(b"x")
+                files.append(path)
+
+            selected = _filter_dataset_files_by_sample_ids(
+                [files[0], files[1], files[2]],
+                sample_id_allowlist=[123, 4567],
+            )
+
+        self.assertEqual([path.name for path in selected], ["00-data_batch_1-00123.png", "00-data_batch_1-04567.png"])
+
     def test_cli_probes_gsa_assets(self) -> None:
         from diffaudit.cli import main
 
@@ -407,6 +479,81 @@ class GsaAdapterTests(unittest.TestCase):
             self.assertEqual(payload["runtime"]["extraction_max_samples"], 1)
             self.assertTrue(Path(payload["artifact_paths"]["summary"]).exists())
             self.assertTrue(Path(payload["artifact_paths"]["target_member_scores"]).exists())
+
+    def test_cli_exports_gsa_loss_score_packet_with_sample_id_file(self) -> None:
+        from diffaudit.cli import main
+
+        received_allowlists: list[list[int] | None] = []
+
+        def fake_export(
+            *,
+            output_path,
+            records_path,
+            sample_id_allowlist=None,
+            **kwargs,
+        ):
+            del kwargs
+            received_allowlists.append(sample_id_allowlist)
+            output_path = Path(output_path)
+            records_path = Path(records_path)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            records_path.parent.mkdir(parents=True, exist_ok=True)
+            tensor = torch.tensor([0.9, 0.95], dtype=torch.float32)
+            torch.save(tensor, output_path)
+            records_path.write_text(
+                json.dumps({"sample_index": 0, "sample_path": "00-data_batch_1-00123.png", "loss_score": 0.9}),
+                encoding="utf-8",
+            )
+            return {
+                "status": "ready",
+                "output_path": str(output_path),
+                "records_path": str(records_path),
+                "checkpoint_dir": "checkpoint-10",
+                "sample_count": 2,
+                "score_stats": {
+                    "mean": 0.925,
+                    "min": 0.9,
+                    "max": 0.95,
+                },
+            }
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            repo_root = root / "GSA"
+            assets_root = root / "assets"
+            sample_id_file = root / "sample_ids.txt"
+            sample_id_file.write_text("123\n4567\n", encoding="utf-8")
+            create_minimal_gsa_repo(repo_root)
+            create_minimal_gsa_assets(assets_root)
+
+            stdout = StringIO()
+            with patch(
+                "diffaudit.attacks.gsa._extract_gsa_loss_scores",
+                side_effect=fake_export,
+                create=True,
+            ):
+                with redirect_stdout(stdout):
+                    exit_code = main(
+                        [
+                            "export-gsa-loss-score-packet",
+                            "--workspace",
+                            str(root / "gsa-loss-score-packet"),
+                            "--repo-root",
+                            str(repo_root),
+                            "--assets-root",
+                            str(assets_root),
+                            "--sample-id-file",
+                            str(sample_id_file),
+                        ]
+                    )
+
+            payload = json.loads(stdout.getvalue())
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(payload["status"], "ready")
+            self.assertEqual(payload["runtime"]["sample_id_allowlist_count"], 2)
+            self.assertTrue(received_allowlists)
+            self.assertEqual(received_allowlists[0], [123, 4567])
+            self.assertTrue(Path(payload["artifact_paths"]["summary"]).exists())
 
     def test_cli_evaluates_gsa_loss_score_packet_with_shadow_only_orientation(self) -> None:
         from diffaudit.cli import main

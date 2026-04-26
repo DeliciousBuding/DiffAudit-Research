@@ -1,6 +1,6 @@
 # DiffAudit Research ROADMAP — Continuous Autonomous Mainline
 
-> Last updated: 2026-04-18 04:10
+> Last updated: 2026-04-21 18:08
 > Mode: continuous autonomous research
 > Owner: `Researcher`
 > Rule: one active GPU task at a time, every task must end in a concrete verdict
@@ -188,19 +188,56 @@ At meaningful checkpoints, the main agent should trigger at least one self-revie
 
 ## 4. Current Strategic Picture
 
+### 4.0 GPT-5.4 Pro Research Package (X-92, 2026-04-18)
+
+**Status**: Delivered, reports received and synthesized
+
+**Package contents**:
+- 6 research directions × 20 files (120 material files total)
+- Prompts optimized for divergent thinking and deep literature survey
+- Material files: 800-2800 words, with math foundations, pseudocode, cost analysis
+- Explorer hypotheses: 9 new bounded CPU-first candidates (3 per box)
+
+**Report reception**:
+- `docs/report-bundles/gpt54/round1-results/` first-round raw results preserved
+- `docs/report-bundles/gpt54/round2-results/` second-round raw results preserved
+
+**Canonical convergence anchor**:
+- round-2 planning convergence is now maintained directly in `ROADMAP.md`
+- `docs/comprehensive-progress.md` carries the synced higher-layer summary
+
+**Planning convergence**:
+- active execution is no longer six-way parallel
+- current priority ladder is:
+  1. `04-defense`
+  2. `05-cross-box`
+  3. `02-gray-box`
+  4. `03-white-box`
+  5. `01-black-box`
+  6. `06-g1a`
+
+**Next**:
+- promote report consensus into roadmap-level priorities
+- keep `04` as the current active slot after `05-H4` auxiliary-only landing
+- treat `02/03/01` as support lanes rather than equal-priority slots
+- keep `06` as governance fallback rather than a near-term main slot
+
 ### 4.1 Black-box
 
 Current truth:
 
 - `recon` is the strongest main evidence line
+- issue #10 is now closed as `positive hardening`: strict `Attack-I` Stage 0 starts must use `check-recon-stage0-paper-gate`, and the current public bundle correctly returns `blocked` because it is still `proxy-shadow-member / local-semantic-chain-ready`, not paper-aligned
 - `CLiD` provides strong local corroboration but still has boundary-quality work left
 - a second truly different black-box family is still not firmly landed
+- current round-2 readout candidates are converging on `response-cloud geometry` vs `strength-response curve`
+- current black-box value is more about preserving a candidate pool than taking the next main slot
 
 Current need:
 
-- new signal family
-- mitigation-aware evaluation
-- better boundary quality
+- freeze one honest `recon` comparator surface before new black-box promotion
+- preserve `response-cloud geometry / strength-response / micro-bag statistical audit` as parked candidate pool
+- do not let black-box preempt `05 -> 04 -> 06` unless it directly solves a project-level blocker
 
 ### 4.2 Gray-box
 
@@ -209,12 +246,14 @@ Current truth:
 - `PIA` is the strongest mainline
 - `stochastic-dropout(all_steps)` is the current defended story
 - `SecMI` exists, but diversity is not yet sufficient
+- report synthesis still converges on `SimA` as the best next second-signal candidate
+- but current repo truth is sharper: plain `SimA` scorer execution is already `execution-feasible but weak`, so the fastest honest gray-box follow-up is now `PIA + SimA` support-fusion / calibration review rather than another plain scorer rerun
 
 Current need:
 
-- second defense mechanism
-- ranking-sensitive variable
-- another truly different family or a stronger disagreement story
+- do not reopen plain `SimA` scorer execution without a genuinely new bounded hypothesis
+- reuse `PIA + SimA` for support-fusion / low-FPR calibration review rather than opening a separate gray-box mainline
+- test `suspicion-gated late-step perturbation` only after the `SimA` sidecar is real
 
 ### 4.3 White-box
 
@@ -223,12 +262,14 @@ Current truth:
 - `GSA` is a very strong white-box line
 - `W-1 = DPDM` gives a meaningful defended comparator
 - second white-box line is still unresolved
+- report synthesis now converges on `activation-subspace fingerprint` as the cleanest distinct second family
+- the most promising post-training defense is `risky-subspace pruning / projection`
 
 Current need:
 
-- blocker resolution or decisive blocker classification
-- second-line verdict
-- stronger defense comparison breadth
+- preserve `H1 activation-subspace fingerprint` as the medium-horizon second-family default
+- preserve `H4 risky-subspace pruning` as the medium-horizon post-training defense default
+- do not let white-box same-family auxiliary lines reopen the near-term main slot before `05 -> 04 -> 06`
 
 ### 4.4 Cross-box and system-consumable layer
 
@@ -237,23 +278,26 @@ Current truth:
 - comparison table exists
 - challenger queue exists
 - evidence chain is already more structured than before
+- `agreement-first` is no longer the honest next `I-C` interpretation
+- report synthesis now converges on `GSA + PIA` shared-score validation as the next executable cross-box packet
 
 Current need:
 
-- keep all new outcomes consumable by higher layers
-- keep narrative and machine-readable structure aligned
-- keep expanding cross-box reasoning, not just per-box silos
+- build one canonical `GSA + PIA` shared score table
+- validate `calibrated late fusion` and `support/disconfirm/neutral` before any heavier portability branch
+- keep all cross-box claims tied to low-FPR gain on shared surfaces, not broad agreement wording
 
 ### 4.5 Current execution posture
 
 Current truth:
 
 - `active GPU question = none`
-- `next_gpu_candidate = G1-A larger shared-surface tri-score rerun review pending separate bounded GPU review`
+- `next_gpu_candidate = none`
+- issue #10 is now closed as `positive hardening`: a dedicated strict `recon` Stage 0 paper gate now blocks paper-faithful `Attack-I` when the bundle only proves `proxy-shadow-member`; this changes Research-side start-gate semantics only and does not release any GPU work or consumer schema change
 - the first real `PIA vs TMIA-DM confidence-gated switching` packet already closed as `negative but useful`
 - `X-88` is now closed as `bounded`: `G1-A = gray-box tri-evidence audit scorer` won post-`B-M0` long-horizon scoping as the next honest distinct-family candidate
 - `X-89` is now closed as `positive`: the `X-88` CPU gate landed honestly on frozen `gpu256_undefended / gpu256_defended` surfaces with one real internal tri-score canary while keeping current consumer schema unchanged
-- no direct GPU fire is authorized yet; the next move is a separate bounded GPU review for the larger shared-surface rerun rather than another reselection pass
+- no direct GPU fire is authorized yet; the latest `k16 alpha-up` follow-up has already been executed and closed negative, so the next honest move is back to CPU-side parameter-selection review rather than another immediate GPU rerun
 - `X-13` is now closed as `positive`: higher-layer / system-consumable entry points now carry the sharper `I-C` boundary, including `translated-contract-only + negative falsifier`, without changing any admitted mainline table or opening a new consumer contract
 - `I-D.1` is now closed as `positive but bounded`: the first honest conditional target contract is frozen to `Stable Diffusion v1.5 base + celeba_partial_target/checkpoint-25000` on a local latent-diffusion canary surface, while current `recon DDIM public` evidence remains only a family-level runtime support surface
 - `I-D.2` is now closed as `positive but bounded`: on one frozen `8 / 8 / 8` packet, `generation_guidance_scale = 7.5` widens raw member-vs-nonmember `MSE` separation over `3.5`, but fixed thresholds are not portable across scales
@@ -298,6 +342,117 @@ Current truth:
 - `X-36` is now closed as `positive`: the restored `I-D` surface does not currently contain one genuinely new bounded successor lane beyond its frozen contract, bounded `CFG` packet, and negative actual runner-level hidden-guidance-jitter rerun, so the honest outcome is to freeze `I-D` back to future-surface support only and yield to non-graybox reselection
 - `X-37` is now closed as `positive`: after `X-36`, no blocked/hold non-graybox branch honestly reopened and no new `I-A` successor question appeared, so the strongest immediate main-slot move is one bounded cross-box / system-consumable stale-surface sync pass on the remaining active `I-D` material wording drift
 - `X-38` is now closed as `positive`: the remaining active material-facing `I-D` wording surface is now aligned to `X-36`, so higher-layer readers no longer see `bounded hidden-guidance defense idea` without the stronger `negative actual runner-level rerun + no honest bounded successor lane` boundary
+
+### 4.6 Post-report priority stack (2026-04-18)
+
+Near-term mainline order:
+
+1. `04-H1` — risk-targeted SISS unlearning bounded pilot
+2. `05-H1/H2` — stable cross-box late-fusion evidence line with promoted `logistic_2feature`
+3. `02-H1/H3` — `SimA` scorer and `PIA + SimA` low-FPR sidecar
+4. `03-H1/H4` — white-box activation-subspace / risky-subspace medium-horizon preparation
+5. `01-H1/H2` — black-box parked candidate pool after comparator freeze
+6. `06-H5` — governance fallback preserved after per-sample blocker-resolution miss
+
+Current `06` execution truth (2026-04-18):
+
+- one reusable `06-H1` surface now exists in-repo via `export-temporal-surrogate-feature-packet` plus `evaluate-temporal-surrogate-packets`
+- one real `64 -> 128 -> 256` teacher-calibrated packet was executed on current `PIA/DDPM/CIFAR10` assets against fresh `TMIA-DM long_window` teacher boards on the same fixed `12`-point timestep grid
+- the first fixed `H1` instantiation stays `stable but insufficient`: at `256`, it reaches `Spearman = 0.748677 / Pearson = 0.790525 / AUC = 0.687477` against `teacher AUC = 0.850357`, with `threshold_cv = 0.009821`
+- the first fixed `H2 RMIA / BASE temporal LR` packet is now also executed on the same `256` calibration packet and lands weak/unstable (`AUC = 0.644142`, `TPR@1%FPR = 0.007812`, `threshold_cv = 0.806137`)
+- the existing `H5` fallback is real via internal `CDI` canary plus paired machine-readable contract, but it remains internal-only and set-level, not a per-sample `X-90` resolution
+- current honest `06` state is therefore `governance-fallback-preserved but lane-yielded`
+
+Current `05` execution truth (2026-04-18):
+
+- the repository now exposes one reusable `analyze-crossbox-pairboard` surface for `best_single / weighted_average / logistic_2feature / support_disconfirm_neutral`
+- `GSA` is no longer blocked on scalar export absence; `loss-score-export` plus `records_path` recovery now permit real shared-index intersection attempts
+- `GSA loss-score export` now also supports targeted sample-ID filtering, which turns the old “larger matched packet” blocker into an executable path
+- one exact-index `PIA` packet export surface now also exists for explicit member/nonmember ID lists and emits pairboard-ready `scores.json`
+- the real same-label target overlap is now frozen to `461 member / 474 nonmember`
+- one enlarged targeted `GSA` export now exists on the corresponding `935`-ID union allowlist and lands `target member = 522 / target non-member = 523`
+- one enlarged actual pairboard now exists with `shared member = 461 / shared nonmember = 474`
+- on `5x` repeated holdout, `best_single` stays `pia` in `5/5` repeats
+- `weighted_average` is still tail-only auxiliary evidence: it wins `TPR@1%FPR` and `TPR@0.1%FPR` in `5/5` repeats, but loses `AUC` in `3/5`
+- `logistic_2feature` is now the honest promoted candidate: it wins `AUC` in `4/5`, `ASR` in `3/5` with `1` tie, and both low-FPR tails in `5/5`
+- mean held-out metrics for `logistic_2feature` are `AUC = 0.815292`, `TPR@1%FPR = 0.148918`, `TPR@0.1%FPR = 0.046753`, versus `best_single = 0.810430 / 0.096104 / 0.007792`
+- current honest `05` state is therefore `stable low-FPR tail-lift confirmed on enlarged matched packet`
+- the first bounded `H4` packet is now also executed and lands `negative but useful`: around `8%` relative overhead can recover some low-FPR tail, but both routed `logistic` and routed `weighted` variants collapse `AUC / ASR` too hard to count as promoted next-stage lines
+- current promoted `05` result therefore remains `H1/H2 logistic_2feature`, while the immediate active slot can now yield to `04-defense`
+
+Current `04` execution truth (2026-04-18):
+
+- `04` no longer sits only at family-selection wording; `H1 risk-targeted SISS / retain-forget mixture` is now the selected bounded pilot family and `H2 privacy-aware adapter` is demoted to fallback
+- the repo now exposes one reusable CPU-first `prepare-risk-targeted-unlearning-pilot` surface that aligns `GSA + PIA` scores on shared indices, orients scorer polarity, converts both into within-split percentile ranks, and exports bounded forget/control lists for `k = 16 / 32 / 64`
+- one real prep run now exists on the enlarged full-overlap board (`461 member / 474 nonmember`) using current `PIA` exact packet export plus targeted `GSA` loss-score export
+- the hoped `Top10%(GSA) ∩ Top10%(PIA)` overlap is currently only `8` members on this board, so even the smallest `k = 16` ladder cannot honestly stay inside pure intersection-only selection
+- current `k = 16 / 32 / 64` forget ladders therefore all land on `aggregate-percentile` rather than `top-fraction-intersection`, with one machine-readable matched-nonmember file per rung for forgotten-subset review
+- one first actual `k32` bounded retain+forget pilot is now also executed on `cuda` from target `checkpoint-9600` with `32` steps and the frozen exported forget list
+- current target-member directory contains duplicate sample IDs, so the live `k32` run actually trains on `33` forget files for `32` unique forget IDs and `967` retain files for `933` unique retain IDs
+- one first attack-side forgotten-subset diagnostic now also exists on the same `k32` pilot by borrowing undefended shadow exports and rerunning only the target subset board
+- this first diagnostic is currently unfavorable: baseline target-transfer lands `AUC = 0.774691 / TPR@1%FPR = 0.222222 / TPR@0.1%FPR = 0.222222`, while the defended checkpoint lands `AUC = 0.755401 / TPR@1%FPR = 0.027778 / TPR@0.1%FPR = 0.027778`
+- one retained high-risk companion board now also exists on the same pilot, and it remains only `mixed/weak`: `AUC` worsens (`0.703431 -> 0.670752`) while low-FPR tails recover only slightly (`0.083333 -> 0.111111`)
+- one first full-split review now also exists after fixing the no-allowlist `GSA` scan path to ignore non-image artifacts like `dataset.json`
+- the full target-split read remains unfavorable as well: baseline target-transfer lands `AUC = 0.618043 / ASR = 0.5515 / TPR@1%FPR = 0.018 / TPR@0.1%FPR = 0.006`, while the defended checkpoint lands `AUC = 0.596696 / ASR = 0.5665 / TPR@1%FPR = 0.011 / TPR@0.1%FPR = 0.003`
+- because all attached reads are still `borrowed-shadow / defense-unaware threshold-transfer`, they still do not close the family, but the available stack is now clearly `forgotten negative + retained mixed/weak + full-split negative`
+- this first pilot is therefore no longer just `execution-positive`; it is now `execution-positive + three provisional attack-side reads attached`, and none of those reads justify defense-positive wording
+- the repo now also exposes a stronger paired-noise target-review control: `GSA` loss-score export can derive deterministic per-sample noise from `noise_seed + sample_key`, and `review-risk-targeted-unlearning-pilot` can forward the same seed across baseline and defended target exports
+- under that stronger same-noise surface, the direction still does not reverse:
+  - forgotten subset stays negative (`AUC 0.845679 -> 0.827932`, `TPR@1%FPR 0.25 -> 0.194444`, `TPR@0.1%FPR 0.25 -> 0.194444`)
+  - retained companion stays flat/weak (`AUC 0.601307 -> 0.597222`, low-FPR tails unchanged at `0.083333`)
+  - full split stays slightly negative (`AUC 0.623331 -> 0.617696`, `ASR 0.5585 -> 0.5805`, `TPR@1%FPR 0.027 -> 0.026`, `TPR@0.1%FPR 0.002 -> 0.002`)
+- paired-noise full-split shift decomposition also fails to show a strong concentrated forgotten effect: member mean loss shifts are broadly global (`all members +0.00755`, `forgotten members +0.007678`, `all nonmembers +0.007266`)
+- current honest control decision is therefore sharper than before: the current `k32` pilot is **not** worth a defense-aware rerun; if `04` stays alive, it should first change the pilot and re-pass the same-noise target-side gate
+- one first changed pilot now also exists inside the same family: `k16` with unchanged training hyperparameters and the narrower forget list
+- `k16` materially improves the picture relative to `k32` under the same paired-noise review surface:
+  - forgotten subset still loses `AUC` (`0.903509 -> 0.885965`), but both low-FPR tails now rise (`0.315789 -> 0.368421`)
+  - retained companion is flat on `AUC` (`0.781046 -> 0.781046`) and improves both low-FPR tails (`0.235294 -> 0.294118`)
+  - full split is much closer to neutral (`AUC 0.623331 -> 0.622141`, `TPR@1%FPR 0.027 -> 0.026`, `TPR@0.1%FPR 0.002 -> 0.002`)
+- paired-noise full-split shift decomposition for `k16` is also more disciplined: `all members +0.001841`, `forgotten members +0.002674`, `all nonmembers +0.001753`
+- current honest control decision is therefore updated again: `k16` replaces `k32` as the current working instantiation, but it still does not justify defense-positive wording or a defense-aware rerun yet
+- one first pure-intersection lower-bound pilot now also exists via `k8`
+- `k8` proves the pure-overlap path is executable and yields the cleanest full-split drift profile so far (`all members +0.000166`, `forgotten members +0.001872`, `all nonmembers -0.000187`)
+- but `k8` is too weak to replace `k16`:
+  - forgotten subset becomes almost exact neutrality rather than a clear targeted gain
+  - retained companion loses the tail improvement that `k16` still preserved
+  - full-split stays near-neutral, but not enough better to justify the narrower forget set
+- current honest control decision is therefore sharpened once more: `k16` remains the current best working instantiation, while `k8` is archived as a useful lower-bound cleanliness probe rather than the new lead pilot
+- current honest `04` state is therefore `Step-0 prep landed + k32 too weak + k16 best current working instantiation + k8 pure-intersection confirmed executable but over-tightened`
+- the next honest bounded follow-up is now frozen more concretely: keep `k = 16`, keep `mixture_lambda = 0.5`, keep `32` steps, and change only `alpha` once (`0.5 -> 0.75`)
+- this means `04-H1` no longer needs another `k` reselection pass before the next GPU slot; the next candidate is a single-variable `k16 alpha-up` pilot rather than a broader family reopen
+- that `k16 alpha-up` follow-up is now also landed and closes as `negative but useful`: forgotten tails do not improve beyond the old `k16`, retained tails regress back to flat, and full-split `TPR@1%FPR` worsens (`0.026 -> 0.024`), so the original `k16` remains the best working instantiation and `04` returns to CPU-side parameter-selection review
+- current post-`alpha-up` control read is now also frozen more explicitly: stronger forget pressure is no longer an open lever, so any same-family continuation must justify a **more selective** variable (for example branch frequency or shorter budget) before another GPU slot is released
+- that selective-variable space is now also narrowed to one first conditional candidate: if `04-H1` reopens inside the same family, the next honest rung is `k16 + mixture_lambda-down` rather than another pressure change, with `0.4375` frozen as the first mid-strength candidate because it reduces forget-branch frequency materially without collapsing straight to near-no-op
+- that `mixture_lambda-down` candidate is now also landed and closes as `negative but useful`: forgotten and retained low-FPR tails both regress relative to the original `k16`, so the current same-family scalar-tuning space is no longer an honest immediate GPU path
+- the post-`H1` family review is now sharpened again by `X-133 / X-134 / X-135 / X-136`: `04-H2 privacy-aware adapter` is no longer only `prototype-implemented / contract-incomplete`, because the full minimal canonical `diffaudit` chain is now landed on current admitted assets
+- `probe-h2-assets` now resolves admitted `checkpoint-9600/model.safetensors` plus full-scan `1000 / 1000` `32 x 32 x 3` `RGB` member/nonmember roots under one bounded packet cap, and `prepare-h2-contract` now freezes the first manifest-level workspace contract with packet identity plus runtime hyperparameters
+- `run-h2-defense-pilot` now also executes one real bounded admitted-asset pilot on a staged `1 / 1` packet and emits workspace-root config/log/checkpoint artifacts, while `review-h2-defense-pilot` now completes the first same-packet transfer-only attack-side board against a merged review-compatible checkpoint
+- that first full-chain review is `negative but useful`: transferred `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR` all remain `0.0` on the bounded `1 / 1` packet, so `H2` is now minimally contract-complete but still far below promotion or GPU release
+- one minimal packet-scale follow-up is now also landed on the same contract: the `4 / 4` transfer board is no longer pure-zero (`AUC = 0.5 / ASR = 0.375 / TPR@1%FPR = 0.5 / TPR@0.1%FPR = 0.5`), but baseline and defended metrics still match exactly, so `H2` now reads `minimal contract-complete + bounded 4/4 follow-up negative but useful`
+- the next honest `04` move is therefore no longer another same-contract enlargement or GPU release; `H2` should yield the next `CPU-first` slot unless a genuinely new bounded hypothesis appears
+- `Research -> Runtime -> Platform` remains contract-stable here; this sharper `04` control read does not require any new schema or protocol
+- the follow-up system handoff is now also closed: current `X-114` truth only sharpens research-side control wording, while admitted `attack-defense-table`, Runtime endpoints, Platform snapshot shape, and runner capability requirements all remain unchanged
+- one final stale-entry sync was still needed after `X-115`: the short bootstrap prompt and challenger-queue top layer still encoded the old `G1-A` / pre-`04` steering state, so fresh sessions could still be misrouted unless those live entry docs were resynced
+- one additional consumer-copy hardening step was still justified on the Platform side: public `catalog.json` snapshot wording overstated admitted black-box / gray-box / white-box truth, so the honest fix is snapshot-copy boundary hardening only, with no Runtime schema or endpoint change
+
+Execution rule:
+
+- `06/05/04` are active planning lines
+- `02` is a sidecar enabling line, not a competing mainline
+- `03` is a medium-horizon gap line
+- `01` stays parked until the near-term stack yields or a black-box blocker reappears
+
+30-day intent:
+
+- prove or kill one honest `06` blocker-resolution route
+- prove or kill one honest `05` low-FPR shared-score gain
+- select exactly one `04` successor family for bounded pilot
+
+90-day intent:
+
+- scale only the lines that survive the first bounded gates
+- turn `06 + 05 + 04` into a coherent post-4C research map
+- reopen `02/03/01` only when they solve a now-explicit gap rather than a speculative one
 - `X-39` is now closed as `positive`: after `X-38`, the visible non-graybox pool still contains no honest ready main-slot lane above blocked/hold branches or stable sidecar maintenance, so the correct next move is another bounded candidate-surface expansion rather than a fake reopen
 - `X-40` is now closed as `positive`: the first honest way to expand the now-stale non-graybox pool again is to restore `I-C`, but only as fresh bounded cross-box hypothesis generation rather than same-pair translated-contract hardening
 - `X-41` is now closed as `positive`: the first genuinely new bounded `I-C` hypothesis is not another translated intervention retry but a bounded multi-pair agreement-first cross-box hypothesis, asking whether white-box local concentration and gray-box packet-local membership advantage rank the same frozen objects directionally before stronger support claims are attempted
@@ -350,11 +505,12 @@ Current truth:
 - `X-88` is now closed as `positive`: after G1-A defer, redirected to root ROADMAP B-M0 Candidate A per 2026-04-17 override
 - `B-M0 Candidate A bounded GPU review` is now closed as `hold-review-only`: shadow-LR white-box loss-score follow-up is CPU-bound offline evaluation, not GPU question
 - `X-89` is now closed as `positive`: after B-M0 window close (both candidates CPU-bound, no GPU release), return to I-A CPU sidecar
-- the current live lane is now `I-A higher-layer boundary maintenance` (CPU sidecar)
+- the current live lane is now `X-141 non-graybox next-lane reselection after X-140 stale-entry sync` (CPU-first control lane)
 - `active_gpu_question = none`
 - `next_gpu_candidate = none` (G1-A deferred-needs-assets, B-M0 Candidate A hold-review-only)
 - the current CPU sidecar is `I-A higher-layer boundary maintenance`
 - any new GPU release still requires a separate bounded GPU review that freezes shared-surface identity, host-fit budget, story delta, and kill gate before any fire decision
+- repo-hygiene sidecar truth is now sharper as well: the storage-boundary cleanup is now physically aligned, because `Research/external/downloads` has been removed, its raw-intake subtrees now live under `D:\Code\DiffAudit\Download\`, `recon-assets` is verified at `Download/black-box/supplementary/recon-assets`, `workspaces/README.md` is resynced, and `external/README.md`, `third_party/README.md`, `Download/README.md`, plus the tracked `third_party/secmi/LOCAL_ROLE.md` now explain the intended split; the remaining dual-surface cases are explicit rather than hidden: `external/SecMI` = full upstream reference clone, `third_party/secmi` = minimal vendored integration, `external/CLiD` = working clone, and `Download/.../clid-mia-supplementary` = raw supplementary mirror
 
 Near-term priority order:
 
@@ -1001,6 +1157,66 @@ If two tasks are similar, prefer:
 ---
 
 ## 7. Active Backlog
+
+### 7.0 Report-driven mainline stack (2026-04-18)
+
+Goal:
+
+- convert GPT-5.4 round-2 report convergence into a stable long-horizon execution order
+- keep `05 -> 04` as the near-term active chain while preserving `06` as governance fallback
+- prevent `01/02/03` from re-expanding into equal-priority parallel slots
+
+Tasks:
+
+- [ ] `R2-1` keep `ROADMAP.md` and `docs/comprehensive-progress.md` aligned with any new local validation verdict derived from the GPT-5.4 report bundles
+- [x] `R2-2` execute `06-H1` teacher-calibrated temporal QR surrogate scoping under `64 -> 128 -> 256` gates
+- [x] `R2-3` execute `05-H1/H2` shared-score validation on `GSA + PIA` before any three-box or portability expansion
+- [x] `R2-4` select exactly one `04` successor family for bounded pilot; default `H1 SISS`, fallback `H2 adapter`
+- [ ] `R2-5` land `02-H1 SimA` only as a sidecar second signal serving `05` and `04`
+- [ ] `R2-6` keep `03-H1/H4` as medium-horizon white-box preparation, not a near-term slot preemption
+- [ ] `R2-7` keep `01` as parked candidate pool until `recon` comparator freeze and higher-priority lines settle
+
+`R2-3` current status (2026-04-18):
+
+- reusable pairboard infra is landed in-repo
+- first actual tiny shared-subset read is landed on current artifacts
+- first targeted larger matched packet is now also landed (`GSA target export 89/77`, pairboard `45/35`)
+- exact-index `PIA` packet export is now landed for explicit overlap IDs
+- enlarged full-overlap pairboard is now landed (`shared member = 461`, `shared nonmember = 474`)
+- `weighted_average` remains auxiliary only, but `logistic_2feature` now wins `AUC` in `4/5` and both low-FPR tails in `5/5` repeated held-out splits
+- current `R2-3` verdict is now `positive`: stable low-FPR tail lift is confirmed on the enlarged matched packet
+- bounded `05-H4` is now also landed as `negative but useful`: it behaves like an auxiliary cost-saver, not a promoted performance line
+- `R2-3` therefore closes with promoted `H1/H2 logistic_2feature` and yields the next active slot to `R2-4`
+
+`R2-4` current status (2026-04-18):
+
+- `H1 risk-targeted SISS / retain-forget mixture` is still the selected single-family bounded pilot, while `H2 privacy-aware adapter` now reads as `probe + prepare + run + review landed / bounded 4/4 follow-up negative but useful / no new GPU question`
+- one real CPU-first prep surface now exists in-repo via `prepare-risk-targeted-unlearning-pilot`
+- one real full-overlap prep run now exists on the current `GSA + PIA` shared board (`461 member / 474 nonmember`)
+- the current `Top10%` member overlap across `GSA` and `PIA` is only `8`, so the first honest `k = 16 / 32 / 64` ladders all use `aggregate-percentile` selection rather than pure intersection-only selection
+- machine-readable forget-set and matched-nonmember files are now frozen for `k = 16 / 32 / 64`
+- one first actual `k32 / 32-step / cuda` retain+forget pilot is now also landed, so the family-selection loop is fully closed
+- forgotten-subset and retained-companion reviews are both now landed, and neither gives a defense-positive read
+- the first full-split review is now also landed on `1000 / 1000` target samples after a real `GSA` scan fix for the no-allowlist path
+- current attached read stack is `forgotten negative + retained mixed/weak + full-split negative`
+- a same-noise review control is now also landed for target export, and paired-noise reruns keep the current `k32` pilot non-positive rather than rescuing it
+- one first changed pilot inside the same family now also exists via `k16`, and its paired-noise tri-board is materially better than `k32`
+- one first pure-intersection `k8` lower-bound pilot now also exists, and it confirms that shrinking all the way to overlap-only makes the line cleaner but too weak
+- `R2-4` therefore now means "pilot family is real, `k32` was too weak, `k8` is too tight, and `k16` remains the current best working instantiation pending one more bounded follow-up around the `k16` regime"
+
+`R2-2` current status (2026-04-18):
+
+- the first actual `64 -> 128 -> 256` `H1` packet is completed
+- `64/128` showed a real but still weak teacher-aligned signal
+- `256` misses the main hard gates (`Spearman < 0.8`, `Pearson < 0.8`, `AUC delta vs teacher > 0.05`)
+- the first fixed `H2` packet is now also completed and does not justify `512` frozen transfer
+- `H5` governance fallback is now explicitly reviewed and preserved as internal-only set-level fallback truth
+- `06` has now yielded the near-term active slot back to `05`, so the next honest move is no longer another immediate per-sample `H1/H2` rerun
+
+Carry-forward rule:
+
+- no new heavyweight GPU branch is justified before the current `05 -> 04` near-term chain is honestly judged
+- no second `04` family is allowed to open before the first one reaches a real go/kill verdict
 
 ### 6.1 Cross-box integration and system sync
 
@@ -5288,6 +5504,50 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-16 02:05 | Extended `WB-2` canary truth onto shadow-side: `shadow-01-member` succeeded under the same direct `GSA2` extraction contract, narrowing the next gate to `shadow-01-nonmember` |
 | 2026-04-16 02:12 | Completed the first `WB-2` shadow pair: `shadow-01-nonmember` succeeded, so `WB-2.2` is done and the next gate is a bounded `GSA2` comparator verdict |
 | 2026-04-16 02:28 | Closed `WB-2` as `positive secondary line`: bounded `GSA2` comparator completed with `AUC = 0.922498`, strong enough for corroboration but still below admitted `GSA1` mainline |
+| 2026-04-18 09:40 | Closed `R2-4` as `positive`: `04-defense` is no longer only a nominal next slot, because `H1 risk-targeted SISS / retain-forget mixture` is now the selected single-family pilot, a reusable `prepare-risk-targeted-unlearning-pilot` surface exists in-repo, and one real full-overlap prep run now exports `k = 16 / 32 / 64` forget/control ladders on the current `461 / 474` shared board; the top-10% `GSA ∩ PIA` member overlap is only `8`, so current selection truth is `aggregate-percentile` rather than pure intersection-only ranking |
+| 2026-04-18 10:05 | Landed the first actual `04-H1` bounded retain+forget pilot on current admitted `DDPM/CIFAR10` assets: using the exported `k32` forget list, target `checkpoint-9600`, `32` CUDA steps, `batch_size = 4`, and `L_keep` vs `L_keep - 0.5 * L_forget`, the repo now produces one real defended checkpoint plus machine-readable training log; after fixing duplicate sample-id collapse in the target-member directory scan, the canonical run trains on `33` forget files for `32` unique forget IDs and `967` retain files for `933` unique retain IDs; this remains execution-positive rather than defense-positive because no forgotten-subset board or defense-aware attack rerun is attached yet |
+| 2026-04-18 10:25 | Attached the first attack-side read to `04-H1`: a `forgotten members + matched nonmembers` `GSA` subset review now exists by borrowing undefended shadow exports from the current full-overlap loss-score packet and rerunning only the target subset on both baseline and defended checkpoints; the first `defense-unaware threshold-transfer` diagnostic is negative (`AUC 0.774691 -> 0.755401`, `TPR@1%FPR 0.222222 -> 0.027778`, `TPR@0.1%FPR 0.222222 -> 0.027778`), so the lane stays alive only provisionally and still needs retained/full-split boards plus a later defense-aware rerun before any real verdict |
+| 2026-04-18 13:20 | Closed the first target-wide read on `04-H1`: after fixing a no-allowlist `GSA` dataset scan bug that incorrectly tried to decode `dataset.json` as an image, the repo now produces one real full-split borrowed-shadow review on `1000` target members and `1000` target nonmembers; the result stays unfavorable (`AUC 0.618043 -> 0.596696`, `ASR 0.5515 -> 0.5665`, `TPR@1%FPR 0.018 -> 0.011`, `TPR@0.1%FPR 0.006 -> 0.003`), so the current honest stack is `forgotten negative + retained mixed/weak + full-split negative`, still below any defense-positive or defense-aware wording |
+| 2026-04-18 13:33 | Tightened the `04-H1` gate with a fairer target-side control: `GSA` review export now supports deterministic per-sample paired noise via `noise_seed`, and three paired-noise reruns are now landed; they reduce the severity of the old negative read but do not reverse the direction (`forgotten AUC 0.845679 -> 0.827932`, `retained AUC 0.601307 -> 0.597222`, `full split AUC 0.623331 -> 0.617696`), while paired-noise full-split score shifts remain broadly global rather than sharply forgotten-concentrated, so the current `k32` pilot is not worth a defense-aware rerun |
+| 2026-04-18 13:45 | Landed the first changed pilot within `04-H1`: a `k16` retain+forget run with unchanged optimizer hyperparameters plus a full paired-noise tri-board now exists; compared with `k32`, it keeps forgotten-subset `AUC` slightly negative but recovers low-FPR tail (`0.315789 -> 0.368421`), makes the retained companion board flat-to-tail-positive, and keeps full-split nearly neutral (`AUC 0.623331 -> 0.622141`), so `k16` now replaces `k32` as the current working instantiation even though the lane is still not defense-positive |
+| 2026-04-18 14:02 | Landed the first pure-intersection lower-bound pilot inside `04-H1`: `k8` now uses the exact `Top10%(GSA) ∩ Top10%(PIA)` member overlap as its forget set and completes a full paired-noise tri-board; it keeps forgotten-subset metrics almost exactly flat, retained-companion tails no longer improve, and full-split stays near-neutral with the cleanest drift profile, so the honest read is `cleaner but too weak`, meaning `k16` remains the current working instantiation |
+| 2026-04-18 15:21 | Closed `X-108` as `bounded`: the next honest `04-H1` move is no longer another `k` reselection, because `k32` is already too broad, `k8` is already too tight, and `k16` is the only rung that still preserves some low-FPR tail lift while keeping full-split near neutral; pilot-side training statistics across `k8 / k16 / k32` also show branch-frequency noise is not the decisive variable, so the next bounded GPU candidate is now frozen to one single-variable `k16 alpha-up` pilot with `alpha = 0.75`, `mixture_lambda = 0.5`, and `32` steps, while `active_gpu_question` stays `none` until a slot is deliberately released |
+| 2026-04-18 16:05 | Closed `X-109` as `negative but useful`: the `k16 alpha-up` follow-up is now fully executed with a paired-noise tri-board, and it does not improve the current working instantiation; forgotten-subset tails stay exactly at the old `k16` level while `AUC` gets slightly worse (`0.885965 -> 0.883041`), the retained companion board loses the old tail gain entirely (`TPR@1%FPR 0.294118 -> 0.235294`) and now also drops `AUC` (`0.781046 -> 0.774510`), and the full-split board is not materially better (`AUC 0.622141 -> 0.622931`, but `TPR@1%FPR 0.026 -> 0.024` and `ASR 0.5675 -> 0.5690`); therefore original `k16` remains the best working instantiation, `active_gpu_question` stays `none`, and `next_gpu_candidate` returns to `none` pending a fresh CPU-side parameter-selection review |
+| 2026-04-18 16:18 | Closed `X-110` as `bounded`: post-`X-109`, the current same-family search space is no longer “increase pressure again”, because stronger forget pressure already failed without improving forgotten tails; the honest remaining same-family space, if any, is now selective-variable review only (`mixture_lambda`-style frequency control or shorter budget), so `active_gpu_question` stays `none`, `next_gpu_candidate` stays `none`, and `04` does not get another immediate GPU rerun without a new CPU-side selection argument |
+| 2026-04-18 16:30 | Closed `X-111` as `positive hardening`: `Research` CLI now has one real module-level entrypoint, because `python -m diffaudit.cli unsupported-command` is covered by a new subprocess regression test and `src/diffaudit/cli.py` now explicitly exits through `main()` under `__main__`; this does not change any admitted result or schema, but it removes a silent failure mode from the `Research -> Runtime` execution surface and keeps future module-level invocation safe while `active_gpu_question` and `next_gpu_candidate` both stay `none` |
+| 2026-04-18 16:43 | Closed `X-112` as `bounded`: the post-`X-110` same-family selective-variable space is now narrowed to one first conditional candidate rather than an open class; under Python `random.Random(0)` and a `32`-step branch schedule, `mixture_lambda = 0.4375` is the first rung that lowers forget-branch frequency materially relative to `0.5` without collapsing straight toward near-no-op, whereas `0.375` and below already cut too sharply; this does not release a GPU question by itself, but it freezes the next conditional same-family candidate to `k16 + mixture_lambda-down (0.4375)` while keeping the rest of the contract unchanged |
+| 2026-04-18 17:05 | Closed `X-113` as `negative but useful`: the `k16 mixture_lambda-down` follow-up is now fully executed with a paired-noise tri-board, and it does not improve the current working instantiation; forgotten-subset tails regress (`TPR@1%FPR 0.368421 -> 0.263158`) without any `AUC` gain, retained companion tails regress even though `AUC` rises slightly (`0.294118 -> 0.176471`), and full-split only improves headline smoothness while losing low-FPR tail (`AUC 0.622141 -> 0.624224`, but `TPR@1%FPR 0.026 -> 0.021`), so original `k16` remains the best working instantiation and `next_gpu_candidate` returns to `none` again |
+| 2026-04-18 17:35 | Closed `X-114` as `bounded`: after `X-113`, `04` does not honestly jump straight to `H2 privacy-aware adapter`, because the repo still has no dedicated `04-H2` implementation / CLI / test surface and no bounded packet for that fallback; therefore `H2` remains wording-level fallback only, `04` stays in CPU-first family-review mode, `active_gpu_question` and `next_gpu_candidate` both remain `none`, and `Research -> Runtime -> Platform` stays contract-stable without any schema change |
+| 2026-04-18 18:05 | Closed `X-115` as `positive`: the post-`X-114` handoff review confirms that current `04` truth changes only the research-side control plane, not any admitted metric row, Runtime endpoint, Platform snapshot shape, or runner capability; therefore the correct integration action is to update the autonomous prompt and preserve the existing admitted read path (`Research unified table -> Runtime evidence endpoint -> Platform public snapshot`) without adding consumer fields or cross-repo code changes |
+| 2026-04-18 18:25 | Closed `X-116` as `positive`: even after `X-115`, two live entry docs still drifted from current repo truth, because `docs/codex-roadmap-execution-prompt.md` still encoded the old `G1-A` next-GPU steering and `workspaces/implementation/challenger-queue.md` still presented a pre-`04` live lane; both are now resynced to `active GPU question = none`, `next_gpu_candidate = none`, `04-defense = CPU-first family review`, and `no new Runtime/Platform contract`, so fresh sessions will no longer be steered by stale control-plane wording |
+| 2026-04-18 18:45 | Closed `X-117` as `positive`: current Platform public `catalog.json` still overstated admitted research truth in consumer-facing `risk_interpretation` copy, especially by turning recon evidence into prescriptive defense copy, omitting gray-box provisional/privacy-boundary language, and overstating white-box mitigation as risk elimination; the snapshot wording is now hardened to match admitted boundaries while keeping all metrics, Runtime endpoints, snapshot shape, and runner contracts unchanged |
+| 2026-04-21 14:14 | Closed issue #10 as `positive hardening`: added `check-recon-stage0-paper-gate` so strict `recon Attack-I` now has an executable Stage 0 gate that returns `blocked` when the current public bundle is only `proxy-shadow-member / local-semantic-chain-ready`; canonical anchor is `workspaces/implementation/2026-04-21-issue10-recon-stage0-paper-gate.md`; `active_gpu_question` and `next_gpu_candidate` both stay `none`, and no Runtime or Platform schema change is required |
+| 2026-04-21 14:33 | Closed `X-118` as `positive but bounded`: `04-H2 privacy-aware adapter` is no longer a wording-only fallback, because the repo already contains `lora_ddpm.py`, `smp_lora.py`, `train_smp_lora.py`, related smoke/runtime-tuning tests, and one real bounded CPU smoke artifact at `workspaces/implementation/runs/h2-smp-lora-contract-smoke-20260421-r1/summary.json`; however, it still lacks a canonical `diffaudit` asset probe / prep / run / review chain, so `H2` is now `prototype-implemented / contract-incomplete`, `active_gpu_question` and `next_gpu_candidate` both stay `none`, and the next honest CPU-first lane becomes `X-119 04-H2 canonical contract hardening` rather than immediate GPU release |
+| 2026-04-21 14:41 | Closed `X-119` as `positive but bounded`: the minimum honest `04-H2` contract is now frozen to a four-stage canonical chain: `probe-h2-assets` for admitted-asset identity and image-root validation, `prepare-h2-contract` for frozen packet/manifest generation, `run-h2-defense-pilot` for bounded adapter training with workspace-root `summary.json`, and `review-h2-defense-pilot` for same-packet attack-side comparison against the undefended baseline with mandatory `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR`; canonical anchor is `workspaces/implementation/2026-04-21-x119-04-h2-canonical-contract-hardening.md`; until that chain exists, `H2` remains `prototype-implemented / contract-incomplete`, `active_gpu_question = none`, `next_gpu_candidate = none`, and no Runtime or Platform schema change is required |
+| 2026-04-21 14:52 | Closed `X-120` as `positive`: the two live bootstrap prompts still encoded pre-`X-118/X-119` stale steering (`H2` as wording-only, no executable surface), so both prompt surfaces are now synchronized to `prototype-implemented / contract-incomplete` plus the sharper “missing canonical `asset probe / prep / run / review` chain” boundary; canonical anchor is `workspaces/implementation/2026-04-21-x120-active-prompt-sync-after-x119.md`; this changes only research-side control truth, keeps `active_gpu_question = none`, `next_gpu_candidate = none`, and advances the live CPU sidecar back to `I-A higher-layer boundary maintenance` |
+| 2026-04-21 14:45 | Closed `X-121` as `positive but stabilizing`: after the post-`H2` prompt sync, the active entry set still preserves the current `I-A` boundary correctly, including four-metric reporting, low-FPR emphasis, and bounded repeated-query adaptive reading; canonical anchor is `workspaces/implementation/2026-04-21-x121-ia-active-entry-residue-review.md`; no new stale `AUC-only` drift is visible, `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest CPU-first lane advances to `R2-5 02-H1 SimA sidecar second-signal review` |
+| 2026-04-21 14:49 | Closed `X-122` as `negative but clarifying`: current `SimA` repo truth is no longer paper-only, because `sima_adapter.py`, `test_sima_adapter.py`, and two bounded CPU packets already exist, and local `unittest` now passes; however, the best bounded rescan still stops at `AUC = 0.584961 / TPR@1%FPR = 0.03125`, so plain `SimA` scorer reopen remains below challenger quality and below honest reopen threshold; canonical anchor is `workspaces/implementation/2026-04-21-x122-r25-sima-honest-reopen-review.md`; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest CPU-first support lane becomes `R2-5b PIA + SimA support-fusion contract review` |
+| 2026-04-21 14:58 | Closed `X-123` as `blocked but useful`: `PIA + SimA` support-fusion remains a valid sidecar direction, but current repo truth does not yet permit an honest shared-packet review because `crossbox_pairboard.py` and `PIA` packet export are already pairboard-ready while `SimA` still emits only aggregate feasibility summaries with no `member_scores / nonmember_scores / member_indices / nonmember_indices`; canonical anchor is `workspaces/implementation/2026-04-21-x123-r25b-pia-sima-support-fusion-contract-review.md`; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest CPU-first support lane becomes `R2-5c SimA packet-score export contract review` |
+| 2026-04-21 15:08 | Closed `X-124` as `positive but bounded`: `SimA` now exposes a real pairboard-ready packet surface, because `src/diffaudit/attacks/sima_adapter.py` gained `export_sima_packet_scores(...)`, `src/diffaudit/cli.py` gained `export-sima-packet-scores`, and `tests/test_sima_adapter.py` now covers both module and CLI paths while local `unittest` passes; this closes the `member_scores / nonmember_scores / member_indices / nonmember_indices` export gap without promoting plain `SimA` itself, so `SimA` remains `execution-feasible but weak`, `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest CPU-first support lane becomes `R2-5b PIA + SimA support-fusion / calibration review`; canonical anchor is `workspaces/implementation/2026-04-21-x124-r25c-sima-packet-score-export-contract-landing.md` |
+| 2026-04-21 16:02 | Closed `X-125` as `positive but bounded`: `PIA + SimA` support-fusion is now honestly executable on the frozen `461 / 474` full-overlap packet, because the new `SimA` exact-index export was run at `timestep = 160` and one real `5x` repeated-holdout pairboard now exists at `workspaces/cross-box/runs/crossbox-pairboard-pia-sima-full-overlap-20260421-r1/summary.json`; the best bounded fused candidate is `logistic_2feature`, which beats `PIA` best-single on `AUC` and `ASR` in `5 / 5` repeated runs and wins `TPR@1%FPR` in `4 / 5`, but it does not deliver a stable `TPR@0.1%FPR` lift (`2 wins / 1 tie / 2 losses`, mean `0.041558 < 0.043290`), so the line stays auxiliary rather than promoted; `active_gpu_question = none`, `next_gpu_candidate = none`, gray-box should now yield the next `CPU-first` slot, and the next honest live lane becomes `X-126 non-graybox next-lane reselection after X-125 bounded PIA + SimA review`; canonical anchor is `workspaces/implementation/2026-04-21-x125-r25b-pia-sima-support-fusion-bounded-review.md` |
+| 2026-04-21 16:18 | Closed `X-126` as `positive`: after `X-125`, the control-plane entry docs were already aligned to the new gray-box yield, but two higher-layer system-consumable surfaces still encoded pre-`X-125` steering by telling readers to “first do `SimA`, then `PIA + SimA`”; therefore the highest-value immediate move was not another empty reselection loop or a fresh `I-A` wording pass, but one bounded stale-entry sync on `docs/mainline-narrative.md` and `docs/future-phase-e-intake.md`; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-127 cross-box / system-consumable stale-entry sync after X-126 reselection`; canonical anchor is `workspaces/implementation/2026-04-21-x126-non-graybox-next-lane-reselection-after-x125.md` |
+| 2026-04-21 16:24 | Closed `X-127` as `positive`: the remaining active higher-layer stale-entry layer is now cleared, because `docs/mainline-narrative.md` and `docs/future-phase-e-intake.md` no longer steer readers back into pre-`X-125` gray-box wording and now both read `02` as an auxiliary sidecar with one landed bounded `PIA + SimA` review and no stable `TPR@0.1%FPR` lift; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-128 non-graybox next-lane reselection after X-127 stale-entry sync`; canonical anchor is `workspaces/implementation/2026-04-21-x127-crossbox-system-sync-after-x126.md` |
+| 2026-04-21 16:36 | Closed `X-128` as `positive`: after `X-127`, no active stale-entry layer remains above the control plane and no blocked/hold non-graybox branch has become more executable than the admitted-mainline maintenance path, because black-box candidate scouting remains closed-negative or `needs-assets`, white-box distinct-family work remains medium-horizon preparation, `I-B` remains a `non-admitted actual bounded falsifier`, `I-C` remains `translated-contract-only + negative falsifier`, and `I-D` still has no honest bounded successor lane; therefore the highest-value next live lane is now `X-129 I-A truth-hardening after X-128 reselection`, with `active_gpu_question = none` and `next_gpu_candidate = none`; canonical anchor is `workspaces/implementation/2026-04-21-x128-non-graybox-next-lane-reselection-after-x127.md` |
+| 2026-04-21 16:47 | Closed `X-129` as `positive`: after `X-128`, the remaining `I-A` residue was no longer in core research/control surfaces but in competition-facing materials, where `competition-evidence-pack` and `competition-innovation-summary` still used the softer `workspace-verified + adaptive-reviewed` wording; both are now hardened back to `workspace-verified + bounded repeated-query adaptive-reviewed`, while preserving four-metric ordering and provenance-blocked language, so the current `I-A` material-facing claim is again aligned to the admitted gray-box contract; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-130 non-graybox next-lane reselection after X-129 I-A hardening`; canonical anchor is `workspaces/implementation/2026-04-21-x129-ia-truth-hardening-after-x128.md` |
+| 2026-04-21 17:02 | Closed `X-130` as `positive`: after `X-129`, another immediate candidate-surface expansion would still have been dishonest, because one active system-consumable stale-entry layer remained on the live read path: `README.md` still pointed sessions back to the old `GB-64 / PIA vs TMIA-DM confidence-gated switching` state, and `challenger-queue.md` still exposed `WB-CH-4` as `actual-packet-pending` together with a stale `Recommended Next Order` block headed by `X-86`; therefore the highest-value immediate move became `X-131 cross-box / system-consumable stale-entry sync after X-130 reselection`, while `active_gpu_question = none` and `next_gpu_candidate = none`; canonical anchor is `workspaces/implementation/2026-04-21-x130-non-graybox-next-lane-reselection-after-x129.md` |
+| 2026-04-21 17:09 | Closed `X-131` as `positive`: the remaining active stale-entry layer is now cleared, because `README.md` no longer points fresh sessions back to `GB-64` and `challenger-queue.md` no longer preserves the stale `WB-CH-4 actual-packet-pending` read or the obsolete `X-86` recommended-order block; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-132 non-graybox next-lane reselection after X-131 stale-entry sync`; canonical anchor is `workspaces/implementation/2026-04-21-x131-crossbox-system-sync-after-x130.md` |
+| 2026-04-21 17:18 | Closed `X-132` as `positive`: after `X-131`, the control plane is now clean enough that another abstract non-graybox reselection pass would be lower value than returning to the current `04-defense` active slot, because `H2 privacy-aware adapter` is already prototype-implemented, test-backed, and smoke-backed while still missing the first canonical `diffaudit` contract stage frozen in `X-119`; therefore the highest-value next live lane becomes `X-133 04-H2 probe-h2-assets executable contract start`, with `active_gpu_question = none` and `next_gpu_candidate = none`; canonical anchor is `workspaces/implementation/2026-04-21-x132-non-graybox-next-lane-reselection-after-x131.md` |
+| 2026-04-21 17:34 | Closed `X-133` as `positive but bounded`: `04-H2` now has the first landed canonical `diffaudit` stage, because `probe-h2-assets` is implemented in `src/diffaudit/defenses/h2_adapter.py`, exposed from `src/diffaudit/cli.py`, covered by `tests/test_h2_adapter.py`, and a real admitted-asset probe at `workspaces/implementation/runs/h2-probe-assets-20260421-r1/summary.json` resolves `checkpoint-9600/model.safetensors`, full-scan `1000 / 1000` image roots, and `32 x 32 x 3` `RGB` compatibility under `packet_cap = 1000`; `H2` therefore advances from `prototype-only` to `probe-landed`, but still stays below run/review readiness, `active_gpu_question = none`, `next_gpu_candidate = none`, and the next live lane becomes `X-134 04-H2 prepare-h2-contract minimal surface freeze`; canonical anchor is `workspaces/implementation/2026-04-21-x133-04-h2-probe-assets-contract-landing.md` |
+| 2026-04-21 17:40 | Closed `X-134` as `positive but bounded`: `04-H2` now has the second landed canonical `diffaudit` stage, because `prepare-h2-contract` is implemented in `src/diffaudit/defenses/h2_adapter.py`, exposed from `src/diffaudit/cli.py`, covered by `tests/test_h2_adapter.py`, and the first real admitted-asset workspace at `workspaces/implementation/runs/h2-prepare-contract-20260421-r1/summary.json` freezes checkpoint identity, packet identity, and runtime defaults (`rank = 4`, `lambda_coeff = 0.5`, `num_epochs = 10`, `batch_size = 8`) without overstating itself as a training run; `H2` now reads `probe + prepare landed / run + review missing`, `active_gpu_question = none`, `next_gpu_candidate = none`, and the next live lane becomes `X-135 04-H2 run-h2-defense-pilot bounded execution contract start`; canonical anchor is `workspaces/implementation/2026-04-21-x134-04-h2-prepare-contract-landing.md` |
+| 2026-04-21 17:56 | Closed `X-135` as `positive but bounded`: `04-H2` now has the third landed canonical `diffaudit` stage, because `run-h2-defense-pilot` is implemented in `src/diffaudit/defenses/h2_adapter.py`, exposed from `src/diffaudit/cli.py`, covered by `tests/test_h2_adapter.py`, and one real admitted-asset bounded pilot now exists at `workspaces/implementation/runs/h2-run-defense-pilot-20260421-r1/summary.json`; that packet keeps `active_gpu_question = none`, `next_gpu_candidate = none`, stages only `1 / 1` images under the frozen `1000 / 1000` asset identity, reuses `checkpoint-9600/model.safetensors`, and emits workspace-root config/log/checkpoint artifacts plus first-step training metrics, but still provides no attack-side board or low-FPR readout; `H2` therefore now reads `probe + prepare + run landed / review missing`, and the next live lane becomes `X-136 04-H2 review-h2-defense-pilot same-packet attack-side review contract start`; canonical anchor is `workspaces/implementation/2026-04-21-x135-04-h2-run-defense-pilot-contract-landing.md` |
+| 2026-04-21 18:05 | Closed `X-136` as `negative but useful`: `04-H2` now has the fourth landed canonical `diffaudit` stage, because `review-h2-defense-pilot` is implemented in `src/diffaudit/defenses/h2_adapter.py`, exposed from `src/diffaudit/cli.py`, covered by `tests/test_h2_adapter.py`, and one real same-packet review now exists at `workspaces/implementation/runs/h2-review-defense-pilot-20260421-r1/summary.json`; that review reuses the frozen `X-135` `1 / 1` packet and a borrowed `GSA` shadow loss-score packet, compares the baseline target checkpoint against a merged review-compatible defended checkpoint, and emits the mandatory `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR` bundle, but all transferred metrics remain `0.0`, so `H2` is now minimally contract-complete yet still null on the first bounded attack-side read; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next live lane becomes `X-137 non-graybox next-lane reselection after X-136 same-packet review`; canonical anchor is `workspaces/implementation/2026-04-21-x136-04-h2-review-defense-pilot-contract-landing.md` |
+| 2026-04-21 18:08 | Closed `X-137` as `positive`: after `X-136`, `H2` no longer lacks contract stages, but the first same-packet review is still transfer-only and too small (`1 / 1`) to change project-level story, so the highest-value next live lane is not GPU release, stale-entry sync, or immediate lane-yield; it becomes `X-138 04-H2 bounded packet-scale follow-up selection after X-137 reselection`, with `active_gpu_question = none` and `next_gpu_candidate = none`; canonical anchor is `workspaces/implementation/2026-04-21-x137-non-graybox-next-lane-reselection-after-x136.md` |
+| 2026-04-21 16:25 | Closed `X-138` as `positive`: after `X-137`, `H2` is no longer blocked on contract construction, but the first `1 / 1` transfer-only board is still too degenerate to justify immediate lane-yield; because `review-h2-defense-pilot` consumes the staged packet recorded by `run-h2-defense-pilot`, the honest next question is one minimal same-contract packet enlargement rather than document-only speculation, and `4 / 4` is the smallest bounded rung that can test whether the earlier all-zero read was pure packet sparsity; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next live lane becomes `X-139 04-H2 4x4 bounded follow-up review`; canonical anchor is `workspaces/implementation/2026-04-21-x138-04-h2-bounded-packet-scale-followup-selection.md` |
+| 2026-04-21 16:25 | Closed `X-139` as `negative but useful`: the selected minimal `4 / 4` follow-up is now real on admitted CIFAR10 assets, because `run-h2-defense-pilot` and `review-h2-defense-pilot` both land cleanly on the same frozen checkpoint/asset contract at `workspaces/implementation/runs/h2-run-defense-pilot-4x4-20260421-r1/summary.json` and `workspaces/implementation/runs/h2-review-defense-pilot-4x4-20260421-r1/summary.json`; this removes the pure-zero degeneracy of the first `1 / 1` board by producing non-null target-transfer metrics (`AUC = 0.5 / ASR = 0.375 / TPR@1%FPR = 0.5 / TPR@0.1%FPR = 0.5`), but baseline and defended metrics still remain exactly equal, so `H2` now reads `minimal contract-complete + bounded 4/4 follow-up negative but useful`, still below promotion and still below `next_gpu_candidate`; the next immediate move becomes `X-140 cross-box / system-consumable stale-entry sync after X-139`; canonical anchor is `workspaces/implementation/runs/h2-review-defense-pilot-4x4-20260421-r1/summary.json` |
+| 2026-04-21 16:25 | Closed `X-140` as `positive`: after `X-139`, the active entry surfaces still pointed fresh sessions to `X-138` as if packet-scale follow-up were pending, so the highest-value immediate move was one bounded stale-entry sync across `README`, `comprehensive-progress`, `reproduction-status`, `mainline-narrative`, `research-autonomous-execution-prompt`, `challenger-queue`, and the roadmap itself; those surfaces now carry the sharper `H2` truth (`minimal contract-complete + bounded 4/4 follow-up negative but useful`, `no current next_gpu_candidate`, and `04` should yield the next `CPU-first` slot absent a genuinely new bounded hypothesis`), while `active_gpu_question = none` and `next_gpu_candidate = none`; the next live lane becomes `X-141 non-graybox next-lane reselection after X-140 stale-entry sync`; canonical anchor is `workspaces/implementation/2026-04-21-x140-crossbox-system-sync-after-x139.md` |
+| 2026-04-21 16:25 | Closed storage-boundary audit as `positive`: the repository now has one explicit storage rule (`external` = upstream/exploratory code clones, `third_party` = minimal vendored code, `Download` = raw intake bundles, `workspaces/*/assets` = lane-normalized gateways, `workspaces/*/runs` = evidence), and `workspaces/README.md` is resynced to that rule; but the audit also freezes three real live inconsistencies as future cleanup targets: `external/recon-assets` is asset-heavy and belongs below `Download` rather than `external`, `external/SecMI` vs `third_party/secmi` still needs visible canonical/exploratory separation, and `external/CLiD` still mixes upstream code with supplementary-style outputs while `Download` also stores a CLiD supplementary mirror; canonical anchor is `workspaces/implementation/2026-04-21-research-storage-boundary-audit.md` |
+| 2026-04-23 09:00 | Closed storage-boundary cleanup pass as `positive`: the sharpest live inconsistency is now actually resolved, because `external/recon-assets` has been physically migrated to `D:\Code\DiffAudit\Download\black-box\supplementary\recon-assets`, active recon bundle references have been retargeted, `README` now points CLiD artifact summarization at the raw supplementary mirror under `Download`, and new role markers (`external/README.md`, `third_party/README.md`, `Download/README.md`, plus the tracked `third_party/secmi/LOCAL_ROLE.md`) now make the remaining dual-surface cases explicit instead of ambiguous; the repository storage rule is therefore materially more uniform even though some historical notes still preserve old path wording as historical context; canonical anchor is `workspaces/implementation/2026-04-21-research-storage-boundary-audit.md` |
+| 2026-04-26 00:00 | Closed storage-layout finalization as `positive`: the previously documented storage boundary is now physically true, because `Research/external/downloads` has been removed and its raw-intake subtrees (`black-box`, `gray-box`, `manifests`, `shared`, `white-box`) now live directly under `D:\Code\DiffAudit\Download\`; verification confirmed `Download\black-box\supplementary\recon-assets`, `Download\manifests\research-download-manifest.json`, and the shared dataset/weight roots are present, while active path search no longer finds live `Research/external/downloads` or `external/CLiD/inter_output` references; canonical anchor is `workspaces/implementation/2026-04-26-research-storage-layout-finalization.md` |
 
 ---
 
@@ -5295,3 +5555,4 @@ If that happens, the agent must add new branches and continue.
 
 - `legacy/2026-04-15-P0-P3-completed-roadmap.md`
 - `legacy/2026-04-15-competition-sprint-roadmap-archived.md`
+

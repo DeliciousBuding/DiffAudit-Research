@@ -5,6 +5,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import math
+import re
 import shutil
 import time
 from dataclasses import dataclass
@@ -157,7 +158,18 @@ def _build_pia_eps_getter(
     dropout_activation_schedule: str = "off",
     late_step_threshold: int | None = None,
     epsilon_output_noise_std: float = 0.0,
+    epsilon_precision_bins: int | None = None,
 ):
+    def precision_throttle(eps_prediction: torch.Tensor) -> torch.Tensor:
+        if epsilon_precision_bins is None:
+            return eps_prediction
+        bins = int(epsilon_precision_bins)
+        if bins <= 1:
+            raise ValueError("epsilon_precision_bins must be greater than 1")
+        clipped = torch.clamp(eps_prediction, -1.0, 1.0)
+        scaled = (clipped + 1.0) * ((bins - 1) / 2.0)
+        return torch.round(scaled) * (2.0 / (bins - 1)) - 1.0
+
     class RuntimeEpsGetter(components_module.EpsGetter):
         def __call__(
             self,
@@ -178,6 +190,7 @@ def _build_pia_eps_getter(
                 self.model.eval()
             timestep = torch.ones([xt.shape[0]], device=xt.device, dtype=torch.long) * int(t or 0)
             eps_prediction = self.model(xt, t=timestep)
+            eps_prediction = precision_throttle(eps_prediction)
             if float(epsilon_output_noise_std) > 0.0:
                 eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(epsilon_output_noise_std)
             return eps_prediction
@@ -195,6 +208,7 @@ def _build_pia_attacker(
     dropout_activation_schedule: str = "off",
     late_step_threshold: int | None = None,
     epsilon_output_noise_std: float = 0.0,
+    epsilon_precision_bins: int | None = None,
     defaults: PiaDefaults | None = None,
 ):
     config = defaults or PiaDefaults()
@@ -208,6 +222,7 @@ def _build_pia_attacker(
         dropout_activation_schedule=dropout_activation_schedule,
         late_step_threshold=late_step_threshold,
         epsilon_output_noise_std=epsilon_output_noise_std,
+        epsilon_precision_bins=epsilon_precision_bins,
     )
     return attacker_cls(
         betas,
@@ -454,9 +469,20 @@ def _predict_surrogate_images(
     dropout_activation_schedule: str,
     late_step_threshold: int | None,
     epsilon_output_noise_std: float = 0.0,
+    epsilon_precision_bins: int | None = None,
     input_gaussian_blur_sigma: float = 0.0,
     surrogate_batch_size: int = 64,
 ) -> torch.Tensor:
+    def precision_throttle(eps_prediction: torch.Tensor) -> torch.Tensor:
+        if epsilon_precision_bins is None:
+            return eps_prediction
+        bins = int(epsilon_precision_bins)
+        if bins <= 1:
+            raise ValueError("epsilon_precision_bins must be greater than 1")
+        clipped = torch.clamp(eps_prediction, -1.0, 1.0)
+        scaled = (clipped + 1.0) * ((bins - 1) / 2.0)
+        return torch.round(scaled) * (2.0 / (bins - 1)) - 1.0
+
     if batches.numel() == 0:
         return torch.empty_like(batches)
     was_training = model.training
@@ -479,6 +505,7 @@ def _predict_surrogate_images(
             normalized = defended_chunk.to(device) * 2 - 1
             timestep = torch.zeros(normalized.shape[0], device=device, dtype=torch.long)
             eps_prediction = model(normalized, t=timestep)
+            eps_prediction = precision_throttle(eps_prediction)
             if float(epsilon_output_noise_std) > 0.0:
                 eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(epsilon_output_noise_std)
             surrogate = torch.clamp((normalized - eps_prediction + 1.0) / 2.0, 0.0, 1.0)
@@ -813,6 +840,43 @@ def _build_pia_packet_loader(
         shuffle=False,
     )
     return loader
+
+
+def _load_packet_indices_file(path: str | Path) -> list[int]:
+    text = Path(path).read_text(encoding="utf-8").strip()
+    if not text:
+        raise ValueError(f"PIA packet index file is empty: {path}")
+
+    try:
+        payload = json.loads(text)
+    except json.JSONDecodeError:
+        tokens = [token for token in re.split(r"[\s,]+", text) if token]
+        if not tokens:
+            raise ValueError(f"PIA packet index file does not contain any indices: {path}")
+        return [int(token) for token in tokens]
+
+    if isinstance(payload, list):
+        if not payload:
+            raise ValueError(f"PIA packet index file does not contain any indices: {path}")
+        return [int(value) for value in payload]
+    if isinstance(payload, dict) and isinstance(payload.get("indices"), list):
+        if not payload["indices"]:
+            raise ValueError(f"PIA packet index file does not contain any indices: {path}")
+        return [int(value) for value in payload["indices"]]
+    raise ValueError(f"Unsupported PIA packet index file format: {path}")
+
+
+def _validate_packet_indices(
+    requested_indices: list[int],
+    allowed_indices: list[int],
+    membership: str,
+) -> None:
+    allowed = {int(value) for value in allowed_indices}
+    invalid = [int(value) for value in requested_indices if int(value) not in allowed]
+    if invalid:
+        raise ValueError(
+            f"PIA explicit {membership} packet includes indices outside the canonical {membership} split: {invalid[:5]}"
+        )
 
 
 def _extract_pia_model_prediction(model_output: Any) -> torch.Tensor:
@@ -1557,6 +1621,8 @@ def export_pia_packet_scores(
     packet_size: int = 4,
     member_offset: int = 0,
     nonmember_offset: int = 0,
+    member_index_file: str | Path | None = None,
+    nonmember_index_file: str | Path | None = None,
     batch_size: int = 4,
     adaptive_query_repeats: int = 1,
     provenance_status: str = "workspace-verified",
@@ -1609,11 +1675,26 @@ def export_pia_packet_scores(
     split_payload = np.load(asset_summary["paths"]["member_split"])
     member_all = split_payload["mia_train_idxs"].tolist()
     nonmember_all = split_payload["mia_eval_idxs"].tolist()
-    selected_packet_size = max(1, int(packet_size))
-    member_indices = member_all[int(member_offset) : int(member_offset) + selected_packet_size]
-    nonmember_indices = nonmember_all[int(nonmember_offset) : int(nonmember_offset) + selected_packet_size]
-    if len(member_indices) < selected_packet_size or len(nonmember_indices) < selected_packet_size:
-        raise ValueError("Requested PIA packet exceeds available member/non-member indices")
+    if (member_index_file is None) != (nonmember_index_file is None):
+        raise ValueError("PIA explicit packet export requires both member_index_file and nonmember_index_file")
+
+    selection_mode = "offset-slice"
+    selected_packet_size: int | None = max(1, int(packet_size))
+    if member_index_file is not None and nonmember_index_file is not None:
+        selection_mode = "explicit-index-files"
+        member_indices = _load_packet_indices_file(member_index_file)
+        nonmember_indices = _load_packet_indices_file(nonmember_index_file)
+        _validate_packet_indices(member_indices, member_all, "member")
+        _validate_packet_indices(nonmember_indices, nonmember_all, "nonmember")
+        if len(member_indices) == len(nonmember_indices):
+            selected_packet_size = int(len(member_indices))
+        else:
+            selected_packet_size = None
+    else:
+        member_indices = member_all[int(member_offset) : int(member_offset) + int(selected_packet_size)]
+        nonmember_indices = nonmember_all[int(nonmember_offset) : int(nonmember_offset) + int(selected_packet_size)]
+        if len(member_indices) < int(selected_packet_size) or len(nonmember_indices) < int(selected_packet_size):
+            raise ValueError("Requested PIA packet exceeds available member/non-member indices")
 
     member_loader = _build_pia_packet_loader(
         dataset=plan.dataset,
@@ -1674,6 +1755,20 @@ def export_pia_packet_scores(
         "\n".join(json.dumps(record, ensure_ascii=True) for record in records) + "\n",
         encoding="utf-8",
     )
+    scores_path = workspace_path / "scores.json"
+    scores_path.write_text(
+        json.dumps(
+            {
+                "member_scores": [round(float(value), 6) for value in member_scores.tolist()],
+                "nonmember_scores": [round(float(value), 6) for value in nonmember_scores.tolist()],
+                "member_indices": [int(value) for value in member_indices],
+                "nonmember_indices": [int(value) for value in nonmember_indices],
+            },
+            indent=2,
+            ensure_ascii=True,
+        ),
+        encoding="utf-8",
+    )
 
     member_score_mean = float(member_scores.mean().item())
     nonmember_score_mean = float(nonmember_scores.mean().item())
@@ -1690,6 +1785,7 @@ def export_pia_packet_scores(
         "artifact_paths": {
             "summary": str(workspace_path / "summary.json"),
             "sample_scores": str(records_path),
+            "scores": str(scores_path),
         },
         "runtime": {
             "repo_root": str(Path(repo_root)),
@@ -1699,7 +1795,10 @@ def export_pia_packet_scores(
             "attack_num": plan.attack_num,
             "interval": plan.interval,
             "batch_size": int(batch_size),
-            "packet_size": int(selected_packet_size),
+            "selection_mode": selection_mode,
+            "packet_size": int(selected_packet_size) if selected_packet_size is not None else None,
+            "member_packet_size": int(len(member_indices)),
+            "nonmember_packet_size": int(len(nonmember_indices)),
             "adaptive_query_repeats": int(max(adaptive_query_repeats, 1)),
         },
         "packet": {
@@ -1717,6 +1816,7 @@ def export_pia_packet_scores(
         },
         "notes": [
             "This scaffold exports packet-local PIA scores on a fixed member/non-member packet.",
+            "Exact-index mode can export pairboard-ready CPU-first scores on explicit PIA split indices.",
             "It is a CPU-first bridge artifact, not a benchmark or GPU release.",
         ],
     }
@@ -1833,6 +1933,7 @@ def run_pia_runtime_mainline(
     stochastic_dropout_defense: bool = False,
     dropout_activation_schedule: str = "off",
     epsilon_output_noise_std: float = 0.0,
+    epsilon_precision_bins: int | None = None,
     input_gaussian_blur_sigma: float = 0.0,
     adaptive_query_repeats: int = 1,
     late_step_threshold: int | None = None,
@@ -1909,6 +2010,7 @@ def run_pia_runtime_mainline(
         dropout_activation_schedule=resolved_schedule,
         late_step_threshold=late_step_threshold,
         epsilon_output_noise_std=epsilon_output_noise_std,
+        epsilon_precision_bins=epsilon_precision_bins,
     )
 
     split_root = Path(member_split_root) if member_split_root else Path(repo_root) / "DDPM"
@@ -2015,6 +2117,7 @@ def run_pia_runtime_mainline(
         dropout_activation_schedule="off",
         late_step_threshold=late_step_threshold,
         epsilon_output_noise_std=0.0,
+        epsilon_precision_bins=None,
         input_gaussian_blur_sigma=0.0,
     )
     active_surrogates = _predict_surrogate_images(
@@ -2024,17 +2127,21 @@ def run_pia_runtime_mainline(
         dropout_activation_schedule=resolved_schedule,
         late_step_threshold=late_step_threshold,
         epsilon_output_noise_std=epsilon_output_noise_std,
+        epsilon_precision_bins=epsilon_precision_bins,
         input_gaussian_blur_sigma=input_gaussian_blur_sigma,
     )
     quality = _compute_surrogate_quality_metrics(
         reference_images=reference_batches,
         active_images=active_surrogates,
-        baseline_images=baseline_surrogates if (resolved_schedule != "off" or float(epsilon_output_noise_std) > 0.0 or float(input_gaussian_blur_sigma) > 0.0) else None,
+        baseline_images=baseline_surrogates if (resolved_schedule != "off" or float(epsilon_output_noise_std) > 0.0 or epsilon_precision_bins is not None or float(input_gaussian_blur_sigma) > 0.0) else None,
     )
 
     defense_name = "none"
     defense_stage = "baseline"
-    if stochastic_dropout_defense and float(epsilon_output_noise_std) > 0.0:
+    if epsilon_precision_bins is not None:
+        defense_name = "epsilon-precision-throttling"
+        defense_stage = "candidate-g2"
+    elif stochastic_dropout_defense and float(epsilon_output_noise_std) > 0.0:
         defense_name = "stochastic-dropout+epsilon-output-noise"
         defense_stage = "candidate-g2"
     elif float(input_gaussian_blur_sigma) > 0.0 and stochastic_dropout_defense:
@@ -2090,10 +2197,11 @@ def run_pia_runtime_mainline(
         },
         "defense": {
             "name": defense_name,
-            "enabled": bool(stochastic_dropout_defense or float(epsilon_output_noise_std) > 0.0 or float(input_gaussian_blur_sigma) > 0.0),
+            "enabled": bool(stochastic_dropout_defense or float(epsilon_output_noise_std) > 0.0 or epsilon_precision_bins is not None or float(input_gaussian_blur_sigma) > 0.0),
             "dropout_activation_schedule": resolved_schedule,
             "late_step_threshold": int(late_step_threshold),
             "epsilon_output_noise_std": float(epsilon_output_noise_std),
+            "epsilon_precision_bins": int(epsilon_precision_bins) if epsilon_precision_bins is not None else None,
             "input_gaussian_blur_sigma": float(input_gaussian_blur_sigma),
         },
         "defense_stage": defense_stage,

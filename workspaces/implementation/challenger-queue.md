@@ -1,6 +1,6 @@
 # DiffAudit Research — Challenger Queue
 
-> **Last refreshed**: 2026-04-18
+> **Last refreshed**: 2026-04-21 16:25
 > **Purpose**: Keep the innovation funnel aligned with current repo truth after closure-round reviews
 > **Rule**: This queue is for future candidate generation, bounded follow-up, or asset-triggered reopen only. It is not a substitute for admitted/mainline status.
 
@@ -10,8 +10,27 @@
 
 - `active GPU question = none`
 - `next_gpu_candidate = none`
-- `current execution lane = I-A higher-layer boundary maintenance` (CPU sidecar, stable)
-- `X-86→X-91` sequence completed: G1-A deferred (TMIA-DM 512-sample gap), B-M0 Candidate A hold-review-only (CPU-bound shadow-LR), I-A maintenance complete, all higher-layer docs synced
+- `current execution lane = X-141 non-graybox next-lane reselection after X-140 stale-entry sync` (active CPU-first control lane)
+- `04` current control read is now:
+  - `H1 risk-targeted SISS / retain-forget mixture` = executed family with real prep / pilot / review surface
+  - original `k16` = current best working instantiation
+  - `k16 + alpha-up` and `k16 + mixture_lambda-down` are both closed `negative but useful`
+  - `H2 privacy-aware adapter` = `minimal contract-complete + bounded 4/4 follow-up negative but useful`
+  - the minimal `4 / 4` follow-up removes the pure-zero degeneracy from the first `1 / 1` board, but baseline vs defended deltas remain exactly `0.0`
+  - so `H2` should now yield the next `CPU-first` slot unless a genuinely new bounded hypothesis appears
+- `05-cross-box` remains a promoted evidence line, not the next open rerun slot
+- `02` remains sidecar only:
+  - `SimA` = `execution-feasible but weak`
+  - plain `SimA` scorer reopen = `not-requestable without new bounded hypothesis`
+  - `SimA` packet-score export = landed and pairboard-ready
+  - first bounded `PIA + SimA` full-overlap pairboard = landed
+  - best fused candidate = `logistic_2feature`
+  - `AUC / ASR` gains are real and `TPR@1%FPR` is partially improved
+  - `TPR@0.1%FPR` still has no stable lift
+  - gray-box should now yield the next `CPU-first` slot
+- `03` remains medium-horizon activation-subspace / risky-subspace preparation; `01` remains parked; `06` remains governance fallback
+- `X-114` and `X-115` are now closed: current `04` truth changes control-plane ordering only and still does not require any new Runtime / Platform consumer contract
+- older `X-86→X-91` and prior queue history below should now be read as archived carry-forward context rather than the current live steering layer
 - `I-D.1` is now closed as `positive but bounded` on the frozen `Stable Diffusion v1.5 base + celeba_partial_target/checkpoint-25000` local canary contract
 - `I-D.2` is now closed as `positive but bounded` on a real single-GPU `8 / 8 / 8` packet, with `generation_guidance_scale = 7.5` widening raw separation over `3.5` but fixed thresholds failing to transfer across scales
 - `I-D.3` is now closed as `positive but bounded`: hidden-guidance jitter disrupts attack calibration on average, but current mixed-packet evidence is still seed-sensitive and below low-FPR / adaptive release
@@ -129,34 +148,51 @@ This queue should now be read with three distinctions:
 
 ## Top 3 Priorities
 
-### 1. `X-86` `non-graybox next-lane reselection after X-85 admitted-summary sync review`
+### 1. `X-141` non-graybox next-lane reselection after `X-140` stale-entry sync
 
-- `status`: `ready-for-selection / active`
+- `status`: `active / cpu-first control lane`
 - `expected value`: ⭐⭐
-- `mode`: `cpu-first reselection`
+- `mode`: `reselection / post-H2 lane review`
 - `why now`:
-  - `X-85` already completed the restored admitted-summary sync surface
-  - the recent work queue has cleared both stale-entry sync and one restored cross-box consumer surface
-  - the honest next step is to re-evaluate the highest-value non-graybox lane rather than continue wording-only work by inertia
+  - `X-139` already shows that one minimal `4 / 4` follow-up still carries zero defended-vs-baseline deltas
+  - `X-140` has already cleared the stale entry-doc layer
+  - the next question is now which non-graybox lane should take the freed `CPU-first` slot
 
-### 2. `XB-CH-2` Transfer / portability probes
+### 2. `X-140` cross-box / system-consumable stale-entry sync after `X-139`
 
-- `status`: `needs-assets`
+- `status`: `completed / positive`
 - `expected value`: ⭐⭐
-- `mode`: `asset-triggered review`
-- `why second`:
-  - still one of the cleaner cross-box unresolved branches
-  - but the refreshed blocker verdict says it is still below execution-ready because honest paired contracts are missing
+- `mode`: `stale-entry sync / higher-layer alignment`
+- `why it mattered`:
+  - active entry docs still pointed to `X-138` as if the follow-up were pending
+  - the sharper `H2` truth is now visible again across README, progress, narrative, prompt, queue, and roadmap
 
-### 3. `WB-CH-4` White-box loss-feature challenger family
+### 3. `X-139` `04-H2` 4x4 bounded follow-up review
 
-- `status`: `reviewed / selected-for-contract-review`
+- `status`: `completed / negative but useful`
 - `expected value`: ⭐⭐
-- `mode`: `paper-backed same-asset challenger family`
-- `why third`:
-  - it is distinct from the current `GSA` gradient family
-  - it is directly relevant to `SMP-LoRA / DP-LoRA` because those defenses primarily target white-box loss-based MI
-  - but only the bounded `LSA*`-style lane is honest right now; `LiRA / Strong LiRA` remain above budget
+- `mode`: `bounded packet-scale follow-up review`
+- `why it mattered`:
+  - it proved the lane is not only blocked by `1 / 1` degeneracy
+  - it also showed that even after minimal enlargement the defended-vs-baseline deltas are still exactly `0.0`
+
+### 4. `X-135` `04-H2` run-h2-defense-pilot bounded execution contract start
+
+- `status`: `completed / positive but bounded`
+- `expected value`: ⭐⭐
+- `mode`: `contract implementation / prepare`
+- `why it mattered`:
+  - it froze checkpoint identity, packet identity, and runtime defaults into one machine-readable workspace manifest
+  - it moved `H2` from `contract-incomplete` to `probe + prepare landed / run + review missing`
+
+### 4. `X-133` `04-H2` probe-h2-assets executable contract start
+
+- `status`: `completed / positive but bounded`
+- `expected value`: ⭐⭐
+- `mode`: `contract implementation / asset probe`
+- `why it mattered`:
+  - it landed the first canonical `diffaudit` H2 stage on admitted assets
+  - it froze `checkpoint-9600/model.safetensors` plus full-scan `1000 / 1000` `32 x 32 x 3` `RGB` compatibility under `packet_cap = 1000`
 
 ---
 
@@ -257,7 +293,7 @@ This queue should now be read with three distinctions:
 
 #### `WB-CH-4` White-box loss-feature challenger family
 
-- `status`: `selected / packet-selection-frozen / actual-packet-pending`
+- `status`: `bounded-auxiliary / actual-packet-landed / boundary-frozen`
 - `expected value`: ⭐⭐
 - `reason`:
   - this paper-backed family (`LSA* / LiRA / Strong LiRA`) is distinct from the current `GSA` gradient family
@@ -266,8 +302,9 @@ This queue should now be read with three distinctions:
   - `X-73` already selected the preferred surface as a separate in-repo internal helper / CLI path
   - `X-74` already implemented and smoke-validated that surface on the current admitted asset family
   - `X-75` already froze the first honest packet/evaluation contract
-  - the honest near-term lane is now first actual packet execution on top of the already-landed exported-score evaluator surface
-  - do not escalate the whole family into execution release; `LiRA / Strong LiRA` remain above current bounded host-fit budget
+  - `X-77` already landed the first actual packet on top of the exported-score evaluator surface
+  - `X-78` already boundary-froze that packet as bounded auxiliary evidence rather than a promoted new line
+  - do not escalate the whole family into execution release; `LiRA / Strong LiRA` remain above current bounded host-fit budget and no new same-family bounded hypothesis is currently frozen
 
 ### Cross-box
 
@@ -298,11 +335,3 @@ This queue should now be read with three distinctions:
 - white-box defense breadth on the current candidate set
 
 ---
-
-## Recommended Next Order
-
-1. `X-86` `non-graybox next-lane reselection after X-85 admitted-summary sync review`
-2. `XB-CH-2` transfer / portability probes
-3. `WB-CH-4` white-box loss-feature challenger family
-
-This order is deliberately CPU-first and does **not** authorize any new GPU run by itself.
