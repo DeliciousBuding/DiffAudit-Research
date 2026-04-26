@@ -28,20 +28,20 @@
 当前推荐入口是 Go Runtime 控制面：
 
 ```powershell
-cd D:\Code\DiffAudit\Runtime-Server
+cd <DIFFAUDIT_ROOT>/Runtime-Server
 go run ./cmd/runtime --host 127.0.0.1 --port 8765
 ```
 
 覆盖本机目录：
 
 ```powershell
-cd D:\Code\DiffAudit\Runtime-Server
+cd <DIFFAUDIT_ROOT>/Runtime-Server
 go run ./cmd/runtime `
   --host 127.0.0.1 `
   --port 8765 `
-  --experiments-root D:\Code\DiffAudit\Research\experiments `
-  --jobs-root D:\Code\DiffAudit\Research\workspaces\runtime\jobs `
-  --project-root D:\Code\DiffAudit\Research
+  --experiments-root <DIFFAUDIT_ROOT>/Research/experiments `
+  --jobs-root <DIFFAUDIT_ROOT>/Research/workspaces/runtime/jobs `
+  --project-root <DIFFAUDIT_ROOT>/Research
 ```
 
 当前职责划分：
@@ -58,8 +58,8 @@ go run ./cmd/runtime `
 ```json
 {
   "status": "ok",
-  "experiments_root": "D:\\Code\\DiffAudit\\Research\\experiments",
-  "jobs_root": "D:\\Code\\DiffAudit\\Research\\workspaces\\runtime\\jobs"
+  "experiments_root": "<DIFFAUDIT_ROOT>/Research/experiments",
+  "jobs_root": "<DIFFAUDIT_ROOT>/Research/workspaces/runtime/jobs"
 }
 ```
 

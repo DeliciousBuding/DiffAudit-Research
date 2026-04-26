@@ -48,7 +48,7 @@ class ClidThresholdAuditTests(unittest.TestCase):
                 json.dumps(
                     {
                         "assets": {
-                            "base_model": "D:/Code/DiffAudit/Download/shared/weights/stable-diffusion-v1-5"
+                            "base_model": "C:/DiffAudit/Download/shared/weights/stable-diffusion-v1-5"
                         }
                     }
                 ),
