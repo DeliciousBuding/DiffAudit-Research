@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import io
 import json
+import re
 from pathlib import Path
 
 from PIL import Image
@@ -15,6 +16,11 @@ FALLBACK_FINALIZE_TEMPLATE = Path(
     / "runs"
     / "clid-recon-clip-target100-20260415-r1"
     / "finalize_run_summary.py"
+)
+
+FINALIZE_RUN_ROOT_RE = re.compile(
+    r'RUN_ROOT = Path\(\n\s*r".*clid-recon-clip-target100-20260415-r1"\n\)',
+    re.MULTILINE,
 )
 
 
@@ -152,11 +158,12 @@ def main() -> None:
         finalize_template = FALLBACK_FINALIZE_TEMPLATE
     finalize_script = finalize_template.read_text(encoding="utf-8")
     target_run_windows = target_run.as_posix().replace("/", "\\")
-    finalize_script = finalize_script.replace(
-        'RUN_ROOT = Path(\n    r"D:\\Code\\DiffAudit\\Research\\workspaces\\black-box\\runs\\clid-recon-clip-target100-20260415-r1"\n)',
+    finalize_script = FINALIZE_RUN_ROOT_RE.sub(
         'RUN_ROOT = Path(\n'
         f'    r"{target_run_windows}"\n'
         ')',
+        finalize_script,
+        count=1,
     )
     finalize_script = finalize_script.replace(
         '"run_id": "clid-recon-clip-target100-20260415-r1",',

@@ -16,8 +16,8 @@ class ClidThresholdAuditTests(unittest.TestCase):
 
             header = (
                 "{'diff_path': "
-                "'C:/Users/Ding/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/x'}\t"
-                "C:/Users/Ding/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/x"
+                "'C:/Users/exampleuser/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/x'}\t"
+                "C:/Users/exampleuser/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/x"
             )
             train_path = outputs / "Atk_clid_clip_M_local_target_TRTE_train.txt"
             test_path = outputs / "Atk_clid_clip_M_local_target_TRTE_test.txt"
