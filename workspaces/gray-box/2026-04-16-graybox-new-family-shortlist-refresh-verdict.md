@@ -13,8 +13,8 @@ Which gray-box family should become the next genuinely new branch after the curr
 - `workspaces/gray-box/2026-04-16-graybox-sima-feasibility-verdict.md`
 - `workspaces/gray-box/2026-04-16-graybox-structural-memorization-verdict.md`
 - `workspaces/implementation/2026-04-16-subagent-paper-scout-verdict.md`
-- `docs/paper-reports/markdown/gray-box/2026-arxiv-noise-as-a-probe-membership-inference-diffusion-models/2026-arxiv-noise-as-a-probe-membership-inference-diffusion-models-refined.md`
-- `docs/paper-reports/markdown/gray-box/2026-openreview-mofit-caption-free-membership-inference/2026-openreview-mofit-caption-free-membership-inference-refined.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
 
 ## Shortlist
 

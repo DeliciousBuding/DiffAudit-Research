@@ -11,8 +11,8 @@ Now that bounded same-asset loss-score export is real, what is the first honest 
 - `<DIFFAUDIT_ROOT>/Research/src/diffaudit/attacks/pia_adapter.py`
 - `<DIFFAUDIT_ROOT>/Research/src/diffaudit/attacks/recon.py`
 - `<DIFFAUDIT_ROOT>/Research/src/diffaudit/defenses/dpdm_w1.py`
-- `<DIFFAUDIT_ROOT>/Research/docs/paper-reports/ocr/white-box/2025-popets-white-box-membership-inference-diffusion-models/pages/page-0016.md`
-- `<DIFFAUDIT_ROOT>/Research/docs/paper-reports/ocr/white-box/2025-popets-white-box-membership-inference-diffusion-models/pages/page-0017.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
 
 ## Packet Selection Review
 
