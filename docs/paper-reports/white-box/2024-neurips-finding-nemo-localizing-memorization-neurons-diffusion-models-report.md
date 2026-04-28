@@ -1,7 +1,7 @@
 # Finding NeMo: Localizing Neurons Responsible For Memorization in Diffusion Models
 
 - Title: `Finding NeMo: Localizing Neurons Responsible For Memorization in Diffusion Models`
-- Material Path: `references/materials/white-box/2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf`
+- Material index path: `references/materials/white-box/2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf`
 - Primary Track: `white-box`
 - Venue / Year: `NeurIPS 2024`
 - Threat Model Category: 白盒训练样本记忆定位与干预
@@ -22,7 +22,7 @@
 - Title: `Finding NeMo: Localizing Neurons Responsible For Memorization in Diffusion Models`
 - Authors: Dominik Hintersdorf, Lukas Struppek, Kristian Kersting, Adam Dziedzic, Franziska Boenisch
 - Venue / year / version: `NeurIPS 2024` conference paper
-- Local PDF path: `references/materials/white-box/2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf`
+- Material index path: `references/materials/white-box/2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf`
 - Source URL: `https://proceedings.neurips.cc/paper_files/paper/2024/file/a102dd5931da01e1b40205490513304c-Paper-Conference.pdf`
 
 ## Research Question

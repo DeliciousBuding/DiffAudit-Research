@@ -1,7 +1,7 @@
 # DiffAudit 产品需求文档（PRD）阅读报告
 
 - Title: DiffAudit —— 基于成员推断的扩散模型隐私风险检测与安全审计系统（产品需求文档 PRD）
-- Material Path: `references/materials/context/diffaudit-product-requirements.pdf`
+- Material index path: `references/materials/context/diffaudit-product-requirements.pdf`
 - Primary Track: `context`
 - Venue / Year: 内部产品需求文档 / 2026-04-04
 - Threat Model Category: 黑盒、灰盒、白盒成员推断复合审计
@@ -22,7 +22,7 @@
 - Title: DiffAudit —— 基于成员推断的扩散模型隐私风险检测与安全审计系统（产品需求文档 PRD）
 - Authors: 文档未署名
 - Venue / year / version: 内部 PRD，生成时间为 2026-04-04，版本号未标注
-- Local PDF path: `<DIFFAUDIT_ROOT>/Research/references/materials/context/diffaudit-product-requirements.pdf`
+- Material index path: `references/materials/context/diffaudit-product-requirements.pdf`
 - Source URL: 文档未提供
 
 ## Research Question

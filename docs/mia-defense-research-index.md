@@ -1,6 +1,6 @@
 # MIA Defense Research Index
 
-这份索引不是复述 [mia-defense-document.docx](../references/materials/context/mia-defense-document.docx)，而是把文档里的路线、文献、资产要求，映射到 DiffAudit 当前仓库的真实状态。
+这份索引不是复述 mia-defense-document.docx (`references/materials/context/mia-defense-document.docx`; see `references/materials/manifest.csv`)，而是把文档里的路线、文献、资产要求，映射到 DiffAudit 当前仓库的真实状态。
 
 ## 一句话判断
 
@@ -45,7 +45,7 @@
 
 本地证据：
 
-- [2023-icml-secmi-membership-inference-diffusion-models.pdf](../references/materials/gray-box/2023-icml-secmi-membership-inference-diffusion-models.pdf)
+- 2023-icml-secmi-membership-inference-diffusion-models.pdf (`references/materials/gray-box/2023-icml-secmi-membership-inference-diffusion-models.pdf`; see `references/materials/manifest.csv`)
 - [third_party/secmi](../third_party/secmi)
 - [configs/attacks/secmi_plan.yaml](../configs/attacks/secmi_plan.yaml)
 - [docs/reproduction-status.md](reproduction-status.md)
@@ -54,7 +54,7 @@
 
 当前本地 canonical 文件和项目文档都按 `ICML 2023` / `PMLR` 处理：
 
-- [2023-icml-secmi-membership-inference-diffusion-models.pdf](../references/materials/gray-box/2023-icml-secmi-membership-inference-diffusion-models.pdf)
+- 2023-icml-secmi-membership-inference-diffusion-models.pdf (`references/materials/gray-box/2023-icml-secmi-membership-inference-diffusion-models.pdf`; see `references/materials/manifest.csv`)
 - [manifest.csv](../references/materials/manifest.csv)
 
 ### 3. `Carlini 2021` 与 `First Principles 2022` 不能混写
@@ -63,7 +63,7 @@
 
 当前仓库已有本地 canonical 文件：
 
-- [2022-ieee-membership-inference-first-principles.pdf](../references/materials/survey/2022-ieee-membership-inference-first-principles.pdf)
+- 2022-ieee-membership-inference-first-principles.pdf (`references/materials/survey/2022-ieee-membership-inference-first-principles.pdf`; see `references/materials/manifest.csv`)
 
 后续任何执行清单、汇报或表格都应统一到明确标题和年份。
 
@@ -81,23 +81,23 @@
 
 | 文档角色 | 论文 / 文献 | 本地文件 | 本地阅读或工程落点 | 当前状态 |
 | --- | --- | --- | --- | --- |
-| MIA 基础 | Carlini et al. First Principles | [2022-ieee-membership-inference-first-principles.pdf](../references/materials/survey/2022-ieee-membership-inference-first-principles.pdf) | [paper-index.md](../references/materials/paper-index.md) | 已落地 |
-| MIA 基础 | Shokri et al. 2017 | [2017-ieee-membership-inference-machine-learning-models.pdf](../references/materials/survey/2017-ieee-membership-inference-machine-learning-models.pdf) | [paper-index.md](../references/materials/paper-index.md) | 已落地 |
-| 灰盒基线 | SecMI | [2023-icml-secmi-membership-inference-diffusion-models.pdf](../references/materials/gray-box/2023-icml-secmi-membership-inference-diffusion-models.pdf) | [third_party/secmi](../third_party/secmi) | 代码已接入，真实资产仍待强化 |
-| 灰盒主线 | PIA | [2024-iclr-pia-proximal-initialization.pdf](../references/materials/gray-box/2024-iclr-pia-proximal-initialization.pdf) | [external/PIA](../external/PIA), [assets/pia/manifest.json](../workspaces/gray-box/assets/pia/manifest.json) | 已有 real-asset mainline |
-| 灰盒候选 | TMIA-DM | [2026-crad-temporal-membership-inference-attack-method-diffusion-models.pdf](../references/materials/gray-box/2026-crad-temporal-membership-inference-attack-method-diffusion-models.pdf) | [2026-04-09-tmia-dm-intake.md](../workspaces/gray-box/2026-04-09-tmia-dm-intake.md) | 已归档，当前仅到 research-ready |
-| 白盒主线 | GSA | [2025-popets-white-box-membership-inference-diffusion-models.pdf](../references/materials/white-box/2025-popets-white-box-membership-inference-diffusion-models.pdf) | [workspaces/white-box/external/GSA](../workspaces/white-box/external/GSA), [cifar10-ddpm-1k-3shadow.json](../workspaces/white-box/assets/gsa-cifar10-1k-3shadow/manifests/cifar10-ddpm-1k-3shadow.json) | 已有 admitted `1k-3shadow` mainline |
-| 白盒扩展 | Finding NeMo | [2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf](../references/materials/white-box/2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf) | [paper-index.md](../references/materials/paper-index.md) | 研究准备态 |
-| DP 防御 | Dockhorn et al. | [2023-tmlr-differentially-private-diffusion-models.pdf](../references/materials/survey/2023-tmlr-differentially-private-diffusion-models.pdf) | [external/DPDM](../external/DPDM) | 有仓库，未接成主线 |
-| DP 防御 | Ghalebikesabi et al. | [2023-arxiv-differentially-private-diffusion-models-generate-useful-synthetic-images.pdf](../references/materials/survey/2023-arxiv-differentially-private-diffusion-models-generate-useful-synthetic-images.pdf) | [external/DPDM](../external/DPDM) | 有文献与仓库 |
-| 通用防御 | MemGuard | [2019-ccs-memguard-defending-black-box-membership-inference.pdf](../references/materials/survey/2019-ccs-memguard-defending-black-box-membership-inference.pdf) | 文献级参考 | 仅文献 |
-| 通用防御 | Adversarial Regularization | [2018-ccs-membership-privacy-adversarial-regularization.pdf](../references/materials/survey/2018-ccs-membership-privacy-adversarial-regularization.pdf) | 文献级参考 | 仅文献 |
+| MIA 基础 | Carlini et al. First Principles | 2022-ieee-membership-inference-first-principles.pdf (`references/materials/survey/2022-ieee-membership-inference-first-principles.pdf`; see `references/materials/manifest.csv`) | [paper-index.md](../references/materials/paper-index.md) | 已落地 |
+| MIA 基础 | Shokri et al. 2017 | 2017-ieee-membership-inference-machine-learning-models.pdf (`references/materials/survey/2017-ieee-membership-inference-machine-learning-models.pdf`; see `references/materials/manifest.csv`) | [paper-index.md](../references/materials/paper-index.md) | 已落地 |
+| 灰盒基线 | SecMI | 2023-icml-secmi-membership-inference-diffusion-models.pdf (`references/materials/gray-box/2023-icml-secmi-membership-inference-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [third_party/secmi](../third_party/secmi) | 代码已接入，真实资产仍待强化 |
+| 灰盒主线 | PIA | 2024-iclr-pia-proximal-initialization.pdf (`references/materials/gray-box/2024-iclr-pia-proximal-initialization.pdf`; see `references/materials/manifest.csv`) | [external/PIA](../external/PIA), [assets/pia/manifest.json](../workspaces/gray-box/assets/pia/manifest.json) | 已有 real-asset mainline |
+| 灰盒候选 | TMIA-DM | 2026-crad-temporal-membership-inference-attack-method-diffusion-models.pdf (`references/materials/gray-box/2026-crad-temporal-membership-inference-attack-method-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [2026-04-09-tmia-dm-intake.md](../workspaces/gray-box/2026-04-09-tmia-dm-intake.md) | 已归档，当前仅到 research-ready |
+| 白盒主线 | GSA | 2025-popets-white-box-membership-inference-diffusion-models.pdf (`references/materials/white-box/2025-popets-white-box-membership-inference-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [workspaces/white-box/external/GSA](../workspaces/white-box/external/GSA), [cifar10-ddpm-1k-3shadow.json](../workspaces/white-box/assets/gsa-cifar10-1k-3shadow/manifests/cifar10-ddpm-1k-3shadow.json) | 已有 admitted `1k-3shadow` mainline |
+| 白盒扩展 | Finding NeMo | 2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf (`references/materials/white-box/2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [paper-index.md](../references/materials/paper-index.md) | 研究准备态 |
+| DP 防御 | Dockhorn et al. | 2023-tmlr-differentially-private-diffusion-models.pdf (`references/materials/survey/2023-tmlr-differentially-private-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [external/DPDM](../external/DPDM) | 有仓库，未接成主线 |
+| DP 防御 | Ghalebikesabi et al. | 2023-arxiv-differentially-private-diffusion-models-generate-useful-synthetic-images.pdf (`references/materials/survey/2023-arxiv-differentially-private-diffusion-models-generate-useful-synthetic-images.pdf`; see `references/materials/manifest.csv`) | [external/DPDM](../external/DPDM) | 有文献与仓库 |
+| 通用防御 | MemGuard | 2019-ccs-memguard-defending-black-box-membership-inference.pdf (`references/materials/survey/2019-ccs-memguard-defending-black-box-membership-inference.pdf`; see `references/materials/manifest.csv`) | 文献级参考 | 仅文献 |
+| 通用防御 | Adversarial Regularization | 2018-ccs-membership-privacy-adversarial-regularization.pdf (`references/materials/survey/2018-ccs-membership-privacy-adversarial-regularization.pdf`; see `references/materials/manifest.csv`) | 文献级参考 | 仅文献 |
 
 ## 本地资产索引
 
 | 资产类型 | 本地位置 | 作用 | 当前判断 |
 | --- | --- | --- | --- |
-| 文档原件 | [mia-defense-document.docx](../references/materials/context/mia-defense-document.docx) | 内部研究策略源文件 | 已纳入仓库 |
+| 文档原件 | mia-defense-document.docx (`references/materials/context/mia-defense-document.docx`; see `references/materials/manifest.csv`) | 内部研究策略源文件 | 仅保留索引记录，不提交二进制原件 |
 | 文档检索版 | [mia-defense-document.md](../references/materials/context/mia-defense-document.md) | 便于搜索、比对和引用 | 本次新增 |
 | PIA 代码仓 | [external/PIA](../external/PIA) | 灰盒主线实现来源 | 已就位 |
 | SecMI 代码仓 | [external/SecMI](../external/SecMI) 与 [third_party/secmi](../third_party/secmi) | 灰盒 baseline 与 adapter 子集 | 已就位 |

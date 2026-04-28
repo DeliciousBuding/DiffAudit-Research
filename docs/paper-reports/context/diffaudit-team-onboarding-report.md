@@ -1,7 +1,7 @@
 # DiffAudit 团队入门扫盲文档
 
 - Title: DiffAudit 团队入门扫盲文档
-- Material Path: `references/materials/context/diffaudit-team-onboarding.pdf`
+- Material index path: `references/materials/context/diffaudit-team-onboarding.pdf`
 - Primary Track: `context`
 - Venue / Year: 内部入门材料 / 2026
 - Threat Model Category: 以白盒主线为优先的扩散模型隐私审计导引
@@ -22,8 +22,8 @@
 - Title: DiffAudit 团队入门扫盲文档
 - Authors: 文档未署名；PDF metadata 未提供可信作者信息
 - Venue / year / version: 团队内部入门材料，PDF 创建时间为 2026-04-04，全文 6 页
-- Local PDF path: `<DIFFAUDIT_ROOT>/Research/references/materials/context/diffaudit-team-onboarding.pdf`
-- Source URL: 未知；当前仅见本地 PDF
+- Material index path: `references/materials/context/diffaudit-team-onboarding.pdf`
+- Source URL: 未知；当前仅见内部材料索引记录
 
 ## Research Question
 

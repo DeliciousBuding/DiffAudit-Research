@@ -59,6 +59,12 @@ Download\shared\weights\google-ddpm-cifar10-32\
 
 如果不能复制，按 [research-download-master-list.md](research-download-master-list.md) 的 `first-wave` 顺序下载。部分资产有登录、许可或作者发布限制，仓库只能记录来源和目标目录，不能把所有大文件直接提交进 git。
 
+Paper PDFs and DOCX context files follow the same rule: the repository records
+metadata in `references/materials/manifest.csv`, while local copies belong in a
+team asset mirror or an external path such as
+`Download\shared\papers\<track>\`. Do not expect GitHub to contain the paper
+binaries.
+
 ## 3. First-Wave Asset List
 
 新机器优先准备这些资产，足够进入当前项目的大多数验证路径：

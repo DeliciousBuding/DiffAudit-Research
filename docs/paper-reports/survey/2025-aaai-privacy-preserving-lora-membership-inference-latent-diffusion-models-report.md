@@ -1,7 +1,7 @@
 # Privacy-Preserving Low-Rank Adaptation Against Membership Inference Attacks for Latent Diffusion Models
 
 - Title: Privacy-Preserving Low-Rank Adaptation Against Membership Inference Attacks for Latent Diffusion Models
-- Material Path: `references/materials/survey/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models.pdf`
+- Material index path: `references/materials/survey/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models.pdf`
 - Primary Track: `survey`
 - Venue / Year: `AAAI 2025`
 - Threat Model Category: `white-box membership inference defense for LoRA-adapted latent diffusion models; supplementary evaluation under black-box and white-box gradient-based MI`
@@ -22,7 +22,7 @@
 - Title: Privacy-Preserving Low-Rank Adaptation Against Membership Inference Attacks for Latent Diffusion Models
 - Authors: Zihao Luo, Xilie Xu, Feng Liu, Yun Sing Koh, Di Wang, Jingfeng Zhang
 - Venue / year / version: AAAI 2025
-- Local PDF path: `<DIFFAUDIT_ROOT>/Research/references/materials/survey/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models.pdf`
+- Material index path: `references/materials/survey/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models.pdf`
 - Source URL: [https://doi.org/10.1609/aaai.v39i6.32628](https://doi.org/10.1609/aaai.v39i6.32628)
 
 ## Research Question
