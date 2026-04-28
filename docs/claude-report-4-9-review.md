@@ -52,7 +52,7 @@
 
 - 论文：`Unveiling Impact of Frequency Components on Membership Inference Attacks for Diffusion Models`
 - 当前可核验来源：`arXiv:2505.20955`
-- 本地 PDF：`references/materials/survey/2025-arxiv-enhancing-membership-inference-attacks-frequency-domain-perspective.pdf`
+- 材料索引路径：`references/materials/survey/2025-arxiv-enhancing-membership-inference-attacks-frequency-domain-perspective.pdf`
 
 这篇论文最有价值的地方，不是它提出了一个全新攻击家族，而是它把现有扩散模型 MIA 统一到 membership score 范式下，并指出高频信息处理缺陷会系统性干扰成员判别。它与 DiffAudit 当前三条攻击线的关系是“解释增强”而不是“路线替代”。
 
@@ -69,7 +69,7 @@
 - 论文：`Real-World Benchmarks Make Membership Inference Attacks Fail on Diffusion Models`
 - 论文中提出的 benchmark：`CopyMark`
 - 当前可核验来源：`OpenReview forum id = EE2tIwKhSW`
-- 本地 PDF：`references/materials/survey/2024-arxiv-real-world-benchmarks-membership-inference-attacks-fail-diffusion-models.pdf`
+- 材料索引路径：`references/materials/survey/2024-arxiv-real-world-benchmarks-membership-inference-attacks-fail-diffusion-models.pdf`
 
 这篇论文的真正价值，是逼我们把“攻击有效的边界条件”说清楚。它并不是在否定所有扩散模型 MIA，而是在指出：如果评测面切到更真实的预训练模型、去掉分布偏置、统一 pipeline，既有 MIA 的效果会明显下降。
 
@@ -114,7 +114,7 @@
 
 - 论文：`Privacy-Preserving Low-Rank Adaptation against Membership Inference Attacks for Latent Diffusion Models`
 - 当前可核验来源：`arXiv:2402.11989`，`DBLP/AAAI 2025`
-- 本地 PDF：`references/materials/survey/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models.pdf`
+- 材料索引路径：`references/materials/survey/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models.pdf`
 
 `DP-LoRA` 的价值是把“差分隐私防御”从全模型 DP-SGD，收缩到 LoRA 级别的参数高效适配。这对工程可用性显然更友好，也比继续堆更重的 `DPDM` 训练更贴近真实部署。
 
@@ -134,7 +134,7 @@
 
 - 论文：`On the Edge of Memorization in Diffusion Models`
 - 当前可核验来源：`arXiv:2508.17689`
-- 本地 PDF：`references/materials/survey/2025-arxiv-on-the-edge-of-memorization-diffusion-models.pdf`
+- 材料索引路径：`references/materials/survey/2025-arxiv-on-the-edge-of-memorization-diffusion-models.pdf`
 
 这篇论文的价值确实在于提供“何时从泛化进入记忆”的理论视角，尤其是 phase transition / crossover point 的说法，很适合拿来解释为什么某些协议面下攻击信号会更强。
 
@@ -149,7 +149,7 @@
 
 - 论文：`MIDST Challenge at SaTML 2025: Membership Inference over Diffusion-models-based Synthetic Tabular data`
 - 当前可核验来源：`arXiv:2603.19185`
-- 本地 PDF：`references/materials/survey/2026-arxiv-midst-challenge-membership-inference-diffusion-models-synthetic-tabular-data.pdf`
+- 材料索引路径：`references/materials/survey/2026-arxiv-midst-challenge-membership-inference-diffusion-models-synthetic-tabular-data.pdf`
 
 `MIDST` 的价值不是告诉我们“图像域方法应该照搬到表格域”，恰恰相反，它说明跨域时攻击信号和有效方法会明显变化。这个结论对 DiffAudit 很有帮助，因为它提醒我们：
 
