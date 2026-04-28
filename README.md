@@ -1,5 +1,10 @@
 <div align="center">
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/brand/diffaudit-logo-white.svg">
+  <img src="docs/assets/brand/diffaudit-logo.svg" alt="DiffAudit" width="360">
+</picture>
+
 # DiffAudit Research
 
 **Evidence engine for diffusion-model privacy auditing.**<br>
@@ -16,6 +21,7 @@
 [Documentation](docs/README.md) ·
 [Reproducibility](docs/reproduction-status.md) ·
 [Data And Assets](docs/data-and-assets-handoff.md) ·
+[Brand Assets](docs/brand-assets.md) ·
 [Security](SECURITY.md)
 
 </div>
