@@ -84,18 +84,21 @@ and [docs/reproduction-status.md](docs/reproduction-status.md).
 ## Evidence Model
 
 DiffAudit does not treat every configured paper or smoke test as a validated
-benchmark. Results are described with explicit evidence states:
+benchmark. The canonical reproduction ladder is maintained in
+[docs/reproduction-status.md](docs/reproduction-status.md):
 
 | State | Meaning |
 | --- | --- |
+| `research-ready` | Papers, upstream code, and asset requirements have been reviewed. |
 | `code-ready` | Commands, configs, and tests are present. |
+| `evidence-ready` | The repository contains a submit-ready summary or equivalent run evidence. |
 | `asset-ready` | Required datasets, weights, or supplementary files are available and probed. |
-| `smoke-only` | A command path has been exercised, but it is not benchmark evidence. |
-| `reviewed evidence` | A bounded run has a canonical evidence anchor and an updated verdict. |
-| `blocked` / `negative` | The limitation or failed hypothesis is recorded instead of hidden. |
+| `benchmark-ready` | The lane can reasonably claim paper-level benchmark execution or recomputation. |
 
 This boundary matters for presentation: dry-runs and smoke tests are useful
-engineering signals, but they are not scientific claims.
+engineering signals, but they are not scientific claims. Qualifiers such as
+`blocked`, `negative`, or `smoke-only` are verdict language attached to a
+specific lane, not replacements for the reproduction ladder.
 
 ## Quick Start
 
