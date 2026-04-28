@@ -34,6 +34,10 @@ artifacts/
 runs/
 tmp/
 outputs/
+experiments/**/generated-images/
+experiments/**/score-artifacts/
+experiments/**/sample.png
+experiments/**/synthetic-*-assets/
 
 # Local or generated session transcripts
 docs/handoff.md
@@ -57,6 +61,19 @@ references/materials/**/*.docx
 # Generated paper extraction caches
 docs/paper-reports/ocr/
 docs/paper-reports/markdown/
+
+# Binary model/data artifacts
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npy
+*.npz
+
+# Runtime job dumps and local logs
+workspaces/runtime/jobs/
+*.stdout.log
+*.stderr.log
 
 workspaces/gray-box/assets/**
 !workspaces/gray-box/assets/

@@ -11,7 +11,7 @@
     "dataset_root": "REPLACE_WITH_YOUR_DATASET_ROOT",
     "model_id": "your-model-id",
     "model_dir": "REPLACE_WITH_YOUR_MODEL_DIR",
-    "member_split_root": "third_party/secmi/mia_evals/member_splits"
+    "member_split_root": "external/SecMI/mia_evals/member_splits"
   },
   "checks": {
     "checkpoint": false,
