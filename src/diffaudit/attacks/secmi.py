@@ -254,7 +254,7 @@ def build_secmi_runner_spec(
 
 def explain_secmi_assets(
     config: AuditConfig,
-    member_split_root: str | Path = "third_party/secmi/mia_evals/member_splits",
+    member_split_root: str | Path = "external/SecMI/mia_evals/member_splits",
 ) -> dict[str, object]:
     plan = build_secmi_plan(config)
     summary = probe_secmi_assets(
