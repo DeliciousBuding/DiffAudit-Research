@@ -32,6 +32,9 @@ docs/paper-reports/
 - Image assets: store extracted figures under `docs/paper-reports/assets/<track>/`.
 - Key figure image name: `<pdf-stem>-key-figure-p<page>.png`.
 - If the figure is cropped from a page region, keep the same naming rule and record the crop box inside the report.
+- Keep only report-referenced canonical figures. Do not commit scratch crops,
+  full-page previews, `_sample-*`, `test-*`, or temporary formula-rendering
+  files.
 
 ## Feishu Rules
 
