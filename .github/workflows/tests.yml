@@ -22,9 +22,13 @@ jobs:
         with:
           activate-environment: diffaudit-research
           environment-file: environment.yml
-          auto-activate-base: false
+          auto-activate: false
           miniforge-version: latest
           use-mamba: true
+
+      - name: Public Surface Guard
+        run: |
+          python scripts/check_public_surface.py
 
       - name: Verify CLI Install
         run: |

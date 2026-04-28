@@ -65,6 +65,11 @@ team asset mirror or an external path such as
 `Download\shared\papers\<track>\`. Do not expect GitHub to contain the paper
 binaries.
 
+Generated experiment artifacts follow the same rule. GitHub keeps sanitized
+summaries and reports; generated images, tensor score packets, runtime job queue
+dumps, checkpoints, and split `.npz` files belong in `Download/`, a team mirror,
+or an ignored workspace path.
+
 ## 3. First-Wave Asset List
 
 新机器优先准备这些资产，足够进入当前项目的大多数验证路径：
@@ -78,6 +83,7 @@ binaries.
 | `SH-WT-03` | BLIP large | https://huggingface.co/Salesforce/blip-image-captioning-large | `Download\shared\weights\blip-image-captioning-large\` |
 | `SH-WT-04` | DDPM CIFAR-10 32 | https://huggingface.co/google/ddpm-cifar10-32 | `Download\shared\weights\google-ddpm-cifar10-32\` |
 | `GB-WT-01` | SecMI CIFAR bundle | see [research-download-master-list.md](research-download-master-list.md) | `Download\gray-box\weights\secmi-cifar-bundle\` |
+| `GB-SUP-02` | SecMI member split `.npz` files | full SecMI clone or team asset mirror | `Download\gray-box\supplementary\secmi-member-splits\` |
 | `BB-SUP-02` | CLiD supplementary mirror | paper supplementary / manual bundle | `Download\black-box\supplementary\clid-mia-supplementary\` |
 
 The current recon bundle is already staged on the project machine under:

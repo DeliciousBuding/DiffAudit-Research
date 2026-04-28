@@ -355,6 +355,9 @@ for external readers rather than for one local operator or one agent session.
   files, datasets, weights, checkpoints, or supplementary bundles as public
   onboarding material; use manifest/source URLs and external asset mirrors
   instead
+- do not commit generated experiment images, score tensor packets, runtime job
+  queue dumps, local stdout/stderr logs, checkpoint files, or split `.npz`
+  files; commit sanitized summaries and verdict notes instead
 - if internal planning artifacts must stay in `docs/`, frame them as internal
   research operations or evidence support, and do not link them as product
   onboarding material
@@ -393,6 +396,12 @@ When a change touches README/docs presentation material, run a focused scan for:
 - broken relative image links
 - unsupported external image hosts
 - product claims without evidence-status qualifiers
+
+Run the automated guard before pushing governance or documentation changes:
+
+```powershell
+python scripts/check_public_surface.py
+```
 
 ## 11. Sync Rules
 
