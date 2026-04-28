@@ -372,6 +372,9 @@ for external readers rather than for one local operator or one agent session.
 - use a website CDN or image host only for the website, marketing pages, social
   previews, or raster assets that need CDN caching; do not make repository docs
   depend on a private or external image host
+- for paper-reading reports, keep only canonical figures that are referenced by
+  the corresponding report; do not commit scratch crops, full-page previews,
+  `_sample-*`, `test-*`, or temporary formula-rendering files
 
 ### 10.3 Pre-PR public-surface check
 
