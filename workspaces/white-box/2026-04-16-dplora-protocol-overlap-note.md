@@ -8,7 +8,7 @@ Can `DP-LoRA` be treated as directly comparable to the current admitted white-bo
 
 - `workspaces/intake/2026-04-10-dplora-comparability-intake.md`
 - `docs/claude-report-4-9-review.md`
-- `docs/paper-reports/markdown/survey/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
 - `workspaces/intake/2026-04-12-smp-lora-gpu-expansion-program.md`
 
 ## Current Admitted White-Box Reference

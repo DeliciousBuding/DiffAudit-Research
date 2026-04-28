@@ -1,7 +1,7 @@
 # 扩散模型隐私防护文献索引整理材料阅读报告
 
 - Title: 扩散模型隐私防护文献索引整理材料阅读报告
-- Material Path: `references/materials/survey/survey-index-diffusion-privacy-literature.pdf`
+- Material index path: `references/materials/survey/survey-index-diffusion-privacy-literature.pdf`
 - Primary Track: `survey`
 - Venue / Year: `未署名整理材料；PDF 元数据显示生成时间为 2026-04-04`
 - Threat Model Category: `扩散模型成员推断防御文献索引，覆盖训练阶段、推理阶段与结构层面的混合防御路线`
@@ -22,7 +22,7 @@
 - Title: 相关文献整理
 - Authors if available: 正文未署名；PDF metadata 中 `/Author` 为 `233 Delicious`，当前报告将其视为整理者或本地生成账号，而非规范作者列表
 - Venue / year / version: 未见期刊、会议或版本声明；更像项目内部使用的索引材料；PDF metadata 创建时间为 `2026-04-04`
-- Local PDF path: `<DIFFAUDIT_ROOT>/Research/references/materials/survey/survey-index-diffusion-privacy-literature.pdf`
+- Material index path: `references/materials/survey/survey-index-diffusion-privacy-literature.pdf`
 - Source URL: 未在材料中给出
 
 ## Research Question

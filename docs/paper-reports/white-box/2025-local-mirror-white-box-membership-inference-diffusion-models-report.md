@@ -1,7 +1,7 @@
 # White-box Membership Inference Attacks against Diffusion Models
 
 - Title: White-box Membership Inference Attacks against Diffusion Models
-- Material Path: `references/materials/white-box/2025-local-mirror-white-box-membership-inference-diffusion-models.pdf`
+- Material index path: `references/materials/white-box/2025-local-mirror-white-box-membership-inference-diffusion-models.pdf`
 - Primary Track: `white-box`
 - Venue / Year: `arXiv v3 / 2024`
 - Threat Model Category: `White-box membership inference against diffusion models with access to model parameters and per-sample gradients`
@@ -22,7 +22,7 @@
 - Title: White-box Membership Inference Attacks against Diffusion Models
 - Authors: Yan Pang, Tianhao Wang, Xuhui Kang, Mengdi Huai, Yang Zhang
 - Venue / year / version: arXiv:2308.06405v3, 2024-11-21
-- Local PDF path: `<DIFFAUDIT_ROOT>/Research/references/materials/white-box/2025-local-mirror-white-box-membership-inference-diffusion-models.pdf`
+- Material index path: `references/materials/white-box/2025-local-mirror-white-box-membership-inference-diffusion-models.pdf`
 - Source URL: `https://arxiv.org/abs/2308.06405`
 
 ## Research Question

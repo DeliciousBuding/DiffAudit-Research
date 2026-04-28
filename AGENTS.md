@@ -351,6 +351,10 @@ for external readers rather than for one local operator or one agent session.
 - do not put raw agent prompts, deadline pressure, competition-only notes,
   GPT/Claude review dumps, or operator-local instructions into the public
   front door
+- do not commit or link GitHub blob copies of third-party paper PDFs, DOCX
+  files, datasets, weights, checkpoints, or supplementary bundles as public
+  onboarding material; use manifest/source URLs and external asset mirrors
+  instead
 - if internal planning artifacts must stay in `docs/`, frame them as internal
   research operations or evidence support, and do not link them as product
   onboarding material
@@ -375,6 +379,10 @@ for external readers rather than for one local operator or one agent session.
 - for paper-reading reports, keep only canonical figures that are referenced by
   the corresponding report; do not commit scratch crops, full-page previews,
   `_sample-*`, `test-*`, or temporary formula-rendering files
+- do not commit paper OCR dumps, full-paper Markdown exports, page-level JSON,
+  service responses, signed temporary image URLs, or generated extraction
+  caches; keep only original summaries, canonical report figures, manifests,
+  and source references
 
 ### 10.3 Pre-PR public-surface check
 

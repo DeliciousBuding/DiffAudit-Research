@@ -1,7 +1,7 @@
 # Tracing the Roots: Leveraging Temporal Dynamics in Diffusion Trajectories for Origin Attribution
 
 - Title: Tracing the Roots: Leveraging Temporal Dynamics in Diffusion Trajectories for Origin Attribution
-- Material Path: `references/materials/survey/2025-neurips-tracing-the-roots-origin-attribution-diffusion-trajectories.pdf`
+- Material index path: `references/materials/survey/2025-neurips-tracing-the-roots-origin-attribution-diffusion-trajectories.pdf`
 - Primary Track: `survey`
 - Venue / Year: NeurIPS 2025
 - Threat Model Category: White-box diffusion provenance analysis for membership inference and origin attribution
@@ -24,7 +24,7 @@
 - Title: Tracing the Roots: Leveraging Temporal Dynamics in Diffusion Trajectories for Origin Attribution
 - Authors: Andreas Floros, Seyed-Mohsen Moosavi-Dezfooli, Pier Luigi Dragotti
 - Venue / year / version: NeurIPS 2025 conference version
-- Local PDF path: `references/materials/survey/2025-neurips-tracing-the-roots-origin-attribution-diffusion-trajectories.pdf`
+- Material index path: `references/materials/survey/2025-neurips-tracing-the-roots-origin-attribution-diffusion-trajectories.pdf`
 - Source URL: `https://arxiv.org/abs/2411.07449`
 
 ## Research Question
