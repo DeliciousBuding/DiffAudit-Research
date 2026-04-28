@@ -13,6 +13,7 @@
 - `<DIFFAUDIT_ROOT>/Download/` 放 **原始下载物**
 - `workspaces/<lane>/assets/` 放 **lane 归一化后的 admitted 资产入口**
 - `workspaces/<lane>/runs/` 放 **运行产物和 evidence**
+- `experiments/` 只提交 **sanitized summary / report**，不提交 raw image/tensor 产物
 
 不要把这些角色混在一起。
 
@@ -142,6 +143,11 @@
 - `runs/` 只承载 evidence，不承载上游代码
 - 不要把原始数据集或大模型仓库塞进 `runs/`
 - 每个任务都应能指向一个 canonical evidence anchor
+
+Raw runtime queues, generated image folders, score tensor folders, and checkpoint
+or split binaries are local artifacts. They should stay in ignored directories
+or the external asset layer, while the repository keeps the sanitized
+`summary.json`, verdict note, manifest, or report that describes the result.
 
 ---
 
