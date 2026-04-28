@@ -7,7 +7,6 @@ authors:
 repository-code: "https://github.com/DeliciousBuding/DiffAudit-Research"
 license: "Apache-2.0"
 version: "0.1.0"
-date-released: "2026-04-28"
 keywords:
   - "diffusion-models"
   - "membership-inference"
