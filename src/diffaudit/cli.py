@@ -78,7 +78,7 @@ def build_parser() -> argparse.ArgumentParser:
     asset_probe_parser.add_argument("--config", required=True, help="path to audit yaml")
     asset_probe_parser.add_argument(
         "--member-split-root",
-        default="third_party/secmi/mia_evals/member_splits",
+        default="external/SecMI/mia_evals/member_splits",
         help="path to SecMI member split npz files",
     )
 

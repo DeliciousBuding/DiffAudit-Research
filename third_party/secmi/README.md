@@ -16,6 +16,7 @@ Included files are limited to the attack-side modules and model definition that 
 - `mia_evals/secmia.py`
 - `mia_evals/dataset_utils.py`
 - `mia_evals/resnet.py`
-- `mia_evals/member_splits/*`
 
 The full upstream repository is not committed inside this project. Local exploratory clones can be placed under `external/`, which is ignored by git.
+
+Member split `.npz` files are data artifacts and are not committed. Keep them in the full upstream clone or a team asset mirror, then pass the local directory with `--member-split-root`.

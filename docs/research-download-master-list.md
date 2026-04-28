@@ -80,6 +80,7 @@ These assets support multiple directions and should be downloaded first.
 |---|---|---|---|---|---|---|
 | `GB-WT-01` | SecMI official CIFAR10/CIFAR100 checkpoint bundle | Already validated locally; keep external copy staged for rebuilds or refresh | [SecMI OneDrive bundle](https://drexel0-my.sharepoint.com/:f:/g/personal/jd3734_drexel_edu/EnVid-empkpNvzC_mOfHwv0BpgkDsB_C4RmHO4rIH8BSzw?e=c17NjE) | Yes, browser/manual | unknown | `<DIFFAUDIT_ROOT>/Download/gray-box/weights/secmi-cifar-bundle/` |
 | `GB-SUP-01` | PIA upstream non-GitHub checkpoints or release artifacts | Useful if we need to tighten provenance or compare against upstream weights | author release / paper supplement if available | maybe manual | unknown | `<DIFFAUDIT_ROOT>/Download/gray-box/supplementary/pia-upstream-assets/` |
+| `GB-SUP-02` | SecMI member split `.npz` files | Required for SecMI probes and paired-surface checks; keep out of `third_party/` because they are data artifacts | full SecMI clone or team asset mirror | no / team mirror | small | `<DIFFAUDIT_ROOT>/Download/gray-box/supplementary/secmi-member-splits/` |
 | `GB-PAP-01` | SIMA paper / supplement if local copy is missing details | Needed if we implement SIMA | paper page / supplement | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/gray-box/papers/sima/` |
 | `GB-PAP-02` | MoFit paper / supplement | Needed if we implement MoFit | OpenReview / supplementary | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/gray-box/papers/mofit/` |
 | `GB-PAP-03` | Noise-as-a-probe paper / supplement | Needed if we implement this line | arXiv / supplementary | no or manual | small | `<DIFFAUDIT_ROOT>/Download/gray-box/papers/noise-as-a-probe/` |
@@ -172,8 +173,8 @@ These do **not** need you to re-download right now:
 
 - GitHub code repos under `external/`
 - local frozen competition package under `workspaces/implementation/`
-- local gray-box and white-box run artifacts already staged in `workspaces/`
-- papers already archived in `references/materials/`
+- sanitized gray-box and white-box summaries already staged in `workspaces/` or `experiments/`
+- paper metadata already archived in `references/materials/manifest.csv`
 
 If a future task needs them refreshed from upstream, I can tell you precisely which one.
 

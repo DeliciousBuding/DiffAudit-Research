@@ -26,6 +26,8 @@
 - 不提交私有数据集或大体积中间产物
 - 可以提交最小 `summary.json` 作为运行证据
 - 真实 benchmark 结果要明确写清楚资产前提和攻击假设
+- 不提交 `generated-images/`、`score-artifacts/`、`sample.png`、`.pt` / `.npz` 等可再生产物
+- 需要复核原始输出时，从团队资产镜像或本地 `Download/` 恢复，不从 GitHub 仓库恢复
 
 ## 当前建议
 
