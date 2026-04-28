@@ -1,16 +1,18 @@
 # Materials Index
 
-`references/materials/` stores the local PDF mirror used by the DiffAudit research workflow.
+`references/materials/` stores the portable material index used by the DiffAudit
+research workflow.
+
+It intentionally does not store third-party paper PDFs or DOCX files in Git.
+Use `manifest.csv` as the source of truth for upstream source URLs, expected
+local paths, checksums, file sizes, and license notes. Local copies should live
+in the external asset layer, typically `<DIFFAUDIT_ROOT>/Download/shared/papers/`
+or a team-managed asset mirror.
 
 ## Layout
 
 ```text
 materials/
-  black-box/
-  gray-box/
-  white-box/
-  survey/
-  context/
   manifest.csv
   README.md
   paper-index.md
@@ -20,8 +22,11 @@ Rules:
 
 - Use English folder names only.
 - Use ASCII lowercase kebab-case file names.
-- Prefer `year-venue-short-title.pdf`.
+- Prefer `year-venue-short-title.pdf` or `year-venue-short-title.docx` in the
+  manifest path field.
 - Keep one canonical copy for the same paper whenever possible.
+- Do not commit third-party PDFs, DOCX files, datasets, weights, checkpoints,
+  or supplementary bundles to this repository.
 
 ## Scoring Rubric
 
@@ -64,4 +69,6 @@ Columns:
 - `reference_value_score`: project usefulness score from `1` to `5`
 - `source_url`, `accessed_at`, `sha256`, `size_bytes`, `license_note`, `notes`: provenance and maintenance fields
 
-When adding a new PDF, update `manifest.csv` in the same commit.
+When adding a new material, update `manifest.csv` in the same commit. If the
+material is large or third-party, commit only the manifest row and acquisition
+notes, not the binary file.

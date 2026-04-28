@@ -10,8 +10,8 @@ Does the restored `WB-CH-4 white-box loss-feature challenger family` contain one
 - `<DIFFAUDIT_ROOT>/Research/workspaces/white-box/plan.md`
 - `<DIFFAUDIT_ROOT>/Research/workspaces/white-box/2026-04-17-distinct-whitebox-defended-family-import-selection-review.md`
 - `<DIFFAUDIT_ROOT>/Research/docs/paper-reports/white-box/2025-popets-white-box-membership-inference-diffusion-models-report.md`
-- `<DIFFAUDIT_ROOT>/Research/docs/paper-reports/ocr/white-box/2025-popets-white-box-membership-inference-diffusion-models/pages/page-0016.md`
-- `<DIFFAUDIT_ROOT>/Research/docs/paper-reports/ocr/white-box/2025-popets-white-box-membership-inference-diffusion-models/pages/page-0017.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
 - `<DIFFAUDIT_ROOT>/Research/docs/paper-reports/survey/2025-aaai-privacy-preserving-lora-membership-inference-latent-diffusion-models-report.md`
 - `<DIFFAUDIT_ROOT>/Research/workspaces/white-box/external/GSA/DDPM/gen_l2_gradients_DDPM.py`
 

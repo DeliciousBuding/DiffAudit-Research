@@ -4,7 +4,7 @@
 
 依据来源：
 
-- [mia-defense-document.docx](../references/materials/context/mia-defense-document.docx)
+- mia-defense-document.docx (`references/materials/context/mia-defense-document.docx`; see `references/materials/manifest.csv`)
 - [和师兄聊天录音.txt](../../Archive/reference-materials/和师兄聊天录音.txt)
 - 当前仓库真实状态与实验产物
 

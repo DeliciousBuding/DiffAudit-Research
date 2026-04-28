@@ -28,8 +28,9 @@ particular, it does not cover:
 - datasets, model weights, checkpoints, or supplementary bundles under
   `<DIFFAUDIT_ROOT>/Download/`;
 - ignored upstream code clones under `external/`;
-- paper PDFs, extracted figures, OCR output, or publisher-provided materials in
-  `references/` or `docs/paper-reports/`;
+- third-party paper PDFs, DOCX files, extracted figures, OCR output, or
+  publisher-provided materials referenced by `references/` or
+  `docs/paper-reports/`;
 - model cards, gated Hugging Face assets, or assets with upstream terms;
 - vendored third-party code that carries its own license notice.
 
@@ -51,6 +52,7 @@ Unless you explicitly mark a submission as "Not a Contribution", contributions
 intentionally submitted to this repository are accepted under Apache 2.0, as
 described in section 5 of the license.
 
-Do not contribute third-party code, datasets, weights, paper assets, or
-generated artifacts unless the source and redistribution terms are clear enough
-to record in this repository.
+Do not contribute third-party code, datasets, weights, paper PDFs/DOCX files,
+paper assets, or generated artifacts unless the source and redistribution terms
+are clear enough to record in this repository. For papers and context materials,
+prefer manifest/source-URL records over committed binaries.
