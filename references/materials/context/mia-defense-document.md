@@ -1,6 +1,8 @@
 # MIA Defense Document
 
-结构化提取版本。来源于同目录下的 [mia-defense-document.docx](mia-defense-document.docx)，目标是把内部 Word 文档整理成可检索、可引用、可继续加工的 Markdown。
+结构化提取版本。原始 DOCX 不随 Git 仓库分发；材料记录见
+`references/materials/manifest.csv` 中
+`references/materials/context/mia-defense-document.docx` 对应行。本文档的目标是把路线材料整理成可检索、可引用、可继续加工的 Markdown。
 
 ## 文档元信息
 

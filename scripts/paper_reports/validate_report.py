@@ -7,7 +7,7 @@ from pathlib import Path
 
 REQUIRED_METADATA = [
     "- Title:",
-    "- Material Path:",
+    "- Material index path:",
     "- Primary Track:",
     "- Venue / Year:",
     "- Threat Model Category:",

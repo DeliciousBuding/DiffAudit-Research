@@ -12,7 +12,7 @@ After `Noise as a Probe` has already completed its bounded gray-box branch and c
 - `<DIFFAUDIT_ROOT>/Research/workspaces/gray-box/plan.md`
 - `<DIFFAUDIT_ROOT>/Research/workspaces/white-box/plan.md`
 - `<DIFFAUDIT_ROOT>/Research/workspaces/gray-box/2026-04-16-graybox-new-family-shortlist-refresh-verdict.md`
-- `<DIFFAUDIT_ROOT>/Research/docs/paper-reports/markdown/gray-box/2026-openreview-mofit-caption-free-membership-inference/2026-openreview-mofit-caption-free-membership-inference-refined.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
 
 ## Current State
 

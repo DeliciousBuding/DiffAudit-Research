@@ -8,7 +8,7 @@ Can the current repo support one honest first smoke for `Noise as a Probe`, and 
 
 - `workspaces/gray-box/2026-04-16-graybox-new-family-shortlist-refresh-verdict.md`
 - `workspaces/gray-box/2026-04-06-pia-start.md`
-- `docs/paper-reports/markdown/gray-box/2026-arxiv-noise-as-a-probe-membership-inference-diffusion-models/2026-arxiv-noise-as-a-probe-membership-inference-diffusion-models-refined.md`
+- `docs/paper-reports/` canonical reports and `references/materials/paper-index.md`
 - current local SD1.5 base snapshot
 - current local target-family Recon LoRA checkpoints
 

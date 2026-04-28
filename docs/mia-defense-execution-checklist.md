@@ -1,6 +1,6 @@
 # MIA Defense Execution Checklist
 
-这份清单基于 [mia-defense-document.docx](../references/materials/context/mia-defense-document.docx) 与当前仓库真实状态整理，目标是把“文档路线”变成“可执行任务”。
+这份清单基于 mia-defense-document.docx (`references/materials/context/mia-defense-document.docx`; see `references/materials/manifest.csv`) 与当前仓库真实状态整理，目标是把“文档路线”变成“可执行任务”。
 
 ## 使用规则
 
@@ -14,7 +14,7 @@
 
 | 项目 | 状态 | 说明 |
 | --- | --- | --- |
-| 将 `.docx` 纳入仓库 | `done` | [mia-defense-document.docx](../references/materials/context/mia-defense-document.docx) 已提交到 `main` |
+| 登记 `.docx` 材料索引 | `done` | mia-defense-document.docx (`references/materials/context/mia-defense-document.docx`; see `references/materials/manifest.csv`) 已转为 manifest/source reference，不再提交二进制原件 |
 | 生成可检索 Markdown | `done` | [mia-defense-document.md](../references/materials/context/mia-defense-document.md) |
 | 生成正式研究索引 | `done` | [mia-defense-research-index.md](mia-defense-research-index.md) |
 | 校正文档中的 threat-model / citation 口径 | `pending` | 已在研究索引标注问题，但尚未反写回原 `.docx` |

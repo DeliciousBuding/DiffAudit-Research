@@ -41,6 +41,7 @@ docs/handoff.md
 # Environment files
 .env
 .env.*
+configs/*.local.yaml
 configs/assets/*.local.yaml
 !configs/assets/example.local.yaml
 
@@ -48,6 +49,15 @@ configs/assets/*.local.yaml
 .conda/
 condaenv.*.requirements.txt
 external/
+
+# External research materials
+references/materials/**/*.pdf
+references/materials/**/*.docx
+
+# Generated paper extraction caches
+docs/paper-reports/ocr/
+docs/paper-reports/markdown/
+
 workspaces/gray-box/assets/**
 !workspaces/gray-box/assets/
 !workspaces/gray-box/assets/**/

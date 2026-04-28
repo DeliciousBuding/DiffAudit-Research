@@ -62,9 +62,9 @@
 
 ---
 
-## 2. 我这边自己处理，不需要你手动下
+## 2. Assets Handled By The Research Workflow
 
-以下项目属于 GitHub / Hugging Face / repo 内部整理范围，由 Codex 继续处理：
+以下项目属于 GitHub / Hugging Face / repository workflow 可以自动处理或由团队资产镜像提供的范围：
 
 - GitHub 代码仓库本身
   - `Reconstruction-based-Attack`
@@ -75,19 +75,19 @@
   - `google/ddpm-cifar10-32`
   - `Salesforce/blip-image-captioning-large`
   - `laion/CLIP-ViT-L-14-laion2B-s32B-b82K`
-- 已进入本地 staging 的整理、解压、归档工作
+- 已进入 local staging 的整理、解压、归档工作
 
 当前判断：
 
 - `stable-diffusion-v1-5` 已完成本地落盘；
 - `blip-image-captioning-large` 已完成本地落盘；
-- 当前没有新的首波 Hugging Face 权重缺口需要你介入。
+- 当前没有新的首波 Hugging Face 权重缺口需要人工处理。
 
 ---
 
-## 3. 目前真的可能还需要你手动网页处理的
+## 3. Assets That May Require Manual Web Confirmation
 
-当前不是“立刻必须”，而是只在我后续确认自动拉取失败时，才需要你介入：
+当前不是立刻必须；只有在自动拉取失败或上游要求网页许可确认时，才需要人工处理：
 
 ### 3.1 Stable Diffusion v1.5 网页许可确认
 
@@ -101,7 +101,7 @@
 
 当前状态：
 
-- 本地下载已完成，所以当前不需要你介入。
+- 本地下载已完成；新成员只需要从团队资产镜像同步，或按上游许可重新下载。
 
 仅当未来再次出现以下情况时才需要你手动处理：
 
@@ -116,10 +116,11 @@
 
 ## 4. 当前结论
 
-- `OneDrive` 这批 `SecMI` 权重，你已经下到了，我也已经归档并解压好了。
-- `1311_Membership_Inference_on_T_Supplementary Material.zip` 我也已经归档并解压好了。
-- GitHub 仓库不在“你必须自己下”的清单里。
-- 截至现在，没有新的 `OneDrive / Google Drive` 资产是“你立刻必须再去下载”的。
-- 下一批如果真的出现“必须你手动网页点一下”的资产，我会直接给你直达链接，不会让你自己去找。
+- `OneDrive` SecMI 权重包已经归档并解压到 canonical `Download/` 位置。
+- `1311_Membership_Inference_on_T_Supplementary Material.zip` 已归档并解压到 canonical `Download/` 位置。
+- GitHub 代码仓库属于 `Research/external/` clone 或 vendored-code 管理范围，不属于手工下载资产清单。
+- 当前没有新的 first-wave `OneDrive / Google Drive` 手工下载缺口。
+- 后续如出现必须人工网页确认的 gated asset，应在本文件或
+  [research-download-master-list.md](research-download-master-list.md) 中记录直达链接、许可说明和目标落盘路径。
 
 
