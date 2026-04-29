@@ -38,6 +38,7 @@ experiments/**/generated-images/
 experiments/**/score-artifacts/
 experiments/**/sample.png
 experiments/**/synthetic-*-assets/
+experiments/_tmp_*/
 
 # Local or generated session transcripts
 docs/handoff.md
@@ -63,15 +64,26 @@ docs/paper-reports/ocr/
 docs/paper-reports/markdown/
 
 # Binary model/data artifacts
+*.bin
 *.pt
 *.pth
 *.ckpt
 *.safetensors
 *.npy
 *.npz
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
 
 # Runtime job dumps and local logs
 workspaces/runtime/jobs/
+workspaces/**/runs/**/bridged-model/
+workspaces/**/runs/**/checkpoints/
+workspaces/**/runs/**/generated-images/
+workspaces/**/runs/**/score-artifacts/
 *.stdout.log
 *.stderr.log
 

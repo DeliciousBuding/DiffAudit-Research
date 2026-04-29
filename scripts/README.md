@@ -7,6 +7,8 @@
 - 一个脚本只做一件事
 - 优先服务环境验证、资产检查、实验整理
 - 不要把一次性的本地试验命令直接塞进这里
+- closed `run_x*.py` scripts should move to `legacy/execution-log/<date>/scripts/`
+  unless they become generic replay helpers or CLI surfaces
 
 ## 便携规则
 
@@ -22,6 +24,12 @@
 - `run_local_checks.py`
   - 运行研究仓本地质量门禁
   - 支持 `--python` 或环境变量 `DIFFAUDIT_RESEARCH_PYTHON`
+- `run_x90_larger_surface_triscore.py`
+  - 保留为 G1-A / X-90 matched larger-surface replay helper
+  - 仍需显式传入或接受 repo-relative run roots，不应扩展成新 one-off X-run hub
+- `run_x90_tmiadm512_assets.py`
+  - 保留为 G1-A / X-90 TMIA-DM 512-surface asset helper
+  - 只服务 current internal auxiliary evidence replay；新 X-run helper 默认应先进 archive 或 CLI 化
 - `prepare_clid_local_bridge.py`
   - 使用本机 `configs/assets/team.local.yaml` 准备 CLiD 本地桥接运行
   - 不再依赖仓库里提交的作者机器路径；需要其他路径时显式传 `--asset-config`

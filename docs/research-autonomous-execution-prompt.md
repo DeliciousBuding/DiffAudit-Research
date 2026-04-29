@@ -16,8 +16,9 @@
 6. `<DIFFAUDIT_ROOT>/Research/docs/comprehensive-progress.md`
 7. `<DIFFAUDIT_ROOT>/Research/docs/future-phase-e-intake.md`
 8. `<DIFFAUDIT_ROOT>/Research/docs/report-bundles/gpt54/round2-results`
-9. `<DIFFAUDIT_ROOT>/Download/manifests/research-download-manifest.json`
-10. 如果任务已缩到某一 lane，再读对应 workspace README 或 plan
+9. `<DIFFAUDIT_ROOT>/Research/docs/research-governance.md`
+10. `<DIFFAUDIT_ROOT>/Download/manifests/research-download-manifest.json`
+11. 如果任务已缩到某一 lane，再读对应 workspace README 或 plan
 
 你的目标不是“做完一轮待办”，而是持续推进整个 `Research` 主线：
 
@@ -37,13 +38,20 @@
   - 白盒 `GSA + W-1`
 - `active GPU question = none`
 - `next_gpu_candidate = none`
+- 当前若处在 `research-governance-cleanup-20260429` 分支，执行项是仓库治理清理：不跑 GPU，不新增 `X-181` 结果，不做历史重写
+- `X-141 / X-142` 已把 `G1-A / X-90` 从 `TMIA-DM 512-sample gap` 解冻为 `two-seed internal auxiliary positive`：
+  - matched `512 / 512` tri-score review 已在 `noise_seed = 1` 与 `noise_seed = 2` 两个合同上通过 kill gate
+  - seed-2 macro 指标为 `AUC = 0.859043 / ASR = 0.786133 / TPR@1%FPR = 0.118164 / TPR@0.1%FPR = 0.023438`
+  - 但合同仍是 `headline_use_allowed = false / external_evidence_allowed = false`
+  - 不要把它写成灰盒 headline 替换；`X-143 / X-144` 已完成 consumer-boundary sync 与 fresh reselection
 - 当前近端执行顺序已经压成：
-  1. `04-defense` = current active slot
-  2. `05-cross-box` = promoted `H1/H2 logistic_2feature` support lane
-  3. `02-gray-box` = sidecar second signal
-  4. `03-white-box` = medium-horizon distinct-family gap
-  5. `01-black-box` = parked candidate pool
-  6. `06-g1a` = governance fallback preserved after per-sample `H1/H2` miss
+  1. `Research governance cleanup` = current CPU-only repo-governance lane
+  2. `X-181 I-A / cross-box boundary maintenance after H2 comparator block` = next CPU-first research lane after governance
+  3. `05-cross-box` = promoted `H1/H2 logistic_2feature` support lane
+  4. `02-gray-box` = sidecar second signal
+  5. `03-white-box` = medium-horizon distinct-family gap after activation trajectory falsifier
+  6. `01-black-box` = validated H2 candidate plus parked candidate pool
+  7. `06-g1a` = governance fallback preserved after per-sample `H1/H2` miss
 - `02-gray-box` 当前只保留为 sidecar second signal：
   - `SimA` 当前已是 `execution-feasible but weak`
   - 不要直接重开 plain `SimA` scorer rerun
@@ -52,7 +60,7 @@
   - 它稳定提升 `AUC / ASR`，并部分改善 `TPR@1%FPR`
   - 但没有稳定 `TPR@0.1%FPR` lift，所以当前仍是 auxiliary sidecar
   - gray-box 当前应让出下一条 `CPU-first` 槽位，回到 non-graybox reselection / `I-A` / system-sync
-- `03-white-box` 当前只保留为 medium-horizon distinct-family gap
+- `03-white-box` 当前只保留为 medium-horizon distinct-family gap；`X-145 / X-146 / X-148 / X-150` 已把 activation-subspace mean-profile selector route 收口为 `negative but useful`，不允许 same-rule、same-contract 或 same-observable GPU 放大
 - `01-black-box` 当前固定为 parked candidate pool
 - `04-defense` 当前真实控制面已经进一步收紧：
   - `H1 risk-targeted SISS / retain-forget mixture` 已有真实 prep / pilot / review surface
@@ -63,7 +71,9 @@
   - repo 内已有 `lora_ddpm.py / smp_lora.py / train_smp_lora.py`、相关 tests、一条 bounded CPU smoke，以及 canonical `probe-h2-assets / prepare-h2-contract / run-h2-defense-pilot / review-h2-defense-pilot`
   - 当前更准确的读法是 `minimal contract-complete + bounded 4/4 follow-up negative but useful`
   - `1 / 1` 全零 board 已经被一个最小 `4 / 4` follow-up 检查过，target-transfer 不再纯零，但 baseline 与 defended 四项 delta 仍然都是 `0.0`
-  - 因此 `04` 当前应让出下一条 `CPU-first` 槽位；除非出现 genuinely new bounded hypothesis，不要继续把 `H2` 往 GPU 或更大 same-contract packet 上推
+  - `X-156 / X-157 / X-158 / X-159 / X-160 / X-161 / X-162 / X-163` 已把新 H3 selective all-steps gating 跑到 fresh `64 / 64` GPU scout、fixed-budget attacker scout 和 post-GPU review：fixed-budget low-FPR tail 匹配 full all-steps dropout，但 gate-leak 与 oracle-route escape falsifier 阻断 promotion，所以只允许 candidate-only quality / perturbation-exposure 读法
+  - 因此 `04` 当前不允许继续把 `H2` 或 H3 往 GPU 或更大 same-contract packet 上推
+  - `X-164 / X-165` 已关闭现有 `PIA + GSA + SimA` tri-surface consensus 捷径：`logistic_3feature` 稳定提升 AUC，但未稳定提升低 FPR，因此不能作为 fusion release 或 GPU release
 - `I-B` 当前最强口径是 `non-admitted actual bounded falsifier`
 - `I-C` 当前最强口径是 `translated-contract-only + negative falsifier`
 - `I-D` 已有 bounded conditional packet 与 negative actual defense rerun，但当前没有 genuinely new bounded successor lane
@@ -71,7 +81,25 @@
   - `workspace-verified + bounded repeated-query adaptive-reviewed`
   - `paper-aligned blocked by checkpoint/source provenance`
 - `GPT-5.4` raw reports 当前只能作为规划层输入，不能直接当 admitted 证据
-- 如果没有比它更新的 repo 事实，不要回到六线并推、也不要直接跳到重型白盒家族；优先沿 `04 -> 05 -> 06` 收敛
+- `X-152 I-A` 边界刷新已关闭为 `positive but stabilizing`：热路径没有 AUC-only 或 adaptive-overclaim 漂移，且不需要 Platform/Runtime/materials 改动
+- `X-153 / X-154 / X-155` 已关闭：per-timestep activation trajectory 是有效的 different-observable GPU scout，但 validation-selected `late_minus_early` 未过 holdout fire gate，因此不继续 activation salvage
+- `X-156 / X-157 / X-158 / X-159 / X-160 / X-161 / X-162 / X-163` 已关闭：H3 selective all-steps gating 是 candidate-only positive-hardening / GPU hold，不是 validated defense successor
+- `X-164 / X-165` 已关闭：现有三路 shared-surface fusion 没有稳定低 FPR lift，不是新的 GPU 候选
+- `X-166` 已关闭为 `positive boundary hardening / GPU hold`：热路径没有发现 H3 或 tri-surface overclaim，但 control plane 已冻结为 `H3 = candidate-only`、`tri-surface = AUC-positive / low-FPR-unstable`
+- `X-167` 已关闭为 `positive reselection / one bounded GPU scout released`：只放行 `X-168 01-black-box H2 strength-response`，不得并行开第二个 GPU 任务
+- `X-168` 已关闭为 `positive but bounded`：H2 logistic 在 `64 / 64` 上达到 `AUC = 0.928955 / low-FPR = 0.218750 / 0.218750`，但仍低于 admitted/validation
+- `X-169` 已关闭为 `positive boundary / CPU scorer-reuse released`：不直接扩大 GPU，先做 H1/H3 scorer reuse
+- `X-170` 已关闭为 `negative but useful`：H1 response-cloud 有 AUC 信号但低 FPR 失败
+- `X-171` 已关闭为 `positive boundary / H2 validation candidate released`：H3 frequency filtering 没有把 H2 falsify 成 high-frequency-only
+- `X-172` 已关闭为 `positive but bounded validation`：非重叠 `128 / 128` H2 validation 通过，但仍低于 admitted evidence
+- `X-173` 已关闭为 `positive boundary / GPU hold`：H2 是 validated candidate surface，不是 `recon` 替代；下一步先冻结 comparator/adaptive/query-budget contract
+- `X-174` 已关闭为 `positive contract freeze / CPU stress next`：冻结 `256 / 256`、split offset `192`、raw H2 primary、`lowpass_0_5` secondary 与 X175 stress gate
+- `X-175` 已关闭为 `positive stress / raw-primary GPU candidate released`：X172 cache 的 full-budget、one-repeat、leave-one-strength-out stress 均通过，释放唯一 X176 GPU rung
+- `X-176` 已关闭为 `positive but bounded validation`：非重叠 `256 / 256` raw H2 达到 `AUC = 0.913940 / ASR = 0.851562 / TPR@1%FPR = 0.171875 / TPR@0.1%FPR = 0.062500`，但仍不是 admitted 或 `recon` replacement
+- `X-177` 已关闭为 `positive boundary / comparator-first hold`：H2 是 strong validated DDPM/CIFAR10 candidate，但 promotion、`recon` replacement、更多 H2 GPU 和 consumer handoff 都要等 same-packet `recon` comparator feasibility review
+- `X-178` 已关闭为 `blocked but useful / comparator-blocked`：direct admitted-`recon` comparator 在 X176 DDPM/CIFAR10 packet 上协议不兼容；H2 保持 candidate-only，下一步是 X179 comparator-acquisition contract review
+- `X-179` 已关闭为 `positive contract review / no GPU release`：X176 simple reconstruction-distance sanity comparators 已足够说明 H2 优于同包简单距离基线，但它们不是 admitted `recon`
+- 如果没有比它更新的 repo 事实，不要回到六线并推、也不要直接跳到重型白盒家族；治理清理期间优先完成仓库治理，治理完成后优先做 `X-181 I-A / cross-box boundary maintenance`
 
 执行规则：
 

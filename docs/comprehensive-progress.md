@@ -6,7 +6,11 @@
 
 ## 当前一句话
 
-当前仓库已从“继续找下一条 GPU 题”切到“报告驱动的长期主线收敛”。`PIA + GSA/W-1` 仍是当前成熟主线，但最新真实 packet 已经让近端优先级再次收口：`06-g1a` 的 per-sample `H1/H2` 都已在真实 `256` packet 上 miss，`H5` 只保留为 internal-only set-level governance fallback；`05-cross-box` 已在 enlarged `GSA + PIA` matched packet 上完成更强的 full-overlap repeated holdout，并确认 stable tail-lift；随后第一版 bounded `H4` 也已落地，但只给出 auxiliary/cost-saver 读法，因此 near-term active slot 现已从 `05` 继续让给 `04-defense`。但 `04` 当前也已经把 `H2 privacy-aware adapter` 的 packet-scale 问题走完了第一轮最小验证：canonical `probe-h2-assets`、`prepare-h2-contract`、`run-h2-defense-pilot`、`review-h2-defense-pilot` 已在 admitted CIFAR10 资产上 landed，冻结了 `checkpoint-9600/model.safetensors`、`1000 / 1000` `32 x 32 x 3` `RGB` 资产身份；随后最小 `4 / 4` CPU follow-up 也已落地。当前更准确的 `H2` 读法已从 `minimal contract-complete but first bounded review negative` 收紧成 `minimal contract-complete + bounded 4/4 follow-up negative but useful`：`1 / 1` transfer-only board 全零，而 `4 / 4` board 已出现非零 target-transfer（`AUC = 0.5 / ASR = 0.375 / TPR@1%FPR = 0.5 / TPR@0.1%FPR = 0.5`），说明它不只是纯退化板；但 baseline 与 defended 四项 delta 仍然都是 `0.0`，所以它依然不能写成 execution-ready successor，也不能升为 `next_gpu_candidate`。`02` 退到为 `04/05` 输送 second signal 的 sidecar 位置，而它的 enabling gap 与第一轮 fusion review 也已进一步收口：`SimA` packet-score export 已 landed，且 `PIA + SimA logistic_2feature` 在 frozen `461 / 474` packet 上给出稳定 `AUC / ASR` 增益与部分 `TPR@1%FPR` 改善，但没有稳定 `TPR@0.1%FPR` lift，因此 gray-box 现在应再次让出下一条 `CPU-first` 槽位。`03` 固定为 white-box distinct second family 的 medium-horizon gap，`01` 固定为 parked black-box candidate pool。当前 `active GPU question = none`，`04-H2` 也已经做完一次最小 packet-scale 放大并再次关停；因此当前 live lane 已切到 `X-141 non-graybox next-lane reselection after X-140 stale-entry sync`，而不是继续机械扩 `H2`。
+治理层更新：当前执行项是 `Research governance cleanup`，`active_gpu_question = none`，`next_gpu_candidate = none`。本轮不新增模型实验、不释放 GPU、不执行历史重写；`X-180` 已关闭为 `positive reselection / GPU hold`，治理完成后的下一条 CPU-first research lane 才是 `X-181 I-A / cross-box boundary maintenance after H2 comparator block`。
+
+当前仓库已从“继续找下一条 GPU 题”切到“报告驱动的长期主线收敛”。`PIA + GSA/W-1` 仍是当前成熟主线，但最新真实 packet 已经让近端优先级再次收口：`06-g1a` 的 per-sample `H1/H2` 都已在真实 `256` packet 上 miss，`H5` 只保留为 internal-only set-level governance fallback；`05-cross-box` 已在 enlarged `GSA + PIA` matched packet 上完成更强的 full-overlap repeated holdout，并确认 stable tail-lift；随后第一版 bounded `H4` 也已落地，但只给出 auxiliary/cost-saver 读法。`04-defense` 先把 `H2 privacy-aware adapter` 的 packet-scale 问题走完第一轮最小验证，`4 / 4` follow-up 仍显示 baseline 与 defended 四项 delta 都是 `0.0`；随后 `X-156 / X-157 / X-158 / X-159 / X-160 / X-161 / X-162 / X-163` 把新的 `H3 selective / suspicion-gated all-steps routing` 推进到真实 `64 / 64` GPU scout、fixed-budget attacker scout 和 post-GPU review。最终读法是 `positive but bounded / candidate-only`：fixed-budget selective 在 `X-162` 匹配 all-steps dropout 的低 FPR tail（`0.031250 / 0.031250`），但 gate-leak falsifier 升到 `0.046875 / 0.046875`，oracle-route escape 恢复 baseline tail（`0.078125 / 0.078125`），所以不能提升为 deployable defense 或 admitted result。`X-168` 已完成 `01-black-box H2 strength-response` 首轮 `64 / 64` GPU scout：H2 logistic 达到 `AUC = 0.928955 / ASR = 0.859375 / TPR@1%FPR = 0.218750 / TPR@0.1%FPR = 0.218750`，并写出可复用 response cache；`X-170` 的 H1 response-cloud cache review 有 AUC 信号但低 FPR 失败；`X-171` 的 frequency-filter ablation 没有把 H2 falsify 成 high-frequency-only；`X-172` 完成非重叠 `128 / 128` GPU validation；`X-175` CPU stress 通过后，`X-176` 又完成非重叠 `256 / 256` validation，raw H2 logistic 达到 `AUC = 0.913940 / ASR = 0.851562 / TPR@1%FPR = 0.171875 / TPR@0.1%FPR = 0.062500`，`lowpass_0_5` secondary 保持正向 `0.140625 / 0.050781`；`X-177` 已把它冻结为 strong validated candidate。`X-178` 随后确认 same-packet admitted `recon` comparator 在 X176 上协议不兼容；`X-179` 又确认 X176 自带 simple reconstruction-distance sanity comparators 已足够说明 H2 不是单步距离 artifact，但这些 comparator 不是 admitted `recon`，所以不释放 GPU。当前 `active GPU question = none`；`next_gpu_candidate = none`。
+
+2026-04-29 更新：`X-141 / X-142` 已把 `G1-A / X-90` 从 `TMIA-DM 512-sample gap` 中解冻为 `two-seed internal auxiliary positive`。两次同合同 matched `512 / 512` tri-score review 都通过 kill gate，seed-2 macro 指标为 `AUC = 0.859043 / ASR = 0.786133 / TPR@1%FPR = 0.118164 / TPR@0.1%FPR = 0.023438`；但合同仍是 `headline_use_allowed = false / external_evidence_allowed = false`，所以这只改变 Research 内部灰盒辅助证据边界，不替换 `PIA` headline，也不改变 Runtime/Platform schema。随后 `X-145 / X-146 / X-148 / X-150` 已完成白盒 activation-subspace scout 序列：基础 top-delta selector 过拟合并在 larger holdout 反向，validation-regularized selector 虽改善 baseline 但仍 weak，same-block cross-layer stability gate 也未改善 holdout。`X-151 / X-152` 完成 GPU hold 与 `I-A` 边界刷新；`X-153 / X-154` 又测试 per-timestep trajectory observable，结果仍为 negative-but-useful；`X-156 / X-163` 已把 `04-H3` selective-gating 收口为 candidate-only positive-hardening / GPU hold；`X-164 / X-165` 又关闭了一条现有 surface tri-fusion 捷径；`X-166` 已把这两条边界写硬；`X-168 / X-171 / X-172 / X-175 / X-176 / X-177` 则把黑盒 H2 从首轮 positive scout 推进到 strong validated positive-but-bounded candidate surface；`X-178 / X-179` 已连续阻止 admitted replacement 与无假设 GPU 扩大。`X-180` 已关闭为 `positive reselection / GPU hold`；当前执行项是治理清理，治理完成后的下一条 CPU-first lane 是 `X-181 I-A / cross-box boundary maintenance`。
 
 ## 进度总览
 
@@ -40,7 +44,7 @@
   - `Local Mirror` 不提供第二防御家族
 - [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 已把黑盒五件套固定为 decision-grade package，本轮 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json) 又在 CPU 上复算到相同 headline metrics，且不改 admitted 结果
 - [2026-04-10-pia-provenance-split-protocol-delta](../workspaces/gray-box/2026-04-10-pia-provenance-split-protocol-delta.md) 已把 `split shape aligned locally / random-four-split protocol still open / strict redo currently dirty` 三点固定为新的 provenance supplement
-- `X-86→X-89` 序列已完成：`X-86` 识别 G1-A blocker resolution，`X-87` 把 G1-A/X-90 deferred 为 `needs-assets`（TMIA-DM 512-sample gap），`X-88` 重定向到 root ROADMAP B-M0 Candidate A（bounded shadow-LR white-box loss-score follow-up），B-M0 Candidate A bounded GPU review 决策为 `hold-review-only`（CPU-bound 离线评估），`X-89` 在 B-M0 window 关闭后（两条候选均 CPU-bound，无 GPU release）返回 I-A CPU sidecar。当前 `active_gpu_question = none`，`next_gpu_candidate = none`，继续 I-A higher-layer boundary maintenance。
+- `X-86→X-89` 序列原本把 G1-A/X-90 deferred 为 `needs-assets`；`X-141→X-142` 已在当前 GPU 窗口补齐这个缺口，生成两轮 matched `TMIA-DM 512` 表面并完成两次 positive-but-bounded X-90 review。当前读法不再是 `G1-A deferred-needs-assets`，而是 `two-seed internal auxiliary positive / not headline`；`X-143→X-144` 已把它同步为 internal-only 并明确 GPU hold。之后 `X-145→X-150` 把 `03-H1 activation-subspace` 走完三轮 GPU-safe scout：same-rule top-delta 过拟合，validation-regularized 仍 weak，cross-layer stability gate 也 negative-but-useful；`X-153→X-154` 的 per-timestep trajectory scout 也未过 holdout fire gate；`X-156→X-163` 已把 live lane 推进并收口到 `04-H3 selective all-steps gating = candidate-only positive-hardening / GPU hold`；`X-164→X-165` 又把现有 `PIA + GSA + SimA` tri-surface consensus 收口为 `negative but useful`，所以当前没有 immediate GPU release。
 - issue #10 已关闭为 `positive hardening`：`recon` 现在有独立的 strict Stage 0 paper gate（`check-recon-stage0-paper-gate`），它会在当前公开 bundle 只证明 `proxy-shadow-member / local-semantic-chain-ready` 时明确返回 `blocked`，防止把 local-ready 误读成 paper-aligned `Attack-I`。
 - GPT-5.4 round-2 报告已完成 long-horizon 收敛，而最近真实 packet 又把 active slot 进一步收口为：
   - `05-cross-box` = 当前 near-term active 主线
@@ -301,7 +305,7 @@
   - 这对 `Runtime/Platform` 的含义也已经固定：
     - 当前 sharper `04` 边界只需要 higher-layer wording 同步
     - `Research -> Runtime -> Platform` 不需要新增 schema 或协议
-   - `H3` 只允许作为 cheap sidecar，不许与 `H1/H2` 并推
+   - `H3` 只允许作为 candidate-only perturbation-exposure sidecar，不许与 `H1/H2` 并推或写成 validated defense
 5. 将 `02` 固定为 sidecar enabling line，而不是独立主槽位：
    - `SimA` 当前只保留为 `execution-feasible but weak` scorer
    - 不直接重开 plain `SimA` scorer rerun
@@ -311,9 +315,9 @@
      - `TPR@1%FPR` 只给出部分改善
      - `TPR@0.1%FPR` 没有稳定 lift
    - 因此 `PIA + SimA` 仍保留为 auxiliary gray-box sidecar，而不是 promoted next lane
-   - 最后才看 `suspicion-gated late-step perturbation`
+   - H3 已被 X159 收口为 candidate-only；后续只有新 detector / adaptive-attacker contract 才能重开
 6. 将 `03` 固定为 medium-horizon gap：
-   - `activation-subspace fingerprint` 是当前最干净的白盒 second family
+   - `activation-subspace fingerprint` 的 mean-profile selector route 已经被 `X-145 / X-146 / X-148 / X-150` 收口为 negative-but-useful，下一次重开必须是 genuinely different observable 或 independent-stability contract
    - `risky-subspace pruning` 是当前最值得保留的 post-training defense 候选
    - 但它不应抢占 `05 -> 04 -> 06` 的近端槽位
 7. 将 `01` 固定为 parked black-box candidate pool：

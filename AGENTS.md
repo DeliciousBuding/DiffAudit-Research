@@ -69,8 +69,9 @@ When entering this repository, always read in this order:
 5. `<DIFFAUDIT_ROOT>/Research/README.md`
 6. `<DIFFAUDIT_ROOT>/Research/docs/comprehensive-progress.md`
 7. `<DIFFAUDIT_ROOT>/Research/docs/report-bundles/gpt54/round2-results` if the current task depends on GPT-5.4 raw round-2 reports; consult `<DIFFAUDIT_ROOT>/Research/docs/report-bundles/gpt54/round1-results` when first-round context is needed
-8. `<DIFFAUDIT_ROOT>/Download/manifests/research-download-manifest.json`
-9. the relevant workspace README or plan if the task is already lane-specific
+8. `<DIFFAUDIT_ROOT>/Research/docs/research-governance.md`
+9. `<DIFFAUDIT_ROOT>/Download/manifests/research-download-manifest.json`
+10. the relevant workspace README or plan if the task is already lane-specific
 
 Do not start by editing code blindly.
 
@@ -363,6 +364,20 @@ for external readers rather than for one local operator or one agent session.
   onboarding material
 - claim only what the evidence ladder supports; dry-runs, smoke checks,
   negative packets, and admitted results must keep their status labels
+
+### 10.4 Governance and archive rules
+
+- keep `ROADMAP.md` short; archive long timelines in
+  `legacy/execution-log/<date>/`
+- keep `workspaces/implementation/challenger-queue.md` as active / ready /
+  hold / needs-assets / closed queue state, not a chronological run log
+- move closed one-off `scripts/run_x*.py` files to the corresponding execution
+  log archive unless they become reusable CLI or replay helpers
+- keep archived scripts runnable for traceability when practical, but promote
+  reusable logic into `src/diffaudit/` or stable `scripts/` helpers before
+  using it for new research
+- do not perform history rewriting or force-push from a routine governance
+  cleanup; write a history rewrite audit and get explicit approval first
 
 ### 10.2 Brand and image rules
 
