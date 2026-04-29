@@ -19,7 +19,7 @@
 
 每条主线都应配上 `track/attack/defense/auc/asr/evidence_level` 字段以及 `boundary`（如 recon = fine-tuned+controlled, PIA = workspace-verified + blocked provenance, GSA/W-1 = admitted bridge but not final paper benchmark），此结构已写在 `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json`，Platform/Runtime 可以直接取用。
 
-## 3. 今天必须同步的非 admitted 变化
+## 3. 2026-04-18 Non-Admitted Changes To Sync
 
 - admitted 三线主讲表不变，不替换指标，不替换 headline。
 - `I-C` 边界层必须更新：
