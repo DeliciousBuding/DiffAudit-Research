@@ -38,15 +38,15 @@
   - 白盒 `GSA + W-1`
 - `active GPU question = none`
 - `next_gpu_candidate = none`
-- 当前若处在 `research-governance-cleanup-20260429` 分支，执行项是仓库治理清理：不跑 GPU，不新增 `X-181` 结果，不做历史重写
+- 2026-04-29 governance cleanup 已通过 PR #26 合并到 `main`；当前默认状态是 post-governance hygiene / CPU-first reselection，不跑 GPU，不做历史重写
 - `X-141 / X-142` 已把 `G1-A / X-90` 从 `TMIA-DM 512-sample gap` 解冻为 `two-seed internal auxiliary positive`：
   - matched `512 / 512` tri-score review 已在 `noise_seed = 1` 与 `noise_seed = 2` 两个合同上通过 kill gate
   - seed-2 macro 指标为 `AUC = 0.859043 / ASR = 0.786133 / TPR@1%FPR = 0.118164 / TPR@0.1%FPR = 0.023438`
   - 但合同仍是 `headline_use_allowed = false / external_evidence_allowed = false`
   - 不要把它写成灰盒 headline 替换；`X-143 / X-144` 已完成 consumer-boundary sync 与 fresh reselection
 - 当前近端执行顺序已经压成：
-  1. `Research governance cleanup` = current CPU-only repo-governance lane
-  2. `X-181 I-A / cross-box boundary maintenance after H2 comparator block` = next CPU-first research lane after governance
+  1. `Post-governance public-surface / hot-path sync` = only when docs or repo surface are stale, CPU-only
+  2. `X-181 I-A / cross-box boundary maintenance after H2 comparator block` = next CPU-first research lane
   3. `05-cross-box` = promoted `H1/H2 logistic_2feature` support lane
   4. `02-gray-box` = sidecar second signal
   5. `03-white-box` = medium-horizon distinct-family gap after activation trajectory falsifier
@@ -99,7 +99,7 @@
 - `X-177` 已关闭为 `positive boundary / comparator-first hold`：H2 是 strong validated DDPM/CIFAR10 candidate，但 promotion、`recon` replacement、更多 H2 GPU 和 consumer handoff 都要等 same-packet `recon` comparator feasibility review
 - `X-178` 已关闭为 `blocked but useful / comparator-blocked`：direct admitted-`recon` comparator 在 X176 DDPM/CIFAR10 packet 上协议不兼容；H2 保持 candidate-only，下一步是 X179 comparator-acquisition contract review
 - `X-179` 已关闭为 `positive contract review / no GPU release`：X176 simple reconstruction-distance sanity comparators 已足够说明 H2 优于同包简单距离基线，但它们不是 admitted `recon`
-- 如果没有比它更新的 repo 事实，不要回到六线并推、也不要直接跳到重型白盒家族；治理清理期间优先完成仓库治理，治理完成后优先做 `X-181 I-A / cross-box boundary maintenance`
+- 如果没有比它更新的 repo 事实，不要回到六线并推、也不要直接跳到重型白盒家族；优先保持 post-governance 热路径干净，然后做 `X-181 I-A / cross-box boundary maintenance`
 
 执行规则：
 
