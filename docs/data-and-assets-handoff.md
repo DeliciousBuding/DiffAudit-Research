@@ -19,7 +19,7 @@
 
 `Download\` 不进 `Research` git 仓库。它是本地原始资产层，原因是这里会放大文件、许可受限文件、可重新下载的权重和压缩包。
 
-`<DIFFAUDIT_ROOT>` 是你自己机器上的项目根目录。它可以是 `C:\Users\<you>\DiffAudit`、`D:\Projects\DiffAudit`、`~/work/DiffAudit`，关键是 `Research/` 和 `Download/` 的相对角色不要变。
+`<DIFFAUDIT_ROOT>` 是你自己机器上的项目根目录。它可以位于任意工作目录；关键是 `Research/` 和 `Download/` 的相对角色不要变。
 
 如果你的机器路径不同，也没关系，只要保持同样的相对角色：
 
@@ -28,6 +28,7 @@
 - `Download\` 放原始下载物
 - `Research\workspaces\<lane>\assets\` 放已归一化的 lane 入口
 - `Research\workspaces\<lane>\runs\` 放运行证据
+- `Research\outputs\` 放本机临时输出，不作为交接入口
 
 详细规则见 [storage-boundary.md](storage-boundary.md)。
 
@@ -68,7 +69,9 @@ binaries.
 Generated experiment artifacts follow the same rule. GitHub keeps sanitized
 summaries and reports; generated images, tensor score packets, runtime job queue
 dumps, checkpoints, and split `.npz` files belong in `Download/`, a team mirror,
-or an ignored workspace path.
+or an ignored workspace path. The repository-root `Research/outputs/` directory
+is also local scratch space; promote durable metrics into workspace verdict
+notes or `summary.json` files before committing.
 
 ## 3. First-Wave Asset List
 
@@ -102,6 +105,7 @@ These are code clones, not data directories. They belong under `Research\externa
 git clone https://github.com/kong13661/PIA.git external/PIA
 git clone https://github.com/zhaisf/CLiD external/CLiD
 git clone https://github.com/py85252876/Reconstruction-based-Attack external/Reconstruction-based-Attack
+git clone https://github.com/py85252876/GSA.git external/GSA
 git clone https://github.com/facebookresearch/DiT.git external/DiT
 git clone https://github.com/nv-tlabs/DPDM.git external/DPDM
 ```
@@ -132,7 +136,7 @@ shared:
   ddpm_cifar10_model_dir: /absolute/path/to/DiffAudit/Download/shared/weights/google-ddpm-cifar10-32
 ```
 
-Windows 可以写成 `C:/...` 或 `D:/...`，Linux/macOS 可以写成 `/home/...` 或 `/Users/...`。这里的关键是“绝对路径”，不是盘符。
+Windows、Linux 和 macOS 都可以使用各自系统的绝对路径。这里的关键是“绝对路径”，不是盘符或特定用户目录。
 
 Then render local configs:
 
@@ -156,7 +160,7 @@ Basic asset checks:
 
 ```powershell
 conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config configs/attacks/pia_plan.yaml --member-split-root external/PIA/DDPM
-conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root workspaces/white-box/external/GSA --assets-root workspaces/white-box/assets/gsa
+conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 conda run -n diffaudit-research python -m diffaudit audit-recon-public-bundle --bundle-root "$env:DIFFAUDIT_ROOT\Download\black-box\supplementary\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models"
 ```
 
@@ -184,3 +188,4 @@ Current rule of thumb:
 - use `team.local.yaml` to bind your machine paths
 - use `workspaces/*/assets` manifests as the project-recognized asset contracts
 - use `workspaces/*/runs` and implementation notes as evidence, not as raw dataset storage
+- do not rely on `Research/outputs/` for handoff; it is ignored local scratch

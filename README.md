@@ -145,6 +145,7 @@ same research environment.
 | Command recipes | [docs/command-reference.md](docs/command-reference.md) |
 | Detailed evidence ledger | [docs/reproduction-status.md](docs/reproduction-status.md) |
 | Admitted result summary | [docs/admitted-results-summary.md](docs/admitted-results-summary.md) |
+| Repository governance | [docs/research-governance.md](docs/research-governance.md) |
 | Research-to-system boundary | [docs/research-boundary-card.md](docs/research-boundary-card.md) |
 | Licensing scope | [docs/licensing.md](docs/licensing.md) |
 | Contribution workflow | [CONTRIBUTING.md](CONTRIBUTING.md) |

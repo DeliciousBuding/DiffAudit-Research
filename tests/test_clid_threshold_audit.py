@@ -16,8 +16,8 @@ class ClidThresholdAuditTests(unittest.TestCase):
 
             header = (
                 "{'diff_path': "
-                "'C:/Users/exampleuser/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/x'}\t"
-                "C:/Users/exampleuser/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/x"
+                "'/tmp/diffaudit-fixtures/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/x'}\t"
+                "/tmp/diffaudit-fixtures/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/x"
             )
             train_path = outputs / "Atk_clid_clip_M_local_target_TRTE_train.txt"
             test_path = outputs / "Atk_clid_clip_M_local_target_TRTE_test.txt"
@@ -48,7 +48,7 @@ class ClidThresholdAuditTests(unittest.TestCase):
                 json.dumps(
                     {
                         "assets": {
-                            "base_model": "C:/DiffAudit/Download/shared/weights/stable-diffusion-v1-5"
+                            "base_model": "<DIFFAUDIT_ROOT>/Download/shared/weights/stable-diffusion-v1-5"
                         }
                     }
                 ),

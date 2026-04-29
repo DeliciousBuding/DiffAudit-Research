@@ -22,7 +22,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 if ($TrainScript -eq "") {
-    $TrainScript = Join-Path (Split-Path -Parent $PSScriptRoot) "workspaces\white-box\external\GSA\DDPM\train_unconditional.py"
+    $TrainScript = Join-Path (Split-Path -Parent $PSScriptRoot) "external\GSA\DDPM\train_unconditional.py"
 }
 
 if (Test-Path -LiteralPath $PythonExe) {

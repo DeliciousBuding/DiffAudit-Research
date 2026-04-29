@@ -33,7 +33,7 @@ python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_loca
 python -m diffaudit plan-variation --config configs/attacks/variation_plan.yaml
 python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke-local
 python -m diffaudit plan-pia --config configs/attacks/pia_plan.yaml
-python -m diffaudit probe-gsa-assets --repo-root workspaces/white-box/external/GSA --assets-root workspaces/white-box/assets/gsa
+python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 ```
 
 第一次使用前，先复制 `configs/assets/team.local.template.yaml` 为本地 `configs/assets/team.local.yaml`，再填写自己的真实路径。大数据集、权重和 supplementary 包默认放在仓库外的 `<DIFFAUDIT_ROOT>/Download/`，不要放进 `Research/external/`。

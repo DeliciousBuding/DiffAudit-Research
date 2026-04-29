@@ -183,7 +183,7 @@ class LocalApiTests(unittest.TestCase):
                 json={
                     "job_type": "recon_artifact_mainline",
                     "workspace_name": "api-job-001",
-                    "artifact_dir": "D:/artifacts/recon-scores",
+                    "artifact_dir": "/tmp/diffaudit-fixtures/artifacts/recon-scores",
                     "repo_root": "<DIFFAUDIT_ROOT>/Research/external/Reconstruction-based-Attack",
                 },
             )
@@ -201,7 +201,10 @@ class LocalApiTests(unittest.TestCase):
             fetched = get_response.json()
             self.assertEqual(fetched["job_id"], created["job_id"])
             self.assertEqual(fetched["workspace_name"], "api-job-001")
-            self.assertEqual(fetched["payload"]["artifact_dir"], "D:/artifacts/recon-scores")
+            self.assertEqual(
+                fetched["payload"]["artifact_dir"],
+                "/tmp/diffaudit-fixtures/artifacts/recon-scores",
+            )
 
     def test_list_jobs_returns_latest_first(self) -> None:
         from fastapi.testclient import TestClient
@@ -226,7 +229,7 @@ class LocalApiTests(unittest.TestCase):
                 json={
                     "job_type": "recon_artifact_mainline",
                     "workspace_name": "api-job-001",
-                    "artifact_dir": "D:/artifacts/one",
+                    "artifact_dir": "/tmp/diffaudit-fixtures/artifacts/one",
                 },
             )
             self.assertEqual(first.status_code, 202)
@@ -236,7 +239,7 @@ class LocalApiTests(unittest.TestCase):
                 json={
                     "job_type": "recon_artifact_mainline",
                     "workspace_name": "api-job-002",
-                    "artifact_dir": "D:/artifacts/two",
+                    "artifact_dir": "/tmp/diffaudit-fixtures/artifacts/two",
                 },
             )
             self.assertEqual(second.status_code, 202)
@@ -271,7 +274,7 @@ class LocalApiTests(unittest.TestCase):
                 json={
                     "job_type": "recon_artifact_mainline",
                     "workspace_name": "shared-workspace",
-                    "artifact_dir": "D:/artifacts/one",
+                    "artifact_dir": "/tmp/diffaudit-fixtures/artifacts/one",
                 },
             )
             self.assertEqual(first.status_code, 202)
@@ -281,7 +284,7 @@ class LocalApiTests(unittest.TestCase):
                 json={
                     "job_type": "recon_artifact_mainline",
                     "workspace_name": "shared-workspace",
-                    "artifact_dir": "D:/artifacts/two",
+                    "artifact_dir": "/tmp/diffaudit-fixtures/artifacts/two",
                 },
             )
             self.assertEqual(second.status_code, 409)
