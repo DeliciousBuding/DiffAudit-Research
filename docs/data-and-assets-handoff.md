@@ -28,6 +28,7 @@
 - `Download\` 放原始下载物
 - `Research\workspaces\<lane>\assets\` 放已归一化的 lane 入口
 - `Research\workspaces\<lane>\runs\` 放运行证据
+- `Research\outputs\` 放本机临时输出，不作为交接入口
 
 详细规则见 [storage-boundary.md](storage-boundary.md)。
 
@@ -68,7 +69,9 @@ binaries.
 Generated experiment artifacts follow the same rule. GitHub keeps sanitized
 summaries and reports; generated images, tensor score packets, runtime job queue
 dumps, checkpoints, and split `.npz` files belong in `Download/`, a team mirror,
-or an ignored workspace path.
+or an ignored workspace path. The repository-root `Research/outputs/` directory
+is also local scratch space; promote durable metrics into workspace verdict
+notes or `summary.json` files before committing.
 
 ## 3. First-Wave Asset List
 
@@ -184,3 +187,4 @@ Current rule of thumb:
 - use `team.local.yaml` to bind your machine paths
 - use `workspaces/*/assets` manifests as the project-recognized asset contracts
 - use `workspaces/*/runs` and implementation notes as evidence, not as raw dataset storage
+- do not rely on `Research/outputs/` for handoff; it is ignored local scratch

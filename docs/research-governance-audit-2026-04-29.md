@@ -76,6 +76,25 @@ The old `ROADMAP.md` is archived out of the startup path.
 | `experiments/_tmp_kandinsky_repro/image_01_01.jpg` | removed from current tree | Temporary generated experiment image; reproducible/generated outputs should not be committed. |
 | `tools/gsa_next_run/examples/minimal/assets_root/data.bin` | removed from current tree | Tiny binary fixture was not needed for the example contract; text fixture remains. |
 
+## Tracked-But-Ignored Drift
+
+The second governance pass found tracked files that were also hidden by
+`.gitignore`. This is unsafe because future edits can be missed by `git status`.
+
+Observed classes:
+
+| Class | Cause | Resolution |
+| --- | --- | --- |
+| `external/README.md` | `external/` ignored the whole directory, including the tracked boundary README. | Changed the rule to ignore `external/*` while keeping `external/README.md` visible. |
+| Workspace run summaries and configs | broad `runs/`, `outputs/`, and `artifacts/` patterns matched directory names anywhere in the tree. | Root-anchored the top-level rules, kept workspace run trees ignored as local scratch, and explicitly re-included the already tracked curated evidence files. |
+| Gray-box provenance files | `workspaces/gray-box/assets/**` allowed manifests but not the already tracked PIA provenance notes. | Explicitly allowed the tracked PIA `provenance.json` files and `PROVENANCE.md`. |
+| White-box GSA asset README/manifests | the parent `workspaces/white-box/assets/` directory was ignored, so later exceptions could not re-include tracked files. | Changed the rule to ignore children while allowing the curated GSA README, HANDOFF, and manifest files. |
+| Top-level SMP-LoRA `evaluation.json` files | top-level `outputs/` is a generated-output layer, but four historical evaluations were still tracked. | Removed those four files from the Git index; local copies remain ignored, and durable metrics are already represented in workspace verdict notes. |
+
+Guardrail added: `scripts/check_public_surface.py` now fails when any tracked
+file is hidden by `.gitignore` or when a tracked file exceeds the current size
+threshold.
+
 ## X-Run Script Audit
 
 Top-level `scripts/run_x*.py` before cleanup:

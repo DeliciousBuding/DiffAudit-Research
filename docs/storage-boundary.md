@@ -13,6 +13,7 @@
 - `<DIFFAUDIT_ROOT>/Download/` 放 **原始下载物**
 - `workspaces/<lane>/assets/` 放 **lane 归一化后的 admitted 资产入口**
 - `workspaces/<lane>/runs/` 放 **运行产物和 evidence**
+- `outputs/` 放 **本机临时生成输出，不作为 Git 证据入口**
 - `experiments/` 只提交 **sanitized summary / report**，不提交 raw image/tensor 产物
 
 不要把这些角色混在一起。
@@ -149,9 +150,26 @@ or split binaries are local artifacts. They should stay in ignored directories
 or the external asset layer, while the repository keeps the sanitized
 `summary.json`, verdict note, manifest, or report that describes the result.
 
+## 6. `Research/outputs/`
+
+放什么：
+
+- local training defaults
+- temporary evaluation dumps
+- generated checkpoints, weights, and training logs
+- scratch rerun outputs
+
+规则：
+
+- `outputs/` is ignored at the repository root.
+- Do not use it as a canonical evidence anchor.
+- Do not commit files from it just because a metric is useful.
+- If a result should survive review, promote the metric into a workspace
+  verdict note, a small `summary.json`, or an admitted result table.
+
 ---
 
-## 6. 当前仓库里的特例
+## 7. 当前仓库里的特例
 
 ### `SecMI`
 
@@ -178,7 +196,7 @@ or the external asset layer, while the repository keeps the sanitized
 
 它不再属于代码 clone 层。
 
-## 7. 当前最容易乱的地方
+## 8. 当前最容易乱的地方
 
 ### 情况 A：把数据集塞进 `external/`
 
@@ -202,9 +220,19 @@ or the external asset layer, while the repository keeps the sanitized
 - 当前仓库真实依赖、要一起维护的最小子集 -> `third_party/`
 - 上游整仓、本地 exploratory clone -> `external/`
 
+### 情况 D：从 `outputs/` 挑一个小 JSON 直接提交
+
+这会让生成层和证据层重新混在一起。
+
+正确做法：
+
+- 原始 run 输出继续留在 ignored `outputs/`
+- 将 durable metric 写进对应 workspace verdict 或 `summary.json`
+- 让 `git status` 只显示 curated evidence，而不是训练目录碎片
+
 ---
 
-## 8. 建议的今后纪律
+## 9. 建议的今后纪律
 
 1. 新拿到一个外部代码仓：
    - 先放 `external/`
@@ -219,7 +247,7 @@ or the external asset layer, while the repository keeps the sanitized
 
 ---
 
-## 9. 当前结论
+## 10. 当前结论
 
 如果你问“外部代码和数据集到底该放哪”：
 
@@ -227,6 +255,7 @@ or the external asset layer, while the repository keeps the sanitized
 - 原始数据集和原始权重默认放 `<DIFFAUDIT_ROOT>/Download/`
 - 当前研究主线真正消费的 lane 入口放 `Research/workspaces/<lane>/assets/`
 - 运行结果放 `Research/workspaces/<lane>/runs/`
+- 临时训练输出放 ignored `Research/outputs/`
 - 只有最小 vendored 依赖才进 `Research/third_party/`
 
 目录名该怎么统一，见 [download-naming-policy.md](download-naming-policy.md)。

@@ -53,6 +53,25 @@ If an artifact is needed for reproduction but too large or license-sensitive for
 Git, record it in the relevant manifest and put the local copy under
 `<DIFFAUDIT_ROOT>/Download/` or a team asset mirror.
 
+## Ignore Rule Invariant
+
+No Git-tracked file should be hidden by `.gitignore`.
+
+This is a hard hygiene rule, not just a cosmetic preference. If a curated
+summary, manifest, provenance file, or verdict is committed, future edits must
+show up in `git status`. Broad ignore rules such as `/outputs/`, `/runs/`, and
+`/artifacts/` should therefore be root-anchored unless the intent is explicitly
+to ignore the same directory name everywhere. Workspace run directories are the
+main exception: they remain ignored as local scratch by default, and any
+committed run evidence inside them must be explicitly re-included by the
+repository ignore rules.
+
+The top-level `outputs/` directory is a local generated-output layer. It may
+contain checkpoints, logs, weights, and temporary evaluation files, but it is
+not a canonical evidence anchor. Promote durable results into workspace
+verdict notes, `workspaces/<lane>/runs/<run>/summary.json`, or another curated
+workspace artifact before committing.
+
 ## Execution Log Rule
 
 Hot-path files must stay short:
@@ -94,6 +113,10 @@ python scripts/verify_env.py
 python -m diffaudit --help
 python scripts/check_public_surface.py
 ```
+
+The public-surface guard also fails if any tracked file is ignored by the
+current `.gitignore` rules or if a tracked file exceeds the current repository
+size threshold.
 
 For governance changes, also run or update:
 

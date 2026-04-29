@@ -30,10 +30,10 @@ Thumbs.db
 .DS_Store
 
 # Experiment outputs
-artifacts/
-runs/
-tmp/
-outputs/
+/artifacts/
+/runs/
+/tmp/
+/outputs/
 experiments/**/generated-images/
 experiments/**/score-artifacts/
 experiments/**/sample.png
@@ -53,7 +53,8 @@ configs/assets/*.local.yaml
 # Local environments
 .conda/
 condaenv.*.requirements.txt
-external/
+external/*
+!external/README.md
 
 # External research materials
 references/materials/**/*.pdf
@@ -80,10 +81,59 @@ docs/paper-reports/markdown/
 
 # Runtime job dumps and local logs
 workspaces/runtime/jobs/
+workspaces/**/external/
+workspaces/**/runs/**
+!workspaces/**/runs/
+!workspaces/**/runs/**/
+# Curated run evidence already committed under ignored run trees.
+# Add new exceptions only when promoting durable, reviewable evidence.
+!workspaces/black-box/runs/prompt-response-consistency-20260416-r1/summary.json
+!workspaces/black-box/runs/recon-timestep-probe-20260416-r1/summary.json
+!workspaces/black-box/runs/semantic-aux-fusion-20260416-r1/summary.json
+!workspaces/black-box/runs/semantic-aux-public50-step10-aligned-20260416-r1/config.json
+!workspaces/black-box/runs/semantic-aux-public50-step10-aligned-20260416-r1/outputs/records.json
+!workspaces/black-box/runs/semantic-aux-public50-step10-aligned-20260416-r1/summary.json
+!workspaces/black-box/runs/semantic-aux-public50-step10-aligned-prep-20260416-r1/config.json
+!workspaces/gray-box/runs/sima-cifar10-runtime-rescan-20260416-cpu-32-r2/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-128-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-128-r1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-128-r2-seed1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-128-r2-seed1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-256-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-256-r1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-256-r2-seed1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-defense-20260416-gpu-256-r2-seed1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-latesteps-defense-20260416-gpu-128-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-dropout-latesteps-defense-20260416-gpu-128-r1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-cpu-32-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-cpu-32-r1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-cpu-32-r2-seed1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-cpu-32-r2-seed1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-128-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-128-r1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-128-r2-seed1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-128-r2-seed1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r2-seed1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r2-seed1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-timestep-jitter-defense-20260416-gpu-128-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-timestep-jitter-defense-20260416-gpu-128-r1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-protocol-probe-20260416-cpu-32-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-protocol-probe-20260416-cpu-32-r1/summary.json
+!workspaces/gray-box/runs/tmiadm-cifar10-protocol-probe-20260416-cpu-32-r2-seed1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-protocol-probe-20260416-cpu-32-r2-seed1/summary.json
 workspaces/**/runs/**/bridged-model/
 workspaces/**/runs/**/checkpoints/
 workspaces/**/runs/**/generated-images/
 workspaces/**/runs/**/score-artifacts/
+workspaces/**/artifacts/**
+!workspaces/**/artifacts/
+!workspaces/**/artifacts/**/
+# Curated artifact summaries already committed under ignored artifact trees.
+!workspaces/implementation/artifacts/research-automation-health-20260416.json
+!workspaces/implementation/artifacts/unified-attack-defense-table.json
+!workspaces/white-box/artifacts/whitebox-attack-defense-table.json
 *.stdout.log
 *.stderr.log
 
@@ -91,9 +141,12 @@ workspaces/gray-box/assets/**
 !workspaces/gray-box/assets/
 !workspaces/gray-box/assets/**/
 !workspaces/gray-box/assets/**/manifest*.json
+!workspaces/gray-box/assets/pia/**/provenance.json
+!workspaces/gray-box/assets/pia/PROVENANCE.md
 !workspaces/gray-box/assets/**/README.md
 !workspaces/gray-box/assets/**/HANDOFF.md
-workspaces/white-box/assets/
+workspaces/white-box/assets/**
+!workspaces/white-box/assets/
 workspaces/white-box/assets/gsa/**
 !workspaces/white-box/assets/gsa/
 !workspaces/white-box/assets/gsa/README.md
