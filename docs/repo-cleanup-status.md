@@ -1,6 +1,6 @@
 # Repository Cleanup Status
 
-Last updated: `2026-04-29`
+Last updated: `2026-04-30`
 
 This document is the current cleanup status for the Research repository. It is
 not a research roadmap; use [../ROADMAP.md](../ROADMAP.md) for active research
@@ -9,8 +9,8 @@ repository rules.
 
 ## Current State
 
-- Active cleanup branch: `research-governance-cleanup-20260429`
-- GPU work: frozen for governance cleanup
+- Active cleanup branch: none; PR #26 merged to `main`
+- GPU work: no active GPU task
 - History rewrite: not performed
 - Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
 - Canonical evidence: workspace verdict notes, small `summary.json` files,
@@ -18,6 +18,7 @@ repository rules.
 
 ## Completed In The 2026-04-29 Governance Pass
 
+- PR #26 was squash-merged into `main` as `729160a53829766a6c7216042d9395ed5462090b`.
 - `ROADMAP.md` was compressed into a short steering document.
 - Long autonomous execution history moved to `legacy/execution-log/2026-04-29/`.
 - `workspaces/implementation/challenger-queue.md` now uses
@@ -43,6 +44,11 @@ These local directories are intentionally outside the Git review surface. If a
 result from them matters, promote a small curated summary into the relevant
 workspace before committing.
 
+Do not run broad `git clean -fdX` in this repository. It would remove ignored
+local evidence, upstream checkouts, and asset staging directories. Only remove
+safe generated caches such as `__pycache__/`, `.pytest_cache/`, and temporary
+build metadata when doing routine hygiene.
+
 ## Next Cleanup Priorities
 
 1. Keep public docs and onboarding documents product-facing.
@@ -54,7 +60,7 @@ workspace before committing.
 
 ## Validation Commands
 
-Run these before opening or updating governance PRs:
+Run these before opening or updating governance changes:
 
 ```powershell
 git status --short

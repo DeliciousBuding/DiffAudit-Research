@@ -39,15 +39,15 @@
 - admitted 主讲面仍是 `recon / PIA / GSA-W1`
 - `active GPU question = none`
 - `next_gpu_candidate = none`
-- 当前若处在 `research-governance-cleanup-20260429` 分支，执行项是仓库治理清理：不跑 GPU，不新增 `X-181` 结果，不做历史重写
+- 2026-04-29 governance cleanup 已通过 PR #26 合并到 `main`；当前默认状态是 post-governance hygiene / CPU-first reselection，不跑 GPU，不做历史重写
 - `X-141 / X-142` 已把 `G1-A / X-90` 从 `TMIA-DM 512-sample gap` 解冻为 `two-seed internal auxiliary positive`：
   - 两个 matched `512 / 512` tri-score review 都已通过 kill gate
   - seed-2 macro 指标为 `AUC = 0.859043 / ASR = 0.786133 / TPR@1%FPR = 0.118164 / TPR@0.1%FPR = 0.023438`
   - 但 `headline_use_allowed = false / external_evidence_allowed = false`，不要把它写成灰盒 headline 替换
   - `X-143 / X-144` 已完成 `G1-A` consumer-boundary sync + non-graybox next-lane reselection
 - 当前最值得推进的近端执行链是：
-  - `Research governance cleanup`：这是当前 CPU-only repo-governance lane
-  - `X-181 I-A / cross-box boundary maintenance after H2 comparator block`：这是治理完成后的下一条 CPU-first research lane
+  - `Post-governance public-surface / hot-path sync`：仅当发现文档或仓库表面 stale 时先做，CPU-only
+  - `X-181 I-A / cross-box boundary maintenance after H2 comparator block`：下一条 CPU-first research lane
   - `03-H1 activation-subspace`：`X-145 / X-146 / X-148 / X-150` 已完成三轮 GPU-safe scout，基础 top-delta 过拟合，validation-regularized selector 仍 weak，cross-layer stability gate 也低于 baseline；不要继续 same-rule、same-contract 或 same-observable GPU 放大
   - `04-defense`：H3 selective-gating 已有 candidate-only positive-but-bounded fixed-budget GPU scout；不要继续机械扩大 `H2`，也不要直接扩大 H3
     - 当前已不再是“继续调同家族 scalar”的状态

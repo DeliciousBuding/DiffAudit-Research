@@ -48,7 +48,9 @@ It is to behave like an autonomous researcher who keeps improving:
 - GPU utilization quality
 - research autonomy
 
-`2026-04-19` is a real 4C deadline, but it is not a stop condition.
+The `2026-04-19` 4C sprint is past. It should inform evidence packaging and
+claim discipline, but it is not a stop condition and should not freeze the
+model mainline.
 
 The correct stance is:
 

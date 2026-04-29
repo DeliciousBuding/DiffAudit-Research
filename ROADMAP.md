@@ -1,8 +1,8 @@
 # DiffAudit Research ROADMAP
 
-> Last updated: 2026-04-29
+> Last updated: 2026-04-30
 > Owner: `Researcher`
-> Mode: governance cleanup, no new GPU task
+> Mode: post-governance sync, no active GPU task
 
 This file is the hot-path steering document for DiffAudit Research. It should
 stay short enough for a teammate or reviewer to read at session start. Long
@@ -13,13 +13,15 @@ execution history is archived under
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = Research governance cleanup`
-- `gpu_policy = frozen during cleanup`
-- `history_rewrite_policy = audit only; no force-push in this phase`
+- `current_execution_item = post-governance repository hygiene`
+- `next_cpu_sidecar = X-181 I-A / cross-box boundary maintenance`
+- `gpu_policy = no release until a fresh bounded hypothesis passes CPU-first gates`
+- `history_rewrite_policy = audit only; no force-push without separate approval`
 
-The current task is repository governance, not model expansion. Do not start
-`X-181`, release a GPU packet, or promote a new result until this cleanup PR is
-reviewed or explicitly paused.
+The 2026-04-29 governance cleanup has merged. Fresh sessions should first keep
+the public surface and hot-path state clean, then move to `X-181` as a CPU-first
+boundary-maintenance task. Do not release a GPU packet or promote a new result
+without a new roadmap gate.
 
 ## 2. Current Research Truth
 
@@ -73,10 +75,9 @@ reviewed or explicitly paused.
 Canonical X-141 to X-180 anchors now live in
 [`legacy/execution-log/2026-04-29/`](legacy/execution-log/2026-04-29/).
 
-## 4. Next Decision After Governance
+## 4. Next Decision After Post-Governance Hygiene
 
-The next research lane, if governance is accepted and no newer fact supersedes
-this roadmap, is:
+The next research lane, if no newer fact supersedes this roadmap, is:
 
 ```text
 X-181 I-A / cross-box boundary maintenance after H2 comparator block
@@ -102,14 +103,16 @@ candidate-management surface; this file is only the current steering summary.
 
 ## 6. Governance Status
 
-Current governance goals:
+The 2026-04-29 governance cleanup was merged to `main` through PR #26. Ongoing
+governance goals:
 
 - Keep hot-path docs short and product/research-facing.
 - Move execution logs and one-off X-run scripts out of the public start path.
 - Keep large datasets, weights, generated images, raw tensors, and upstream
   clones out of Git.
 - Make `Download/`, `external/`, and `third_party/` roles unambiguous.
-- Produce a history rewrite audit without rewriting history in this phase.
+- Keep the history rewrite audit as a separate decision surface; do not rewrite
+  history from routine research or documentation cleanup.
 
 Read
 [`docs/research-governance.md`](docs/research-governance.md) for repository
@@ -132,7 +135,7 @@ Fresh research sessions should read:
 
 ## 8. Handoff Boundary
 
-No Platform or Runtime schema change is required by the current governance
+No Platform or Runtime schema change was required by the completed governance
 cleanup. If future work promotes H2, changes admitted lines, changes exported
 metadata, or changes recommendation semantics, create a separate handoff note
 before changing sibling repositories.

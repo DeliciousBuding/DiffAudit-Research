@@ -7,15 +7,16 @@ This document defines how the repository stays reviewable while supporting
 long-running research. It is intentionally separate from the research roadmap:
 the roadmap chooses work; this document defines where work products belong.
 
-## Current Governance Freeze
+## Current Governance Baseline
 
-During the 2026-04-29 cleanup:
+The 2026-04-29 cleanup was merged to `main` through PR #26. The ongoing
+baseline is:
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- no new `X-181` experiment result should be created
-- no history rewrite or force-push should be performed
-- cleanup output should be PR-reviewable and reversible
+- `X-181` is CPU-first boundary maintenance, not an experiment-result release
+- no history rewrite or force-push should be performed without separate approval
+- future cleanup output should be PR-reviewable and reversible
 
 ## Directory Boundaries
 

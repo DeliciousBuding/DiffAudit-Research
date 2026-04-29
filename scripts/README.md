@@ -14,7 +14,7 @@
 
 - `LocalOps/paper-resource-scheduler` 只是本地共享机器治理工具，不是研究仓硬依赖
 - 直接运行这些脚本时，不需要本地 scheduler；scheduler 只是可选能力
-- 推荐通过环境变量覆盖本机路径：
+- 推荐通过环境变量覆盖环境相关路径：
   - `DIFFAUDIT_WORKSPACE_ROOT`
   - `DIFFAUDIT_RESEARCH_PYTHON`
 - 如果不显式传参，DPDM 相关脚本会优先用环境变量，再退回到当前 `Research/scripts` 所在仓库位置推导默认路径
@@ -31,8 +31,8 @@
   - 保留为 G1-A / X-90 TMIA-DM 512-surface asset helper
   - 只服务 current internal auxiliary evidence replay；新 X-run helper 默认应先进 archive 或 CLI 化
 - `prepare_clid_local_bridge.py`
-  - 使用本机 `configs/assets/team.local.yaml` 准备 CLiD 本地桥接运行
-  - 不再依赖仓库里提交的作者机器路径；需要其他路径时显式传 `--asset-config`
+  - 使用未提交的 `configs/assets/team.local.yaml` 准备 CLiD 本地桥接运行
+  - 不依赖仓库外的绝对路径；需要其他路径时显式传 `--asset-config`
 - `validate_attack_defense_table.py`
   - 校验 admitted 统一 attack-defense 总表的最小机器合同
   - 强制 `source` 使用 repo-relative 路径，并检查灰盒 `quality / cost / adaptive_check / provenance_status`
@@ -48,7 +48,7 @@
   - 支持通过 `DIFFAUDIT_WORKSPACE_ROOT` 和 `DIFFAUDIT_RESEARCH_PYTHON` 做便携覆盖
 - `launch_dpdm_target_and_shadows.ps1`
   - 串起 target + shadows 的顺序训练
-  - 默认相对 `Research/scripts` 解析子脚本，不依赖作者本机绝对路径
+  - 默认相对 `Research/scripts` 解析子脚本，不依赖协作者机器上的绝对路径
 - `launch_dpdm_shadow_sequence.ps1`
   - 按顺序启动 shadow 训练
   - 不要求本地 scheduler；直接在协作者自己的 CPU/GPU 环境即可运行
