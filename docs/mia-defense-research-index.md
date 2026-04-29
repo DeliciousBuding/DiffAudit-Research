@@ -86,7 +86,7 @@
 | 灰盒基线 | SecMI | 2023-icml-secmi-membership-inference-diffusion-models.pdf (`references/materials/gray-box/2023-icml-secmi-membership-inference-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [third_party/secmi](../third_party/secmi) | 代码已接入，真实资产仍待强化 |
 | 灰盒主线 | PIA | 2024-iclr-pia-proximal-initialization.pdf (`references/materials/gray-box/2024-iclr-pia-proximal-initialization.pdf`; see `references/materials/manifest.csv`) | [external/PIA](../external/PIA), [assets/pia/manifest.json](../workspaces/gray-box/assets/pia/manifest.json) | 已有 real-asset mainline |
 | 灰盒候选 | TMIA-DM | 2026-crad-temporal-membership-inference-attack-method-diffusion-models.pdf (`references/materials/gray-box/2026-crad-temporal-membership-inference-attack-method-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [2026-04-09-tmia-dm-intake.md](../workspaces/gray-box/2026-04-09-tmia-dm-intake.md) | 已归档，当前仅到 research-ready |
-| 白盒主线 | GSA | 2025-popets-white-box-membership-inference-diffusion-models.pdf (`references/materials/white-box/2025-popets-white-box-membership-inference-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [workspaces/white-box/external/GSA](../workspaces/white-box/external/GSA), [cifar10-ddpm-1k-3shadow.json](../workspaces/white-box/assets/gsa-cifar10-1k-3shadow/manifests/cifar10-ddpm-1k-3shadow.json) | 已有 admitted `1k-3shadow` mainline |
+| 白盒主线 | GSA | 2025-popets-white-box-membership-inference-diffusion-models.pdf (`references/materials/white-box/2025-popets-white-box-membership-inference-diffusion-models.pdf`; see `references/materials/manifest.csv`) | local clone: `external/GSA`; assets: [workspaces/white-box/assets/gsa](../workspaces/white-box/assets/gsa) | 已有 admitted `1k-3shadow` mainline |
 | 白盒扩展 | Finding NeMo | 2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf (`references/materials/white-box/2024-neurips-finding-nemo-localizing-memorization-neurons-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [paper-index.md](../references/materials/paper-index.md) | 研究准备态 |
 | DP 防御 | Dockhorn et al. | 2023-tmlr-differentially-private-diffusion-models.pdf (`references/materials/survey/2023-tmlr-differentially-private-diffusion-models.pdf`; see `references/materials/manifest.csv`) | [external/DPDM](../external/DPDM) | 有仓库，未接成主线 |
 | DP 防御 | Ghalebikesabi et al. | 2023-arxiv-differentially-private-diffusion-models-generate-useful-synthetic-images.pdf (`references/materials/survey/2023-arxiv-differentially-private-diffusion-models-generate-useful-synthetic-images.pdf`; see `references/materials/manifest.csv`) | [external/DPDM](../external/DPDM) | 有文献与仓库 |
@@ -101,7 +101,7 @@
 | 文档检索版 | [mia-defense-document.md](../references/materials/context/mia-defense-document.md) | 便于搜索、比对和引用 | 本次新增 |
 | PIA 代码仓 | [external/PIA](../external/PIA) | 灰盒主线实现来源 | 已就位 |
 | SecMI 代码仓 | [external/SecMI](../external/SecMI) 与 [third_party/secmi](../third_party/secmi) | 灰盒 baseline 与 adapter 子集 | 已就位 |
-| GSA 代码仓 | [workspaces/white-box/external/GSA](../workspaces/white-box/external/GSA) | 白盒主线实现来源 | 已就位 |
+| GSA 代码仓 | `external/GSA` | 白盒主线实现来源；ignored local upstream clone | 已就位 |
 | DPDM 代码仓 | [external/DPDM](../external/DPDM) | White-box `W-1` / DP 防御候选 | 已就位但未纳主线 |
 | PIA 资产根 | [workspaces/gray-box/assets/pia](../workspaces/gray-box/assets/pia) | checkpoint、dataset、provenance | 已形成规范资产根 |
 | GSA 资产根 | [workspaces/white-box/assets/gsa](../workspaces/white-box/assets/gsa) | bucket、checkpoint-*、manifest | 已形成规范资产根 |

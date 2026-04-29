@@ -153,8 +153,8 @@ python -m diffaudit bootstrap-secmi-smoke-assets --target-dir tmp/secmi-smoke-as
 Probe and run `GSA`:
 
 ```powershell
-python -m diffaudit probe-gsa-assets --repo-root workspaces/white-box/external/GSA --assets-root workspaces/white-box/assets/gsa
-python -m diffaudit run-gsa-runtime-mainline --workspace workspaces/white-box/runs/gsa-runtime-mainline --repo-root workspaces/white-box/external/GSA --assets-root workspaces/white-box/assets/gsa --resolution 32 --ddpm-num-steps 20 --sampling-frequency 2 --attack-method 1
+python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
+python -m diffaudit run-gsa-runtime-mainline --workspace workspaces/white-box/runs/gsa-runtime-mainline --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa --resolution 32 --ddpm-num-steps 20 --sampling-frequency 2 --attack-method 1
 ```
 
 Probe and sample `DiT`:

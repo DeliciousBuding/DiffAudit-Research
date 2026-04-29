@@ -98,6 +98,9 @@ class ValidateAttackDefenseTableTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmpdir:
             table_path = Path(tmpdir) / "table.json"
+            absolute_source = str(
+                (Path(tmpdir) / "Research" / "experiments" / "recon" / "summary.json").resolve()
+            )
             table_path.write_text(
                 json.dumps(
                     {
@@ -111,7 +114,7 @@ class ValidateAttackDefenseTableTests(unittest.TestCase):
                                 "model": "Stable Diffusion v1.5 + DDIM",
                                 "evidence_level": "runtime-mainline",
                                 "boundary": "controlled / public-subset / risk-exists",
-                                "source": r"C:\DiffAudit\Research\experiments\recon\summary.json",
+                                "source": absolute_source,
                             }
                         ],
                     }

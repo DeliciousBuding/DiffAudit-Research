@@ -1,94 +1,66 @@
-# Research Repo Cleanup Status
+# Repository Cleanup Status
 
-更新时间：`2026-04-13`
+Last updated: `2026-04-29`
 
-## 当前判断
+This document is the current cleanup status for the Research repository. It is
+not a research roadmap; use [../ROADMAP.md](../ROADMAP.md) for active research
+direction and [research-governance.md](research-governance.md) for durable
+repository rules.
 
-`Research` 仓库已经有一批与 `SMP-LoRA` 稳定性探针直接相关的改动完成提交并推送，但剩余脏树仍然很大，不能继续靠肉眼处理。当前最合理的做法是把剩余改动分成可执行批次，而不是尝试一次性“洗干净整仓”。
+## Current State
 
-## 已完成的清理动作
+- Active cleanup branch: `research-governance-cleanup-20260429`
+- GPU work: frozen for governance cleanup
+- History rewrite: not performed
+- Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
+- Canonical evidence: workspace verdict notes, small `summary.json` files,
+  manifests, and admitted result tables
 
-- 已将本轮 `SMP-LoRA` 研究批次单独提交到：
-  - `020b37f research: seal smp-lora stability probes`
-- 已将 `outputs/` 下默认生成的训练目录加入忽略规则，只保留 `evaluation.json`
-- 已将 `workspaces/white-box/assets/` 默认纳入忽略规则，只保留 `manifest*.json / README.md / HANDOFF.md`
+## Completed In The 2026-04-29 Governance Pass
 
-## 当前剩余脏树分层
+- `ROADMAP.md` was compressed into a short steering document.
+- Long autonomous execution history moved to `legacy/execution-log/2026-04-29/`.
+- `workspaces/implementation/challenger-queue.md` now uses
+  `active / ready / hold / needs-assets / closed` sections.
+- Closed one-off `run_x*.py` scripts moved out of top-level `scripts/`.
+- Generated binary artifacts were removed from the current branch.
+- `.gitignore` was tightened so tracked curated files are not hidden by broad
+  ignore rules.
+- `scripts/check_public_surface.py` now guards against private paths, forbidden
+  artifacts, oversized tracked files, and tracked files hidden by `.gitignore`.
 
-### 1. `docs/` 大批量文档改动
+## Remaining Local State
 
-- 数量最多
-- 主要是论文报告、索引、协作文档、Feishu 关联文档
-- 风险：
-  - 这些文件跨度大
-  - 很可能混有多轮历史改动
-  - 不适合和研究主线实验批次混在一个提交里
+The working machine may still contain large ignored directories such as:
 
-### 2. `experiments/` summary.json 批量变更
+- `outputs/`
+- `workspaces/*/runs/*/checkpoints/`
+- `workspaces/*/runs/*/generated-images/`
+- `workspaces/*/runs/*/score-artifacts/`
+- upstream clones under `external/`
 
-- 多数是现成实验目录下的 `summary.json`
-- 更像历史实验状态回写
-- 风险：
-  - 很难在当前轮次验证每个 summary 的语义边界
-  - 应该按实验线单独核对，而不是仓库清洁时顺手提交
+These local directories are intentionally outside the Git review surface. If a
+result from them matters, promote a small curated summary into the relevant
+workspace before committing.
 
-### 3. `workspaces/` 历史研究文档与资产清单
+## Next Cleanup Priorities
 
-- 包含 gray-box / white-box / intake / implementation 多条线
-- 很多属于长期文档治理，不是一次研究 run 的自然副产物
+1. Keep public docs and onboarding documents product-facing.
+2. Keep `AGENTS.md` focused on agent operating discipline, not product copy.
+3. Keep `legacy/execution-log/` as traceability archive, not active roadmap.
+4. Keep `Download/` manifests current when asset locations or names change.
+5. Revisit history rewriting only after `docs/history-rewrite-audit.md` is
+   separately approved.
 
-### 4. `scripts/` / `tests/` / `src/` 存量未跟踪文件
+## Validation Commands
 
-- 这里是最需要第二轮精确筛选的区域
-- 既可能包含有效工具链，也可能混有半成品
+Run these before opening or updating governance PRs:
 
-## 推荐的后续清理顺序
-
-1. `scripts/ + tests/ + src/`
-   - 只处理真正进入当前研究主线的工具链
-2. `docs/`
-   - 先处理主线/治理文档
-   - 论文报告与 OCR 文档后置
-3. `experiments/`
-   - 只按主线证据包逐条核对
-4. `workspaces/`
-   - 按 black-box / gray-box / white-box / intake 分批清理
-
-## 当前不做什么
-
-- 不尝试一次性清空整个脏树
-- 不把几百个历史文档混成一个提交
-- 不把未核验的 `summary.json` 批量推上去
-- 不为追求“看起来干净”而回滚已有改动
-
-## 下一步建议批次
-
-### Batch A: toolchain hygiene
-
-- 范围：
-  - `scripts/`
-  - `tests/`
-  - `src/`
-- 目标：
-  - 锁定哪些工具已进入当前研究主线
-  - 哪些只是临时脚本
-
-### Batch B: research docs core
-
-- 范围：
-  - `ROADMAP.md`
-  - `docs/comprehensive-progress.md`
-  - `docs/reproduction-status.md`
-  - `docs/mainline-narrative.md`
-  - `workspaces/intake/`
-
-### Batch C: historical docs/experiments triage
-
-- 范围：
-  - `docs/paper-reports/`
-  - `experiments/`
-  - 其他长期存量文档
-
-## 备注
-
-这份文档的目的不是宣称仓库已完全干净，而是把“剩余为什么脏、下一步先动哪一层”固化下来，避免下轮重新从 `git status` 的海量输出里找方向。
+```powershell
+git status --short
+git diff --check
+python -X utf8 scripts/check_public_surface.py
+python -X utf8 scripts/verify_env.py
+python -X utf8 -m diffaudit --help
+python -X utf8 scripts/run_local_checks.py --fast
+```

@@ -52,7 +52,7 @@ This is enough to prove local executability, but it also proves the current line
 The prepared local rung config recorded:
 
 - base model:
-  - `C:/Users/<user>/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/...`
+  - `<HF_CACHE>/models--runwayml--stable-diffusion-v1-5/...`
 
 That means the bridge initially depended on a user Hugging Face cache snapshot instead of a canonical repo-declared staged model root.
 

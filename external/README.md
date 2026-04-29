@@ -12,7 +12,7 @@
 - `SecMI/`
   - full upstream clone kept for upstream config / split / structure reference
   - canonical in-repo minimal integration surface is `<DIFFAUDIT_ROOT>/Research/third_party/secmi/`
-- `PIA/`, `Reconstruction-based-Attack/`, `DiT/`, `DPDM/`, `mia-diffusion/`
+- `PIA/`, `Reconstruction-based-Attack/`, `GSA/`, `DiT/`, `DPDM/`, `mia-diffusion/`
   - upstream or exploratory code clones
 
 ## Not For
