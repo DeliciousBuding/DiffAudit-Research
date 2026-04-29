@@ -103,8 +103,7 @@ candidate-management surface; this file is only the current steering summary.
 
 ## 6. Governance Status
 
-The 2026-04-29 governance cleanup was merged to `main` through PR #26. Ongoing
-governance goals:
+PR #26 merged the governance cleanup to `main`. Ongoing governance goals:
 
 - Keep hot-path docs short and product/research-facing.
 - Move execution logs and one-off X-run scripts out of the public start path.

@@ -9,8 +9,7 @@ the roadmap chooses work; this document defines where work products belong.
 
 ## Current Governance Baseline
 
-The 2026-04-29 cleanup was merged to `main` through PR #26. The ongoing
-baseline is:
+PR #26 merged the governance cleanup to `main`. The ongoing baseline is:
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
