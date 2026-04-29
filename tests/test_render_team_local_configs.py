@@ -12,29 +12,29 @@ TEAM_LOCAL = {
     "repo": {"research_root": "."},
     "black_box": {
         "recon": {
-            "query_dataset_pt": "D:/datasets/recon/query.pt",
-            "lora_checkpoint_dir": "D:/models/recon/lora",
+            "query_dataset_pt": "/tmp/diffaudit-fixtures/datasets/recon/query.pt",
+            "lora_checkpoint_dir": "/tmp/diffaudit-fixtures/models/recon/lora",
         },
         "variation": {
-            "query_image_root": "D:/datasets/variation/images",
+            "query_image_root": "/tmp/diffaudit-fixtures/datasets/variation/images",
             "endpoint": "http://127.0.0.1:9000/variation",
         },
         "clid": {
             "dataset_train_ref": "train-ref",
             "dataset_test_ref": "test-ref",
-            "model_dir": "D:/models/clid",
+            "model_dir": "/tmp/diffaudit-fixtures/models/clid",
         },
     },
     "gray_box": {
         "pia": {
-            "dataset_parent": "D:/datasets/cifar10",
-            "model_dir": "D:/models/pia",
+            "dataset_parent": "/tmp/diffaudit-fixtures/datasets/cifar10",
+            "model_dir": "/tmp/diffaudit-fixtures/models/pia",
             "member_split_root": "external/PIA/DDPM",
         },
         "secmi": {
-            "dataset_root": "D:/datasets/secmi",
-            "model_dir": "D:/models/secmi",
-            "flagfile_path": "D:/models/secmi/flagfile.txt",
+            "dataset_root": "/tmp/diffaudit-fixtures/datasets/secmi",
+            "model_dir": "/tmp/diffaudit-fixtures/models/secmi",
+            "flagfile_path": "/tmp/diffaudit-fixtures/models/secmi/flagfile.txt",
         },
     },
     "white_box": {
@@ -59,10 +59,19 @@ class RenderTeamLocalConfigsTests(unittest.TestCase):
             pia = yaml.safe_load((output_dir / "pia.local.yaml").read_text(encoding="utf-8"))
             recon = yaml.safe_load((output_dir / "recon.local.yaml").read_text(encoding="utf-8"))
 
-            self.assertEqual(variation["assets"]["dataset_root"], "D:/datasets/variation/images")
+            self.assertEqual(
+                variation["assets"]["dataset_root"],
+                "/tmp/diffaudit-fixtures/datasets/variation/images",
+            )
             self.assertEqual(variation["attack"]["parameters"]["endpoint"], "http://127.0.0.1:9000/variation")
-            self.assertEqual(pia["assets"]["model_dir"], "D:/models/pia")
-            self.assertEqual(recon["assets"]["model_dir"], "D:/models/recon/lora")
+            self.assertEqual(
+                pia["assets"]["model_dir"],
+                "/tmp/diffaudit-fixtures/models/pia",
+            )
+            self.assertEqual(
+                recon["assets"]["model_dir"],
+                "/tmp/diffaudit-fixtures/models/recon/lora",
+            )
 
 
 if __name__ == "__main__":

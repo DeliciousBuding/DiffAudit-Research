@@ -117,9 +117,9 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
-  model_dir: D:/models/secmi/cifar10
+  model_dir: /tmp/diffaudit-fixtures/models/secmi/cifar10
 attack:
   method: secmi
   num_samples: 8
@@ -155,9 +155,9 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
-  model_dir: D:/models/secmi/cifar10
+  model_dir: /tmp/diffaudit-fixtures/models/secmi/cifar10
 attack:
   method: secmi
   num_samples: 8
@@ -178,8 +178,8 @@ report:
 
         self.assertEqual(plan.entrypoint, "mia_evals/secmia.py")
         self.assertEqual(plan.dataset, "cifar10")
-        self.assertEqual(plan.data_root, "D:/datasets/cifar10")
-        self.assertEqual(plan.model_dir, "D:/models/secmi/cifar10")
+        self.assertEqual(plan.data_root, "/tmp/diffaudit-fixtures/datasets/cifar10")
+        self.assertEqual(plan.model_dir, "/tmp/diffaudit-fixtures/models/secmi/cifar10")
         self.assertEqual(plan.t_sec, 100)
         self.assertEqual(plan.k, 10)
         self.assertEqual(plan.batch_size, 16)
@@ -242,7 +242,7 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
   model_dir: PLACEHOLDER
 attack:
@@ -310,9 +310,9 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
-  model_dir: D:/missing/secmi-model
+  model_dir: /tmp/diffaudit-fixtures/missing/secmi-model
 attack:
   method: secmi
   num_samples: 8

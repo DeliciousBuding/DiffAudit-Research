@@ -19,7 +19,7 @@
 
 `Download\` 不进 `Research` git 仓库。它是本地原始资产层，原因是这里会放大文件、许可受限文件、可重新下载的权重和压缩包。
 
-`<DIFFAUDIT_ROOT>` 是你自己机器上的项目根目录。它可以是 `C:\Users\<you>\DiffAudit`、`D:\Projects\DiffAudit`、`~/work/DiffAudit`，关键是 `Research/` 和 `Download/` 的相对角色不要变。
+`<DIFFAUDIT_ROOT>` 是你自己机器上的项目根目录。它可以位于任意工作目录；关键是 `Research/` 和 `Download/` 的相对角色不要变。
 
 如果你的机器路径不同，也没关系，只要保持同样的相对角色：
 
@@ -136,7 +136,7 @@ shared:
   ddpm_cifar10_model_dir: /absolute/path/to/DiffAudit/Download/shared/weights/google-ddpm-cifar10-32
 ```
 
-Windows 可以写成 `C:/...` 或 `D:/...`，Linux/macOS 可以写成 `/home/...` 或 `/Users/...`。这里的关键是“绝对路径”，不是盘符。
+Windows、Linux 和 macOS 都可以使用各自系统的绝对路径。这里的关键是“绝对路径”，不是盘符或特定用户目录。
 
 Then render local configs:
 

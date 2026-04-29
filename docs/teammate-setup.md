@@ -48,7 +48,7 @@ $env:DIFFAUDIT_ROOT = Split-Path -Parent (Resolve-Path .)
   Download\        # raw datasets / weights / supplementary bundles
 ```
 
-`<DIFFAUDIT_ROOT>` 是本地项目根目录，比如 `C:\Users\<you>\DiffAudit`、`D:\Projects\DiffAudit` 或 Linux/macOS 上的任意工作目录。`Download\` 不属于 git 仓库。新机器要么从项目资产镜像复制整个 `Download\`，要么按 [research-download-master-list.md](research-download-master-list.md) 的 first-wave 顺序下载。不要把这些大文件放回 `Research\external\`。
+`<DIFFAUDIT_ROOT>` 是本地项目根目录，可以位于任意工作目录。`Download\` 不属于 git 仓库。新机器要么从项目资产镜像复制整个 `Download\`，要么按 [research-download-master-list.md](research-download-master-list.md) 的 first-wave 顺序下载。不要把这些大文件放回 `Research\external\`。
 
 不要直接改共享配置里的占位符。
 
