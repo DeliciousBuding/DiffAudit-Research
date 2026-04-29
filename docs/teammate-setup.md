@@ -101,7 +101,7 @@ conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config co
 ### 白盒
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root workspaces/white-box/external/GSA --assets-root workspaces/white-box/assets/gsa
+conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 ```
 
 ## 4. Current Priority Sources

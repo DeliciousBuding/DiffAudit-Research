@@ -38,7 +38,7 @@ TEAM_LOCAL = {
         },
     },
     "white_box": {
-        "gsa": {"repo_root": "workspaces/white-box/external/GSA", "assets_root": "workspaces/white-box/assets/gsa"},
+        "gsa": {"repo_root": "external/GSA", "assets_root": "workspaces/white-box/assets/gsa"},
         "dpdm": {"repo_root": "external/DPDM"},
     },
 }

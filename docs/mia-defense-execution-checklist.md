@@ -74,7 +74,7 @@
 | `PIA` 官方仓 | `done` | [external/PIA](../external/PIA) | 继续用于灰盒主线 |
 | `SecMI` 官方仓 | `done` | [external/SecMI](../external/SecMI) | 继续用于 baseline / 资产探针 |
 | `SecMI` adapter 子集 | `done` | [third_party/secmi](../third_party/secmi) | 保持最小集成 |
-| `GSA` 官方仓 | `done` | [workspaces/white-box/external/GSA](../workspaces/white-box/external/GSA) | 继续用于白盒主线 |
+| `GSA` 官方仓 | `done` | `external/GSA` | ignored local upstream clone，继续用于白盒主线 |
 | `DPDM` 仓 | `done` | [external/DPDM](../external/DPDM) | 纳入 `W-1` 路线 |
 | `PIA` 真实资产根 | `done` | [workspaces/gray-box/assets/pia](../workspaces/gray-box/assets/pia) | 继续扩大样本和 provenance 核准 |
 | `GSA` 真实资产根 | `done` | [workspaces/white-box/assets/gsa](../workspaces/white-box/assets/gsa) | 继续扩大 checkpoint 和 split 规模 |

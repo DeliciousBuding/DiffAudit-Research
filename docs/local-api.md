@@ -244,7 +244,7 @@ job 元数据会写到：
   "contract_key": "white-box/gsa/ddpm-cifar10",
   "workspace_name": "api-gsa-runtime-mainline-001",
   "runtime_profile": "docker-default",
-  "repo_root": "<DIFFAUDIT_ROOT>/Research/workspaces/white-box/external/GSA",
+  "repo_root": "<DIFFAUDIT_ROOT>/Research/external/GSA",
   "assets": {
     "assets_root": "<DIFFAUDIT_ROOT>/Research/workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1"
   },
