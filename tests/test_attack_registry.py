@@ -74,7 +74,7 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
   model_dir: PLACEHOLDER
 attack:
@@ -141,7 +141,7 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
   model_dir: PLACEHOLDER
 attack:
@@ -195,9 +195,9 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
-  model_dir: D:/missing/model
+  model_dir: /tmp/diffaudit-fixtures/missing/model
 attack:
   method: secmi
   num_samples: 8
@@ -305,9 +305,9 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/missing/dataset-root
+  dataset_root: /tmp/diffaudit-fixtures/missing/dataset-root
   model_id: cifar10-ddpm
-  model_dir: D:/missing/model-root
+  model_dir: /tmp/diffaudit-fixtures/missing/model-root
 attack:
   method: secmi
   num_samples: 8
@@ -416,9 +416,9 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets
+  dataset_root: /tmp/diffaudit-fixtures/datasets
   model_id: cifar10-ddpm
-  model_dir: D:/checkpoints/pia
+  model_dir: /tmp/diffaudit-fixtures/checkpoints/pia
 attack:
   method: pia
   num_samples: 8
@@ -596,7 +596,7 @@ assets:
   dataset_train_ref: zsf/COCO_MIA_ori_split1
   dataset_test_ref: zsf/COCO_MIA_ori_split1
   model_id: sd15-shadow
-  model_dir: D:/models/clid/sd15
+  model_dir: /tmp/diffaudit-fixtures/models/clid/sd15
 attack:
   method: clid
   num_samples: 8
@@ -799,7 +799,7 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
   model_dir: PLACEHOLDER
 attack:
@@ -877,7 +877,7 @@ task:
 assets:
   dataset_id: cifar10-half
   dataset_name: cifar10
-  dataset_root: D:/datasets/cifar10
+  dataset_root: /tmp/diffaudit-fixtures/datasets/cifar10
   model_id: cifar10-ddpm
   model_dir: PLACEHOLDER
 attack:

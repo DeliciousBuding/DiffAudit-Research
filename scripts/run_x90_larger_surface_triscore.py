@@ -21,6 +21,26 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("workspaces/gray-box/runs/cdi-paired-canary-20260417-r3-contract/audit_summary.json"),
     )
+    parser.add_argument(
+        "--pia-undefended-run",
+        type=Path,
+        default=Path("workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive"),
+    )
+    parser.add_argument(
+        "--pia-defended-run",
+        type=Path,
+        default=Path("workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive"),
+    )
+    parser.add_argument(
+        "--tmiadm-undefended-run",
+        type=Path,
+        default=Path("workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260429-r1-gpu-512"),
+    )
+    parser.add_argument(
+        "--tmiadm-defended-run",
+        type=Path,
+        default=Path("workspaces/gray-box/runs/tmiadm-cifar10-late-window-temporal-striding-defense-20260429-r1-gpu-512"),
+    )
     return parser.parse_args()
 
 
@@ -36,30 +56,18 @@ def main() -> int:
         surfaces=[
             {
                 "name": "gpu512_undefended",
-                "pia_scores_path": Path("workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/scores.json"),
-                "pia_summary_path": Path("workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/summary.json"),
-                "tmiadm_family_scores_path": Path(
-                    "workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r2-seed1/family-scores.json"
-                ),
-                "tmiadm_summary_path": Path(
-                    "workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r2-seed1/summary.json"
-                ),
+                "pia_scores_path": args.pia_undefended_run / "scores.json",
+                "pia_summary_path": args.pia_undefended_run / "summary.json",
+                "tmiadm_family_scores_path": args.tmiadm_undefended_run / "family-scores.json",
+                "tmiadm_summary_path": args.tmiadm_undefended_run / "summary.json",
                 "tmiadm_family": "long_window",
             },
             {
                 "name": "gpu512_defended",
-                "pia_scores_path": Path(
-                    "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/scores.json"
-                ),
-                "pia_summary_path": Path(
-                    "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/summary.json"
-                ),
-                "tmiadm_family_scores_path": Path(
-                    "workspaces/gray-box/runs/tmiadm-cifar10-late-window-temporal-striding-defense-20260416-gpu-256-r2-seed1/family-scores.json"
-                ),
-                "tmiadm_summary_path": Path(
-                    "workspaces/gray-box/runs/tmiadm-cifar10-late-window-temporal-striding-defense-20260416-gpu-256-r2-seed1/summary.json"
-                ),
+                "pia_scores_path": args.pia_defended_run / "scores.json",
+                "pia_summary_path": args.pia_defended_run / "summary.json",
+                "tmiadm_family_scores_path": args.tmiadm_defended_run / "family-scores.json",
+                "tmiadm_summary_path": args.tmiadm_defended_run / "summary.json",
                 "tmiadm_family": "long_window",
             },
         ],

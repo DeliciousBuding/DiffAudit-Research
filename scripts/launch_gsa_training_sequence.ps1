@@ -24,7 +24,7 @@ $ErrorActionPreference = "Stop"
 
 $repoRootDir = Split-Path -Parent $PSScriptRoot
 if ($RepoRoot -eq "") {
-    $RepoRoot = Join-Path $repoRootDir "workspaces\white-box\external\GSA"
+    $RepoRoot = Join-Path $repoRootDir "external\GSA"
 }
 if ($TrainScript -eq "") {
     $TrainScript = Join-Path $RepoRoot "DDPM\train_unconditional.py"
