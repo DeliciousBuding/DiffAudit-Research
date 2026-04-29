@@ -130,6 +130,17 @@ class ValidateIntakeIndexTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmpdir:
             temp_root = Path(tmpdir)
+            absolute_summary = str(
+                (
+                    temp_root
+                    / "Research"
+                    / "workspaces"
+                    / "white-box"
+                    / "runs"
+                    / "gsa-runtime-mainline-20260408-cifar10-1k-3shadow"
+                    / "summary.json"
+                ).resolve()
+            )
             manifest_rel = "workspaces/white-box/assets/gsa/manifests/cifar10-ddpm-mainline.json"
             manifest_path = temp_root / manifest_rel
             manifest_path.parent.mkdir(parents=True, exist_ok=True)
@@ -151,7 +162,7 @@ class ValidateIntakeIndexTests(unittest.TestCase):
                             "target": "workspaces/white-box/assets/gsa/checkpoints/target",
                         },
                         "checkpoint_format": "accelerate-checkpoint-dir",
-                        "canonical_summary": r"C:\DiffAudit\Research\workspaces\white-box\runs\gsa-runtime-mainline-20260408-cifar10-1k-3shadow\summary.json",
+                        "canonical_summary": absolute_summary,
                     }
                 ),
                 encoding="utf-8",

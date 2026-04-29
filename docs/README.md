@@ -61,6 +61,9 @@ the public reading path.
 | --- | --- |
 | [github-collaboration.md](github-collaboration.md) | Branch, permission, and PR collaboration guide |
 | [github-settings-baseline.md](github-settings-baseline.md) | GitHub repository setting baseline |
+| [research-governance.md](research-governance.md) | Repository boundaries, artifact policy, and execution-log rules |
+| [research-governance-audit-2026-04-29.md](research-governance-audit-2026-04-29.md) | Current-branch governance audit and cleanup rationale |
+| [history-rewrite-audit.md](history-rewrite-audit.md) | Future history-slimming audit, force-push risk, and rollback plan |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | Contribution workflow |
 | [../SECURITY.md](../SECURITY.md) | Security reporting policy and scope |
 | [../CITATION.cff](../CITATION.cff) | Machine-readable repository citation metadata |

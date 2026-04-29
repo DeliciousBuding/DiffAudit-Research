@@ -27,20 +27,29 @@
 
 ## 当前固定排序
 
-1. `04-defense`
-2. `05-cross-box`
-3. `02-gray-box`
-4. `03-white-box`
-5. `01-black-box`
-6. `06-g1a`
+1. `Research governance cleanup`
+2. `X-181 I-A / cross-box boundary maintenance after H2 comparator block`
+3. `05-cross-box`
+4. `02-gray-box`
+5. `03-white-box`
+6. `01-black-box`
+7. `06-g1a`
 
 ## 当前正式解释
 
 上面的列表必须按三层理解：
 
-1. `04 -> 05`
-   - 当前 active slot 已切到 `04`
-   - `05` 已有 promoted result，但 `H4` 首包只给出 auxiliary/cost-saver 读法
+1. `Research governance cleanup`
+   - 当前清理分支冻结 GPU 和新实验，先整理热路径、脚本、资产边界与历史重写审计
+   - `X-180` 已关闭为 `positive reselection / GPU hold`
+   - 治理完成后的下一条 CPU-first lane 是 `X-181 I-A / cross-box boundary maintenance after H2 comparator block`
+2. `X-181 I-A / cross-box boundary maintenance after H2 comparator block`
+   - `X-141 / X-142` 已把 `G1-A / X-90` 解冻为 `two-seed internal auxiliary positive`
+   - `X-143` 已同步其 internal-only 边界，因此下一步不再是 `G1-A` 同合同续跑
+   - `X-145 / X-146 / X-148 / X-150` 已把 `03-H1 activation-subspace` mean-profile selector scout 收口为 `negative but useful`；`X-153 / X-154` 进一步测试 per-timestep activation trajectory，但 validation-selected feature 未过 holdout fire gate，因此当前不再继续 activation salvage
+   - `04` 已完成 `H2` 4/4 negative-but-useful 收口；`X-156 / X-157 / X-158 / X-159 / X-160 / X-161 / X-162 / X-163` 已把 H3 selective all-steps gating 收口为 candidate-only positive-hardening / GPU hold
+   - `05` 已有 promoted result，`H4` 首包只给出 auxiliary/cost-saver 读法；`X-165` tri-surface consensus 又关闭了现有 surface fusion 捷径
+   - `X-166` 已完成边界硬化，避免把 H3 或 tri-fusion 写成 deployable/admitted 结果；`X-167` 已选择 `X-168 01-black-box H2 strength-response`；`X-168` 首轮 `64 / 64` scout 正向；`X-170` 显示 H1 response-cloud 低 FPR 失败；`X-171` frequency-filter ablation 支持 H2 不是 high-frequency-only；`X-172` 非重叠 `128 / 128` validation 通过；`X-175` CPU stress 通过；`X-176` 非重叠 `256 / 256` validation 通过；`X-177` 冻结 comparator-first hold；`X-178` 又确认 direct admitted-`recon` comparator 在 X176 上协议不兼容；`X-179` 确认 X176 simple reconstruction-distance sanity comparators 已足够、不释放新 GPU；`X-180` 已完成 nongraybox reselection 并关闭为 GPU hold，因此下一步是 `I-A / cross-box` 边界维护，而不是继续追加 H2 GPU
 2. `02 -> 03`
    - 支持链
    - 只在能服务主链时推进
@@ -48,8 +57,9 @@
    - parked candidate pool
    - 当前不应消耗近端主资源
 4. `06`
-   - 当前保留为治理退路
-   - `H5` 可见，但不再占近端主槽位
+   - per-sample `H1/H2` 仍是 miss
+   - `H5` 可见，但只是治理退路
+   - direct `G1-A / X-90` two-seed 512 result 属于 internal auxiliary evidence，不是 admitted headline
 
 这不再是“六条平行执行线”的列表。
 
@@ -57,9 +67,11 @@
 
 ### 当前定位
 
-`06-g1a` 是当前最靠近 blocker-resolution 的候选。
+`06-g1a` 曾经是最靠近 `X-90 / TMIA-DM 512-sample gap` blocker-resolution 的候选，但这个 blocker 已经通过 `X-141 / X-142` 真实补齐。
 
-它直接对应 `X-90 / TMIA-DM 512-sample gap`，因此不是“再多做一条新攻击线”，而是当前最有资格占近端主槽位的 blocker 解决路径。
+因此它现在不再占近端主槽位，也不是“继续多跑几个 seed”的默认 GPU 路径；它只保留为 internal-only auxiliary gray-box evidence 与后续 fresh reselection 的边界输入。
+
+2026-04-29 更新：direct `TMIA-DM 512` blocker 已通过 `X-141 / X-142` 被真实补齐，两次 matched `512 / 512` tri-score review 都为 positive-but-bounded。`X-143` 已把 consumer boundary 同步为：per-sample surrogate `H1/H2` miss 仍然成立，direct `G1-A / X-90` 不再是 `needs-assets`，但只应读作 `two-seed internal auxiliary positive`，且仍不得升级成 admitted headline。
 
 截至 `2026-04-18`，仓库里已经落下一套真实可跑的 `H1` surface：
 
@@ -348,12 +360,13 @@
 
 在真正进入下一条候选验证时，审查顺序为：
 
-1. `06-g1a`
-2. `05-cross-box`
+1. `fresh nongraybox / GPU-candidate reselection`
+2. `I-A low-FPR / adaptive-attacker boundary maintenance`
 3. `04-defense`
-4. `02-gray-box`
-5. `03-white-box`
+4. `05-cross-box`
+5. `02-gray-box`
 6. `01-black-box`
+7. `06-g1a`
 
 条件项：
 

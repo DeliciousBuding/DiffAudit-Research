@@ -41,7 +41,7 @@ gray_box:
 
 white_box:
   gsa:
-    repo_root: workspaces/white-box/external/GSA
+    repo_root: external/GSA
     assets_root: workspaces/white-box/assets/gsa
   dpdm:
     repo_root: external/DPDM

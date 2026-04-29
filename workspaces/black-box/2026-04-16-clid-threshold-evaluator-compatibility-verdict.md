@@ -47,7 +47,7 @@ The current target-side rung writes two score files that are already close to th
 
 The first header line of the current target-side local rung still records:
 
-- `diff_path = C:/Users/<user>/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/...`
+- `diff_path = <HF_CACHE>/models--runwayml--stable-diffusion-v1-5/...`
 
 So even though staged-path preparation now exists separately, the already-executed local benchmark evidence still points at the user cache snapshot rather than the canonical staged SD1.5 root.
 

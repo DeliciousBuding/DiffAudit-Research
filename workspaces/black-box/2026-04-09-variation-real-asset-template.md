@@ -95,7 +95,7 @@ task:
   access_level: black_box
 assets:
   dataset_id: variation-query-set-v1
-  dataset_root: D:/path/to/variation-query-set
+  dataset_root: <DATASET_ROOT>/variation-query-set
   model_id: variation-api-target
 attack:
   method: variation
