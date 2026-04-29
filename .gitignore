@@ -38,7 +38,7 @@ experiments/**/generated-images/
 experiments/**/score-artifacts/
 experiments/**/sample.png
 experiments/**/synthetic-*-assets/
-experiments/_tmp_*/
+experiments/_tmp_kandinsky_repro/
 
 # Local or generated session transcripts
 docs/handoff.md

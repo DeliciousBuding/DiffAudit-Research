@@ -83,6 +83,17 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     manifest_root = args.workspace_root / f"x141-tmiadm512-asset-generation-{args.run_suffix}"
+    manifest_summary_path = manifest_root / "summary.json"
+    if manifest_summary_path.exists() and not args.overwrite:
+        summary = _read_json(manifest_summary_path)
+        summary["reused_existing_manifest"] = True
+        print(json.dumps(summary, indent=2, ensure_ascii=True))
+        return 0
+    if manifest_root.exists() and not args.overwrite and any(manifest_root.iterdir()):
+        raise FileExistsError(
+            f"Manifest workspace exists but has no summary: {manifest_root}. "
+            "Pass --overwrite to replace it."
+        )
     manifest_root.mkdir(parents=True, exist_ok=True)
 
     undefended_workspace = (
@@ -158,10 +169,10 @@ def main() -> int:
             "The follow-up X-90 tri-score review must still enforce identity alignment against matched PIA 512 surfaces.",
         ],
         "artifacts": {
-            "summary": str((manifest_root / "summary.json").as_posix()),
+            "summary": str(manifest_summary_path.as_posix()),
         },
     }
-    (manifest_root / "summary.json").write_text(
+    manifest_summary_path.write_text(
         json.dumps(summary, indent=2, ensure_ascii=True),
         encoding="utf-8",
     )
