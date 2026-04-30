@@ -10,7 +10,7 @@ repository rules.
 ## Current State
 
 - Active long-running cleanup branch: none; governance work should stay PR-scoped
-- Merged cleanup baseline: PR #26 through PR #38 are merged to `main`
+- Merged cleanup baseline: PR #26 through PR #39 are merged to `main`
 - GPU work: no active GPU task
 - History rewrite: not performed
 - Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
@@ -52,8 +52,8 @@ repository rules.
   references to the removed `src/diffaudit/cli.py` single-file entrypoint.
 - PR #38 removed empty tracked package directories under `src/diffaudit/` and
   made SecMI tests independent of ignored local clones.
-- Codebase rebuild planning now has a dedicated entry point under
-  `docs/rebuild/`.
+- PR #39 added `docs/rebuild/` as the dedicated codebase rebuild planning
+  surface.
 
 ## Remaining Local State
 

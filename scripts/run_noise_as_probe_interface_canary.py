@@ -24,8 +24,13 @@ from diffusers import (
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
 
-from external.SecMI.mia_evals.measures.ssim import ssim
+from diffaudit.utils.optional_secmi import load_secmi_ssim
+
+ssim = load_secmi_ssim()
 
 
 def parse_args() -> argparse.Namespace:
