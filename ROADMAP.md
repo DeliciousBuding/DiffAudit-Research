@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** H2 lowpass-tail contract review
-- **Next GPU task:** none active; eligible only under the frozen H2 cutoff-0.50 contract
-- **CPU work:** PR #44 evidence sync and review closure
+- **Active work:** H2 response-strength post-validation synthesis
+- **Next GPU task:** none selected
+- **CPU work:** PR #44 evidence sync and next-lane selection
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,11 +29,11 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume by reviewing PR #44 and deciding whether to run exactly one future H2
-lowpass follow-up under
-`docs/evidence/h2-lowpass-followup-contract.md`. Raw-primary H2 kept high AUC
-but failed the strict `TPR@0.1%FPR` gate; cutoff-0.50 lowpass H2 is the only
-remaining bounded candidate. No Platform or Runtime schema change is implied.
+Resume by reviewing PR #44 after the frozen H2 lowpass follow-up. The result is
+positive but bounded on `DDPM/CIFAR10`: cutoff-0.50 lowpass passed the candidate
+gate, and raw H2 also recovered strict-tail signal on the fresh packet. Do not
+run another DDPM/CIFAR10 H2 scaling packet; the next research slot should either
+define a portable cross-asset black-box contract or return to another lane.
 
 ## Key Documents
 

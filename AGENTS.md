@@ -28,9 +28,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `H2 lowpass-tail contract review`
-- Next GPU task: `none active; cutoff-0.50 H2 lowpass packet is the only eligible candidate`
-- CPU work: `PR #44 evidence sync`
+- Active work: `H2 response-strength post-validation synthesis`
+- Next GPU task: `none selected`
+- CPU work: `PR #44 evidence sync and next-lane selection`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 

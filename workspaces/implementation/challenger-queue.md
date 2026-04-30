@@ -7,31 +7,30 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `H2 lowpass-tail contract review`
-- Next GPU task: `none active; cutoff-0.50 H2 lowpass packet is only eligible candidate`
-- CPU work: `PR #44 evidence sync`
+- Active work: `H2 response-strength post-validation synthesis`
+- Next GPU task: `none selected`
+- CPU work: `PR #44 evidence sync and next-lane selection`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
-  `DDPM/CIFAR10`; not yet verified, not a `recon` replacement
+  `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
 - Internal gray-box result: useful for research triage, not public evidence
 
 ## Active
 
-### H2 lowpass-tail contract review
+### H2 response-strength post-validation synthesis
 
 - `mode`: CPU-only boundary work
 - `status`: active
-- `goal`: decide whether to run exactly one second-packet H2 lowpass follow-up
-  under the frozen cutoff-0.50 contract
+- `goal`: sync PR #44 and decide whether the next slot is cross-asset H2
+  contract design or a different black-box lane
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-Raw-primary H2 512 / 512 validation closed negative-but-useful: AUC remains
-strong, but the strict low-FPR gate failed. Mid-band lowpass H2 recovered the
-strict tail on the same cache. The follow-up contract is now frozen in
-`docs/evidence/h2-lowpass-followup-contract.md`; no GPU run is active until it
-is explicitly selected.
+Frozen H2 lowpass follow-up closed positive-but-bounded on `DDPM/CIFAR10`.
+Cutoff-0.50 lowpass passed the candidate gate, and raw H2 also recovered
+strict-tail signal on the fresh packet. Do not schedule more same-family H2
+scaling; the next claim needs portability.
 
 ## Ready
 
@@ -80,10 +79,10 @@ is explicitly selected.
 ### Response-strength black-box candidate
 
 - `mode`: black-box candidate
-- `reason for hold`: raw-primary 512 / 512 validation failed the strict
-  low-FPR gate.
-- `reopen trigger`: frozen compatible comparator contract or a CPU preflight
-  that can justify one future validation experiment.
+- `reason for hold`: positive-but-bounded on `DDPM/CIFAR10`, but not admitted
+  or portable.
+- `reopen trigger`: a cross-asset black-box contract with dataset, model, split,
+  and query-budget boundaries.
 
 ## Needs Data
 
@@ -109,6 +108,7 @@ is explicitly selected.
 | CLI package/dispatch split | `diffaudit.cli` is now a package with parser and dispatch separated. |
 | Cross-box evidence boundary hardening | Candidate-only. Existing cross-box packets are useful for internal comparison but do not establish stable low-FPR gains. |
 | H2 raw-primary 512 / 512 validation | Negative-but-useful. Raw H2 kept AUC signal but failed `TPR@0.1%FPR`; lowpass tail review remains active. |
+| H2 lowpass follow-up 512 / 512 validation | Positive-but-bounded. Cutoff-0.50 lowpass passed the frozen candidate gate; H2 remains candidate-only and needs portability evidence before promotion. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
 | Architecture triage | Fixed dependency issues; added package initializers; aligned local checks with CI. |
 | Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |

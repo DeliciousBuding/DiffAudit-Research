@@ -22,7 +22,7 @@ Smoke tests and dry runs are engineering validation, not benchmark claims.
 | Black-box `recon` | `evidence-ready` | Strongest black-box method. Public data limits strict paper-aligned claims. |
 | Black-box `CLiD` | `code-ready` | Supporting method, not a headline replacement. |
 | Black-box `variation` | `code-ready` | API-only support method; needs real query data for stronger claims. |
-| Black-box `H2 response-strength` | candidate-only | Raw-primary 512 / 512 validation is negative-but-useful: strong AUC, failed strict low-FPR gate. A fixed cutoff-0.50 lowpass follow-up contract exists but is not admitted evidence. See [black-box-response-strength-preflight.md](black-box-response-strength-preflight.md) and [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md). |
+| Black-box `H2 response-strength` | candidate-only | Positive-but-bounded DDPM/CIFAR10 candidate: frozen cutoff-0.50 lowpass follow-up passed, and raw H2 recovered strict-tail signal on the fresh packet. Not admitted evidence or a `recon` replacement. See [black-box-response-strength-preflight.md](black-box-response-strength-preflight.md) and [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md). |
 | Gray-box `PIA` | `evidence-ready` | Strongest attack + defense story. Primary gray-box method. |
 | Gray-box `SecMI` | `code-ready` | Independent reference method. |
 | Gray-box `TMIA-DM` | `code-ready` | Strong alternative, secondary to PIA. |

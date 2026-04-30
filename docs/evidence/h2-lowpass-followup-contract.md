@@ -1,12 +1,12 @@
 # H2 Lowpass Follow-up Contract
 
-This note freezes the next decision point for the H2 response-strength line.
-It is a candidate contract, not admitted evidence and not a Platform or Runtime
-handoff.
+This note records the frozen follow-up contract and result for the H2
+response-strength line. It is candidate evidence, not admitted evidence and not
+a Platform or Runtime handoff.
 
 ## Current Verdict
 
-`negative but useful`
+`positive but bounded candidate`
 
 The 512 / 512 raw-primary validation kept strong ranking signal but failed the
 strict tail gate:
@@ -20,6 +20,30 @@ strict tail gate:
 The raw H2 candidate is closed for promotion. The only live question is whether
 a predeclared mid-band lowpass scorer can reproduce tail signal on a fresh
 packet without becoming a frequency-filter artifact.
+
+## Follow-up Result
+
+The frozen fresh-offset packet passed the candidate gate:
+
+| Scorer | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR |
+| --- | ---: | ---: | ---: | ---: |
+| Raw H2 logistic | 0.922562 | 0.845703 | 0.292969 | 0.099609 |
+| Best simple low-FPR comparator | 0.812347 | 0.748047 | 0.064453 | 0.005859 |
+| Lowpass H2 logistic, cutoff 0.50 | 0.908684 | 0.833008 | 0.181641 | 0.082031 |
+
+Cutoff sensitivity on the same response cache:
+
+| Cutoff | AUC | TPR@1%FPR | TPR@0.1%FPR | Beats simple low-FPR comparator |
+| ---: | ---: | ---: | ---: | --- |
+| 0.25 | 0.869682 | 0.107422 | 0.015625 | yes |
+| 0.35 | 0.898300 | 0.154297 | 0.091797 | yes |
+| 0.50 | 0.908718 | 0.183594 | 0.082031 | yes |
+| 0.65 | 0.916321 | 0.244141 | 0.080078 | yes |
+| 0.75 | 0.919994 | 0.277344 | 0.087891 | yes |
+| 0.90 | 0.922089 | 0.285156 | 0.097656 | yes |
+
+This closes the lowpass artifact concern for the current DDPM/CIFAR10 packet.
+It does not prove portability beyond this asset family.
 
 ## Frozen Follow-up Hypothesis
 
@@ -39,18 +63,14 @@ scorers remain sanity comparators, especially `negative_slope`.
 
 ## Follow-up Packet
 
-The next GPU task is not active. It becomes eligible only if the branch is
-otherwise clean and the runner can use portable asset paths supplied by the
-operator environment.
-
-If scheduled, the follow-up packet should use:
+The completed packet used:
 
 | Field | Value |
 | --- | --- |
 | Dataset/model family | DDPM / CIFAR10 only |
 | Permission level | black-box response observation |
 | Packet size | 512 member / 512 nonmember |
-| Split offset | a fresh non-overlap offset not used by earlier H2 packets |
+| Split offset | 1024 |
 | Timesteps | 40, 80, 120, 160 |
 | Repeats | 2 |
 | Denoise stride | 10 |
@@ -58,9 +78,9 @@ If scheduled, the follow-up packet should use:
 | Secondary scorer | raw H2 logistic |
 | Same-cache comparator | best simple low-FPR scorer |
 
-## Admission Gate
+## Candidate Gate
 
-The follow-up may strengthen the H2 candidate line only if all conditions hold:
+The follow-up strengthened the H2 candidate line because all conditions held:
 
 | Gate | Requirement |
 | --- | --- |
@@ -70,26 +90,15 @@ The follow-up may strengthen the H2 candidate line only if all conditions hold:
 | 1% operating point | primary `TPR@1%FPR` is not lower than the best simple low-FPR comparator |
 | Artifact guard | nearby cutoffs `0.35` and `0.65` do not both collapse to zero strict-tail signal |
 
-Passing this gate still does not make H2 admitted evidence. It only allows a
+Passing this gate does not make H2 admitted evidence. It only allows a
 candidate-strengthening verdict.
 
-## Failure Rule
+## Next Boundary
 
-Close the lowpass branch without another immediate GPU retry if any of these
-happen:
-
-- `TPR@0.1%FPR = 0` for cutoff `0.50`,
-- cutoff `0.50` fails to beat the best same-cache simple low-FPR comparator,
-- AUC drops by more than `0.03` versus raw H2 logistic,
-- only one hand-picked cutoff works while neighboring cutoffs collapse,
-- the run requires a non-portable local path assumption to be meaningful.
-
-The honest failure verdict is:
-
-```text
-negative but useful; H2 remains a ranking-signal candidate, not a low-FPR
-black-box admission path.
-```
+Do not schedule another DDPM/CIFAR10 H2 scaling packet. The next honest
+question is portability: a different black-box asset family with explicit
+dataset, model, split, and query-budget contracts. Without that, H2 remains a
+DDPM/CIFAR10 candidate surface.
 
 ## System Boundary
 

@@ -7,19 +7,17 @@
 - `variation`: API-only support; needs real query-image data for stronger claims.
 - `semantic-auxiliary-classifier`: current alternative candidate.
 - `H2 response-strength`: live candidate with positive non-overlap signal;
-  raw-primary 512 / 512 validation is negative-but-useful. Mid-band lowpass
-  recovered strict-tail signal on the saved cache; the follow-up contract is
-  frozen in the evidence docs.
+  frozen lowpass follow-up is positive-but-bounded on `DDPM/CIFAR10`.
 
 ## Next Action
 
-Review whether one second-packet lowpass H2 follow-up is worth running under
-[../../docs/evidence/h2-lowpass-followup-contract.md](../../docs/evidence/h2-lowpass-followup-contract.md).
-Keep status synchronized with [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
+Decide whether the next black-box research slot should define a cross-asset H2
+contract or switch back to `recon` / API-only candidate work. Keep status
+synchronized with [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status
 
 Stable admitted baseline plus one live candidate. The current candidate is H2
-response-strength; raw-primary validation failed its strict low-FPR gate, so no
-GPU task is active unless the cutoff-0.50 follow-up contract is explicitly
-selected.
+response-strength; it is positive-but-bounded on `DDPM/CIFAR10`, but no GPU
+task is active because the next claim requires cross-asset portability rather
+than more same-family scaling.
