@@ -13,31 +13,18 @@ X-180 anchors live under
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = code governance / CLI dispatch registry split`
-- `next_cpu_sidecar = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
+- `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
+- `next_cpu_sidecar = Public-surface / hot-path sync`
 - `gray_box_slot = yield`
 - `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
 - `G1-A / X-90 = two-seed internal auxiliary positive`
 
 ## Active
 
-### Code governance / CLI dispatch registry split
-
-- `mode`: CPU-only architecture cleanup
-- `status`: active
-- `verdict target`: `main()` becomes parser + registry dispatch; the remaining
-  command bodies are grouped by category without changing command names,
-  arguments, JSON fields, exit behavior, or workspace artifact schemas.
-- `GPU`: no
-- `handoff`: no Platform or Runtime schema change
-
-This item continues the repository cleanup lane after the local asset-boundary
-cleanup and first CLI package split were merged.
-
 ### X-181 I-A / cross-box boundary maintenance after H2 comparator block
 
 - `mode`: CPU-only boundary hardening
-- `status`: ready after CLI governance PR closes
+- `status`: active
 - `verdict target`: formal statement / adaptive-attacker / low-FPR boundary
   note plus updates to current evidence summaries
 - `GPU`: no
@@ -120,6 +107,8 @@ GPU release.
 
 | Range | Verdict |
 | --- | --- |
+| `2026-04-30 CLI package/dispatch split` | `diffaudit.cli` is now a package with parser and dispatch separated; dispatch uses a command registry with parser-vs-handler contract coverage. |
+| `2026-04-30 local asset boundary cleanup` | Local raw assets and generated run payloads were moved out of the Research working tree; `Download/` remains raw intake and `Archive/research-local-artifacts/` holds generated local artifacts. |
 | `2026-04-30 architecture triage` | Corrected the external audit packet into a durable governance note; fixed `src -> scripts` DDPM factory dependency; added package initializers; aligned local checks with CI guards. |
 | `2026-04-30 Phase 0 utils` | Shared utility extraction merged; metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |
 | `2026-04-30 IA reset` | Information architecture reset merged; public docs, internal docs, workspace archives, and asset boundaries reorganized. |
