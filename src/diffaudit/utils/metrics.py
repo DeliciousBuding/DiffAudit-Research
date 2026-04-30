@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import numpy as np
-from sklearn.metrics import roc_auc_score, roc_curve
 
 
 def round6(value: float) -> float:
@@ -57,6 +56,11 @@ def spearman(values_a: np.ndarray, values_b: np.ndarray) -> float:
     return float(corr)
 
 
+def _require_binary_labels(labels: np.ndarray) -> None:
+    if int((labels == 1).sum()) == 0 or int((labels == 0).sum()) == 0:
+        raise ValueError("labels must contain at least one member (1) and one nonmember (0)")
+
+
 def orient_member_nonmember(
     member_scores: np.ndarray,
     nonmember_scores: np.ndarray,
@@ -67,6 +71,7 @@ def orient_member_nonmember(
 
 
 def orient_scores_by_labels(values: np.ndarray, labels: np.ndarray) -> np.ndarray:
+    _require_binary_labels(labels)
     member_mean = float(values[labels == 1].mean())
     nonmember_mean = float(values[labels == 0].mean())
     if member_mean < nonmember_mean:
@@ -75,6 +80,7 @@ def orient_scores_by_labels(values: np.ndarray, labels: np.ndarray) -> np.ndarra
 
 
 def roc_curve_points(scores: np.ndarray, labels: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    _require_binary_labels(labels)
     order = np.argsort(-scores, kind="mergesort")
     scores_sorted = scores[order]
     labels_sorted = labels[order]
@@ -129,6 +135,9 @@ def metric_bundle(scores: np.ndarray, labels: np.ndarray) -> dict[str, float]:
 
 
 def threshold_metrics_grid(labels: np.ndarray, scores: np.ndarray) -> dict[str, float]:
+    from sklearn.metrics import roc_auc_score, roc_curve
+
+    _require_binary_labels(labels)
     auc = float(roc_auc_score(labels, scores))
     fpr, tpr, _thresholds = roc_curve(labels, scores)
     tpr_at_1pct = tpr_at_fpr_from_curve(fpr, tpr, 0.01)
