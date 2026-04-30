@@ -1,4 +1,4 @@
-# X-180 Nongraybox Reselection After H2 Comparator Block
+﻿# X-180 Nongraybox Reselection After H2 Comparator Block
 
 Date: 2026-04-29
 Status: `positive reselection / GPU hold`
@@ -29,9 +29,9 @@ The release bar is intentionally strict:
 - Current control surfaces:
   - `ROADMAP.md`
   - `workspaces/implementation/challenger-queue.md`
-  - `docs/comprehensive-progress.md`
-  - `docs/future-phase-e-intake.md`
-  - `docs/mainline-narrative.md`
+  - `docs/internal/comprehensive-progress.md`
+  - `docs/internal/future-phase-e-intake.md`
+  - `docs/internal/mainline-narrative.md`
 - Read-only backlog critic:
   - verdict: no honest next GPU candidate; keep GPU hold; make `I-A / cross-box boundary maintenance` the next main lane.
 - Host check:

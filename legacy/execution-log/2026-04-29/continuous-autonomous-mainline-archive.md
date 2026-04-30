@@ -1,4 +1,4 @@
-# DiffAudit Research ROADMAP — Continuous Autonomous Mainline
+﻿# DiffAudit Research ROADMAP — Continuous Autonomous Mainline
 
 > Last updated: 2026-04-29 17:08
 > Mode: continuous autonomous research
@@ -95,9 +95,9 @@ Fresh sessions should always read in this order:
 1. `<DIFFAUDIT_ROOT>/ROADMAP.md`
 2. `<DIFFAUDIT_ROOT>/Research/ROADMAP.md`
 3. `<DIFFAUDIT_ROOT>/Research/AGENTS.md`
-4. `<DIFFAUDIT_ROOT>/Research/docs/researcher-agent-architecture.md`
+4. `<DIFFAUDIT_ROOT>/Research/docs/internal/researcher-agent-architecture.md`
 5. `<DIFFAUDIT_ROOT>/Research/README.md`
-6. `<DIFFAUDIT_ROOT>/Research/docs/comprehensive-progress.md`
+6. `<DIFFAUDIT_ROOT>/Research/docs/internal/comprehensive-progress.md`
 7. `<DIFFAUDIT_ROOT>/Download/manifests/research-download-manifest.json`
 8. lane-specific workspace docs only after the task is narrowed
 
@@ -199,12 +199,12 @@ At meaningful checkpoints, the main agent should trigger at least one self-revie
 - Explorer hypotheses: 9 new bounded CPU-first candidates (3 per box)
 
 **Report reception**:
-- `docs/report-bundles/gpt54/round1-results/` first-round raw results preserved
-- `docs/report-bundles/gpt54/round2-results/` second-round raw results preserved
+- `docs/internal/report-bundles/gpt54/round1-results/` first-round raw results preserved
+- `docs/internal/report-bundles/gpt54/round2-results/` second-round raw results preserved
 
 **Canonical convergence anchor**:
 - round-2 planning convergence is now maintained directly in `ROADMAP.md`
-- `docs/comprehensive-progress.md` carries the synced higher-layer summary
+- `docs/internal/comprehensive-progress.md` carries the synced higher-layer summary
 
 **Planning convergence**:
 - active execution is no longer six-way parallel
@@ -562,7 +562,7 @@ Execution rule:
 - `X-77` is now closed as `positive but bounded`: the first real bounded `64`-per-split actual packet now exists on the frozen white-box loss-score contract, and its shadow-transferred target board lands at `AUC = 0.699463 / ASR = 0.632812 / TPR@1%FPR = 0.03125 / TPR@0.1%FPR = 0.03125`, which is real auxiliary evidence but still below release-grade low-FPR honesty
 - `X-78` is now closed as `positive but stabilizing`: the first actual loss-score packet is now boundary-reviewed and should be frozen as bounded auxiliary white-box evidence rather than promoted or immediately extended by another same-family packet, because the branch is executable and genuinely positive but still weak at low FPR and lacks a new bounded follow-up hypothesis
 - `X-79` is now closed as `positive`: once the white-box loss-score branch is frozen below immediate continuation and no stale sync remains above it, the strongest next live lane returns to `I-A` truth-hardening rather than another box-local follow-up or forced candidate expansion
-- `X-80` is now closed as `positive`: one active higher-layer residue still existed in `docs/mainline-narrative.md`, whose current-state paragraph was still frozen at `X-76`; that residue is now cleared and the doc again carries the post-`X-77 / X-78 / X-79` control-plane truth
+- `X-80` is now closed as `positive`: one active higher-layer residue still existed in `docs/internal/mainline-narrative.md`, whose current-state paragraph was still frozen at `X-76`; that residue is now cleared and the doc again carries the post-`X-77 / X-78 / X-79` control-plane truth
 - `X-81` is now closed as `positive`: after `X-80`, the strongest next move is neither another `I-A` micro-audit nor a fresh candidate-surface reopen, but one bounded `cross-box / system-consumable stale-entry sync`, because active higher-layer docs still expose stale lane state
 - `X-82` is now closed as `positive`: the active higher-layer stale-entry surfaces are now aligned again to current control-plane truth, so the strongest next move is no longer another wording-only sync pass
 - `X-83` is now closed as `positive`: once the stale-entry sync is cleared, no blocked/hold branch honestly reopens and no new active `I-A` residue is visible, so the honest next move becomes bounded non-graybox candidate-surface expansion rather than another forced `I-A` microtask
@@ -1263,7 +1263,7 @@ Goal:
 
 Tasks:
 
-- [ ] `R2-1` keep `ROADMAP.md` and `docs/comprehensive-progress.md` aligned with any new local validation verdict derived from the GPT-5.4 report bundles
+- [ ] `R2-1` keep `ROADMAP.md` and `docs/internal/comprehensive-progress.md` aligned with any new local validation verdict derived from the GPT-5.4 report bundles
 - [x] `R2-2` execute `06-H1` teacher-calibrated temporal QR surrogate scoping under `64 -> 128 -> 256` gates
 - [x] `R2-3` execute `05-H1/H2` shared-score validation on `GSA + PIA` before any three-box or portability expansion
 - [x] `R2-4` select exactly one `04` successor family for bounded pilot; default `H1 SISS`, fallback `H2 adapter`
@@ -1429,7 +1429,7 @@ Goal:
 
 Tasks:
 
-- [x] `X-5.1` audit whether `docs/comprehensive-progress.md` still reflects old `SMP-LoRA` wording
+- [x] `X-5.1` audit whether `docs/internal/comprehensive-progress.md` still reflects old `SMP-LoRA` wording
 - [x] `X-5.2` rewrite white-box and summary-layer wording around current `DP-LoRA` truth
 - [x] `X-5.3` mark whether higher-layer material sync is suggested
 
@@ -1478,7 +1478,7 @@ Verdict:
 - current honest machine-readable posture is therefore a `sparse-hold` registry:
   - `Finding NeMo = the only remaining intake-only candidate`
   - `PIA paper-aligned confirmation = document-layer conditional only`
-- `docs/future-phase-e-intake.md` and `docs/reproduction-status.md` now need follow-up sync
+- `docs/internal/future-phase-e-intake.md` and `docs/evidence/reproduction-status.md` now need follow-up sync
 
 Value: ⭐⭐⭐
 Budget: CPU-only
@@ -1503,7 +1503,7 @@ Status:
 
 Verdict:
 
-- `docs/future-phase-e-intake.md` and `docs/reproduction-status.md` were stale
+- `docs/internal/future-phase-e-intake.md` and `docs/evidence/reproduction-status.md` were stale
 - they still carried old `DP-LoRA / SecMI unblock / TMIA-DM intake` candidate-ordering wording after the sparse-registry refresh
 - they now reflect the current honest split:
   - `PIA paper-aligned confirmation = document-layer conditional only`
@@ -1564,7 +1564,7 @@ Status:
 Verdict:
 
 - summary-layer sync was required
-- `docs/comprehensive-progress.md` now reflects that:
+- `docs/internal/comprehensive-progress.md` now reflects that:
   - `active GPU question = none`
   - gray-box and white-box immediate execution lanes are both currently closed
   - current priority should move to cross-box sync plus black-box candidate-generation refresh
@@ -2792,7 +2792,7 @@ Goal: synchronize higher-layer research summaries to the current gray-box truth 
 Current read:
 
 - the local branch is now strong enough to be mentionable in higher-layer summaries
-- `docs/comprehensive-progress.md` still carries stale gray-box wording in several places
+- `docs/internal/comprehensive-progress.md` still carries stale gray-box wording in several places
 - the highest-value next CPU action is summary truth sync, not more execution
 
 Tasks:
@@ -5550,7 +5550,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-18 05:30 | Closed `X-77` as `positive but bounded`: the first real bounded `64`-per-split loss-score packet now exists on current admitted white-box assets via `export-gsa-loss-score-packet` plus `evaluate-gsa-loss-score-packet`; under the frozen shadow-only transfer contract, the target board lands at `AUC = 0.699463 / ASR = 0.632812 / TPR@1%FPR = 0.03125 / TPR@0.1%FPR = 0.03125`, while the diagnostic target self-board differs only by threshold and does not rescue the low-FPR boundary; `active_gpu_question` stayed `none`, `next_gpu_candidate` stayed `none`, and the current live lane moved to `X-78 white-box bounded loss-score post-first-actual-packet boundary review after X-77 actual packet` while the CPU sidecar remained `I-A higher-layer boundary maintenance` |
 | 2026-04-18 05:50 | Closed `X-78` as `positive but stabilizing`: the first actual white-box loss-score packet is now boundary-reviewed and should be frozen as bounded auxiliary evidence rather than promoted or immediately extended, because it is execution-positive but still only `AUC = 0.699463 / ASR = 0.632812 / TPR@1%FPR = 0.03125 / TPR@0.1%FPR = 0.03125` on the transferred target board, with weak low-FPR behavior and no genuinely new same-family follow-up hypothesis; `active_gpu_question` stayed `none`, `next_gpu_candidate` stayed `none`, and the current live lane moved to `X-79 non-graybox next-lane reselection after X-78 white-box loss-score boundary review` while the CPU sidecar remained `I-A higher-layer boundary maintenance` |
 | 2026-04-18 06:05 | Closed `X-79` as `positive`: once the white-box loss-score branch is frozen as bounded auxiliary evidence and current higher-layer sync is already aligned, no stronger blocked/hold non-graybox branch honestly reopens above the carry-forward sidecar, so the strongest next live lane returns to `X-80 I-A formal-adaptive-lowFPR carry-forward audit after X-79 reselection`; `active_gpu_question` stayed `none`, `next_gpu_candidate` stayed `none`, and the CPU sidecar remained `I-A higher-layer boundary maintenance` |
-| 2026-04-18 06:20 | Closed `X-80` as `positive`: one real active `I-A` carry-forward residue still existed in `docs/mainline-narrative.md`, whose current-state paragraph was still frozen at `X-76`; once that doc was updated to carry `X-77 / X-78 / X-79` and the current `X-80` lane, the higher-layer read path again aligned with repo truth; `active_gpu_question` stayed `none`, `next_gpu_candidate` stayed `none`, and the current live lane moved to `X-81 non-graybox next-lane reselection after X-80 I-A carry-forward audit` while the CPU sidecar remained `I-A higher-layer boundary maintenance` |
+| 2026-04-18 06:20 | Closed `X-80` as `positive`: one real active `I-A` carry-forward residue still existed in `docs/internal/mainline-narrative.md`, whose current-state paragraph was still frozen at `X-76`; once that doc was updated to carry `X-77 / X-78 / X-79` and the current `X-80` lane, the higher-layer read path again aligned with repo truth; `active_gpu_question` stayed `none`, `next_gpu_candidate` stayed `none`, and the current live lane moved to `X-81 non-graybox next-lane reselection after X-80 I-A carry-forward audit` while the CPU sidecar remained `I-A higher-layer boundary maintenance` |
 | 2026-04-18 06:35 | Closed `X-81` as `positive`: once the active `I-A` residue was cleared, the strongest next move was still not a fresh black-box or white-box reopen, because black-box scouting remains closed negative, white-box loss-score is already boundary-frozen, and `XB-CH-2` remains `needs-assets`; the honest immediate move is one bounded `X-82 cross-box / system-consumable stale-entry sync after X-81 reselection`, because active higher-layer docs still expose stale lane state; `active_gpu_question` stayed `none`, `next_gpu_candidate` stayed `none`, and the CPU sidecar remained `I-A higher-layer boundary maintenance` |
 | 2026-04-18 06:50 | Closed `X-82` as `positive`: the active higher-layer stale-entry surfaces are now aligned again to current control-plane truth, including the current live lane and post-`X-78 / X-79 / X-80 / X-81` read-path; `active_gpu_question` stayed `none`, `next_gpu_candidate` stayed `none`, and the current live lane moved to `X-83 non-graybox next-lane reselection after X-82 stale-entry sync` while the CPU sidecar remained `I-A higher-layer boundary maintenance` |
 | 2026-04-18 07:00 | Closed `X-83` as `positive`: once the stale-entry sync cleared and no new active `I-A` residue remained, the strongest next move was no longer another wording-only sync pass and still not any blocked/hold reopen, because black-box scouting remains closed negative, white-box loss-score remains frozen as bounded auxiliary evidence, and `XB-CH-2` remains `needs-assets`; the honest next move is therefore `X-84 non-graybox candidate-surface expansion after X-83 reselection`; `active_gpu_question` stayed `none`, `next_gpu_candidate` stayed `none`, and the CPU sidecar remained `I-A higher-layer boundary maintenance` |
@@ -5614,7 +5614,7 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-18 17:05 | Closed `X-113` as `negative but useful`: the `k16 mixture_lambda-down` follow-up is now fully executed with a paired-noise tri-board, and it does not improve the current working instantiation; forgotten-subset tails regress (`TPR@1%FPR 0.368421 -> 0.263158`) without any `AUC` gain, retained companion tails regress even though `AUC` rises slightly (`0.294118 -> 0.176471`), and full-split only improves headline smoothness while losing low-FPR tail (`AUC 0.622141 -> 0.624224`, but `TPR@1%FPR 0.026 -> 0.021`), so original `k16` remains the best working instantiation and `next_gpu_candidate` returns to `none` again |
 | 2026-04-18 17:35 | Closed `X-114` as `bounded`: after `X-113`, `04` does not honestly jump straight to `H2 privacy-aware adapter`, because the repo still has no dedicated `04-H2` implementation / CLI / test surface and no bounded packet for that fallback; therefore `H2` remains wording-level fallback only, `04` stays in CPU-first family-review mode, `active_gpu_question` and `next_gpu_candidate` both remain `none`, and `Research -> Runtime -> Platform` stays contract-stable without any schema change |
 | 2026-04-18 18:05 | Closed `X-115` as `positive`: the post-`X-114` handoff review confirms that current `04` truth changes only the research-side control plane, not any admitted metric row, Runtime endpoint, Platform snapshot shape, or runner capability; therefore the correct integration action is to update the autonomous prompt and preserve the existing admitted read path (`Research unified table -> Runtime evidence endpoint -> Platform public snapshot`) without adding consumer fields or cross-repo code changes |
-| 2026-04-18 18:25 | Closed `X-116` as `positive`: even after `X-115`, two live entry docs still drifted from current repo truth, because `docs/codex-roadmap-execution-prompt.md` still encoded the old `G1-A` next-GPU steering and `workspaces/implementation/challenger-queue.md` still presented a pre-`04` live lane; both are now resynced to `active GPU question = none`, `next_gpu_candidate = none`, `04-defense = CPU-first family review`, and `no new Runtime/Platform contract`, so fresh sessions will no longer be steered by stale control-plane wording |
+| 2026-04-18 18:25 | Closed `X-116` as `positive`: even after `X-115`, two live entry docs still drifted from current repo truth, because `docs/internal/codex-roadmap-execution-prompt.md` still encoded the old `G1-A` next-GPU steering and `workspaces/implementation/challenger-queue.md` still presented a pre-`04` live lane; both are now resynced to `active GPU question = none`, `next_gpu_candidate = none`, `04-defense = CPU-first family review`, and `no new Runtime/Platform contract`, so fresh sessions will no longer be steered by stale control-plane wording |
 | 2026-04-18 18:45 | Closed `X-117` as `positive`: current Platform public `catalog.json` still overstated admitted research truth in consumer-facing `risk_interpretation` copy, especially by turning recon evidence into prescriptive defense copy, omitting gray-box provisional/privacy-boundary language, and overstating white-box mitigation as risk elimination; the snapshot wording is now hardened to match admitted boundaries while keeping all metrics, Runtime endpoints, snapshot shape, and runner contracts unchanged |
 | 2026-04-21 14:14 | Closed issue #10 as `positive hardening`: added `check-recon-stage0-paper-gate` so strict `recon Attack-I` now has an executable Stage 0 gate that returns `blocked` when the current public bundle is only `proxy-shadow-member / local-semantic-chain-ready`; canonical anchor is `workspaces/implementation/2026-04-21-issue10-recon-stage0-paper-gate.md`; `active_gpu_question` and `next_gpu_candidate` both stay `none`, and no Runtime or Platform schema change is required |
 | 2026-04-21 14:33 | Closed `X-118` as `positive but bounded`: `04-H2 privacy-aware adapter` is no longer a wording-only fallback, because the repo already contains `lora_ddpm.py`, `smp_lora.py`, `train_smp_lora.py`, related smoke/runtime-tuning tests, and one real bounded CPU smoke artifact at `workspaces/implementation/runs/h2-smp-lora-contract-smoke-20260421-r1/summary.json`; however, it still lacks a canonical `diffaudit` asset probe / prep / run / review chain, so `H2` is now `prototype-implemented / contract-incomplete`, `active_gpu_question` and `next_gpu_candidate` both stay `none`, and the next honest CPU-first lane becomes `X-119 04-H2 canonical contract hardening` rather than immediate GPU release |
@@ -5625,8 +5625,8 @@ If that happens, the agent must add new branches and continue.
 | 2026-04-21 14:58 | Closed `X-123` as `blocked but useful`: `PIA + SimA` support-fusion remains a valid sidecar direction, but current repo truth does not yet permit an honest shared-packet review because `crossbox_pairboard.py` and `PIA` packet export are already pairboard-ready while `SimA` still emits only aggregate feasibility summaries with no `member_scores / nonmember_scores / member_indices / nonmember_indices`; canonical anchor is `workspaces/implementation/2026-04-21-x123-r25b-pia-sima-support-fusion-contract-review.md`; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest CPU-first support lane becomes `R2-5c SimA packet-score export contract review` |
 | 2026-04-21 15:08 | Closed `X-124` as `positive but bounded`: `SimA` now exposes a real pairboard-ready packet surface, because `src/diffaudit/attacks/sima_adapter.py` gained `export_sima_packet_scores(...)`, `src/diffaudit/cli.py` gained `export-sima-packet-scores`, and `tests/test_sima_adapter.py` now covers both module and CLI paths while local `unittest` passes; this closes the `member_scores / nonmember_scores / member_indices / nonmember_indices` export gap without promoting plain `SimA` itself, so `SimA` remains `execution-feasible but weak`, `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest CPU-first support lane becomes `R2-5b PIA + SimA support-fusion / calibration review`; canonical anchor is `workspaces/implementation/2026-04-21-x124-r25c-sima-packet-score-export-contract-landing.md` |
 | 2026-04-21 16:02 | Closed `X-125` as `positive but bounded`: `PIA + SimA` support-fusion is now honestly executable on the frozen `461 / 474` full-overlap packet, because the new `SimA` exact-index export was run at `timestep = 160` and one real `5x` repeated-holdout pairboard now exists at `workspaces/cross-box/runs/crossbox-pairboard-pia-sima-full-overlap-20260421-r1/summary.json`; the best bounded fused candidate is `logistic_2feature`, which beats `PIA` best-single on `AUC` and `ASR` in `5 / 5` repeated runs and wins `TPR@1%FPR` in `4 / 5`, but it does not deliver a stable `TPR@0.1%FPR` lift (`2 wins / 1 tie / 2 losses`, mean `0.041558 < 0.043290`), so the line stays auxiliary rather than promoted; `active_gpu_question = none`, `next_gpu_candidate = none`, gray-box should now yield the next `CPU-first` slot, and the next honest live lane becomes `X-126 non-graybox next-lane reselection after X-125 bounded PIA + SimA review`; canonical anchor is `workspaces/implementation/2026-04-21-x125-r25b-pia-sima-support-fusion-bounded-review.md` |
-| 2026-04-21 16:18 | Closed `X-126` as `positive`: after `X-125`, the control-plane entry docs were already aligned to the new gray-box yield, but two higher-layer system-consumable surfaces still encoded pre-`X-125` steering by telling readers to “first do `SimA`, then `PIA + SimA`”; therefore the highest-value immediate move was not another empty reselection loop or a fresh `I-A` wording pass, but one bounded stale-entry sync on `docs/mainline-narrative.md` and `docs/future-phase-e-intake.md`; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-127 cross-box / system-consumable stale-entry sync after X-126 reselection`; canonical anchor is `workspaces/implementation/2026-04-21-x126-non-graybox-next-lane-reselection-after-x125.md` |
-| 2026-04-21 16:24 | Closed `X-127` as `positive`: the remaining active higher-layer stale-entry layer is now cleared, because `docs/mainline-narrative.md` and `docs/future-phase-e-intake.md` no longer steer readers back into pre-`X-125` gray-box wording and now both read `02` as an auxiliary sidecar with one landed bounded `PIA + SimA` review and no stable `TPR@0.1%FPR` lift; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-128 non-graybox next-lane reselection after X-127 stale-entry sync`; canonical anchor is `workspaces/implementation/2026-04-21-x127-crossbox-system-sync-after-x126.md` |
+| 2026-04-21 16:18 | Closed `X-126` as `positive`: after `X-125`, the control-plane entry docs were already aligned to the new gray-box yield, but two higher-layer system-consumable surfaces still encoded pre-`X-125` steering by telling readers to “first do `SimA`, then `PIA + SimA`”; therefore the highest-value immediate move was not another empty reselection loop or a fresh `I-A` wording pass, but one bounded stale-entry sync on `docs/internal/mainline-narrative.md` and `docs/internal/future-phase-e-intake.md`; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-127 cross-box / system-consumable stale-entry sync after X-126 reselection`; canonical anchor is `workspaces/implementation/2026-04-21-x126-non-graybox-next-lane-reselection-after-x125.md` |
+| 2026-04-21 16:24 | Closed `X-127` as `positive`: the remaining active higher-layer stale-entry layer is now cleared, because `docs/internal/mainline-narrative.md` and `docs/internal/future-phase-e-intake.md` no longer steer readers back into pre-`X-125` gray-box wording and now both read `02` as an auxiliary sidecar with one landed bounded `PIA + SimA` review and no stable `TPR@0.1%FPR` lift; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-128 non-graybox next-lane reselection after X-127 stale-entry sync`; canonical anchor is `workspaces/implementation/2026-04-21-x127-crossbox-system-sync-after-x126.md` |
 | 2026-04-21 16:36 | Closed `X-128` as `positive`: after `X-127`, no active stale-entry layer remains above the control plane and no blocked/hold non-graybox branch has become more executable than the admitted-mainline maintenance path, because black-box candidate scouting remains closed-negative or `needs-assets`, white-box distinct-family work remains medium-horizon preparation, `I-B` remains a `non-admitted actual bounded falsifier`, `I-C` remains `translated-contract-only + negative falsifier`, and `I-D` still has no honest bounded successor lane; therefore the highest-value next live lane is now `X-129 I-A truth-hardening after X-128 reselection`, with `active_gpu_question = none` and `next_gpu_candidate = none`; canonical anchor is `workspaces/implementation/2026-04-21-x128-non-graybox-next-lane-reselection-after-x127.md` |
 | 2026-04-21 16:47 | Closed `X-129` as `positive`: after `X-128`, the remaining `I-A` residue was no longer in core research/control surfaces but in competition-facing materials, where `competition-evidence-pack` and `competition-innovation-summary` still used the softer `workspace-verified + adaptive-reviewed` wording; both are now hardened back to `workspace-verified + bounded repeated-query adaptive-reviewed`, while preserving four-metric ordering and provenance-blocked language, so the current `I-A` material-facing claim is again aligned to the admitted gray-box contract; `active_gpu_question = none`, `next_gpu_candidate = none`, and the next honest live lane becomes `X-130 non-graybox next-lane reselection after X-129 I-A hardening`; canonical anchor is `workspaces/implementation/2026-04-21-x129-ia-truth-hardening-after-x128.md` |
 | 2026-04-21 17:02 | Closed `X-130` as `positive`: after `X-129`, another immediate candidate-surface expansion would still have been dishonest, because one active system-consumable stale-entry layer remained on the live read path: `README.md` still pointed sessions back to the old `GB-64 / PIA vs TMIA-DM confidence-gated switching` state, and `challenger-queue.md` still exposed `WB-CH-4` as `actual-packet-pending` together with a stale `Recommended Next Order` block headed by `X-86`; therefore the highest-value immediate move became `X-131 cross-box / system-consumable stale-entry sync after X-130 reselection`, while `active_gpu_question = none` and `next_gpu_candidate = none`; canonical anchor is `workspaces/implementation/2026-04-21-x130-non-graybox-next-lane-reselection-after-x129.md` |

@@ -30,6 +30,6 @@
 
 - `assets/team.local.yaml`
 - `assets/*.local.yaml` 中的个人机器路径
-- 指向 `<DIFFAUDIT_ROOT>/Download/` 内大文件的本机绝对路径快照
+- 指向 `<DIFFAUDIT_ROOT>/Download/` 内大文件的个人绝对路径快照
 
 如果脚本需要当前机器的真实资产位置，先复制 `assets/team.local.template.yaml` 到被忽略的 `assets/team.local.yaml`，再把该文件路径传给脚本或使用脚本默认值。

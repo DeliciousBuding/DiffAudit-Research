@@ -1,4 +1,4 @@
-# Execution Log Archive - 2026-04-29
+﻿# Execution Log Archive - 2026-04-29
 
 This directory preserves the long autonomous-research execution trail that used
 to live in the hot-path `ROADMAP.md` and `workspaces/implementation`
@@ -8,7 +8,7 @@ Read current steering first:
 
 - [`../../../ROADMAP.md`](../../../ROADMAP.md)
 - [`../../../workspaces/implementation/challenger-queue.md`](../../../workspaces/implementation/challenger-queue.md)
-- [`../../../docs/research-governance.md`](../../../docs/research-governance.md)
+- [`../../../docs/governance/research-governance.md`](../../../docs/governance/research-governance.md)
 
 ## Contents
 

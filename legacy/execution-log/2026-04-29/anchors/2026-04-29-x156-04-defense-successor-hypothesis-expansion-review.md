@@ -1,4 +1,4 @@
-# X-156: 04 Defense Successor-Hypothesis Expansion Review
+﻿# X-156: 04 Defense Successor-Hypothesis Expansion Review
 
 ## Question
 
@@ -6,9 +6,9 @@ After `04-H1` scalar follow-ups, `04-H2` minimal packet follow-up, and the `03` 
 
 ## Inputs Reviewed
 
-- `docs/report-bundles/gpt54/round2-results/04.md`
-- `docs/report-bundles/gpt54/round2-results/e2.md`
-- `docs/report-bundles/gpt54/round2-results/global.md`
+- `docs/internal/report-bundles/gpt54/round2-results/04.md`
+- `docs/internal/report-bundles/gpt54/round2-results/e2.md`
+- `docs/internal/report-bundles/gpt54/round2-results/global.md`
 - `workspaces/implementation/2026-04-18-x114-04-defense-post-h1-family-review.md`
 - `workspaces/implementation/2026-04-21-x139-04-h2-4x4-bounded-followup-review.md`
 - `workspaces/implementation/2026-04-29-x155-post-trajectory-reselection.md`

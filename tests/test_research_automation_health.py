@@ -1,4 +1,4 @@
-import tempfile
+﻿import tempfile
 import unittest
 from pathlib import Path
 
@@ -16,7 +16,7 @@ class ResearchAutomationHealthTests(unittest.TestCase):
             "legacy_reference",
         )
         self.assertEqual(
-            classify_run_summary_mention("docs/reproduction-status.md", "workspaces/black-box/runs/real/summary.json"),
+            classify_run_summary_mention("docs/evidence/reproduction-status.md", "workspaces/black-box/runs/real/summary.json"),
             "active_reference",
         )
 

@@ -1,4 +1,4 @@
-# DiffAudit Research ROADMAP — P0-P3 Reopened Queue + Long-Horizon Mainlines
+﻿# DiffAudit Research ROADMAP — P0-P3 Reopened Queue + Long-Horizon Mainlines
 
 > Last updated: 2026-04-15
 > Mode: reopened research after frozen competition package
@@ -29,7 +29,7 @@ Frozen reference package:
 - archived competition sprint roadmap:
   - `legacy/2026-04-15-competition-sprint-roadmap-archived.md`
 - download master list:
-  - `docs/research-download-master-list.md`
+  - `docs/assets-and-storage/research-download-master-list.md`
 - download manifest:
   - `<DIFFAUDIT_ROOT>/Download/manifests/research-download-manifest.json`
 
@@ -78,7 +78,7 @@ Working principles:
 
 ### Download and staging
 
-- [x] `P0-DL-1` Verify all first-wave assets from `docs/research-download-master-list.md` are present in `<DIFFAUDIT_ROOT>/Download/...`
+- [x] `P0-DL-1` Verify all first-wave assets from `docs/assets-and-storage/research-download-master-list.md` are present in `<DIFFAUDIT_ROOT>/Download/...`
 - [x] `P0-DL-2` Ingest any newly downloaded assets into repo-consumable locations or config pointers
 - [x] `P0-DL-3` Record exact asset provenance / path mapping for anything newly staged
 

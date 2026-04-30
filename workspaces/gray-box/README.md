@@ -1,22 +1,20 @@
-# 灰盒工作区
+# Gray-Box Workspace
 
-用于存放：
+## Current Status
 
-- 灰盒或半白盒论文阅读笔记
-- 部分可观测信息下的攻击设定
-- 解释增强类实验思路
-- 灰盒方向任务认领
+- Role: partial-observation membership inference, PIA/SecMI/TMIA-DM evidence,
+  and defense boundary tracking.
+- Main evidence: `PIA` remains the strongest gray-box attack + defense story.
+- Defended story: stochastic dropout remains the main defended reference.
+- GPU state: no active gray-box GPU question.
 
-## 当前建议任务
+## Current Files
 
-1. 当前灰盒主讲线是 `PIA`，先看 `2026-04-07-pia-runtime-mainline.md` 和 `assets/pia/manifest.json`
-2. `SecMI` 现在是独立 corroboration line，不再是单纯 blocked placeholder；先看 `2026-04-15-pia-vs-secmi-graybox-comparison.md` 和 `2026-04-15-graybox-ranking-sensitive-disagreement-verdict.md`
-3. `CDI` 当前应理解为 `gray-box collection-level audit extension`：
-   - first internal canary 已落地
-   - repaired `2048` paired surface 已落地
-   - `control-z-linear` 现在是 default internal paired scorer
-   - 但它还不是 headline scorer，也不是外部证据口径
-4. 当前最重要的新增工作不是再补 naive fusion，而是保持 `PIA` 的 defended mainline、补第二防御或新 family verdict
-5. `PIA` 论文必须自己读懂，先写清楚它依赖什么信号完成攻击，再设计为什么 `G-1` 应该有效
-6. 当前 `PIA + SecMI` 的 simple ensemble 已判定 `no-go`，没有新 hypothesis 前不继续烧这条预算
-7. 综合进度口径统一看 `../../docs/comprehensive-progress.md`
+| File | Purpose |
+| --- | --- |
+| [plan.md](plan.md) | Current gray-box status and next action. |
+
+## Archive
+
+Closed dated notes are under
+[../../legacy/workspaces/gray-box/2026-04/](../../legacy/workspaces/gray-box/2026-04/).
