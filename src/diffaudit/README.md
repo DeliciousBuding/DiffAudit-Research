@@ -23,7 +23,6 @@
 | `attacks/` | 各方法线的 planner / probe / dry-run / smoke |
 | `pipelines/` | 通用 pipeline 逻辑 |
 | `utils/` | 共享指标、I/O、Gaussian 和 diffusion schedule helper |
-| `metrics/` | placeholder package；shared metric implementations currently live in `utils/metrics.py` |
 | `reports/` | 统一报告输出层 |
 
 ## 当前攻击线

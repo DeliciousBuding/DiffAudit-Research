@@ -7,6 +7,21 @@ import json
 
 
 class AttackRegistryTests(unittest.TestCase):
+    def _create_secmi_repo(self, root: Path) -> Path:
+        repo_root = root / "third_party" / "secmi"
+        (repo_root / "mia_evals").mkdir(parents=True)
+        (repo_root / "__init__.py").write_text('"""secmi"""', encoding="utf-8")
+        (repo_root / "model.py").write_text("# model", encoding="utf-8")
+        (repo_root / "diffusion.py").write_text("# diffusion", encoding="utf-8")
+        (repo_root / "mia_evals" / "__init__.py").write_text('"""mia"""', encoding="utf-8")
+        (repo_root / "mia_evals" / "dataset_utils.py").write_text("# util", encoding="utf-8")
+        (repo_root / "mia_evals" / "secmia.py").write_text(
+            "def get_FLAGS(*args, **kwargs):\n    return None\n"
+            "def secmi_attack(*args, **kwargs):\n    return None\n",
+            encoding="utf-8",
+        )
+        return repo_root
+
     def test_returns_secmi_planner(self) -> None:
         from diffaudit.attacks.registry import get_attack_planner
 
@@ -94,18 +109,7 @@ report:
             (model_dir / "flagfile.txt").write_text("flags", encoding="utf-8")
             (model_dir / "checkpoint.pt").write_text("best", encoding="utf-8")
 
-            repo_root = root / "third_party" / "secmi"
-            (repo_root / "mia_evals").mkdir(parents=True)
-            (repo_root / "__init__.py").write_text('"""secmi"""', encoding="utf-8")
-            (repo_root / "model.py").write_text("# model", encoding="utf-8")
-            (repo_root / "diffusion.py").write_text("# diffusion", encoding="utf-8")
-            (repo_root / "mia_evals" / "__init__.py").write_text('"""mia"""', encoding="utf-8")
-            (repo_root / "mia_evals" / "dataset_utils.py").write_text("# util", encoding="utf-8")
-            (repo_root / "mia_evals" / "secmia.py").write_text(
-                "def get_FLAGS(*args, **kwargs):\n    return None\n"
-                "def secmi_attack(*args, **kwargs):\n    return None\n",
-                encoding="utf-8",
-            )
+            repo_root = self._create_secmi_repo(root)
 
             config_path = root / "audit.yaml"
             config_path.write_text(
@@ -175,7 +179,7 @@ report:
                         "--config",
                         str(config_path),
                         "--repo-root",
-                        "external/SecMI",
+                        str(self._create_secmi_repo(root)),
                     ]
                 )
 
@@ -221,7 +225,7 @@ report:
                         "--config",
                         str(config_path),
                         "--repo-root",
-                        "external/SecMI",
+                        str(self._create_secmi_repo(root)),
                     ]
                 )
 
@@ -903,10 +907,11 @@ report:
             )
 
             config = load_audit_config(config_path)
-            context = prepare_secmi_adapter(config, "external/SecMI")
+            context = prepare_secmi_adapter(config, str(self._create_secmi_repo(Path(tmpdir))))
 
         self.assertEqual(context.plan.dataset, "cifar10")
-        self.assertTrue(context.runner.entrypoint_path.endswith("mia_evals\\secmia.py"))
+        entrypoint = context.runner.entrypoint_path.replace("\\", "/")
+        self.assertTrue(entrypoint.endswith("mia_evals/secmia.py"))
         self.assertEqual(context.module.__name__, "third_party.secmi.mia_evals.secmia")
 
 
