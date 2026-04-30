@@ -1,11 +1,11 @@
 import json
 import tempfile
 import unittest
-from contextlib import redirect_stdout
-from io import StringIO
 from pathlib import Path
 
 import torch
+
+from tests.helpers import capture_cli_json
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -421,31 +421,28 @@ class CrossboxPairboardTests(unittest.TestCase):
                 },
             )
 
-            stdout = StringIO()
-            with redirect_stdout(stdout):
-                exit_code = main(
-                    [
-                        "analyze-crossbox-pairboard",
-                        "--workspace",
-                        str(root / "pairboard-cli"),
-                        "--surface-a",
-                        str(pia_scores),
-                        "--surface-a-name",
-                        "pia",
-                        "--surface-b",
-                        str(tmiadm_family_scores),
-                        "--surface-b-name",
-                        "tmiadm",
-                        "--surface-b-family",
-                        "fused",
-                        "--calibration-fraction",
-                        "0.5",
-                        "--seed",
-                        "5",
-                    ]
-                )
-
-            payload = json.loads(stdout.getvalue())
+            exit_code, payload = capture_cli_json(
+                main,
+                [
+                    "analyze-crossbox-pairboard",
+                    "--workspace",
+                    str(root / "pairboard-cli"),
+                    "--surface-a",
+                    str(pia_scores),
+                    "--surface-a-name",
+                    "pia",
+                    "--surface-b",
+                    str(tmiadm_family_scores),
+                    "--surface-b-name",
+                    "tmiadm",
+                    "--surface-b-family",
+                    "fused",
+                    "--calibration-fraction",
+                    "0.5",
+                    "--seed",
+                    "5",
+                ],
+            )
             summary_written = Path(payload["artifact_paths"]["summary"]).exists()
 
         self.assertEqual(exit_code, 0)
@@ -482,31 +479,28 @@ class CrossboxPairboardTests(unittest.TestCase):
                 },
             )
 
-            stdout = StringIO()
-            with redirect_stdout(stdout):
-                exit_code = main(
-                    [
-                        "analyze-crossbox-pairboard",
-                        "--workspace",
-                        str(root / "pairboard-cli-repeated"),
-                        "--surface-a",
-                        str(surface_a),
-                        "--surface-a-name",
-                        "pia",
-                        "--surface-b",
-                        str(surface_b),
-                        "--surface-b-name",
-                        "gsa",
-                        "--calibration-fraction",
-                        "0.5",
-                        "--seed",
-                        "9",
-                        "--repeats",
-                        "3",
-                    ]
-                )
-
-            payload = json.loads(stdout.getvalue())
+            exit_code, payload = capture_cli_json(
+                main,
+                [
+                    "analyze-crossbox-pairboard",
+                    "--workspace",
+                    str(root / "pairboard-cli-repeated"),
+                    "--surface-a",
+                    str(surface_a),
+                    "--surface-a-name",
+                    "pia",
+                    "--surface-b",
+                    str(surface_b),
+                    "--surface-b-name",
+                    "gsa",
+                    "--calibration-fraction",
+                    "0.5",
+                    "--seed",
+                    "9",
+                    "--repeats",
+                    "3",
+                ],
+            )
 
         self.assertEqual(exit_code, 0)
         self.assertEqual(payload["repeated_holdout"]["configuration"]["repeats"], 3)
@@ -539,40 +533,37 @@ class CrossboxPairboardTests(unittest.TestCase):
                 },
             )
 
-            stdout = StringIO()
-            with redirect_stdout(stdout):
-                exit_code = main(
-                    [
-                        "analyze-crossbox-pairboard",
-                        "--workspace",
-                        str(root / "pairboard-cli-tail-gated"),
-                        "--surface-a",
-                        str(surface_a),
-                        "--surface-a-name",
-                        "pia",
-                        "--surface-b",
-                        str(surface_b),
-                        "--surface-b-name",
-                        "gsa",
-                        "--calibration-fraction",
-                        "0.5",
-                        "--seed",
-                        "9",
-                        "--tail-gated-cascade",
-                        "--cascade-anchor-name",
-                        "gsa",
-                        "--cascade-candidate-name",
-                        "logistic_2feature",
-                        "--cascade-route-fractions",
-                        "0.25,0.5",
-                        "--cascade-gammas",
-                        "0,0.2",
-                        "--cascade-secondary-cost-ratio",
-                        "0.25",
-                    ]
-                )
-
-            payload = json.loads(stdout.getvalue())
+            exit_code, payload = capture_cli_json(
+                main,
+                [
+                    "analyze-crossbox-pairboard",
+                    "--workspace",
+                    str(root / "pairboard-cli-tail-gated"),
+                    "--surface-a",
+                    str(surface_a),
+                    "--surface-a-name",
+                    "pia",
+                    "--surface-b",
+                    str(surface_b),
+                    "--surface-b-name",
+                    "gsa",
+                    "--calibration-fraction",
+                    "0.5",
+                    "--seed",
+                    "9",
+                    "--tail-gated-cascade",
+                    "--cascade-anchor-name",
+                    "gsa",
+                    "--cascade-candidate-name",
+                    "logistic_2feature",
+                    "--cascade-route-fractions",
+                    "0.25,0.5",
+                    "--cascade-gammas",
+                    "0,0.2",
+                    "--cascade-secondary-cost-ratio",
+                    "0.25",
+                ],
+            )
 
         self.assertEqual(exit_code, 0)
         self.assertIn("tail_gated_cascade", payload["test"]["candidates"])
