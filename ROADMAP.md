@@ -11,17 +11,17 @@ belongs under `legacy/`; current workspace state belongs under `workspaces/`.
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = code governance / CLI dispatch registry split`
-- `next_cpu_sidecar = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
+- `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
+- `next_cpu_sidecar = Public-surface / hot-path sync`
 - `history_rewrite_policy = audit only; no force-push without separate approval`
 
 The information-architecture reset, shared-utils extraction, and
 architecture-audit triage cleanups are merged. Asset-boundary cleanup and the
-first CLI package split are merged. The current CPU-only governance task is to
-finish the CLI dispatch registry split without changing command names, JSON
-output fields, exit behavior, or workspace artifact schemas. After that, return
-to the CPU-first research lane: harden I-A and cross-box claim boundaries
-before any new GPU task is selected.
+CLI package/dispatch split are merged. The repository is back at the CPU-first
+research lane: harden I-A and cross-box claim boundaries before any new GPU
+task is selected.
+The next CPU sidecar should run only when public docs, guards, or repository
+hot paths become stale.
 
 ## Current Research Truth
 
@@ -36,7 +36,7 @@ before any new GPU task is selected.
 
 ## Next Decision
 
-After the CLI dispatch registry split PR is closed, resume:
+Resume:
 
 ```text
 X-181 I-A / cross-box boundary maintenance after H2 comparator block
