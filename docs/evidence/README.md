@@ -7,6 +7,7 @@ This directory contains the public evidence overview.
 | [reproduction-status.md](reproduction-status.md) | Per-track reproduction status stages. |
 | [admitted-results-summary.md](admitted-results-summary.md) | Reviewed verified results summary. |
 | [innovation-evidence-map.md](innovation-evidence-map.md) | Mapping from research claims to evidence status. |
+| [cross-box-boundary-status.md](cross-box-boundary-status.md) | Current cross-box candidate boundary and next research question. |
 | [research-boundary-card.md](research-boundary-card.md) | Limitations card for downstream consumers. |
 | [workspace-evidence-index.md](workspace-evidence-index.md) | Where active and archived workspace evidence lives. |
 

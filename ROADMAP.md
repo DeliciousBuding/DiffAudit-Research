@@ -1,19 +1,20 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-04-30
+> Last updated: 2026-05-01
 
 This is the short steering document for Research. Execution history is in
 `legacy/`; current workspace state is in `workspaces/`.
 
 ## Current Focus
 
-- **Active work:** Cross-box experiment boundary hardening
+- **Active work:** Black-box response-strength comparator preflight
 - **Next GPU task:** none selected
 - **CPU work:** Public documentation and repository sync
 
 The information-architecture reset, shared utilities extraction, asset boundary
-cleanup, and CLI package split are all merged. The repository is currently
-focused on hardening cross-box claim boundaries before selecting new GPU tasks.
+cleanup, and CLI package split are all merged. Cross-box boundary hardening is
+now recorded as candidate-only evidence: score sharing is useful for internal
+comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Research Directions
 
@@ -23,13 +24,16 @@ focused on hardening cross-box claim boundaries before selecting new GPU tasks.
   will not take the next research slot unless new findings change priorities.
 - **White-box:** `GSA` provides the strongest upper-bound results. `DPDM` is
   the defended comparator.
-- **Cross-box:** Boundary hardening and integration of results across
-  attacker knowledge levels is the next direction.
+- **Cross-box:** Score sharing is useful for internal comparison, but remains
+  candidate-only. See [docs/evidence/cross-box-boundary-status.md](docs/evidence/cross-box-boundary-status.md).
 
 ## Next Steps
 
-Resume cross-box boundary hardening. New GPU tasks require a clear hypothesis,
-required data assets, and an expected contribution to the project narrative.
+Resume black-box response-strength comparator preflight. The question is
+whether the response-strength surface can get a compatible comparator and
+query-budget contract without gray-box or white-box signals. New GPU tasks
+require a clear hypothesis, required data assets, and an expected contribution
+to the project narrative.
 
 ## Key Documents
 

@@ -1,13 +1,13 @@
 # Research Task Queue
 
-> Last refreshed: 2026-04-30
+> Last refreshed: 2026-05-01
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `Cross-box experiment boundary hardening`
+- Active work: `Black-box response-strength comparator preflight`
 - Next GPU task: `none`
 - CPU work: `Public documentation sync`
 - Gray-box: paused unless a new finding changes priorities
@@ -17,19 +17,21 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Cross-box experiment boundary hardening
+### Black-box response-strength comparator preflight
 
 - `mode`: CPU-only boundary work
 - `status`: active
-- `goal`: formal statement on adaptive-attacker and low-FPR limitations,
-  plus updates to current evidence summaries
+- `goal`: determine whether the response-strength surface has a compatible
+  black-box comparator, query-budget contract, adaptive-attacker boundary, and
+  low-FPR release gate
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-The response-strength candidate is strong enough to create overclaim pressure
-but remains candidate-only. This task hardens cross-track wording and
-integration readiness before any future GPU work.
+Cross-box boundary hardening closed as candidate-only: current packets show AUC
+movement but not stable low-FPR gains. The next honest research step is to see
+whether the strongest non-admitted black-box candidate can be given a real
+comparator contract without borrowing higher-permission signals.
 
 ## Ready
 
@@ -78,8 +80,7 @@ integration readiness before any future GPU work.
 ### Response-strength black-box candidate
 
 - `mode`: black-box candidate
-- `reason for hold`: non-overlap validation passed, but compatible comparator
-  and adaptive/query-budget contracts are not available.
+- `reason for hold`: promoted into the active CPU preflight.
 - `reopen trigger`: frozen compatible comparator contract or a CPU preflight
   that can justify one future validation experiment.
 
@@ -105,6 +106,7 @@ integration readiness before any future GPU work.
 | Task | Result |
 | --- | --- |
 | CLI package/dispatch split | `diffaudit.cli` is now a package with parser and dispatch separated. |
+| Cross-box evidence boundary hardening | Candidate-only. Existing cross-box packets are useful for internal comparison but do not establish stable low-FPR gains. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
 | Architecture triage | Fixed dependency issues; added package initializers; aligned local checks with CI. |
 | Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |

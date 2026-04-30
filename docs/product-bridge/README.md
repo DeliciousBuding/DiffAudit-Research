@@ -11,6 +11,11 @@ limitations. Research provides three kinds of output:
 | Candidate result | A result useful for internal comparison, not yet ready for external use. |
 | Constraint note | A known limitation that prevents overclaiming in Platform UI. |
 
+Current cross-box status: cross-box score sharing is candidate-only. It can
+inform internal ranking and future research selection, but it should not appear
+as admitted Platform evidence until low-FPR stability is established. See
+[../evidence/cross-box-boundary-status.md](../evidence/cross-box-boundary-status.md).
+
 ## Documents
 
 | Document | Purpose |
