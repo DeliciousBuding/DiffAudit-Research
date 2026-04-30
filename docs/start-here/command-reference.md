@@ -111,6 +111,7 @@ Run the bounded H2 response-strength validation candidate:
 python scripts/run_h2_response_strength_validation.py `
   --packet-size 512 `
   --split-offset 512 `
+  --primary-scorer raw_h2_logistic `
   --device cuda:0
 ```
 

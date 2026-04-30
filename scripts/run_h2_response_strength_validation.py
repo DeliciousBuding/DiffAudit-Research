@@ -12,10 +12,12 @@ import torch
 
 from diffaudit.attacks.h2_response_strength import (
     DEFAULT_TIMESTEPS,
+    PRIMARY_SCORERS,
     build_alpha_bars,
     collect_strength_responses,
     compute_lowpass_min_distances,
     evaluate_h2_response_cache,
+    evaluate_validation_gate,
     metric_delta,
     select_split_indices,
 )
@@ -59,6 +61,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--holdout-repeats", type=int, default=7)
     parser.add_argument("--bootstrap-iters", type=int, default=200)
     parser.add_argument("--frequency-cutoff", type=float, default=0.5)
+    parser.add_argument("--primary-scorer", choices=PRIMARY_SCORERS, default="raw_h2_logistic")
     parser.add_argument("--no-save-responses", action="store_true")
     return parser.parse_args()
 
@@ -205,14 +208,17 @@ def main() -> int:
         raw_best_simple_low = raw_h2["simple"]["best_by_low_fpr"]["metrics"]
         raw_best_simple_auc = raw_h2["simple"]["best_by_auc"]["metrics"]
         lowpass_metrics = lowpass_h2["logistic"]["aggregate_metrics"]
-        validation_passed = (
-            float(raw_metrics["auc"]) >= float(raw_best_simple_auc["auc"])
-            and float(raw_metrics["tpr_at_1pct_fpr"]) > float(raw_best_simple_low["tpr_at_1pct_fpr"])
-            and float(raw_metrics["tpr_at_0_1pct_fpr"]) > 0.0
+        validation_gate = evaluate_validation_gate(
+            primary_scorer=args.primary_scorer,
+            raw_metrics=raw_metrics,
+            lowpass_metrics=lowpass_metrics,
+            raw_best_simple_low=raw_best_simple_low,
+            raw_best_simple_auc=raw_best_simple_auc,
         )
+        validation_passed = bool(validation_gate["validation_passed"])
         summary = {
             "status": "ready",
-            "task": "H2 response-strength raw-primary validation",
+            "task": "H2 response-strength validation",
             "mode": "bounded-gpu-validation",
             "track": "black-box",
             "method": "H2 response-strength curve with lowpass boundary check",
@@ -230,6 +236,7 @@ def main() -> int:
                 "denoise_stride": int(args.denoise_stride),
                 "seed": int(args.seed),
                 "frequency_cutoff": float(args.frequency_cutoff),
+                "primary_scorer": args.primary_scorer,
             },
             "runtime": {
                 "weights_key": weights_key,
@@ -247,6 +254,7 @@ def main() -> int:
                 "raw_best_simple_by_low_fpr": raw_h2["simple"]["best_by_low_fpr"],
                 "raw_logistic_minus_best_simple_by_low_fpr": metric_delta(raw_metrics, raw_best_simple_low),
                 "lowpass_logistic_minus_raw_logistic": metric_delta(lowpass_metrics, raw_metrics),
+                "validation_gate": validation_gate,
                 "validation_passed": bool(validation_passed),
                 "promotion_allowed": False,
             },
@@ -259,7 +267,7 @@ def main() -> int:
     except Exception as exc:
         summary = {
             "status": "blocked",
-            "task": "H2 response-strength raw-primary validation",
+            "task": "H2 response-strength validation",
             "mode": "bounded-gpu-validation",
             "track": "black-box",
             "device": args.device,
@@ -277,4 +285,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

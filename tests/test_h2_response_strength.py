@@ -88,6 +88,63 @@ class H2ResponseStrengthTests(unittest.TestCase):
         self.assertGreaterEqual(result["aggregate_metrics"]["auc"], 0.9)
         self.assertGreaterEqual(result["prediction_count"]["min"], 1)
 
+    def test_validation_gate_supports_lowpass_primary(self) -> None:
+        from diffaudit.attacks.h2_response_strength import evaluate_validation_gate
+
+        raw_metrics = {
+            "auc": 0.905693,
+            "asr": 0.841797,
+            "tpr_at_1pct_fpr": 0.134766,
+            "tpr_at_0_1pct_fpr": 0.0,
+        }
+        lowpass_metrics = {
+            "auc": 0.895679,
+            "asr": 0.830078,
+            "tpr_at_1pct_fpr": 0.146484,
+            "tpr_at_0_1pct_fpr": 0.025391,
+        }
+        best_low = {
+            "auc": 0.830601,
+            "asr": 0.775391,
+            "tpr_at_1pct_fpr": 0.037109,
+            "tpr_at_0_1pct_fpr": 0.005859,
+        }
+        result = evaluate_validation_gate(
+            primary_scorer="lowpass_h2_logistic",
+            raw_metrics=raw_metrics,
+            lowpass_metrics=lowpass_metrics,
+            raw_best_simple_low=best_low,
+            raw_best_simple_auc=best_low,
+        )
+
+        self.assertTrue(result["validation_passed"])
+        self.assertEqual(result["primary_scorer"], "lowpass_h2_logistic")
+
+    def test_validation_gate_keeps_raw_primary_strict(self) -> None:
+        from diffaudit.attacks.h2_response_strength import evaluate_validation_gate
+
+        metrics = {
+            "auc": 0.905693,
+            "asr": 0.841797,
+            "tpr_at_1pct_fpr": 0.134766,
+            "tpr_at_0_1pct_fpr": 0.0,
+        }
+        best_low = {
+            "auc": 0.830601,
+            "asr": 0.775391,
+            "tpr_at_1pct_fpr": 0.037109,
+            "tpr_at_0_1pct_fpr": 0.005859,
+        }
+        result = evaluate_validation_gate(
+            primary_scorer="raw_h2_logistic",
+            raw_metrics=metrics,
+            lowpass_metrics=None,
+            raw_best_simple_low=best_low,
+            raw_best_simple_auc=best_low,
+        )
+
+        self.assertFalse(result["validation_passed"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -19,6 +19,7 @@ from diffaudit.utils.metrics import metric_bundle, round6
 
 METRIC_KEYS = ("auc", "asr", "tpr_at_1pct_fpr", "tpr_at_0_1pct_fpr")
 DEFAULT_TIMESTEPS = (40, 80, 120, 160)
+PRIMARY_SCORERS = ("raw_h2_logistic", "lowpass_h2_logistic")
 
 
 def select_split_indices(member_split_path: str | Any, membership: str, offset: int, packet_size: int) -> list[int]:
@@ -45,6 +46,48 @@ def metric_delta(left: dict[str, float], right: dict[str, float]) -> dict[str, f
     """Return rounded metric differences for the common admission metrics."""
 
     return {key: round6(float(left[key]) - float(right[key])) for key in METRIC_KEYS}
+
+
+def evaluate_validation_gate(
+    *,
+    primary_scorer: str,
+    raw_metrics: dict[str, float],
+    lowpass_metrics: dict[str, float] | None,
+    raw_best_simple_low: dict[str, float],
+    raw_best_simple_auc: dict[str, float],
+    auc_retention_margin: float = 0.03,
+) -> dict[str, Any]:
+    """Evaluate the frozen H2 candidate gate without mutating metric payloads."""
+
+    if primary_scorer not in PRIMARY_SCORERS:
+        raise ValueError(f"Unknown primary scorer: {primary_scorer}")
+    if primary_scorer == "raw_h2_logistic":
+        primary_metrics = raw_metrics
+        checks = {
+            "auc_not_below_best_simple_auc": float(primary_metrics["auc"]) >= float(raw_best_simple_auc["auc"]),
+            "tpr_1pct_beats_best_simple_low": float(primary_metrics["tpr_at_1pct_fpr"])
+            > float(raw_best_simple_low["tpr_at_1pct_fpr"]),
+            "strict_tail_present": float(primary_metrics["tpr_at_0_1pct_fpr"]) > 0.0,
+        }
+    else:
+        if lowpass_metrics is None:
+            raise ValueError("lowpass_h2_logistic requires lowpass metrics")
+        primary_metrics = lowpass_metrics
+        checks = {
+            "strict_tail_present": float(primary_metrics["tpr_at_0_1pct_fpr"]) > 0.0,
+            "strict_tail_beats_best_simple_low": float(primary_metrics["tpr_at_0_1pct_fpr"])
+            > float(raw_best_simple_low["tpr_at_0_1pct_fpr"]),
+            "auc_retained_vs_raw": float(primary_metrics["auc"])
+            >= float(raw_metrics["auc"]) - float(auc_retention_margin),
+            "tpr_1pct_not_below_best_simple_low": float(primary_metrics["tpr_at_1pct_fpr"])
+            >= float(raw_best_simple_low["tpr_at_1pct_fpr"]),
+        }
+    return {
+        "primary_scorer": primary_scorer,
+        "primary_metrics": primary_metrics,
+        "checks": checks,
+        "validation_passed": all(bool(value) for value in checks.values()),
+    }
 
 
 def score_metrics(labels: np.ndarray, scores: np.ndarray) -> dict[str, float]:
