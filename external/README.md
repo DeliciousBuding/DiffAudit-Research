@@ -4,16 +4,20 @@
 
 不要把原始数据集、原始权重、补充附件长期堆在这里。
 
-## Current Role Map
+## Expected Clone Map
 
 - `CLiD/`
-  - canonical local working clone for upstream CLiD code
+  - local working clone for upstream CLiD code when needed
   - raw CLiD supplementary mirror lives under `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/clid-mia-supplementary/`
 - `SecMI/`
-  - full upstream clone kept for upstream config / split / structure reference
+  - optional full upstream clone for upstream config / split / structure reference
   - canonical in-repo minimal integration surface is `<DIFFAUDIT_ROOT>/Research/third_party/secmi/`
 - `PIA/`, `Reconstruction-based-Attack/`, `GSA/`, `DiT/`, `DPDM/`, `mia-diffusion/`
-  - upstream or exploratory code clones
+  - optional upstream or exploratory code clones
+
+These directories are intentionally not committed and may be absent on a clean
+machine. Recreate them with the shallow clone commands in
+`docs/assets-and-storage/data-and-assets-handoff.md`.
 
 ## Not For
 
