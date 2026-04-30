@@ -8,7 +8,8 @@ from unittest.mock import patch
 
 import numpy as np
 import torch
-from PIL import Image
+
+from tests.helpers import make_fake_cifar10
 
 
 class SimaAdapterTests(unittest.TestCase):
@@ -33,22 +34,7 @@ class SimaAdapterTests(unittest.TestCase):
         from diffaudit.config import load_audit_config
         from tests.test_pia_adapter import create_minimal_pia_repo
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (16, 48, 144, 208)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((16, 48, 144, 208))
 
         config_template = """
 task:
@@ -123,22 +109,7 @@ report:
         from diffaudit.config import load_audit_config
         from tests.test_pia_adapter import create_minimal_pia_repo
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (12, 36, 60, 168, 192, 216)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((12, 36, 60, 168, 192, 216))
 
         config_template = """
 task:
@@ -253,22 +224,7 @@ report:
         from diffaudit.cli import main
         from tests.test_pia_adapter import create_minimal_pia_repo
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (18, 42, 66, 150, 174, 198)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((18, 42, 66, 150, 174, 198))
 
         config_template = """
 task:
