@@ -42,6 +42,8 @@ def main(argv: list[str] | None = None) -> None:
     python_executable = resolve_python(args.python)
 
     run([python_executable, "scripts/bootstrap_research_env.py"], repo_root)
+    run([python_executable, "scripts/check_public_surface.py"], repo_root)
+    run([python_executable, "scripts/check_markdown_links.py"], repo_root)
     run([python_executable, "scripts/validate_attack_defense_table.py"], repo_root)
     run([python_executable, "-m", "diffaudit", "--help"], repo_root)
     run([python_executable, "-m", "unittest", "tests.test_attack_registry", "tests.test_smoke_pipeline"], repo_root)

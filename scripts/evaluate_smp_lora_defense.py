@@ -18,7 +18,7 @@ from PIL import Image
 research_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(research_root / "src"))
 
-from diffaudit.defenses.lora_ddpm import LoRALinear, inject_lora_into_unet
+from diffaudit.defenses.lora_ddpm import LoRALinear, create_ddpm_model, inject_lora_into_unet
 from diffusers import DDPMScheduler, UNet2DModel
 
 
@@ -215,33 +215,6 @@ class SimpleGSA:
                 "num_nonmember": len(nonmember_features),
                 "note": "sklearn not available, using simplified metric",
             }
-
-
-def create_ddpm_model() -> UNet2DModel:
-    """Create a DDPM model matching training architecture."""
-    return UNet2DModel(
-        sample_size=32,
-        in_channels=3,
-        out_channels=3,
-        layers_per_block=2,
-        block_out_channels=(128, 128, 256, 256, 512, 512),
-        down_block_types=(
-            "DownBlock2D",
-            "DownBlock2D",
-            "DownBlock2D",
-            "DownBlock2D",
-            "AttnDownBlock2D",
-            "DownBlock2D",
-        ),
-        up_block_types=(
-            "UpBlock2D",
-            "AttnUpBlock2D",
-            "UpBlock2D",
-            "UpBlock2D",
-            "UpBlock2D",
-            "UpBlock2D",
-        ),
-    )
 
 
 def load_base_model(model_path: Path, device: torch.device) -> UNet2DModel:
