@@ -45,6 +45,8 @@ perturbation collapses the signal, so CLiD should be treated as a
 prompt-conditioned candidate rather than admitted general black-box evidence.
 The next CLiD task is CPU-only: specify an admission test that can separate
 prompt information from membership signal before any new GPU packet is selected.
+A swapped-prompt ignored scaffold is prepared, but no score result exists for
+that control yet.
 
 ## Key Documents
 

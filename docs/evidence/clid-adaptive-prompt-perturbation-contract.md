@@ -58,7 +58,9 @@ both necessary or whether one surface is sufficient.
 ## Current State
 
 - GPU task: none selected.
-- CPU sidecar: prepare a swapped-prompt control packet from the existing CLiD
-  bridge structure when a reversible ignored run root is available.
+- CPU sidecar: a reversible ignored scaffold has been prepared as
+  `clid-local-bridge-100-swap-prompts-20260501-r1` with 100 member and 100
+  nonmember metadata rows. This is not a score result; it only prepares the
+  prompt-control input contract.
 - Product impact: none. Platform and Runtime should continue treating CLiD as
   candidate-only.
