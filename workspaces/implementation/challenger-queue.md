@@ -13,25 +13,25 @@ X-180 anchors live under
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = Phase 0 shared utils extraction`
+- `current_execution_item = Architecture audit triage cleanups`
 - `gray_box_slot = yield`
 - `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
 - `G1-A / X-90 = two-seed internal auxiliary positive`
 
 ## Active
 
-### Phase 0 shared utils extraction
+### Architecture audit triage cleanups
 
 - `mode`: CPU-only repository governance
 - `status`: active
-- `verdict target`: behavior-preserving extraction of duplicated pure helper
-  code for metrics, JSON I/O, Gaussian scoring, and diffusion schedules
+- `verdict target`: corrected architecture-audit record plus low-risk package
+  boundary fixes from admitted findings
 - `GPU`: no
 - `handoff`: no Platform or Runtime schema change
 
 This active item temporarily blocks research expansion. It must finish with a
-small PR that preserves CLI arguments, JSON output fields, and workspace
-artifact schemas.
+small PR that keeps raw reviewer packets out of public docs and preserves CLI
+arguments, JSON output fields, and workspace artifact schemas.
 
 ## Ready
 
@@ -109,6 +109,7 @@ artifact schemas.
 
 | Range | Verdict |
 | --- | --- |
+| `2026-04-30 Phase 0 utils` | Shared utility extraction merged; metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |
 | `2026-04-30 IA reset` | Information architecture reset merged; public docs, internal docs, workspace archives, and asset boundaries reorganized. |
 | `X-141` to `X-143` | G1-A / X-90 restored as two-seed internal auxiliary positive; not headline evidence. |
 | `X-144` to `X-155` | Activation-subspace and per-timestep trajectory routes closed negative-but-useful; GPU hold. |
