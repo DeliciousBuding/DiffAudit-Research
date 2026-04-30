@@ -12,7 +12,7 @@
       "current_shape": "document-layer conditional rank 1",
       "current_boundary": "document-layer only until provenance closes",
       "blocker": "checkpoint/source provenance",
-      "source_doc": "workspaces/gray-box/2026-04-09-pia-provenance-dossier.md"
+      "source_doc": "legacy/workspaces/gray-box/2026-04/2026-04-09-pia-provenance-dossier.md"
     }
   ],
   "intake_review_priority_order": []

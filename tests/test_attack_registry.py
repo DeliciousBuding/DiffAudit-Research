@@ -5,22 +5,12 @@ from contextlib import redirect_stdout
 from io import StringIO
 import json
 
+from tests.helpers import create_fake_secmi_repo, write_secmi_flagfile
+
 
 class AttackRegistryTests(unittest.TestCase):
     def _create_secmi_repo(self, root: Path) -> Path:
-        repo_root = root / "third_party" / "secmi"
-        (repo_root / "mia_evals").mkdir(parents=True)
-        (repo_root / "__init__.py").write_text('"""secmi"""', encoding="utf-8")
-        (repo_root / "model.py").write_text("# model", encoding="utf-8")
-        (repo_root / "diffusion.py").write_text("# diffusion", encoding="utf-8")
-        (repo_root / "mia_evals" / "__init__.py").write_text('"""mia"""', encoding="utf-8")
-        (repo_root / "mia_evals" / "dataset_utils.py").write_text("# util", encoding="utf-8")
-        (repo_root / "mia_evals" / "secmia.py").write_text(
-            "def get_FLAGS(*args, **kwargs):\n    return None\n"
-            "def secmi_attack(*args, **kwargs):\n    return None\n",
-            encoding="utf-8",
-        )
-        return repo_root
+        return create_fake_secmi_repo(root)
 
     def test_returns_secmi_planner(self) -> None:
         from diffaudit.attacks.registry import get_attack_planner
@@ -783,9 +773,10 @@ report:
 
         with tempfile.TemporaryDirectory() as tmpdir:
             target_dir = Path(tmpdir) / "smoke-assets"
+            flagfile_source = write_secmi_flagfile(Path(tmpdir) / "config" / "CIFAR10.txt")
             result = bootstrap_secmi_smoke_assets(
                 target_dir=target_dir,
-                flagfile_source=Path("external/SecMI/config/CIFAR10.txt"),
+                flagfile_source=flagfile_source,
             )
 
         self.assertTrue(result["flagfile_path"].endswith("flagfile.txt"))
@@ -819,9 +810,10 @@ report:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
             model_dir = root / "model"
+            flagfile_source = write_secmi_flagfile(root / "config" / "CIFAR10.txt")
             bootstrap_secmi_smoke_assets(
                 target_dir=model_dir,
-                flagfile_source=Path("external/SecMI/config/CIFAR10.txt"),
+                flagfile_source=flagfile_source,
             )
 
             config_path = root / "audit.yaml"

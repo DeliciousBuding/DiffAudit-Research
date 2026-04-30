@@ -5,7 +5,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 import numpy as np
-from PIL import Image
+
+from tests.helpers import make_fake_cifar10
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -60,22 +61,7 @@ class TemporalSurrogateTests(unittest.TestCase):
         from diffaudit.config import load_audit_config
         from tests.test_pia_adapter import PIA_CONFIG_TEMPLATE, create_minimal_pia_repo
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (24, 56, 152, 216)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((24, 56, 152, 216))
 
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
