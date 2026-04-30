@@ -49,15 +49,18 @@ The bridge artifact contract is now validated in
 run is reusable and moves the next step to score output schema and low-FPR gate
 definition.
 
+The score-summary schema and low-FPR gate are now defined in
+[clid-score-schema-gate.md](clid-score-schema-gate.md). A future CLiD packet
+must pass that validator before it can be reviewed as a bounded GPU candidate.
+
 ## Next Contract
 
 The next CLiD task should be CPU-first:
 
-1. Freeze the score output schema: raw score matrices, threshold summary,
-   metrics, and held-out target split semantics.
-2. Run only a tiny paper-alignment score bridge or artifact summary first.
+1. Run only a tiny paper-alignment score bridge or artifact summary first.
+2. Validate the summary with the score-schema gate before any promotion.
 3. Do not run a large GPU CLiD packet until the bridge emits a stable, portable
-   summary schema and a low-FPR gate.
+   summary schema and a nonzero strict-tail signal on a held-out target split.
 
 ## Boundary
 

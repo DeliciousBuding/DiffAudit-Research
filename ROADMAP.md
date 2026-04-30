@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** CLiD score-schema gate design
+- **Active work:** CLiD tiny score-bridge planning
 - **Next GPU task:** none selected
-- **CPU work:** freeze CLiD score output schema and low-FPR gate
+- **CPU work:** map CLiD bridge outputs into frozen score-summary schema
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,20 +29,21 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume with CLiD score-schema gate design. H2 is held for cross-asset work
+Resume with CLiD tiny score-bridge planning. H2 is held for cross-asset work
 because SD/CelebA text-to-image is protocol-incompatible with H2
 response-strength. `recon` remains the admitted black-box baseline, `variation`
 lacks a real query set and endpoint, and CLiD is selected as the next bounded
 prompt-conditioned black-box lane. The first local bridge preparation succeeded
-with 8 member and 8 nonmember exports, and the bridge contract review passed.
-No GPU packet is selected until the CLiD score output schema and low-FPR gate
-are frozen.
+with 8 member and 8 nonmember exports, the bridge contract review passed, and
+the score-summary schema gate is defined. No GPU packet is selected until a
+tiny score bridge produces a portable summary and passes the low-FPR gate.
 
 ## Key Documents
 
 - Project overview: [README.md](README.md)
 - Documentation index: [docs/README.md](docs/README.md)
 - Experiment status: [docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md)
+- CLiD score gate: [docs/evidence/clid-score-schema-gate.md](docs/evidence/clid-score-schema-gate.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

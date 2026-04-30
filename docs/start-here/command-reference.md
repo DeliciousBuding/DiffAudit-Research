@@ -142,6 +142,13 @@ python scripts/review_clid_bridge_contract.py `
   --run-root workspaces/black-box/runs/<clid-bridge-run>
 ```
 
+Validate a CLiD score-summary gate before promotion:
+
+```powershell
+python scripts/review_clid_score_schema.py `
+  --summary workspaces/black-box/runs/<clid-score-run>/summary.json
+```
+
 Plan `variation`:
 
 ```powershell

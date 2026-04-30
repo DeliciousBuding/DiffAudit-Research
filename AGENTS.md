@@ -28,9 +28,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD score-schema gate design`
+- Active work: `CLiD tiny score-bridge planning`
 - Next GPU task: `none selected`
-- CPU work: `freeze CLiD score output schema and low-FPR gate`
+- CPU work: `map CLiD bridge outputs into frozen score-summary schema`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 

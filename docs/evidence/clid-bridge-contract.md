@@ -67,6 +67,9 @@ Before any GPU CLiD packet, freeze the score output schema:
 | low-FPR gate | no promotion without nonzero strict-tail signal on a held-out target split |
 | artifact boundary | generated images and raw score matrices remain ignored; commit summaries only |
 
+The frozen schema gate is recorded in
+[clid-score-schema-gate.md](clid-score-schema-gate.md).
+
 ## Boundary
 
 - This does not change admitted evidence.
