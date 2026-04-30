@@ -23,12 +23,7 @@ not a research-experiment roadmap and does not authorize GPU work.
 | Placeholder packages | Empty tracked package placeholders were removed. |
 | External clone dependency in tests | SecMI registry tests create temporary fake upstream workspaces. |
 | Rebuild docs | `docs/rebuild/` is the dedicated codebase rebuild planning surface. |
-
-## Active PR
-
-| Theme | Acceptance Boundary |
-| --- | --- |
-| R1 test and boundary cleanup | Centralize adapter test fixtures, remove active-suite dependencies on real `external/SecMI` and `external/Reconstruction-based-Attack`, refresh the test guide, and keep production behavior unchanged when optional upstream clones are present. |
+| R1 test and boundary cleanup | Adapter test fixtures are centralized, and active tests no longer require real `external/SecMI` or `external/Reconstruction-based-Attack` clones. |
 
 ## Next PR Sequence
 
