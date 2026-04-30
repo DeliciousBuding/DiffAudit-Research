@@ -1,4 +1,4 @@
-name: Documentation issue
+﻿name: Documentation issue
 description: Report unclear, stale, or non-portable documentation.
 title: "[docs]: "
 labels:
@@ -9,7 +9,7 @@ body:
     attributes:
       label: Document location
       description: Link or path to the affected document.
-      placeholder: "Example: docs/data-and-assets-handoff.md"
+      placeholder: "Example: docs/assets-and-storage/data-and-assets-handoff.md"
     validations:
       required: true
   - type: textarea
