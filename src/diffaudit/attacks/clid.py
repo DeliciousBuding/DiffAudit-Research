@@ -544,6 +544,7 @@ def summarize_clid_artifacts(
         encoding="utf-8",
     )
     score_schema_review = validate_clid_score_summary(score_summary_path)
+    promotion_eligible = score_schema_review["promotion_status"] == "eligible"
     result = {
         "status": "ready",
         "track": "black-box",
@@ -638,6 +639,8 @@ def summarize_clid_bridge_pair_outputs(
             best_metrics = metrics
 
     assert best_metrics is not None
+    feature0_metrics = _search_threshold(member_features[:, 0], nonmember_features[:, 0])
+    feature1_metrics = _search_threshold(member_features[:, 1], nonmember_features[:, 1])
 
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
@@ -684,6 +687,7 @@ def summarize_clid_bridge_pair_outputs(
         encoding="utf-8",
     )
     score_schema_review = validate_clid_score_summary(score_summary_path)
+    promotion_eligible = score_schema_review["promotion_status"] == "eligible"
     result = {
         "status": "ready",
         "track": "black-box",
@@ -717,6 +721,20 @@ def summarize_clid_bridge_pair_outputs(
             "tpr_at_0_1pct_fpr": tpr_at_0_1,
             "threshold": round(float(best_metrics["threshold"]), 6),
         },
+        "sanity_metrics": {
+            "feature0": {
+                "auc": round(float(feature0_metrics["auc"]), 6),
+                "asr": round(float(feature0_metrics["asr"]), 6),
+                "tpr_at_1pct_fpr": round(float(feature0_metrics["tpr_at_1pct_fpr"]), 6),
+                "tpr_at_0_1pct_fpr": round(float(feature0_metrics["tpr_at_0_1pct_fpr"]), 6),
+            },
+            "feature1_clid_aux": {
+                "auc": round(float(feature1_metrics["auc"]), 6),
+                "asr": round(float(feature1_metrics["asr"]), 6),
+                "tpr_at_1pct_fpr": round(float(feature1_metrics["tpr_at_1pct_fpr"]), 6),
+                "tpr_at_0_1pct_fpr": round(float(feature1_metrics["tpr_at_0_1pct_fpr"]), 6),
+            },
+        },
         "score_schema_review": {
             "status": score_schema_review["status"],
             "promotion_status": score_schema_review["promotion_status"],
@@ -724,13 +742,17 @@ def summarize_clid_bridge_pair_outputs(
             "promotion_missing": score_schema_review["promotion_missing"],
         },
         "verdict": (
-            "tiny bridge produced a reusable score schema but is not promotable"
-            if score_schema_review["promotion_status"] != "eligible"
-            else "tiny bridge produced a promotable score schema"
+            "local bridge produced a reusable score schema but is not promotable"
+            if not promotion_eligible
+            else "local bridge produced a promotable score schema"
         ),
         "notes": [
             "This summarizes the local two-file CLiD bridge, not the released four-file shadow/target evaluator.",
-            "Promotion is blocked by the configured minimum split size unless at least 100 member and 100 nonmember rows are available.",
+            (
+                "Promotion is eligible for bounded review under the configured sample gate; this is not admitted evidence."
+                if promotion_eligible
+                else "Promotion is blocked by the configured minimum split size unless at least 100 member and 100 nonmember rows are available."
+            ),
         ],
     }
     (workspace_path / "summary.json").write_text(

@@ -181,6 +181,8 @@ class ClidSmokeTests(unittest.TestCase):
         self.assertEqual(result["mode"], "local-bridge-pair-summary")
         self.assertEqual(result["score_schema_review"]["status"], "ready")
         self.assertEqual(result["score_schema_review"]["promotion_status"], "not_eligible")
+        self.assertIn("feature0", result["sanity_metrics"])
+        self.assertIn("feature1_clid_aux", result["sanity_metrics"])
 
 
 if __name__ == "__main__":

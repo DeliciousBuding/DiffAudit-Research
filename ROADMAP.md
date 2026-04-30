@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** CLiD 100/100 bounded score packet scoping
-- **Next GPU task:** CLiD 100 member / 100 nonmember score bridge, pending final asset check
-- **CPU work:** keep CLiD score-summary gate and verdict docs synchronized
+- **Active work:** CLiD candidate stability and adaptive review
+- **Next GPU task:** none selected
+- **CPU work:** audit CLiD 100/100 score packet for row alignment, leakage, and repeatability
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,16 +29,16 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume with CLiD 100/100 bounded score packet scoping. H2 is held for cross-asset work
+Resume with CLiD candidate stability and adaptive review. H2 is held for cross-asset work
 because SD/CelebA text-to-image is protocol-incompatible with H2
 response-strength. `recon` remains the admitted black-box baseline, `variation`
 lacks a real query set and endpoint, and CLiD is selected as the next bounded
 prompt-conditioned black-box lane. The first local bridge preparation succeeded
 with 8 member and 8 nonmember exports, the bridge contract review passed, and
 the score-summary schema gate is defined. The first 8/8 tiny CLiD score bridge
-produced a reusable schema and nonzero strict-tail metric, but it is not
-promotable because it fails the minimum sample gate. The next bounded GPU
-candidate is a 100 member / 100 nonmember score bridge under the same schema.
+was reusable but not promotable. The 100/100 packet clears the score-summary
+gate with strong low-FPR signal, but remains candidate-only until stability,
+row-alignment, and adaptive leakage review pass.
 
 ## Key Documents
 

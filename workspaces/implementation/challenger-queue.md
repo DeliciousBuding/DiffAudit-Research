@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD 100/100 bounded score packet scoping`
-- Next GPU task: `CLiD 100 member / 100 nonmember score bridge, pending final asset check`
-- CPU work: `keep CLiD score-summary gate and verdict docs synchronized`
+- Active work: `CLiD candidate stability and adaptive review`
+- Next GPU task: `none selected`
+- CPU work: `audit CLiD 100/100 score packet for row alignment, leakage, and repeatability`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,12 +17,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD 100/100 bounded score packet scoping
+### CLiD candidate stability and adaptive review
 
-- `mode`: bounded GPU candidate scoping
+- `mode`: CPU-first review after bounded GPU packet
 - `status`: active
-- `goal`: decide whether the next CLiD score packet clears the minimum sample gate
-- `GPU`: yes, but only after final asset and runtime check
+- `goal`: decide whether the CLiD 100/100 candidate can become admitted evidence
+- `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
@@ -32,8 +32,9 @@ CLiD workspace probes are ready. The first bridge preparation exported 8 member
 and 8 nonmember examples and generated a localized upstream script. Bridge
 contract review passed, and score-summary schema gate is wired into artifact
 summarization. The first 8/8 tiny score bridge is reusable but not promotable
-because it fails the minimum sample gate. The next candidate is a 100/100 score
-bridge under the same gate, not an unconstrained large packet.
+because it fails the minimum sample gate. The 100/100 score packet clears the
+gate with strong low-FPR signal, but remains candidate-only until stability,
+row-alignment, and adaptive leakage review pass.
 
 ## Ready
 
