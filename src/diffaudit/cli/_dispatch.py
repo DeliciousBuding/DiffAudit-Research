@@ -6,26 +6,7 @@ import json
 from dataclasses import asdict
 from pathlib import Path
 
-from diffaudit.attacks.clid import (
-    build_clid_plan,
-    explain_clid_assets,
-    probe_clid_dry_run,
-    run_clid_dry_run_smoke,
-    summarize_clid_artifacts,
-)
-from diffaudit.attacks.dit import probe_dit_assets, run_dit_sample_smoke
-from diffaudit.attacks.pia import build_pia_plan, explain_pia_assets, probe_pia_dry_run
-from diffaudit.attacks.secmi import build_secmi_plan, explain_secmi_assets
-from diffaudit.attacks.variation import (
-    build_variation_plan,
-    explain_variation_assets,
-    probe_variation_dry_run,
-    run_variation_synthetic_smoke,
-)
 from diffaudit.config import load_audit_config
-from diffaudit.pipelines.smoke import run_smoke_pipeline
-from diffaudit.reports.blackbox_status import build_blackbox_status_report
-from diffaudit.reports.mainline_audit import build_mainline_audit_report
 from diffaudit.cli._parser import build_parser
 
 
@@ -34,24 +15,32 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.command == "run-smoke":
+        from diffaudit.pipelines.smoke import run_smoke_pipeline
+
         config = load_audit_config(args.config)
         summary_path = run_smoke_pipeline(config, Path(args.workspace))
         print(f"Smoke summary written to {summary_path}")
         return 0
 
     if args.command == "plan-secmi":
+        from diffaudit.attacks.secmi import build_secmi_plan
+
         config = load_audit_config(args.config)
         plan = build_secmi_plan(config)
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
         return 0
 
     if args.command == "plan-pia":
+        from diffaudit.attacks.pia import build_pia_plan
+
         config = load_audit_config(args.config)
         plan = build_pia_plan(config)
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
         return 0
 
     if args.command == "plan-clid":
+        from diffaudit.attacks.clid import build_clid_plan
+
         config = load_audit_config(args.config)
         plan = build_clid_plan(config)
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
@@ -66,24 +55,32 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "plan-variation":
+        from diffaudit.attacks.variation import build_variation_plan
+
         config = load_audit_config(args.config)
         plan = build_variation_plan(config)
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
         return 0
 
     if args.command == "probe-secmi-assets":
+        from diffaudit.attacks.secmi import explain_secmi_assets
+
         config = load_audit_config(args.config)
         payload = explain_secmi_assets(config, member_split_root=args.member_split_root)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
     if args.command == "probe-pia-assets":
+        from diffaudit.attacks.pia import explain_pia_assets
+
         config = load_audit_config(args.config)
         payload = explain_pia_assets(config, member_split_root=args.member_split_root)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
     if args.command == "probe-clid-assets":
+        from diffaudit.attacks.clid import explain_clid_assets
+
         config = load_audit_config(args.config)
         payload = explain_clid_assets(config)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
@@ -155,6 +152,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if payload["status"] == "ready" else 1
 
     if args.command == "probe-dit-assets":
+        from diffaudit.attacks.dit import probe_dit_assets
+
         payload = probe_dit_assets(
             repo_root=args.repo_root,
             ckpt=args.ckpt,
@@ -165,6 +164,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if payload["status"] == "ready" else 1
 
     if args.command == "probe-variation-assets":
+        from diffaudit.attacks.variation import explain_variation_assets
+
         config = load_audit_config(args.config)
         payload = explain_variation_assets(config)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
@@ -368,6 +369,8 @@ def main(argv: list[str] | None = None) -> int:
         return exit_code
 
     if args.command == "dry-run-pia":
+        from diffaudit.attacks.pia import probe_pia_dry_run
+
         config = load_audit_config(args.config)
         exit_code, payload = probe_pia_dry_run(
             config,
@@ -378,6 +381,8 @@ def main(argv: list[str] | None = None) -> int:
         return exit_code
 
     if args.command == "dry-run-clid":
+        from diffaudit.attacks.clid import probe_clid_dry_run
+
         config = load_audit_config(args.config)
         exit_code, payload = probe_clid_dry_run(config, args.repo_root)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
@@ -392,12 +397,16 @@ def main(argv: list[str] | None = None) -> int:
         return exit_code
 
     if args.command == "dry-run-variation":
+        from diffaudit.attacks.variation import probe_variation_dry_run
+
         config = load_audit_config(args.config)
         exit_code, payload = probe_variation_dry_run(config)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
 
     if args.command == "run-clid-dry-run-smoke":
+        from diffaudit.attacks.clid import run_clid_dry_run_smoke
+
         payload = run_clid_dry_run_smoke(
             args.workspace,
             repo_root=args.repo_root,
@@ -406,6 +415,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if payload["status"] == "ready" else 1
 
     if args.command == "summarize-clid-artifacts":
+        from diffaudit.attacks.clid import summarize_clid_artifacts
+
         payload = summarize_clid_artifacts(
             artifact_dir=args.artifact_dir,
             workspace=args.workspace,
@@ -494,6 +505,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if payload["status"] == "ready" else 1
 
     if args.command == "run-dit-sample-smoke":
+        from diffaudit.attacks.dit import run_dit_sample_smoke
+
         payload = run_dit_sample_smoke(
             workspace=args.workspace,
             repo_root=args.repo_root,
@@ -507,11 +520,15 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if payload["status"] == "ready" else 1
 
     if args.command == "run-variation-synth-smoke":
+        from diffaudit.attacks.variation import run_variation_synthetic_smoke
+
         payload = run_variation_synthetic_smoke(args.workspace)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
 
     if args.command == "summarize-blackbox-results":
+        from diffaudit.reports.blackbox_status import build_blackbox_status_report
+
         payload = build_blackbox_status_report(
             experiments_root=args.experiments_root,
             workspace=args.workspace,
@@ -520,6 +537,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "summarize-mainline-audit":
+        from diffaudit.reports.mainline_audit import build_mainline_audit_report
+
         payload = build_mainline_audit_report(
             research_root=args.research_root,
             workspace=args.workspace,
