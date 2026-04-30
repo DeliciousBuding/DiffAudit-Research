@@ -12,7 +12,7 @@ chooses work; this document defines where work products belong.
 The 2026-04-29 and 2026-04-30 governance cleanups are merged to `main`
 from PR #26 through PR #36. The ongoing baseline is:
 
-- Active work is `Cross-box evidence boundary hardening`
+- Active work is `Cross-box experiment boundary hardening`
 - Next GPU candidate is `none`
 - Cross-box boundary hardening is a method-hardening track, not a result release
 - No history rewrite or force-push should be performed without separate approval
@@ -77,10 +77,10 @@ workspace artifact before committing.
 
 ## Execution Log Rule
 
-Hot-path files must stay short:
+Active files must stay short:
 
 - `ROADMAP.md` holds current truth, next decision, and governance status.
-- `workspaces/implementation/candidate-queue.md` holds active / ready / hold /
+- `workspaces/implementation/challenger-queue.md` holds active / ready / hold /
   needs-assets / closed candidate state.
 - Long run timelines move to `legacy/execution-log/<date>/`.
 

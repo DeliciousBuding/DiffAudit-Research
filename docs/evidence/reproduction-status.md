@@ -23,10 +23,10 @@ Smoke tests and dry runs are engineering validation, not benchmark claims.
 | Black-box `CLiD` | `code-ready` | Supporting method, not a headline replacement. |
 | Black-box `variation` | `code-ready` | API-only support method; needs real query data for stronger claims. |
 | Gray-box `PIA` | `evidence-ready` | Strongest attack + defense story. Primary gray-box method. |
-| Gray-box `SecMI` | implemented | Independent reference method. |
-| Gray-box `TMIA-DM` | implemented | Strong challenger, secondary to PIA. |
+| Gray-box `SecMI` | `code-ready` | Independent reference method. |
+| Gray-box `TMIA-DM` | `code-ready` | Strong alternative, secondary to PIA. |
 | White-box `GSA` | `evidence-ready` | Strongest white-box method. Upper-bound reference. |
-| White-box `DPDM` | implemented | Defended comparator with protocol limitations. |
+| White-box `DPDM` | `code-ready` | Defended comparator with protocol limitations. |
 | Cross-box integration | next direction | Cross-track comparison and integration work. |
 
 ## More Details

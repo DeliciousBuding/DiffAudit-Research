@@ -17,7 +17,7 @@ the governance pass.
 | File | Observation |
 | --- | --- |
 | `ROADMAP.md` | About `442 KB`; acting as roadmap plus long execution log. |
-| `workspaces/implementation/candidate-queue.md` | Acting as queue plus long execution-ID decision timeline. |
+| `workspaces/implementation/challenger-queue.md` | Acting as queue plus long execution-ID decision timeline. |
 | `docs/internal/comprehensive-progress.md` | Still useful as detailed integration doc, but not the public front door. |
 
 Decision: preserve the long roadmap as
