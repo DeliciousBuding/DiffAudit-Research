@@ -22,6 +22,7 @@ Smoke tests and dry runs are engineering validation, not benchmark claims.
 | Black-box `recon` | `evidence-ready` | Strongest black-box method. Public data limits strict paper-aligned claims. |
 | Black-box `CLiD` | `code-ready` | Supporting method, not a headline replacement. |
 | Black-box `variation` | `code-ready` | API-only support method; needs real query data for stronger claims. |
+| Black-box `H2 response-strength` | candidate-only | Positive black-box candidate on non-overlap DDPM/CIFAR10 packets; not admitted evidence. See [black-box-response-strength-preflight.md](black-box-response-strength-preflight.md). |
 | Gray-box `PIA` | `evidence-ready` | Strongest attack + defense story. Primary gray-box method. |
 | Gray-box `SecMI` | `code-ready` | Independent reference method. |
 | Gray-box `TMIA-DM` | `code-ready` | Strong alternative, secondary to PIA. |
@@ -34,6 +35,7 @@ Smoke tests and dry runs are engineering validation, not benchmark claims.
 - Workspace state: [workspace-evidence-index.md](workspace-evidence-index.md)
 - Verified results: [admitted-results-summary.md](admitted-results-summary.md)
 - Cross-box boundary: [cross-box-boundary-status.md](cross-box-boundary-status.md)
+- H2 response-strength preflight: [black-box-response-strength-preflight.md](black-box-response-strength-preflight.md)
 - Innovation map: [innovation-evidence-map.md](innovation-evidence-map.md)
 - Platform integration: [../product-bridge/README.md](../product-bridge/README.md)
 - Data setup: [../assets-and-storage/data-and-assets-handoff.md](../assets-and-storage/data-and-assets-handoff.md)

@@ -8,7 +8,7 @@ This is the short steering document for Research. Execution history is in
 ## Current Focus
 
 - **Active work:** Black-box response-strength comparator preflight
-- **Next GPU task:** none selected
+- **Next GPU task:** H2 response-strength 512 / 512 validation, pending stable runner promotion
 - **CPU work:** Public documentation and repository sync
 
 The information-architecture reset, shared utilities extraction, asset boundary
@@ -29,11 +29,11 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume black-box response-strength comparator preflight. The question is
-whether the response-strength surface can get a compatible comparator and
-query-budget contract without gray-box or white-box signals. New GPU tasks
-require a clear hypothesis, required data assets, and an expected contribution
-to the project narrative.
+Resume by promoting the H2 response-strength validation runner out of archived
+execution scripts. Then run one bounded 512 / 512 non-overlap validation if GPU
+budget is available. The release gate is AUC advantage over the same-cache
+simple comparator plus nonzero `TPR@0.1%FPR`; this remains candidate evidence,
+not an admitted black-box replacement.
 
 ## Key Documents
 
