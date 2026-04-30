@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import stat
 import subprocess
@@ -26,6 +27,34 @@ HEAVY_RUN_DIR_NAMES = {
     "generated",
     "generated-images",
     "score-artifacts",
+}
+
+LOCAL_PATH_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("local DiffAudit Windows path", re.compile(r"D:(?:\\+|/+)+Code(?:\\+|/+)+DiffAudit")),
+    ("local Ding Windows path", re.compile(r"C:(?:\\+|/+)+Users(?:\\+|/+)+Ding")),
+    ("local Ding WSL path", re.compile(r"/mnt/c/Users/" + "Ding", re.IGNORECASE)),
+)
+
+LOCAL_PATH_SCAN_EXCLUDE_DIRS = {
+    ".git",
+    ".pytest_cache",
+    "__pycache__",
+}
+
+LOCAL_PATH_SCAN_EXCLUDE_FILES = {
+    "scripts/check_public_surface.py",
+}
+
+LOCAL_PATH_TEXT_SUFFIXES = {
+    ".csv",
+    ".json",
+    ".jsonl",
+    ".log",
+    ".md",
+    ".py",
+    ".txt",
+    ".yaml",
+    ".yml",
 }
 
 
@@ -428,6 +457,45 @@ def _tracked_large_files(root: Path, min_mb: float) -> list[dict[str, object]]:
     return findings
 
 
+def _local_path_leaks(root: Path) -> list[dict[str, object]]:
+    findings: list[dict[str, object]] = []
+    for current, dirnames, filenames in os.walk(root, topdown=True, followlinks=False):
+        dirnames[:] = [
+            dirname for dirname in dirnames if dirname not in LOCAL_PATH_SCAN_EXCLUDE_DIRS
+        ]
+        current_path = Path(current)
+        for filename in filenames:
+            file_path = current_path / filename
+            if file_path.suffix.lower() not in LOCAL_PATH_TEXT_SUFFIXES:
+                continue
+            try:
+                rel = _rel(file_path, root)
+            except ValueError:
+                continue
+            if rel in LOCAL_PATH_SCAN_EXCLUDE_FILES:
+                continue
+            try:
+                lines = file_path.open(encoding="utf-8", errors="strict")
+            except OSError:
+                continue
+            with lines:
+                try:
+                    for line_number, line in enumerate(lines, start=1):
+                        for label, pattern in LOCAL_PATH_PATTERNS:
+                            if pattern.search(line):
+                                findings.append(
+                                    {
+                                        "path": rel,
+                                        "line": line_number,
+                                        "category": label,
+                                    }
+                                )
+                                break
+                except UnicodeDecodeError:
+                    continue
+    return findings
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", default=str(_repo_root()), help="Research repository root")
@@ -452,6 +520,7 @@ def main(argv: list[str] | None = None) -> int:
         "tracked_large_files": _tracked_large_files(root, args.min_mb),
         "move_candidates": [asdict(candidate) for candidate in candidates],
         "external_clone_bloat": external,
+        "local_path_leaks": _local_path_leaks(root),
     }
 
     if args.execute:
