@@ -344,6 +344,14 @@ def _archive_root(root: Path, archive_subdir: str | None) -> Path:
 
 def _make_link(source: Path, target: Path) -> None:
     if os.name == "nt":
+        try:
+            os.symlink(target, source, target_is_directory=target.is_dir())
+            return
+        except OSError:
+            # Developer Mode or privilege policy may block directory symlinks.
+            # Fall back to a junction, which is the most compatible Windows
+            # repair link for local research asset directories.
+            pass
         subprocess.run(
             ["cmd", "/c", "mklink", "/J", str(source), str(target)],
             check=True,
