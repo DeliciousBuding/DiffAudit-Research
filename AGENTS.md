@@ -28,9 +28,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD candidate stability and adaptive review`
-- Next GPU task: `none selected`
-- CPU work: `audit CLiD 100/100 score packet for row alignment, leakage, and repeatability`
+- Active work: `CLiD independent repeat packet`
+- Next GPU task: `CLiD 100/100 repeat or perturbation under the frozen score gate`
+- CPU work: `keep candidate integrity review and score-summary gate synchronized`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 

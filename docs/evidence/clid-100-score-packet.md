@@ -38,6 +38,12 @@ The signal is not only a best-alpha artifact:
 The CLiD auxiliary feature is the dominant separator on this packet. That makes
 the result promising, but also requires adaptive review before admission.
 
+The first integrity review is recorded in
+[clid-candidate-integrity-review.md](clid-candidate-integrity-review.md). It
+does not find obvious row-alignment, duplicate-image, duplicate-prompt, or
+text-length leakage, but still requires a repeat or perturbation before
+admission.
+
 ## Boundary
 
 - This does not change admitted evidence.

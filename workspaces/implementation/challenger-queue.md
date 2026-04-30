@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD candidate stability and adaptive review`
-- Next GPU task: `none selected`
-- CPU work: `audit CLiD 100/100 score packet for row alignment, leakage, and repeatability`
+- Active work: `CLiD independent repeat packet`
+- Next GPU task: `CLiD 100/100 repeat or perturbation under the frozen score gate`
+- CPU work: `keep candidate integrity review and score-summary gate synchronized`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,12 +17,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD candidate stability and adaptive review
+### CLiD independent repeat packet
 
-- `mode`: CPU-first review after bounded GPU packet
+- `mode`: bounded GPU repeat
 - `status`: active
-- `goal`: decide whether the CLiD 100/100 candidate can become admitted evidence
-- `GPU`: no
+- `goal`: decide whether the CLiD 100/100 candidate survives an independent repeat or perturbation
+- `GPU`: yes
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
@@ -33,8 +33,8 @@ and 8 nonmember examples and generated a localized upstream script. Bridge
 contract review passed, and score-summary schema gate is wired into artifact
 summarization. The first 8/8 tiny score bridge is reusable but not promotable
 because it fails the minimum sample gate. The 100/100 score packet clears the
-gate with strong low-FPR signal, but remains candidate-only until stability,
-row-alignment, and adaptive leakage review pass.
+gate with strong low-FPR signal and survives first integrity review, but remains
+candidate-only until an independent repeat or perturbation passes.
 
 ## Ready
 
