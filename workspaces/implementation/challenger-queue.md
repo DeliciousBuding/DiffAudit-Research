@@ -42,8 +42,10 @@ No further CLiD GPU packet should run until a CPU-side perturbation contract
 specifies matched prompt-conditioned and prompt-control gates. The current CPU
 contract is
 [../../docs/evidence/clid-adaptive-prompt-perturbation-contract.md](../../docs/evidence/clid-adaptive-prompt-perturbation-contract.md).
-The swapped-prompt scaffold is prepared under ignored run storage, but it has no
-score verdict and should not be cited as evidence.
+The swapped-prompt control is now scored and recorded in
+[../../docs/evidence/clid-swapped-prompt-control.md](../../docs/evidence/clid-swapped-prompt-control.md).
+It is positive but degraded, so CLiD remains candidate-only and needs another
+control design before any next GPU packet is selected.
 
 ## Ready
 

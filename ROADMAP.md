@@ -45,8 +45,10 @@ perturbation collapses the signal, so CLiD should be treated as a
 prompt-conditioned candidate rather than admitted general black-box evidence.
 The next CLiD task is CPU-only: specify an admission test that can separate
 prompt information from membership signal before any new GPU packet is selected.
-A swapped-prompt ignored scaffold is prepared, but no score result exists for
-that control yet.
+The swapped-prompt control is positive but degraded, so CLiD is not explained
+by fixed prompt text alone. It remains candidate-only; the next CPU step is to
+design image-only, within-split prompt shuffle, or independent swapped-prompt
+repeat controls before selecting another GPU packet.
 
 ## Key Documents
 
@@ -56,6 +58,7 @@ that control yet.
 - CLiD score gate: [docs/evidence/clid-score-schema-gate.md](docs/evidence/clid-score-schema-gate.md)
 - CLiD prompt boundary: [docs/evidence/clid-prompt-conditioning-boundary.md](docs/evidence/clid-prompt-conditioning-boundary.md)
 - CLiD prompt-control contract: [docs/evidence/clid-adaptive-prompt-perturbation-contract.md](docs/evidence/clid-adaptive-prompt-perturbation-contract.md)
+- CLiD swapped-prompt control: [docs/evidence/clid-swapped-prompt-control.md](docs/evidence/clid-swapped-prompt-control.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

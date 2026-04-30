@@ -50,17 +50,16 @@ A new CLiD GPU packet is worth running only if the planned packet has all of:
 | Nuisance checks | row alignment, duplicate image hashes, duplicate prompts, and text-length AUC reviewed |
 | Boundary result | report both the prompt-conditioned result and the prompt-control result side by side |
 
-If the swapped-prompt control also collapses, CLiD remains useful only as a
-prompt-conditioned diagnostic surface. If it survives with nonzero strict-tail
-signal, the next review should check whether prompt text and image identity are
-both necessary or whether one surface is sufficient.
+The first swapped-prompt control is recorded in
+[clid-swapped-prompt-control.md](clid-swapped-prompt-control.md). It survived
+with nonzero strict-tail signal but degraded sharply, so the next review should
+check whether prompt text and image identity are both necessary or whether one
+surface is sufficient.
 
 ## Current State
 
 - GPU task: none selected.
-- CPU sidecar: a reversible ignored scaffold has been prepared as
-  `clid-local-bridge-100-swap-prompts-20260501-r1` with 100 member and 100
-  nonmember metadata rows. This is not a score result; it only prepares the
-  prompt-control input contract.
+- CPU sidecar: compare image-only, within-split shuffled prompt, or independent
+  swapped-prompt repeat designs before any next GPU run.
 - Product impact: none. Platform and Runtime should continue treating CLiD as
   candidate-only.
