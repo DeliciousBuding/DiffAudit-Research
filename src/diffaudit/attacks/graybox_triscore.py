@@ -8,80 +8,13 @@ from typing import Any
 
 import numpy as np
 
-
-def _read_json(path: str | Path) -> dict[str, Any]:
-    return json.loads(Path(path).read_text(encoding="utf-8"))
-
-
-def _round6(value: float) -> float:
-    return round(float(value), 6)
-
-
-def _orient_memberness(
-    member_scores: np.ndarray,
-    nonmember_scores: np.ndarray,
-) -> tuple[np.ndarray, np.ndarray, str]:
-    if float(member_scores.mean()) < float(nonmember_scores.mean()):
-        return -member_scores, -nonmember_scores, "negated"
-    return member_scores, nonmember_scores, "identity"
-
-
-def _zscore(values: np.ndarray) -> np.ndarray:
-    std = float(values.std())
-    if std == 0.0:
-        return np.zeros_like(values, dtype=float)
-    return (values - float(values.mean())) / std
-
-
-def _roc_curve_points(scores: np.ndarray, labels: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    order = np.argsort(-scores, kind="mergesort")
-    scores_sorted = scores[order]
-    labels_sorted = labels[order]
-    positives = float(labels.sum())
-    negatives = float(len(labels) - labels.sum())
-    tps = np.cumsum(labels_sorted == 1)
-    fps = np.cumsum(labels_sorted == 0)
-    distinct = np.r_[True, scores_sorted[1:] != scores_sorted[:-1]]
-    tpr = np.r_[0.0, tps[distinct] / positives, 1.0]
-    fpr = np.r_[0.0, fps[distinct] / negatives, 1.0]
-    return fpr, tpr
-
-
-def _auc_score(scores: np.ndarray, labels: np.ndarray) -> float:
-    fpr, tpr = _roc_curve_points(scores, labels)
-    return float(np.trapezoid(tpr, fpr))
-
-
-def _accuracy_best_threshold(scores: np.ndarray, labels: np.ndarray) -> float:
-    order = np.argsort(scores)
-    sorted_scores = scores[order]
-    thresholds = np.r_[
-        sorted_scores[0] - 1e-6,
-        (sorted_scores[:-1] + sorted_scores[1:]) / 2.0,
-        sorted_scores[-1] + 1e-6,
-    ]
-    best = 0.0
-    for threshold in thresholds:
-        preds = (scores >= threshold).astype(int)
-        best = max(best, float((preds == labels).mean()))
-    return best
-
-
-def _tpr_at_fpr(scores: np.ndarray, labels: np.ndarray, target_fpr: float) -> float:
-    fpr, tpr = _roc_curve_points(scores, labels)
-    valid = tpr[fpr <= target_fpr]
-    if valid.size == 0:
-        return 0.0
-    return float(valid.max())
-
-
-def _metric_bundle(scores: np.ndarray, labels: np.ndarray) -> dict[str, float]:
-    return {
-        "auc": _round6(_auc_score(scores, labels)),
-        "asr": _round6(_accuracy_best_threshold(scores, labels)),
-        "tpr_at_1pct_fpr": _round6(_tpr_at_fpr(scores, labels, 0.01)),
-        "tpr_at_0_1pct_fpr": _round6(_tpr_at_fpr(scores, labels, 0.001)),
-    }
+from diffaudit.utils.io import read_json as _read_json
+from diffaudit.utils.metrics import (
+    metric_bundle as _metric_bundle,
+    orient_member_nonmember as _orient_memberness,
+    round6 as _round6,
+    zscore as _zscore,
+)
 
 
 def _load_pia_payload(path: str | Path) -> dict[str, Any]:
