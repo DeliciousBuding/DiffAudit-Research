@@ -19,10 +19,10 @@
 | 路径 | 说明 |
 | --- | --- |
 | `config.py` | 仓库统一配置结构 |
-| `cli.py` | 统一命令入口 |
+| `cli/` | 统一命令入口；`_parser.py` 维护 argparse surface，`_dispatch.py` 维护 handler dispatch |
 | `attacks/` | 各方法线的 planner / probe / dry-run / smoke |
 | `pipelines/` | 通用 pipeline 逻辑 |
-| `metrics/` | 预留指标计算 |
+| `utils/` | 共享指标、I/O、Gaussian 和 diffusion schedule helper |
 | `reports/` | 预留报告输出 |
 
 ## 当前攻击线
@@ -41,6 +41,8 @@
 2. 真实 benchmark 不到位前，优先补 smoke 或 artifact summary。
 3. 不要把个人实验脚本直接堆进 `src/diffaudit/` 根目录。
 4. 新命令接入时，默认同时更新：
+   - `src/diffaudit/cli/_parser.py`
+   - `src/diffaudit/cli/_dispatch.py`
    - [README.md](../../README.md)
    - [configs/README.md](../../configs/README.md)
    - [experiments/README.md](../../experiments/README.md)
