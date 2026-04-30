@@ -69,7 +69,7 @@ def _handle_foundation(args: Any) -> int:
         return 0
 
 
-    raise AssertionError(f"Unsupported foundation command: {args.command}")
+    raise RuntimeError(f"Unsupported foundation command: {args.command}")
 
 
 def _handle_asset_probes(args: Any) -> int:
@@ -241,7 +241,7 @@ def _handle_asset_probes(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
-    raise AssertionError(f"Unsupported asset_probes command: {args.command}")
+    raise RuntimeError(f"Unsupported asset_probes command: {args.command}")
 
 
 def _handle_gsa_observability(args: Any) -> int:
@@ -358,7 +358,7 @@ def _handle_gsa_observability(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
-    raise AssertionError(f"Unsupported gsa_observability command: {args.command}")
+    raise RuntimeError(f"Unsupported gsa_observability command: {args.command}")
 
 
 def _handle_h2_defense(args: Any) -> int:
@@ -391,7 +391,7 @@ def _handle_h2_defense(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
-    raise AssertionError(f"Unsupported h2_defense command: {args.command}")
+    raise RuntimeError(f"Unsupported h2_defense command: {args.command}")
 
 
 def _handle_dry_runs(args: Any) -> int:
@@ -475,7 +475,7 @@ def _handle_dry_runs(args: Any) -> int:
         return 0
 
 
-    raise AssertionError(f"Unsupported dry_runs command: {args.command}")
+    raise RuntimeError(f"Unsupported dry_runs command: {args.command}")
 
 
 def _handle_recon_and_synthetic(args: Any) -> int:
@@ -589,7 +589,7 @@ def _handle_recon_and_synthetic(args: Any) -> int:
         return 0
 
 
-    raise AssertionError(f"Unsupported recon_and_synthetic command: {args.command}")
+    raise RuntimeError(f"Unsupported recon_and_synthetic command: {args.command}")
 
 
 def _handle_reports(args: Any) -> int:
@@ -616,7 +616,7 @@ def _handle_reports(args: Any) -> int:
         return 0
 
 
-    raise AssertionError(f"Unsupported reports command: {args.command}")
+    raise RuntimeError(f"Unsupported reports command: {args.command}")
 
 
 def _handle_pia_runtime(args: Any) -> int:
@@ -725,7 +725,7 @@ def _handle_pia_runtime(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
-    raise AssertionError(f"Unsupported pia_runtime command: {args.command}")
+    raise RuntimeError(f"Unsupported pia_runtime command: {args.command}")
 
 
 def _handle_secmi_pia_smokes(args: Any) -> int:
@@ -809,7 +809,7 @@ def _handle_secmi_pia_smokes(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
-    raise AssertionError(f"Unsupported secmi_pia_smokes command: {args.command}")
+    raise RuntimeError(f"Unsupported secmi_pia_smokes command: {args.command}")
 
 
 def _handle_gsa_runtime(args: Any) -> int:
@@ -909,7 +909,7 @@ def _handle_gsa_runtime(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
-    raise AssertionError(f"Unsupported gsa_runtime command: {args.command}")
+    raise RuntimeError(f"Unsupported gsa_runtime command: {args.command}")
 
 
 def _handle_defenses(args: Any) -> int:
@@ -991,7 +991,7 @@ def _handle_defenses(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
-    raise AssertionError(f"Unsupported defenses command: {args.command}")
+    raise RuntimeError(f"Unsupported defenses command: {args.command}")
 
 
 def _handle_temporal_dpdm(args: Any) -> int:
@@ -1146,7 +1146,7 @@ def _handle_temporal_dpdm(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
-    raise AssertionError(f"Unsupported temporal_dpdm command: {args.command}")
+    raise RuntimeError(f"Unsupported temporal_dpdm command: {args.command}")
 
 
 _COMMAND_HANDLERS: dict[str, CommandHandler] = {
@@ -1229,7 +1229,6 @@ def main(argv: list[str] | None = None) -> int:
     handler = _COMMAND_HANDLERS.get(args.command)
     if handler is None:
         parser.error(f"Unsupported command: {args.command}")
-        return 2
     return handler(args)
 
 
