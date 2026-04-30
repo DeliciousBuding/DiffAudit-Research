@@ -39,7 +39,8 @@
 
 1. 新建 `<method>.py`
 2. 在 `registry.py` 注册 planner
-3. 在 `cli.py` 接入 `plan-*`
-4. 补 `probe-*` 和 `dry-run-*`
-5. 视情况增加 `runtime smoke` 或 `artifact summary`
-6. 同步更新测试和 README
+3. 在 `src/diffaudit/cli/_parser.py` 接入 argparse surface
+4. 在 `src/diffaudit/cli/_dispatch.py` 接入 handler dispatch
+5. 补 `probe-*` 和 `dry-run-*`
+6. 视情况增加 `runtime smoke` 或 `artifact summary`
+7. 同步更新测试和 README

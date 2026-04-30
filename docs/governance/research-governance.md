@@ -10,13 +10,16 @@ the roadmap chooses work; this document defines where work products belong.
 ## Current Governance Baseline
 
 The 2026-04-29 and 2026-04-30 governance cleanups are merged to `main`
-through PR #26, PR #28, PR #29, and PR #30. The ongoing baseline is:
+from PR #26 through PR #36. The ongoing baseline is:
 
 - Active work is `Cross-box evidence boundary hardening`
 - Next GPU candidate is `none`
 - Cross-box boundary hardening is not an experiment-result release
 - no history rewrite or force-push should be performed without separate approval
 - future cleanup output should be PR-reviewable and reversible
+- Research is deployable as a conda/editable Python package and CLI research
+  surface; HTTP service deployment belongs to `Runtime-Server/` and
+  user-facing deployment belongs to `Platform/`
 
 ## Directory Boundaries
 
@@ -88,6 +91,26 @@ directory unless they become reusable CLI surfaces or generic replay helpers.
 Internal execution identifiers may remain in legacy archives for traceability,
 but public and hot-path docs should use descriptive lane names instead of run
 IDs.
+
+## Portability And Deployment Boundary
+
+Research must remain portable across machines by using repository-relative
+paths, `team.local.yaml`, `<DIFFAUDIT_ROOT>`, `<DOWNLOAD_ROOT>`, and documented
+asset manifests. It should not require the original maintainer's drive layout
+or personal shell profile.
+
+Research is not the production HTTP service. The supported local runtime shape
+is:
+
+- install the conda environment;
+- install the repository as an editable Python package;
+- bind local assets through ignored local config;
+- run `diffaudit` CLI commands and validation scripts.
+
+Runtime job orchestration, API serving, authentication, and user-facing
+deployment are sibling-repository responsibilities. Research may emit evidence
+summaries, manifests, and contract notes for those repositories, but it should
+not document itself as a standalone deploy target.
 
 ## Public Surface Rule
 
