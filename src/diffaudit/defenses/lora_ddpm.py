@@ -15,10 +15,13 @@ Reference: Hu et al., "LoRA: Low-Rank Adaptation of Large Language Models", ICLR
 from __future__ import annotations
 
 import math
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import torch
 import torch.nn as nn
+
+if TYPE_CHECKING:
+    from diffusers import UNet2DModel
 
 
 class LoRALinear(nn.Module):
@@ -62,7 +65,7 @@ class LoRALinear(nn.Module):
         return self
 
 
-def create_ddpm_model() -> nn.Module:
+def create_ddpm_model() -> "UNet2DModel":
     """Create the canonical DDPM UNet used by SMP-LoRA defense pilots."""
     from diffusers import UNet2DModel
 
