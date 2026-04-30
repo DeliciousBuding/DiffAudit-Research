@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD independent repeat packet`
-- Next GPU task: `CLiD 100/100 repeat or perturbation under the frozen score gate`
-- CPU work: `keep candidate integrity review and score-summary gate synchronized`
+- Active work: `CLiD prompt-perturbation review`
+- Next GPU task: `CLiD 100/100 prompt-neutral perturbation under the frozen score gate`
+- CPU work: `keep repeat-stability verdict and score-summary gate synchronized`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD independent repeat packet
+### CLiD prompt-perturbation review
 
-- `mode`: bounded GPU repeat
+- `mode`: bounded GPU perturbation
 - `status`: active
-- `goal`: decide whether the CLiD 100/100 candidate survives an independent repeat or perturbation
+- `goal`: decide whether the CLiD 100/100 candidate survives prompt-neutral perturbation
 - `GPU`: yes
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -34,7 +34,8 @@ contract review passed, and score-summary schema gate is wired into artifact
 summarization. The first 8/8 tiny score bridge is reusable but not promotable
 because it fails the minimum sample gate. The 100/100 score packet clears the
 gate with strong low-FPR signal and survives first integrity review, but remains
-candidate-only until an independent repeat or perturbation passes.
+candidate-only. The independent repeat is stable; prompt perturbation is the
+next admission blocker.
 
 ## Ready
 

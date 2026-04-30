@@ -17,6 +17,7 @@ This directory contains the public evidence overview.
 | [clid-tiny-score-bridge.md](clid-tiny-score-bridge.md) | First GPU smoke-scale CLiD score bridge verdict. |
 | [clid-100-score-packet.md](clid-100-score-packet.md) | First bounded CLiD score packet that clears the score-summary gate. |
 | [clid-candidate-integrity-review.md](clid-candidate-integrity-review.md) | CPU integrity review for the CLiD 100/100 candidate. |
+| [clid-repeat-stability.md](clid-repeat-stability.md) | Independent repeat stability for the CLiD 100/100 candidate. |
 | [research-boundary-card.md](research-boundary-card.md) | Limitations card for downstream consumers. |
 | [workspace-evidence-index.md](workspace-evidence-index.md) | Where active and archived workspace evidence lives. |
 
