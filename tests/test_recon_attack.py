@@ -137,6 +137,26 @@ def create_minimal_recon_repo(repo_root: Path) -> None:
         "import argparse\n"
         "from pathlib import Path\n"
         "import torch\n"
+        "from diffusers.models.attention_processor import LoRAAttnAddedKVProcessor, LoRAAttnProcessor\n"
+        "\n"
+        "def build_lora_added_kv_processor(hidden_size, cross_attention_dim, rank, device):\n"
+        "    del hidden_size, cross_attention_dim, rank, device\n"
+        "    return LoRAAttnAddedKVProcessor()\n"
+        "\n"
+        "def build_lora_processor(hidden_size, device):\n"
+        "    del hidden_size, device\n"
+        "    return LoRAAttnProcessor()\n"
+        "\n"
+        "def load_weights(path):\n"
+        "    del path\n"
+        "    return {}\n"
+        "\n"
+        "def load_lora_attention_processors(model, weights_path):\n"
+        "    state_dict = load_weights(weights_path)\n"
+        "    if hasattr(model, 'load_attn_procs'):\n"
+        "        model.load_attn_procs(state_dict)\n"
+        "        return 'load_attn_procs'\n"
+        "    return 'manual'\n"
         "\n"
         "def parse_args():\n"
         "    parser = argparse.ArgumentParser()\n"
@@ -204,54 +224,52 @@ def load_kandinsky_inference_module(
     if _KANDINSKY_INFERENCE_MODULE_CACHE is not None:
         return _KANDINSKY_INFERENCE_MODULE_CACHE
 
-    script_path = (
-        Path(__file__).resolve().parents[1]
-        / "external"
-        / "Reconstruction-based-Attack"
-        / "kandinsky2_2_inference.py"
-    )
-    module_name = f"tests._kandinsky2_2_inference_stub_{uuid.uuid4().hex}"
-    spec = importlib.util.spec_from_file_location(module_name, script_path)
-    if spec is None or spec.loader is None:
-        raise AssertionError("failed to load kandinsky2_2_inference.py for testing")
+    with tempfile.TemporaryDirectory() as tmpdir:
+        repo_root = Path(tmpdir) / "Reconstruction-based-Attack"
+        create_minimal_recon_repo(repo_root)
+        script_path = repo_root / "kandinsky2_2_inference.py"
+        module_name = f"tests._kandinsky2_2_inference_stub_{uuid.uuid4().hex}"
+        spec = importlib.util.spec_from_file_location(module_name, script_path)
+        if spec is None or spec.loader is None:
+            raise AssertionError("failed to load kandinsky2_2_inference.py for testing")
 
-    diffusers_module = types.ModuleType("diffusers")
-    diffusers_module.KandinskyV22Pipeline = object
-    diffusers_module.KandinskyV22PriorPipeline = object
+        diffusers_module = types.ModuleType("diffusers")
+        diffusers_module.KandinskyV22Pipeline = object
+        diffusers_module.KandinskyV22PriorPipeline = object
 
-    diffusers_models_module = types.ModuleType("diffusers.models")
-    diffusers_models_module.UNet2DConditionModel = object
+        diffusers_models_module = types.ModuleType("diffusers.models")
+        diffusers_models_module.UNet2DConditionModel = object
 
-    attention_module = types.ModuleType("diffusers.models.attention_processor")
-    attention_module.LoRAAttnAddedKVProcessor = added_kv_processor_cls
-    attention_module.LoRAAttnProcessor = processor_cls
+        attention_module = types.ModuleType("diffusers.models.attention_processor")
+        attention_module.LoRAAttnAddedKVProcessor = added_kv_processor_cls
+        attention_module.LoRAAttnProcessor = processor_cls
 
-    transformers_module = types.ModuleType("transformers")
-    transformers_module.CLIPVisionModelWithProjection = object
+        transformers_module = types.ModuleType("transformers")
+        transformers_module.CLIPVisionModelWithProjection = object
 
-    datasets_module = types.ModuleType("datasets")
-    datasets_module.Dataset = object
+        datasets_module = types.ModuleType("datasets")
+        datasets_module.Dataset = object
 
-    safetensors_module = types.ModuleType("safetensors")
-    safetensors_torch_module = types.ModuleType("safetensors.torch")
-    safetensors_torch_module.load_file = lambda path: {}
+        safetensors_module = types.ModuleType("safetensors")
+        safetensors_torch_module = types.ModuleType("safetensors.torch")
+        safetensors_torch_module.load_file = lambda path: {}
 
-    stub_modules = {
-        "diffusers": diffusers_module,
-        "diffusers.models": diffusers_models_module,
-        "diffusers.models.attention_processor": attention_module,
-        "transformers": transformers_module,
-        "datasets": datasets_module,
-        "safetensors": safetensors_module,
-        "safetensors.torch": safetensors_torch_module,
-    }
+        stub_modules = {
+            "diffusers": diffusers_module,
+            "diffusers.models": diffusers_models_module,
+            "diffusers.models.attention_processor": attention_module,
+            "transformers": transformers_module,
+            "datasets": datasets_module,
+            "safetensors": safetensors_module,
+            "safetensors.torch": safetensors_torch_module,
+        }
 
-    module = importlib.util.module_from_spec(spec)
-    with patch.dict(sys.modules, stub_modules, clear=False):
-        sys.modules.pop(module_name, None)
-        spec.loader.exec_module(module)
-    _KANDINSKY_INFERENCE_MODULE_CACHE = module
-    return module
+        module = importlib.util.module_from_spec(spec)
+        with patch.dict(sys.modules, stub_modules, clear=False):
+            sys.modules.pop(module_name, None)
+            spec.loader.exec_module(module)
+        _KANDINSKY_INFERENCE_MODULE_CACHE = module
+        return module
 
 
 class ReconAttackTests(unittest.TestCase):

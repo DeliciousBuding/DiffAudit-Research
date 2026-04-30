@@ -5,8 +5,9 @@ from pathlib import Path
 import numpy as np
 import torch
 from torch import nn
-from PIL import Image
 from unittest.mock import patch
+
+from tests.helpers import make_fake_cifar10
 
 
 class _FakeComponentsModule:
@@ -42,22 +43,7 @@ class PiaEpsilonOutputNoiseTests(unittest.TestCase):
         from diffaudit.attacks.pia_adapter import bootstrap_pia_smoke_assets, run_pia_runtime_mainline
         from diffaudit.config import load_audit_config
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (32, 64, 96, 128)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((32, 64, 96, 128))
 
         config_template = """
 task:
