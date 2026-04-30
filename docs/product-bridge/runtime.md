@@ -14,9 +14,16 @@
 - 研究代码与方法入口
 - 实验资产与 admitted 结果
 - intake manifests 与 summary schema
+- local Python package and CLI validation for research evidence
 
 它不再负责：
 
 - HTTP 服务入口
 - job control plane
 - 平台控制面语义
+
+Deployment boundary: a teammate can install and validate `Research` with conda,
+editable package install, local asset binding, and `diffaudit` CLI commands.
+That is different from deploying a service. Service process management,
+authentication, public HTTP APIs, and user-facing report delivery must remain in
+`Runtime-Server/` and `Platform/`.

@@ -9,7 +9,8 @@ repository rules.
 
 ## Current State
 
-- Active cleanup branch: none; PR #26, PR #28, PR #29, and PR #30 are merged to `main`
+- Active long-running cleanup branch: none; governance work should stay PR-scoped
+- Merged cleanup baseline: PR #26 through PR #36 are merged to `main`
 - GPU work: no active GPU task
 - History rewrite: not performed
 - Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
@@ -39,6 +40,16 @@ repository rules.
 - PR #30 converted the architecture review into a corrected governance note,
   fixed the `src -> scripts` DDPM factory dependency, added explicit package
   initializers, and aligned fast local checks with CI guards.
+- PR #31 synced the post-governance research hot path.
+- PR #32 added the local asset-boundary audit and preserved the
+  `Download/` versus local generated-artifact split.
+- PR #33 and PR #34 split the CLI into the `src/diffaudit/cli/` package and
+  grouped dispatch surface without changing command names.
+- PR #35 restored the active research state after CLI governance.
+- PR #36 removed internal run IDs from public and hot-path navigation while
+  keeping legacy IDs available for traceability.
+- The portability documentation sync corrected remaining references to the
+  removed `src/diffaudit/cli.py` single-file entrypoint.
 
 ## Remaining Local State
 
@@ -65,7 +76,10 @@ build metadata when doing routine hygiene.
 2. Keep `AGENTS.md` focused on agent operating discipline, not product copy.
 3. Keep `legacy/execution-log/` as traceability archive, not active roadmap.
 4. Keep `Download/` manifests current when asset locations or names change.
-5. Revisit history rewriting only after `docs/governance/history-rewrite-audit.md` is
+5. Keep deployment language precise: Research is a conda/editable-package CLI
+   and evidence repository, while service deployment belongs to
+   `Runtime-Server/` and `Platform/`.
+6. Revisit history rewriting only after `docs/governance/history-rewrite-audit.md` is
    separately approved.
 
 ## Validation Commands
