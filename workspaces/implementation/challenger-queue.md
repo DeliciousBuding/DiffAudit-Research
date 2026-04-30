@@ -13,17 +13,31 @@ X-180 anchors live under
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
+- `current_execution_item = code governance / CLI dispatch registry split`
+- `next_cpu_sidecar = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
 - `gray_box_slot = yield`
 - `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
 - `G1-A / X-90 = two-seed internal auxiliary positive`
 
 ## Active
 
+### Code governance / CLI dispatch registry split
+
+- `mode`: CPU-only architecture cleanup
+- `status`: active
+- `verdict target`: `main()` becomes parser + registry dispatch; the remaining
+  command bodies are grouped by category without changing command names,
+  arguments, JSON fields, exit behavior, or workspace artifact schemas.
+- `GPU`: no
+- `handoff`: no Platform or Runtime schema change
+
+This item continues the repository cleanup lane after the local asset-boundary
+cleanup and first CLI package split were merged.
+
 ### X-181 I-A / cross-box boundary maintenance after H2 comparator block
 
 - `mode`: CPU-only boundary hardening
-- `status`: active
+- `status`: ready after CLI governance PR closes
 - `verdict target`: formal statement / adaptive-attacker / low-FPR boundary
   note plus updates to current evidence summaries
 - `GPU`: no
