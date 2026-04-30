@@ -28,9 +28,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `H2 response-strength post-validation synthesis`
+- Active work: `H2 cross-asset protocol preflight`
 - Next GPU task: `none selected`
-- CPU work: `PR #44 evidence sync and next-lane selection`
+- CPU work: `choose CLiD/recon/variation or define image-to-image H2 contract`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 

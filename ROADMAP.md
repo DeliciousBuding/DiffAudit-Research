@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** H2 response-strength post-validation synthesis
+- **Active work:** H2 cross-asset protocol preflight
 - **Next GPU task:** none selected
-- **CPU work:** PR #44 evidence sync and next-lane selection
+- **CPU work:** choose CLiD/recon/variation or define image-to-image H2 contract
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,11 +29,12 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume by reviewing PR #44 after the frozen H2 lowpass follow-up. The result is
-positive but bounded on `DDPM/CIFAR10`: cutoff-0.50 lowpass passed the candidate
-gate, and raw H2 also recovered strict-tail signal on the fresh packet. Do not
-run another DDPM/CIFAR10 H2 scaling packet; the next research slot should either
-define a portable cross-asset black-box contract or return to another lane.
+Resume from the H2 cross-asset preflight. Local SD/CelebA assets are ready, but
+the default text-to-image protocol is incompatible with H2 response-strength
+because H2 needs query-image or unconditional-state response control. Do not run
+an H2 GPU portability packet unless an image-to-image or unconditional-state
+contract is explicitly selected. The immediate CPU choice is CLiD, recon,
+variation, or a stricter image-to-image H2 contract.
 
 ## Key Documents
 

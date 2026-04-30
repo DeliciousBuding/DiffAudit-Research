@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `H2 response-strength post-validation synthesis`
+- Active work: `H2 cross-asset protocol preflight`
 - Next GPU task: `none selected`
-- CPU work: `PR #44 evidence sync and next-lane selection`
+- CPU work: `choose CLiD/recon/variation or define image-to-image H2 contract`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,20 +17,23 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### H2 response-strength post-validation synthesis
+### H2 cross-asset protocol preflight
 
 - `mode`: CPU-only boundary work
 - `status`: active
-- `goal`: sync PR #44 and decide whether the next slot is cross-asset H2
-  contract design or a different black-box lane
+- `goal`: block invalid prompt-only H2 transfer and select the next compatible
+  black-box lane
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
 Frozen H2 lowpass follow-up closed positive-but-bounded on `DDPM/CIFAR10`.
 Cutoff-0.50 lowpass passed the candidate gate, and raw H2 also recovered
-strict-tail signal on the fresh packet. Do not schedule more same-family H2
-scaling; the next claim needs portability.
+strict-tail signal on the fresh packet. The first SD/CelebA CPU preflight found
+assets ready but the default text-to-image protocol incompatible with H2 because
+it lacks query-image or unconditional-state response control. Do not schedule
+H2 portability GPU until an image-to-image or unconditional-state contract is
+selected.
 
 ## Ready
 
@@ -46,11 +49,10 @@ scaling; the next claim needs portability.
 ### Stable Diffusion / CelebA adapter contract watch
 
 - `mode`: future black-box data acquisition
-- `reason for hold`: closer to verified `recon` data than the current
-  `DDPM/CIFAR10` candidate, but prompt, model, split, and query-budget
-  contracts are not defined.
-- `reopen trigger`: CPU preflight defines a compatible data contract and
-  identifies one validation experiment.
+- `reason for hold`: assets are ready, but prompt-only text-to-image is not an
+  H2-compatible contract.
+- `reopen trigger`: image-to-image or unconditional-state endpoint contract
+  with fixed repeats, response images, split source, and low-FPR gate.
 
 ### Cross-box successor-hypothesis watch
 
@@ -109,6 +111,7 @@ scaling; the next claim needs portability.
 | Cross-box evidence boundary hardening | Candidate-only. Existing cross-box packets are useful for internal comparison but do not establish stable low-FPR gains. |
 | H2 raw-primary 512 / 512 validation | Negative-but-useful. Raw H2 kept AUC signal but failed `TPR@0.1%FPR`; lowpass tail review remains active. |
 | H2 lowpass follow-up 512 / 512 validation | Positive-but-bounded. Cutoff-0.50 lowpass passed the frozen candidate gate; H2 remains candidate-only and needs portability evidence before promotion. |
+| H2 SD/CelebA text-to-image preflight | Negative-but-useful. Assets are ready, but prompt-only text-to-image is not H2-compatible. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
 | Architecture triage | Fixed dependency issues; added package initializers; aligned local checks with CI. |
 | Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |

@@ -125,6 +125,16 @@ python scripts/review_h2_lowpass_cutoffs.py `
   --output workspaces/black-box/runs/<run>/lowpass-cutoff-review.json
 ```
 
+Probe whether H2 can transfer to a non-DDPM black-box asset contract:
+
+```powershell
+python scripts/probe_h2_cross_asset_contract.py
+```
+
+The default SD/CelebA text-to-image mode is expected to be protocol-blocked for
+H2 response-strength. Use `--endpoint-mode image_to_image` only when the target
+surface actually supports image-conditioned repeated queries.
+
 Plan `variation`:
 
 ```powershell

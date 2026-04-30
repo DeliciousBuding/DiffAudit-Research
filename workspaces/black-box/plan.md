@@ -7,17 +7,18 @@
 - `variation`: API-only support; needs real query-image data for stronger claims.
 - `semantic-auxiliary-classifier`: current alternative candidate.
 - `H2 response-strength`: live candidate with positive non-overlap signal;
-  frozen lowpass follow-up is positive-but-bounded on `DDPM/CIFAR10`.
+  frozen lowpass follow-up is positive-but-bounded on `DDPM/CIFAR10`; SD/CelebA
+  text-to-image transfer is protocol-blocked.
 
 ## Next Action
 
-Decide whether the next black-box research slot should define a cross-asset H2
-contract or switch back to `recon` / API-only candidate work. Keep status
-synchronized with [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
+Choose the next black-box slot after the H2 protocol block: CLiD, recon,
+variation, or a stricter image-to-image H2 contract. Keep status synchronized
+with [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status
 
 Stable admitted baseline plus one live candidate. The current candidate is H2
 response-strength; it is positive-but-bounded on `DDPM/CIFAR10`, but no GPU
-task is active because the next claim requires cross-asset portability rather
-than more same-family scaling.
+task is active because the default SD/CelebA text-to-image contract is not H2
+compatible.

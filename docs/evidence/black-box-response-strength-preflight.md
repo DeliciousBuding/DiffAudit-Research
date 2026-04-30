@@ -105,4 +105,8 @@ asset contract, or is it a DDPM/CIFAR10-specific candidate surface?
 
 The lowpass follow-up contract and verdict are recorded in
 [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md). No further
-GPU expansion should run until a cross-asset black-box contract exists.
+GPU expansion should run until a cross-asset black-box contract exists. The
+first SD/CelebA CPU preflight is recorded in
+[h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md):
+the assets are ready, but the default text-to-image protocol is incompatible
+with H2 response-strength.
