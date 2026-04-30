@@ -3,7 +3,7 @@
 ## Status
 
 - `GSA`: strongest white-box evidence line.
-- `DPDM/W-1`: defended comparator with protocol-boundary limits.
+- `DPDM`: defended comparator with protocol-boundary limits.
 - `Finding NeMo` and related localization work: bounded exploratory evidence,
   not promoted.
 - Distinct second white-box family: still open, not selected.

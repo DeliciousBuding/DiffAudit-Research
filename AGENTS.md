@@ -29,9 +29,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- `active_gpu_question = none`
-- `next_gpu_candidate = none`
-- Next CPU-first research lane: `X-181 I-A / cross-box boundary maintenance`
+- Active work: `Cross-box evidence boundary hardening`
+- Next GPU candidate: `none`
+- CPU sidecar: `Public-surface / hot-path sync`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 
@@ -59,6 +59,10 @@ Current lane state lives in:
 
 Historical dated notes live under `legacy/workspaces/`. Do not add new dated
 verdict logs to the hot path unless they are current lane summaries.
+
+Internal execution identifiers may exist in legacy archives, but they are not
+the public navigation system. Hot-path docs should use descriptive lane names
+such as `Cross-box evidence boundary hardening`, not run IDs.
 
 ## Public Documentation Rules
 

@@ -116,7 +116,7 @@ go run ./cmd/runtime `
 用途：
 
 - 让 Platform 或 local integrations 直接读取 admitted main results
-- 避免平台侧重复拼接 `recon / PIA / GSA / W-1` 的主口径
+- 避免平台侧重复拼接 `recon / PIA / GSA / DPDM` 的主口径
 
 ### `GET /api/v1/evidence/contracts/best?contract_key=...`
 
