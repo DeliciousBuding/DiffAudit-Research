@@ -1,8 +1,8 @@
-# GSA Handoff
+# GSA Setup Guide
 
 ## Goal
 
-This handoff is for the next worker who needs to understand the old `assets/gsa` root that predates the admitted `1k-3shadow` line.
+This guide is for the next worker who needs to understand the old `assets/gsa` root that predates the verified `1k-3shadow` line.
 
 It describes how this root moved `GSA` from:
 
@@ -61,7 +61,7 @@ or:
 
 Historical note:
 
-- the current admitted live intake no longer points here
+- the current verified live intake no longer points here
 - the live `GSA` contract now reads from `assets/gsa-cifar10-1k-3shadow`
 
 Until step 2 exists, the old root should stay in:

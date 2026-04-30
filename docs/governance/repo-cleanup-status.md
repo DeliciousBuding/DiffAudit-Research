@@ -14,8 +14,8 @@ repository rules.
 - GPU work: no active GPU task
 - History rewrite: not performed
 - Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
-- Canonical evidence: workspace verdict notes, small `summary.json` files,
-  manifests, and admitted result tables
+- Canonical evidence: workspace result notes, small `summary.json` files,
+  manifests, and verified result tables
 
 ## Completed In The 2026-04-29 Governance Pass
 
@@ -40,13 +40,13 @@ repository rules.
 - PR #30 converted the architecture review into a corrected governance note,
   fixed the `src -> scripts` DDPM factory dependency, added explicit package
   initializers, and aligned fast local checks with CI guards.
-- PR #31 synced the post-governance research hot path.
+- PR #31 synced the post-governance research documentation.
 - PR #32 added the local asset-boundary audit and preserved the
   `Download/` versus local generated-artifact split.
 - PR #33 and PR #34 split the CLI into the `src/diffaudit/cli/` package and
   grouped dispatch surface without changing command names.
 - PR #35 restored the active research state after CLI governance.
-- PR #36 removed internal run IDs from public and hot-path navigation while
+- PR #36 removed internal run IDs from public documentation while
   keeping legacy IDs available for traceability.
 - PR #37 corrected portability and deployment wording, including remaining
   references to the removed `src/diffaudit/cli.py` single-file entrypoint.

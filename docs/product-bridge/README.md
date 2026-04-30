@@ -2,30 +2,28 @@
 
 This directory explains how Research feeds DiffAudit Platform and Runtime.
 
-DiffAudit Platform should consume only evidence with explicit status and
-boundaries. Research can provide product input in three forms:
+Platform should only consume results that have explicit status and clear
+limitations. Research provides three kinds of output:
 
-| Input | Meaning |
+| Output | What it means |
 | --- | --- |
-| Admitted result | A reviewed result that can be shown as audit evidence with its limits. |
-| Candidate/challenger result | A bounded result useful for internal comparison but not headline copy. |
-| Boundary note | A constraint that prevents overclaiming or guides UI wording. |
+| Verified result | A reviewed experiment result that can be shown as audit evidence. |
+| Candidate result | A result useful for internal comparison, not yet ready for external use. |
+| Constraint note | A known limitation that prevents overclaiming in Platform UI. |
 
-Useful documents:
+## Documents
 
 | Document | Purpose |
 | --- | --- |
-| [runtime.md](runtime.md) | Research-facing Runtime notes. |
-| [asset-registry-local-api.md](asset-registry-local-api.md) | Registry alignment contract for Runtime consumers. |
-| [local-api.md](local-api.md) | Historical local API compatibility notes. |
-| [recon-artifact-replay-guidance.md](recon-artifact-replay-guidance.md) | How to interpret recon replay/debug traces. |
+| [runtime.md](runtime.md) | Notes for Runtime integration. |
+| [asset-registry-local-api.md](asset-registry-local-api.md) | Data registry contract for Runtime consumers. |
+| [local-api.md](local-api.md) | Historical local API notes. |
+| [recon-artifact-replay-guidance.md](recon-artifact-replay-guidance.md) | How to interpret recon debug traces. |
 
-Rules for downstream use:
+## Integration Rules
 
-- Product copy must preserve evidence status.
-- Platform should not present smoke-only, blocked, or negative results as
-  validated audit methods.
-- Runtime handoff requires stable input/output contracts, not just a workspace
-  note.
-- Research should create an explicit handoff note before changing sibling
-  repository schemas or report semantics.
+- Platform copy must reflect the actual experiment status.
+- Don't present smoke tests or negative results as validated audit methods.
+- Runtime integration requires stable input/output contracts.
+- Before changing schemas or report format across repositories, create a
+  handoff note here first.

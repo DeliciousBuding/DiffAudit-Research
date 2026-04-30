@@ -1,50 +1,48 @@
-# Reproduction And Evidence Status
+# Experiment Status
 
-This page is the public status ledger. It is intentionally short: detailed
-dated verdict notes live in [workspace-evidence-index.md](workspace-evidence-index.md)
-and `legacy/workspaces/`.
+This page tracks the status of each research direction. Detailed notes are in
+[workspace-evidence-index.md](workspace-evidence-index.md) and `legacy/`.
 
-## Status Ladder
+## Status Stages
 
-| State | Meaning |
+| Stage | Meaning |
 | --- | --- |
-| `research-ready` | Paper, upstream code, and asset requirements have been reviewed. |
+| `research-ready` | Paper, upstream code, and data requirements reviewed. |
 | `code-ready` | Commands, configs, and tests exist in this repository. |
-| `asset-ready` | Required local datasets, weights, or supplementary files have been probed. |
-| `evidence-ready` | A reviewed summary or verdict exists. |
-| `benchmark-ready` | The lane can reasonably claim paper-level benchmark execution. |
+| `asset-ready` | Required datasets or model weights are available locally. |
+| `evidence-ready` | A reviewed experiment summary exists. |
+| `benchmark-ready` | Paper-level benchmarks can be reproduced. |
 
-Dry-runs and smoke tests are useful engineering checks, but they are not
-benchmark claims.
+Smoke tests and dry runs are engineering validation, not benchmark claims.
 
-## Current Track Summary
+## Current Status
 
-| Track | Current state | Public claim boundary |
+| Track | Status | Notes |
 | --- | --- | --- |
-| Black-box `recon` | `evidence-ready` | Strongest black-box line, but public-asset semantics limit strict paper-aligned claims. |
-| Black-box `CLiD` | `code-ready` / bounded corroboration | Useful support line; not a headline replacement. |
-| Black-box `variation` | `code-ready` / smoke-supported | API-only support line; real query assets are required for stronger claims. |
-| Gray-box `PIA` | `evidence-ready` | Strongest attack + defense story and primary gray-box evidence line. |
-| Gray-box `SecMI` | corroboration | Useful independent reference, not the main headline. |
-| Gray-box `TMIA-DM` | challenger reference | Strong challenger, not promoted above PIA. |
-| White-box `GSA` | `evidence-ready` | Strongest white-box line and upper-bound evidence. |
-| White-box `DPDM` | defended comparator | Comparator with protocol-boundary limits, not a final benchmark. |
-| Cross-box boundary hardening | next research lane | Boundary-maintenance and product-consumable evidence hardening. |
+| Black-box `recon` | `evidence-ready` | Strongest black-box method. Public data limits strict paper-aligned claims. |
+| Black-box `CLiD` | `code-ready` | Supporting method, not a headline replacement. |
+| Black-box `variation` | `code-ready` | API-only support method; needs real query data for stronger claims. |
+| Gray-box `PIA` | `evidence-ready` | Strongest attack + defense story. Primary gray-box method. |
+| Gray-box `SecMI` | `code-ready` | Independent reference method. |
+| Gray-box `TMIA-DM` | `code-ready` | Strong alternative, secondary to PIA. |
+| White-box `GSA` | `evidence-ready` | Strongest white-box method. Upper-bound reference. |
+| White-box `DPDM` | `code-ready` | Defended comparator with protocol limitations. |
+| Cross-box integration | next direction | Cross-track comparison and integration work. |
 
-## Where To Inspect Details
+## More Details
 
-- Active workspace state: [workspace-evidence-index.md](workspace-evidence-index.md)
-- Admitted summary: [admitted-results-summary.md](admitted-results-summary.md)
+- Workspace state: [workspace-evidence-index.md](workspace-evidence-index.md)
+- Verified results: [admitted-results-summary.md](admitted-results-summary.md)
 - Innovation map: [innovation-evidence-map.md](innovation-evidence-map.md)
-- Product boundary: [../product-bridge/README.md](../product-bridge/README.md)
-- Asset setup: [../assets-and-storage/data-and-assets-handoff.md](../assets-and-storage/data-and-assets-handoff.md)
+- Platform integration: [../product-bridge/README.md](../product-bridge/README.md)
+- Data setup: [../assets-and-storage/data-and-assets-handoff.md](../assets-and-storage/data-and-assets-handoff.md)
 
-## Promotion Rule
+## Promotion Rules
 
-A result can move toward product-facing evidence only when it has:
+A result can be promoted to a higher status when it has:
 
-- a frozen asset or packet identity
-- a reproducible command or contract
-- reported metrics where applicable
-- a status label from the ladder above
-- a known boundary for what must not be claimed
+- Defined data or experiment identity
+- Reproducible commands or configs
+- Reported metrics (AUC, ASR, TPR@1%FPR, TPR@0.1%FPR where applicable)
+- A status label from the stages above
+- Clear documentation of what it does and does not prove

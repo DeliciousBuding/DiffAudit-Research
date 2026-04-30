@@ -1,14 +1,12 @@
 # Research Agent Guide
 
-This file is the operating guide for agents and teammates working inside
-`Research/`.
+This file is the operating guide for agents and teammates working in `Research/`.
 
 ## Repository Role
 
-`Research/` is the evidence engine for diffusion-model privacy auditing. It
-owns research code, configs, evidence status, bounded experiments, and
-claim-boundary language. Product UI belongs in `Platform/`; runtime job
-orchestration belongs in `Runtime-Server/`.
+`Research/` holds research code, configs, experiment status, and
+results for diffusion-model privacy auditing. Product UI is in
+`Platform/`; job scheduling is in `Runtime-Server/`.
 
 ## Fresh-Session Intake
 
@@ -24,32 +22,30 @@ Read in this order:
 8. `<DIFFAUDIT_ROOT>/Research/docs/governance/research-governance.md`
 9. `<DIFFAUDIT_ROOT>/Research/docs/rebuild/README.md`
 10. `<DIFFAUDIT_ROOT>/Research/docs/evidence/workspace-evidence-index.md`
-11. The relevant `workspaces/<lane>/README.md` and `plan.md`
+11. The relevant `workspaces/<direction>/README.md` and `plan.md`
 
 Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Cross-box evidence boundary hardening`
-- Next GPU candidate: `none`
-- CPU sidecar: `Public-surface / hot-path sync`
+- Active work: `Cross-box experiment boundary hardening`
+- Next GPU task: `none`
+- CPU work: `Public documentation sync`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 
 ## Research Rules
 
-- Treat paper reproduction as grounding, not the whole project.
-- Treat free exploration as bounded innovation, not open-ended wandering.
-- Every research task needs a hypothesis, budget, evidence anchor, verdict,
-  and next action.
+- Paper reproduction is a starting point, not the full project.
+- Every experiment needs a hypothesis, data plan, expected result, and conclusion.
 - Report `AUC`, `ASR`, `TPR@1%FPR`, and `TPR@0.1%FPR` for promoted attack or
-  defense evidence when applicable.
-- Do not promote DDPM/CIFAR10 results into conditional-diffusion or commercial
-  model claims without separate evidence.
+  defense results when applicable.
+- DDPM/CIFAR10 results cannot be generalized to conditional-diffusion or
+  commercial models without separate evidence.
 
-## Workspace Discipline
+## Workspace Structure
 
-Current lane state lives in:
+Current research state lives in:
 
 - `workspaces/black-box/`
 - `workspaces/gray-box/`
@@ -58,18 +54,17 @@ Current lane state lives in:
 - `workspaces/intake/`
 - `workspaces/runtime/`
 
-Historical dated notes live under `legacy/workspaces/`. Do not add new dated
-verdict logs to the hot path unless they are current lane summaries.
+Historical notes are in `legacy/workspaces/`. Don't add new dated logs to the
+active workspace directories unless they are current summaries.
 
-Internal execution identifiers may exist in legacy archives, but they are not
-the public navigation system. Hot-path docs should use descriptive lane names
-such as `Cross-box evidence boundary hardening`, not run IDs.
+Use descriptive names like `Cross-box experiment boundary hardening` in active
+docs, not run IDs.
 
 ## Public Documentation Rules
 
-Public docs are for new teammates and external reviewers. They must not contain
-personal machine paths, private operator instructions, raw agent prompts,
-deadline pressure, or unstated product claims.
+Public docs are for new contributors and external reviewers. They must not
+contain personal machine paths, private operator instructions, raw agent prompts,
+deadline pressure, or unverified product claims.
 
 Use:
 
@@ -87,7 +82,6 @@ python -X utf8 scripts/check_markdown_links.py
 
 ## Subagent Policy
 
-Subagents are optional. Use them only for bounded side work such as paper
-scouting, review, audit, or implementation slices with explicit write scope.
-Read-only is the default. The main agent owns roadmap truth and promotion into
-mainline language.
+Subagents are optional. Use them for bounded side work such as paper scouting,
+review, or implementation slices with explicit write scope. Read-only is the
+default. The main agent owns roadmap truth and result promotion.
