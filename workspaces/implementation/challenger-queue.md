@@ -13,38 +13,35 @@ X-180 anchors live under
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = Architecture audit triage cleanups`
+- `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
 - `gray_box_slot = yield`
 - `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
 - `G1-A / X-90 = two-seed internal auxiliary positive`
 
 ## Active
 
-### Architecture audit triage cleanups
-
-- `mode`: CPU-only repository governance
-- `status`: active
-- `verdict target`: corrected architecture-audit record plus low-risk package
-  boundary fixes from admitted findings
-- `GPU`: no
-- `handoff`: no Platform or Runtime schema change
-
-This active item temporarily blocks research expansion. It must finish with a
-small PR that keeps raw reviewer packets out of public docs and preserves CLI
-arguments, JSON output fields, and workspace artifact schemas.
-
-## Ready
-
 ### X-181 I-A / cross-box boundary maintenance after H2 comparator block
 
 - `mode`: CPU-only boundary hardening
-- `why ready`: H2 is strong enough to create overclaim pressure but remains
-  candidate-only; I-A wording and cross-box surfaces should be hardened before
-  any future GPU release.
-- `expected output`: verdict-bearing boundary note plus updates to current
-  evidence summaries.
-- `release gate`: no model run, no Platform/Runtime schema change unless the
-  boundary review finds a concrete consumer mismatch.
+- `status`: active
+- `verdict target`: formal statement / adaptive-attacker / low-FPR boundary
+  note plus updates to current evidence summaries
+- `GPU`: no
+- `handoff`: no Platform or Runtime schema change unless a concrete consumer
+  mismatch is found
+
+H2 is strong enough to create overclaim pressure but remains candidate-only.
+This active item hardens I-A wording and cross-box surfaces before any future
+GPU release.
+
+## Ready
+
+### Public-surface / hot-path sync
+
+- `mode`: CPU-only repository hygiene
+- `why ready`: run only when docs, guards, or repository surface become stale.
+- `release gate`: no model run; preserve CLI arguments, JSON output fields, and
+  workspace artifact schemas.
 
 ## Hold
 
@@ -109,6 +106,7 @@ arguments, JSON output fields, and workspace artifact schemas.
 
 | Range | Verdict |
 | --- | --- |
+| `2026-04-30 architecture triage` | Corrected the external audit packet into a durable governance note; fixed `src -> scripts` DDPM factory dependency; added package initializers; aligned local checks with CI guards. |
 | `2026-04-30 Phase 0 utils` | Shared utility extraction merged; metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |
 | `2026-04-30 IA reset` | Information architecture reset merged; public docs, internal docs, workspace archives, and asset boundaries reorganized. |
 | `X-141` to `X-143` | G1-A / X-90 restored as two-seed internal auxiliary positive; not headline evidence. |
