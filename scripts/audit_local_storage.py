@@ -14,9 +14,8 @@ import shutil
 import stat
 import subprocess
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Iterable
 
 
 HEAVY_RUN_DIR_NAMES = {
@@ -51,12 +50,21 @@ def _size_bytes(path: Path) -> int:
     if path.is_file():
         return path.stat().st_size
     total = 0
-    for item in path.rglob("*"):
-        try:
-            if item.is_file() and not item.is_symlink():
-                total += item.stat().st_size
-        except OSError:
-            continue
+    for current, dirnames, filenames in os.walk(path, topdown=True, followlinks=False):
+        current_path = Path(current)
+        kept_dirs = []
+        for dirname in dirnames:
+            child = current_path / dirname
+            if not _is_link_or_reparse(child):
+                kept_dirs.append(dirname)
+        dirnames[:] = kept_dirs
+        for filename in filenames:
+            item = current_path / filename
+            try:
+                if not _is_link_or_reparse(item):
+                    total += item.stat().st_size
+            except OSError:
+                continue
     return total
 
 
@@ -86,10 +94,9 @@ def _is_link_or_reparse(path: Path) -> bool:
     return bool(attrs & stat.FILE_ATTRIBUTE_REPARSE_POINT)
 
 
-def _tracked_files_under(root: Path, path: Path) -> list[str]:
-    rel = path.absolute().relative_to(root.absolute()).as_posix()
+def _tracked_files(root: Path) -> set[str]:
     result = subprocess.run(
-        ["git", "ls-files", "-z", "--", rel],
+        ["git", "ls-files", "-z"],
         cwd=root,
         text=False,
         stdout=subprocess.PIPE,
@@ -98,7 +105,13 @@ def _tracked_files_under(root: Path, path: Path) -> list[str]:
     )
     if result.returncode != 0:
         raise RuntimeError(result.stderr.decode("utf-8", errors="replace"))
-    return [p.decode("utf-8", errors="replace") for p in result.stdout.split(b"\0") if p]
+    return {p.decode("utf-8", errors="replace") for p in result.stdout.split(b"\0") if p}
+
+
+def _tracked_files_under(path: Path, root: Path, tracked_files: set[str]) -> list[str]:
+    rel = path.absolute().relative_to(root.absolute()).as_posix().rstrip("/")
+    prefix = rel + "/"
+    return sorted(p for p in tracked_files if p == rel or p.startswith(prefix))
 
 
 def _add_candidate(
@@ -110,13 +123,14 @@ def _add_candidate(
     category: str,
     reason: str,
     min_mb: float,
+    tracked_files: set[str],
 ) -> None:
     if not source.exists():
         return
     size = _size_bytes(source)
     if _to_mb(size) < min_mb:
         return
-    tracked = _tracked_files_under(root, source)
+    tracked = _tracked_files_under(source, root, tracked_files)
     action = "move_and_link"
     if _is_link_or_reparse(source):
         action = "already_linked"
@@ -137,7 +151,12 @@ def _add_candidate(
     )
 
 
-def _whitebox_asset_candidates(root: Path, archive_root: Path, min_mb: float) -> list[MoveCandidate]:
+def _whitebox_asset_candidates(
+    root: Path,
+    archive_root: Path,
+    min_mb: float,
+    tracked_files: set[str],
+) -> list[MoveCandidate]:
     candidates: list[MoveCandidate] = []
     base = root / "workspaces" / "white-box" / "assets"
     if not base.exists():
@@ -158,11 +177,17 @@ def _whitebox_asset_candidates(root: Path, archive_root: Path, min_mb: float) ->
                 category="generated_artifact",
                 reason="white-box checkpoints and local training assets do not belong inside the Git checkout",
                 min_mb=min_mb,
+                tracked_files=tracked_files,
             )
     return candidates
 
 
-def _graybox_asset_candidates(root: Path, download_root: Path, min_mb: float) -> list[MoveCandidate]:
+def _graybox_asset_candidates(
+    root: Path,
+    download_root: Path,
+    min_mb: float,
+    tracked_files: set[str],
+) -> list[MoveCandidate]:
     specs = [
         (
             root / "workspaces" / "gray-box" / "assets" / "pia" / "sources",
@@ -205,11 +230,17 @@ def _graybox_asset_candidates(root: Path, download_root: Path, min_mb: float) ->
             category=category,
             reason=reason,
             min_mb=min_mb,
+            tracked_files=tracked_files,
         )
     return candidates
 
 
-def _run_artifact_candidates(root: Path, archive_root: Path, min_mb: float) -> list[MoveCandidate]:
+def _run_artifact_candidates(
+    root: Path,
+    archive_root: Path,
+    min_mb: float,
+    tracked_files: set[str],
+) -> list[MoveCandidate]:
     candidates: list[MoveCandidate] = []
     runs_root = root / "workspaces"
     if not runs_root.exists():
@@ -230,11 +261,17 @@ def _run_artifact_candidates(root: Path, archive_root: Path, min_mb: float) -> l
                 category="generated_artifact",
                 reason="large run payloads are local artifacts; Git keeps summaries and verdicts",
                 min_mb=min_mb,
+                tracked_files=tracked_files,
             )
     return candidates
 
 
-def _scratch_candidates(root: Path, archive_root: Path, min_mb: float) -> list[MoveCandidate]:
+def _scratch_candidates(
+    root: Path,
+    archive_root: Path,
+    min_mb: float,
+    tracked_files: set[str],
+) -> list[MoveCandidate]:
     candidates: list[MoveCandidate] = []
     for base_name in ("outputs", "tmp"):
         base = root / base_name
@@ -251,6 +288,7 @@ def _scratch_candidates(root: Path, archive_root: Path, min_mb: float) -> list[M
                 category="cache_tmp",
                 reason=f"{base_name}/ is local scratch and should not be a Research handoff surface",
                 min_mb=min_mb,
+                tracked_files=tracked_files,
             )
     return candidates
 
@@ -278,16 +316,30 @@ def _external_bloat(root: Path, min_mb: float) -> list[dict[str, object]]:
     return findings
 
 
-def collect_candidates(root: Path, min_mb: float) -> tuple[list[MoveCandidate], list[dict[str, object]]]:
+def collect_candidates(
+    root: Path,
+    min_mb: float,
+    archive_subdir: str | None = None,
+) -> tuple[list[MoveCandidate], list[dict[str, object]]]:
     diffaudit_root = root.parent
     download_root = diffaudit_root / "Download"
-    archive_root = diffaudit_root / "Archive" / "research-local-artifacts" / "2026-04-30"
+    archive_root = _archive_root(root, archive_subdir)
+    tracked_files = _tracked_files(root)
     candidates: list[MoveCandidate] = []
-    candidates.extend(_graybox_asset_candidates(root, download_root, min_mb))
-    candidates.extend(_whitebox_asset_candidates(root, archive_root, min_mb))
-    candidates.extend(_run_artifact_candidates(root, archive_root, min_mb))
-    candidates.extend(_scratch_candidates(root, archive_root, min_mb))
+    candidates.extend(_graybox_asset_candidates(root, download_root, min_mb, tracked_files))
+    candidates.extend(_whitebox_asset_candidates(root, archive_root, min_mb, tracked_files))
+    candidates.extend(_run_artifact_candidates(root, archive_root, min_mb, tracked_files))
+    candidates.extend(_scratch_candidates(root, archive_root, min_mb, tracked_files))
     return candidates, _external_bloat(root, min_mb)
+
+
+def _default_archive_subdir() -> str:
+    return date.today().isoformat()
+
+
+def _archive_root(root: Path, archive_subdir: str | None) -> Path:
+    subdir = archive_subdir or _default_archive_subdir()
+    return root.parent / "Archive" / "research-local-artifacts" / subdir
 
 
 def _make_link(source: Path, target: Path) -> None:
@@ -324,7 +376,11 @@ def _execute_candidate(root: Path, candidate: MoveCandidate, archive_root: Path)
         if preserve.exists():
             return {**asdict(candidate), "executed": False, "result": "preserve_target_exists"}
         shutil.move(str(source), str(preserve))
-        _make_link(source, target)
+        try:
+            _make_link(source, target)
+        except Exception:
+            shutil.move(str(preserve), str(source))
+            raise
         return {
             **asdict(candidate),
             "executed": True,
@@ -334,30 +390,33 @@ def _execute_candidate(root: Path, candidate: MoveCandidate, archive_root: Path)
 
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.move(str(source), str(target))
-    _make_link(source, target)
+    try:
+        _make_link(source, target)
+    except Exception:
+        shutil.move(str(target), str(source))
+        raise
     return {**asdict(candidate), "executed": True, "result": "moved_and_linked"}
 
 
 def _tracked_large_files(root: Path, min_mb: float) -> list[dict[str, object]]:
     result = subprocess.run(
-        ["git", "ls-files", "-z"],
+        ["git", "ls-tree", "-r", "-l", "HEAD"],
         cwd=root,
-        text=False,
+        text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        check=True,
+        check=False,
     )
+    if result.returncode != 0:
+        return []
     findings: list[dict[str, object]] = []
-    for raw in result.stdout.split(b"\0"):
-        if not raw:
+    for line in result.stdout.splitlines():
+        parts = line.split(None, 4)
+        if len(parts) != 5 or parts[3] == "-":
             continue
-        rel = raw.decode("utf-8", errors="replace")
-        path = root / rel
-        if not path.exists() or not path.is_file():
-            continue
-        size_mb = _to_mb(path.stat().st_size)
+        size_mb = _to_mb(int(parts[3]))
         if size_mb >= min_mb:
-            findings.append({"path": rel, "size_mb": size_mb})
+            findings.append({"path": parts[4], "size_mb": size_mb})
     return findings
 
 
@@ -365,13 +424,18 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", default=str(_repo_root()), help="Research repository root")
     parser.add_argument("--min-mb", type=float, default=10.0, help="minimum size included in the audit")
+    parser.add_argument(
+        "--archive-subdir",
+        default=None,
+        help="subdirectory under Archive/research-local-artifacts; defaults to current date",
+    )
     parser.add_argument("--execute", action="store_true", help="move local-only candidates and leave links")
     parser.add_argument("--json-out", default=None, help="optional JSON report path")
     args = parser.parse_args(argv)
 
     root = Path(args.root).resolve()
-    archive_root = root.parent / "Archive" / "research-local-artifacts" / "2026-04-30"
-    candidates, external = collect_candidates(root, args.min_mb)
+    archive_root = _archive_root(root, args.archive_subdir)
+    candidates, external = collect_candidates(root, args.min_mb, args.archive_subdir)
     payload: dict[str, object] = {
         "schema": "diffaudit.local_storage_audit.v1",
         "generated_at": datetime.now(timezone.utc).isoformat(),
