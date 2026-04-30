@@ -28,9 +28,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD tiny score-bridge planning`
+- Active work: `CLiD tiny score-bridge execution`
 - Next GPU task: `none selected`
-- CPU work: `map CLiD bridge outputs into frozen score-summary schema`
+- CPU work: `run tiny CLiD score bridge into score-summary.json`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 

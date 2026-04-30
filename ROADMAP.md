@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** CLiD tiny score-bridge planning
+- **Active work:** CLiD tiny score-bridge execution
 - **Next GPU task:** none selected
-- **CPU work:** map CLiD bridge outputs into frozen score-summary schema
+- **CPU work:** run tiny CLiD score bridge into `score-summary.json`
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,14 +29,16 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume with CLiD tiny score-bridge planning. H2 is held for cross-asset work
+Resume with CLiD tiny score-bridge execution. H2 is held for cross-asset work
 because SD/CelebA text-to-image is protocol-incompatible with H2
 response-strength. `recon` remains the admitted black-box baseline, `variation`
 lacks a real query set and endpoint, and CLiD is selected as the next bounded
 prompt-conditioned black-box lane. The first local bridge preparation succeeded
 with 8 member and 8 nonmember exports, the bridge contract review passed, and
-the score-summary schema gate is defined. No GPU packet is selected until a
-tiny score bridge produces a portable summary and passes the low-FPR gate.
+the score-summary schema gate is defined. The CLiD artifact summarizer now
+writes `score-summary.json` and embeds schema review. No GPU packet is selected
+until a tiny score bridge produces a portable summary and passes the low-FPR
+gate.
 
 ## Key Documents
 

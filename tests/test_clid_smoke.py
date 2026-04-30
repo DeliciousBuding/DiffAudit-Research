@@ -96,11 +96,14 @@ class ClidSmokeTests(unittest.TestCase):
             )
 
             self.assertTrue((root / "clid-artifact-summary" / "summary.json").exists())
+            self.assertTrue((root / "clid-artifact-summary" / "score-summary.json").exists())
 
         self.assertEqual(result["status"], "ready")
         self.assertEqual(result["mode"], "artifact-summary")
         self.assertIn("shadow", result["metrics"])
         self.assertIn("target", result["metrics"])
+        self.assertEqual(result["score_schema_review"]["status"], "ready")
+        self.assertEqual(result["score_schema_review"]["promotion_status"], "not_eligible")
 
     def test_cli_summarizes_clid_artifacts(self) -> None:
         from diffaudit.cli import main
@@ -143,6 +146,8 @@ class ClidSmokeTests(unittest.TestCase):
         self.assertEqual(payload["status"], "ready")
         self.assertEqual(payload["mode"], "artifact-summary")
         self.assertIn("best_alpha", payload["metrics"]["shadow"])
+        self.assertEqual(payload["score_schema_review"]["status"], "ready")
+        self.assertIn("score_summary", payload["artifact_paths"])
 
 
 if __name__ == "__main__":

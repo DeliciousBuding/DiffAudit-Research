@@ -146,7 +146,7 @@ Validate a CLiD score-summary gate before promotion:
 
 ```powershell
 python scripts/review_clid_score_schema.py `
-  --summary workspaces/black-box/runs/<clid-score-run>/summary.json
+  --summary workspaces/black-box/runs/<clid-score-run>/score-summary.json
 ```
 
 Plan `variation`:

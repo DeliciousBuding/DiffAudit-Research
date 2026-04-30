@@ -39,9 +39,13 @@ only.
 
 ## Review Command
 
+`summarize-clid-artifacts` writes both the legacy `summary.json` and the frozen
+`score-summary.json`, then embeds the schema review result under
+`score_schema_review`.
+
 ```powershell
 python scripts/review_clid_score_schema.py `
-  --summary workspaces/black-box/runs/<clid-score-run>/summary.json
+  --summary workspaces/black-box/runs/<clid-score-run>/score-summary.json
 ```
 
 The review exits successfully when the schema is reusable. Promotion still

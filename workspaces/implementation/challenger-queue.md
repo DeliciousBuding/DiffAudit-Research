@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD tiny score-bridge planning`
+- Active work: `CLiD tiny score-bridge execution`
 - Next GPU task: `none selected`
-- CPU work: `map CLiD bridge outputs into frozen score-summary schema`
+- CPU work: `run tiny CLiD score bridge into score-summary.json`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD tiny score-bridge planning
+### CLiD tiny score-bridge execution
 
 - `mode`: CPU-only boundary work
 - `status`: active
-- `goal`: map CLiD bridge outputs into frozen score-summary schema before any GPU packet
+- `goal`: produce a tiny CLiD `score-summary.json` before any GPU packet
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -30,8 +30,8 @@ CLiD is selected as the next black-box lane after H2 text-to-image transfer was
 blocked by protocol mismatch. Local SD1.5, Recon CelebA split, target LoRA, and
 CLiD workspace probes are ready. The first bridge preparation exported 8 member
 and 8 nonmember examples and generated a localized upstream script. Bridge
-contract review passed, and score-summary schema gate is defined. The next step
-is a tiny score bridge plan, not a large GPU packet.
+contract review passed, and score-summary schema gate is wired into artifact
+summarization. The next step is a tiny score bridge, not a large GPU packet.
 
 ## Ready
 

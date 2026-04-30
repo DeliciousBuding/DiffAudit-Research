@@ -16,6 +16,7 @@ from diffaudit.config import (
     ReportConfig,
     TaskConfig,
 )
+from diffaudit.attacks.clid_score_schema import validate_clid_score_summary
 
 
 CLID_ENTRYPOINTS = {
@@ -428,9 +429,14 @@ def _search_threshold(train_scores: np.ndarray, test_scores: np.ndarray) -> dict
         integrate = np.trapz
     auc = float(integrate(sorted_tpr, sorted_fpr))
     tpr_at_1pct_fpr = 0.0
+    tpr_at_0_1pct_fpr = 0.0
     for fpr, tpr in zip(sorted_fpr, sorted_tpr):
         if fpr >= 0.01:
             tpr_at_1pct_fpr = float(tpr)
+            break
+    for fpr, tpr in zip(sorted_fpr, sorted_tpr):
+        if fpr >= 0.001:
+            tpr_at_0_1pct_fpr = float(tpr)
             break
 
     return {
@@ -438,6 +444,7 @@ def _search_threshold(train_scores: np.ndarray, test_scores: np.ndarray) -> dict
         "asr": float(best_asr),
         "auc": auc,
         "tpr_at_1pct_fpr": tpr_at_1pct_fpr,
+        "tpr_at_0_1pct_fpr": tpr_at_0_1pct_fpr,
     }
 
 
@@ -494,6 +501,49 @@ def summarize_clid_artifacts(
 
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
+    target_member_rows = int(target_train_features.shape[0])
+    target_nonmember_rows = int(target_test_features.shape[0])
+    target_tpr_0_1 = round(float(best_target["tpr_at_0_1pct_fpr"]), 6)
+    low_fpr_gate_passed = (
+        target_member_rows >= 100
+        and target_nonmember_rows >= 100
+        and target_tpr_0_1 > 0.0
+    )
+    score_summary = {
+        "status": "ready",
+        "track": "black-box",
+        "method": "clid",
+        "mode": "score-summary",
+        "split_identity": {
+            "member_rows": target_member_rows,
+            "nonmember_rows": target_nonmember_rows,
+            "alignment": "target_metadata_row_order",
+            "held_out_target_split": True,
+        },
+        "score_outputs": {
+            "scorer_family": "clid_threshold_alpha_sweep",
+            "raw_score_matrices": "raw-score-matrices/",
+            "threshold_summary": "summary.json",
+        },
+        "metrics": {
+            "auc": round(float(best_target["auc"]), 6),
+            "asr": round(float(best_target["asr"]), 6),
+            "tpr_at_1pct_fpr": round(float(best_target["tpr_at_1pct_fpr"]), 6),
+            "tpr_at_0_1pct_fpr": target_tpr_0_1,
+        },
+        "low_fpr_gate": {
+            "minimum_samples_per_split": 100,
+            "strict_tail_metric": "tpr_at_0_1pct_fpr",
+            "promotion_requires": "nonzero_strict_tail_on_held_out_target",
+            "passed": low_fpr_gate_passed,
+        },
+    }
+    score_summary_path = workspace_path / "score-summary.json"
+    score_summary_path.write_text(
+        json.dumps(score_summary, indent=2, ensure_ascii=True),
+        encoding="utf-8",
+    )
+    score_schema_review = validate_clid_score_summary(score_summary_path)
     result = {
         "status": "ready",
         "track": "black-box",
@@ -504,6 +554,7 @@ def summarize_clid_artifacts(
         "workspace": str(workspace_path),
         "artifact_paths": {
             "summary": str(workspace_path / "summary.json"),
+            "score_summary": str(score_summary_path),
             "shadow_train": str(shadow_train_path),
             "shadow_test": str(shadow_test_path),
             "target_train": str(target_train_path),
@@ -533,8 +584,15 @@ def summarize_clid_artifacts(
                 "best_asr": round(float(best_target["asr"]), 6),
                 "asr_via_shadow_threshold": round(float(best_target["asr_via_shadow_threshold"]), 6),
                 "tpr_at_1pct_fpr": round(float(best_target["tpr_at_1pct_fpr"]), 6),
+                "tpr_at_0_1pct_fpr": target_tpr_0_1,
                 "threshold": round(float(best_target["threshold"]), 6),
             },
+        },
+        "score_schema_review": {
+            "status": score_schema_review["status"],
+            "promotion_status": score_schema_review["promotion_status"],
+            "verdict": score_schema_review["verdict"],
+            "promotion_missing": score_schema_review["promotion_missing"],
         },
         "notes": [
             "Summary is recomputed from upstream CLiD inter_output artifacts.",
