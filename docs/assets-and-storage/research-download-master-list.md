@@ -1,10 +1,10 @@
-﻿# DiffAudit Research Download Master List
+# DiffAudit Research Download Master List
 
 > Root download directory: `<DIFFAUDIT_ROOT>/Download`
 > Principle: top-level only grouped by `black-box / gray-box / white-box / shared`
 > GitHub repositories are intentionally excluded because the agent can fetch those itself.
 > Current local/manual status snapshot: `docs/assets-and-storage/research-download-current-status.md`
-> Teammate handoff guide: `docs/assets-and-storage/data-and-assets-handoff.md`
+> Teammate setup guide: `docs/assets-and-storage/data-and-assets-handoff.md`
 
 ---
 
@@ -37,7 +37,7 @@ Machine-readable mirror:
 
 That manifest is local to the machine and not committed with `Research`. The committed source of truth for a teammate is this document plus [data-and-assets-handoff.md](data-and-assets-handoff.md).
 
-命名规范与当前 source-trace 例外，见 [download-naming-policy.md](download-naming-policy.md)。
+Naming conventions and current source-trace exceptions are in [download-naming-policy.md](download-naming-policy.md).
 
 ---
 
@@ -63,8 +63,8 @@ These assets support multiple directions and should be downloaded first.
 
 | ID | Asset | Why We Need It | Source | Login / Gated | Est. Size | Download To |
 |---|---|---|---|---|---|---|
-| `BB-SUP-01` | Recon official non-GitHub asset bundle or mirrors | Helpful if current local recon assets need to be rebuilt / cross-validated | manual author / project release if available | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-official-assets/` |
-| `BB-SUP-02` | CLiD supplementary / artifact release | Helpful for paper-faithful upgrade beyond current local bridge | manual author / supplementary release | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/clid-release/` |
+| `BB-SUP-01` | Recon official non-GitHub asset bundle or mirrors | Needed if current local recon assets need to be rebuilt / cross-validated | manual author / project release if available | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-official-assets/` |
+| `BB-SUP-02` | CLiD supplementary / artifact release | Needed for paper-faithful upgrade beyond current local bridge | manual author / supplementary release | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/clid-release/` |
 | `BB-PAP-01` | Any missing black-box paper supplements | Backup for protocol details if local PDFs are insufficient | paper supplement pages | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/black-box/papers/` |
 
 ### Already local, no urgent external download required
@@ -79,7 +79,7 @@ These assets support multiple directions and should be downloaded first.
 | ID | Asset | Why We Need It | Source | Login / Gated | Est. Size | Download To |
 |---|---|---|---|---|---|---|
 | `GB-WT-01` | SecMI official CIFAR10/CIFAR100 checkpoint bundle | Already validated locally; keep external copy staged for rebuilds or refresh | [SecMI OneDrive bundle](https://drexel0-my.sharepoint.com/:f:/g/personal/jd3734_drexel_edu/EnVid-empkpNvzC_mOfHwv0BpgkDsB_C4RmHO4rIH8BSzw?e=c17NjE) | Yes, browser/manual | unknown | `<DIFFAUDIT_ROOT>/Download/gray-box/weights/secmi-cifar-bundle/` |
-| `GB-SUP-01` | PIA upstream non-GitHub checkpoints or release artifacts | Useful if we need to tighten provenance or compare against upstream weights | author release / paper supplement if available | maybe manual | unknown | `<DIFFAUDIT_ROOT>/Download/gray-box/supplementary/pia-upstream-assets/` |
+| `GB-SUP-01` | PIA upstream non-GitHub checkpoints or release artifacts | Needed if we need to tighten provenance or compare against upstream weights | author release / paper supplement if available | maybe manual | unknown | `<DIFFAUDIT_ROOT>/Download/gray-box/supplementary/pia-upstream-assets/` |
 | `GB-SUP-02` | SecMI member split `.npz` files | Required for SecMI probes and paired-surface checks; keep out of `third_party/` because they are data artifacts | full SecMI clone or team asset mirror | no / team mirror | small | `<DIFFAUDIT_ROOT>/Download/gray-box/supplementary/secmi-member-splits/` |
 | `GB-PAP-01` | SIMA paper / supplement if local copy is missing details | Needed if we implement SIMA | paper page / supplement | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/gray-box/papers/sima/` |
 | `GB-PAP-02` | MoFit paper / supplement | Needed if we implement MoFit | OpenReview / supplementary | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/gray-box/papers/mofit/` |
@@ -99,7 +99,7 @@ These assets support multiple directions and should be downloaded first.
 
 | ID | Asset | Why We Need It | Source | Login / Gated | Est. Size | Download To |
 |---|---|---|---|---|---|---|
-| `WB-SUP-01` | NeMo supplementary / released artifacts | Needed to turn NeMo into a real verdict if public artifact exists | paper supplement / author release | maybe manual | unknown | `<DIFFAUDIT_ROOT>/Download/white-box/supplementary/nemo/` |
+| `WB-SUP-01` | NeMo supplementary / released artifacts | Needed to turn NeMo into a real conclusion if public artifact exists | paper supplement / author release | maybe manual | unknown | `<DIFFAUDIT_ROOT>/Download/white-box/supplementary/nemo/` |
 | `WB-PAP-01` | Local Mirror paper / supplement | Needed if we evaluate Local Mirror seriously | paper page / supplement | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/white-box/papers/local-mirror/` |
 | `WB-WT-01` | Additional CIFAR/DDPM checkpoints for alternate white-box protocols | Useful for non-GSA white-box variants if current local checkpoints are too narrow | official release / HF / author release | maybe gated | unknown | `<DIFFAUDIT_ROOT>/Download/white-box/weights/alternate-ddpm-checkpoints/` |
 
@@ -113,10 +113,10 @@ These assets support multiple directions and should be downloaded first.
 
 There is no separate top-level `defense` folder by request. Defense assets should be staged under the box they most naturally belong to:
 
-- black-box mitigation assets → `black-box\...`
-- gray-box defense assets → `gray-box\...`
-- white-box defended assets → `white-box\...`
-- reusable base models / datasets → `shared\...`
+- black-box mitigation assets -> `black-box\...`
+- gray-box defense assets -> `gray-box\...`
+- white-box defended assets -> `white-box\...`
+- reusable base models / datasets -> `shared\...`
 
 Most defense directions currently rely more on code and training than on special non-GitHub downloads.
 
@@ -135,7 +135,7 @@ Recommended landing spots:
 
 ## 7. What You Probably Should Download First
 
-If you want to front-load the highest-value assets before we reopen serious experiments, do these first:
+If you want to front-load the highest-value assets before serious experiments resume, do these first:
 
 1. `SH-DS-01` CIFAR-10
 2. `SH-DS-02` / `SH-DS-03` CelebA
@@ -151,15 +151,13 @@ After downloading, bind the local paths through `configs/assets/team.local.yaml`
 
 ## 8. Storage Reality Check
 
-You said you currently have about `200 GB` free and around `10 MB/s` bandwidth.
+With about `200 GB` free and around `10 MB/s` bandwidth:
 
-That means:
+- core shared assets are feasible
+- one or two huge optional datasets like `LSUN` should be treated as optional, not first-wave mandatory
+- gated Hugging Face model downloads should be staged deliberately, not all at once
 
-- core shared assets are feasible;
-- one or two huge optional datasets like `LSUN` should be treated as optional, not first-wave mandatory;
-- gated Hugging Face model downloads should be staged deliberately, not all at once.
-
-My practical recommendation:
+Practical recommendation:
 
 - first wave: CIFAR-10, CelebA, SD1.5, CLIP, BLIP, SecMI bundle
 - second wave: optional open-CLIP fallback and alternate checkpoint families
@@ -169,16 +167,11 @@ My practical recommendation:
 
 ## 9. Already In Repo
 
-These do **not** need you to re-download right now:
+These do **not** need re-downloading now:
 
 - GitHub code repos under `external/`
 - local frozen competition package under `workspaces/implementation/`
 - sanitized gray-box and white-box summaries already staged in `workspaces/` or `experiments/`
 - paper metadata already archived in `references/materials/manifest.csv`
 
-If a future task needs them refreshed from upstream, I can tell you precisely which one.
-
-
-
-
-
+If a future task needs them refreshed from upstream, the specific item can be identified precisely.

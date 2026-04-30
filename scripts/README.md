@@ -1,60 +1,35 @@
 # 脚本目录
 
-这里放可重复执行的小工具脚本。
+存放可重复使用的工具脚本。
 
 ## 原则
 
-- 一个脚本只做一件事
-- 优先服务环境验证、资产检查、实验整理
-- 不要把一次性的本地试验命令直接塞进这里
-- closed `run_x*.py` scripts should move to `legacy/execution-log/<date>/scripts/`
-  unless they become generic replay helpers or CLI surfaces
+- 一个脚本做一件事
+- 主要服务环境验证、数据检查、实验管理
+- 不放一次性本地命令
 
-## 便携规则
+## 环境变量
 
-- `LocalOps/paper-resource-scheduler` 只是本地共享机器治理工具，不是研究仓硬依赖
-- 直接运行这些脚本时，不需要本地 scheduler；scheduler 只是可选能力
-- 推荐通过环境变量覆盖环境相关路径：
-  - `DIFFAUDIT_WORKSPACE_ROOT`
-  - `DIFFAUDIT_RESEARCH_PYTHON`
-- 如果不显式传参，DPDM 相关脚本会优先用环境变量，再退回到当前 `Research/scripts` 所在仓库位置推导默认路径
+| 变量 | 用途 |
+| --- | --- |
+| `DIFFAUDIT_WORKSPACE_ROOT` | 工作区根目录覆盖 |
+| `DIFFAUDIT_RESEARCH_PYTHON` | Python 解释器路径覆盖 |
 
-## 当前补充
+脚本默认从当前 `Research/scripts` 位置推导路径，可以通过环境变量覆盖。
 
-- `run_local_checks.py`
-  - 运行研究仓本地质量门禁
-  - 支持 `--python` 或环境变量 `DIFFAUDIT_RESEARCH_PYTHON`
-- `audit_local_storage.py`
-  - 审计本机大资产边界，默认 dry-run
-  - reports Git-tracked large files, misplaced raw assets, generated artifacts,
-    cache/tmp payloads, and large `external/` clones
-  - `--execute` only moves ignored local-only payloads and leaves junctions or
-    symlinks for local compatibility
-- `run_x90_larger_surface_triscore.py`
-  - 保留为 G1-A / X-90 matched larger-surface replay helper
-  - 仍需显式传入或接受 repo-relative run roots，不应扩展成新 one-off X-run hub
-- `run_x90_tmiadm512_assets.py`
-  - 保留为 G1-A / X-90 TMIA-DM 512-surface asset helper
-  - 只服务 current internal auxiliary evidence replay；新 X-run helper 默认应先进 archive 或 CLI 化
-- `prepare_clid_local_bridge.py`
-  - 使用未提交的 `configs/assets/team.local.yaml` 准备 CLiD 本地桥接运行
-  - 不依赖仓库外的绝对路径；需要其他路径时显式传 `--asset-config`
-- `validate_attack_defense_table.py`
-  - 校验 admitted 统一 attack-defense 总表的最小机器合同
-  - 强制 `source` 使用 repo-relative 路径，并检查灰盒 `quality / cost / adaptive_check / provenance_status`
-- `validate_intake_index.py`
-  - 校验 intake index 中的 manifest、assets root 和 admitted 合同
-- `validate_local_api_registry_alignment.py`
-  - 校验研究仓 intake 与相邻 `Runtime-Server` registry seed 的 promoted 入口是否一致
-- `monitor_gsa_sequence.py`
-  - 汇总当前 `GSA` 训练链的 `phase / active split / latest checkpoint / latest epoch-step`
-  - 适合低频监控训练资产树，不直接代表 admitted runtime 摘要是否已写回系统读链
-- `launch_dpdm_training.ps1`
-  - 启动单个 DPDM 训练任务
-  - 支持通过 `DIFFAUDIT_WORKSPACE_ROOT` 和 `DIFFAUDIT_RESEARCH_PYTHON` 做便携覆盖
-- `launch_dpdm_target_and_shadows.ps1`
-  - 串起 target + shadows 的顺序训练
-  - 默认相对 `Research/scripts` 解析子脚本，不依赖协作者机器上的绝对路径
-- `launch_dpdm_shadow_sequence.ps1`
-  - 按顺序启动 shadow 训练
-  - 不要求本地 scheduler；直接在协作者自己的 CPU/GPU 环境即可运行
+## 脚本速查
+
+| 脚本 | 用途 |
+| --- | --- |
+| `run_local_checks.py` | 运行本地质量检查，支持 `--python` 和 `--fast` |
+| `audit_local_storage.py` | 审计本地大文件和数据边界，默认 dry-run |
+| `validate_attack_defense_table.py` | 校验攻击-防御汇总表 |
+| `validate_intake_index.py` | 校验 intake index 的数据和清单 |
+| `validate_local_api_registry_alignment.py` | 校验与 Runtime-Server 的注册表一致性 |
+| `monitor_gsa_sequence.py` | 监控 GSA 训练进度 |
+| `prepare_clid_local_bridge.py` | 准备 CLiD 本地运行配置 |
+| `launch_dpdm_training.ps1` | 启动单个 DPDM 训练 |
+| `launch_dpdm_target_and_shadows.ps1` | 启动 target + shadow 训练序列 |
+| `launch_dpdm_shadow_sequence.ps1` | 按顺序启动 shadow 训练 |
+| `run_x90_larger_surface_triscore.py` | X-90 larger-surface 复算辅助 |
+| `run_x90_tmiadm512_assets.py` | X-90 TMIA-DM 512-surface 数据辅助 |

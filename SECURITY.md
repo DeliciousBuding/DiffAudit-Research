@@ -31,7 +31,7 @@ The following are not handled as vulnerabilities in this repository:
 - missing access to gated third-party assets;
 - model-performance disagreements or unvalidated research hypotheses;
 - reports about the sibling `Runtime-Server/` or `Platform/` repositories,
-  unless the issue is caused by a Research artifact or handoff contract.
+  unless the issue is caused by a Research artifact or integration contract.
 
 ## Reporting
 
@@ -48,4 +48,4 @@ attack payloads in public issues, pull requests, screenshots, or logs.
 DiffAudit Research is maintained as a research prototype. Response times may
 vary, but reports with clear affected files, commands, reproduction steps, and
 impact will be prioritized. When a report affects Runtime or Platform
-consumers, the fix should include a handoff note in the relevant documentation.
+consumers, the fix should include an update note in the relevant documentation.

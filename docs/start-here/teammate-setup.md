@@ -2,7 +2,7 @@
 
 这份文档面向刚拿到 `Research` 仓库的新成员或外部贡献者。
 
-目标不是解释算法细节，而是帮助新机器尽快进入“可运行命令、可绑定资产、可继续复现”的状态。
+目标是帮助新机器尽快跑通环境、绑定资产、开始实验。
 
 如果只看一份数据/权重说明，先看 [data-and-assets-handoff.md](../assets-and-storage/data-and-assets-handoff.md)。它记录了如何拿到和当前项目一致的 `Download\` 资产布局。
 

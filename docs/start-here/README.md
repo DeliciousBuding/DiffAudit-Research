@@ -1,6 +1,6 @@
 # Start Here
 
-This directory is the short onboarding path for new contributors.
+This directory is the onboarding path for new contributors.
 
 Read in this order:
 

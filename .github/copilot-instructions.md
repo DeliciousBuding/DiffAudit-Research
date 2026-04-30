@@ -6,7 +6,7 @@ Prioritize review comments on:
 
 - `src/diffaudit/`, `tests/`, `scripts/`, and `configs/`
 - experiment orchestration bugs
-- path handling, reproducibility, provenance, and benchmark contract drift
+- path handling, reproducibility, provenance, and benchmark status drift
 - false claims of reproduction, paper alignment, or asset readiness
 - unsafe assumptions in evaluation logic, manifests, and summary generation
 

@@ -1,17 +1,22 @@
-# Admitted Results Summary
+# Verified Results Summary
 
-> This summary covers admitted evidence only. Candidate and exploratory assets
-> remain outside this table until they are explicitly promoted.
-> Each row is derived from the current `unified-attack-defense-table.json`
-> contract and keeps the evidence level, cost, and boundary language attached
-> to the reported metric values.
+> This summary covers verified results only. Candidate and exploratory
+> results are excluded until explicitly promoted.
+> Each row comes from `unified-attack-defense-table.json` and retains
+> the evidence level, cost, and limitation language tied to the reported metrics.
 
-| Track | Method | Attack | Defense | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR | Evidence Level | Quality / Cost | Evidence Location | Boundary |
+| Track | Method | Attack | Defense | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR | Evidence Level | Quality / Cost | Evidence Location | Limitations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Black-box | Recon risk proof | `recon DDIM public-100 step30` | `none` | 0.849 | 0.51 | 1.0 | `n/a` | `runtime-mainline` | `100 public samples per split; DDIM step30; artifact-mainline ready; cuda runtime` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` （black-box row） | 证据只在 `fine-tuned / controlled / public-subset / proxy-shadow-member` 语义下成立，用于证明最弱权限下存在成员泄露风险，定位为 “current black-box main evidence” 。 |
-| Gray-box | PIA baseline | `PIA GPU512 baseline` | `none` | 0.841339 | 0.786133 | 0.058594 | 0.011719 | `runtime-mainline` | `attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=212.993833s` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` （gray-box baseline row） | `workspace-verified + bounded repeated-query adaptive-reviewed` 主结果；当前必须把它读成 `epsilon-trajectory consistency` 的基线暴露面，并同时按 `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR` 四指标复述，且显式携带 `paper-aligned blocked by checkpoint/source provenance`。 |
-| Gray-box | PIA defended | `PIA GPU512 baseline` | `stochastic-dropout all-steps prototype` | 0.828075 | 0.767578 | 0.052734 | 0.009766 | `runtime-mainline` | `attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=223.128438s` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` （gray-box defended row） | 同样是 `workspace-verified + bounded repeated-query adaptive-reviewed`；当前应写成 inference-time randomization 对 `epsilon-trajectory consistency` 的机制性削弱结果，并显式保留 `provisional / paper-aligned blocked by checkpoint/source provenance / not validated privacy protection` 边界。 |
-| White-box | GSA attack | `GSA 1k-3shadow` | `none` | 0.998192 | 0.9895 | 0.987 | 0.432 | `runtime-mainline` | `target_eval_size=2000; shadow_train_size=4200; 3 shadows; cuda` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` （white-box attack row） | Admitted white-box line，攻击部分用来标明“white-box admitted mainline”，但不能写成 final paper-level benchmark；以 risk upper-bound 的语义出现。 |
-| White-box | DPDM defended | `GSA 1k-3shadow` | `DPDM strong-v3 full-scale` | 0.488783 | 0.4985 | 0.009 | 0.0 | `runtime-mainline` | `target_eval_size=2000; shadow_train_size=6000; classifier=logistic-regression-1d` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` （white-box defended row） | Defended comparator 保持为 admitted deep line，提示 “white-box bridge closed-frozen / not a finished benchmark”，对比仍在治理决策层面。 |
+| Black-box | Recon risk proof | `recon DDIM public-100 step30` | `none` | 0.849 | 0.51 | 1.0 | `n/a` | `runtime-mainline` | `100 public samples per split; DDIM step30; artifact-mainline ready; cuda runtime` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` (black-box row) | Evidence holds only under `fine-tuned / controlled / public-subset / proxy-shadow-member` semantics. Demonstrates membership leakage risk under minimal permissions. Current black-box main evidence. |
+| Gray-box | PIA baseline | `PIA GPU512 baseline` | `none` | 0.841339 | 0.786133 | 0.058594 | 0.011719 | `runtime-mainline` | `attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=212.993833s` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` (gray-box baseline row) | Workspace-verified with bounded repeated-query adaptive review. Read as `epsilon-trajectory consistency` baseline exposure. Report all four metrics: `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR`. Still blocked by checkpoint/source provenance from paper-aligned release. |
+| Gray-box | PIA defended | `PIA GPU512 baseline` | `stochastic-dropout all-steps prototype` | 0.828075 | 0.767578 | 0.052734 | 0.009766 | `runtime-mainline` | `attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=223.128438s` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` (gray-box defended row) | Workspace-verified with bounded repeated-query adaptive review. Shows inference-time randomization weakening `epsilon-trajectory consistency`. Still provisional. Blocked by checkpoint/source provenance. Not validated privacy protection. |
+| White-box | GSA attack | `GSA 1k-3shadow` | `none` | 0.998192 | 0.9895 | 0.987 | 0.432 | `runtime-mainline` | `target_eval_size=2000; shadow_train_size=4200; 3 shadows; cuda` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` (white-box attack row) | Admitted white-box attack line. Treat as risk upper bound, not final paper-level benchmark. |
+| White-box | DPDM defended | `GSA 1k-3shadow` | `DPDM strong-v3 full-scale` | 0.488783 | 0.4985 | 0.009 | 0.0 | `runtime-mainline` | `target_eval_size=2000; shadow_train_size=6000; classifier=logistic-regression-1d` | `Research/workspaces/implementation/artifacts/unified-attack-defense-table.json` (white-box defended row) | Admitted white-box defense comparator. Bridge frozen; not a finished benchmark. Comparison informs governance decisions. |
 
-每条记录都仅占 admitted 结果主值，并可被 Leader 直接引用；灰盒 PIA 结果必须按 `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR` 四指标一起复述，不能再只摘 `AUC / ASR`。本表现在也显式带出 `evidence_level` 与 `quality / cost`，让 higher-layer 读链不必再只从 headline metrics 推断执行规模。若还需要更细的开发消费字段，则继续参考 `unified-attack-defense-table.json` 中 `quality_cost`、`provenance_status`、`boundary` 等字段，保证 Runtime 与 Platform 只读 admitted 数据。
+Each row records only the admitted primary value and can be cited directly.
+Gray-box PIA results must be reported with all four metrics (`AUC / ASR / TPR@1%FPR / TPR@0.1%FPR`).
+This table also includes `evidence_level` and `quality / cost` so downstream
+consumers do not need to infer execution scale from headline metrics alone.
+For more detailed fields, see `quality_cost`, `provenance_status`, and
+`boundary` in `unified-attack-defense-table.json`. Runtime and Platform
+consume only verified data.

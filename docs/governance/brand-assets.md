@@ -1,4 +1,4 @@
-﻿# Brand Assets
+# Brand Assets
 
 This repository keeps small SVG brand assets in Git so the README and docs stay
 portable across GitHub, forks, local clones, and archived releases.
@@ -51,4 +51,4 @@ Use a website CDN or image host only for:
 
 Do not reference local presentation paths or `.ai` source files from GitHub
 README documents. The `.ai` files remain source material for design workflows,
-while SVG exports are the durable documentation assets.
+while SVG exports are the documentation assets that last across versions.

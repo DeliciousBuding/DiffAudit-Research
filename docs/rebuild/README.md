@@ -2,9 +2,9 @@
 
 This directory tracks codebase rebuild work for DiffAudit Research.
 
-Use it for architecture debt, refactor sequencing, and behavior-preserving
-cleanup plans. Do not use it for research evidence, asset handoff, GitHub
-collaboration rules, or long execution logs.
+Use it for architecture debt, refactor ordering, and cleanup that
+does not change behavior. Research results, asset handoff, GitHub
+collaboration rules, and long execution logs belong elsewhere.
 
 ## Scope
 
@@ -37,13 +37,13 @@ Still open as rebuild work:
 
 | Document | Purpose |
 | --- | --- |
-| [codebase-rebuild-plan.md](codebase-rebuild-plan.md) | Current behavior-preserving rebuild sequence and validation floor. |
+| [codebase-rebuild-plan.md](codebase-rebuild-plan.md) | Current rebuild sequence and validation floor. |
 | [architecture-audit-triage-2026-04-30.md](architecture-audit-triage-2026-04-30.md) | Corrected outcomes from the 2026-04-30 architecture review. |
 
 ## Rules
 
-- Prefer behavior-preserving PRs with narrow scope.
+- Prefer small PRs that do not change behavior.
 - Do not mix code architecture rebuilds with new GPU experiments.
 - Do not move evidence files into this directory.
-- Record only durable decisions; transient execution notes belong in PRs or
+- Record only lasting decisions here; short execution notes belong in PRs or
   `legacy/` when they need to be preserved.

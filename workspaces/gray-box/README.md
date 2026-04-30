@@ -2,19 +2,18 @@
 
 ## Current Status
 
-- Role: partial-observation membership inference, PIA/SecMI/TMIA-DM evidence,
-  and defense boundary tracking.
-- Main evidence: `PIA` remains the strongest gray-box attack + defense story.
-- Defended story: stochastic dropout remains the main defended reference.
-- GPU state: no active gray-box GPU question.
+- Direction: partial-observation membership inference (PIA, SecMI, TMIA-DM) and defense evaluation.
+- Main method: `PIA` is the strongest gray-box attack with defense evaluation.
+- Defense reference: stochastic dropout is the main defended baseline.
+- GPU: no active gray-box GPU task.
 
-## Current Files
+## Files
 
 | File | Purpose |
 | --- | --- |
-| [plan.md](plan.md) | Current gray-box status and next action. |
+| [plan.md](plan.md) | Current status and next steps. |
 
 ## Archive
 
-Closed dated notes are under
+Closed notes are in
 [../../legacy/workspaces/gray-box/2026-04/](../../legacy/workspaces/gray-box/2026-04/).
