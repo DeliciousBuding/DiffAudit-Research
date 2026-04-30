@@ -47,9 +47,10 @@ The next CLiD task is CPU-only: specify an admission test that can separate
 prompt information from membership signal before any new GPU packet is selected.
 The swapped-prompt control is positive but degraded, so CLiD is not explained
 by fixed prompt text alone. It remains candidate-only; the next CPU step is to
-design image-only, within-split prompt shuffle, or independent swapped-prompt
-repeat controls before selecting another GPU packet. The within-split shuffle
-metadata mode is implemented, but no score result exists for it yet.
+design image-only or independent prompt-control repeat controls before selecting
+another GPU packet. The within-split shuffle control is weaker than the
+swapped-prompt control but still nonzero, which reinforces the prompt-image
+contract boundary.
 
 ## Key Documents
 
@@ -60,6 +61,7 @@ metadata mode is implemented, but no score result exists for it yet.
 - CLiD prompt boundary: [docs/evidence/clid-prompt-conditioning-boundary.md](docs/evidence/clid-prompt-conditioning-boundary.md)
 - CLiD prompt-control contract: [docs/evidence/clid-adaptive-prompt-perturbation-contract.md](docs/evidence/clid-adaptive-prompt-perturbation-contract.md)
 - CLiD swapped-prompt control: [docs/evidence/clid-swapped-prompt-control.md](docs/evidence/clid-swapped-prompt-control.md)
+- CLiD within-split shuffle control: [docs/evidence/clid-within-split-shuffle-control.md](docs/evidence/clid-within-split-shuffle-control.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

@@ -53,17 +53,17 @@ A new CLiD GPU packet is worth running only if the planned packet has all of:
 | Boundary result | report both the prompt-conditioned result and the prompt-control result side by side |
 
 The first swapped-prompt control is recorded in
-[clid-swapped-prompt-control.md](clid-swapped-prompt-control.md). It survived
-with nonzero strict-tail signal but degraded sharply, so the next review should
-check whether prompt text and image identity are both necessary or whether one
-surface is sufficient.
+[clid-swapped-prompt-control.md](clid-swapped-prompt-control.md), and the first
+within-split shuffle control is recorded in
+[clid-within-split-shuffle-control.md](clid-within-split-shuffle-control.md).
+Both survive with nonzero strict-tail signal but degrade sharply, so the next
+review should check whether an image-only control or independent prompt-control
+repeat answers a genuinely new question.
 
 ## Current State
 
 - GPU task: none selected.
-- CPU sidecar: compare image-only, within-split shuffled prompt, or independent
-  swapped-prompt repeat designs before any next GPU run. The
-  `within-split-shuffle` metadata mode is available, but no score result exists
-  for it yet.
+- CPU sidecar: compare image-only control or independent prompt-control repeat
+  designs before any next GPU run.
 - Product impact: none. Platform and Runtime should continue treating CLiD as
   candidate-only.

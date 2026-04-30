@@ -44,10 +44,11 @@ contract is
 [../../docs/evidence/clid-adaptive-prompt-perturbation-contract.md](../../docs/evidence/clid-adaptive-prompt-perturbation-contract.md).
 The swapped-prompt control is now scored and recorded in
 [../../docs/evidence/clid-swapped-prompt-control.md](../../docs/evidence/clid-swapped-prompt-control.md).
-It is positive but degraded, so CLiD remains candidate-only and needs another
-control design before any next GPU packet is selected. The next CPU-ready
-control mode is `within-split-shuffle`, which preserves split-level prompt
-distribution while breaking image-prompt pairing.
+It is positive but degraded, and the within-split shuffle control is weaker
+still but nonzero. CLiD remains candidate-only and needs another control design
+before any next GPU packet is selected. The next CPU-ready question is whether
+an image-only control or independent prompt-control repeat would add new
+evidence.
 
 ## Ready
 

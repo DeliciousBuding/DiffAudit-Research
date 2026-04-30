@@ -21,7 +21,8 @@ Design the next CLiD adaptive prompt-perturbation contract. The contract must
 separate prompt information from membership signal before any new GPU packet is
 selected. The first swapped-prompt control is positive but degraded, so the next
 CPU design should separate image identity, prompt-image mismatch, and CLiD
-auxiliary scoring artifacts. Keep status synchronized with
+auxiliary scoring artifacts. The first within-split shuffle control is weaker
+than swapped-prompt but nonzero, keeping CLiD candidate-only. Keep status synchronized with
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status

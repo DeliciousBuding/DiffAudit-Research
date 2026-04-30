@@ -17,23 +17,27 @@ The evidence separates three facts:
 | Is the 100/100 signal strong and repeat-stable under the original prompt-conditioned contract? | [clid-100-score-packet.md](clid-100-score-packet.md), [clid-repeat-stability.md](clid-repeat-stability.md) | yes |
 | Does the signal survive a prompt-neutral control on the same images? | [clid-prompt-perturbation.md](clid-prompt-perturbation.md) | no |
 | Does the signal survive row-wise prompt swapping across splits? | [clid-swapped-prompt-control.md](clid-swapped-prompt-control.md) | partially; degraded but nonzero strict-tail signal |
+| Does the signal survive prompt shuffling inside each split? | [clid-within-split-shuffle-control.md](clid-within-split-shuffle-control.md) | weakly; further degraded but nonzero strict-tail signal |
 
 ## Evidence Snapshot
 
-| Metric | First 100/100 packet | Repeat packet | Prompt-neutral control | Swapped-prompt control |
-| --- | ---: | ---: | ---: | ---: |
-| AUC | 1.0 | 1.0 | 0.5862 | 0.72885 |
-| ASR | 1.0 | 1.0 | 0.585 | 0.67 |
-| TPR@1%FPR | 1.0 | 1.0 | 0.02 | 0.21 |
-| TPR@0.1%FPR | 1.0 | 1.0 | 0.02 | 0.21 |
-| Feature 0 AUC | 0.9072 | 0.9084 | 0.5848 | 0.6376 |
-| CLiD auxiliary AUC | 1.0 | 1.0 | 0.57175 | 0.7218 |
+| Metric | First 100/100 packet | Repeat packet | Prompt-neutral control | Swapped-prompt control | Within-split shuffle |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| AUC | 1.0 | 1.0 | 0.5862 | 0.72885 | 0.64105 |
+| ASR | 1.0 | 1.0 | 0.585 | 0.67 | 0.645 |
+| TPR@1%FPR | 1.0 | 1.0 | 0.02 | 0.21 | 0.12 |
+| TPR@0.1%FPR | 1.0 | 1.0 | 0.02 | 0.21 | 0.12 |
+| Feature 0 AUC | 0.9072 | 0.9084 | 0.5848 | 0.6376 | 0.6094 |
+| CLiD auxiliary AUC | 1.0 | 1.0 | 0.57175 | 0.7218 | 0.63815 |
 
 The repeat used fresh runtime noise and preserved the strong prompt-conditioned
 signal. The prompt-neutral control used the same member and nonmember images but
 rewrote all prompts to `a face`; the strict low-FPR signal collapsed. The
 swapped-prompt control moved member and nonmember prompt text across splits by
-row; strict-tail signal remained nonzero but degraded sharply.
+row; strict-tail signal remained nonzero but degraded sharply. The within-split
+shuffle preserved split-level prompt distribution while breaking image-prompt
+pairing; the signal weakened further but did not collapse to the fixed-prompt
+control level.
 
 ## Claim Boundary
 
@@ -45,6 +49,9 @@ Allowed claim:
   membership-risk surfaces.
 - The current result is not explained by fixed prompt text alone, because the
   swapped-prompt control preserves a weaker strict-tail signal.
+- Preserving split-level prompt distribution is not enough to recover the
+  original signal, because within-split shuffle remains weaker than the original
+  prompt-conditioned packet.
 - Future CLiD reports must state the prompt contract and include a
   prompt-neutral or prompt-perturbed control.
 
