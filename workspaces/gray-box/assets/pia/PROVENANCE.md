@@ -59,7 +59,7 @@ Current interpretation:
 
 - the asset line is now `workspace-verified`
 - the runtime evidence is now both multi-scale and same-scale repeat-supported
-- this is enough for `provisional G-1`
+- this is enough for the provisional stochastic-dropout defense prototype
 - this is still not enough for `paper-aligned`
 
 ## Next-Run Gate
