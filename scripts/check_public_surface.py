@@ -76,7 +76,10 @@ def main() -> int:
         if is_forbidden_path(normalized):
             violations.append(f"forbidden tracked artifact: {normalized}")
             continue
-        size = (ROOT / path).stat().st_size
+        file_path = ROOT / path
+        if not file_path.exists():
+            continue
+        size = file_path.stat().st_size
         if size > MAX_TRACKED_FILE_BYTES:
             violations.append(
                 f"oversized tracked file ({size} bytes): {normalized}"
