@@ -1,6 +1,6 @@
 # DiffAudit Research Download Current Status
 
-> Updated: `2026-04-15`
+> Updated: `2026-04-30`
 > Scope: only assets that are already local, currently being handled by Codex, or may still require user-side manual web actions.
 
 ---
@@ -122,5 +122,43 @@
 - 当前没有新的 first-wave `OneDrive / Google Drive` 手工下载缺口。
 - 后续如出现必须人工网页确认的 gated asset，应在本文件或
   [research-download-master-list.md](research-download-master-list.md) 中记录直达链接、许可说明和目标落盘路径。
+
+---
+
+## 5. 2026-04-30 Local Workspace Boundary Cleanup
+
+The Research checkout was cleaned so it no longer stores large local-only
+payloads as ordinary directories.
+
+Summary:
+
+- moved or linked 36 local-only large paths
+- covered about 75 GB of local payloads
+- moved 5 misplaced raw asset paths to `Download/`
+- moved 22 generated artifact paths to
+  `<DIFFAUDIT_ROOT>\Archive\research-local-artifacts\2026-04-30\`
+- moved 9 `outputs/` or `tmp/` scratch paths to the same local archive
+- left ignored junctions in the old `Research/` locations for local
+  compatibility
+- kept `external/` as upstream-code clone space; large clones are review-only,
+  not automatically moved
+
+The execution manifest is local-only:
+
+```text
+<DIFFAUDIT_ROOT>\Archive\research-local-artifacts\2026-04-30\manifest.json
+```
+
+To reproduce the audit without moving anything:
+
+```powershell
+python -X utf8 scripts/audit_local_storage.py
+```
+
+Expected current result after cleanup:
+
+- `tracked_large_files = []`
+- `move_candidates = []`
+- `external_clone_bloat` may list large upstream clones for review only
 
 

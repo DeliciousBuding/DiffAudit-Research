@@ -24,6 +24,12 @@
 - `run_local_checks.py`
   - 运行研究仓本地质量门禁
   - 支持 `--python` 或环境变量 `DIFFAUDIT_RESEARCH_PYTHON`
+- `audit_local_storage.py`
+  - 审计本机大资产边界，默认 dry-run
+  - reports Git-tracked large files, misplaced raw assets, generated artifacts,
+    cache/tmp payloads, and large `external/` clones
+  - `--execute` only moves ignored local-only payloads and leaves junctions or
+    symlinks for local compatibility
 - `run_x90_larger_surface_triscore.py`
   - 保留为 G1-A / X-90 matched larger-surface replay helper
   - 仍需显式传入或接受 repo-relative run roots，不应扩展成新 one-off X-run hub

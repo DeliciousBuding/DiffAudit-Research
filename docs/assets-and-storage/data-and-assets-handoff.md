@@ -68,10 +68,23 @@ binaries.
 
 Generated experiment artifacts follow the same rule. GitHub keeps sanitized
 summaries and reports; generated images, tensor score packets, runtime job queue
-dumps, checkpoints, and split `.npz` files belong in `Download/`, a team mirror,
-or an ignored workspace path. The repository-root `Research/outputs/` directory
-is also local scratch space; promote durable metrics into workspace verdict
-notes or `summary.json` files before committing.
+dumps, checkpoints, and split `.npz` files belong in a team mirror, ignored
+workspace path, or the local reversible archive. Raw downloaded datasets,
+weights, and supplementary bundles belong in `Download/`; generated run payloads
+do not. The repository-root `Research/outputs/` directory is also local scratch
+space; promote durable metrics into workspace verdict notes or `summary.json`
+files before committing.
+
+For a local machine cleanup audit, run:
+
+```powershell
+python -X utf8 scripts/audit_local_storage.py
+```
+
+The script is dry-run by default. It can also relocate ignored local-only
+payloads to `Download/` or
+`<DIFFAUDIT_ROOT>\Archive\research-local-artifacts\` when run with
+`--execute`.
 
 ## 3. First-Wave Asset List
 
