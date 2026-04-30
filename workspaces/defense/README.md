@@ -2,14 +2,13 @@
 
 ## Current Status
 
-This workspace is reserved for current defense-specific summaries and small
-artifacts. Historical defense notes should remain archived unless they are
-needed for the active queue.
+This workspace is for current defense-specific summaries. Historical defense
+notes should stay archived unless needed for active work.
 
-Defense claims must report low-FPR behavior and adaptive-attacker boundaries
-when promoted into public evidence.
+Defense results must report low-FPR behavior and adaptive-attacker limitations
+before being promoted to public evidence.
 
-## Next Action
+## Next Steps
 
-Use this workspace only for active defense coordination. Product-facing defense
-claims belong in [../../docs/evidence/](../../docs/evidence/) after review.
+Use this workspace only for active defense coordination. Verified defense claims
+belong in [../../docs/evidence/](../../docs/evidence/) after review.

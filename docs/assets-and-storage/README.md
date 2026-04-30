@@ -4,7 +4,7 @@ This directory explains where non-code research assets live.
 
 | Document | Purpose |
 | --- | --- |
-| [data-and-assets-handoff.md](data-and-assets-handoff.md) | How to obtain datasets, weights, supplementary bundles, and upstream code. |
+| [data-and-assets-handoff.md](data-and-assets-handoff.md) | How to obtain datasets, weights, supplementary files, and upstream code. |
 | [storage-boundary.md](storage-boundary.md) | What belongs in Git, `Download/`, `external/`, `third_party/`, and workspace assets. |
 | [download-naming-policy.md](download-naming-policy.md) | Naming rules for `<DIFFAUDIT_ROOT>/Download/`. |
 | [research-download-master-list.md](research-download-master-list.md) | Rebuild list for first-wave assets. |

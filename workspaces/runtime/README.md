@@ -2,14 +2,13 @@
 
 ## Current Status
 
-This workspace stores Research-side notes for Runtime contracts. It is not the
-Runtime implementation repository.
+This workspace stores Research-side notes for Runtime integration. It is not
+the Runtime implementation repository.
 
-Current product/Runtime handoff guidance lives in
+Current integration guidance is in
 [../../docs/product-bridge/README.md](../../docs/product-bridge/README.md).
 
-## Next Action
+## Next Steps
 
-Create a Runtime handoff only when a research result changes exported fields,
-packet contracts, runner requirements, recommendation semantics, or report
-wording.
+Create a Runtime integration note only when a research result changes exported
+fields, data contracts, or report format.

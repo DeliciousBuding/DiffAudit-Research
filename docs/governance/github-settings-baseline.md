@@ -1,14 +1,15 @@
-﻿# GitHub Settings Baseline
+# GitHub Settings Baseline
 
-这份文档定义 `Research` 研究仓库的 GitHub 后台设置基线。
+This document defines the GitHub backend settings baseline for the `Research`
+repository.
 
 Last synchronized: 2026-04-28.
 
-## 一、仓库定位
+## 1. Repository Identity
 
-- 仓库：`Research`
-- 类型：研究与实验主仓库
-- 当前可见性：`public`
+- Repository: `Research`
+- Type: research and experiment repository
+- Current visibility: `public`
 - Description: `Reproducible research scaffolding for privacy-risk auditing of diffusion models.`
 - Topics:
   - `diffusion-models`
@@ -18,9 +19,11 @@ Last synchronized: 2026-04-28.
   - `reproducibility`
   - `research`
   - `python`
-- 目标：保证研究资产、实验代码、论文复现与状态文档可协作，同时避免把研究仓库按产品仓库方式管理
+- Goal: keep research assets, experiment code, paper reproduction, and status
+  documents collaborative, without treating the research repository as a product
+  repository
 
-## 二、仓库级设置
+## 2. Repository-Level Settings
 
 - Visibility: `public`
 - Issues: `on`
@@ -37,56 +40,56 @@ Last synchronized: 2026-04-28.
 - Web commit signoff required: `off`
 - Release immutability: `off`
 
-## 三、`main` 保护基线
+## 3. Main Branch Protection Baseline
 
 - Require pull request: `on`
 - Required status checks:
   - `unit-tests`
 - Require branch up to date: `on`
 - Require pull request review:
-  - 当前值：`off`
-  - 推荐值：有第二位 maintainer 后再打开
+  - Current value: `off`
+  - Recommended: enable once a second maintainer joins
 - Required approval count:
-  - 当前值：`n/a`
-  - 推荐值：`1`
+  - Current value: `n/a`
+  - Recommended: `1`
 - Require CODEOWNERS review:
-  - 当前值：`off`
-  - 推荐值：有第二位 maintainer 后再打开
+  - Current value: `off`
+  - Recommended: enable once a second maintainer joins
 - Dismiss stale reviews:
-  - 当前值：`off`
-  - 推荐值：有稳定 review 人员后再打开
+  - Current value: `off`
+  - Recommended: enable once a stable review team is in place
 - Require conversation resolution: `on`
 - Enforce for admins: `on`
 - Allow force pushes: `off`
 - Allow deletions: `off`
 - Require last push approval:
-  - 推荐值：`on`
-  - 备注：会提高 owner 自己快速合并小型文档/治理 PR 的摩擦
+  - Recommended: `on`
+  - Note: increases friction for the owner when merging small doc/governance PRs quickly
 
-## 四、Copilot Review 基线
+## 4. Copilot Review Baseline
 
-统一要求：
+Shared requirements:
 
 - `Use custom instructions when reviewing pull requests`: `on`
-- 仓库级指令文件：
+- Repository-level instruction file:
   - `.github/copilot-instructions.md`
 
-研究仓库的 Copilot review 重点应该放在：
+Copilot review in this repository should focus on:
 
 - `src/diffaudit/`
 - `tests/`
 - `scripts/`
 - `configs/`
-- 复现风险、路径依赖、provenance、状态口径、CLI/manifest 回归
+- reproduction risk, path dependency, provenance, metric consistency, CLI/manifest regression
 
-研究仓库的 Copilot review 应主动降噪：
+Copilot review should skip or deprioritize:
 
 - `references/`
-- PDF
-- 长篇论文笔记
-- 纯实验产物
+- PDF files
+- long paper notes
+- raw experiment output
 
-## 五、安全设置基线
+## 5. Security Settings Baseline
 
 - Dependency graph: `on`
 - Dependabot alerts: `on`
@@ -94,26 +97,26 @@ Last synchronized: 2026-04-28.
 - Secret scanning: `on`
 - Push protection: `on`
 
-补充建议：
+Additional guidance:
 
-- version updates 可以开，但频率不宜太高
-- ML 依赖不应被频繁自动漂移
+- Version updates can be enabled, but keep the frequency moderate
+- ML dependencies should not drift through frequent automated updates
 - Dependabot version updates:
   - GitHub Actions: weekly
   - Python `pyproject.toml` runtime dependencies: weekly, grouped
   - Conda environment drift: manual review only
 
-## 六、自动合并
+## 6. Auto-Merge
 
 - `Allow auto-merge`: `on`
 
-前提：
+Requirements:
 
-- 通过 `main` 的 required checks
-- 满足 review 规则
-- 合并方式统一走 `squash`
+- Pass the `main` branch required checks
+- Satisfy review rules
+- Merge method: `squash` only
 
-## 七、仓库内治理文件
+## 7. In-Repository Governance Files
 
 - `SECURITY.md`
 - `CITATION.cff`
@@ -126,9 +129,9 @@ Last synchronized: 2026-04-28.
 - `.github/CODEOWNERS`
 - `.github/copilot-instructions.md`
 
-## 八、Issue / PR 标签
+## 8. Issue And PR Labels
 
-这些标签需要和 issue templates、Dependabot 配置保持一致：
+These labels should stay consistent with issue templates and Dependabot config:
 
 - `docs`
 - `reproducibility`
@@ -137,14 +140,16 @@ Last synchronized: 2026-04-28.
 - `github-actions`
 - `python`
 
-默认 GitHub 标签可保留，但文档类 issue 默认使用 `docs`，不要依赖 `documentation`。
+Default GitHub labels can stay, but documentation issues should use `docs` by
+default, not `documentation`.
 
-## 九、当前需要人工继续核对的项
+## 9. Items Requiring Manual Follow-Up
 
-- Copilot 自动 review 是否按你的预期启用
-- 是否要在第二位 maintainer 加入后启用 CODEOWNERS review 和 stale-review dismissal
+- Confirm that Copilot automatic review is enabled as expected
+- Decide whether to enable CODEOWNERS review and stale-review dismissal once a
+  second maintainer joins
 
-## 十、关联文档
+## 10. Related Documents
 
 - `CONTRIBUTING.md`
 - `docs/governance/github-collaboration.md`

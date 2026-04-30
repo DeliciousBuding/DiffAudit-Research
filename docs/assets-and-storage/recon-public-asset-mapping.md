@@ -1,23 +1,23 @@
 # Recon Public Asset Mapping
 
-这份说明用于记录公开 `recon` 资产包的当前最可辩护语义映射，避免后续把文件名直接当成已经确认的论文真值。
+This document records the current semantic mapping for the public `recon` asset bundle, to avoid treating filenames as confirmed paper ground truth.
 
-公开资产包来源：
+Public asset bundle source:
 
 - DOI: `10.5281/zenodo.13371475`
 
-相关本地根目录：
+Local root directory:
 
 - `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/`
 
-当前派生映射注释还存在于：
+Derived mapping notes also exist at:
 
 - `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-public-10/mapping-note.md`
 - `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-public-25/mapping-note.md`
 - `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-public-50/mapping-note.md`
 - `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-public-100/mapping-note.md`
 
-## 当前最稳妥的映射
+## Current Mapping
 
 - `target_member`
   - `source-datasets/partial-100-target/member/dataset.pkl`
@@ -26,47 +26,44 @@
 - `shadow_non_member`
   - `source-datasets/100-shadow/non_member/dataset.pkl`
 - `shadow_member`
-  - 当前只能临时用 `source-datasets/100-target/non_member/dataset.pkl` 作为代理
+  - currently proxied by `source-datasets/100-target/non_member/dataset.pkl`
 
-## 为什么这样映射
+## Why This Mapping
 
-第一，`partial-100-target` 是当前公开数据里唯一同时显式给出 `member/` 与 `non_member/` 两个子目录的 target split，因此它是唯一能直接支撑 target-member / target-non-member 二元划分的来源。
+First, `partial-100-target` is the only public data directory that explicitly provides both `member/` and `non_member/` subdirectories for the target split. It is the only source that directly supports the target-member / target-non-member binary division.
 
-第二，`100-shadow` 目录目前只看到 `non_member/`，没有同层级的 `member/`，因此它最多只能直接承担 `shadow_non_member`。
+Second, `100-shadow` currently only contains `non_member/` with no sibling `member/` directory. It can only directly serve as `shadow_non_member`.
 
-第三，`100-target/non_member` 在命名上不是一个干净的 `shadow_member`，只是当前公开包里最接近可用的影子正类代理。把它当成 `shadow_member` 是工程占位，而不是已经核准的论文语义。
+Third, `100-target/non_member` is not a clean `shadow_member` by naming. It is the closest available proxy for the shadow positive class in the current public bundle. Treating it as `shadow_member` is an engineering placeholder, not a confirmed paper-level assignment.
 
-第四，checkpoint 命名本身支持“target 线 / shadow 线 + partial/full”两条轴：
+Fourth, checkpoint naming supports two axes -- "target / shadow" and "partial / full":
 
 - `celeba_partial_target`
 - `celeba_target`
 - `celeba_partial_shadow`
 - `celeba_shadow`
 
-但公开数据集目录没有给出与这些 checkpoint 完全一一对应的四象限 split，所以当前只能做最保守映射，而不能声称“target/shadow/member/non-member 四元语义已完全核准”。
+But the public dataset directories do not provide a clean four-quadrant split that maps one-to-one to these checkpoints. The current mapping is the most conservative option available; it does not claim that "target/shadow/member/non-member four-way semantics are fully confirmed."
 
-第五，`derived-public-*` 目录下的 `mapping-note.md` 已经把当前运行链实际使用的映射显式记录成：
+Fifth, the `derived-public-*` directories' `mapping-note.md` files explicitly record the mapping used by the current run chain as:
 
 - `target_member`
 - `target_non_member`
 - `shadow_non_member`
 - `shadow_member_proxy`
 
-这说明当前语义已经不是“临时口头约定”，而是本地派生资产的一部分；但因为它写的仍是 `shadow_member_proxy`，所以它仍然只能支撑“受约束的本地语义”，不能直接升级成论文完全核准。
+This means the current semantics are recorded as part of the local derived assets, not an informal verbal agreement. But because it still says `shadow_member_proxy`, it supports "locally constrained semantics" only, not a full paper-level confirmation.
 
-## 当前结论
+## Current Conclusion
 
-- 可以合理声称：公开资产已经足以支撑 `Stable Diffusion + DDIM` 的 `10-sample public runtime-mainline`，以及 `kandinsky_v22` 的最小真实 `runtime-mainline`
-- 可以合理声称：当前 `derived-public-{10,25,50,100}` 都带有一致的本地映射注释，因此现有 `recon` 主证据链是“语义受约束但本地自洽”的
-- 不能合理声称：当前公开资产已经严格对齐论文里的完整 target/shadow/member/non-member 语义
-- issue #10 后，strict paper-faithful `Attack-I` 入口必须使用 `check-recon-stage0-paper-gate`；当前 gate 的正确结果是 `blocked / paper_aligned_semantics = false`
+- Reasonable to claim: the public bundle supports a `Stable Diffusion + DDIM` `10-sample public runtime-mainline`, and a minimal real `runtime-mainline` for `kandinsky_v22`
+- Reasonable to claim: the current `derived-public-{10,25,50,100}` directories all carry consistent local mapping notes, so the existing `recon` main evidence chain is "semantically constrained but locally consistent"
+- Not reasonable to claim: the public bundle is strictly aligned with the paper's full target/shadow/member/non-member semantics
+- After issue #10, strict paper-faithful `Attack-I` entry must use `check-recon-stage0-paper-gate`; the current gate result is `blocked / paper_aligned_semantics = false`
 
-## 推荐执行策略
+## Recommended Approach
 
-1. `1-sample` 与更小规模 smoke 可继续用当前映射推进，目的在于验证系统与运行链。
-2. 扩到更大样本规模前，先在报告中显式注明 `shadow_member` 仍是代理语义。
-3. 若目标是 strict paper-faithful `Attack-I`，先运行 `check-recon-stage0-paper-gate`；在该 gate 返回 `blocked` 时，不允许把结果写成 paper-aligned。
-4. 如果后续拿到更完整的 split 说明或补充资产，再更新本文件，不要直接在命令里静默替换映射。
-
-
-
+1. `1-sample` and smaller smoke tests can continue using the current mapping, to validate the system and run chain.
+2. Before scaling to larger samples, explicitly note in reports that `shadow_member` is still a proxy.
+3. For strict paper-faithful `Attack-I`, run `check-recon-stage0-paper-gate` first. When the gate returns `blocked`, do not write results as paper-aligned.
+4. If more complete split documentation or supplementary assets become available later, update this document. Do not silently swap mappings in commands.

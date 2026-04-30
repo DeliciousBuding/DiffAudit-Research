@@ -1,64 +1,46 @@
 # GSA Assets Root
 
-This directory is the early local asset root for the white-box `GSA` line.
+This directory is the early local data root for the white-box `GSA` method.
 
 It exists to keep three concerns separate:
 
-- `external/GSA`
-  - upstream code clone
-- `workspaces/white-box/assets/gsa`
-  - local-only assets, manifests, and source bundles
-- `workspaces/white-box/runs`
-  - execution outputs and summaries
+- `external/GSA` — upstream code clone
+- `workspaces/white-box/assets/gsa` — local data, manifests, and source bundles
+- `workspaces/white-box/runs` — execution outputs and summaries
 
-## Intended Subtrees
+## Expected Layout
 
-Expected local layout:
+- `datasets/` — extracted datasets and split-ready image buckets
+- `checkpoints/` — `GSA`-compatible training outputs (`checkpoint-*` directories)
+- `manifests/` — provenance notes, split manifests, ownership notes
+- `sources/` — raw archives or import bundles
 
-- `datasets/`
-  - extracted datasets and split-ready image buckets
-- `checkpoints/`
-  - only `GSA`-compatible training outputs, especially `checkpoint-*` directories
-- `manifests/`
-  - provenance notes, split manifests, ownership notes
-- `sources/`
-  - raw archives or import bundles
+These data files are local-only and git-ignored, except for this documentation.
 
-These assets are local-only and are ignored by git, except for this documentation.
-
-## Boundary Rules
+## When to Use
 
 Use this root when the material is:
 
-- required by the white-box `GSA` line
+- required by the white-box `GSA` method
 - too large or too local to commit
 - not an execution output
 
-Do **not** use this root for:
+Don't use for:
 
-- upstream code
-- toy smoke outputs
-- gray-box `PIA` assets
-
-Those belong elsewhere:
-
-- code: `workspaces/white-box/external/GSA`
-- runs: `workspaces/white-box/runs`
-- gray-box assets: `workspaces/gray-box/assets/pia`
+- upstream code → `workspaces/white-box/external/GSA`
+- smoke test outputs → `workspaces/white-box/runs`
+- gray-box `PIA` data → `workspaces/gray-box/assets/pia`
 
 ## Current Status
 
-This root is now legacy for admitted-system purposes.
+This root is now legacy for production use.
 
-Current admitted `GSA` live intake has moved to:
+Current active `GSA` data has moved to:
 
 - `workspaces/white-box/assets/gsa-cifar10-1k-3shadow`
 
-This older root is still useful as:
+This older root is still useful as a record of the early CPU closed-loop path
+and a local compatibility/debugging stash, but should no longer be treated as
+the active data root for `catalog` or `contracts/best`.
 
-- a record of the early CPU closed-loop path
-- a local compatibility/debugging stash
-
-But it should no longer be treated as the live admitted asset root for `catalog` or `contracts/best`.
-
-For operational next steps, read [HANDOFF.md](HANDOFF.md).
+For next steps, see [HANDOFF.md](HANDOFF.md).
