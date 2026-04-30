@@ -9,7 +9,8 @@ the roadmap chooses work; this document defines where work products belong.
 
 ## Current Governance Baseline
 
-PR #26 merged the governance cleanup to `main`. The ongoing baseline is:
+The 2026-04-29 and 2026-04-30 governance cleanups are merged to `main`
+through PR #26, PR #28, PR #29, and PR #30. The ongoing baseline is:
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
@@ -109,9 +110,10 @@ Run:
 ```powershell
 git status --short
 git diff --check
-python scripts/verify_env.py
-python -m diffaudit --help
-python scripts/check_public_surface.py
+python -X utf8 scripts/verify_env.py
+python -X utf8 -m diffaudit --help
+python -X utf8 scripts/check_public_surface.py
+python -X utf8 scripts/check_markdown_links.py
 ```
 
 The public-surface guard also fails if any tracked file is ignored by the
@@ -121,7 +123,7 @@ size threshold.
 For governance changes, also run or update:
 
 ```powershell
-python scripts/run_local_checks.py
+python -X utf8 scripts/run_local_checks.py
 ```
 
 Skip GPU commands unless the PR explicitly changes a model-run contract and the
