@@ -5,15 +5,16 @@ from __future__ import annotations
 import json
 from dataclasses import asdict
 from pathlib import Path
+from typing import Any, Callable
 
 from diffaudit.config import load_audit_config
 from diffaudit.cli._parser import build_parser
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = build_parser()
-    args = parser.parse_args(argv)
+CommandHandler = Callable[[Any], int]
 
+
+def _handle_foundation(args: Any) -> int:
     if args.command == "run-smoke":
         from diffaudit.pipelines.smoke import run_smoke_pipeline
 
@@ -21,6 +22,7 @@ def main(argv: list[str] | None = None) -> int:
         summary_path = run_smoke_pipeline(config, Path(args.workspace))
         print(f"Smoke summary written to {summary_path}")
         return 0
+
 
     if args.command == "plan-secmi":
         from diffaudit.attacks.secmi import build_secmi_plan
@@ -30,6 +32,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
         return 0
 
+
     if args.command == "plan-pia":
         from diffaudit.attacks.pia import build_pia_plan
 
@@ -37,6 +40,7 @@ def main(argv: list[str] | None = None) -> int:
         plan = build_pia_plan(config)
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
         return 0
+
 
     if args.command == "plan-clid":
         from diffaudit.attacks.clid import build_clid_plan
@@ -46,6 +50,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
         return 0
 
+
     if args.command == "plan-recon":
         from diffaudit.attacks.recon import build_recon_plan
 
@@ -53,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
         plan = build_recon_plan(config)
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
         return 0
+
 
     if args.command == "plan-variation":
         from diffaudit.attacks.variation import build_variation_plan
@@ -62,6 +68,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(asdict(plan), indent=2, ensure_ascii=True))
         return 0
 
+
+    raise RuntimeError(f"Unsupported foundation command: {args.command}")
+
+
+def _handle_asset_probes(args: Any) -> int:
     if args.command == "probe-secmi-assets":
         from diffaudit.attacks.secmi import explain_secmi_assets
 
@@ -69,6 +80,7 @@ def main(argv: list[str] | None = None) -> int:
         payload = explain_secmi_assets(config, member_split_root=args.member_split_root)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "probe-pia-assets":
         from diffaudit.attacks.pia import explain_pia_assets
@@ -78,6 +90,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "probe-clid-assets":
         from diffaudit.attacks.clid import explain_clid_assets
 
@@ -85,6 +98,7 @@ def main(argv: list[str] | None = None) -> int:
         payload = explain_clid_assets(config)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "probe-recon-assets":
         from diffaudit.attacks.recon import explain_recon_assets
@@ -94,12 +108,14 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "probe-recon-score-artifacts":
         from diffaudit.attacks.recon import probe_recon_score_artifacts
 
         payload = probe_recon_score_artifacts(args.artifact_dir)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "probe-recon-runtime-assets":
         from diffaudit.attacks.recon import probe_recon_runtime_assets
@@ -121,6 +137,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "prepare-recon-public-subset":
         from diffaudit.attacks.recon import prepare_recon_public_subset
 
@@ -133,12 +150,14 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "audit-recon-public-bundle":
         from diffaudit.attacks.recon import audit_recon_public_bundle
 
         payload = audit_recon_public_bundle(bundle_root=args.bundle_root)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "check-recon-stage0-paper-gate":
         from diffaudit.attacks.recon import check_recon_stage0_paper_gate
@@ -150,6 +169,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "probe-dit-assets":
         from diffaudit.attacks.dit import probe_dit_assets
@@ -163,6 +183,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "probe-variation-assets":
         from diffaudit.attacks.variation import explain_variation_assets
 
@@ -170,6 +191,7 @@ def main(argv: list[str] | None = None) -> int:
         payload = explain_variation_assets(config)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "probe-h2-assets":
         from diffaudit.defenses.h2_adapter import probe_h2_assets
@@ -185,6 +207,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "prepare-h2-contract":
         from diffaudit.defenses.h2_adapter import prepare_h2_contract
@@ -217,6 +240,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
+    raise RuntimeError(f"Unsupported asset_probes command: {args.command}")
+
+
+def _handle_gsa_observability(args: Any) -> int:
     if args.command == "probe-gsa-assets":
         from diffaudit.attacks.gsa import probe_gsa_assets
 
@@ -226,6 +254,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "probe-gsa-observability-contract":
         from diffaudit.attacks.gsa_observability import probe_gsa_observability_contract
@@ -243,6 +272,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "export-gsa-observability-canary":
         from diffaudit.attacks.gsa_observability import export_gsa_observability_canary
@@ -268,6 +298,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "export-gsa-observability-masked-packet":
         from diffaudit.attacks.gsa_observability import export_gsa_observability_masked_packet
@@ -297,6 +328,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "export-gsa-observability-inmodel-packet":
         from diffaudit.attacks.gsa_observability import export_gsa_observability_inmodel_packet
 
@@ -325,6 +357,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
+    raise RuntimeError(f"Unsupported gsa_observability command: {args.command}")
+
+
+def _handle_h2_defense(args: Any) -> int:
     if args.command == "run-h2-defense-pilot":
         from diffaudit.defenses.h2_adapter import run_h2_defense_pilot
 
@@ -337,6 +374,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "review-h2-defense-pilot":
         from diffaudit.defenses.h2_adapter import review_h2_defense_pilot
@@ -352,6 +390,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
+    raise RuntimeError(f"Unsupported h2_defense command: {args.command}")
+
+
+def _handle_dry_runs(args: Any) -> int:
     if args.command == "prepare-secmi":
         from diffaudit.attacks.secmi_adapter import prepare_secmi_adapter, summarize_secmi_adapter
 
@@ -360,6 +403,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(summarize_secmi_adapter(context), indent=2, ensure_ascii=True))
         return 0
 
+
     if args.command == "dry-run-secmi":
         from diffaudit.attacks.secmi_adapter import probe_secmi_dry_run
 
@@ -367,6 +411,7 @@ def main(argv: list[str] | None = None) -> int:
         exit_code, payload = probe_secmi_dry_run(config, args.repo_root)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
+
 
     if args.command == "dry-run-pia":
         from diffaudit.attacks.pia import probe_pia_dry_run
@@ -380,6 +425,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
 
+
     if args.command == "dry-run-clid":
         from diffaudit.attacks.clid import probe_clid_dry_run
 
@@ -387,6 +433,7 @@ def main(argv: list[str] | None = None) -> int:
         exit_code, payload = probe_clid_dry_run(config, args.repo_root)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
+
 
     if args.command == "dry-run-recon":
         from diffaudit.attacks.recon import probe_recon_dry_run
@@ -396,6 +443,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
 
+
     if args.command == "dry-run-variation":
         from diffaudit.attacks.variation import probe_variation_dry_run
 
@@ -403,6 +451,7 @@ def main(argv: list[str] | None = None) -> int:
         exit_code, payload = probe_variation_dry_run(config)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
+
 
     if args.command == "run-clid-dry-run-smoke":
         from diffaudit.attacks.clid import run_clid_dry_run_smoke
@@ -414,6 +463,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "summarize-clid-artifacts":
         from diffaudit.attacks.clid import summarize_clid_artifacts
 
@@ -424,12 +474,18 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
 
+
+    raise RuntimeError(f"Unsupported dry_runs command: {args.command}")
+
+
+def _handle_recon_and_synthetic(args: Any) -> int:
     if args.command == "run-recon-eval-smoke":
         from diffaudit.attacks.recon import run_recon_eval_smoke
 
         payload = run_recon_eval_smoke(args.workspace)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
+
 
     if args.command == "summarize-recon-artifacts":
         from diffaudit.attacks.recon import summarize_recon_artifacts
@@ -440,6 +496,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
+
 
     if args.command == "run-recon-upstream-eval-smoke":
         from diffaudit.attacks.recon import run_recon_upstream_eval_smoke
@@ -452,6 +509,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "run-recon-mainline-smoke":
         from diffaudit.attacks.recon import run_recon_mainline_smoke
 
@@ -462,6 +520,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "run-recon-artifact-mainline":
         from diffaudit.attacks.recon import run_recon_artifact_mainline
@@ -474,6 +533,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "run-recon-runtime-mainline":
         from diffaudit.attacks.recon import run_recon_runtime_mainline
@@ -504,6 +564,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "run-dit-sample-smoke":
         from diffaudit.attacks.dit import run_dit_sample_smoke
 
@@ -519,6 +580,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "run-variation-synth-smoke":
         from diffaudit.attacks.variation import run_variation_synthetic_smoke
 
@@ -526,6 +588,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
 
+
+    raise RuntimeError(f"Unsupported recon_and_synthetic command: {args.command}")
+
+
+def _handle_reports(args: Any) -> int:
     if args.command == "summarize-blackbox-results":
         from diffaudit.reports.blackbox_status import build_blackbox_status_report
 
@@ -535,6 +602,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
+
 
     if args.command == "summarize-mainline-audit":
         from diffaudit.reports.mainline_audit import build_mainline_audit_report
@@ -547,6 +615,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
 
+
+    raise RuntimeError(f"Unsupported reports command: {args.command}")
+
+
+def _handle_pia_runtime(args: Any) -> int:
     if args.command == "runtime-probe-pia":
         from diffaudit.attacks.pia_adapter import probe_pia_runtime
 
@@ -559,6 +632,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
+
 
     if args.command == "runtime-preview-pia":
         from diffaudit.attacks.pia_adapter import probe_pia_runtime_preview
@@ -573,6 +647,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
+
 
     if args.command == "export-pia-packet-scores":
         from diffaudit.attacks.pia_adapter import export_pia_packet_scores
@@ -595,6 +670,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "export-sima-packet-scores":
         from diffaudit.attacks.sima_adapter import export_sima_packet_scores
@@ -619,6 +695,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "export-pia-translated-alias-probe":
         from diffaudit.attacks.pia_adapter import export_pia_translated_alias_probe
@@ -647,6 +724,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
+    raise RuntimeError(f"Unsupported pia_runtime command: {args.command}")
+
+
+def _handle_secmi_pia_smokes(args: Any) -> int:
     if args.command == "runtime-probe-secmi":
         from diffaudit.attacks.secmi_adapter import probe_secmi_runtime
 
@@ -655,12 +737,14 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return exit_code
 
+
     if args.command == "bootstrap-secmi-smoke-assets":
         from diffaudit.attacks.secmi_adapter import bootstrap_secmi_smoke_assets
 
         payload = bootstrap_secmi_smoke_assets(args.target_dir, args.flagfile_source)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
+
 
     if args.command == "bootstrap-pia-smoke-assets":
         from diffaudit.attacks.pia_adapter import bootstrap_pia_smoke_assets
@@ -669,12 +753,14 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
 
+
     if args.command == "run-secmi-synth-smoke":
         from diffaudit.attacks.secmi_adapter import run_synthetic_secmi_stat_smoke
 
         payload = run_synthetic_secmi_stat_smoke(args.workspace, device=args.device)
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
+
 
     if args.command == "run-pia-synth-smoke":
         from diffaudit.attacks.pia_adapter import run_synthetic_pia_smoke
@@ -687,6 +773,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0
 
+
     if args.command == "run-pia-runtime-smoke":
         from diffaudit.attacks.pia_adapter import run_pia_runtime_smoke
 
@@ -697,6 +784,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "run-pia-runtime-mainline":
         from diffaudit.attacks.pia_adapter import run_pia_runtime_mainline
@@ -720,6 +808,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
+    raise RuntimeError(f"Unsupported secmi_pia_smokes command: {args.command}")
+
+
+def _handle_gsa_runtime(args: Any) -> int:
     if args.command == "run-gsa-runtime-mainline":
         from diffaudit.attacks.gsa import run_gsa_runtime_mainline
 
@@ -743,6 +836,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "export-gsa-loss-score-packet":
         from diffaudit.attacks.gsa import export_gsa_loss_score_packet
@@ -776,6 +870,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "evaluate-gsa-loss-score-packet":
         from diffaudit.attacks.gsa import evaluate_gsa_loss_score_packet
 
@@ -787,6 +882,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "analyze-crossbox-pairboard":
         from diffaudit.attacks.crossbox_pairboard import run_crossbox_pairboard
@@ -812,6 +908,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
+    raise RuntimeError(f"Unsupported gsa_runtime command: {args.command}")
+
+
+def _handle_defenses(args: Any) -> int:
     if args.command == "prepare-risk-targeted-unlearning-pilot":
         from diffaudit.defenses.risk_targeted_unlearning import run_risk_targeted_unlearning_prep
 
@@ -832,6 +933,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "run-risk-targeted-unlearning-pilot":
         from diffaudit.defenses.risk_targeted_unlearning import run_risk_targeted_unlearning_pilot
@@ -862,6 +964,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "review-risk-targeted-unlearning-pilot":
         from diffaudit.defenses.risk_targeted_unlearning import review_risk_targeted_unlearning_pilot
 
@@ -887,6 +990,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
+    raise RuntimeError(f"Unsupported defenses command: {args.command}")
+
+
+def _handle_temporal_dpdm(args: Any) -> int:
     if args.command == "export-temporal-surrogate-feature-packet":
         from diffaudit.attacks.temporal_surrogate import export_temporal_surrogate_feature_packet
 
@@ -908,6 +1016,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "evaluate-temporal-surrogate-packets":
         from diffaudit.attacks.temporal_surrogate import evaluate_temporal_surrogate_packets
 
@@ -928,6 +1037,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "evaluate-temporal-lr-packets":
         from diffaudit.attacks.temporal_lr import evaluate_temporal_lr_packets
 
@@ -944,6 +1054,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "run-gsa-runtime-intervention-review":
         from diffaudit.attacks.gsa import run_gsa_runtime_intervention_review
@@ -971,6 +1082,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "run-dpdm-w1-target-only":
         from diffaudit.defenses.dpdm_w1 import run_dpdm_w1_target_only_comparator
 
@@ -988,6 +1100,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
+
 
     if args.command == "run-dpdm-w1-shadow-comparator":
         from diffaudit.defenses.dpdm_w1 import run_dpdm_w1_shadow_comparator
@@ -1010,6 +1123,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
+
     if args.command == "run-dpdm-w1-multi-shadow-comparator":
         from diffaudit.defenses.dpdm_w1 import run_dpdm_w1_multi_shadow_comparator
 
@@ -1031,8 +1145,91 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
 
-    parser.error(f"Unsupported command: {args.command}")
-    return 2
+
+    raise RuntimeError(f"Unsupported temporal_dpdm command: {args.command}")
+
+
+_COMMAND_HANDLERS: dict[str, CommandHandler] = {
+    "run-smoke": _handle_foundation,
+    "plan-secmi": _handle_foundation,
+    "plan-pia": _handle_foundation,
+    "plan-clid": _handle_foundation,
+    "plan-recon": _handle_foundation,
+    "plan-variation": _handle_foundation,
+    "probe-secmi-assets": _handle_asset_probes,
+    "probe-pia-assets": _handle_asset_probes,
+    "probe-clid-assets": _handle_asset_probes,
+    "probe-recon-assets": _handle_asset_probes,
+    "probe-recon-score-artifacts": _handle_asset_probes,
+    "probe-recon-runtime-assets": _handle_asset_probes,
+    "prepare-recon-public-subset": _handle_asset_probes,
+    "audit-recon-public-bundle": _handle_asset_probes,
+    "check-recon-stage0-paper-gate": _handle_asset_probes,
+    "probe-dit-assets": _handle_asset_probes,
+    "probe-variation-assets": _handle_asset_probes,
+    "probe-h2-assets": _handle_asset_probes,
+    "prepare-h2-contract": _handle_asset_probes,
+    "probe-gsa-assets": _handle_gsa_observability,
+    "probe-gsa-observability-contract": _handle_gsa_observability,
+    "export-gsa-observability-canary": _handle_gsa_observability,
+    "export-gsa-observability-masked-packet": _handle_gsa_observability,
+    "export-gsa-observability-inmodel-packet": _handle_gsa_observability,
+    "run-h2-defense-pilot": _handle_h2_defense,
+    "review-h2-defense-pilot": _handle_h2_defense,
+    "prepare-secmi": _handle_dry_runs,
+    "dry-run-secmi": _handle_dry_runs,
+    "dry-run-pia": _handle_dry_runs,
+    "dry-run-clid": _handle_dry_runs,
+    "dry-run-recon": _handle_dry_runs,
+    "dry-run-variation": _handle_dry_runs,
+    "run-clid-dry-run-smoke": _handle_dry_runs,
+    "summarize-clid-artifacts": _handle_dry_runs,
+    "run-recon-eval-smoke": _handle_recon_and_synthetic,
+    "summarize-recon-artifacts": _handle_recon_and_synthetic,
+    "run-recon-upstream-eval-smoke": _handle_recon_and_synthetic,
+    "run-recon-mainline-smoke": _handle_recon_and_synthetic,
+    "run-recon-artifact-mainline": _handle_recon_and_synthetic,
+    "run-recon-runtime-mainline": _handle_recon_and_synthetic,
+    "run-dit-sample-smoke": _handle_recon_and_synthetic,
+    "run-variation-synth-smoke": _handle_recon_and_synthetic,
+    "summarize-blackbox-results": _handle_reports,
+    "summarize-mainline-audit": _handle_reports,
+    "runtime-probe-pia": _handle_pia_runtime,
+    "runtime-preview-pia": _handle_pia_runtime,
+    "export-pia-packet-scores": _handle_pia_runtime,
+    "export-sima-packet-scores": _handle_pia_runtime,
+    "export-pia-translated-alias-probe": _handle_pia_runtime,
+    "runtime-probe-secmi": _handle_secmi_pia_smokes,
+    "bootstrap-secmi-smoke-assets": _handle_secmi_pia_smokes,
+    "bootstrap-pia-smoke-assets": _handle_secmi_pia_smokes,
+    "run-secmi-synth-smoke": _handle_secmi_pia_smokes,
+    "run-pia-synth-smoke": _handle_secmi_pia_smokes,
+    "run-pia-runtime-smoke": _handle_secmi_pia_smokes,
+    "run-pia-runtime-mainline": _handle_secmi_pia_smokes,
+    "run-gsa-runtime-mainline": _handle_gsa_runtime,
+    "export-gsa-loss-score-packet": _handle_gsa_runtime,
+    "evaluate-gsa-loss-score-packet": _handle_gsa_runtime,
+    "analyze-crossbox-pairboard": _handle_gsa_runtime,
+    "prepare-risk-targeted-unlearning-pilot": _handle_defenses,
+    "run-risk-targeted-unlearning-pilot": _handle_defenses,
+    "review-risk-targeted-unlearning-pilot": _handle_defenses,
+    "export-temporal-surrogate-feature-packet": _handle_temporal_dpdm,
+    "evaluate-temporal-surrogate-packets": _handle_temporal_dpdm,
+    "evaluate-temporal-lr-packets": _handle_temporal_dpdm,
+    "run-gsa-runtime-intervention-review": _handle_temporal_dpdm,
+    "run-dpdm-w1-target-only": _handle_temporal_dpdm,
+    "run-dpdm-w1-shadow-comparator": _handle_temporal_dpdm,
+    "run-dpdm-w1-multi-shadow-comparator": _handle_temporal_dpdm,
+}
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    handler = _COMMAND_HANDLERS.get(args.command)
+    if handler is None:
+        parser.error(f"Unsupported command: {args.command}")
+    return handler(args)
 
 
 if __name__ == "__main__":
