@@ -2,18 +2,17 @@
 
 ## Status
 
-- `GSA`: strongest white-box evidence line.
-- `DPDM`: defended comparator with protocol-boundary limits.
-- `Finding NeMo` and related localization work: bounded exploratory evidence,
-  not promoted.
+- `GSA`: strongest white-box method.
+- `DPDM`: defended comparator with protocol limitations.
+- `Finding NeMo` and related localization work: exploratory results, not promoted.
 - Distinct second white-box family: still open, not selected.
 
 ## Next Action
 
-Do not reopen same-family GPU work unless a genuinely new bounded hypothesis
-survives CPU review. Keep current boundaries reflected in
+Don't reopen same-family GPU work unless a genuinely new hypothesis survives
+CPU review. Keep current status reflected in
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
-## Current Verdict
+## Current Status
 
-Strong upper-bound line, no immediate GPU candidate.
+Strong upper-bound method, no immediate GPU candidate.

@@ -1,6 +1,6 @@
 # Command Reference
 
-This page keeps runnable command recipes out of the root README. It is a starting point for local validation and bounded research runs, not a benchmark claim list.
+This page collects runnable command recipes for local validation and research runs.
 
 Run commands from the `Research/` repository root unless a command says otherwise.
 
@@ -88,7 +88,7 @@ python -m diffaudit probe-recon-score-artifacts --artifact-dir path/to/recon-sco
 python -m diffaudit run-recon-artifact-mainline --artifact-dir path/to/recon-scores --workspace experiments/recon-artifact-mainline --repo-root external/Reconstruction-based-Attack --method threshold
 ```
 
-Run the strict paper-faithful Stage 0 gate:
+Run the paper Stage 0 gate:
 
 ```powershell
 python -m diffaudit check-recon-stage0-paper-gate --repo-root external/Reconstruction-based-Attack --bundle-root "$env:DIFFAUDIT_ROOT/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models" --attack-scenario attack-i
@@ -123,7 +123,7 @@ python -m diffaudit probe-pia-assets --config configs/attacks/pia_plan.yaml --me
 python -m diffaudit dry-run-pia --config configs/attacks/pia_plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM
 ```
 
-Run bounded `PIA` previews:
+Run small `PIA` previews:
 
 ```powershell
 python -m diffaudit runtime-probe-pia --config configs/attacks/pia_plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM --device cpu
@@ -166,11 +166,11 @@ python -m diffaudit run-dit-sample-smoke --workspace experiments/dit-sample-smok
 
 ## Runtime Boundary
 
-The active runtime service is a sibling repository, not this `Research/` repo:
+The active runtime service lives in a sibling repository (`Runtime-Server/`), not here:
 
 ```powershell
 cd ../Runtime-Server
 go run ./cmd/runtime --host 127.0.0.1 --port 8765
 ```
 
-Research commands may write summaries and manifests that Runtime or Platform consumes later, but service deployment and HTTP control-plane work should stay in `Runtime-Server/` or `Platform/`.
+Research commands may write summaries and manifests that Runtime or Platform consumes later, but service deployment and HTTP API work should stay in `Runtime-Server/` or `Platform/`.

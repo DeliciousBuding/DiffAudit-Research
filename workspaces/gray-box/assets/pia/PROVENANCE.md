@@ -45,7 +45,7 @@
 
 ## Runtime Evidence Anchor
 
-Current admitted runtime evidence is anchored to:
+Current verified runtime evidence is anchored to:
 
 - baseline summary:
   - `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260408-gpu-512/summary.json`

@@ -1,10 +1,10 @@
-﻿# History Rewrite Audit
+# History Rewrite Audit
 
-> Status: audit only. No history rewrite has been performed in this phase.
+> Status: audit only. No history rewrite has been performed.
 
 This document records whether a future `git filter-repo` pass is worth doing.
-It is intentionally separate from the current governance cleanup because history
-rewrites require coordination, force-pushes, and local clone recovery.
+It is separate from the current governance cleanup because history rewrites
+require coordination, force-pushes, and local clone recovery.
 
 ## Current Finding
 
@@ -83,8 +83,8 @@ Do not rewrite history from a routine cleanup PR.
 5. Force-push only after collaborator confirmation.
 6. Keep the mirror backup until all collaborators confirm recovered clones.
 
-## Verdict
+## Conclusion
 
-`no rewrite in Stage 1`: current-branch cleanup is sufficient for reviewability.
+No rewrite in Stage 1: current-branch cleanup is sufficient for reviewability.
 History rewriting should remain a separately approved operation with a concrete
 blob report, explicit path filters, backup tag, and collaborator recovery plan.
