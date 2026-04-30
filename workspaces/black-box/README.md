@@ -1,33 +1,22 @@
-# 黑盒工作区
+# Black-Box Workspace
 
-用于存放：
+## Current Status
 
-- 黑盒论文阅读笔记
-- 黑盒复现计划
-- 黑盒实验对比表
-- 黑盒方向任务认领
+- Role: black-box privacy-risk evidence and challenger tracking.
+- Main evidence: `recon` remains the strongest black-box line.
+- Support/challenger lines: `CLiD`, variation, and semantic-auxiliary
+  classifier remain bounded support or challenger evidence.
+- GPU state: no active black-box GPU question.
 
-## 当前推荐主线
+## Current Files
 
-- 主证据线：`2025-ndss-black-box-membership-inference-fine-tuned-diffusion-models.pdf`
-- 次主线候选：`2024-arxiv-towards-black-box-membership-inference-diffusion-models.pdf`
-- 条件差异补充：`2024-neurips-clid-membership-inference-text-to-image-diffusion.pdf`
+| File | Purpose |
+| --- | --- |
+| [plan.md](plan.md) | Current black-box status and next action. |
+| [experiment-entrypoints.md](experiment-entrypoints.md) | Stable command entrypoints. |
+| [paper-matrix-2024-2026.md](paper-matrix-2024-2026.md) | Paper family map. |
 
-## 当前补充文档
+## Archive
 
-- `plan.md`
-- `paper-matrix-2024-2026.md`
-- `experiment-entrypoints.md`
-- `2026-04-08-variation-local-track.md`
-- `2026-04-09-variation-real-asset-template.md`
-- `2026-04-09-recon-semantic-gate.md`
-- `2026-04-09-recon-public-bundle-audit.md`
-- `2026-04-09-blackbox-method-boundary.md`
-
-## 第一轮建议任务
-
-1. 先整理两篇论文的攻击假设、输入输出、指标和资产要求
-2. `semantic-auxiliary-classifier` 已落成当前 leading new-family challenger；先看 `2026-04-15-blackbox-second-signal-semantic-aux-verdict.md`
-3. `variation/Towards` 继续保留为 formal local secondary track，不与当前 challenger 混层
-4. 先补黑盒方向阅读笔记和复现计划，不要把 `SecMI` 混进黑盒入口
-5. 真实 API 资产到位后再把 `variation` 从 synthetic-smoke 推向真实 black-box mainline
+Closed dated notes are under
+[../../legacy/workspaces/black-box/2026-04/](../../legacy/workspaces/black-box/2026-04/).

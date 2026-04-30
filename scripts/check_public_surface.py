@@ -1,4 +1,4 @@
-"""Fail CI when private paths or generated assets enter the public tree."""
+﻿"""Fail CI when private paths or generated assets enter the public tree."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ MAX_TRACKED_FILE_BYTES = 1_000_000
 
 FORBIDDEN_PATH_PATTERNS: tuple[re.Pattern[str], ...] = (
     re.compile(r"^references/materials/.*\.(?:pdf|docx)$", re.IGNORECASE),
-    re.compile(r"^docs/paper-reports/(?:ocr|markdown)/", re.IGNORECASE),
+    re.compile(r"^docs/internal/paper-reports/(?:ocr|markdown)/", re.IGNORECASE),
     re.compile(r"^experiments/.*/(?:generated-images|score-artifacts)/", re.IGNORECASE),
     re.compile(r"^experiments/.*/sample\.png$", re.IGNORECASE),
     re.compile(r"^workspaces/runtime/jobs/", re.IGNORECASE),

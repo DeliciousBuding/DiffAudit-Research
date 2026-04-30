@@ -1,18 +1,21 @@
-# 白盒工作区
+# White-Box Workspace
 
-用于存放：
+## Current Status
 
-- 白盒论文阅读笔记
-- 白盒攻击假设
-- 内部信号利用方案
-- 白盒方向任务认领
+- Role: white-box membership inference, internal signal access, and defended
+  comparator evidence.
+- Main evidence: `GSA` remains the strongest white-box line.
+- Defended comparator: `DPDM/W-1` remains a comparator, not a final benchmark.
+- GPU state: no active white-box GPU question.
 
-## 当前建议任务
+## Current Files
 
-1. 当前白盒主线是 `GSA + W-1`，当前目标不是再刷 attack，而是把 admitted `GSA rerun1` 与 `W-1 strong-v3 full-scale` 推进到 same-protocol bridge
-2. 当前白盒防御优先做 `W-1`，即把 `external/DPDM` 接成正式 comparator，并补齐 portable 启动入口
-3. 当前 admitted `GSA` 资产根目录与交接口径统一看 `assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/manifests/cifar10-ddpm-1k-3shadow-epoch300-rerun1.json`；`assets/gsa/*` 只保留为早期 closed-loop legacy 根
-4. 当前白盒主合同文档看 `2026-04-09-whitebox-same-protocol-bridge.md`
-5. 直接 GSA gradient extraction 已验证可跑；当前不要再把“梯度提取本身坏了”当作主阻塞
-6. 同一时段只允许一个白盒主 GPU 问题；当前问题是 same-protocol bridge，不并行新开第二条白盒长任务
-7. 综合进度口径统一看 `../../docs/comprehensive-progress.md`
+| File | Purpose |
+| --- | --- |
+| [plan.md](plan.md) | Current white-box status and next action. |
+| [signal-access-matrix.md](signal-access-matrix.md) | Signal and permission boundary map. |
+
+## Archive
+
+Closed dated notes are under
+[../../legacy/workspaces/white-box/2026-04/](../../legacy/workspaces/white-box/2026-04/).

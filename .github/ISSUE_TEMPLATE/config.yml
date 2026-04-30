@@ -1,10 +1,10 @@
-blank_issues_enabled: true
+﻿blank_issues_enabled: true
 contact_links:
   - name: Setup and data handoff
-    url: https://github.com/DeliciousBuding/DiffAudit-Research/blob/main/docs/teammate-setup.md
+    url: https://github.com/DeliciousBuding/DiffAudit-Research/blob/main/docs/start-here/teammate-setup.md
     about: Start here before opening environment or asset setup issues.
   - name: Current reproduction status
-    url: https://github.com/DeliciousBuding/DiffAudit-Research/blob/main/docs/reproduction-status.md
+    url: https://github.com/DeliciousBuding/DiffAudit-Research/blob/main/docs/evidence/reproduction-status.md
     about: Check whether a lane is research-ready, code-ready, evidence-ready, asset-ready, or benchmark-ready.
   - name: Security policy
     url: https://github.com/DeliciousBuding/DiffAudit-Research/blob/main/SECURITY.md

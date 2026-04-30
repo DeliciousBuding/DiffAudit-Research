@@ -1,6 +1,6 @@
 # DiffAudit Research Challenger Queue
 
-> Last refreshed: 2026-04-29
+> Last refreshed: 2026-04-30
 > Purpose: Maintain the candidate funnel without turning the queue into an
 > execution log.
 
@@ -13,19 +13,19 @@ X-180 anchors live under
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = Research governance cleanup`
+- `current_execution_item = Research information architecture reset`
 - `gray_box_slot = yield`
 - `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
 - `G1-A / X-90 = two-seed internal auxiliary positive`
 
 ## Active
 
-### Research governance cleanup
+### Research information architecture reset
 
 - `mode`: CPU-only repository governance
 - `status`: active
-- `verdict target`: clean handoff, governance docs, archived logs, asset-boundary
-  audit, and no history rewrite
+- `verdict target`: clean handoff, documentation information architecture,
+  archived logs, asset-boundary audit, and no history rewrite
 - `GPU`: no
 - `handoff`: no Platform or Runtime schema change
 

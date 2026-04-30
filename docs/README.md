@@ -1,91 +1,50 @@
 # DiffAudit Research Documentation
 
-This directory is the documentation map for DiffAudit Research. It separates
-public-facing setup, reproducibility, asset, and evidence documents from deeper
-research planning and operating references.
+This is the documentation map for DiffAudit Research. The public path is for
+new teammates, reviewers, and downstream users. Internal material is retained
+for traceability but is no longer part of the default reading path.
 
-## Public Surface Boundary
+## Public Path
 
-The root [README](../README.md), this documentation map, and the documents in
-the Public Onboarding, Setup And Reproducibility, Collaboration And Governance,
-and brand/licensing/security entries are the public front door for external
-readers.
-
-Internal planning artifacts may still live under `docs/`, but they should not
-be presented as product copy or onboarding material unless they have been
-rewritten for that audience. In particular, raw agent prompts, deadline-specific
-notes, review dumps, and operator-local instructions must remain separate from
-the public reading path.
-
-## Public Onboarding Path
+Read these in order when onboarding:
 
 | Step | Document | Purpose |
 | --- | --- | --- |
-| 1 | [../README.md](../README.md) | Repository front door and quick orientation |
-| 2 | [getting-started.md](getting-started.md) | Short onboarding guide for contributors |
-| 3 | [teammate-setup.md](teammate-setup.md) | New-machine setup and first validation commands |
-| 4 | [data-and-assets-handoff.md](data-and-assets-handoff.md) | How to obtain the same datasets, weights, and supplementary bundles |
-| 5 | [command-reference.md](command-reference.md) | Runnable CLI recipes by track |
-| 6 | [reproduction-status.md](reproduction-status.md) | Per-track reproduction and evidence state |
-| 7 | [admitted-results-summary.md](admitted-results-summary.md) | Human-readable admitted result summary |
+| 1 | [../README.md](../README.md) | Project overview and product relationship. |
+| 2 | [start-here/getting-started.md](start-here/getting-started.md) | First orientation for contributors. |
+| 3 | [start-here/teammate-setup.md](start-here/teammate-setup.md) | New-machine setup and first validation. |
+| 4 | [assets-and-storage/data-and-assets-handoff.md](assets-and-storage/data-and-assets-handoff.md) | How to obtain datasets, weights, supplementary files, and external code. |
+| 5 | [start-here/command-reference.md](start-here/command-reference.md) | Runnable CLI recipes. |
+| 6 | [evidence/reproduction-status.md](evidence/reproduction-status.md) | Per-track reproduction and evidence state. |
+| 7 | [product-bridge/README.md](product-bridge/README.md) | What Research can safely expose to Platform and Runtime. |
 
-## Setup And Reproducibility
+## Public Reference Groups
 
-| Document | Purpose |
+| Group | Contents |
 | --- | --- |
-| [environment.md](environment.md) | Conda, CUDA, and package setup |
-| [storage-boundary.md](storage-boundary.md) | Where raw downloads, code clones, workspace assets, and evidence belong |
-| [download-naming-policy.md](download-naming-policy.md) | Naming rules for `<DIFFAUDIT_ROOT>/Download/` |
-| [research-download-master-list.md](research-download-master-list.md) | Rebuild list for first-wave datasets, weights, and supplementary bundles |
-| [repo-map.md](repo-map.md) | Directory and code responsibility map |
-| [getting-started.md](getting-started.md) | Short onboarding guide for contributors |
-| [licensing.md](licensing.md) | Project license scope and third-party material boundaries |
-| [brand-assets.md](brand-assets.md) | Logo assets and README image-hosting policy |
+| [start-here/](start-here/) | Contributor setup, environment, command reference, and repository map. |
+| [assets-and-storage/](assets-and-storage/) | `Download/` layout, storage boundaries, naming policy, and asset handoff. |
+| [evidence/](evidence/) | Reproduction ladder, admitted results, innovation evidence, and workspace evidence index. |
+| [product-bridge/](product-bridge/) | Research-to-Platform/Runtime boundaries and consumer-facing evidence rules. |
+| [governance/](governance/) | Repository governance, GitHub workflow, license, brand, and history-rewrite audit. |
 
-## Research Status And Planning
-
-| Document | Purpose |
-| --- | --- |
-| [comprehensive-progress.md](comprehensive-progress.md) | Active research handoff and current progress ledger; not product copy |
-| [mainline-narrative.md](mainline-narrative.md) | Active research narrative draft and claim-boundary notes; extract public copy before reuse |
-| [future-phase-e-intake.md](future-phase-e-intake.md) | Candidate intake queue and entry gates |
-| [next-run-intake-index.md](next-run-intake-index.md) | Next-run entrypoint index and contracts |
-| [mentor-strict-reproduction-plan.md](mentor-strict-reproduction-plan.md) | Strict parallel reproduction plan |
-| [mia-defense-research-index.md](mia-defense-research-index.md) | Research index for the MIA defense strategy |
-| [mia-defense-execution-checklist.md](mia-defense-execution-checklist.md) | Action checklist for the MIA defense strategy |
-| [innovation-evidence-map.md](innovation-evidence-map.md) | Evidence map for innovation claims |
-
-## Collaboration And Governance
-
-| Document | Purpose |
-| --- | --- |
-| [github-collaboration.md](github-collaboration.md) | Branch, permission, and PR collaboration guide |
-| [github-settings-baseline.md](github-settings-baseline.md) | GitHub repository setting baseline |
-| [research-governance.md](research-governance.md) | Repository boundaries, artifact policy, and execution-log rules |
-| [research-governance-audit-2026-04-29.md](research-governance-audit-2026-04-29.md) | Current-branch governance audit and cleanup rationale |
-| [history-rewrite-audit.md](history-rewrite-audit.md) | Future history-slimming audit, force-push risk, and rollback plan |
-| [../CONTRIBUTING.md](../CONTRIBUTING.md) | Contribution workflow |
-| [../SECURITY.md](../SECURITY.md) | Security reporting policy and scope |
-| [../CITATION.cff](../CITATION.cff) | Machine-readable repository citation metadata |
-
-## Runtime And System Boundaries
-
-| Document | Purpose |
-| --- | --- |
-| [runtime.md](runtime.md) | Research-facing notes for the sibling `Runtime-Server/` service |
-| [local-api.md](local-api.md) | Historical Python compatibility layer notes |
-| [asset-registry-local-api.md](asset-registry-local-api.md) | Research-to-Runtime registry-alignment contract |
-| [recon-artifact-replay-guidance.md](recon-artifact-replay-guidance.md) | How to interpret recon replay/debug traces |
-| [research-boundary-card.md](research-boundary-card.md) | Short boundary card for cross-repo consumers |
-
-## Literature And Reports
+## Internal Research Material
 
 | Location | Purpose |
 | --- | --- |
-| [paper-reports/README.md](paper-reports/README.md) | Paper report package and report-generation rules |
-| [report-bundles/README.md](report-bundles/README.md) | External model result bundles retained for review |
-| [recon-public-asset-mapping.md](recon-public-asset-mapping.md) | Public recon asset mapping and semantic boundary |
+| [internal/](internal/) | Agent prompts, long progress ledgers, competition notes, paper reports, and review bundles. |
+| [../workspaces/](../workspaces/) | Current lane status only; historical dated notes have moved to `legacy/workspaces/`. |
+| [../legacy/](../legacy/) | Archived execution logs, closed verdicts, and old handoff material. |
 
-The root [README](../README.md) remains the public front door. Detailed command
-catalogues, asset setup, and current evidence status live in the linked docs
-above so the landing page can stay concise.
+Internal files are preserved for auditability. They should not be copied into
+public product copy without rewriting and evidence-status checks.
+
+## Public-Surface Rules
+
+- Use repository-relative paths, `<DIFFAUDIT_ROOT>`, or `<DOWNLOAD_ROOT>`.
+- Do not include personal machine paths, local operator instructions, or raw
+  agent prompts in public onboarding material.
+- Do not present smoke tests, dry runs, negative packets, or blocked attempts
+  as paper-level reproduction.
+- Keep datasets, model weights, checkpoints, OCR dumps, raw tensors, and large
+  generated artifacts outside Git.

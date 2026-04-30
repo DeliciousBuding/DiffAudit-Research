@@ -5,8 +5,7 @@
 
 # DiffAudit Research
 
-**Evidence engine for diffusion-model privacy auditing.**<br>
-**扩散模型隐私审计的研究证据引擎。**
+**Evidence engine for diffusion-model privacy auditing.**
 
 [![Tests](https://github.com/DeliciousBuding/DiffAudit-Research/actions/workflows/tests.yml/badge.svg)](https://github.com/DeliciousBuding/DiffAudit-Research/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-3776AB)
@@ -14,95 +13,42 @@
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 [DiffAudit Platform](https://github.com/DeliciousBuding/DiffAudit-Platform) ·
-[English](#diffaudit-research) ·
-[简体中文](#简体中文速览) ·
 [Documentation](docs/README.md) ·
-[Reproducibility](docs/README.md#public-onboarding-path) ·
-[Data And Assets](docs/data-and-assets-handoff.md) ·
-[Brand Assets](docs/brand-assets.md) ·
+[Getting Started](docs/start-here/getting-started.md) ·
+[Data And Assets](docs/assets-and-storage/data-and-assets-handoff.md) ·
+[Evidence](docs/evidence/reproduction-status.md) ·
 [Security](SECURITY.md)
 
 </div>
 
 ---
 
-DiffAudit Research is the experiment and evidence layer for **DiffAudit**, a
-privacy-audit system for evaluating whether diffusion models expose
-training-data membership signals.
-
-The product-facing workspace lives in
+DiffAudit Research is the research and evidence layer behind **DiffAudit**, a
+privacy-audit system for diffusion models. It turns papers, attacks, defenses,
+experiments, and negative findings into reviewed evidence that can be consumed
+by researchers, Runtime jobs, and the
 [DiffAudit Platform](https://github.com/DeliciousBuding/DiffAudit-Platform).
-This repository supplies the research side of that system: attack and defense
-methods, reproducibility contracts, reviewed evidence anchors, and the
-claim-boundary language needed to turn model-risk experiments into audit
-material that can be inspected by researchers, reviewers, and product users.
 
-## 简体中文速览
+This repository is not just a paper-reproduction archive and not a free-form
+experiment dump. Its job is to keep three things separate:
 
-DiffAudit Research 是 **DiffAudit** 的研究证据引擎，用于把扩散模型隐私风险问题转化为可复现命令、证据锚点、数据/权重契约和可被产品层消费的结论边界。
-
-[DiffAudit Platform](https://github.com/DeliciousBuding/DiffAudit-Platform) 是产品化工作台，负责展示审计流程、报告、导出和评审体验；本仓库负责支撑这些展示背后的实验、方法和证据。
-
-| 你关心的问题 | DiffAudit Research 提供的能力 |
-| --- | --- |
-| 研究结论从哪里来？ | 维护攻击/防御方法、实验脚本、证据状态和结论边界。 |
-| 新成员能否接手复现？ | 提供环境、命令、资产清单和复现状态文档。 |
-| 哪些结果可以放进产品展示？ | 只把有明确状态和证据锚点的结果作为 Platform 或报告材料的输入。 |
-| 数据集和模型权重怎么办？ | 大文件不进入 Git；通过资产交接文档和 manifest 说明如何获取与绑定。 |
+| Layer | Meaning | Product value |
+| --- | --- | --- |
+| Paper baselines | Reproduce or adapt known attacks and defenses. | Ground the audit in comparable research instead of custom-only metrics. |
+| Bounded exploration | Test new hypotheses with explicit budgets and verdicts. | Find candidate innovation without overstating weak or negative results. |
+| Admitted evidence | Promote only reviewed, status-labeled results. | Feed Platform and reports with claims that have known limits. |
 
 ## How It Fits
 
 ```mermaid
 flowchart LR
-  Question["Privacy-risk question"] --> Research["DiffAudit Research"]
+  Paper["Papers and upstream methods"] --> Research["DiffAudit Research"]
+  Exploration["Bounded research questions"] --> Research
   Research --> Evidence["Evidence packets and status ledgers"]
-  Evidence --> Runtime["Runtime execution layer"]
-  Evidence --> Snapshot["Public snapshot artifacts"]
-  Snapshot --> Platform["DiffAudit Platform"]
-  Runtime --> Platform
-  Platform --> Review["Workspace, reports, and exports"]
+  Evidence --> Runtime["Runtime execution contracts"]
+  Evidence --> Platform["DiffAudit Platform"]
+  Platform --> Report["Audit workspace, reports, and exports"]
 ```
-
-| Layer | Role |
-| --- | --- |
-| [DiffAudit Research](https://github.com/DeliciousBuding/DiffAudit-Research) | Produces attack/defense methods, bounded experiments, evidence status, and reproducibility contracts. |
-| [DiffAudit Platform](https://github.com/DeliciousBuding/DiffAudit-Platform) | Presents selected evidence through a product workspace, report views, exports, and reviewer-facing workflows. |
-| Runtime integration | Runs live audit jobs when a deployment connects the research contracts to an execution service. |
-
-## Research Capabilities
-
-| Capability | What this repository provides |
-| --- | --- |
-| Attack-lane scaffolding | Configured entry points for black-box, gray-box, white-box, and cross-box privacy-risk studies. |
-| Evidence discipline | Clear separation between implemented code, available assets, smoke checks, negative results, and reviewed evidence. |
-| Reproducible commands | CLI contracts and testable scripts for planning, probing, dry-runs, and bounded experiment packets. |
-| Asset contracts | Documentation for datasets, model weights, supplementary bundles, and external code required to reproduce selected lanes. |
-| Platform handoff | Research summaries and metadata shaped so selected results can be published into Platform snapshots or reports. |
-
-Representative research tracks include reconstruction-style membership
-inference, CLiD-style black-box studies, gray-box attack and defense probes,
-white-box upper-bound exploration, and cross-box evidence fusion. Current
-status is tracked in [docs/comprehensive-progress.md](docs/comprehensive-progress.md)
-and [docs/reproduction-status.md](docs/reproduction-status.md).
-
-## Evidence Model
-
-DiffAudit does not treat every configured paper or smoke test as a validated
-benchmark. The canonical reproduction ladder is maintained in
-[docs/reproduction-status.md](docs/reproduction-status.md):
-
-| State | Meaning |
-| --- | --- |
-| `research-ready` | Papers, upstream code, and asset requirements have been reviewed. |
-| `code-ready` | Commands, configs, and tests are present. |
-| `evidence-ready` | The repository contains a submit-ready summary or equivalent run evidence. |
-| `asset-ready` | Required datasets, weights, or supplementary files are available and probed. |
-| `benchmark-ready` | The lane can reasonably claim paper-level benchmark execution or recomputation. |
-
-This boundary matters for presentation: dry-runs and smoke tests are useful
-engineering signals, but they are not scientific claims. Qualifiers such as
-`blocked`, `negative`, or `smoke-only` are verdict language attached to a
-specific lane, not replacements for the reproduction ladder.
 
 ## Quick Start
 
@@ -116,66 +62,62 @@ python scripts/verify_env.py
 python -m diffaudit --help
 ```
 
-For datasets, model weights, supplementary bundles, and external upstream code,
-start with [docs/data-and-assets-handoff.md](docs/data-and-assets-handoff.md).
-The repository keeps large or third-party artifacts outside Git while retaining
-the manifests and setup contracts needed for another teammate to reproduce the
-same research environment.
+Large datasets, model weights, supplementary bundles, and local upstream clones
+are not stored in Git. Start with
+[docs/assets-and-storage/data-and-assets-handoff.md](docs/assets-and-storage/data-and-assets-handoff.md)
+to rebuild the same asset layout.
 
-## Repository Tour
+## Read This First
 
-| Location | Purpose |
+| Need | Start here |
 | --- | --- |
-| [src/diffaudit/](src/diffaudit/) | Python package and CLI surface. |
-| [configs/](configs/) | Versioned research configs and local-template examples. |
-| [tests/](tests/) | Contract tests and smoke-level validation. |
-| [experiments/](experiments/) | Small committed summaries and replay/debug traces. |
-| [workspaces/](workspaces/) | Lane plans, evidence anchors, admitted artifacts, and research notes. |
-| [docs/](docs/) | Stable documentation for setup, evidence, assets, status, and handoff. |
-| [references/](references/) | Literature index and reading material. |
-| [third_party/](third_party/) | Minimal vendored upstream subsets retained with their own notices. |
+| New contributor setup | [docs/start-here/getting-started.md](docs/start-here/getting-started.md) |
+| Machine/environment setup | [docs/start-here/teammate-setup.md](docs/start-here/teammate-setup.md) |
+| Data, weights, and external code | [docs/assets-and-storage/data-and-assets-handoff.md](docs/assets-and-storage/data-and-assets-handoff.md) |
+| CLI commands | [docs/start-here/command-reference.md](docs/start-here/command-reference.md) |
+| Reproduction status | [docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md) |
+| Product-facing evidence | [docs/product-bridge/README.md](docs/product-bridge/README.md) |
+| Repository map | [docs/start-here/repo-map.md](docs/start-here/repo-map.md) |
+| Full documentation map | [docs/README.md](docs/README.md) |
 
-## Documentation
+## Repository Layout
 
-| Need | Read |
+| Path | Role |
 | --- | --- |
-| Project documentation map | [docs/README.md](docs/README.md) |
-| New teammate onboarding | [docs/teammate-setup.md](docs/teammate-setup.md) |
-| Data, weights, and external assets | [docs/data-and-assets-handoff.md](docs/data-and-assets-handoff.md) |
-| Command recipes | [docs/command-reference.md](docs/command-reference.md) |
-| Detailed evidence ledger | [docs/reproduction-status.md](docs/reproduction-status.md) |
-| Admitted result summary | [docs/admitted-results-summary.md](docs/admitted-results-summary.md) |
-| Repository governance | [docs/research-governance.md](docs/research-governance.md) |
-| Research-to-system boundary | [docs/research-boundary-card.md](docs/research-boundary-card.md) |
-| Licensing scope | [docs/licensing.md](docs/licensing.md) |
-| Contribution workflow | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| `src/diffaudit/` | Python package and CLI implementation. |
+| `configs/` | Versioned configs and local path templates. |
+| `tests/` | Contract tests and smoke checks. |
+| `scripts/` | Reusable validation, setup, and replay helpers. |
+| `docs/` | Public onboarding plus internal research documentation. |
+| `workspaces/` | Current lane status and active research coordination. |
+| `legacy/` | Archived evidence notes and execution history. |
+| `external/` | Ignored upstream clones for local exploration. |
+| `third_party/` | Minimal vendored upstream subsets with notices. |
 
-## Validation
+## Evidence Discipline
 
-Run the standard local gate before publishing changes:
+DiffAudit uses status labels instead of vague claims:
 
-```powershell
-python scripts/run_local_checks.py
-```
+| Status | Meaning |
+| --- | --- |
+| `research-ready` | Paper, upstream code, and required assets have been reviewed. |
+| `code-ready` | Commands, configs, and tests exist. |
+| `asset-ready` | Required local datasets or weights have been probed. |
+| `evidence-ready` | A reviewed summary or verdict exists. |
+| `benchmark-ready` | The lane can reasonably claim paper-level benchmark execution. |
 
-For a lightweight command-path check:
-
-```powershell
-python scripts/verify_env.py
-python -m diffaudit --help
-python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_local_configs.py -q
-```
+Dry runs and smoke tests are engineering checks, not scientific claims.
+Negative and blocked results are retained because they prevent repeated
+low-value GPU work and keep product claims honest.
 
 ## Citation And License
 
 If you use DiffAudit Research as a research artifact or reproducibility
-scaffold, cite the repository metadata in [CITATION.cff](CITATION.cff). Cite
-upstream papers, datasets, weights, and third-party code separately under their
-own terms.
+scaffold, cite [CITATION.cff](CITATION.cff). Cite upstream papers, datasets,
+weights, and third-party code separately under their own terms.
 
 First-party DiffAudit Research source code, configuration templates, tests,
 scripts, and original documentation are licensed under the
-[Apache License 2.0](LICENSE). The project license does not relicense
-third-party code, paper PDFs, extracted figures, datasets, model weights,
-supplementary bundles, or ignored upstream clones. See
-[docs/licensing.md](docs/licensing.md) and [NOTICE](NOTICE) for details.
+[Apache License 2.0](LICENSE). See
+[docs/governance/licensing.md](docs/governance/licensing.md) and
+[NOTICE](NOTICE) for third-party boundaries.

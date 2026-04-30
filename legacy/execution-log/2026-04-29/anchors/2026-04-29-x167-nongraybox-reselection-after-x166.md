@@ -1,4 +1,4 @@
-# X-167 Nongraybox Reselection After X166 Boundary Hardening
+﻿# X-167 Nongraybox Reselection After X166 Boundary Hardening
 
 Date: 2026-04-29
 Status: `positive reselection / one bounded GPU scout released`
@@ -16,7 +16,7 @@ After `X-166` froze H3 as candidate-only selectivity evidence and froze `PIA + G
 - Boundary hardening:
   - `workspaces/implementation/2026-04-29-x166-ia-crossbox-boundary-hardening.md`
 - Black-box round-2 implementation recommendation:
-  - `docs/report-bundles/gpt54/round2-results/01.md`
+  - `docs/internal/report-bundles/gpt54/round2-results/01.md`
 - Current queue:
   - `workspaces/implementation/challenger-queue.md`
 

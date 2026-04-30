@@ -1,4 +1,4 @@
-# Contributing To DiffAudit Research
+﻿# Contributing To DiffAudit Research
 
 Thank you for improving DiffAudit Research. This repository contains the
 research, reproducibility, and evidence-production side of DiffAudit. Good
@@ -60,7 +60,7 @@ DiffAudit distinguishes engineering readiness from research evidence. When a
 result changes status, update the relevant evidence anchor and status document.
 
 Use the canonical reproduction ladder from
-[docs/reproduction-status.md](docs/reproduction-status.md):
+[docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md):
 
 | State | Meaning |
 | --- | --- |
@@ -81,10 +81,10 @@ assets, or local external clones. Use the asset handoff documents instead:
 
 | Document | Purpose |
 | --- | --- |
-| [docs/data-and-assets-handoff.md](docs/data-and-assets-handoff.md) | How to obtain and bind datasets, weights, and supplementary bundles |
-| [docs/download-naming-policy.md](docs/download-naming-policy.md) | Naming policy for the project asset mirror |
-| [docs/research-download-master-list.md](docs/research-download-master-list.md) | Rebuild list for first-wave research assets |
-| [docs/licensing.md](docs/licensing.md) | License scope and third-party material boundaries |
+| [docs/assets-and-storage/data-and-assets-handoff.md](docs/assets-and-storage/data-and-assets-handoff.md) | How to obtain and bind datasets, weights, and supplementary bundles |
+| [docs/assets-and-storage/download-naming-policy.md](docs/assets-and-storage/download-naming-policy.md) | Naming policy for the project asset mirror |
+| [docs/assets-and-storage/research-download-master-list.md](docs/assets-and-storage/research-download-master-list.md) | Rebuild list for first-wave research assets |
+| [docs/governance/licensing.md](docs/governance/licensing.md) | License scope and third-party material boundaries |
 
 `third_party/` is reserved for minimal vendored upstream subsets with retained
 notices. Ignored external code clones and large assets should stay outside the
