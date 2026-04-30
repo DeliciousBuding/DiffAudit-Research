@@ -48,7 +48,8 @@ prompt information from membership signal before any new GPU packet is selected.
 The swapped-prompt control is positive but degraded, so CLiD is not explained
 by fixed prompt text alone. It remains candidate-only; the next CPU step is to
 design image-only, within-split prompt shuffle, or independent swapped-prompt
-repeat controls before selecting another GPU packet.
+repeat controls before selecting another GPU packet. The within-split shuffle
+metadata mode is implemented, but no score result exists for it yet.
 
 ## Key Documents
 

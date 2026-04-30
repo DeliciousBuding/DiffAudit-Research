@@ -82,6 +82,35 @@ class ClidPromptPerturbationTests(unittest.TestCase):
                     prompt="unused",
                 )
 
+    def test_within_split_shuffle_preserves_split_prompt_sets(self) -> None:
+        from scripts.perturb_clid_bridge_prompts import perturb_metadata_prompts
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            member_path = root / "member.jsonl"
+            nonmember_path = root / "nonmember.jsonl"
+            member_prompts = ["member one", "member two", "member three", "member four"]
+            nonmember_prompts = ["nonmember one", "nonmember two", "nonmember three", "nonmember four"]
+            _write_rows(member_path, member_prompts)
+            _write_rows(nonmember_path, nonmember_prompts)
+
+            payload = perturb_metadata_prompts(
+                member_path,
+                nonmember_path,
+                mode="within-split-shuffle",
+                prompt="unused",
+                seed=3,
+            )
+
+            shuffled_member_prompts = _read_texts(member_path)
+            shuffled_nonmember_prompts = _read_texts(nonmember_path)
+            self.assertEqual(payload["status"], "ready")
+            self.assertEqual(payload["mode"], "within-split-shuffle")
+            self.assertCountEqual(shuffled_member_prompts, member_prompts)
+            self.assertCountEqual(shuffled_nonmember_prompts, nonmember_prompts)
+            self.assertNotEqual(shuffled_member_prompts, member_prompts)
+            self.assertNotEqual(shuffled_nonmember_prompts, nonmember_prompts)
+
 
 if __name__ == "__main__":
     unittest.main()

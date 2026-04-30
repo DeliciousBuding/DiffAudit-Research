@@ -25,13 +25,15 @@ The local perturbation tool supports two CPU metadata controls:
 | --- | --- | --- |
 | `fixed` | Rewrites every member and nonmember prompt to one neutral prompt such as `a face`. | Tests whether the signal survives without prompt variation. The first run failed this gate. |
 | `swap-split-prompts` | Swaps member and nonmember prompt text by row while preserving image files and row counts. | Tests whether prompt text itself is acting as a split shortcut. This is the next CPU-ready control. |
+| `within-split-shuffle` | Shuffles prompt text inside each split while preserving split-level prompt distribution. | Tests whether image-prompt pairing matters after split-level prompt distribution is preserved. |
 
 Command shape:
 
 ```powershell
 python -X utf8 scripts/perturb_clid_bridge_prompts.py `
   --run-root <ignored-run-root> `
-  --mode swap-split-prompts
+  --mode within-split-shuffle `
+  --seed 0
 ```
 
 The tool only rewrites `datasets/member/metadata.jsonl` and
@@ -60,6 +62,8 @@ surface is sufficient.
 
 - GPU task: none selected.
 - CPU sidecar: compare image-only, within-split shuffled prompt, or independent
-  swapped-prompt repeat designs before any next GPU run.
+  swapped-prompt repeat designs before any next GPU run. The
+  `within-split-shuffle` metadata mode is available, but no score result exists
+  for it yet.
 - Product impact: none. Platform and Runtime should continue treating CLiD as
   candidate-only.

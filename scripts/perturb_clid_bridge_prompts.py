@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 from pathlib import Path
 
 
@@ -35,6 +36,7 @@ def perturb_metadata_prompts(
     *,
     mode: str,
     prompt: str,
+    seed: int = 0,
 ) -> dict[str, object]:
     member_rows = _read_metadata(member_path)
     nonmember_rows = _read_metadata(nonmember_path)
@@ -54,6 +56,22 @@ def perturb_metadata_prompts(
             next_nonmember["text"] = member_row.get("text", "")
             next_member_rows.append(next_member)
             next_nonmember_rows.append(next_nonmember)
+    elif mode == "within-split-shuffle":
+        rng = random.Random(seed)
+        member_prompts = [row.get("text", "") for row in member_rows]
+        nonmember_prompts = [row.get("text", "") for row in nonmember_rows]
+        rng.shuffle(member_prompts)
+        rng.shuffle(nonmember_prompts)
+        next_member_rows = []
+        next_nonmember_rows = []
+        for row, shuffled_prompt in zip(member_rows, member_prompts):
+            next_row = dict(row)
+            next_row["text"] = shuffled_prompt
+            next_member_rows.append(next_row)
+        for row, shuffled_prompt in zip(nonmember_rows, nonmember_prompts):
+            next_row = dict(row)
+            next_row["text"] = shuffled_prompt
+            next_nonmember_rows.append(next_row)
     else:
         raise ValueError(f"unsupported prompt perturbation mode: {mode}")
 
@@ -64,6 +82,7 @@ def perturb_metadata_prompts(
         "status": "ready",
         "mode": mode,
         "prompt": prompt if mode == "fixed" else None,
+        "seed": seed if mode == "within-split-shuffle" else None,
         "member_rows": member_count,
         "nonmember_rows": nonmember_count,
     }
@@ -74,11 +93,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument(
         "--mode",
-        choices=["fixed", "swap-split-prompts"],
+        choices=["fixed", "swap-split-prompts", "within-split-shuffle"],
         default="fixed",
-        help="Prompt perturbation mode. fixed rewrites every prompt; swap-split-prompts swaps member/nonmember prompt text by row.",
+        help=(
+            "Prompt perturbation mode. fixed rewrites every prompt; "
+            "swap-split-prompts swaps member/nonmember prompt text by row; "
+            "within-split-shuffle shuffles prompt text inside each split."
+        ),
     )
     parser.add_argument("--prompt", type=str, default="a face")
+    parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--output", type=Path, default=None)
     return parser.parse_args()
 
@@ -92,6 +116,7 @@ def main() -> int:
         nonmember_path,
         mode=args.mode,
         prompt=args.prompt,
+        seed=args.seed,
     )
     payload = {
         "status": "ready",
@@ -99,12 +124,17 @@ def main() -> int:
         "perturbation_mode": args.mode,
         "run_root": args.run_root.as_posix(),
         "prompt": args.prompt if args.mode == "fixed" else None,
+        "seed": args.seed if args.mode == "within-split-shuffle" else None,
         "member_rows": review["member_rows"],
         "nonmember_rows": review["nonmember_rows"],
         "verdict": (
             "metadata prompts rewritten to fixed prompt"
             if args.mode == "fixed"
-            else "member and nonmember prompt text swapped by row"
+            else (
+                "member and nonmember prompt text swapped by row"
+                if args.mode == "swap-split-prompts"
+                else "prompt text shuffled within each split"
+            )
         ),
     }
     output = args.output or args.run_root / "prompt-perturbation.json"
