@@ -10,7 +10,7 @@
 
 ## Next Action
 
-Gray-box should yield the next CPU-first slot unless a new boundary-changing
+Gray-box should yield the next research slot unless a new boundary-changing
 asset or mechanism appears. Keep PIA-related product claims aligned with
 [../../docs/evidence/admitted-results-summary.md](../../docs/evidence/admitted-results-summary.md).
 

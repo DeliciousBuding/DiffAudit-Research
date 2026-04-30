@@ -4,24 +4,24 @@
 > Purpose: Maintain the candidate funnel without turning the queue into an
 > execution log.
 
-This file classifies future research candidates. It does not promote a result,
-replace the roadmap, or preserve full historical timelines. Archived X-141 to
-X-180 anchors live under
-[`legacy/execution-log/2026-04-29/`](../../legacy/execution-log/2026-04-29/).
+This file classifies future research candidates by status and product value.
+It is not a timeline. Historical run IDs and dated verdicts live under
+`legacy/` and should not be used as the hot-path navigation system.
 
 ## Queue Truth
 
-- `active_gpu_question = none`
-- `next_gpu_candidate = none`
-- `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
-- `next_cpu_sidecar = Public-surface / hot-path sync`
-- `gray_box_slot = yield`
-- `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
-- `G1-A / X-90 = two-seed internal auxiliary positive`
+- Active work: `Cross-box evidence boundary hardening`
+- Next GPU candidate: `none`
+- CPU sidecar: `Public-surface / hot-path sync`
+- Gray-box slot: yield unless a new boundary-changing fact appears
+- Strongest recent candidate surface: response-strength black-box candidate on
+  `DDPM/CIFAR10`; not admitted and not a `recon` replacement
+- Internal auxiliary gray-box result: useful for Research triage, not headline
+  evidence
 
 ## Active
 
-### X-181 I-A / cross-box boundary maintenance after H2 comparator block
+### Cross-box evidence boundary hardening
 
 - `mode`: CPU-only boundary hardening
 - `status`: active
@@ -31,9 +31,9 @@ X-180 anchors live under
 - `handoff`: no Platform or Runtime schema change unless a concrete consumer
   mismatch is found
 
-H2 is strong enough to create overclaim pressure but remains candidate-only.
-This active item hardens I-A wording and cross-box surfaces before any future
-GPU release.
+The response-strength candidate is strong enough to create overclaim pressure
+but remains candidate-only. This active item hardens cross-box wording and
+product-consumable status before any future GPU release.
 
 ## Ready
 
@@ -46,23 +46,24 @@ GPU release.
 
 ## Hold
 
-### Stable Diffusion / CelebA H2-adapter contract watch
+### Stable Diffusion / CelebA adapter contract watch
 
 - `mode`: future black-box surface-acquisition contract
-- `reason for hold`: closer to admitted `recon` assets than DDPM/CIFAR10 H2,
-  but prompt, model, split, and query-budget contracts are not frozen.
+- `reason for hold`: closer to admitted `recon` assets than the current
+  `DDPM/CIFAR10` candidate surface, but prompt, model, split, and query-budget
+  contracts are not frozen.
 - `reopen trigger`: CPU preflight freezes a compatible surface-acquisition
   contract and identifies one bounded validation packet.
 
-### 05-cross-box successor-hypothesis watch
+### Cross-box successor-hypothesis watch
 
 - `mode`: cross-box support line
-- `reason for hold`: existing `logistic_2feature` support is promoted, while
+- `reason for hold`: existing two-feature support is promoted, while
   tri-surface consensus was AUC-positive but low-FPR-unstable.
 - `reopen trigger`: a new shared-surface, surface-acquisition, or calibration
   hypothesis with low-FPR as the primary gate.
 
-### 03-white-box distinct-family watch
+### White-box distinct-family watch
 
 - `mode`: distinct-family watch
 - `reason for hold`: activation-subspace mean-profile, validation-stable,
@@ -70,7 +71,7 @@ GPU release.
 - `reopen trigger`: a genuinely different observable or paper-backed family,
   not another same-observable activation scout.
 
-### 04-H3 selective / suspicion-gated routing
+### Selective / suspicion-gated routing
 
 - `mode`: defense candidate-only sidecar
 - `reason for hold`: fixed-budget low-FPR tail matching is real, but gate-leak
@@ -78,13 +79,13 @@ GPU release.
 - `reopen trigger`: new detector or adaptive-attacker contract that directly
   addresses both falsifiers.
 
-### 01-H2 strength-response
+### Response-strength black-box candidate
 
 - `mode`: black-box candidate surface
-- `reason for hold`: non-overlap `256 / 256` validation passed, but compatible
-  admitted comparator and adaptive/query-budget contracts are not available.
+- `reason for hold`: non-overlap validation passed, but compatible admitted
+  comparator and adaptive/query-budget contracts are not available.
 - `reopen trigger`: frozen compatible comparator-acquisition contract or a
-  CPU-first preflight that can justify one bounded future validation packet.
+  CPU preflight that can justify one bounded future validation packet.
 
 ## Needs Assets
 
@@ -105,18 +106,18 @@ GPU release.
 
 ## Closed
 
-| Range | Verdict |
+| Workstream | Verdict |
 | --- | --- |
-| `2026-04-30 CLI package/dispatch split` | `diffaudit.cli` is now a package with parser and dispatch separated; dispatch uses a command registry with parser-vs-handler contract coverage. |
-| `2026-04-30 local asset boundary cleanup` | Local raw assets and generated run payloads were moved out of the Research working tree; `Download/` remains raw intake and `Archive/research-local-artifacts/` holds generated local artifacts. |
-| `2026-04-30 architecture triage` | Corrected the external audit packet into a durable governance note; fixed `src -> scripts` DDPM factory dependency; added package initializers; aligned local checks with CI guards. |
-| `2026-04-30 Phase 0 utils` | Shared utility extraction merged; metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |
-| `2026-04-30 IA reset` | Information architecture reset merged; public docs, internal docs, workspace archives, and asset boundaries reorganized. |
-| `X-141` to `X-143` | G1-A / X-90 restored as two-seed internal auxiliary positive; not headline evidence. |
-| `X-144` to `X-155` | Activation-subspace and per-timestep trajectory routes closed negative-but-useful; GPU hold. |
-| `X-156` to `X-163` | H3 selective routing closed candidate-only positive-but-bounded; gate-leak and oracle-route falsifiers block promotion. |
-| `X-164` to `X-166` | Cross-box tri-surface consensus closed negative-but-useful; boundary hardening completed. |
-| `X-167` to `X-180` | H2 strength-response progressed to strong validated candidate-only surface; comparator and promotion paths remain blocked. |
+| CLI package/dispatch split | `diffaudit.cli` is now a package with parser and dispatch separated; dispatch uses a command registry with parser-vs-handler contract coverage. |
+| Local asset boundary cleanup | Local raw assets and generated run payloads were moved out of the Research working tree; `Download/` remains raw intake and `Archive/research-local-artifacts/` holds generated local artifacts. |
+| Architecture triage | Corrected the external audit packet into a durable governance note; fixed `src -> scripts` DDPM factory dependency; added package initializers; aligned local checks with CI guards. |
+| Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |
+| Information architecture reset | Public docs, internal docs, workspace archives, and asset boundaries were reorganized. |
+| Internal auxiliary gray-box triage | Restored as internal auxiliary positive; not headline evidence. |
+| White-box same-observable scouts | Activation-subspace and per-timestep trajectory routes closed negative-but-useful. |
+| Selective routing defense scout | Closed positive-but-bounded; gate-leak and oracle-route falsifiers block promotion. |
+| Cross-box tri-surface shortcut | Closed negative-but-useful; AUC-positive but low-FPR-unstable. |
+| Response-strength black-box validation | Progressed to strong validated candidate-only surface; comparator and promotion paths remain blocked. |
 
 Closed entries are traceable through
 [`legacy/execution-log/2026-04-29/README.md`](../../legacy/execution-log/2026-04-29/README.md).
