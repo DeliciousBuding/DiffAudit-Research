@@ -19,11 +19,12 @@
 | 路径 | 说明 |
 | --- | --- |
 | `config.py` | 仓库统一配置结构 |
-| `cli/` | 统一命令入口；`_parser.py` 维护 argparse surface，`_dispatch.py` 维护 handler dispatch |
+| `cli/` | 所有仓库对外命令入口；`_parser.py` 定义 argparse surface，`_dispatch.py` 负责命令分发 |
 | `attacks/` | 各方法线的 planner / probe / dry-run / smoke |
 | `pipelines/` | 通用 pipeline 逻辑 |
 | `utils/` | 共享指标、I/O、Gaussian 和 diffusion schedule helper |
-| `reports/` | 预留报告输出 |
+| `metrics/` | placeholder package；shared metric implementations currently live in `utils/metrics.py` |
+| `reports/` | 统一报告输出层 |
 
 ## 当前攻击线
 
