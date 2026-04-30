@@ -22,8 +22,9 @@ Read in this order:
 6. `<DIFFAUDIT_ROOT>/Research/docs/evidence/reproduction-status.md`
 7. `<DIFFAUDIT_ROOT>/Research/docs/product-bridge/README.md`
 8. `<DIFFAUDIT_ROOT>/Research/docs/governance/research-governance.md`
-9. `<DIFFAUDIT_ROOT>/Research/docs/evidence/workspace-evidence-index.md`
-10. The relevant `workspaces/<lane>/README.md` and `plan.md`
+9. `<DIFFAUDIT_ROOT>/Research/docs/rebuild/README.md`
+10. `<DIFFAUDIT_ROOT>/Research/docs/evidence/workspace-evidence-index.md`
+11. The relevant `workspaces/<lane>/README.md` and `plan.md`
 
 Do not start from memory or old chat context. Re-anchor on repository files.
 
