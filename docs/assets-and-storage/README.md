@@ -13,3 +13,13 @@ This directory explains where non-code research assets live.
 
 Large files stay outside the Git repository. Commit manifests, summaries, and
 provenance notes instead of raw datasets, checkpoints, tensors, or archives.
+
+For local workspace hygiene, use:
+
+```powershell
+python -X utf8 scripts/audit_local_storage.py
+```
+
+The script defaults to dry-run. It reports Git-tracked large files, misplaced
+raw assets, generated run payloads, cache/tmp directories, and large external
+clones without moving anything unless `--execute` is passed.
