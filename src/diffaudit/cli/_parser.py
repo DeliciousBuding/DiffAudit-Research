@@ -878,7 +878,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     gsa_asset_probe_parser.add_argument(
         "--repo-root",
-        default="workspaces/white-box/external/GSA",
+        default="external/GSA",
         help="path to local GSA repository root",
     )
     gsa_asset_probe_parser.add_argument(
@@ -893,7 +893,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     gsa_observability_probe_parser.add_argument(
         "--repo-root",
-        default="workspaces/white-box/external/GSA",
+        default="external/GSA",
         help="path to local GSA repository root",
     )
     gsa_observability_probe_parser.add_argument(
@@ -946,7 +946,7 @@ def build_parser() -> argparse.ArgumentParser:
     gsa_observability_export_parser.add_argument("--workspace", required=True)
     gsa_observability_export_parser.add_argument(
         "--repo-root",
-        default="workspaces/white-box/external/GSA",
+        default="external/GSA",
         help="path to local GSA repository root",
     )
     gsa_observability_export_parser.add_argument(
@@ -991,7 +991,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="export one CPU-first masked white-box packet scaffold without authorizing any GPU release",
     )
     gsa_masked_packet_parser.add_argument("--workspace", required=True)
-    gsa_masked_packet_parser.add_argument("--repo-root", default="workspaces/white-box/external/GSA")
+    gsa_masked_packet_parser.add_argument("--repo-root", default="external/GSA")
     gsa_masked_packet_parser.add_argument(
         "--assets-root",
         default="workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1",
@@ -1026,7 +1026,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="export one CPU-first in-model white-box packet canary without authorizing any GPU release",
     )
     gsa_inmodel_packet_parser.add_argument("--workspace", required=True)
-    gsa_inmodel_packet_parser.add_argument("--repo-root", default="workspaces/white-box/external/GSA")
+    gsa_inmodel_packet_parser.add_argument("--repo-root", default="external/GSA")
     gsa_inmodel_packet_parser.add_argument(
         "--assets-root",
         default="workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1",
@@ -1067,7 +1067,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     gsa_runtime_mainline_parser.add_argument(
         "--repo-root",
-        default="workspaces/white-box/external/GSA",
+        default="external/GSA",
         help="path to local GSA repository root",
     )
     gsa_runtime_mainline_parser.add_argument(
@@ -1134,7 +1134,7 @@ def build_parser() -> argparse.ArgumentParser:
     gsa_loss_score_export_parser.add_argument("--workspace", required=True)
     gsa_loss_score_export_parser.add_argument(
         "--repo-root",
-        default="workspaces/white-box/external/GSA",
+        default="external/GSA",
     )
     gsa_loss_score_export_parser.add_argument(
         "--assets-root",
@@ -1400,7 +1400,7 @@ def build_parser() -> argparse.ArgumentParser:
     gsa_runtime_intervention_review_parser.add_argument("--workspace", required=True)
     gsa_runtime_intervention_review_parser.add_argument(
         "--repo-root",
-        default="workspaces/white-box/external/GSA",
+        default="external/GSA",
     )
     gsa_runtime_intervention_review_parser.add_argument(
         "--assets-root",

@@ -115,15 +115,17 @@ If you do not have that directory, ask for the project asset mirror or rebuild i
 These are code clones, not data directories. They belong under `Research\external\`:
 
 ```powershell
-git clone https://github.com/kong13661/PIA.git external/PIA
-git clone https://github.com/zhaisf/CLiD external/CLiD
-git clone https://github.com/py85252876/Reconstruction-based-Attack external/Reconstruction-based-Attack
-git clone https://github.com/py85252876/GSA.git external/GSA
-git clone https://github.com/facebookresearch/DiT.git external/DiT
-git clone https://github.com/nv-tlabs/DPDM.git external/DPDM
+git clone --depth 1 https://github.com/kong13661/PIA.git external/PIA
+git clone --depth 1 https://github.com/zhaisf/CLiD external/CLiD
+git clone --depth 1 https://github.com/py85252876/Reconstruction-based-Attack external/Reconstruction-based-Attack
+git clone --depth 1 https://github.com/py85252876/GSA.git external/GSA
+git clone --depth 1 https://github.com/facebookresearch/DiT.git external/DiT
+git clone --depth 1 https://github.com/nv-tlabs/DPDM.git external/DPDM
 ```
 
-`external/` is ignored by git. Do not put datasets or model weights there.
+`external/` is ignored by git. Do not put datasets or model weights there. Use
+shallow clones by default on new machines; fetch full upstream history only
+when a specific audit needs it.
 
 ## 5. Bind Local Paths
 

@@ -21,7 +21,7 @@ and several tables mixed tracked repository facts with local workspace state.
 | Claim Type | Reason |
 | --- | --- |
 | Exact source, script, test, docs, workspace, and disk counts | Stale after PR #29 and sensitive to ignored local artifacts. Future audits must state whether counts come from `git ls-files` or full local filesystem scans. |
-| CLI command tables in the detailed packet | The table contained duplicate rows and one non-existent command. Regenerate from `src/diffaudit/cli.py` before using it as evidence. |
+| CLI command tables in the detailed packet | The table contained duplicate rows and one non-existent command. Regenerate from `src/diffaudit/cli/_parser.py` before using it as evidence. |
 | `graybox_triscore.py` and `semantic_aux_fusion.py` still duplicating metric helpers | Stale. PR #29 migrated both to `diffaudit.utils.metrics`. |
 | `configs/feishu_sync.local.yaml` tracked in Git | False on current `main`; the path is ignored and not tracked. |
 | Raw local disk cleanup totals | Useful for operator cleanup, but not suitable for public governance docs because they depend on ignored local assets. |
