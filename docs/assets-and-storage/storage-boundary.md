@@ -14,6 +14,7 @@
 - `workspaces/<lane>/assets/` 放 **lane 归一化后的 admitted 资产入口**
 - `workspaces/<lane>/runs/` 放 **运行产物和 evidence**
 - `outputs/` 放 **local temporary outputs，不作为 Git 证据入口**
+- `<DIFFAUDIT_ROOT>/Archive/research-local-artifacts/` 放 **可逆迁出的本机 generated artifacts**
 - `experiments/` 只提交 **sanitized summary / report**，不提交 raw image/tensor 产物
 
 不要把这些角色混在一起。
@@ -169,7 +170,39 @@ or the external asset layer, while the repository keeps the sanitized
 
 ---
 
-## 7. 当前仓库里的特例
+## 7. `<DIFFAUDIT_ROOT>/Archive/research-local-artifacts/`
+
+放什么：
+
+- generated checkpoints
+- bridged model directories
+- large run payloads
+- temporary cache directories that should not be a Research handoff surface
+- preserved source copies when a canonical `Download/` target already exists
+
+规则：
+
+- This is a reversible local quarantine, not a collaborator setup surface.
+- The repository may keep a script that knows how to audit or move these
+  artifacts, but it should not commit the artifacts themselves.
+- If old local commands still need the historical path, use an ignored junction
+  or symlink from `Research/` to the archived or downloaded asset.
+- Do not write research verdicts here. Verdicts still belong in workspace
+  summaries, evidence notes, or admitted result tables.
+
+Use:
+
+```powershell
+python -X utf8 scripts/audit_local_storage.py
+python -X utf8 scripts/audit_local_storage.py --execute --json-out <DIFFAUDIT_ROOT>\Archive\research-local-artifacts\2026-04-30\manifest.json
+```
+
+The first command is dry-run. The second command only moves ignored local
+assets that contain no Git-tracked files.
+
+---
+
+## 8. 当前仓库里的特例
 
 ### `SecMI`
 
@@ -196,7 +229,7 @@ or the external asset layer, while the repository keeps the sanitized
 
 它不再属于代码 clone 层。
 
-## 8. 当前最容易乱的地方
+## 9. 当前最容易乱的地方
 
 ### 情况 A：把数据集塞进 `external/`
 
@@ -232,7 +265,7 @@ or the external asset layer, while the repository keeps the sanitized
 
 ---
 
-## 9. 建议的今后纪律
+## 10. 建议的今后纪律
 
 1. 新拿到一个外部代码仓：
    - 先放 `external/`
@@ -247,7 +280,7 @@ or the external asset layer, while the repository keeps the sanitized
 
 ---
 
-## 10. 当前结论
+## 11. 当前结论
 
 如果你问“外部代码和数据集到底该放哪”：
 
@@ -256,6 +289,7 @@ or the external asset layer, while the repository keeps the sanitized
 - 当前研究主线真正消费的 lane 入口放 `Research/workspaces/<lane>/assets/`
 - 运行结果放 `Research/workspaces/<lane>/runs/`
 - 临时训练输出放 ignored `Research/outputs/`
+- 本机 generated 大产物可逆迁到 `<DIFFAUDIT_ROOT>/Archive/research-local-artifacts/`
 - 只有最小 vendored 依赖才进 `Research/third_party/`
 
 目录名该怎么统一，见 [download-naming-policy.md](download-naming-policy.md)。
