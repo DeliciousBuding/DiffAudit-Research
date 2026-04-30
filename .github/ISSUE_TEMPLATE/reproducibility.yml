@@ -1,4 +1,4 @@
-name: Reproducibility issue
+﻿name: Reproducibility issue
 description: Report a setup, asset, command, or reproduction blocker.
 title: "[repro]: "
 labels:
@@ -56,6 +56,6 @@ body:
     attributes:
       label: Pre-checks
       options:
-        - label: I checked docs/teammate-setup.md.
-        - label: I checked docs/data-and-assets-handoff.md.
-        - label: I checked docs/reproduction-status.md.
+        - label: I checked docs/start-here/teammate-setup.md.
+        - label: I checked docs/assets-and-storage/data-and-assets-handoff.md.
+        - label: I checked docs/evidence/reproduction-status.md.

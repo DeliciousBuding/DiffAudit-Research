@@ -1,4 +1,4 @@
-# X-152: I-A Low-FPR / Adaptive-Attacker Boundary Refresh
+﻿# X-152: I-A Low-FPR / Adaptive-Attacker Boundary Refresh
 
 ## Question
 
@@ -18,13 +18,13 @@ Reviewed current hot-path surfaces with targeted searches for `PIA + stochastic`
 
 - `README.md`
 - `docs/README.md`
-- `docs/comprehensive-progress.md`
-- `docs/mainline-narrative.md`
-- `docs/admitted-results-summary.md`
-- `docs/research-boundary-card.md`
-- `docs/research-autonomous-execution-prompt.md`
-- `docs/codex-roadmap-execution-prompt.md`
-- `docs/future-phase-e-intake.md`
+- `docs/internal/comprehensive-progress.md`
+- `docs/internal/mainline-narrative.md`
+- `docs/evidence/admitted-results-summary.md`
+- `docs/evidence/research-boundary-card.md`
+- `docs/internal/research-autonomous-execution-prompt.md`
+- `docs/internal/codex-roadmap-execution-prompt.md`
+- `docs/internal/future-phase-e-intake.md`
 - `workspaces/implementation/challenger-queue.md`
 
 ## Findings

@@ -1,4 +1,4 @@
-# 2026-04-14 Pre-submit Archive
+﻿# 2026-04-14 Pre-submit Archive
 
 这里归档的是 `2026-04-14` 那一轮预提交、边界审计、traceability、口径校对相关文档。
 
@@ -7,7 +7,7 @@
 ## 归档原因
 
 - 时间点明确，属于阶段性收口材料
-- 当前主线规划已经迁移到更新的 `ROADMAP.md`、`docs/comprehensive-progress.md` 与相关活文档
+- 当前主线规划已经迁移到更新的 `ROADMAP.md`、`docs/internal/comprehensive-progress.md` 与相关活文档
 - 为保持 `docs/` 顶层只承载当前项目级入口，需要把这一批历史收口稿从活目录移出
 
 ## 使用方式

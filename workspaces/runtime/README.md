@@ -1,11 +1,15 @@
 # Runtime Workspace
 
-This directory is reserved for runtime integration notes and stable handoff
-documents.
+## Current Status
 
-Raw runtime job queue dumps are local machine artifacts. They can contain
-absolute paths, local failure details, and command tails, so they are ignored by
-git under `workspaces/runtime/jobs/`.
+This workspace stores Research-side notes for Runtime contracts. It is not the
+Runtime implementation repository.
 
-Commit durable runtime evidence as sanitized summaries under the relevant
-`experiments/` or `workspaces/<lane>/runs/` evidence anchor instead.
+Current product/Runtime handoff guidance lives in
+[../../docs/product-bridge/README.md](../../docs/product-bridge/README.md).
+
+## Next Action
+
+Create a Runtime handoff only when a research result changes exported fields,
+packet contracts, runner requirements, recommendation semantics, or report
+wording.

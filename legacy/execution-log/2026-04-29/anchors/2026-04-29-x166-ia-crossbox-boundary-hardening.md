@@ -1,4 +1,4 @@
-# X-166 I-A / Cross-Box Boundary Hardening After Tri-Surface Consensus
+﻿# X-166 I-A / Cross-Box Boundary Hardening After Tri-Surface Consensus
 
 Date: 2026-04-29
 Status: `positive boundary hardening / GPU hold`
@@ -17,11 +17,11 @@ After `X-163` froze H3 selective all-steps gating below promotion and `X-165` fa
   - `workspaces/cross-box/runs/x165-crossbox-trisurface-consensus-20260429-r1/summary.json`
 - Active entry surfaces:
   - `README.md`
-  - `docs/comprehensive-progress.md`
-  - `docs/mainline-narrative.md`
-  - `docs/future-phase-e-intake.md`
-  - `docs/research-autonomous-execution-prompt.md`
-  - `docs/codex-roadmap-execution-prompt.md`
+  - `docs/internal/comprehensive-progress.md`
+  - `docs/internal/mainline-narrative.md`
+  - `docs/internal/future-phase-e-intake.md`
+  - `docs/internal/research-autonomous-execution-prompt.md`
+  - `docs/internal/codex-roadmap-execution-prompt.md`
   - `workspaces/implementation/challenger-queue.md`
   - `ROADMAP.md`
 
