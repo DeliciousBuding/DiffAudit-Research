@@ -1,0 +1,191 @@
+﻿# Data And Assets Handoff
+
+这份文档回答新成员或外部贡献者接手时最容易卡住的问题：
+
+- 数据集、权重、supplementary 包到底从哪里来
+- 下载后放到哪里
+- 如何让本地路径和仓库命令对上
+- 如何验证自己已经拿到和当前项目一致的资产布局
+
+## 1. Canonical Layout
+
+默认目录布局是：
+
+```text
+<DIFFAUDIT_ROOT>\
+  Research\        # this git repo
+  Download\        # local raw datasets / weights / supplementary bundles
+```
+
+`Download\` 不进 `Research` git 仓库。它是本地原始资产层，原因是这里会放大文件、许可受限文件、可重新下载的权重和压缩包。
+
+`<DIFFAUDIT_ROOT>` 是你自己机器上的项目根目录。它可以位于任意工作目录；关键是 `Research/` 和 `Download/` 的相对角色不要变。
+
+如果你的机器路径不同，也没关系，只要保持同样的相对角色：
+
+- `Research\external\` 只放外部代码 clone
+- `Research\third_party\` 只放最小 vendored 代码
+- `Download\` 放原始下载物
+- `Research\workspaces\<lane>\assets\` 放已归一化的 lane 入口
+- `Research\workspaces\<lane>\runs\` 放运行证据
+- `Research\outputs\` 放 local temporary outputs，不作为交接入口
+
+详细规则见 [storage-boundary.md](storage-boundary.md)。
+
+如果你想知道 `Download/` 里为什么有些目录名像资产名、有些像来源名，再看 [download-naming-policy.md](download-naming-policy.md)。
+
+## 2. Fastest Way To Match Our Assets
+
+如果团队维护了共享资产镜像，最快方式是直接复制整个目录：
+
+```powershell
+Copy-Item -Recurse \\YOUR_ASSET_MIRROR\DiffAudit\Download $env:DIFFAUDIT_ROOT\Download
+```
+
+如果你没提前设置环境变量，也可以把 `$env:DIFFAUDIT_ROOT` 直接替换成你的真实绝对路径。
+
+复制后确认至少有这些入口：
+
+```text
+Download\black-box\supplementary\recon-assets\
+Download\black-box\supplementary\clid-mia-supplementary\
+Download\gray-box\weights\secmi-cifar-bundle\
+Download\shared\datasets\cifar-10-python.tar.gz
+Download\shared\datasets\celeba\
+Download\shared\weights\stable-diffusion-v1-5\
+Download\shared\weights\clip-vit-large-patch14\
+Download\shared\weights\blip-image-captioning-large\
+Download\shared\weights\google-ddpm-cifar10-32\
+```
+
+如果不能复制，按 [research-download-master-list.md](research-download-master-list.md) 的 `first-wave` 顺序下载。部分资产有登录、许可或作者发布限制，仓库只能记录来源和目标目录，不能把所有大文件直接提交进 git。
+
+Paper PDFs and DOCX context files follow the same rule: the repository records
+metadata in `references/materials/manifest.csv`, while local copies belong in a
+team asset mirror or an external path such as
+`Download\shared\papers\<track>\`. Do not expect GitHub to contain the paper
+binaries.
+
+Generated experiment artifacts follow the same rule. GitHub keeps sanitized
+summaries and reports; generated images, tensor score packets, runtime job queue
+dumps, checkpoints, and split `.npz` files belong in `Download/`, a team mirror,
+or an ignored workspace path. The repository-root `Research/outputs/` directory
+is also local scratch space; promote durable metrics into workspace verdict
+notes or `summary.json` files before committing.
+
+## 3. First-Wave Asset List
+
+新机器优先准备这些资产，足够进入当前项目的大多数验证路径：
+
+| Asset ID | What | Source | Destination |
+|---|---|---|---|
+| `SH-DS-01` | CIFAR-10 archive | https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz | `Download\shared\datasets\cifar-10-python.tar.gz` |
+| `SH-DS-02/03` | CelebA images + annotations | https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html | `Download\shared\datasets\celeba\` |
+| `SH-WT-01` | Stable Diffusion v1.5 | https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5 | `Download\shared\weights\stable-diffusion-v1-5\` |
+| `SH-WT-02` | CLIP ViT-L/14 | https://huggingface.co/openai/clip-vit-large-patch14 | `Download\shared\weights\clip-vit-large-patch14\` |
+| `SH-WT-03` | BLIP large | https://huggingface.co/Salesforce/blip-image-captioning-large | `Download\shared\weights\blip-image-captioning-large\` |
+| `SH-WT-04` | DDPM CIFAR-10 32 | https://huggingface.co/google/ddpm-cifar10-32 | `Download\shared\weights\google-ddpm-cifar10-32\` |
+| `GB-WT-01` | SecMI CIFAR bundle | see [research-download-master-list.md](../assets-and-storage/research-download-master-list.md) | `Download\gray-box\weights\secmi-cifar-bundle\` |
+| `GB-SUP-02` | SecMI member split `.npz` files | full SecMI clone or team asset mirror | `Download\gray-box\supplementary\secmi-member-splits\` |
+| `BB-SUP-02` | CLiD supplementary mirror | paper supplementary / manual bundle | `Download\black-box\supplementary\clid-mia-supplementary\` |
+
+The current recon bundle is expected under:
+
+```text
+Download\black-box\supplementary\recon-assets\
+```
+
+If you do not have that directory, ask for the project asset mirror or rebuild it from the release/source noted in [recon-public-asset-mapping.md](recon-public-asset-mapping.md).
+
+## 4. External Code Clones
+
+These are code clones, not data directories. They belong under `Research\external\`:
+
+```powershell
+git clone https://github.com/kong13661/PIA.git external/PIA
+git clone https://github.com/zhaisf/CLiD external/CLiD
+git clone https://github.com/py85252876/Reconstruction-based-Attack external/Reconstruction-based-Attack
+git clone https://github.com/py85252876/GSA.git external/GSA
+git clone https://github.com/facebookresearch/DiT.git external/DiT
+git clone https://github.com/nv-tlabs/DPDM.git external/DPDM
+```
+
+`external/` is ignored by git. Do not put datasets or model weights there.
+
+## 5. Bind Local Paths
+
+After assets are present, create your local path config:
+
+```powershell
+Copy-Item configs/assets/team.local.template.yaml configs/assets/team.local.yaml
+```
+
+Fill these fields first:
+
+```yaml
+repo:
+  research_root: /absolute/path/to/DiffAudit/Research
+  download_root: /absolute/path/to/DiffAudit/Download
+
+shared:
+  cifar10_archive: /absolute/path/to/DiffAudit/Download/shared/datasets/cifar-10-python.tar.gz
+  celeba_root: /absolute/path/to/DiffAudit/Download/shared/datasets/celeba
+  sd15_model_dir: /absolute/path/to/DiffAudit/Download/shared/weights/stable-diffusion-v1-5
+  clip_model_dir: /absolute/path/to/DiffAudit/Download/shared/weights/clip-vit-large-patch14
+  blip_model_dir: /absolute/path/to/DiffAudit/Download/shared/weights/blip-image-captioning-large
+  ddpm_cifar10_model_dir: /absolute/path/to/DiffAudit/Download/shared/weights/google-ddpm-cifar10-32
+```
+
+Windows、Linux 和 macOS 都可以使用各自系统的绝对路径。这里的关键是“绝对路径”，不是盘符或特定用户目录。
+
+Then render local configs:
+
+```powershell
+python scripts/render_team_local_configs.py
+```
+
+`configs/assets/team.local.yaml` is ignored by git. Do not commit personal absolute paths.
+
+## 6. Verification Commands
+
+Run these after environment setup and local path binding:
+
+```powershell
+python scripts/verify_env.py
+python -m diffaudit --help
+python scripts/render_team_local_configs.py
+```
+
+Basic asset checks:
+
+```powershell
+conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config configs/attacks/pia_plan.yaml --member-split-root external/PIA/DDPM
+conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
+conda run -n diffaudit-research python -m diffaudit audit-recon-public-bundle --bundle-root "$env:DIFFAUDIT_ROOT\Download\black-box\supplementary\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models"
+```
+
+Expected result:
+
+- environment commands exit successfully
+- `python -m diffaudit --help` lists all CLI commands
+- asset probes either report `ready` or name the exact missing local path
+
+## 7. If You Are Taking Over The Research Work
+
+After the machine can run commands, read in this order:
+
+1. [README.md](../../README.md)
+2. [teammate-setup.md](../start-here/teammate-setup.md)
+3. [comprehensive-progress.md](../internal/comprehensive-progress.md)
+4. [reproduction-status.md](../evidence/reproduction-status.md)
+5. [mainline-narrative.md](../internal/mainline-narrative.md)
+6. [storage-boundary.md](storage-boundary.md)
+7. [research-download-master-list.md](../assets-and-storage/research-download-master-list.md)
+
+Current rule of thumb:
+
+- use `Download\` to get the same raw data and weights
+- use `team.local.yaml` to bind your machine paths
+- use `workspaces/*/assets` manifests as the project-recognized asset contracts
+- use `workspaces/*/runs` and implementation notes as evidence, not as raw dataset storage
+- do not rely on `Research/outputs/` for handoff; it is ignored local scratch

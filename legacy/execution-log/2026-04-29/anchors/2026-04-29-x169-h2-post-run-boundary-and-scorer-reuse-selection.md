@@ -1,4 +1,4 @@
-# X-169 H2 Post-Run Boundary And Scorer-Reuse Selection
+﻿# X-169 H2 Post-Run Boundary And Scorer-Reuse Selection
 
 Date: 2026-04-29
 Status: `positive boundary / CPU scorer-reuse released`
@@ -16,7 +16,7 @@ After `X-168` produced a positive `64 / 64` black-box H2 strength-response scout
 - X168 response cache:
   - `workspaces/black-box/runs/x168-h2-strength-response-gpu-scout-20260429-r1/response-cache.npz`
 - Round-2 black-box plan:
-  - `docs/report-bundles/gpt54/round2-results/01.md`
+  - `docs/internal/report-bundles/gpt54/round2-results/01.md`
 
 ## Review
 

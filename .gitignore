@@ -1,4 +1,4 @@
-# Python
+﻿# Python
 __pycache__/
 *.py[cod]
 *.pyd
@@ -61,8 +61,8 @@ references/materials/**/*.pdf
 references/materials/**/*.docx
 
 # Generated paper extraction caches
-docs/paper-reports/ocr/
-docs/paper-reports/markdown/
+docs/internal/paper-reports/ocr/
+docs/internal/paper-reports/markdown/
 
 # Binary model/data artifacts
 *.bin

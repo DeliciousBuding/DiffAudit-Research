@@ -1,4 +1,4 @@
-# X-143: G1-A Consumer Boundary Sync After X-142
+﻿# X-143: G1-A Consumer Boundary Sync After X-142
 
 ## Question
 
@@ -26,11 +26,11 @@ Reviewed active Research entry surfaces for stale live steering around:
 - `future-phase-e-intake`
 - `challenger-queue`
 
-The main stale active wording was in `docs/future-phase-e-intake.md`, where `06-g1a` still read like the current closest blocker-resolution slot even though the blocker had already been resolved by `X-141 / X-142`.
+The main stale active wording was in `docs/internal/future-phase-e-intake.md`, where `06-g1a` still read like the current closest blocker-resolution slot even though the blocker had already been resolved by `X-141 / X-142`.
 
 ## Changes
 
-- Updated `docs/future-phase-e-intake.md` so `06-g1a` is described as resolved internal-only auxiliary evidence, not a current near-term slot.
+- Updated `docs/internal/future-phase-e-intake.md` so `06-g1a` is described as resolved internal-only auxiliary evidence, not a current near-term slot.
 - Advanced `workspaces/implementation/challenger-queue.md` from `G1-A boundary sync pending` to fresh non-graybox/GPU-candidate reselection.
 - Updated `ROADMAP.md` with this verdict and the next lane state.
 

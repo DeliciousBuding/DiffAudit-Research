@@ -1,4 +1,4 @@
-{
+﻿{
   "status": "ready",
   "dispatch": "G1-A post-B-M0 long-horizon next-hypothesis scoping",
   "dispatch_date": "2026-04-17",
@@ -72,7 +72,7 @@
       "viability": "blocked",
       "evidence": [
         "<DIFFAUDIT_ROOT>/Research/ROADMAP.md",
-        "<DIFFAUDIT_ROOT>/Research/docs/comprehensive-progress.md"
+        "<DIFFAUDIT_ROOT>/Research/docs/internal/comprehensive-progress.md"
       ]
     },
     {

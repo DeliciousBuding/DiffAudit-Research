@@ -1,4 +1,4 @@
-# DiffAudit Research ROADMAP — 4.19 Competition Sprint
+﻿# DiffAudit Research ROADMAP — 4.19 Competition Sprint
 
 > Last updated: 2026-04-15
 > Deadline: 2026-04-19 (Computer Design Competition)
@@ -710,7 +710,7 @@ If research is reopened, prefer this order:
 | 2026-04-15 | Clarified checksum self-exclusion rule so the presentation hash manifest now explicitly covers 17 effective assets out of 18 enumerated paths |
 | 2026-04-15 | Added a formal research-to-leader handoff note so the next consumer can integrate the finished research package into Docs / Platform without reopening the research line |
 | 2026-04-15 | Marked the research line as complete in the final delivery index so downstream consumers do not misread `Research` as still requiring new runtime work |
-| 2026-04-15 | Updated `docs/codex-autonomous-agent-prompt.md` to closure mode so future autonomous runs default to consistency maintenance or handoff, not stale experiment expansion |
+| 2026-04-15 | Updated `docs/internal/codex-autonomous-agent-prompt.md` to closure mode so future autonomous runs default to consistency maintenance or handoff, not stale experiment expansion |
 | 2026-04-15 | Synced manifest, checksum, and signoff layers after adding the formal handoff asset, raising dated-asset coverage to `17 / 17` and effective checksum coverage to `18 / 19` |
 | 2026-04-15 | Added the formal handoff note to the final index backup-page list so downstream consumers can also reach the transfer entry from the human fallback view |
 | 2026-04-15 | Added a deliberate reopen research queue so future autonomous expansion follows new-defense / mitigation / protocol-upgrade priorities instead of blind reruns |

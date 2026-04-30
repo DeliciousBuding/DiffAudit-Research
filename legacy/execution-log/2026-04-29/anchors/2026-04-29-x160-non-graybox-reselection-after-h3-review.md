@@ -1,4 +1,4 @@
-# X-160: Non-Graybox Next-Lane Reselection After H3 Review
+﻿# X-160: Non-Graybox Next-Lane Reselection After H3 Review
 
 ## Question
 
@@ -10,9 +10,9 @@ After X159 freezes H3 as candidate-only and returns GPU state to hold, what is t
 - `workspaces/implementation/challenger-queue.md`
 - `workspaces/implementation/2026-04-29-x159-h3-post-gpu-review.md`
 - `workspaces/gray-box/runs/x159-h3-post-gpu-review-20260429-r1/summary.json`
-- `docs/comprehensive-progress.md`
-- `docs/mainline-narrative.md`
-- `docs/future-phase-e-intake.md`
+- `docs/internal/comprehensive-progress.md`
+- `docs/internal/mainline-narrative.md`
+- `docs/internal/future-phase-e-intake.md`
 
 ## Candidate Review
 
