@@ -2,7 +2,7 @@
 
 > Last updated: 2026-04-30
 > Owner: `Researcher`
-> Mode: information-architecture reset; no active GPU task
+> Mode: code-governance Phase 0; no active GPU task
 
 This file is the short steering document for Research. Long execution history
 belongs under `legacy/`; current workspace state belongs under `workspaces/`.
@@ -11,14 +11,13 @@ belongs under `legacy/`; current workspace state belongs under `workspaces/`.
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = Research information architecture reset`
-- `next_cpu_sidecar = X-181 I-A / cross-box boundary maintenance`
+- `current_execution_item = Phase 0 shared utils extraction`
+- `next_cpu_sidecar = X-181 I-A / cross-box boundary maintenance after code-governance PR`
 - `history_rewrite_policy = audit only; no force-push without separate approval`
 
-This cleanup does not create new research results. It makes the repository
-readable enough for teammates and reviewers to understand which evidence is
-paper-grounded, which evidence is bounded exploration, and which evidence can
-feed Platform or Runtime.
+The current cleanup does not create new research results. It extracts shared
+pure helper code behind existing attack surfaces so future reviewers and agents
+do not have to reason through copied metric implementations.
 
 ## Current Research Truth
 
@@ -33,7 +32,7 @@ feed Platform or Runtime.
 
 ## Next Decision
 
-After the information-architecture reset PR is merged, resume:
+After the Phase 0 shared-utils PR is merged, resume:
 
 ```text
 X-181 I-A / cross-box boundary maintenance after H2 comparator block

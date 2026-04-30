@@ -13,24 +13,25 @@ X-180 anchors live under
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = Research information architecture reset`
+- `current_execution_item = Phase 0 shared utils extraction`
 - `gray_box_slot = yield`
 - `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
 - `G1-A / X-90 = two-seed internal auxiliary positive`
 
 ## Active
 
-### Research information architecture reset
+### Phase 0 shared utils extraction
 
 - `mode`: CPU-only repository governance
 - `status`: active
-- `verdict target`: clean handoff, documentation information architecture,
-  archived logs, asset-boundary audit, and no history rewrite
+- `verdict target`: behavior-preserving extraction of duplicated pure helper
+  code for metrics, JSON I/O, Gaussian scoring, and diffusion schedules
 - `GPU`: no
 - `handoff`: no Platform or Runtime schema change
 
 This active item temporarily blocks research expansion. It must finish with a
-verdict and a clean PR-ready branch before new GPU work is selected.
+small PR that preserves CLI arguments, JSON output fields, and workspace
+artifact schemas.
 
 ## Ready
 
@@ -108,6 +109,7 @@ verdict and a clean PR-ready branch before new GPU work is selected.
 
 | Range | Verdict |
 | --- | --- |
+| `2026-04-30 IA reset` | Information architecture reset merged; public docs, internal docs, workspace archives, and asset boundaries reorganized. |
 | `X-141` to `X-143` | G1-A / X-90 restored as two-seed internal auxiliary positive; not headline evidence. |
 | `X-144` to `X-155` | Activation-subspace and per-timestep trajectory routes closed negative-but-useful; GPU hold. |
 | `X-156` to `X-163` | H3 selective routing closed candidate-only positive-but-bounded; gate-leak and oracle-route falsifiers block promotion. |
