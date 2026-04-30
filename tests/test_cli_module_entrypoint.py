@@ -6,6 +6,16 @@ from pathlib import Path
 
 
 class CliModuleEntrypointTests(unittest.TestCase):
+    def test_cli_package_exports_main_and_parser(self) -> None:
+        from diffaudit.cli import build_parser, main
+
+        self.assertTrue(callable(main))
+        parser = build_parser()
+        subcommands = parser._subparsers._group_actions[0].choices
+        self.assertIn("plan-secmi", subcommands)
+        self.assertIn("run-gsa-runtime-mainline", subcommands)
+        self.assertIn("run-dpdm-w1-multi-shadow-comparator", subcommands)
+
     def test_python_module_invocation_executes_main(self) -> None:
         repo_root = Path(__file__).resolve().parents[1]
         env = dict(os.environ)

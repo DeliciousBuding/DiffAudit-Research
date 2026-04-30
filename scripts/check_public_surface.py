@@ -73,10 +73,13 @@ def main() -> int:
 
     for path in tracked_files():
         normalized = path.replace("\\", "/")
+        file_path = ROOT / path
+        if not file_path.exists():
+            continue
         if is_forbidden_path(normalized):
             violations.append(f"forbidden tracked artifact: {normalized}")
             continue
-        size = (ROOT / path).stat().st_size
+        size = file_path.stat().st_size
         if size > MAX_TRACKED_FILE_BYTES:
             violations.append(
                 f"oversized tracked file ({size} bytes): {normalized}"
