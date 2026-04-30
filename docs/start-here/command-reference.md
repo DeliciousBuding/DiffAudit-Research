@@ -94,6 +94,17 @@ Run the paper Stage 0 gate:
 python -m diffaudit check-recon-stage0-paper-gate --repo-root external/Reconstruction-based-Attack --bundle-root "$env:DIFFAUDIT_ROOT/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models" --attack-scenario attack-i
 ```
 
+Evaluate a saved H2 response-strength cache:
+
+```powershell
+python scripts/evaluate_h2_response_cache.py `
+  --response-cache workspaces/black-box/runs/<run>/response-cache.npz `
+  --output workspaces/black-box/runs/<run>/cache-eval-summary.json
+```
+
+This is a CPU-only candidate scorer. It does not collect model responses and
+does not promote H2 to admitted evidence.
+
 Plan `variation`:
 
 ```powershell

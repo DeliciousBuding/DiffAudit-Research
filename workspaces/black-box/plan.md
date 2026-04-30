@@ -7,14 +7,16 @@
 - `variation`: API-only support; needs real query-image data for stronger claims.
 - `semantic-auxiliary-classifier`: current alternative candidate.
 - `H2 response-strength`: live candidate with positive non-overlap signal;
-  next step is stable runner promotion before one bounded 512 / 512 validation.
+  cache scoring is now stable, and the next step is GPU collection runner
+  promotion before one bounded 512 / 512 validation.
 
 ## Next Action
 
-Promote the H2 response-strength validation runner out of archived execution
-scripts into a stable script or CLI entrypoint. After that, run one bounded
-512 / 512 non-overlap validation if GPU budget is available. Keep status
-synchronized with [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
+Promote the H2 response-strength GPU collection runner out of archived
+execution scripts into a stable script or CLI entrypoint. Cache scoring should
+use `scripts/evaluate_h2_response_cache.py`. After that, run one bounded 512 /
+512 non-overlap validation if GPU budget is available. Keep status synchronized
+with [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status
 

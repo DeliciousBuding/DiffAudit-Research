@@ -8,7 +8,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 ## Current State
 
 - Active work: `Black-box response-strength comparator preflight`
-- Next GPU task: `H2 response-strength 512 / 512 validation, pending stable runner promotion`
+- Next GPU task: `H2 response-strength 512 / 512 validation, pending GPU collection runner promotion`
 - CPU work: `Public documentation sync`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
@@ -34,9 +34,9 @@ whether the strongest non-admitted black-box candidate can be given a real
 comparator contract without borrowing higher-permission signals.
 
 Preflight verdict: yes, as a candidate. H2 response-strength has repeated
-non-overlap signal and a same-cache simple-scorer comparator. The immediate
-engineering step is runner promotion; the next GPU step is one bounded 512 / 512
-validation.
+non-overlap signal and a same-cache simple-scorer comparator. The cache scorer
+is now stable; the immediate engineering step is GPU collection runner
+promotion, followed by one bounded 512 / 512 validation.
 
 ## Ready
 

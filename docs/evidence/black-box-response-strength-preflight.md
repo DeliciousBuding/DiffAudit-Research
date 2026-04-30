@@ -33,7 +33,9 @@ gradients.
 Current limits:
 
 - The asset family is still `DDPM/CIFAR10`.
-- The active run scripts are archived under `legacy/execution-log/2026-04-29/scripts/`, not promoted stable entrypoints.
+- The stable cache scorer now exists at
+  `scripts/evaluate_h2_response_cache.py`; the GPU response-collection runner
+  still needs promotion out of archived execution scripts.
 - The result is a candidate surface, not a replacement for the admitted `recon`
   black-box row.
 - The low-FPR signal is positive but still too small for product-facing
@@ -41,7 +43,8 @@ Current limits:
 
 ## Next GPU Candidate
 
-Promote exactly one stable runner first, then run one bounded validation:
+Promote exactly one stable GPU collection runner first, then run one bounded
+validation:
 
 ```text
 H2 response-strength raw-primary 512 / 512 non-overlap validation
@@ -57,6 +60,7 @@ Release gate:
 - primary scorer `raw_h2_logistic`,
 - comparator `negative_slope` and best simple low-FPR scorer from the same
   cache,
+- cache scoring through `scripts/evaluate_h2_response_cache.py`,
 - report `AUC / ASR / TPR@1%FPR / TPR@0.1%FPR`,
 - no Platform or Runtime schema change.
 
@@ -66,4 +70,3 @@ The run may strengthen the black-box candidate line only if it keeps an AUC
 advantage over the simple comparator and keeps nonzero `TPR@0.1%FPR` on the
 non-overlap split. It still needs a later cross-asset or stronger black-box
 comparator before becoming admitted evidence.
-
