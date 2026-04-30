@@ -13,6 +13,11 @@
 
 目前它还没有绑定到某一篇论文的完整执行资产。
 
+This environment installs Research as a local Python package and CLI. It is not
+the production service deployment surface; Runtime jobs and HTTP serving belong
+to the sibling `Runtime-Server/` repository, and product deployment belongs to
+`Platform/`.
+
 ## 为什么用 Python 3.11
 
 当前 PyTorch 与扩散模型生态在 `Python 3.11` 下更稳，因此这里没有使用系统里的 3.12。
