@@ -1,50 +1,50 @@
-﻿# Data And Assets Handoff
+# Data And Assets Setup Guide
 
-这份文档回答新成员或外部贡献者接手时最容易卡住的问题：
+This document answers the most common questions when onboarding:
 
-- 数据集、权重、supplementary 包到底从哪里来
-- 下载后放到哪里
-- 如何让本地路径和仓库命令对上
-- 如何验证自己已经拿到和当前项目一致的资产布局
+- Where datasets, weights, and supplementary files come from
+- Where to put them after download
+- How to match local paths to repository commands
+- How to verify your local layout matches the current project
 
 ## 1. Canonical Layout
 
-默认目录布局是：
+Default directory layout:
 
 ```text
 <DIFFAUDIT_ROOT>\
   Research\        # this git repo
-  Download\        # local raw datasets / weights / supplementary bundles
+  Download\        # local raw datasets / weights / supplementary files
 ```
 
-`Download\` 不进 `Research` git 仓库。它是本地原始资产层，原因是这里会放大文件、许可受限文件、可重新下载的权重和压缩包。
+`Download\` is not part of the `Research` git repo. It holds large files, license-restricted files, and re-downloadable weights and archives.
 
-`<DIFFAUDIT_ROOT>` 是你自己机器上的项目根目录。它可以位于任意工作目录；关键是 `Research/` 和 `Download/` 的相对角色不要变。
+`<DIFFAUDIT_ROOT>` is your local project root. It can be anywhere; the important thing is that `Research/` and `Download/` keep their relative roles.
 
-如果你的机器路径不同，也没关系，只要保持同样的相对角色：
+If your machine has a different path, that is fine as long as the relative roles stay the same:
 
-- `Research\external\` 只放外部代码 clone
-- `Research\third_party\` 只放最小 vendored 代码
-- `Download\` 放原始下载物
-- `Research\workspaces\<lane>\assets\` 放已归一化的 lane 入口
-- `Research\workspaces\<lane>\runs\` 放运行证据
-- `Research\outputs\` 放 local temporary outputs，不作为交接入口
+- `Research\external\` holds external code clones only
+- `Research\third_party\` holds minimal vendored code only
+- `Download\` holds raw downloads
+- `Research\workspaces\<track>\assets\` holds normalized track entry points
+- `Research\workspaces\<track>\runs\` holds experiment results
+- `Research\outputs\` holds local temporary outputs, not used for delivery
 
-详细规则见 [storage-boundary.md](storage-boundary.md)。
+Detailed rules are in [storage-boundary.md](storage-boundary.md).
 
-如果你想知道 `Download/` 里为什么有些目录名像资产名、有些像来源名，再看 [download-naming-policy.md](download-naming-policy.md)。
+If you want to know why some `Download/` directory names look like asset names and others look like source names, see [download-naming-policy.md](download-naming-policy.md).
 
 ## 2. Fastest Way To Match Our Assets
 
-如果团队维护了共享资产镜像，最快方式是直接复制整个目录：
+If the team maintains a shared asset mirror, the fastest approach is to copy the whole directory:
 
 ```powershell
 Copy-Item -Recurse \\YOUR_ASSET_MIRROR\DiffAudit\Download $env:DIFFAUDIT_ROOT\Download
 ```
 
-如果你没提前设置环境变量，也可以把 `$env:DIFFAUDIT_ROOT` 直接替换成你的真实绝对路径。
+If you have not set the environment variable, replace `$env:DIFFAUDIT_ROOT` with your actual absolute path.
 
-复制后确认至少有这些入口：
+After copying, confirm at least these entries exist:
 
 ```text
 Download\black-box\supplementary\recon-assets\
@@ -58,7 +58,7 @@ Download\shared\weights\blip-image-captioning-large\
 Download\shared\weights\google-ddpm-cifar10-32\
 ```
 
-如果不能复制，按 [research-download-master-list.md](research-download-master-list.md) 的 `first-wave` 顺序下载。部分资产有登录、许可或作者发布限制，仓库只能记录来源和目标目录，不能把所有大文件直接提交进 git。
+If you cannot copy, download in `first-wave` order from [research-download-master-list.md](research-download-master-list.md). Some assets require login, license acceptance, or author approval. The repository records sources and target directories but cannot commit all large files into git.
 
 Paper PDFs and DOCX context files follow the same rule: the repository records
 metadata in `references/materials/manifest.csv`, while local copies belong in a
@@ -69,10 +69,10 @@ binaries.
 Generated experiment artifacts follow the same rule. GitHub keeps sanitized
 summaries and reports; generated images, tensor score packets, runtime job queue
 dumps, checkpoints, and split `.npz` files belong in a team mirror, ignored
-workspace path, or the local reversible archive. Raw downloaded datasets,
-weights, and supplementary bundles belong in `Download/`; generated run payloads
+workspace path, or the local archive. Raw downloaded datasets,
+weights, and supplementary files belong in `Download/`; generated run payloads
 do not. The repository-root `Research/outputs/` directory is also local scratch
-space; promote durable metrics into workspace verdict notes or `summary.json`
+space; promote durable metrics into workspace result notes or `summary.json`
 files before committing.
 
 For a local machine cleanup audit, run:
@@ -88,7 +88,7 @@ payloads to `Download/` or
 
 ## 3. First-Wave Asset List
 
-新机器优先准备这些资产，足够进入当前项目的大多数验证路径：
+New machines should prepare these assets first. They cover most current verification paths:
 
 | Asset ID | What | Source | Destination |
 |---|---|---|---|
@@ -151,7 +151,7 @@ shared:
   ddpm_cifar10_model_dir: /absolute/path/to/DiffAudit/Download/shared/weights/google-ddpm-cifar10-32
 ```
 
-Windows、Linux 和 macOS 都可以使用各自系统的绝对路径。这里的关键是“绝对路径”，不是盘符或特定用户目录。
+Windows, Linux, and macOS each use their own absolute path format. The key point is using absolute paths, not a specific drive letter or user directory.
 
 Then render local configs:
 
@@ -202,5 +202,5 @@ Current rule of thumb:
 - use `Download\` to get the same raw data and weights
 - use `team.local.yaml` to bind your machine paths
 - use `workspaces/*/assets` manifests as the project-recognized asset contracts
-- use `workspaces/*/runs` and implementation notes as evidence, not as raw dataset storage
-- do not rely on `Research/outputs/` for handoff; it is ignored local scratch
+- use `workspaces/*/runs` and implementation notes as experiment results, not as raw dataset storage
+- do not rely on `Research/outputs/` for delivery; it is ignored local scratch

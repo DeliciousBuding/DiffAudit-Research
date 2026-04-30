@@ -1,51 +1,49 @@
 # DiffAudit Research Documentation
 
-This is the documentation map for DiffAudit Research. The public path is for
-new teammates, reviewers, and downstream users. Internal material is retained
-for traceability but is no longer part of the default reading path.
+This is the documentation index for DiffAudit Research. The public path is for
+new contributors and external reviewers. Internal material is retained for
+reference but is not part of the default reading path.
 
 ## Public Path
 
-Read these in order when onboarding:
+Read these in order when getting started:
 
 | Step | Document | Purpose |
 | --- | --- | --- |
-| 1 | [../README.md](../README.md) | Project overview and product relationship. |
-| 2 | [start-here/getting-started.md](start-here/getting-started.md) | First orientation for contributors. |
-| 3 | [start-here/teammate-setup.md](start-here/teammate-setup.md) | New-machine setup and first validation. |
-| 4 | [assets-and-storage/data-and-assets-handoff.md](assets-and-storage/data-and-assets-handoff.md) | How to obtain datasets, weights, supplementary files, and external code. |
-| 5 | [start-here/command-reference.md](start-here/command-reference.md) | Runnable CLI recipes. |
-| 6 | [evidence/reproduction-status.md](evidence/reproduction-status.md) | Per-track reproduction and evidence state. |
-| 7 | [product-bridge/README.md](product-bridge/README.md) | What Research can safely expose to Platform and Runtime. |
+| 1 | [../README.md](../README.md) | Project overview and ecosystem context. |
+| 2 | [start-here/getting-started.md](start-here/getting-started.md) | First steps for new contributors. |
+| 3 | [start-here/teammate-setup.md](start-here/teammate-setup.md) | Machine setup and first validation. |
+| 4 | [assets-and-storage/data-and-assets-handoff.md](assets-and-storage/data-and-assets-handoff.md) | How to get datasets, model weights, and external code. |
+| 5 | [start-here/command-reference.md](start-here/command-reference.md) | CLI commands and usage examples. |
+| 6 | [evidence/reproduction-status.md](evidence/reproduction-status.md) | Per-track experiment status. |
+| 7 | [product-bridge/README.md](product-bridge/README.md) | How Research feeds into Platform and Runtime. |
 
-## Public Reference Groups
+## Reference Sections
 
-| Group | Contents |
+| Section | Contents |
 | --- | --- |
-| [start-here/](start-here/) | Contributor setup, environment, command reference, and repository map. |
-| [assets-and-storage/](assets-and-storage/) | `Download/` layout, storage boundaries, naming policy, and asset handoff. |
-| [evidence/](evidence/) | Reproduction ladder, admitted results, innovation evidence, and workspace evidence index. |
-| [product-bridge/](product-bridge/) | Research-to-Platform/Runtime boundaries and consumer-facing evidence rules. |
-| [governance/](governance/) | Repository governance, GitHub workflow, license, brand, and history-rewrite audit. |
-| [rebuild/](rebuild/) | Codebase rebuild status, architecture-debt triage, and refactor sequencing. |
+| [start-here/](start-here/) | Contributor setup, environment, CLI reference, repository map. |
+| [assets-and-storage/](assets-and-storage/) | Data layout, storage boundaries, naming conventions, asset handoff. |
+| [evidence/](evidence/) | Experiment status, verified results, innovation map, workspace index. |
+| [product-bridge/](product-bridge/) | Research-to-Platform/Runtime integration and data contracts. |
+| [governance/](governance/) | Repository governance, GitHub workflow, licensing, branding. |
+| [rebuild/](rebuild/) | Codebase rebuild status and refactoring notes. |
 
 ## Internal Research Material
 
-| Location | Purpose |
+| Location | Contents |
 | --- | --- |
-| [internal/](internal/) | Agent prompts, long progress ledgers, competition notes, paper reports, and review bundles. |
-| [../workspaces/](../workspaces/) | Current lane status only; historical dated notes have moved to `legacy/workspaces/`. |
-| [../legacy/](../legacy/) | Archived execution logs, closed verdicts, and old handoff material. |
+| [internal/](internal/) | Agent prompts, progress logs, competition notes, paper reports. |
+| [../workspaces/](../workspaces/) | Current research state per direction. |
+| [../legacy/](../legacy/) | Archived experiment logs and closed notes. |
 
-Internal files are preserved for auditability. They should not be copied into
-public product copy without rewriting and evidence-status checks.
+Internal files are preserved for reference. They should not be copied into
+public documentation without rewriting and fact-checking.
 
-## Public-Surface Rules
+## Documentation Rules
 
-- Use repository-relative paths, `<DIFFAUDIT_ROOT>`, or `<DOWNLOAD_ROOT>`.
-- Do not include personal machine paths, local operator instructions, or raw
-  agent prompts in public onboarding material.
-- Do not present smoke tests, dry runs, negative packets, or blocked attempts
-  as paper-level reproduction.
-- Keep datasets, model weights, checkpoints, OCR dumps, raw tensors, and large
-  generated artifacts outside Git.
+- Use repository-relative paths, `<DIFFAUDIT_ROOT>`, or `<DOWNLOAD_ROOT>` —
+  not personal machine paths.
+- Don't include private operator instructions or raw agent prompts in public docs.
+- Don't present smoke tests, dry runs, or blocked attempts as benchmark results.
+- Datasets, model weights, and large generated files should stay outside Git.

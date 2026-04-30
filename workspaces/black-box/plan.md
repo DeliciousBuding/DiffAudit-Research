@@ -2,22 +2,18 @@
 
 ## Status
 
-- `recon`: strongest main black-box evidence line, but public-asset semantics
-  still limit paper-aligned claims.
-- `CLiD`: useful corroboration, not promoted to headline evidence.
-- `variation`: API-only support line; requires real query-image assets for
-  stronger claims.
-- `semantic-auxiliary-classifier`: current bounded challenger, not a promoted
-  replacement.
+- `recon`: strongest main black-box method, but public data limits strict paper-aligned claims.
+- `CLiD`: useful supporting method, not promoted to headline.
+- `variation`: API-only support; needs real query-image data for stronger claims.
+- `semantic-auxiliary-classifier`: current alternative candidate.
 
 ## Next Action
 
-Do not open a black-box GPU task unless a genuinely distinct bounded family or
-new asset boundary appears. Keep wording synchronized with
-[../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md)
-and product-facing evidence summaries.
+Don't open a black-box GPU task unless a genuinely distinct method or new data
+boundary appears. Keep status synchronized with
+[../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
-## Current Verdict
+## Current Status
 
-Stable but not innovation-leading. Yield the next research slot to
-`Cross-box evidence boundary hardening`.
+Stable but not innovation-leading. Next research slot goes to
+cross-box experiment boundary hardening.

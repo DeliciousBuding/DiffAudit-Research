@@ -1,4 +1,4 @@
-﻿# Licensing
+# Licensing
 
 DiffAudit Research uses a permissive open-source license for first-party
 project work while keeping third-party materials under their original terms.
@@ -22,8 +22,8 @@ Why Apache 2.0:
 
 ## What Is Not Relicensed
 
-The project license does not relicense third-party or external materials. In
-particular, it does not cover:
+The project license does not relicense third-party or external materials. These
+include:
 
 - datasets, model weights, checkpoints, or supplementary bundles under
   `<DIFFAUDIT_ROOT>/Download/`;

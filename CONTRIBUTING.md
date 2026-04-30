@@ -1,130 +1,117 @@
-﻿# Contributing To DiffAudit Research
+# Contributing to DiffAudit Research
 
-Thank you for improving DiffAudit Research. This repository contains the
-research, reproducibility, and evidence-production side of DiffAudit. Good
-contributions make privacy-risk claims easier to inspect, reproduce, and hand
-off to the wider DiffAudit system.
+Thank you for your interest in DiffAudit Research. This repository contains the
+research code, experiments, and evidence tracking for privacy auditing of
+diffusion models.
 
-## Contribution Areas
+## What You Can Work On
 
-| Area | Typical changes |
+| Area | Examples |
 | --- | --- |
-| Research lanes | Paper intake, bounded probes, experiment plans, evidence anchors |
-| Reproducibility | Environment setup, asset contracts, command recipes, smoke checks |
-| Implementation | Python package code, CLI commands, adapters, tests, scripts |
-| Documentation | Setup guides, evidence status, claim boundaries, licensing notes |
-| Governance | GitHub templates, CI, security, citation, contribution workflow |
+| Attack methods | Paper intake, new attack implementations, experiment plans |
+| Defense methods | Defense implementations, ablation studies |
+| Reproducibility | Environment setup, data pipeline, experiment configs |
+| Code | Python package, CLI, adapters, tests, scripts |
+| Documentation | Setup guides, experiment status, contributor guides |
+| Infrastructure | CI, templates, security, licensing |
 
-## Branches And Pull Requests
+## Branches and Pull Requests
 
-Create a branch from `main` and open a pull request for shared changes. Useful
-branch prefixes include:
+Create a branch from `main` and open a pull request. Suggested branch prefixes:
 
-| Prefix | Use for |
+| Prefix | For |
 | --- | --- |
-| `black-box/` | Black-box attack or evidence work |
-| `gray-box/` | Gray-box attack, defense, or provenance work |
-| `white-box/` | White-box attack, defense, or bridge work |
-| `implementation/` | Shared code, CLI, config, tests, or scripts |
-| `docs/` | Documentation and repository surface polish |
-| `chore/` | CI, metadata, dependency, or maintenance updates |
+| `black-box/` | Black-box attack or experiment work |
+| `gray-box/` | Gray-box attack or defense work |
+| `white-box/` | White-box attack or defense work |
+| `implementation/` | Shared code, CLI, config, tests, scripts |
+| `docs/` | Documentation |
+| `chore/` | CI, metadata, dependency updates |
 
-Pull requests should explain:
+Pull request description should cover:
 
-| Field | What to include |
-| --- | --- |
-| Summary | What changed |
-| Why | The research, reproducibility, or repository problem addressed |
-| Validation | Commands run, checks skipped, and why |
-| Claim boundary | What the change does not prove |
-| Follow-ups | Known blockers or next steps |
+- **What changed** — brief summary
+- **Why** — which research or engineering problem it addresses
+- **How to verify** — commands run, tests passed
+- **Limitations** — what this change does not yet prove
+- **Next steps** — known follow-ups or blockers
 
 ## Commit Style
 
-Use concise conventional prefixes when possible:
+Use conventional prefixes:
 
-```text
-feat: add a bounded probe
-fix: correct an asset path renderer
-docs: clarify reproduction status
-test: cover a CLI contract
-chore: update repository metadata
+```
+feat: add variation attack smoke test
+fix: correct asset path in PIA config
+docs: update experiment status for recon
+test: cover CLI probe command
+chore: update dependency versions
 ```
 
-Keep commits focused. Avoid mixing unrelated paper notes, code refactors,
-generated outputs, and documentation changes in the same commit.
+Keep commits focused. Don't mix experiment notes, code refactors, and
+documentation changes in the same commit.
 
-## Research Evidence Rules
+## Experiment Status
 
-DiffAudit distinguishes engineering readiness from research evidence. When a
-result changes status, update the relevant evidence anchor and status document.
-
-Use the canonical reproduction ladder from
+When a research result changes status, update the corresponding status document.
+The tracking stages are described in
 [docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md):
 
-| State | Meaning |
+| Stage | Meaning |
 | --- | --- |
-| `research-ready` | Papers, upstream code, and asset requirements have been reviewed. |
-| `code-ready` | Commands, configs, and tests are present. |
-| `evidence-ready` | The repository contains a submit-ready summary or equivalent run evidence. |
-| `asset-ready` | Required datasets, weights, or supplementary files are available and probed. |
-| `benchmark-ready` | The lane can reasonably claim paper-level benchmark execution or recomputation. |
+| `research-ready` | Paper, code, and data requirements reviewed. |
+| `code-ready` | Commands, configs, and tests exist. |
+| `asset-ready` | Required datasets or weights are available. |
+| `evidence-ready` | A reviewed experiment summary exists. |
+| `benchmark-ready` | Paper-level benchmarks are reproducible. |
 
-Do not present dry-runs, smoke tests, or synthetic checks as benchmark claims.
-If a hypothesis fails, record the negative or blocked verdict instead of
-dropping the result.
+Don't present smoke tests or dry runs as benchmark results. If a hypothesis
+doesn't work out, record the negative result rather than discarding it.
 
-## Assets And Third-Party Material
+## Data and Third-Party Code
 
-Do not commit private datasets, gated model weights, credentials, large raw
-assets, or local external clones. Use the asset handoff documents instead:
+Don't commit private datasets, model weights, credentials, or large data files.
+Use the asset handoff documents instead:
 
 | Document | Purpose |
 | --- | --- |
-| [docs/assets-and-storage/data-and-assets-handoff.md](docs/assets-and-storage/data-and-assets-handoff.md) | How to obtain and bind datasets, weights, and supplementary bundles |
-| [docs/assets-and-storage/download-naming-policy.md](docs/assets-and-storage/download-naming-policy.md) | Naming policy for the project asset mirror |
-| [docs/assets-and-storage/research-download-master-list.md](docs/assets-and-storage/research-download-master-list.md) | Rebuild list for first-wave research assets |
-| [docs/governance/licensing.md](docs/governance/licensing.md) | License scope and third-party material boundaries |
+| [docs/assets-and-storage/data-and-assets-handoff.md](docs/assets-and-storage/data-and-assets-handoff.md) | How to set up datasets, weights, and data paths |
+| [docs/assets-and-storage/download-naming-policy.md](docs/assets-and-storage/download-naming-policy.md) | Naming conventions for project data mirror |
+| [docs/governance/licensing.md](docs/governance/licensing.md) | License scope and third-party boundaries |
 
-`third_party/` is reserved for minimal vendored upstream subsets with retained
-notices. Ignored external code clones and large assets should stay outside the
-tracked repository.
+`third_party/` is for vendored upstream code with retained license notices.
 
 ## Validation
 
-Run the standard local gate before opening or updating a PR:
+Run the standard checks before opening a PR:
 
 ```powershell
 python scripts/run_local_checks.py
 ```
 
-For smaller documentation-only changes, run at least:
+For documentation-only changes:
 
 ```powershell
 git diff --check
 python -m diffaudit --help
 ```
 
-The GitHub Actions baseline runs the CLI install check, local config rendering,
-and core tests on Windows.
+CI runs on Windows and checks CLI install, config rendering, and core tests.
 
-## Review Expectations
+## Review Focus
 
-Reviewers should focus on:
+Reviewers should check:
 
-| Risk | What to check |
+| Concern | What to look for |
 | --- | --- |
-| Reproducibility drift | Commands, configs, assets, manifests, and evidence anchors still align |
-| Claim inflation | The PR does not overstate smoke, dry-run, or partial results |
-| Path safety | Shared docs and configs do not depend on private machine paths |
-| Licensing | Third-party code, papers, datasets, and weights retain their own terms |
-| Tests | Behavior changes include focused tests or a documented reason for omission |
-
-Copilot or other automated reviewers can be useful as a first pass, but final
-acceptance should be based on repository evidence and human review.
+| Reproducibility | Commands, configs, and data paths still work |
+| Overclaiming | Smoke tests or partial results aren't presented as benchmarks |
+| Path safety | No hardcoded private machine paths in shared docs |
+| Licensing | Third-party code and data retain their own terms |
+| Tests | Behavior changes include tests or a documented reason for skipping |
 
 ## Security
 
-Do not include secrets, private asset links, credentials, proprietary datasets,
-or unpublished model weights in public issues, pull requests, screenshots, or
-logs. See [SECURITY.md](SECURITY.md) for private reporting guidance.
+Don't include secrets, private data links, credentials, or unpublished model
+weights in public issues, PRs, or logs. See [SECURITY.md](SECURITY.md) for
+private reporting.

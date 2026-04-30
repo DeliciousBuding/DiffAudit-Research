@@ -12,7 +12,7 @@
 
 - [ ] I ran the relevant checks.
 - [ ] I documented anything not verified.
-- [ ] I scanned for private local paths, credentials, and asset leaks when touching docs/configs.
+- [ ] I scanned for private local paths, credentials, and data leaks when touching docs/configs.
 
 ```powershell
 python scripts/run_local_checks.py --fast
@@ -26,12 +26,12 @@ python scripts/run_local_checks.py --fast
 - [ ] implementation
 - [ ] docs
 - [ ] GitHub/repo governance
-- [ ] assets / Download handoff
+- [ ] assets / data setup
 - [ ] third-party / licensing
 
-## Claim Boundary
+## Limitations
 
-- [ ] This PR does not overstate smoke/dry-run results as benchmark claims.
+- [ ] This PR does not present smoke/dry-run results as benchmark claims.
 - [ ] This PR does not relicense or redistribute third-party datasets, weights, papers, or gated assets.
 
 ## Blockers / Follow-ups

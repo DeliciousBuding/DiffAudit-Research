@@ -1,4 +1,4 @@
-﻿# Research Governance Audit - 2026-04-29
+# Research Governance Audit - 2026-04-29
 
 This is the read-only audit captured before the cleanup edits on
 `research-governance-cleanup-20260429`. It records the repo state that motivated
@@ -18,7 +18,7 @@ the governance pass.
 | --- | --- |
 | `ROADMAP.md` | About `442 KB`; acting as roadmap plus long execution log. |
 | `workspaces/implementation/challenger-queue.md` | Acting as queue plus long execution-ID decision timeline. |
-| `docs/internal/comprehensive-progress.md` | Still useful as detailed handoff, but not the public front door. |
+| `docs/internal/comprehensive-progress.md` | Still useful as detailed integration doc, but not the public front door. |
 
 Decision: preserve the long roadmap as
 `legacy/execution-log/2026-04-29/continuous-autonomous-mainline-archive.md` and
@@ -55,7 +55,7 @@ assets belong in `<DIFFAUDIT_ROOT>/Download/`.
 No Git-tracked file at or above `1 MB` was found during the audit.
 
 Tracked files above `100 KB` are mostly curated paper-report figures and one
-oversized hot-path doc:
+oversized active doc:
 
 | Size | Path family |
 | ---: | --- |
@@ -89,7 +89,7 @@ Observed classes:
 | Workspace run summaries and configs | broad `runs/`, `outputs/`, and `artifacts/` patterns matched directory names anywhere in the tree. | Root-anchored the top-level rules, kept workspace run trees ignored as local scratch, and explicitly re-included the already tracked curated evidence files. |
 | Gray-box provenance files | `workspaces/gray-box/assets/**` allowed manifests but not the already tracked PIA provenance notes. | Explicitly allowed the tracked PIA `provenance.json` files and `PROVENANCE.md`. |
 | White-box GSA asset README/manifests | the parent `workspaces/white-box/assets/` directory was ignored, so later exceptions could not re-include tracked files. | Changed the rule to ignore children while allowing the curated GSA README, HANDOFF, and manifest files. |
-| Top-level SMP-LoRA `evaluation.json` files | top-level `outputs/` is a generated-output layer, but four historical evaluations were still tracked. | Removed those four files from the Git index; local copies remain ignored, and durable metrics are already represented in workspace verdict notes. |
+| Top-level SMP-LoRA `evaluation.json` files | top-level `outputs/` is a generated-output layer, but four historical evaluations were still tracked. | Removed those four files from the Git index; local copies remain ignored, and durable metrics are already represented in workspace result notes. |
 
 Guardrail added: `scripts/check_public_surface.py` now fails when any tracked
 file is hidden by `.gitignore` or when a tracked file exceeds the current size
@@ -113,11 +113,11 @@ gray-box evidence. Move closed one-off scripts to
 The worktree contained untracked execution-ID decision anchors plus untracked
 one-off run scripts and two run-specific tests. Decision: preserve them under
 `legacy/execution-log/2026-04-29/` instead of deleting them or leaving them in
-hot-path directories.
+active directories.
 
-## Immediate Cleanup Verdict
+## Immediate Cleanup Result
 
-`positive governance cleanup candidate`: the repo does not currently track
+Positive governance cleanup candidate: the repo does not currently track
 large model/data files above `1 MB`, but it did have a large roadmap-as-log,
 one-off scripts in `scripts/`, local generated artifacts already in history,
 and a large ignored workspace footprint. Stage 1 should fix current-branch

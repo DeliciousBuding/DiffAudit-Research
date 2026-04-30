@@ -1,64 +1,48 @@
 # DiffAudit Research Roadmap
 
 > Last updated: 2026-04-30
-> Owner: `Researcher`
-> Mode: post-governance research reselection; no active GPU task
 
-This file is the short steering document for Research. Long execution history
-belongs under `legacy/`; current workspace state belongs under `workspaces/`.
+This is the short steering document for Research. Execution history is in
+`legacy/`; current workspace state is in `workspaces/`.
 
-## Current State
+## Current Focus
 
-- Active work: `Cross-box evidence boundary hardening`
-- Next GPU candidate: `none`
-- CPU sidecar: `Public-surface / hot-path sync`
-- History rewrite policy: audit only; no force-push without separate approval
+- **Active work:** Cross-box experiment boundary hardening
+- **Next GPU task:** none selected
+- **CPU work:** Public documentation and repository sync
 
-The information-architecture reset, shared-utils extraction, architecture-audit
-triage, asset-boundary cleanup, and CLI package/dispatch split are merged. The
-repository is back at a research lane: harden cross-box claim boundaries before
-any new GPU task is selected.
+The information-architecture reset, shared utilities extraction, asset boundary
+cleanup, and CLI package split are all merged. The repository is currently
+focused on hardening cross-box claim boundaries before selecting new GPU tasks.
 
-The CPU sidecar should run only when public docs, guards, or repository hot
-paths become stale.
+## Research Directions
 
-## Current Research Truth
+- **Black-box:** `recon` is the strongest main line. `CLiD` and
+  semantic-auxiliary classifiers are supplementary methods.
+- **Gray-box:** `PIA` is the strongest attack + defense story. Gray-box work
+  will not take the next research slot unless new findings change priorities.
+- **White-box:** `GSA` provides the strongest upper-bound results. `DPDM` is
+  the defended comparator.
+- **Cross-box:** Boundary hardening and integration of results across
+  attacker knowledge levels is the next direction.
 
-- Black-box: `recon` remains the strongest main evidence line; `CLiD` and
-  semantic-auxiliary classifier work remain bounded support/challenger lines.
-- Gray-box: `PIA` remains the strongest attack + defense story; gray-box should
-  not consume the next research slot unless a new fact changes the queue.
-- White-box: `GSA` remains the strongest upper-bound line; `DPDM` remains a
-  defended comparator; distinct second-family work is still not promoted.
-- Cross-box: boundary hardening and product-consumable evidence status are the
-  next honest lane.
+## Next Steps
 
-## Next Decision
+Resume cross-box boundary hardening. New GPU tasks require a clear hypothesis,
+required data assets, and an expected contribution to the project narrative.
 
-Resume:
+## Key Documents
 
-```text
-Cross-box evidence boundary hardening
-```
+- Project overview: [README.md](README.md)
+- Documentation index: [docs/README.md](docs/README.md)
+- Experiment status: [docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md)
+- Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
+- Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
+- Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)
 
-Do not reopen no-hypothesis GPU work. A GPU task needs a bounded hypothesis,
-frozen asset identity, expected project-level story value, and machine-health
-budget.
+## Platform and Runtime Boundary
 
-## Canonical Entry Points
-
-- Public overview: [README.md](README.md)
-- Documentation map: [docs/README.md](docs/README.md)
-- Reproduction status: [docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md)
-- Product bridge: [docs/product-bridge/README.md](docs/product-bridge/README.md)
-- Workspace evidence index: [docs/evidence/workspace-evidence-index.md](docs/evidence/workspace-evidence-index.md)
-- Governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
-- Rebuild: [docs/rebuild/README.md](docs/rebuild/README.md)
-- Active queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)
-
-## Handoff Boundary
-
-No Platform or Runtime schema change is required by the current cleanup. If a
-future research result changes exported fields, recommendation semantics,
-evidence status, or report wording, create an explicit handoff note under
-`docs/product-bridge/` before changing sibling repositories.
+No Platform or Runtime schema changes are needed for the current cleanup. If a
+future result changes exported fields, report format, or recommendation logic,
+create a handoff note under `docs/product-bridge/` before changing sibling
+repositories.

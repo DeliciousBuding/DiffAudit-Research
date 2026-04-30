@@ -1,9 +1,9 @@
 # Workspaces
 
-`workspaces/` contains current lane state only. Historical dated notes and
-closed verdicts live under `legacy/workspaces/`.
+`workspaces/` contains the current state of each research direction. Archived
+notes and closed experiment records are in `legacy/workspaces/`.
 
-| Lane | Current entry | Archive |
+| Direction | Entry point | Archive |
 | --- | --- | --- |
 | Black-box | [black-box/README.md](black-box/README.md) | [../legacy/workspaces/black-box/2026-04/](../legacy/workspaces/black-box/2026-04/) |
 | Gray-box | [gray-box/README.md](gray-box/README.md) | [../legacy/workspaces/gray-box/2026-04/](../legacy/workspaces/gray-box/2026-04/) |
@@ -14,8 +14,8 @@ closed verdicts live under `legacy/workspaces/`.
 
 Rules:
 
-- Keep `README.md` and `plan.md` short.
-- Put new closed dated verdict notes in `legacy/workspaces/<lane>/<date>/`.
-- Put shared executable code in `src/diffaudit/`, not in workspace notes.
-- Put large local assets under `<DIFFAUDIT_ROOT>/Download/` or ignored
-  workspace asset directories, not in Git.
+- Keep `README.md` and `plan.md` short and current.
+- Archive closed experiment notes under `legacy/workspaces/<direction>/<date>/`.
+- Put shared code in `src/diffaudit/`, not in workspace notes.
+- Put large data files under `<DIFFAUDIT_ROOT>/Download/` or git-ignored
+  workspace directories, not in Git.

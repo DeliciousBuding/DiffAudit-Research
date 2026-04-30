@@ -1,110 +1,114 @@
 # GitHub Collaboration And Permissions
 
-这份文档说明如何为贡献者开放仓库协作权限，以及推荐的权限和分支保护策略。
+This document covers how to grant collaborators push access and the recommended
+permission and branch-protection strategy.
 
-根级 GitHub 设置基线见：
+Root-level GitHub settings baseline:
 
 - [github-settings-baseline.md](github-settings-baseline.md)
 
-## 一、怎么让贡献者可以 push
+## 1. Granting Push Access To Contributors
 
-最直接的做法不是共享你的账号，而是把他们加为仓库协作者。
+The direct approach is to add contributors as repository collaborators instead
+of sharing your account.
 
-在 GitHub 网页端操作：
+On the GitHub web UI:
 
-1. 打开仓库 `Settings`
-2. 进入 `Collaborators and teams`
-3. 点击 `Add people`
-4. 输入贡献者的 GitHub 用户名
-5. 选择权限
+1. Open the repository `Settings`
+2. Go to `Collaborators and teams`
+3. Click `Add people`
+4. Enter the contributor's GitHub username
+5. Select a permission level
 
-推荐权限：
+Recommended permissions:
 
-- `Write`：适合大多数贡献者，可以推自己的分支、提 PR
-- `Maintain`：适合负责人或核心维护者
+- `Write`: suitable for most contributors; lets them push their own branches and open PRs
+- `Maintain`: suitable for leads or core maintainers
 
-一般不建议随便给：
+Generally avoid granting:
 
 - `Admin`
 
-## 二、最合适的团队协作模式
+## 2. Recommended Team Collaboration Model
 
-推荐模式是：
+Recommended workflow:
 
-- 所有人都能推自己的分支
-- 默认不要直接推 `main`
-- 所有改动通过 PR 合并到 `main`
+- Everyone pushes to their own branch
+- Nobody pushes directly to `main`
+- All changes go through PRs merged into `main`
 
-这样做的好处：
+Benefits:
 
-- 不会互相覆盖
-- 每条研究线都能单独 review
-- 便于追踪和回滚
+- No accidental overwrites between contributors
+- Each research track can be reviewed independently
+- Easy to trace and revert changes
 
-## 三、main 分支怎么保护
+## 3. Protecting The Main Branch
 
-推荐在 GitHub 仓库设置里给 `main` 开分支保护。
+Enable branch protection for `main` in the repository settings.
 
-建议项：
+Recommended rules:
 
-- 禁止直接 push 到 `main`
-- 要求通过 Pull Request 合并
-- 至少 1 个 review 才能合并
+- Block direct pushes to `main`
+- Require Pull Request merges
+- Require at least 1 review before merging
 
-如果团队刚起步，也可以采用轻量版：
+For a smaller team, a lighter version works:
 
-- 普通成员走 PR
-- owner 紧急情况可处理
+- Regular contributors go through the PR flow
+- The owner can handle emergencies directly
 
-## 四、贡献者本地应该怎么开发
+## 4. Local Development Workflow
 
-每个人：
+Each contributor:
 
-1. clone 仓库
-2. 新建自己的分支
-3. 在对应 workspace 和共享代码目录工作
-4. 提交 commit
-5. 推送分支
-6. 发 PR
+1. Clones the repository
+2. Creates a personal branch
+3. Works in the relevant workspace and shared code directories
+4. Commits changes
+5. Pushes the branch
+6. Opens a PR
 
-分支命名建议：
+Suggested branch naming:
 
 - `black-box/<topic>`
 - `white-box/<topic>`
 - `gray-box/<topic>`
 - `implementation/<topic>`
 
-## 五、Git 身份怎么设置才会显示 GitHub 头像
+## 5. Configuring Git Identity For GitHub Avatars
 
-本地 git 提交邮箱必须和 GitHub 账号已验证邮箱一致，或者使用 GitHub 的 noreply 邮箱。
+The local git commit email must match a verified email on the GitHub account, or
+use GitHub's noreply email.
 
-检查：
+Check current settings:
 
 ```powershell
 git config user.name
 git config user.email
 ```
 
-设置当前仓库本地身份：
+Set local identity for this repository:
 
 ```powershell
-git config user.name "你的GitHub名字"
-git config user.email "你在GitHub已验证的邮箱"
+git config user.name "Your GitHub name"
+git config user.email "Your verified GitHub email"
 ```
 
-如果历史提交邮箱不对，未来新提交会修正，但旧提交不会自动变化。旧提交想修复，只能改历史并 force-push，需要谨慎。
+Future commits will use the corrected identity. Past commits keep their original
+identity; fixing those requires rewriting history and force-pushing, which needs
+careful coordination.
 
-## 六、对当前仓库的推荐
+## 6. Recommendations For This Repository
 
-当前最合适的策略是：
+Current recommended setup:
 
-- 你作为仓库 owner
-- 将核心贡献者加为 collaborator
-- 给 `Write`
-- `main` 开保护
-- 统一通过 PR 合并
+- You are the repository owner
+- Add core contributors as collaborators with `Write` permission
+- Protect `main` with branch rules
+- Merge all changes through PRs
 
-补充：
+Additional notes:
 
-- 仓库级 Copilot review 指令见 `Research/.github/copilot-instructions.md`
-- 研究仓库不把 Copilot 当最终 reviewer，而是当第一轮静态检查
+- Repository-level Copilot review instructions live in `Research/.github/copilot-instructions.md`
+- Copilot acts as a first-pass static check, not the final reviewer
