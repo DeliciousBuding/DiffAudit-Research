@@ -21,12 +21,13 @@
 
 | 路径 | 职责 |
 | --- | --- |
-| `cli.py` | 所有仓库对外命令入口 |
+| `cli/` | 所有仓库对外命令入口；`_parser.py` 定义 argparse surface，`_dispatch.py` 负责命令分发 |
 | `config.py` | 统一配置 dataclass 与 YAML 加载 |
 | `attacks/` | 各方法线的 planner、asset probe、dry-run、runtime smoke 和 artifact summary |
 | `pipelines/` | 跨方法通用 pipeline，目前主要是最小 smoke pipeline |
-| `metrics/` | 预留给统一指标计算逻辑 |
-| `reports/` | 预留给统一报告输出层 |
+| `utils/` | 已提取的共享指标、I/O、Gaussian 和 diffusion schedule helper |
+| `metrics/` | placeholder package；shared metric implementations currently live in `utils/metrics.py` |
+| `reports/` | 统一报告输出层 |
 | `assets/` / `adapters/` / `benchmarks/` | 预留给后续共享基础设施 |
 
 ## `src/diffaudit/attacks/`
