@@ -26,6 +26,12 @@ def zscore(values: np.ndarray, *, zero_mode: str = "zeros") -> np.ndarray:
 
 
 def rankdata(values: np.ndarray) -> np.ndarray:
+    """Return stable 0-indexed average ranks.
+
+    Ties receive the average 0-indexed rank for their tie group. This preserves
+    the historical helper behavior and intentionally differs from
+    scipy.stats.rankdata's default 1-indexed output.
+    """
     order = np.argsort(values, kind="mergesort")
     ranks = np.empty(values.shape[0], dtype=float)
     sorted_values = values[order]
@@ -101,12 +107,16 @@ def accuracy_best_threshold(scores: np.ndarray, labels: np.ndarray) -> float:
     return best
 
 
-def tpr_at_fpr(scores: np.ndarray, labels: np.ndarray, target_fpr: float) -> float:
-    fpr, tpr = roc_curve_points(scores, labels)
+def tpr_at_fpr_from_curve(fpr: np.ndarray, tpr: np.ndarray, target_fpr: float) -> float:
     valid = tpr[fpr <= float(target_fpr)]
     if valid.size == 0:
         return 0.0
     return float(valid.max())
+
+
+def tpr_at_fpr(scores: np.ndarray, labels: np.ndarray, target_fpr: float) -> float:
+    fpr, tpr = roc_curve_points(scores, labels)
+    return tpr_at_fpr_from_curve(fpr, tpr, target_fpr)
 
 
 def metric_bundle(scores: np.ndarray, labels: np.ndarray) -> dict[str, float]:
@@ -121,10 +131,7 @@ def metric_bundle(scores: np.ndarray, labels: np.ndarray) -> dict[str, float]:
 def threshold_metrics_grid(labels: np.ndarray, scores: np.ndarray) -> dict[str, float]:
     auc = float(roc_auc_score(labels, scores))
     fpr, tpr, _thresholds = roc_curve(labels, scores)
-    tpr_at_1pct = 0.0
-    for current_fpr, current_tpr in zip(fpr, tpr):
-        if float(current_fpr) <= 0.01:
-            tpr_at_1pct = max(tpr_at_1pct, float(current_tpr))
+    tpr_at_1pct = tpr_at_fpr_from_curve(fpr, tpr, 0.01)
 
     best_asr = -1.0
     best_threshold = float(scores.min())
@@ -148,4 +155,3 @@ def threshold_metrics_grid(labels: np.ndarray, scores: np.ndarray) -> dict[str, 
         "best_tpr": best_tpr,
         "best_fpr": best_fpr,
     }
-
