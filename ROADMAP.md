@@ -12,7 +12,7 @@ belongs under `legacy/`; current workspace state belongs under `workspaces/`.
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
 - `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
-- `next_cpu_sidecar = public-surface / hot-path sync only if stale`
+- `next_cpu_sidecar = Public-surface / hot-path sync`
 - `history_rewrite_policy = audit only; no force-push without separate approval`
 
 The information-architecture reset, shared-utils extraction, and
@@ -20,6 +20,8 @@ architecture-audit triage cleanups are merged. Asset-boundary cleanup and the
 CLI package/dispatch split are merged. The repository is back at the CPU-first
 research lane: harden I-A and cross-box claim boundaries before any new GPU
 task is selected.
+The next CPU sidecar should run only when public docs, guards, or repository
+hot paths become stale.
 
 ## Current Research Truth
 

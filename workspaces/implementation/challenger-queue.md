@@ -14,7 +14,7 @@ X-180 anchors live under
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
 - `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
-- `next_cpu_sidecar = public-surface / hot-path sync only if stale`
+- `next_cpu_sidecar = Public-surface / hot-path sync`
 - `gray_box_slot = yield`
 - `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
 - `G1-A / X-90 = two-seed internal auxiliary positive`
