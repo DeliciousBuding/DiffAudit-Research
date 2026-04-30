@@ -9,7 +9,7 @@ repository rules.
 
 ## Current State
 
-- Active cleanup branch: none; PR #26 merged to `main`
+- Active cleanup branch: none; PR #28, PR #29, and PR #30 are merged to `main`
 - GPU work: no active GPU task
 - History rewrite: not performed
 - Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
@@ -29,6 +29,16 @@ repository rules.
   ignore rules.
 - `scripts/check_public_surface.py` now guards against private paths, forbidden
   artifacts, oversized tracked files, and tracked files hidden by `.gitignore`.
+
+## Completed In The 2026-04-30 Cleanup Pass
+
+- PR #28 reset the information architecture: public docs, internal docs,
+  workspace archives, and asset-boundary docs now have stable entry points.
+- PR #29 extracted shared research utility helpers into `src/diffaudit/utils/`
+  and migrated the lowest-risk duplicated metrics/I/O call sites.
+- PR #30 converted the architecture review into a corrected governance note,
+  fixed the `src -> scripts` DDPM factory dependency, added explicit package
+  initializers, and aligned fast local checks with CI guards.
 
 ## Remaining Local State
 
@@ -66,6 +76,7 @@ Run these before opening or updating governance changes:
 git status --short
 git diff --check
 python -X utf8 scripts/check_public_surface.py
+python -X utf8 scripts/check_markdown_links.py
 python -X utf8 scripts/verify_env.py
 python -X utf8 -m diffaudit --help
 python -X utf8 scripts/run_local_checks.py --fast

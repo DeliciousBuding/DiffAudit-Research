@@ -38,7 +38,7 @@
   - 白盒 `GSA + W-1`
 - `active GPU question = none`
 - `next_gpu_candidate = none`
-- 2026-04-29 governance cleanup 已通过 PR #26 合并到 `main`；当前默认状态是 post-governance hygiene / CPU-first reselection，不跑 GPU，不做历史重写
+- 2026-04-29 到 2026-04-30 governance / information-architecture / shared-utils / architecture-triage cleanups 已通过 PR #26、PR #28、PR #29、PR #30 合并到 `main`；当前默认状态是 `X-181 I-A / cross-box boundary maintenance` CPU-first，不跑 GPU，不做历史重写
 - `X-141 / X-142` 已把 `G1-A / X-90` 从 `TMIA-DM 512-sample gap` 解冻为 `two-seed internal auxiliary positive`：
   - matched `512 / 512` tri-score review 已在 `noise_seed = 1` 与 `noise_seed = 2` 两个合同上通过 kill gate
   - seed-2 macro 指标为 `AUC = 0.859043 / ASR = 0.786133 / TPR@1%FPR = 0.118164 / TPR@0.1%FPR = 0.023438`

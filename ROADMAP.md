@@ -2,7 +2,7 @@
 
 > Last updated: 2026-04-30
 > Owner: `Researcher`
-> Mode: architecture-audit triage; no active GPU task
+> Mode: post-governance research reselection; no active GPU task
 
 This file is the short steering document for Research. Long execution history
 belongs under `legacy/`; current workspace state belongs under `workspaces/`.
@@ -11,13 +11,14 @@ belongs under `legacy/`; current workspace state belongs under `workspaces/`.
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = Architecture audit triage cleanups`
-- `next_cpu_sidecar = X-181 I-A / cross-box boundary maintenance after code-governance PR`
+- `current_execution_item = X-181 I-A / cross-box boundary maintenance`
+- `next_cpu_sidecar = public-surface / hot-path sync only if stale`
 - `history_rewrite_policy = audit only; no force-push without separate approval`
 
-The current cleanup does not create new research results. It turns the
-2026-04-30 architecture review into corrected governance evidence and fixes the
-lowest-risk package-boundary issues it identified.
+The information-architecture reset, shared-utils extraction, and
+architecture-audit triage cleanups are merged. The repository is back at the
+CPU-first research lane: harden I-A and cross-box claim boundaries before any
+new GPU task is selected.
 
 ## Current Research Truth
 
@@ -32,7 +33,7 @@ lowest-risk package-boundary issues it identified.
 
 ## Next Decision
 
-After the architecture-audit triage PR is merged, resume:
+Resume:
 
 ```text
 X-181 I-A / cross-box boundary maintenance after H2 comparator block
