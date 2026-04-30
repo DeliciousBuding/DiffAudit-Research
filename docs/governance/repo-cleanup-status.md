@@ -10,7 +10,7 @@ repository rules.
 ## Current State
 
 - Active long-running cleanup branch: none; governance work should stay PR-scoped
-- Merged cleanup baseline: PR #26 through PR #39 are merged to `main`
+- Merged cleanup baseline: PR #26 through PR #40 are merged to `main`
 - GPU work: no active GPU task
 - History rewrite: not performed
 - Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
@@ -54,6 +54,8 @@ repository rules.
   made SecMI tests independent of ignored local clones.
 - PR #39 added `docs/rebuild/` as the dedicated codebase rebuild planning
   surface.
+- PR #40 removed active test dependencies on local ignored upstream clones and
+  centralized adapter test fixtures.
 
 ## Remaining Local State
 
