@@ -569,8 +569,7 @@ def _materialize_h2_review_checkpoint(
     rank: int,
     alpha: float,
 ) -> Path:
-    from scripts.train_smp_lora import create_ddpm_model
-    from diffaudit.defenses.lora_ddpm import inject_lora_into_unet, load_lora_state_dict
+    from diffaudit.defenses.lora_ddpm import create_ddpm_model, inject_lora_into_unet, load_lora_state_dict
 
     baseline_dir = Path(baseline_checkpoint_dir)
     baseline_weights_path = baseline_dir / "model.safetensors"
