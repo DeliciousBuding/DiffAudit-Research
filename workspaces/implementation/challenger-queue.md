@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD artifact-schema validation`
+- Active work: `CLiD score-schema gate design`
 - Next GPU task: `none selected`
-- CPU work: `freeze CLiD bridge output contract`
+- CPU work: `freeze CLiD score output schema and low-FPR gate`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD artifact-schema validation
+### CLiD score-schema gate design
 
 - `mode`: CPU-only boundary work
 - `status`: active
-- `goal`: freeze CLiD bridge outputs and low-FPR gate before any GPU packet
+- `goal`: freeze CLiD score outputs and low-FPR gate before any GPU packet
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -29,8 +29,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 CLiD is selected as the next black-box lane after H2 text-to-image transfer was
 blocked by protocol mismatch. Local SD1.5, Recon CelebA split, target LoRA, and
 CLiD workspace probes are ready. The first bridge preparation exported 8 member
-and 8 nonmember examples and generated a localized upstream script. The next
-step is artifact-schema validation, not a large GPU packet.
+and 8 nonmember examples and generated a localized upstream script. Bridge
+contract review passed; the next step is score-schema design, not a large GPU
+packet.
 
 ## Ready
 

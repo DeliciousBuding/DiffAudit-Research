@@ -135,6 +135,13 @@ The default SD/CelebA text-to-image mode is expected to be protocol-blocked for
 H2 response-strength. Use `--endpoint-mode image_to_image` only when the target
 surface actually supports image-conditioned repeated queries.
 
+Validate a prepared local CLiD bridge contract:
+
+```powershell
+python scripts/review_clid_bridge_contract.py `
+  --run-root workspaces/black-box/runs/<clid-bridge-run>
+```
+
 Plan `variation`:
 
 ```powershell

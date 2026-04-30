@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** CLiD artifact-schema validation
+- **Active work:** CLiD score-schema gate design
 - **Next GPU task:** none selected
-- **CPU work:** freeze CLiD bridge output contract
+- **CPU work:** freeze CLiD score output schema and low-FPR gate
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,13 +29,14 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume with CLiD artifact-schema validation. H2 is held for cross-asset work
+Resume with CLiD score-schema gate design. H2 is held for cross-asset work
 because SD/CelebA text-to-image is protocol-incompatible with H2
 response-strength. `recon` remains the admitted black-box baseline, `variation`
 lacks a real query set and endpoint, and CLiD is selected as the next bounded
 prompt-conditioned black-box lane. The first local bridge preparation succeeded
-with 8 member and 8 nonmember exports; no GPU packet is selected until the CLiD
-summary schema and low-FPR gate are frozen.
+with 8 member and 8 nonmember exports, and the bridge contract review passed.
+No GPU packet is selected until the CLiD score output schema and low-FPR gate
+are frozen.
 
 ## Key Documents
 

@@ -12,6 +12,7 @@ This directory contains the public evidence overview.
 | [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md) | Frozen CPU contract for deciding whether H2 lowpass deserves another bounded GPU packet. |
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
+| [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |
 | [research-boundary-card.md](research-boundary-card.md) | Limitations card for downstream consumers. |
 | [workspace-evidence-index.md](workspace-evidence-index.md) | Where active and archived workspace evidence lives. |
 

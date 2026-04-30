@@ -44,13 +44,18 @@ The first local bridge preparation completed:
 The generated run payload is ignored under `workspaces/black-box/runs/`. The
 committed result is only the lane decision and next contract.
 
+The bridge artifact contract is now validated in
+[clid-bridge-contract.md](clid-bridge-contract.md). It confirms the prepared
+run is reusable and moves the next step to score output schema and low-FPR gate
+definition.
+
 ## Next Contract
 
 The next CLiD task should be CPU-first:
 
-1. Freeze the local bridge artifact schema: config, exported dataset metadata,
-   localized upstream script, and score output locations.
-2. Run only a tiny paper-alignment bridge or artifact summary first.
+1. Freeze the score output schema: raw score matrices, threshold summary,
+   metrics, and held-out target split semantics.
+2. Run only a tiny paper-alignment score bridge or artifact summary first.
 3. Do not run a large GPU CLiD packet until the bridge emits a stable, portable
    summary schema and a low-FPR gate.
 
