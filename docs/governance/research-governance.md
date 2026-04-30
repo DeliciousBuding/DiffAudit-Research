@@ -12,9 +12,9 @@ the roadmap chooses work; this document defines where work products belong.
 The 2026-04-29 and 2026-04-30 governance cleanups are merged to `main`
 through PR #26, PR #28, PR #29, and PR #30. The ongoing baseline is:
 
-- `active_gpu_question = none`
-- `next_gpu_candidate = none`
-- `X-181` is CPU-first boundary maintenance, not an experiment-result release
+- Active work is `Cross-box evidence boundary hardening`
+- Next GPU candidate is `none`
+- Cross-box boundary hardening is not an experiment-result release
 - no history rewrite or force-push should be performed without separate approval
 - future cleanup output should be PR-reviewable and reversible
 
@@ -24,7 +24,7 @@ through PR #26, PR #28, PR #29, and PR #30. The ongoing baseline is:
 | --- | --- | --- |
 | `docs/` | Stable documentation, onboarding, evidence maps, public-review material, and governance docs. | Commit curated Markdown, small durable diagrams, and metadata. Do not commit raw OCR dumps or generated extraction caches. |
 | `workspaces/` | Lane plans, small evidence anchors, summaries, manifests, and reviewed research notes. | Commit `README`, `summary.json`, manifests, and verdict notes when they are small and useful. Do not commit datasets, weights, raw tensors, checkpoints, generated images, or full runtime dumps. |
-| `scripts/` | Reusable maintenance, validation, setup, and replay helpers. | Keep reusable scripts here. One-off X-run scripts must move to the matching execution-log archive once their verdict is closed. |
+| `scripts/` | Reusable maintenance, validation, setup, and replay helpers. | Keep reusable scripts here. One-off run scripts must move to the matching execution-log archive once their verdict is closed. |
 | `external/` | Ignored upstream clones and local exploratory code checkouts. | Ignored by Git. Do not store datasets, weights, supplementary bundles, or generated results here. |
 | `third_party/` | Minimal vendored subsets that the repo actually integrates with. | Commit only the smallest necessary code surface and notice/license context. Keep full upstream repos in `external/`. |
 | `<DIFFAUDIT_ROOT>/Download/` | Raw datasets, model weights, paper/supplementary bundles, and large local intake assets. | Outside the `Research` Git repository. Recreate via manifests and handoff docs. |
@@ -80,11 +80,14 @@ Hot-path files must stay short:
 - `ROADMAP.md` holds current truth, next decision, and governance status.
 - `workspaces/implementation/challenger-queue.md` holds active / ready / hold /
   needs-assets / closed candidate state.
-- Long X-run timelines move to `legacy/execution-log/<date>/`.
+- Long run timelines move to `legacy/execution-log/<date>/`.
 
-Closed X-run scripts with names like `run_x145_*.py` should not remain in the
-top-level `scripts/` directory unless they become reusable CLI surfaces or
-generic replay helpers.
+Closed one-off run scripts should not remain in the top-level `scripts/`
+directory unless they become reusable CLI surfaces or generic replay helpers.
+
+Internal execution identifiers may remain in legacy archives for traceability,
+but public and hot-path docs should use descriptive lane names instead of run
+IDs.
 
 ## Public Surface Rule
 

@@ -19,5 +19,5 @@ and product-facing evidence summaries.
 
 ## Current Verdict
 
-Stable but not innovation-leading. Yield the next CPU-first research slot to
-`X-181 I-A / cross-box boundary maintenance`.
+Stable but not innovation-leading. Yield the next research slot to
+`Cross-box evidence boundary hardening`.

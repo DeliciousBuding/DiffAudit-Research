@@ -3,7 +3,7 @@
 ## Current Status
 
 This workspace is reserved for current cross-box comparison surfaces. The next
-CPU-first research lane is `X-181 I-A / cross-box boundary maintenance`.
+research lane is `Cross-box evidence boundary hardening`.
 
 Current product-facing boundaries should be reflected in
 [../../docs/product-bridge/README.md](../../docs/product-bridge/README.md) and

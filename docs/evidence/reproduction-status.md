@@ -28,8 +28,8 @@ benchmark claims.
 | Gray-box `SecMI` | corroboration | Useful independent reference, not the main headline. |
 | Gray-box `TMIA-DM` | challenger reference | Strong challenger, not promoted above PIA. |
 | White-box `GSA` | `evidence-ready` | Strongest white-box line and upper-bound evidence. |
-| White-box `DPDM/W-1` | defended comparator | Comparator with protocol-boundary limits, not a final benchmark. |
-| Cross-box / `I-A` | CPU-first next lane | Boundary-maintenance and product-consumable evidence hardening. |
+| White-box `DPDM` | defended comparator | Comparator with protocol-boundary limits, not a final benchmark. |
+| Cross-box boundary hardening | next research lane | Boundary-maintenance and product-consumable evidence hardening. |
 
 ## Where To Inspect Details
 
