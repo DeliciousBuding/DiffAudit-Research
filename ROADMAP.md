@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** H2 cross-asset protocol preflight
+- **Active work:** CLiD artifact-schema validation
 - **Next GPU task:** none selected
-- **CPU work:** choose CLiD/recon/variation or define image-to-image H2 contract
+- **CPU work:** freeze CLiD bridge output contract
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,12 +29,13 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume from the H2 cross-asset preflight. Local SD/CelebA assets are ready, but
-the default text-to-image protocol is incompatible with H2 response-strength
-because H2 needs query-image or unconditional-state response control. Do not run
-an H2 GPU portability packet unless an image-to-image or unconditional-state
-contract is explicitly selected. The immediate CPU choice is CLiD, recon,
-variation, or a stricter image-to-image H2 contract.
+Resume with CLiD artifact-schema validation. H2 is held for cross-asset work
+because SD/CelebA text-to-image is protocol-incompatible with H2
+response-strength. `recon` remains the admitted black-box baseline, `variation`
+lacks a real query set and endpoint, and CLiD is selected as the next bounded
+prompt-conditioned black-box lane. The first local bridge preparation succeeded
+with 8 member and 8 nonmember exports; no GPU packet is selected until the CLiD
+summary schema and low-FPR gate are frozen.
 
 ## Key Documents
 

@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `H2 cross-asset protocol preflight`
+- Active work: `CLiD artifact-schema validation`
 - Next GPU task: `none selected`
-- CPU work: `choose CLiD/recon/variation or define image-to-image H2 contract`
+- CPU work: `freeze CLiD bridge output contract`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,23 +17,20 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### H2 cross-asset protocol preflight
+### CLiD artifact-schema validation
 
 - `mode`: CPU-only boundary work
 - `status`: active
-- `goal`: block invalid prompt-only H2 transfer and select the next compatible
-  black-box lane
+- `goal`: freeze CLiD bridge outputs and low-FPR gate before any GPU packet
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-Frozen H2 lowpass follow-up closed positive-but-bounded on `DDPM/CIFAR10`.
-Cutoff-0.50 lowpass passed the candidate gate, and raw H2 also recovered
-strict-tail signal on the fresh packet. The first SD/CelebA CPU preflight found
-assets ready but the default text-to-image protocol incompatible with H2 because
-it lacks query-image or unconditional-state response control. Do not schedule
-H2 portability GPU until an image-to-image or unconditional-state contract is
-selected.
+CLiD is selected as the next black-box lane after H2 text-to-image transfer was
+blocked by protocol mismatch. Local SD1.5, Recon CelebA split, target LoRA, and
+CLiD workspace probes are ready. The first bridge preparation exported 8 member
+and 8 nonmember examples and generated a localized upstream script. The next
+step is artifact-schema validation, not a large GPU packet.
 
 ## Ready
 
@@ -86,6 +83,13 @@ selected.
 - `reopen trigger`: a cross-asset black-box contract with dataset, model, split,
   and query-budget boundaries.
 
+### Variation real-query line
+
+- `mode`: API-only black-box
+- `reason for hold`: missing real query-image set and real endpoint.
+- `reopen trigger`: `Download/black-box/datasets/variation-query-set` contains
+  member/nonmember images and a real endpoint contract is available.
+
 ## Needs Data
 
 ### Cross-box transfer / portability
@@ -112,6 +116,7 @@ selected.
 | H2 raw-primary 512 / 512 validation | Negative-but-useful. Raw H2 kept AUC signal but failed `TPR@0.1%FPR`; lowpass tail review remains active. |
 | H2 lowpass follow-up 512 / 512 validation | Positive-but-bounded. Cutoff-0.50 lowpass passed the frozen candidate gate; H2 remains candidate-only and needs portability evidence before promotion. |
 | H2 SD/CelebA text-to-image preflight | Negative-but-useful. Assets are ready, but prompt-only text-to-image is not H2-compatible. |
+| Black-box next-lane reselection | CLiD selected. Recon is admitted baseline; variation lacks real query assets; H2 portability needs image-conditioned protocol. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
 | Architecture triage | Fixed dependency issues; added package initializers; aligned local checks with CI. |
 | Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |
