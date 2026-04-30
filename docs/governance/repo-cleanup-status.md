@@ -48,10 +48,10 @@ repository rules.
 - PR #35 restored the active research state after CLI governance.
 - PR #36 removed internal run IDs from public and hot-path navigation while
   keeping legacy IDs available for traceability.
-- The portability documentation sync corrected remaining references to the
-  removed `src/diffaudit/cli.py` single-file entrypoint.
-- The placeholder cleanup removed empty tracked package directories under
-  `src/diffaudit/` and made SecMI tests independent of ignored local clones.
+- PR #37 corrected portability and deployment wording, including remaining
+  references to the removed `src/diffaudit/cli.py` single-file entrypoint.
+- PR #38 removed empty tracked package directories under `src/diffaudit/` and
+  made SecMI tests independent of ignored local clones.
 - Codebase rebuild planning now has a dedicated entry point under
   `docs/rebuild/`.
 

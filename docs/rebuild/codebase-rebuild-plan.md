@@ -51,10 +51,8 @@ Every rebuild PR should run:
 ```powershell
 git status --short --branch
 git diff --check
-python -X utf8 scripts/check_public_surface.py
-python -X utf8 scripts/check_markdown_links.py
-conda run -n diffaudit-research python scripts/verify_env.py
-conda run -n diffaudit-research python scripts/run_local_checks.py --fast
+conda run -n diffaudit-research python -X utf8 scripts/verify_env.py
+conda run -n diffaudit-research python -X utf8 scripts/run_local_checks.py --fast
 ```
 
 Module-split PRs must also run targeted characterization tests for the moved
