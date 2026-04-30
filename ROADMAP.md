@@ -28,7 +28,7 @@ paths become stale.
   semantic-auxiliary classifier work remain bounded support/challenger lines.
 - Gray-box: `PIA` remains the strongest attack + defense story; gray-box should
   not consume the next research slot unless a new fact changes the queue.
-- White-box: `GSA` remains the strongest upper-bound line; `DPDM/W-1` remains a
+- White-box: `GSA` remains the strongest upper-bound line; `DPDM` remains a
   defended comparator; distinct second-family work is still not promoted.
 - Cross-box: boundary hardening and product-consumable evidence status are the
   next honest lane.

@@ -1,4 +1,4 @@
-# DiffAudit Research Candidate Queue
+# DiffAudit Research Challenger Queue
 
 > Last refreshed: 2026-04-30
 > Purpose: Maintain the candidate funnel without turning the queue into an
@@ -32,7 +32,7 @@ It is not a timeline. Historical run IDs and dated verdicts live under
   mismatch is found
 
 The response-strength candidate is strong enough to create overclaim pressure
-but remains candidate-limited. This active item hardens cross-box wording and
+but remains candidate-only. This active item hardens cross-box wording and
 product-consumable status before any future GPU release.
 
 ## Ready
@@ -73,7 +73,7 @@ product-consumable status before any future GPU release.
 
 ### Selective / suspicion-gated routing
 
-- `mode`: defense candidate-limited sidecar
+- `mode`: defense candidate-only sidecar
 - `reason for hold`: fixed-budget low-FPR tail matching is real, but gate-leak
   and oracle-route falsifiers block deployable or admitted reading.
 - `reopen trigger`: new detector or adaptive-attacker contract that directly
@@ -117,7 +117,7 @@ product-consumable status before any future GPU release.
 | White-box same-observable scouts | Activation-subspace and per-timestep trajectory routes closed negative-but-useful. |
 | Selective routing defense scout | Closed positive-but-bounded; gate-leak and oracle-route falsifiers block promotion. |
 | Cross-box tri-surface shortcut | Closed negative-but-useful; AUC-positive but low-FPR-unstable. |
-| Response-strength black-box validation | Progressed to strong validated candidate-limited surface; comparator and promotion paths remain blocked. |
+| Response-strength black-box validation | Progressed to strong validated candidate-only surface; comparator and promotion paths remain blocked. |
 
 Closed entries are traceable through
 [`legacy/execution-log/2026-04-29/README.md`](../../legacy/execution-log/2026-04-29/README.md).
