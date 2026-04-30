@@ -5,7 +5,7 @@
 - Role: white-box membership inference, internal signal access, and defended
   comparator evidence.
 - Main evidence: `GSA` remains the strongest white-box line.
-- Defended comparator: `DPDM/W-1` remains a comparator, not a final benchmark.
+- Defended comparator: `DPDM` remains a comparator, not a final benchmark.
 - GPU state: no active white-box GPU question.
 
 ## Current Files

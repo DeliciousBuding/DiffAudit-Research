@@ -17,7 +17,7 @@ the governance pass.
 | File | Observation |
 | --- | --- |
 | `ROADMAP.md` | About `442 KB`; acting as roadmap plus long execution log. |
-| `workspaces/implementation/challenger-queue.md` | Acting as queue plus X-141 to X-180 decision timeline. |
+| `workspaces/implementation/challenger-queue.md` | Acting as queue plus long execution-ID decision timeline. |
 | `docs/internal/comprehensive-progress.md` | Still useful as detailed handoff, but not the public front door. |
 
 Decision: preserve the long roadmap as
@@ -95,23 +95,23 @@ Guardrail added: `scripts/check_public_surface.py` now fails when any tracked
 file is hidden by `.gitignore` or when a tracked file exceeds the current size
 threshold.
 
-## X-Run Script Audit
+## One-Off Run Script Audit
 
-Top-level `scripts/run_x*.py` before cleanup:
+Top-level run scripts before cleanup:
 
 | Class | Scripts |
 | --- | --- |
-| Keep as replay helpers | `run_x90_larger_surface_triscore.py`, `run_x90_tmiadm512_assets.py` |
-| Archive as closed one-off X-run scripts | `run_x145_*`, `run_x148_*`, `run_x150_*`, `run_x154_*`, `run_x157_*`, `run_x158_*`, `run_x159_*`, `run_x161_*`, `run_x162_*`, `run_x163_*`, `run_x165_*`, `run_x168_*`, `run_x170_*`, `run_x171_*`, `run_x172_*`, `run_x175_*` |
+| Keep as replay helpers | two reusable gray-box auxiliary replay/build helpers |
+| Archive as closed one-off run scripts | closed activation, routing, cross-box, and response-strength run scripts |
 
-Decision: keep the X-90 helpers because they are reusable replay/build helpers
-for the G1-A / X-90 internal auxiliary evidence. Move closed one-off scripts to
+Decision: keep the reusable helpers because they support internal auxiliary
+gray-box evidence. Move closed one-off scripts to
 `legacy/execution-log/2026-04-29/scripts/`.
 
 ## Untracked Governance Inputs
 
-The worktree contained untracked X-141 to X-180 decision anchors plus untracked
-X-run scripts and two X-specific tests. Decision: preserve them under
+The worktree contained untracked execution-ID decision anchors plus untracked
+one-off run scripts and two run-specific tests. Decision: preserve them under
 `legacy/execution-log/2026-04-29/` instead of deleting them or leaving them in
 hot-path directories.
 
