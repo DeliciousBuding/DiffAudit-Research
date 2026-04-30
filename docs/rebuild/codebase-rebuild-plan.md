@@ -22,12 +22,18 @@ not a research-experiment roadmap and does not authorize GPU work.
 | Local checks | Fast local checks include public-surface and Markdown-link guards. |
 | Placeholder packages | Empty tracked package placeholders were removed. |
 | External clone dependency in tests | SecMI registry tests create temporary fake upstream workspaces. |
+| Rebuild docs | `docs/rebuild/` is the dedicated codebase rebuild planning surface. |
+
+## Active PR
+
+| Theme | Acceptance Boundary |
+| --- | --- |
+| R1 test and boundary cleanup | Centralize adapter test fixtures, remove active-suite dependencies on real `external/SecMI` and `external/Reconstruction-based-Attack`, refresh the test guide, and keep production behavior unchanged when optional upstream clones are present. |
 
 ## Next PR Sequence
 
 | Priority | PR Theme | Acceptance Boundary |
 | --- | --- | --- |
-| R1 | Adapter characterization tests | Add focused fixtures for the largest adapter outputs before moving code. No behavior changes. |
 | R2 | GSA shared helper extraction | Extract cycle-prone shared helpers from `gsa.py` / `gsa_observability.py` into an explicit internal helper module. |
 | R3 | Defense private-import cleanup | Replace defense imports from attack-private helpers with public package APIs or local shared helpers. |
 | R4 | Optional external adapter boundary | Replace remaining `sys.path` mutation around ignored upstream clones with explicit optional-contract wrappers. |

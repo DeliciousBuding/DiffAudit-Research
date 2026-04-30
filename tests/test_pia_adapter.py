@@ -6,6 +6,8 @@ from io import StringIO
 from pathlib import Path
 from unittest.mock import patch
 
+from tests.helpers import make_fake_cifar10
+
 
 PIA_CONFIG_TEMPLATE = """
 task:
@@ -180,28 +182,12 @@ class PiaAdapterTests(unittest.TestCase):
         self.assertTrue(payload["checks"]["attacker_instantiated"])
 
     def test_cli_runtime_preview_pia_reports_ready(self) -> None:
-        from PIL import Image
         import numpy as np
 
         from diffaudit.attacks.pia_adapter import bootstrap_pia_smoke_assets
         from diffaudit.cli import main
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (32, 64, 160, 192)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((32, 64, 160, 192))
 
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -341,28 +327,12 @@ class PiaAdapterTests(unittest.TestCase):
         self.assertTrue(payload["checks"]["runtime_probe_ready"])
 
     def test_cli_runs_pia_runtime_mainline(self) -> None:
-        from PIL import Image
         import numpy as np
 
         from diffaudit.attacks.pia_adapter import bootstrap_pia_smoke_assets
         from diffaudit.cli import main
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (16, 24, 32, 40, 180, 188, 196, 204)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((16, 24, 32, 40, 180, 188, 196, 204))
 
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -452,28 +422,12 @@ class PiaAdapterTests(unittest.TestCase):
             self.assertTrue(Path(payload["artifact_paths"]["summary"]).exists())
 
     def test_cli_runs_pia_runtime_mainline_with_precision_throttling_defense(self) -> None:
-        from PIL import Image
         import numpy as np
 
         from diffaudit.attacks.pia_adapter import bootstrap_pia_smoke_assets
         from diffaudit.cli import main
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (16, 24, 32, 40, 180, 188, 196, 204)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((16, 24, 32, 40, 180, 188, 196, 204))
 
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -538,28 +492,12 @@ class PiaAdapterTests(unittest.TestCase):
             self.assertEqual(payload["defense_stage"], "candidate-g2")
 
     def test_cli_exports_pia_packet_scores_with_explicit_index_files(self) -> None:
-        from PIL import Image
         import numpy as np
 
         from diffaudit.attacks.pia_adapter import bootstrap_pia_smoke_assets
         from diffaudit.cli import main
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (12, 24, 36, 168, 180, 192)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((12, 24, 36, 168, 180, 192))
 
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -648,28 +586,12 @@ class PiaAdapterTests(unittest.TestCase):
         self.assertEqual(len(scores_payload["nonmember_scores"]), 3)
 
     def test_cli_exports_pia_translated_alias_probe(self) -> None:
-        from PIL import Image
         import numpy as np
 
         from diffaudit.attacks.pia_adapter import bootstrap_pia_smoke_assets
         from diffaudit.cli import main
 
-        class FakeCIFAR10:
-            def __init__(self, root, train, transform=None, download=False):
-                del root, train, download
-                self.transform = transform
-                self.images = [
-                    np.full((32, 32, 3), fill_value=value, dtype=np.uint8)
-                    for value in (24, 208)
-                ]
-
-            def __len__(self) -> int:
-                return len(self.images)
-
-            def __getitem__(self, index: int):
-                image = Image.fromarray(self.images[index])
-                tensor = self.transform(image) if self.transform is not None else image
-                return tensor, index
+        FakeCIFAR10 = make_fake_cifar10((24, 208))
 
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
