@@ -105,6 +105,25 @@ python scripts/evaluate_h2_response_cache.py `
 This is a CPU-only candidate scorer. It does not collect model responses and
 does not promote H2 to admitted evidence.
 
+Run the bounded H2 response-strength validation candidate:
+
+```powershell
+python scripts/run_h2_response_strength_validation.py `
+  --packet-size 512 `
+  --split-offset 512 `
+  --device cuda:0
+```
+
+This is a GPU validation candidate, not an admitted benchmark.
+
+Review lowpass cutoff sensitivity on a saved H2 cache:
+
+```powershell
+python scripts/review_h2_lowpass_cutoffs.py `
+  --response-cache workspaces/black-box/runs/<run>/response-cache.npz `
+  --output workspaces/black-box/runs/<run>/lowpass-cutoff-review.json
+```
+
 Plan `variation`:
 
 ```powershell

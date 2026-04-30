@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `Black-box response-strength comparator preflight`
-- Next GPU task: `H2 response-strength 512 / 512 validation, pending GPU collection runner promotion`
-- CPU work: `Public documentation sync`
+- Active work: `H2 lowpass-tail contract review`
+- Next GPU task: `none active; cutoff-0.50 H2 lowpass packet is only eligible candidate`
+- CPU work: `PR #44 evidence sync`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; not yet verified, not a `recon` replacement
@@ -17,26 +17,21 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Black-box response-strength comparator preflight
+### H2 lowpass-tail contract review
 
 - `mode`: CPU-only boundary work
 - `status`: active
-- `goal`: determine whether the response-strength surface has a compatible
-  black-box comparator, query-budget contract, adaptive-attacker boundary, and
-  low-FPR release gate
+- `goal`: decide whether to run exactly one second-packet H2 lowpass follow-up
+  under the frozen cutoff-0.50 contract
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-Cross-box boundary hardening closed as candidate-only: current packets show AUC
-movement but not stable low-FPR gains. The next honest research step is to see
-whether the strongest non-admitted black-box candidate can be given a real
-comparator contract without borrowing higher-permission signals.
-
-Preflight verdict: yes, as a candidate. H2 response-strength has repeated
-non-overlap signal and a same-cache simple-scorer comparator. The cache scorer
-is now stable; the immediate engineering step is GPU collection runner
-promotion, followed by one bounded 512 / 512 validation.
+Raw-primary H2 512 / 512 validation closed negative-but-useful: AUC remains
+strong, but the strict low-FPR gate failed. Mid-band lowpass H2 recovered the
+strict tail on the same cache. The follow-up contract is now frozen in
+`docs/evidence/h2-lowpass-followup-contract.md`; no GPU run is active until it
+is explicitly selected.
 
 ## Ready
 
@@ -85,7 +80,8 @@ promotion, followed by one bounded 512 / 512 validation.
 ### Response-strength black-box candidate
 
 - `mode`: black-box candidate
-- `reason for hold`: promoted into the active CPU preflight.
+- `reason for hold`: raw-primary 512 / 512 validation failed the strict
+  low-FPR gate.
 - `reopen trigger`: frozen compatible comparator contract or a CPU preflight
   that can justify one future validation experiment.
 
@@ -112,6 +108,7 @@ promotion, followed by one bounded 512 / 512 validation.
 | --- | --- |
 | CLI package/dispatch split | `diffaudit.cli` is now a package with parser and dispatch separated. |
 | Cross-box evidence boundary hardening | Candidate-only. Existing cross-box packets are useful for internal comparison but do not establish stable low-FPR gains. |
+| H2 raw-primary 512 / 512 validation | Negative-but-useful. Raw H2 kept AUC signal but failed `TPR@0.1%FPR`; lowpass tail review remains active. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
 | Architecture triage | Fixed dependency issues; added package initializers; aligned local checks with CI. |
 | Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |

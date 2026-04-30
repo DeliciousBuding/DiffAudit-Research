@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** Black-box response-strength comparator preflight
-- **Next GPU task:** H2 response-strength 512 / 512 validation, pending GPU collection runner promotion
-- **CPU work:** Public documentation and repository sync
+- **Active work:** H2 lowpass-tail contract review
+- **Next GPU task:** none active; eligible only under the frozen H2 cutoff-0.50 contract
+- **CPU work:** PR #44 evidence sync and review closure
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,12 +29,11 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume by promoting the H2 response-strength GPU collection runner out of
-archived execution scripts. Cache scoring now has a stable entrypoint at
-`scripts/evaluate_h2_response_cache.py`. Then run one bounded 512 / 512
-non-overlap validation if GPU budget is available. The release gate is AUC
-advantage over the same-cache simple comparator plus nonzero `TPR@0.1%FPR`;
-this remains candidate evidence, not an admitted black-box replacement.
+Resume by reviewing PR #44 and deciding whether to run exactly one future H2
+lowpass follow-up under
+`docs/evidence/h2-lowpass-followup-contract.md`. Raw-primary H2 kept high AUC
+but failed the strict `TPR@0.1%FPR` gate; cutoff-0.50 lowpass H2 is the only
+remaining bounded candidate. No Platform or Runtime schema change is implied.
 
 ## Key Documents
 

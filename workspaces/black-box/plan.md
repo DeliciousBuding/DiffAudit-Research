@@ -7,19 +7,19 @@
 - `variation`: API-only support; needs real query-image data for stronger claims.
 - `semantic-auxiliary-classifier`: current alternative candidate.
 - `H2 response-strength`: live candidate with positive non-overlap signal;
-  cache scoring is now stable, and the next step is GPU collection runner
-  promotion before one bounded 512 / 512 validation.
+  raw-primary 512 / 512 validation is negative-but-useful. Mid-band lowpass
+  recovered strict-tail signal on the saved cache; the follow-up contract is
+  frozen in the evidence docs.
 
 ## Next Action
 
-Promote the H2 response-strength GPU collection runner out of archived
-execution scripts into a stable script or CLI entrypoint. Cache scoring should
-use `scripts/evaluate_h2_response_cache.py`. After that, run one bounded 512 /
-512 non-overlap validation if GPU budget is available. Keep status synchronized
-with [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
+Review whether one second-packet lowpass H2 follow-up is worth running under
+[../../docs/evidence/h2-lowpass-followup-contract.md](../../docs/evidence/h2-lowpass-followup-contract.md).
+Keep status synchronized with [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status
 
 Stable admitted baseline plus one live candidate. The current candidate is H2
-response-strength; it remains below admitted evidence until the next bounded
-validation passes its low-FPR gate.
+response-strength; raw-primary validation failed its strict low-FPR gate, so no
+GPU task is active unless the cutoff-0.50 follow-up contract is explicitly
+selected.

@@ -57,6 +57,23 @@ class H2ResponseStrengthTests(unittest.TestCase):
         self.assertEqual(result["best_by_auc"]["name"], "single_timestep_40")
         self.assertGreaterEqual(result["best_by_low_fpr"]["metrics"]["tpr_at_1pct_fpr"], 0.0)
 
+    def test_select_split_indices_uses_requested_offset(self) -> None:
+        import tempfile
+        from pathlib import Path
+
+        from diffaudit.attacks.h2_response_strength import select_split_indices
+
+        with tempfile.TemporaryDirectory() as tmp:
+            split_path = Path(tmp) / "split.npz"
+            np.savez(
+                split_path,
+                mia_train_idxs=np.asarray([10, 11, 12, 13], dtype=np.int64),
+                mia_eval_idxs=np.asarray([20, 21, 22, 23], dtype=np.int64),
+            )
+
+            self.assertEqual(select_split_indices(split_path, "member", 1, 2), [11, 12])
+            self.assertEqual(select_split_indices(split_path, "nonmember", 2, 2), [22, 23])
+
     def test_logistic_holdout_covers_every_sample(self) -> None:
         from diffaudit.attacks.h2_response_strength import evaluate_logistic_holdout
 
@@ -74,4 +91,3 @@ class H2ResponseStrengthTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

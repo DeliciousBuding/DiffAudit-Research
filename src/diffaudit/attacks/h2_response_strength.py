@@ -21,6 +21,26 @@ METRIC_KEYS = ("auc", "asr", "tpr_at_1pct_fpr", "tpr_at_0_1pct_fpr")
 DEFAULT_TIMESTEPS = (40, 80, 120, 160)
 
 
+def select_split_indices(member_split_path: str | Any, membership: str, offset: int, packet_size: int) -> list[int]:
+    """Select a contiguous non-overlap packet from a PIA-style split file."""
+
+    split_payload = np.load(member_split_path)
+    if membership == "member":
+        raw_indices = split_payload["mia_train_idxs"].tolist()
+    elif membership == "nonmember":
+        raw_indices = split_payload["mia_eval_idxs"].tolist()
+    else:
+        raise ValueError(f"Unknown membership: {membership}")
+    start = int(offset)
+    end = start + int(packet_size)
+    selected = [int(value) for value in raw_indices[start:end]]
+    if len(selected) != int(packet_size):
+        raise ValueError(
+            f"Requested {packet_size} {membership} samples at offset {offset}, but only got {len(selected)}"
+        )
+    return selected
+
+
 def metric_delta(left: dict[str, float], right: dict[str, float]) -> dict[str, float]:
     """Return rounded metric differences for the common admission metrics."""
 
@@ -340,3 +360,113 @@ def evaluate_h2_response_cache(
         },
     }
 
+
+def build_alpha_bars(device: str, timesteps: int = 1000):
+    import torch
+
+    betas = torch.linspace(0.0001, 0.02, int(timesteps), device=device, dtype=torch.float32)
+    return torch.cumprod(1.0 - betas, dim=0)
+
+
+def partial_ddim_denoise(
+    model: Any,
+    x0_pixels: Any,
+    *,
+    timestep: int,
+    alpha_bars: Any,
+    generator: Any,
+    stride: int,
+    device: str,
+) -> Any:
+    import torch
+
+    x0 = x0_pixels.to(device) * 2.0 - 1.0
+    strength_t = int(timestep)
+    if strength_t <= 0:
+        return torch.clamp(x0_pixels, 0.0, 1.0).detach().cpu()
+    if strength_t >= int(alpha_bars.shape[0]):
+        raise ValueError(f"timestep must be < {alpha_bars.shape[0]}: {strength_t}")
+
+    noise = torch.randn(x0.shape, generator=generator, device=device, dtype=x0.dtype)
+    alpha_t = alpha_bars[strength_t].view(1, 1, 1, 1)
+    x_t = alpha_t.sqrt() * x0 + (1.0 - alpha_t).sqrt() * noise
+
+    current_t = strength_t
+    step = max(int(stride), 1)
+    while current_t > 0:
+        previous_t = max(current_t - step, 0)
+        t_tensor = torch.full((x_t.shape[0],), current_t, device=device, dtype=torch.long)
+        eps = model(x_t, t=t_tensor)
+
+        alpha_cur = alpha_bars[current_t].view(1, 1, 1, 1)
+        alpha_prev = alpha_bars[previous_t].view(1, 1, 1, 1)
+        x0_pred = (x_t - (1.0 - alpha_cur).sqrt() * eps) / alpha_cur.sqrt()
+        x0_pred = torch.clamp(x0_pred, -1.0, 1.0)
+        if previous_t == 0:
+            x_t = x0_pred
+        else:
+            x_t = alpha_prev.sqrt() * x0_pred + (1.0 - alpha_prev).sqrt() * eps
+        current_t = previous_t
+
+    return torch.clamp((x_t + 1.0) / 2.0, 0.0, 1.0).detach().cpu()
+
+
+def collect_strength_responses(
+    model: Any,
+    loader: Any,
+    *,
+    device: str,
+    alpha_bars: Any,
+    timesteps: list[int],
+    repeats: int,
+    denoise_stride: int,
+    seed: int,
+    sample_offset: int,
+) -> tuple[Any, np.ndarray, np.ndarray]:
+    """Collect H2 response clouds and raw RMSE distances from a packet loader."""
+
+    import torch
+
+    inputs: list[Any] = []
+    response_batches: list[np.ndarray] = []
+    distance_batches: list[np.ndarray] = []
+    running_offset = int(sample_offset)
+    model.eval()
+    with torch.no_grad():
+        for batch, _ in loader:
+            batch = batch.detach().cpu()
+            batch_responses = np.zeros(
+                (batch.shape[0], len(timesteps), int(repeats), batch.shape[1], batch.shape[2], batch.shape[3]),
+                dtype=np.float16,
+            )
+            batch_distances = np.zeros((batch.shape[0], len(timesteps), int(repeats)), dtype=np.float32)
+            for strength_idx, timestep in enumerate(timesteps):
+                for repeat_idx in range(int(repeats)):
+                    generator = torch.Generator(device=device)
+                    generator.manual_seed(
+                        int(seed)
+                        + int(timestep) * 100_000
+                        + int(repeat_idx) * 10_000
+                        + int(running_offset)
+                    )
+                    output = partial_ddim_denoise(
+                        model,
+                        batch,
+                        timestep=int(timestep),
+                        alpha_bars=alpha_bars,
+                        generator=generator,
+                        stride=denoise_stride,
+                        device=device,
+                    )
+                    distances = torch.sqrt(((output - batch) ** 2).mean(dim=(1, 2, 3)))
+                    batch_responses[:, strength_idx, repeat_idx] = output.numpy().astype(np.float16)
+                    batch_distances[:, strength_idx, repeat_idx] = distances.numpy().astype(np.float32)
+            inputs.append(batch)
+            response_batches.append(batch_responses)
+            distance_batches.append(batch_distances)
+            running_offset += int(batch.shape[0])
+    return (
+        torch.cat(inputs, dim=0),
+        np.concatenate(response_batches, axis=0),
+        np.concatenate(distance_batches, axis=0),
+    )
