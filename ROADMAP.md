@@ -53,6 +53,7 @@ budget.
 - Product bridge: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Workspace evidence index: [docs/evidence/workspace-evidence-index.md](docs/evidence/workspace-evidence-index.md)
 - Governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
+- Rebuild: [docs/rebuild/README.md](docs/rebuild/README.md)
 - Active queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)
 
 ## Handoff Boundary
