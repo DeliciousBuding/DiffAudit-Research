@@ -23,7 +23,8 @@ selected. The first swapped-prompt control is positive but degraded, so the next
 CPU design should separate image identity, prompt-image mismatch, and CLiD
 auxiliary scoring artifacts. The first within-split shuffle control is weaker
 than swapped-prompt but nonzero, and prompt-text-only review is moderate AUC but
-weak strict-tail. CLiD remains candidate-only. Keep status synchronized with
+weak strict-tail. Control attribution shows auxiliary-feature instability under
+prompt controls. CLiD remains candidate-only. Keep status synchronized with
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status

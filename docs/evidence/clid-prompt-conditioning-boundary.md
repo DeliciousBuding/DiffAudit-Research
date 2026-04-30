@@ -19,6 +19,7 @@ The evidence separates three facts:
 | Does the signal survive row-wise prompt swapping across splits? | [clid-swapped-prompt-control.md](clid-swapped-prompt-control.md) | partially; degraded but nonzero strict-tail signal |
 | Does the signal survive prompt shuffling inside each split? | [clid-within-split-shuffle-control.md](clid-within-split-shuffle-control.md) | weakly; further degraded but nonzero strict-tail signal |
 | Can prompt text alone explain the original strict-tail signal? | [clid-prompt-text-only-review.md](clid-prompt-text-only-review.md) | no; prompt text is moderately separable but strict-tail is only 0.02 |
+| Is the original auxiliary feature stable under prompt controls? | [clid-control-attribution.md](clid-control-attribution.md) | no; auxiliary correlations degrade sharply |
 
 ## Evidence Snapshot
 
@@ -55,6 +56,8 @@ Allowed claim:
   prompt-conditioned packet.
 - Prompt text alone is a nuisance factor but does not explain the original
   strict-tail signal.
+- Control attribution shows that the original auxiliary feature is not stable
+  under prompt controls, especially on member rows.
 - Future CLiD reports must state the prompt contract and include a
   prompt-neutral or prompt-perturbed control.
 

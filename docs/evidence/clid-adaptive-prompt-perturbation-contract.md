@@ -65,10 +65,16 @@ The prompt-text-only nuisance baseline is recorded in
 moderate prompt split separability but weak strict-tail signal, so prompt text
 alone does not explain the original CLiD repeat.
 
+The control attribution review is recorded in
+[clid-control-attribution.md](clid-control-attribution.md). It shows that CLiD
+auxiliary features lose row-wise correlation under prompt controls, while
+feature 0 remains more stable.
+
 ## Current State
 
 - GPU task: none selected.
 - CPU sidecar: compare image-only control feasibility or independent
-  prompt-control repeat designs before any next GPU run.
+  prompt-control repeat designs before any next GPU run. Do not run another
+  prompt-conditioned packet without a new control question.
 - Product impact: none. Platform and Runtime should continue treating CLiD as
   candidate-only.

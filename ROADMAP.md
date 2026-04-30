@@ -52,6 +52,8 @@ another GPU packet. The within-split shuffle control is weaker than the
 swapped-prompt control but still nonzero, which reinforces the prompt-image
 contract boundary. Prompt-text-only review shows moderate AUC but weak
 strict-tail signal, so text alone does not explain the original CLiD repeat.
+Control attribution shows the CLiD auxiliary feature is unstable under prompt
+controls, which blocks admission.
 
 ## Key Documents
 
@@ -64,6 +66,7 @@ strict-tail signal, so text alone does not explain the original CLiD repeat.
 - CLiD swapped-prompt control: [docs/evidence/clid-swapped-prompt-control.md](docs/evidence/clid-swapped-prompt-control.md)
 - CLiD within-split shuffle control: [docs/evidence/clid-within-split-shuffle-control.md](docs/evidence/clid-within-split-shuffle-control.md)
 - CLiD prompt-text-only review: [docs/evidence/clid-prompt-text-only-review.md](docs/evidence/clid-prompt-text-only-review.md)
+- CLiD control attribution: [docs/evidence/clid-control-attribution.md](docs/evidence/clid-control-attribution.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

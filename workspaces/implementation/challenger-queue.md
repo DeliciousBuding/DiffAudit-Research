@@ -49,7 +49,9 @@ still but nonzero. CLiD remains candidate-only and needs another control design
 before any next GPU packet is selected. The next CPU-ready question is whether
 an image-only control or independent prompt-control repeat would add new
 evidence. Prompt-text-only review shows moderate AUC but weak strict-tail
-signal, so prompt text alone does not explain the original CLiD repeat.
+signal, so prompt text alone does not explain the original CLiD repeat. Control
+attribution shows the auxiliary feature is unstable under prompt controls,
+blocking admission.
 
 ## Ready
 
