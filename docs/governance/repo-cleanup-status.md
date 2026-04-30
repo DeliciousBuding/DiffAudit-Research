@@ -10,7 +10,7 @@ repository rules.
 ## Current State
 
 - Active long-running cleanup branch: none; governance work should stay PR-scoped
-- Merged cleanup baseline: PR #26 through PR #36 are merged to `main`
+- Merged cleanup baseline: PR #26 through PR #38 are merged to `main`
 - GPU work: no active GPU task
 - History rewrite: not performed
 - Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
@@ -48,10 +48,12 @@ repository rules.
 - PR #35 restored the active research state after CLI governance.
 - PR #36 removed internal run IDs from public and hot-path navigation while
   keeping legacy IDs available for traceability.
-- The portability documentation sync corrected remaining references to the
-  removed `src/diffaudit/cli.py` single-file entrypoint.
-- The placeholder cleanup removed empty tracked package directories under
-  `src/diffaudit/` and made SecMI tests independent of ignored local clones.
+- PR #37 corrected portability and deployment wording, including remaining
+  references to the removed `src/diffaudit/cli.py` single-file entrypoint.
+- PR #38 removed empty tracked package directories under `src/diffaudit/` and
+  made SecMI tests independent of ignored local clones.
+- Codebase rebuild planning now has a dedicated entry point under
+  `docs/rebuild/`.
 
 ## Remaining Local State
 
