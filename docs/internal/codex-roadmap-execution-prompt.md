@@ -39,7 +39,7 @@
 - admitted 主讲面仍是 `recon / PIA / GSA-W1`
 - `active GPU question = none`
 - `next_gpu_candidate = none`
-- 2026-04-29 到 2026-04-30 governance / information-architecture / shared-utils / architecture-triage cleanups 已通过 PR #26、PR #28、PR #29、PR #30 合并到 `main`；当前默认状态是 `X-181 I-A / cross-box boundary maintenance` CPU-first，不跑 GPU，不做历史重写
+- 2026-04-29 到 2026-04-30 governance / information-architecture / shared-utils / architecture-triage cleanups 已通过 PR #26、PR #28、PR #29、PR #30 合并到 `main`；当前默认状态是 `X-181 I-A / cross-box boundary maintenance after H2 comparator block` CPU-first，不跑 GPU，不做历史重写
 - `X-141 / X-142` 已把 `G1-A / X-90` 从 `TMIA-DM 512-sample gap` 解冻为 `two-seed internal auxiliary positive`：
   - 两个 matched `512 / 512` tri-score review 都已通过 kill gate
   - seed-2 macro 指标为 `AUC = 0.859043 / ASR = 0.786133 / TPR@1%FPR = 0.118164 / TPR@0.1%FPR = 0.023438`
@@ -91,7 +91,7 @@
 - `X-177` 已关闭为 `positive boundary / comparator-first hold`：H2 是 strong validated DDPM/CIFAR10 candidate，但 promotion、`recon` replacement、更多 H2 GPU 和 consumer handoff 都要等 same-packet `recon` comparator feasibility review
 - `X-178` 已关闭为 `blocked but useful / comparator-blocked`：direct admitted-`recon` comparator 在 X176 DDPM/CIFAR10 packet 上协议不兼容；H2 保持 candidate-only，下一步是 X179 comparator-acquisition contract review
 - `X-179` 已关闭为 `positive contract review / no GPU release`：X176 simple reconstruction-distance sanity comparators 已足够说明 H2 优于同包简单距离基线，但它们不是 admitted `recon`
-- `X-180` 已关闭为 `positive reselection / GPU hold`：当前没有 immediate GPU candidate；治理完成后的下一条 CPU-first lane 是 `X-181 I-A / cross-box boundary maintenance`
+- `X-180` 已关闭为 `positive reselection / GPU hold`：当前没有 immediate GPU candidate；治理完成后的下一条 CPU-first lane 是 `X-181 I-A / cross-box boundary maintenance after H2 comparator block`
 
 始终同时维护三件事：
 

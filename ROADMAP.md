@@ -11,7 +11,7 @@ belongs under `legacy/`; current workspace state belongs under `workspaces/`.
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = X-181 I-A / cross-box boundary maintenance`
+- `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
 - `next_cpu_sidecar = public-surface / hot-path sync only if stale`
 - `history_rewrite_policy = audit only; no force-push without separate approval`
 

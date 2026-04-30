@@ -13,7 +13,7 @@ X-180 anchors live under
 
 - `active_gpu_question = none`
 - `next_gpu_candidate = none`
-- `current_execution_item = X-181 I-A / cross-box boundary maintenance`
+- `current_execution_item = X-181 I-A / cross-box boundary maintenance after H2 comparator block`
 - `gray_box_slot = yield`
 - `H2_strength_response = strong validated DDPM/CIFAR10 candidate-only`
 - `G1-A / X-90 = two-seed internal auxiliary positive`
@@ -30,11 +30,9 @@ X-180 anchors live under
 - `handoff`: no Platform or Runtime schema change unless a concrete consumer
   mismatch is found
 
-- `why ready`: H2 is strong enough to create overclaim pressure but remains
-  candidate-only; I-A wording and cross-box surfaces should be hardened before
-  any future GPU release.
-- `release gate`: no model run, no Platform/Runtime schema change unless the
-  boundary review finds a concrete consumer mismatch.
+H2 is strong enough to create overclaim pressure but remains candidate-only.
+This active item hardens I-A wording and cross-box surfaces before any future
+GPU release.
 
 ## Ready
 

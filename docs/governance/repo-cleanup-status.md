@@ -9,7 +9,7 @@ repository rules.
 
 ## Current State
 
-- Active cleanup branch: none; PR #28, PR #29, and PR #30 are merged to `main`
+- Active cleanup branch: none; PR #26, PR #28, PR #29, and PR #30 are merged to `main`
 - GPU work: no active GPU task
 - History rewrite: not performed
 - Top-level `outputs/`: ignored local scratch, not a canonical evidence layer
