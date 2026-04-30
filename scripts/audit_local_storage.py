@@ -30,18 +30,27 @@ HEAVY_RUN_DIR_NAMES = {
 }
 
 LOCAL_PATH_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
-    ("local DiffAudit Windows path", re.compile(r"D:(?:\\+|/+)+Code(?:\\+|/+)+DiffAudit")),
-    ("local Ding Windows path", re.compile(r"C:(?:\\+|/+)+Users(?:\\+|/+)+Ding")),
+    (
+        "local DiffAudit Windows path",
+        re.compile(r"D:(?:\\+|/+)+Code(?:\\+|/+)+DiffAudit", re.IGNORECASE),
+    ),
+    (
+        "local Ding Windows path",
+        re.compile(r"C:(?:\\+|/+)+Users(?:\\+|/+)+Ding", re.IGNORECASE),
+    ),
     ("local Ding WSL path", re.compile(r"/mnt/c/Users/" + "Ding", re.IGNORECASE)),
 )
 
 LOCAL_PATH_SCAN_EXCLUDE_DIRS = {
     ".git",
     ".pytest_cache",
+    ".venv",
     "__pycache__",
+    "venv",
 }
 
 LOCAL_PATH_SCAN_EXCLUDE_FILES = {
+    "scripts/audit_local_storage.py",
     "scripts/check_public_surface.py",
 }
 
@@ -475,11 +484,7 @@ def _local_path_leaks(root: Path) -> list[dict[str, object]]:
             if rel in LOCAL_PATH_SCAN_EXCLUDE_FILES:
                 continue
             try:
-                lines = file_path.open(encoding="utf-8", errors="strict")
-            except OSError:
-                continue
-            with lines:
-                try:
+                with file_path.open(encoding="utf-8", errors="replace") as lines:
                     for line_number, line in enumerate(lines, start=1):
                         for label, pattern in LOCAL_PATH_PATTERNS:
                             if pattern.search(line):
@@ -491,8 +496,8 @@ def _local_path_leaks(root: Path) -> list[dict[str, object]]:
                                     }
                                 )
                                 break
-                except UnicodeDecodeError:
-                    continue
+            except OSError:
+                continue
     return findings
 
 
