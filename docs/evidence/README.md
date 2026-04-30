@@ -14,6 +14,7 @@ This directory contains the public evidence overview.
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
 | [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |
 | [clid-score-schema-gate.md](clid-score-schema-gate.md) | CLiD score-summary schema and low-FPR promotion gate. |
+| [clid-tiny-score-bridge.md](clid-tiny-score-bridge.md) | First GPU smoke-scale CLiD score bridge verdict. |
 | [research-boundary-card.md](research-boundary-card.md) | Limitations card for downstream consumers. |
 | [workspace-evidence-index.md](workspace-evidence-index.md) | Where active and archived workspace evidence lives. |
 

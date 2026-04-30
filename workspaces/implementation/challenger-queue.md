@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD tiny score-bridge execution`
-- Next GPU task: `none selected`
-- CPU work: `run tiny CLiD score bridge into score-summary.json`
+- Active work: `CLiD 100/100 bounded score packet scoping`
+- Next GPU task: `CLiD 100 member / 100 nonmember score bridge, pending final asset check`
+- CPU work: `keep CLiD score-summary gate and verdict docs synchronized`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,12 +17,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD tiny score-bridge execution
+### CLiD 100/100 bounded score packet scoping
 
-- `mode`: CPU-only boundary work
+- `mode`: bounded GPU candidate scoping
 - `status`: active
-- `goal`: produce a tiny CLiD `score-summary.json` before any GPU packet
-- `GPU`: no
+- `goal`: decide whether the next CLiD score packet clears the minimum sample gate
+- `GPU`: yes, but only after final asset and runtime check
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
@@ -31,7 +31,9 @@ blocked by protocol mismatch. Local SD1.5, Recon CelebA split, target LoRA, and
 CLiD workspace probes are ready. The first bridge preparation exported 8 member
 and 8 nonmember examples and generated a localized upstream script. Bridge
 contract review passed, and score-summary schema gate is wired into artifact
-summarization. The next step is a tiny score bridge, not a large GPU packet.
+summarization. The first 8/8 tiny score bridge is reusable but not promotable
+because it fails the minimum sample gate. The next candidate is a 100/100 score
+bridge under the same gate, not an unconstrained large packet.
 
 ## Ready
 

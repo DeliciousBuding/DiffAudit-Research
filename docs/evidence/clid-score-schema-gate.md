@@ -43,6 +43,10 @@ only.
 `score-summary.json`, then embeds the schema review result under
 `score_schema_review`.
 
+For local two-file bridge runs, use `summarize_clid_bridge_pair_outputs.py`.
+It writes the same `score-summary.json` contract without pretending that the
+released four-file shadow/target evaluator was run.
+
 ```powershell
 python scripts/review_clid_score_schema.py `
   --summary workspaces/black-box/runs/<clid-score-run>/score-summary.json

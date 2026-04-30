@@ -149,6 +149,39 @@ class ClidSmokeTests(unittest.TestCase):
         self.assertEqual(payload["score_schema_review"]["status"], "ready")
         self.assertIn("score_summary", payload["artifact_paths"])
 
+    def test_summarize_clid_bridge_pair_outputs_writes_score_summary(self) -> None:
+        from diffaudit.attacks.clid import summarize_clid_bridge_pair_outputs
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            artifact_dir = root / "outputs"
+            artifact_dir.mkdir(parents=True)
+            (artifact_dir / "Atk_clid_clip_M_local_DATA_member_TRTE_train_MAXsmp_1_T_test.txt").write_text(
+                "header\n"
+                "0.10\t0.01\t0.01\t0.01\t0.01\n"
+                "0.12\t0.02\t0.02\t0.02\t0.02\n",
+                encoding="utf-8",
+            )
+            (artifact_dir / "Atk_clid_clip_M_local_DATA_member_TRTE_test_MAXsmp_1_T_test.txt").write_text(
+                "header\n"
+                "0.80\t0.02\t0.02\t0.02\t0.02\n"
+                "0.90\t0.03\t0.03\t0.03\t0.03\n",
+                encoding="utf-8",
+            )
+
+            result = summarize_clid_bridge_pair_outputs(
+                artifact_dir=artifact_dir,
+                workspace=root / "clid-bridge-pair-summary",
+            )
+
+            self.assertTrue((root / "clid-bridge-pair-summary" / "summary.json").exists())
+            self.assertTrue((root / "clid-bridge-pair-summary" / "score-summary.json").exists())
+
+        self.assertEqual(result["status"], "ready")
+        self.assertEqual(result["mode"], "local-bridge-pair-summary")
+        self.assertEqual(result["score_schema_review"]["status"], "ready")
+        self.assertEqual(result["score_schema_review"]["promotion_status"], "not_eligible")
+
 
 if __name__ == "__main__":
     unittest.main()

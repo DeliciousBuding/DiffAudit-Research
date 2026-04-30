@@ -149,6 +149,14 @@ python scripts/review_clid_score_schema.py `
   --summary workspaces/black-box/runs/<clid-score-run>/score-summary.json
 ```
 
+Summarize a local two-file CLiD bridge output pair:
+
+```powershell
+python scripts/summarize_clid_bridge_pair_outputs.py `
+  --artifact-dir workspaces/black-box/runs/<clid-bridge-run>/outputs `
+  --workspace workspaces/black-box/runs/<clid-bridge-run>/score-summary-workspace
+```
+
 Plan `variation`:
 
 ```powershell
