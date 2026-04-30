@@ -50,6 +50,8 @@ repository rules.
   keeping legacy IDs available for traceability.
 - The portability documentation sync corrected remaining references to the
   removed `src/diffaudit/cli.py` single-file entrypoint.
+- The placeholder cleanup removed empty tracked package directories under
+  `src/diffaudit/` and made SecMI tests independent of ignored local clones.
 
 ## Remaining Local State
 
@@ -59,7 +61,7 @@ The working machine may still contain large ignored directories such as:
 - `workspaces/*/runs/*/checkpoints/`
 - `workspaces/*/runs/*/generated-images/`
 - `workspaces/*/runs/*/score-artifacts/`
-- upstream clones under `external/`
+- optional upstream clones under `external/`
 
 These local directories are intentionally outside the Git review surface. If a
 result from them matters, promote a small curated summary into the relevant
@@ -69,6 +71,12 @@ Do not run broad `git clean -fdX` in this repository. It would remove ignored
 local evidence, upstream checkouts, and asset staging directories. Only remove
 safe generated caches such as `__pycache__/`, `.pytest_cache/`, and temporary
 build metadata when doing routine hygiene.
+
+Local operator cleanup may reversibly move ignored upstream clones from
+`Research/external/` to
+`<DIFFAUDIT_ROOT>/Archive/research-local-artifacts/2026-04-30/external-clones/`.
+Clean machines may keep `external/` empty except for its README and recreate
+specific clones only when a command needs them.
 
 ## Next Cleanup Priorities
 

@@ -26,9 +26,7 @@
 | `attacks/` | 各方法线的 planner、asset probe、dry-run、runtime smoke 和 artifact summary |
 | `pipelines/` | 跨方法通用 pipeline，目前主要是最小 smoke pipeline |
 | `utils/` | 已提取的共享指标、I/O、Gaussian 和 diffusion schedule helper |
-| `metrics/` | placeholder package；shared metric implementations currently live in `utils/metrics.py` |
 | `reports/` | 统一报告输出层 |
-| `assets/` / `adapters/` / `benchmarks/` | 预留给后续共享基础设施 |
 
 ## `src/diffaudit/attacks/`
 
