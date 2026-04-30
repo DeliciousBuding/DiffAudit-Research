@@ -39,7 +39,9 @@ current admission blocker because the prompt-neutral control collapses the
 signal. The canonical boundary is recorded in
 [../../docs/evidence/clid-prompt-conditioning-boundary.md](../../docs/evidence/clid-prompt-conditioning-boundary.md).
 No further CLiD GPU packet should run until a CPU-side perturbation contract
-specifies matched prompt-conditioned and prompt-control gates.
+specifies matched prompt-conditioned and prompt-control gates. The current CPU
+contract is
+[../../docs/evidence/clid-adaptive-prompt-perturbation-contract.md](../../docs/evidence/clid-adaptive-prompt-perturbation-contract.md).
 
 ## Ready
 

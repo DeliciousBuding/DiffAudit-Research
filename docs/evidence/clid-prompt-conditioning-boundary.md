@@ -68,6 +68,9 @@ prompt information from membership signal. A promotable next test needs:
 Until that test exists, the next CPU sidecar is adaptive prompt-perturbation
 design, not more GPU execution.
 
+The concrete CPU contract is recorded in
+[clid-adaptive-prompt-perturbation-contract.md](clid-adaptive-prompt-perturbation-contract.md).
+
 ## Product Boundary
 
 No Platform or Runtime schema change is needed. Platform may describe CLiD as an
