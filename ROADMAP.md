@@ -50,7 +50,8 @@ by fixed prompt text alone. It remains candidate-only; the next CPU step is to
 design image-only or independent prompt-control repeat controls before selecting
 another GPU packet. The within-split shuffle control is weaker than the
 swapped-prompt control but still nonzero, which reinforces the prompt-image
-contract boundary.
+contract boundary. Prompt-text-only review shows moderate AUC but weak
+strict-tail signal, so text alone does not explain the original CLiD repeat.
 
 ## Key Documents
 
@@ -62,6 +63,7 @@ contract boundary.
 - CLiD prompt-control contract: [docs/evidence/clid-adaptive-prompt-perturbation-contract.md](docs/evidence/clid-adaptive-prompt-perturbation-contract.md)
 - CLiD swapped-prompt control: [docs/evidence/clid-swapped-prompt-control.md](docs/evidence/clid-swapped-prompt-control.md)
 - CLiD within-split shuffle control: [docs/evidence/clid-within-split-shuffle-control.md](docs/evidence/clid-within-split-shuffle-control.md)
+- CLiD prompt-text-only review: [docs/evidence/clid-prompt-text-only-review.md](docs/evidence/clid-prompt-text-only-review.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

@@ -60,10 +60,15 @@ Both survive with nonzero strict-tail signal but degrade sharply, so the next
 review should check whether an image-only control or independent prompt-control
 repeat answers a genuinely new question.
 
+The prompt-text-only nuisance baseline is recorded in
+[clid-prompt-text-only-review.md](clid-prompt-text-only-review.md). It shows
+moderate prompt split separability but weak strict-tail signal, so prompt text
+alone does not explain the original CLiD repeat.
+
 ## Current State
 
 - GPU task: none selected.
-- CPU sidecar: compare image-only control or independent prompt-control repeat
-  designs before any next GPU run.
+- CPU sidecar: compare image-only control feasibility or independent
+  prompt-control repeat designs before any next GPU run.
 - Product impact: none. Platform and Runtime should continue treating CLiD as
   candidate-only.

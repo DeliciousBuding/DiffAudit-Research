@@ -48,7 +48,8 @@ It is positive but degraded, and the within-split shuffle control is weaker
 still but nonzero. CLiD remains candidate-only and needs another control design
 before any next GPU packet is selected. The next CPU-ready question is whether
 an image-only control or independent prompt-control repeat would add new
-evidence.
+evidence. Prompt-text-only review shows moderate AUC but weak strict-tail
+signal, so prompt text alone does not explain the original CLiD repeat.
 
 ## Ready
 

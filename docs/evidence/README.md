@@ -23,6 +23,7 @@ This directory contains the public evidence overview.
 | [clid-adaptive-prompt-perturbation-contract.md](clid-adaptive-prompt-perturbation-contract.md) | CPU-first prompt-control contract for the next CLiD admission design. |
 | [clid-swapped-prompt-control.md](clid-swapped-prompt-control.md) | Swapped-prompt CLiD control and updated prompt-conditioning interpretation. |
 | [clid-within-split-shuffle-control.md](clid-within-split-shuffle-control.md) | Within-split prompt shuffle CLiD control and prompt-image contract boundary. |
+| [clid-prompt-text-only-review.md](clid-prompt-text-only-review.md) | Prompt-text-only nuisance baseline for the CLiD 100/100 bridge. |
 | [research-boundary-card.md](research-boundary-card.md) | Limitations card for downstream consumers. |
 | [workspace-evidence-index.md](workspace-evidence-index.md) | Where active and archived workspace evidence lives. |
 
