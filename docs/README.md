@@ -27,6 +27,7 @@ Read these in order when onboarding:
 | [evidence/](evidence/) | Reproduction ladder, admitted results, innovation evidence, and workspace evidence index. |
 | [product-bridge/](product-bridge/) | Research-to-Platform/Runtime boundaries and consumer-facing evidence rules. |
 | [governance/](governance/) | Repository governance, GitHub workflow, license, brand, and history-rewrite audit. |
+| [rebuild/](rebuild/) | Codebase rebuild status, architecture-debt triage, and refactor sequencing. |
 
 ## Internal Research Material
 
