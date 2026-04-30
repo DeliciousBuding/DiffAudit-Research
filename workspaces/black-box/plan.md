@@ -8,7 +8,7 @@
   into artifact summarization; the 8/8 tiny score bridge is reusable but not
   promotable. The 100/100 score packet clears the gate and is now under
   stability/adaptive review. First integrity review passed, and the repeat is
-  stable.
+  stable. Prompt-neutral perturbation collapses the signal.
 - `variation`: API-only support; needs real query-image data for stronger claims.
 - `semantic-auxiliary-classifier`: current alternative candidate.
 - `H2 response-strength`: live candidate with positive non-overlap signal;
@@ -17,8 +17,8 @@
 
 ## Next Action
 
-Run prompt-neutral perturbation under the same CLiD score-summary gate before
-admission. Keep status synchronized with
+Formalize the prompt-conditioned CLiD boundary and compare it with the
+prompt-neutral control. Keep status synchronized with
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status
@@ -27,4 +27,5 @@ Stable admitted baseline plus one selected next lane. `recon` remains admitted;
 H2 is held for image-conditioned portability; CLiD is the next bounded
 prompt-conditioned black-box lane. The tiny bridge passed schema validation but
 failed promotion by sample count; the 100/100 packet is a positive bounded
-candidate that survives first integrity review and repeat, not admitted evidence.
+candidate that survives first integrity review and repeat, but fails
+prompt-neutral perturbation. It is not admitted evidence.

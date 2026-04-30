@@ -28,9 +28,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD prompt-perturbation review`
-- Next GPU task: `CLiD 100/100 prompt-neutral perturbation under the frozen score gate`
-- CPU work: `keep repeat-stability verdict and score-summary gate synchronized`
+- Active work: `CLiD prompt-conditioning boundary analysis`
+- Next GPU task: `none selected`
+- CPU work: `formalize prompt-conditioned claim and compare with prompt-neutral control`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 

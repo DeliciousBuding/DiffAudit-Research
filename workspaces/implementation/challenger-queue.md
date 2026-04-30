@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD prompt-perturbation review`
-- Next GPU task: `CLiD 100/100 prompt-neutral perturbation under the frozen score gate`
-- CPU work: `keep repeat-stability verdict and score-summary gate synchronized`
+- Active work: `CLiD prompt-conditioning boundary analysis`
+- Next GPU task: `none selected`
+- CPU work: `formalize prompt-conditioned claim and compare with prompt-neutral control`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,12 +17,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD prompt-perturbation review
+### CLiD prompt-conditioning boundary analysis
 
-- `mode`: bounded GPU perturbation
+- `mode`: CPU-first claim hardening
 - `status`: active
-- `goal`: decide whether the CLiD 100/100 candidate survives prompt-neutral perturbation
-- `GPU`: yes
+- `goal`: convert CLiD results into a bounded prompt-conditioned claim without overclaiming admission
+- `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
@@ -35,7 +35,8 @@ summarization. The first 8/8 tiny score bridge is reusable but not promotable
 because it fails the minimum sample gate. The 100/100 score packet clears the
 gate with strong low-FPR signal and survives first integrity review, but remains
 candidate-only. The independent repeat is stable; prompt perturbation is the
-next admission blocker.
+current admission blocker because the prompt-neutral control collapses the
+signal.
 
 ## Ready
 
