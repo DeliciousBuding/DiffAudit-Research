@@ -17,8 +17,9 @@
 
 ## Next Action
 
-Formalize the prompt-conditioned CLiD boundary and compare it with the
-prompt-neutral control. Keep status synchronized with
+Design the next CLiD adaptive prompt-perturbation contract. The contract must
+separate prompt information from membership signal before any new GPU packet is
+selected. Keep status synchronized with
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status

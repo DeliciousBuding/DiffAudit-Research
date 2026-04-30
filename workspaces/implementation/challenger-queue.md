@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD prompt-conditioning boundary analysis`
+- Active work: `CLiD adaptive prompt-perturbation design`
 - Next GPU task: `none selected`
-- CPU work: `formalize prompt-conditioned claim and compare with prompt-neutral control`
+- CPU work: `design the next admission test that separates prompt signal from membership signal`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD prompt-conditioning boundary analysis
+### CLiD adaptive prompt-perturbation design
 
 - `mode`: CPU-first claim hardening
 - `status`: active
-- `goal`: convert CLiD results into a bounded prompt-conditioned claim without overclaiming admission
+- `goal`: define the next CLiD admission test that separates prompt information from membership signal
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -36,7 +36,10 @@ because it fails the minimum sample gate. The 100/100 score packet clears the
 gate with strong low-FPR signal and survives first integrity review, but remains
 candidate-only. The independent repeat is stable; prompt perturbation is the
 current admission blocker because the prompt-neutral control collapses the
-signal.
+signal. The canonical boundary is recorded in
+[../../docs/evidence/clid-prompt-conditioning-boundary.md](../../docs/evidence/clid-prompt-conditioning-boundary.md).
+No further CLiD GPU packet should run until a CPU-side perturbation contract
+specifies matched prompt-conditioned and prompt-control gates.
 
 ## Ready
 

@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** CLiD prompt-conditioning boundary analysis
+- **Active work:** CLiD adaptive prompt-perturbation design
 - **Next GPU task:** none selected
-- **CPU work:** formalize prompt-conditioned claim and compare with prompt-neutral control
+- **CPU work:** design the next admission test that separates prompt signal from membership signal
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,7 +29,7 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume with CLiD prompt-conditioning boundary analysis. H2 is held for cross-asset work
+Resume with CLiD adaptive prompt-perturbation design. H2 is held for cross-asset work
 because SD/CelebA text-to-image is protocol-incompatible with H2
 response-strength. `recon` remains the admitted black-box baseline, `variation`
 lacks a real query set and endpoint, and CLiD is selected as the next bounded
@@ -43,6 +43,8 @@ found no obvious row-alignment, duplicate-image, duplicate-prompt, or text-lengt
 leakage explanation, and an independent repeat is stable. Prompt-neutral
 perturbation collapses the signal, so CLiD should be treated as a
 prompt-conditioned candidate rather than admitted general black-box evidence.
+The next CLiD task is CPU-only: specify an admission test that can separate
+prompt information from membership signal before any new GPU packet is selected.
 
 ## Key Documents
 
@@ -50,6 +52,7 @@ prompt-conditioned candidate rather than admitted general black-box evidence.
 - Documentation index: [docs/README.md](docs/README.md)
 - Experiment status: [docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md)
 - CLiD score gate: [docs/evidence/clid-score-schema-gate.md](docs/evidence/clid-score-schema-gate.md)
+- CLiD prompt boundary: [docs/evidence/clid-prompt-conditioning-boundary.md](docs/evidence/clid-prompt-conditioning-boundary.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

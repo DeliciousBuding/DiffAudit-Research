@@ -19,6 +19,7 @@ This directory contains the public evidence overview.
 | [clid-candidate-integrity-review.md](clid-candidate-integrity-review.md) | CPU integrity review for the CLiD 100/100 candidate. |
 | [clid-repeat-stability.md](clid-repeat-stability.md) | Independent repeat stability for the CLiD 100/100 candidate. |
 | [clid-prompt-perturbation.md](clid-prompt-perturbation.md) | Prompt-neutral perturbation result and CLiD admission boundary. |
+| [clid-prompt-conditioning-boundary.md](clid-prompt-conditioning-boundary.md) | Canonical CLiD prompt-conditioned claim boundary and next admission test. |
 | [research-boundary-card.md](research-boundary-card.md) | Limitations card for downstream consumers. |
 | [workspace-evidence-index.md](workspace-evidence-index.md) | Where active and archived workspace evidence lives. |
 

@@ -16,6 +16,12 @@ inform internal ranking and future research selection, but it should not appear
 as admitted Platform evidence until low-FPR stability is established. See
 [../evidence/cross-box-boundary-status.md](../evidence/cross-box-boundary-status.md).
 
+Current CLiD status: CLiD is candidate-only. The prompt-conditioned packet is
+strong and repeat-stable, but prompt-neutral perturbation collapses the signal.
+It can guide research planning, but it should not appear as admitted Platform
+evidence. See
+[../evidence/clid-prompt-conditioning-boundary.md](../evidence/clid-prompt-conditioning-boundary.md).
+
 ## Documents
 
 | Document | Purpose |

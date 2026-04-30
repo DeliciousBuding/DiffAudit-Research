@@ -1,0 +1,75 @@
+# CLiD Prompt-Conditioning Boundary
+
+This card is the canonical boundary for the current CLiD line.
+
+## Verdict
+
+```text
+CLiD is a prompt-conditioned positive candidate; it is not admitted general
+black-box membership evidence.
+```
+
+The evidence separates three facts:
+
+| Question | Evidence | Result |
+| --- | --- | --- |
+| Does the CLiD bridge produce a usable score packet? | [clid-score-schema-gate.md](clid-score-schema-gate.md), [clid-tiny-score-bridge.md](clid-tiny-score-bridge.md) | yes, but the 8/8 packet is smoke-scale only |
+| Is the 100/100 signal strong and repeat-stable under the original prompt-conditioned contract? | [clid-100-score-packet.md](clid-100-score-packet.md), [clid-repeat-stability.md](clid-repeat-stability.md) | yes |
+| Does the signal survive a prompt-neutral control on the same images? | [clid-prompt-perturbation.md](clid-prompt-perturbation.md) | no |
+
+## Evidence Snapshot
+
+| Metric | First 100/100 packet | Repeat packet | Prompt-neutral control |
+| --- | ---: | ---: | ---: |
+| AUC | 1.0 | 1.0 | 0.5862 |
+| ASR | 1.0 | 1.0 | 0.585 |
+| TPR@1%FPR | 1.0 | 1.0 | 0.02 |
+| TPR@0.1%FPR | 1.0 | 1.0 | 0.02 |
+| Feature 0 AUC | 0.9072 | 0.9084 | 0.5848 |
+| CLiD auxiliary AUC | 1.0 | 1.0 | 0.57175 |
+
+The repeat used fresh runtime noise and preserved the strong prompt-conditioned
+signal. The prompt-neutral control used the same member and nonmember images but
+rewrote all prompts to `a face`; the strict low-FPR signal collapsed.
+
+## Claim Boundary
+
+Allowed claim:
+
+- CLiD found a strong and repeat-stable prompt-conditioned separation on the
+  current SD/CelebA bridge packet.
+- The current result is useful for studying how prompt contracts interact with
+  membership-risk surfaces.
+- Future CLiD reports must state the prompt contract and include a
+  prompt-neutral or prompt-perturbed control.
+
+Disallowed claim:
+
+- CLiD is admitted black-box membership evidence.
+- CLiD replaces `recon` as the strongest black-box line.
+- The result generalizes to prompt-neutral, unconditional, or commercial
+  diffusion settings.
+- The result proves conditional-diffusion privacy risk beyond the tested bridge
+  contract.
+
+## Next Admission Test
+
+Do not schedule another CLiD GPU packet until the next hypothesis can separate
+prompt information from membership signal. A promotable next test needs:
+
+| Gate | Requirement |
+| --- | --- |
+| Prompt contract | one frozen prompt-conditioned contract and one matched prompt-control contract |
+| Sample identity | same member/nonmember split identity across both contracts |
+| Low-FPR primary metric | report `TPR@1%FPR` and `TPR@0.1%FPR`; AUC alone is insufficient |
+| Nuisance review | prompt length, duplicate prompts, duplicate images, and row alignment checked |
+| Promotion criterion | strict-tail signal survives the prompt-control comparison without relying on prompt-only separability |
+
+Until that test exists, the next CPU sidecar is adaptive prompt-perturbation
+design, not more GPU execution.
+
+## Product Boundary
+
+No Platform or Runtime schema change is needed. Platform may describe CLiD as an
+internal research candidate only if it also states that the current positive
+result is prompt-conditioned and not admitted evidence.
