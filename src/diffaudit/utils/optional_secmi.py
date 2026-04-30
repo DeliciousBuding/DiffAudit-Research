@@ -21,6 +21,6 @@ def fallback_ssim(
 def load_secmi_ssim() -> Callable[..., torch.Tensor]:
     try:
         from external.SecMI.mia_evals.measures.ssim import ssim
-    except ModuleNotFoundError:
+    except ImportError:
         return fallback_ssim
     return ssim

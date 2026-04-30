@@ -10,8 +10,6 @@ from io import StringIO
 from pathlib import Path
 from unittest.mock import patch
 
-_KANDINSKY_INFERENCE_MODULE_CACHE = None
-
 
 RECON_CONFIG_TEMPLATE = """
 task:
@@ -220,10 +218,6 @@ def load_kandinsky_inference_module(
     added_kv_processor_cls: type,
     processor_cls: type,
 ):
-    global _KANDINSKY_INFERENCE_MODULE_CACHE
-    if _KANDINSKY_INFERENCE_MODULE_CACHE is not None:
-        return _KANDINSKY_INFERENCE_MODULE_CACHE
-
     with tempfile.TemporaryDirectory() as tmpdir:
         repo_root = Path(tmpdir) / "Reconstruction-based-Attack"
         create_minimal_recon_repo(repo_root)
@@ -268,7 +262,6 @@ def load_kandinsky_inference_module(
         with patch.dict(sys.modules, stub_modules, clear=False):
             sys.modules.pop(module_name, None)
             spec.loader.exec_module(module)
-        _KANDINSKY_INFERENCE_MODULE_CACHE = module
         return module
 
 
