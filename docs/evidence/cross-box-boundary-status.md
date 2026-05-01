@@ -11,7 +11,7 @@ Cross-box score sharing is useful for analysis, but it is not yet an admitted
 product result.
 
 Existing shared-surface packets show that multi-surface combinations can
-improve AUC on aligned CIFAR10/DDPM surfaces. The same packets do not show a
+improve AUC on aligned DDPM/CIFAR10 surfaces. The same packets do not show a
 stable low-FPR advantage. Because privacy-audit reporting is sensitive to false
 positives, the current cross-box claim remains:
 
@@ -25,7 +25,7 @@ candidate-only: useful for internal comparison and hypothesis selection
 | --- | ---: | --- |
 | `crossbox-pairboard-gsa-targeted-full-overlap-*` | 461 members / 474 nonmembers | PIA+GSA fusion improves some low-FPR variants but does not consistently dominate the best single surface. |
 | `crossbox-pairboard-pia-sima-full-overlap-20260421-r1` | 461 members / 474 nonmembers | PIA+SIMA improves AUC, but low-FPR gains are small and unstable. |
-| `x165-crossbox-trisurface-consensus-20260429-r1` | 461 members / 474 nonmembers | Three-surface logistic fusion improves mean AUC, but `TPR@0.1%FPR` remains low and variable. |
+| `x165-crossbox-trisurface-consensus-20260429-r1` | 461 members / 474 nonmembers | Three-surface logistic fusion improves mean AUC, but TPR@0.1%FPR remains low and variable. |
 
 The strongest three-surface packet has:
 
@@ -57,7 +57,7 @@ Not allowed:
 
 - Do not claim cross-box consensus is admitted evidence.
 - Do not claim low-FPR robustness from the current cross-box packets.
-- Do not generalize the CIFAR10/DDPM aligned-surface result to conditional
+- Do not generalize the DDPM/CIFAR10 aligned-surface result to conditional
   diffusion models.
 - Do not present candidate fusion as a replacement for admitted black-box,
   gray-box, or white-box rows.
@@ -79,4 +79,3 @@ preflight freezes:
 - the query budget,
 - the adaptive-attacker boundary,
 - the low-FPR release gate.
-
