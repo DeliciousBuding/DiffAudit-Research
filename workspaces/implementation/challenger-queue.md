@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `simple image-to-image distance stability contract frozen`
-- Next GPU task: `H2 img2img simple-distance non-overlapping 10/10 stability packet, pending GPU memory check`
-- CPU work: `recon product-consumable strengthening if GPU is busy`
+- Active work: `post-stability black-box lane decision`
+- Next GPU task: `none selected until a simple-distance admission contract or recon follow-up is frozen`
+- CPU work: `choose 25/25 simple-distance admission contract or recon product-consumable strengthening`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,12 +17,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Simple image-to-image distance stability contract
+### Post-stability black-box lane decision
 
-- `mode`: CPU-first GPU contract
+- `mode`: CPU-only decision
 - `status`: active
-- `goal`: test whether the high-strength simple img2img distance signal survives a non-overlapping 10/10 packet
-- `GPU`: selected but not running; run only after memory check
+- `goal`: decide whether the simple img2img distance signal deserves an admission-scale packet or should yield back to recon
+- `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
@@ -42,8 +42,12 @@ The frozen contract selects the non-overlapping option: `derived-public-25`,
 sample positions `[10, 20)`, `packet-size = 10`, `strength = 0.75`, and
 `repeats = 2`. See
 [../../docs/evidence/h2-img2img-simple-distance-stability-contract.md](../../docs/evidence/h2-img2img-simple-distance-stability-contract.md).
-If it fails the AUC/0-FP gate, close this branch and return to recon
-product-consumable strengthening.
+The packet passed with `AUC = 0.99`, `ASR = 0.95`, and 9/10 member true
+positives at 0 false positives. See
+[../../docs/evidence/h2-img2img-simple-distance-stability-result.md](../../docs/evidence/h2-img2img-simple-distance-stability-result.md).
+The next CPU decision is whether to freeze a `25/25` admission contract on
+`derived-public-50` or return to recon product-consumable strengthening. Do not
+run another GPU packet until that decision is recorded.
 
 ## Ready
 
@@ -149,6 +153,7 @@ No next CLiD GPU task is selected.
 | H2 lowpass follow-up 512 / 512 validation | Positive-but-bounded. Cutoff-0.50 lowpass passed the frozen candidate gate; H2 remains candidate-only and needs portability evidence before promotion. |
 | H2 SD/CelebA text-to-image preflight | Negative-but-useful. Assets are ready, but prompt-only text-to-image is not H2-compatible. |
 | H2 SD/CelebA image-to-image micro-packet | Negative-but-useful for H2 curve promotion. The protocol is runnable, but the H2 logistic curve does not beat the simple high-strength distance comparator; do not scale as-is. |
+| H2 img2img simple-distance stability packet | Positive-but-bounded. Non-overlapping 10/10 packet passed the AUC and 0-FP gate, but remains candidate evidence only. |
 | Black-box next-lane reselection, first pass | CLiD selected for bounded prompt-conditioned probing. Recon stayed admitted baseline; variation lacked real query assets; H2 portability needed image-conditioned protocol. |
 | CLiD prompt-conditioned probing | Hold-candidate. Strong original packet, but prompt controls and attribution block admission as general black-box evidence. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
