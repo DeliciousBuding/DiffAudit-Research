@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `simple image-to-image distance stability contract`
-- Next GPU task: `none selected until the stability contract is frozen`
-- CPU work: `choose independent seed, non-overlapping split, or recon product-consumable return`
+- Active work: `simple image-to-image distance stability contract frozen`
+- Next GPU task: `H2 img2img simple-distance non-overlapping 10/10 stability packet, pending GPU memory check`
+- CPU work: `recon product-consumable strengthening if GPU is busy`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -19,10 +19,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ### Simple image-to-image distance stability contract
 
-- `mode`: CPU-only decision
+- `mode`: CPU-first GPU contract
 - `status`: active
-- `goal`: decide whether the high-strength simple img2img distance signal deserves one bounded stability packet
-- `GPU`: none selected
+- `goal`: test whether the high-strength simple img2img distance signal survives a non-overlapping 10/10 packet
+- `GPU`: selected but not running; run only after memory check
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
@@ -37,6 +37,13 @@ cross-strength rank stability is incomplete. See
 Do not schedule a larger H2 packet as-is. Freeze a stability contract first:
 independent seed on the same 10/10 split, non-overlapping split, or return to
 recon product-consumable strengthening.
+
+The frozen contract selects the non-overlapping option: `derived-public-25`,
+sample positions `[10, 20)`, `packet-size = 10`, `strength = 0.75`, and
+`repeats = 2`. See
+[../../docs/evidence/h2-img2img-simple-distance-stability-contract.md](../../docs/evidence/h2-img2img-simple-distance-stability-contract.md).
+If it fails the AUC/0-FP gate, close this branch and return to recon
+product-consumable strengthening.
 
 ## Ready
 
