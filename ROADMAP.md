@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** recon product row synchronized; next research lane selection
+- **Active work:** recon low-FPR truth-hardening
 - **Next GPU task:** none selected
-- **CPU work:** product-bridge sync and next black-box/innovation lane selection
+- **CPU work:** finite-sample tail-resolution metadata for admitted recon row
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -47,6 +47,9 @@ promotion is complete and recorded in
 [docs/product-bridge/recon-product-validation-handoff.md](docs/product-bridge/recon-product-validation-handoff.md).
 The next research step is to select a new non-recon lane or a truth-hardening
 check that can improve the model story without weakening the claim boundary.
+The first truth-hardening step is complete in code: recon artifact summaries now
+emit `tail_resolution` metadata so `TPR@1%FPR` and `TPR@0.1%FPR` are tied to
+target member/nonmember counts and false-positive budgets.
 
 ## Key Documents
 

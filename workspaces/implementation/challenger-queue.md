@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `post-recon next-lane selection`
+- Active work: `recon low-FPR truth-hardening`
 - Next GPU task: `none selected`
-- CPU work: `product-bridge sync and next black-box/innovation lane selection`
+- CPU work: `finite-sample tail-resolution metadata for admitted recon row`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-recon next-lane selection
+### Recon low-FPR truth-hardening
 
-- `mode`: CPU-first research selection
+- `mode`: CPU-first evidence hardening
 - `status`: active
-- `goal`: choose the next bounded research lane after recon was promoted with coherent four-metric reporting
+- `goal`: make the admitted recon low-FPR row self-describing under finite target-split resolution
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -34,6 +34,10 @@ four-metric reporting. The result is recorded in
 [../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md)
 and the product boundary is recorded in
 [../../docs/product-bridge/recon-product-validation-handoff.md](../../docs/product-bridge/recon-product-validation-handoff.md).
+The next hardening step adds `tail_resolution` metadata to recon summaries so
+low-FPR metrics expose allowed false positives, true positives, false positives,
+empirical FPR, and empirical TPR. This keeps the product row scientifically
+honest without running another GPU task.
 
 ## Ready
 
