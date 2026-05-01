@@ -16,6 +16,7 @@ from diffaudit.config import (
     ReportConfig,
     TaskConfig,
 )
+from diffaudit.attacks.clid_score_schema import validate_clid_score_summary
 
 
 CLID_ENTRYPOINTS = {
@@ -428,9 +429,14 @@ def _search_threshold(train_scores: np.ndarray, test_scores: np.ndarray) -> dict
         integrate = np.trapz
     auc = float(integrate(sorted_tpr, sorted_fpr))
     tpr_at_1pct_fpr = 0.0
+    tpr_at_0_1pct_fpr = 0.0
     for fpr, tpr in zip(sorted_fpr, sorted_tpr):
         if fpr >= 0.01:
             tpr_at_1pct_fpr = float(tpr)
+            break
+    for fpr, tpr in zip(sorted_fpr, sorted_tpr):
+        if fpr >= 0.001:
+            tpr_at_0_1pct_fpr = float(tpr)
             break
 
     return {
@@ -438,6 +444,7 @@ def _search_threshold(train_scores: np.ndarray, test_scores: np.ndarray) -> dict
         "asr": float(best_asr),
         "auc": auc,
         "tpr_at_1pct_fpr": tpr_at_1pct_fpr,
+        "tpr_at_0_1pct_fpr": tpr_at_0_1pct_fpr,
     }
 
 
@@ -494,6 +501,50 @@ def summarize_clid_artifacts(
 
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
+    target_member_rows = int(target_train_features.shape[0])
+    target_nonmember_rows = int(target_test_features.shape[0])
+    target_tpr_0_1 = round(float(best_target["tpr_at_0_1pct_fpr"]), 6)
+    low_fpr_gate_passed = (
+        target_member_rows >= 100
+        and target_nonmember_rows >= 100
+        and target_tpr_0_1 > 0.0
+    )
+    score_summary = {
+        "status": "ready",
+        "track": "black-box",
+        "method": "clid",
+        "mode": "score-summary",
+        "split_identity": {
+            "member_rows": target_member_rows,
+            "nonmember_rows": target_nonmember_rows,
+            "alignment": "target_metadata_row_order",
+            "held_out_target_split": True,
+        },
+        "score_outputs": {
+            "scorer_family": "clid_threshold_alpha_sweep",
+            "raw_score_matrices": "raw-score-matrices/",
+            "threshold_summary": "summary.json",
+        },
+        "metrics": {
+            "auc": round(float(best_target["auc"]), 6),
+            "asr": round(float(best_target["asr"]), 6),
+            "tpr_at_1pct_fpr": round(float(best_target["tpr_at_1pct_fpr"]), 6),
+            "tpr_at_0_1pct_fpr": target_tpr_0_1,
+        },
+        "low_fpr_gate": {
+            "minimum_samples_per_split": 100,
+            "strict_tail_metric": "tpr_at_0_1pct_fpr",
+            "promotion_requires": "nonzero_strict_tail_on_held_out_target",
+            "passed": low_fpr_gate_passed,
+        },
+    }
+    score_summary_path = workspace_path / "score-summary.json"
+    score_summary_path.write_text(
+        json.dumps(score_summary, indent=2, ensure_ascii=True),
+        encoding="utf-8",
+    )
+    score_schema_review = validate_clid_score_summary(score_summary_path)
+    promotion_eligible = score_schema_review["promotion_status"] == "eligible"
     result = {
         "status": "ready",
         "track": "black-box",
@@ -504,6 +555,7 @@ def summarize_clid_artifacts(
         "workspace": str(workspace_path),
         "artifact_paths": {
             "summary": str(workspace_path / "summary.json"),
+            "score_summary": str(score_summary_path),
             "shadow_train": str(shadow_train_path),
             "shadow_test": str(shadow_test_path),
             "target_train": str(target_train_path),
@@ -533,12 +585,174 @@ def summarize_clid_artifacts(
                 "best_asr": round(float(best_target["asr"]), 6),
                 "asr_via_shadow_threshold": round(float(best_target["asr_via_shadow_threshold"]), 6),
                 "tpr_at_1pct_fpr": round(float(best_target["tpr_at_1pct_fpr"]), 6),
+                "tpr_at_0_1pct_fpr": target_tpr_0_1,
                 "threshold": round(float(best_target["threshold"]), 6),
             },
+        },
+        "score_schema_review": {
+            "status": score_schema_review["status"],
+            "promotion_status": score_schema_review["promotion_status"],
+            "verdict": score_schema_review["verdict"],
+            "promotion_missing": score_schema_review["promotion_missing"],
         },
         "notes": [
             "Summary is recomputed from upstream CLiD inter_output artifacts.",
             "Current implementation reproduces the threshold-based alpha sweep, not the XGBoost path.",
+        ],
+    }
+    (workspace_path / "summary.json").write_text(
+        json.dumps(result, indent=2, ensure_ascii=True),
+        encoding="utf-8",
+    )
+    return result
+
+
+def summarize_clid_bridge_pair_outputs(
+    artifact_dir: str | Path,
+    workspace: str | Path,
+) -> dict[str, object]:
+    """Summarize a tiny local CLiD bridge with one member and one nonmember output.
+
+    This is intentionally separate from ``summarize_clid_artifacts`` because the
+    released CLiD evaluator expects shadow and target files, while the local
+    bridge emits only a target-side member/nonmember pair.
+    """
+
+    artifact_path = Path(artifact_dir)
+    member_path = _find_single_artifact(artifact_path, "*TRTE_train*.txt")
+    nonmember_path = _find_single_artifact(artifact_path, "*TRTE_test*.txt")
+    member_features = _extract_clid_features(load_clid_score_matrix(member_path))
+    nonmember_features = _extract_clid_features(load_clid_score_matrix(nonmember_path))
+
+    center, scale = _robust_fit(np.vstack((member_features, nonmember_features)))
+    member_scaled = _robust_transform(member_features, center, scale)
+    nonmember_scaled = _robust_transform(nonmember_features, center, scale)
+
+    best_alpha = 0.0
+    best_metrics = None
+    for alpha in np.linspace(0.0, 1.0, num=11):
+        member_scores = _weighted_score(member_scaled, float(alpha))
+        nonmember_scores = _weighted_score(nonmember_scaled, float(alpha))
+        metrics = _search_threshold(member_scores, nonmember_scores)
+        if best_metrics is None or metrics["auc"] > best_metrics["auc"]:
+            best_alpha = float(alpha)
+            best_metrics = metrics
+
+    assert best_metrics is not None
+    feature0_metrics = _search_threshold(member_features[:, 0], nonmember_features[:, 0])
+    feature1_metrics = _search_threshold(member_features[:, 1], nonmember_features[:, 1])
+
+    workspace_path = Path(workspace)
+    workspace_path.mkdir(parents=True, exist_ok=True)
+    member_rows = int(member_features.shape[0])
+    nonmember_rows = int(nonmember_features.shape[0])
+    tpr_at_0_1 = round(float(best_metrics["tpr_at_0_1pct_fpr"]), 6)
+    low_fpr_gate_passed = (
+        member_rows >= 100
+        and nonmember_rows >= 100
+        and tpr_at_0_1 > 0.0
+    )
+    score_summary = {
+        "status": "ready",
+        "track": "black-box",
+        "method": "clid",
+        "mode": "score-summary",
+        "split_identity": {
+            "member_rows": member_rows,
+            "nonmember_rows": nonmember_rows,
+            "alignment": "local_bridge_metadata_row_order",
+            "held_out_target_split": True,
+        },
+        "score_outputs": {
+            "scorer_family": "clid_clip_local_bridge_alpha_sweep",
+            "raw_score_matrices": "raw-score-matrices/",
+            "threshold_summary": "summary.json",
+        },
+        "metrics": {
+            "auc": round(float(best_metrics["auc"]), 6),
+            "asr": round(float(best_metrics["asr"]), 6),
+            "tpr_at_1pct_fpr": round(float(best_metrics["tpr_at_1pct_fpr"]), 6),
+            "tpr_at_0_1pct_fpr": tpr_at_0_1,
+        },
+        "low_fpr_gate": {
+            "minimum_samples_per_split": 100,
+            "strict_tail_metric": "tpr_at_0_1pct_fpr",
+            "promotion_requires": "nonzero_strict_tail_on_held_out_target",
+            "passed": low_fpr_gate_passed,
+        },
+    }
+    score_summary_path = workspace_path / "score-summary.json"
+    score_summary_path.write_text(
+        json.dumps(score_summary, indent=2, ensure_ascii=True),
+        encoding="utf-8",
+    )
+    score_schema_review = validate_clid_score_summary(score_summary_path)
+    promotion_eligible = score_schema_review["promotion_status"] == "eligible"
+    result = {
+        "status": "ready",
+        "track": "black-box",
+        "method": "clid",
+        "paper": "CLiD_NeurIPS2024",
+        "mode": "local-bridge-pair-summary",
+        "device": "gpu-or-runtime-selected",
+        "workspace": str(workspace_path),
+        "artifact_paths": {
+            "summary": str(workspace_path / "summary.json"),
+            "score_summary": str(score_summary_path),
+            "member_scores": str(member_path),
+            "nonmember_scores": str(nonmember_path),
+        },
+        "assets": {
+            "artifact_dir": str(artifact_path),
+            "member_samples": member_rows,
+            "nonmember_samples": nonmember_rows,
+        },
+        "checks": {
+            "member_artifact_loaded": True,
+            "nonmember_artifact_loaded": True,
+            "feature_columns_extracted": True,
+            "target_pair_summary_complete": True,
+        },
+        "metrics": {
+            "best_alpha": round(best_alpha, 3),
+            "auc": round(float(best_metrics["auc"]), 6),
+            "asr": round(float(best_metrics["asr"]), 6),
+            "tpr_at_1pct_fpr": round(float(best_metrics["tpr_at_1pct_fpr"]), 6),
+            "tpr_at_0_1pct_fpr": tpr_at_0_1,
+            "threshold": round(float(best_metrics["threshold"]), 6),
+        },
+        "sanity_metrics": {
+            "feature0": {
+                "auc": round(float(feature0_metrics["auc"]), 6),
+                "asr": round(float(feature0_metrics["asr"]), 6),
+                "tpr_at_1pct_fpr": round(float(feature0_metrics["tpr_at_1pct_fpr"]), 6),
+                "tpr_at_0_1pct_fpr": round(float(feature0_metrics["tpr_at_0_1pct_fpr"]), 6),
+            },
+            "feature1_clid_aux": {
+                "auc": round(float(feature1_metrics["auc"]), 6),
+                "asr": round(float(feature1_metrics["asr"]), 6),
+                "tpr_at_1pct_fpr": round(float(feature1_metrics["tpr_at_1pct_fpr"]), 6),
+                "tpr_at_0_1pct_fpr": round(float(feature1_metrics["tpr_at_0_1pct_fpr"]), 6),
+            },
+        },
+        "score_schema_review": {
+            "status": score_schema_review["status"],
+            "promotion_status": score_schema_review["promotion_status"],
+            "verdict": score_schema_review["verdict"],
+            "promotion_missing": score_schema_review["promotion_missing"],
+        },
+        "verdict": (
+            "local bridge produced a reusable score schema but is not promotable"
+            if not promotion_eligible
+            else "local bridge produced a promotable score schema"
+        ),
+        "notes": [
+            "This summarizes the local two-file CLiD bridge, not the released four-file shadow/target evaluator.",
+            (
+                "Promotion is eligible for bounded review under the configured sample gate; this is not admitted evidence."
+                if promotion_eligible
+                else "Promotion is blocked by the configured minimum split size unless at least 100 member and 100 nonmember rows are available."
+            ),
         ],
     }
     (workspace_path / "summary.json").write_text(

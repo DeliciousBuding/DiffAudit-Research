@@ -28,9 +28,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Cross-box experiment boundary hardening`
-- Next GPU task: `none`
-- CPU work: `Public documentation sync`
+- Active work: `CLiD prompt-conditioning boundary analysis`
+- Next GPU task: `none selected`
+- CPU work: `formalize prompt-conditioned claim and compare with prompt-neutral control`
 - No GPU task should start from documentation or governance cleanup alone.
 - No history rewrite or force-push without a separate approved audit.
 

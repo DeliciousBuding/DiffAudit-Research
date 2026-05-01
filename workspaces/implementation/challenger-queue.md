@@ -1,35 +1,39 @@
 # Research Task Queue
 
-> Last refreshed: 2026-04-30
+> Last refreshed: 2026-05-01
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `Cross-box experiment boundary hardening`
-- Next GPU task: `none`
-- CPU work: `Public documentation sync`
+- Active work: `post-recon next-lane selection`
+- Next GPU task: `none selected`
+- CPU work: `product-bridge sync and next black-box/innovation lane selection`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
-  `DDPM/CIFAR10`; not yet verified, not a `recon` replacement
+  `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
 - Internal gray-box result: useful for research triage, not public evidence
 
 ## Active
 
-### Cross-box experiment boundary hardening
+### Post-recon next-lane selection
 
-- `mode`: CPU-only boundary work
+- `mode`: CPU-first research selection
 - `status`: active
-- `goal`: formal statement on adaptive-attacker and low-FPR limitations,
-  plus updates to current evidence summaries
+- `goal`: choose the next bounded research lane after recon was promoted with coherent four-metric reporting
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-The response-strength candidate is strong enough to create overclaim pressure
-but remains candidate-only. This task hardens cross-track wording and
-integration readiness before any future GPU work.
+The CPU-only reselection is recorded in
+[../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
+CLiD moved to hold-candidate after prompt-control attribution. The recon
+product-validation packet is now the admitted black-box row with coherent
+four-metric reporting. The result is recorded in
+[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md)
+and the product boundary is recorded in
+[../../docs/product-bridge/recon-product-validation-handoff.md](../../docs/product-bridge/recon-product-validation-handoff.md).
 
 ## Ready
 
@@ -42,14 +46,32 @@ integration readiness before any future GPU work.
 
 ## Hold
 
+### CLiD prompt-conditioned diagnostic lane
+
+- `mode`: black-box candidate
+- `reason for hold`: original prompt-conditioned packet is strong, but fixed
+  prompt, swapped-prompt, within-split shuffle, prompt-text-only, and control
+  attribution reviews show prompt-conditioned auxiliary instability.
+- `reopen trigger`: new protocol that isolates image identity from
+  prompt-conditioned auxiliary behavior and keeps low-FPR metrics primary.
+
+CLiD was selected after H2 text-to-image transfer was blocked by protocol
+mismatch. The bridge preparation, schema gate, 100/100 score packet, integrity
+review, and independent repeat all succeeded under the original
+prompt-conditioned contract. Admission is blocked because prompt-neutral,
+swapped-prompt, within-split shuffle, prompt-text-only, and attribution controls
+show that the strict-tail signal is degraded and auxiliary-feature stability is
+not robust. The canonical boundary is recorded in
+[../../docs/evidence/clid-prompt-conditioning-boundary.md](../../docs/evidence/clid-prompt-conditioning-boundary.md).
+No next CLiD GPU task is selected.
+
 ### Stable Diffusion / CelebA adapter contract watch
 
 - `mode`: future black-box data acquisition
-- `reason for hold`: closer to verified `recon` data than the current
-  `DDPM/CIFAR10` candidate, but prompt, model, split, and query-budget
-  contracts are not defined.
-- `reopen trigger`: CPU preflight defines a compatible data contract and
-  identifies one validation experiment.
+- `reason for hold`: assets are ready, but prompt-only text-to-image is not an
+  H2-compatible contract.
+- `reopen trigger`: image-to-image or unconditional-state endpoint contract
+  with fixed repeats, response images, split source, and low-FPR gate.
 
 ### Cross-box successor-hypothesis watch
 
@@ -78,10 +100,17 @@ integration readiness before any future GPU work.
 ### Response-strength black-box candidate
 
 - `mode`: black-box candidate
-- `reason for hold`: non-overlap validation passed, but compatible comparator
-  and adaptive/query-budget contracts are not available.
-- `reopen trigger`: frozen compatible comparator contract or a CPU preflight
-  that can justify one future validation experiment.
+- `reason for hold`: positive-but-bounded on `DDPM/CIFAR10`, but not admitted
+  or portable.
+- `reopen trigger`: a cross-asset black-box contract with dataset, model, split,
+  and query-budget boundaries.
+
+### Variation real-query line
+
+- `mode`: API-only black-box
+- `reason for hold`: missing real query-image set and real endpoint.
+- `reopen trigger`: `Download/black-box/datasets/variation-query-set` contains
+  member/nonmember images and a real endpoint contract is available.
 
 ## Needs Data
 
@@ -105,6 +134,12 @@ integration readiness before any future GPU work.
 | Task | Result |
 | --- | --- |
 | CLI package/dispatch split | `diffaudit.cli` is now a package with parser and dispatch separated. |
+| Cross-box evidence boundary hardening | Candidate-only. Existing cross-box packets are useful for internal comparison but do not establish stable low-FPR gains. |
+| H2 raw-primary 512 / 512 validation | Negative-but-useful. Raw H2 kept AUC signal but failed `TPR@0.1%FPR`; lowpass tail review remains active. |
+| H2 lowpass follow-up 512 / 512 validation | Positive-but-bounded. Cutoff-0.50 lowpass passed the frozen candidate gate; H2 remains candidate-only and needs portability evidence before promotion. |
+| H2 SD/CelebA text-to-image preflight | Negative-but-useful. Assets are ready, but prompt-only text-to-image is not H2-compatible. |
+| Black-box next-lane reselection, first pass | CLiD selected for bounded prompt-conditioned probing. Recon stayed admitted baseline; variation lacked real query assets; H2 portability needed image-conditioned protocol. |
+| CLiD prompt-conditioned probing | Hold-candidate. Strong original packet, but prompt controls and attribution block admission as general black-box evidence. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
 | Architecture triage | Fixed dependency issues; added package initializers; aligned local checks with CI. |
 | Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |
