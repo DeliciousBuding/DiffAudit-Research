@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `H2 image-to-image portability contract`
-- Next GPU task: `H2 SD/CelebA image-to-image 10/10 micro-packet, pending runner and GPU memory check`
-- CPU work: `freeze packet identity and response-cache schema before any GPU run`
+- Active work: `post-H2 image-to-image lane reselection`
+- Next GPU task: `none selected`
+- CPU work: `decide whether simple img2img distance deserves a bounded stability check, or return to recon product-consumable strengthening`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,21 +17,23 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### H2 image-to-image portability contract
+### Post-H2 image-to-image lane reselection
 
-- `mode`: CPU-first GPU contract
+- `mode`: CPU-only decision
 - `status`: active
-- `goal`: test whether H2 response-strength can transfer beyond DDPM/CIFAR10 when the black-box surface exposes image-conditioned responses
-- `GPU`: not yet; next candidate is a 10/10 micro-packet after runner/schema freeze
+- `goal`: choose the next black-box lane after the frozen H2 image-to-image micro-packet
+- `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-Text-to-image SD/CelebA remains protocol-blocked for H2, but image-to-image is
-eligible when query images, controlled repeats, and observable response images
-are explicit. The CPU contract is recorded in
-[../../docs/evidence/h2-image-to-image-contract.md](../../docs/evidence/h2-image-to-image-contract.md).
-Do not schedule a large packet. The next valid GPU candidate is only the frozen
-10 member / 10 nonmember micro-packet.
+The frozen H2 image-to-image micro-packet is complete. It confirms the protocol
+is runnable, but H2 response-strength does not beat the same-cache simple
+distance comparator. See
+[../../docs/evidence/h2-img2img-micro-result.md](../../docs/evidence/h2-img2img-micro-result.md).
+Do not schedule a larger H2 packet as-is. The next CPU decision is whether the
+simple high-strength img2img distance signal deserves a bounded stability check,
+or whether the black-box slot should return to recon product-consumable
+strengthening.
 
 ## Ready
 
@@ -136,6 +138,7 @@ No next CLiD GPU task is selected.
 | H2 raw-primary 512 / 512 validation | Negative-but-useful. Raw H2 kept AUC signal but failed `TPR@0.1%FPR`; lowpass tail review remains active. |
 | H2 lowpass follow-up 512 / 512 validation | Positive-but-bounded. Cutoff-0.50 lowpass passed the frozen candidate gate; H2 remains candidate-only and needs portability evidence before promotion. |
 | H2 SD/CelebA text-to-image preflight | Negative-but-useful. Assets are ready, but prompt-only text-to-image is not H2-compatible. |
+| H2 SD/CelebA image-to-image micro-packet | Negative-but-useful for H2 curve promotion. The protocol is runnable, but the H2 logistic curve does not beat the simple high-strength distance comparator; do not scale as-is. |
 | Black-box next-lane reselection, first pass | CLiD selected for bounded prompt-conditioned probing. Recon stayed admitted baseline; variation lacked real query assets; H2 portability needed image-conditioned protocol. |
 | CLiD prompt-conditioned probing | Hold-candidate. Strong original packet, but prompt controls and attribution block admission as general black-box evidence. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
