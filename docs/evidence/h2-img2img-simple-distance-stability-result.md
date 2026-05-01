@@ -91,6 +91,14 @@ conda run -n diffaudit-research python -X utf8 scripts/collect_h2_img2img_respon
 Review the cache:
 
 ```powershell
+python -X utf8 scripts/evaluate_h2_response_cache.py `
+  --response-cache workspaces/black-box/runs/h2-img2img-simple-distance-stability-20260501-r1/response-cache.npz `
+  --output workspaces/black-box/runs/h2-img2img-simple-distance-stability-20260501-r1/summary.json `
+  --bootstrap-iters 200 `
+  --holdout-repeats 7
+```
+
+```powershell
 python -X utf8 scripts/review_h2_img2img_simple_distance.py `
   --response-cache workspaces/black-box/runs/h2-img2img-simple-distance-stability-20260501-r1/response-cache.npz `
   --evaluation-summary workspaces/black-box/runs/h2-img2img-simple-distance-stability-20260501-r1/summary.json `
