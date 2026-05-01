@@ -69,6 +69,9 @@ strong enough to justify scale-up without a new stability contract.
   any further GPU packet.
 - No Platform or Runtime schema change is warranted.
 
+The stability contract is now frozen in
+[h2-img2img-simple-distance-stability-contract.md](h2-img2img-simple-distance-stability-contract.md).
+
 ## Reproduction
 
 ```powershell
