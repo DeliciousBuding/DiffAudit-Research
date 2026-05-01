@@ -31,6 +31,9 @@ comparator. The packet therefore does not promote H2 portability beyond
 The raw response cache and generated responses are local ignored artifacts under
 `workspaces/black-box/runs/` and are not Git evidence.
 
+The simple-distance signal from this cache is reviewed separately in
+[h2-img2img-simple-distance-review.md](h2-img2img-simple-distance-review.md).
+
 ## Metrics
 
 | Scorer | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR | Interpretation |

@@ -13,6 +13,7 @@ This directory contains the public evidence overview.
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
 | [h2-image-to-image-contract.md](h2-image-to-image-contract.md) | CPU contract that reopens H2 portability only under image-to-image response observation. |
 | [h2-img2img-micro-result.md](h2-img2img-micro-result.md) | First frozen SD/CelebA image-to-image H2 micro-packet verdict. |
+| [h2-img2img-simple-distance-review.md](h2-img2img-simple-distance-review.md) | CPU review of the simple high-strength image-to-image response-distance signal. |
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
 | [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) | Superseding CPU-only reselection after CLiD prompt-control closure. |
 | [recon-product-validation-contract.md](recon-product-validation-contract.md) | CPU contract for the next recon product-consumable validation packet. |
