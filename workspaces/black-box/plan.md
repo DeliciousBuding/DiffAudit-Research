@@ -21,8 +21,12 @@
 Recon product-row promotion is complete. The bounded public-100 step30 rerun
 and artifact re-summarization now produce the admitted coherent
 upstream-threshold packet (`AUC = 0.837`, `ASR = 0.74`, `TPR@1%FPR = 0.22`,
-`TPR@0.1%FPR = 0.11`). Keep status synchronized with
-[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
+`TPR@0.1%FPR = 0.11`). The finite-tail confidence review keeps this row
+admitted, but blocks wording that treats public-100 zero-FP evidence as
+continuous sub-percent FPR calibration. Keep status synchronized with
+[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md)
+and
+[../../docs/evidence/recon-tail-confidence-review.md](../../docs/evidence/recon-tail-confidence-review.md).
 
 ## Current Status
 
