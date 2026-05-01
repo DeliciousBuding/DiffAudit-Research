@@ -21,6 +21,17 @@ class MetricsUtilsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "one member .* one nonmember"):
             metric_bundle(np.asarray([0.1, 0.2]), np.asarray([0, 0]))
 
+    def test_threshold_metrics_grid_reports_strict_tail_metric(self) -> None:
+        from diffaudit.utils.metrics import threshold_metrics_grid
+
+        labels = np.asarray([1, 1, 0, 0])
+        scores = np.asarray([0.9, 0.8, 0.2, 0.1])
+
+        metrics = threshold_metrics_grid(labels, scores)
+
+        self.assertIn("tpr_at_0_1pct_fpr", metrics)
+        self.assertEqual(metrics["tpr_at_0_1pct_fpr"], 1.0)
+
 
 if __name__ == "__main__":
     unittest.main()
