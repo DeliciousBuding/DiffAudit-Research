@@ -16,6 +16,7 @@ This directory contains the public evidence overview.
 | [h2-img2img-simple-distance-review.md](h2-img2img-simple-distance-review.md) | CPU review of the simple high-strength image-to-image response-distance signal. |
 | [h2-img2img-simple-distance-stability-contract.md](h2-img2img-simple-distance-stability-contract.md) | Frozen non-overlapping stability contract for the simple image-to-image distance signal. |
 | [h2-img2img-simple-distance-stability-result.md](h2-img2img-simple-distance-stability-result.md) | Non-overlapping stability result for the simple image-to-image distance signal. |
+| [h2-img2img-simple-distance-admission-contract.md](h2-img2img-simple-distance-admission-contract.md) | Frozen 25/25 admission-scale contract for the simple image-to-image distance signal. |
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
 | [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) | Superseding CPU-only reselection after CLiD prompt-control closure. |
 | [recon-product-validation-contract.md](recon-product-validation-contract.md) | CPU contract for the next recon product-consumable validation packet. |
