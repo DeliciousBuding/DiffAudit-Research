@@ -28,11 +28,15 @@ jobs:
 
       - name: Public Surface Guard
         run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
           python scripts/check_public_surface.py
           python scripts/check_markdown_links.py
 
       - name: Verify CLI Install
         run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
           python scripts/bootstrap_research_env.py
           python -m diffaudit --help
           diffaudit --help
@@ -40,9 +44,13 @@ jobs:
 
       - name: Render Local Config Templates
         run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
           python scripts/render_team_local_configs.py --team-local configs/assets/team.local.template.yaml --output-dir tmp/configs/rendered-ci
 
       - name: Run Core Tests
         run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
           python -m unittest tests.test_attack_registry tests.test_smoke_pipeline
           python -m pytest tests/test_variation_attack.py tests/test_render_team_local_configs.py -q
