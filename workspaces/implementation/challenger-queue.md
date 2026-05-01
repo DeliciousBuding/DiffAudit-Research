@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `recon product evidence-card hardening`
+- Active work: `non-recon black-box low-FPR reselection`
 - Next GPU task: `none selected after the 25/25 admission packet`
-- CPU work: `keep the admitted recon row machine-consumable and synchronized`
+- CPU work: `variation query-contract audit and blocked-lane clarification`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Recon product evidence-card hardening
+### Non-recon black-box low-FPR reselection
 
 - `mode`: CPU-only decision
 - `status`: active
-- `goal`: choose the next product-consumable or low-FPR black-box strengthening task after recon row guard hardening
+- `goal`: decide whether any non-recon black-box lane is ready for a real low-FPR candidate packet after recon product hardening
 - `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -70,6 +70,10 @@ The selected CPU follow-up is the recon product evidence card. It exports the
 admitted row, finite-tail interpretation, claim boundary, and provenance as a
 checked machine-readable card for Platform and Runtime consumers. See
 [../../docs/product-bridge/recon-product-evidence-card.md](../../docs/product-bridge/recon-product-evidence-card.md).
+The first non-recon follow-up is the variation query-contract audit. It is
+blocked because the real member/nonmember query-image set and endpoint are not
+present. See
+[../../docs/evidence/variation-query-contract-audit.md](../../docs/evidence/variation-query-contract-audit.md).
 No GPU task is selected.
 
 ## Ready
