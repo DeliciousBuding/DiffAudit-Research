@@ -45,8 +45,10 @@ python scripts/probe_h2_cross_asset_contract.py `
   --response-images-observable
 ```
 
-That is an eligibility result, not evidence. It only says a future GPU contract
-could be frozen if an image-to-image endpoint is selected.
+That eligibility result is now frozen as a separate CPU contract in
+[h2-image-to-image-contract.md](h2-image-to-image-contract.md). It is not
+admitted evidence; it only authorizes a tiny image-to-image protocol scout if a
+runner exists and GPU memory is available.
 
 ## Research Decision
 
@@ -55,7 +57,7 @@ surface. The next black-box slot should choose one of two paths:
 
 | Option | Status | Why |
 | --- | --- | --- |
-| H2 image-to-image contract | hold | Requires an explicit image-conditioned endpoint, fixed strength schedule, repeated-query budget, and response-image access. |
+| H2 image-to-image contract | eligible CPU contract | Requires only a tiny frozen scout before any scale-up. See [h2-image-to-image-contract.md](h2-image-to-image-contract.md). |
 | CLiD / recon / variation continuation | ready for CPU selection | These methods are protocol-compatible with SD/CelebA text-to-image or returned-image black-box surfaces. |
 
 ## Boundary
