@@ -6,17 +6,17 @@ It does not promote a new result and does not authorize a GPU run yet.
 ## Verdict
 
 ```text
-CPU metric field implemented; strict-tail value still needs artifact-backed
-validation before GPU promotion
+CPU metric field implemented; strict-tail value validated; product promotion
+blocked by metric-source mismatch
 ```
 
 The admitted recon row is the strongest black-box evidence, but it is not yet a
 complete product-consumable packet. The historical summaries report
 `AUC / ASR / TPR@1%FPR`; `TPR@0.1%FPR` was missing from the recon mainline
 summary. The code path now emits `tpr_at_0_1pct_fpr` for new recon summaries,
-but the old public-100 score artifacts are not present in the Git working tree,
-so the strict-tail value for the admitted packet still needs artifact-backed
-validation or a bounded rerun.
+and the bounded public-100 rerun validates a nonzero strict-tail value. The
+remaining blocker is metric-source reconciliation: combined runtime summary and
+artifact-summary agree on strict-tail but disagree on AUC/ASR.
 
 ## Frozen Candidate Packet
 
@@ -46,18 +46,14 @@ Current status:
   summaries.
 - Characterization tests cover both artifact-mainline and runtime-mainline
   summaries.
-- A CPU-only re-evaluation of the admitted public-100 score artifacts was
-  attempted, but `experiments/recon-runtime-mainline-ddim-public-100-step30/score-artifacts/`
-  is absent from the working tree because score artifacts are ignored large
-  run payloads.
+- The bounded public-100 rerun is recorded in
+  [recon-product-validation-result.md](recon-product-validation-result.md).
 
-Still required before GPU promotion:
+Still required before product-row promotion:
 
-- Restore the old score artifacts from the local asset boundary, or rerun the
-  frozen packet.
-- Record the actual strict-tail value for `recon DDIM public-100 step30`.
-- Confirm the artifact-mainline summary and runtime summary agree on headline
-  metrics or document why they intentionally differ.
+- Reconcile whether product-facing AUC/ASR should come from upstream eval,
+  artifact-summary target scores, or a unified metric path.
+- Confirm the selected metric source is stable and coherent.
 - Keep output schema backward-compatible: the new field is additive; existing
   fields are unchanged.
 

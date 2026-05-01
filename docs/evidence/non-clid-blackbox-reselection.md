@@ -63,9 +63,10 @@ The frozen CPU contract is
 recon product-consumable validation packet, pending CPU contract
 ```
 
-No GPU task is active now. A GPU run is only justified after the old score
-artifacts are restored or the frozen packet is rerun to record the actual
-strict-tail value with the metric-complete summary path.
+The first bounded GPU validation packet has run and is recorded in
+[recon-product-validation-result.md](recon-product-validation-result.md). It
+confirms nonzero strict-tail signal, but product-row promotion is blocked until
+the recon metric-source mismatch is resolved.
 
 ## Product Boundary
 

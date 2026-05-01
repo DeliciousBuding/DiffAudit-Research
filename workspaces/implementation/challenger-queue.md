@@ -8,8 +8,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 ## Current State
 
 - Active work: `recon product-consumable strengthening`
-- Next GPU task: `recon validation packet pending score-artifact restore or bounded rerun`
-- CPU work: `recover or regenerate recon public-100 score artifacts and record strict-tail value`
+- Next GPU task: `none selected`
+- CPU work: `reconcile recon product-validation metric sources before promotion`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -22,18 +22,17 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 - `mode`: CPU-first evidence hardening
 - `status`: active
 - `goal`: turn the admitted recon baseline into a stricter system-consumable black-box evidence packet without expanding the claim
-- `GPU`: pending score-artifact restore or bounded rerun
+- `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
 The CPU-only reselection is recorded in
 [../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
-CLiD moved to hold-candidate after prompt-control attribution. The next black-box
-GPU candidate is a recon validation packet after the old score artifacts are
-restored or the frozen packet is rerun. The code path now emits strict-tail
-metric fields; the remaining gap is the artifact-backed value for the admitted
-public-100 packet. The contract is
-[../../docs/evidence/recon-product-validation-contract.md](../../docs/evidence/recon-product-validation-contract.md).
+CLiD moved to hold-candidate after prompt-control attribution. The recon
+product-validation packet confirms nonzero strict-tail signal, but product-row
+promotion is blocked until upstream-eval and artifact-summary metric sources are
+reconciled. The result is recorded in
+[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
 
 ## Ready
 

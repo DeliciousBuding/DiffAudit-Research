@@ -14,15 +14,15 @@
 
 ## Next Action
 
-Recover or regenerate the recon public-100 score artifacts, then record the
-strict-tail value with the updated metric-complete recon summary path. Keep
-status synchronized with
-[../../docs/evidence/recon-product-validation-contract.md](../../docs/evidence/recon-product-validation-contract.md).
+Reconcile recon product-validation metric sources before promotion. The bounded
+public-100 step30 rerun confirms nonzero strict-tail signal, but AUC/ASR differ
+between upstream eval and artifact-summary. Keep status synchronized with
+[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
 
 ## Current Status
 
 Stable admitted baseline plus one selected strengthening lane. `recon` remains
 admitted and is now selected for product-consumable strengthening. The next GPU
-candidate is pending score-artifact restore or a bounded rerun. H2 is held for
-image-conditioned portability; CLiD is hold-candidate; variation remains
-data-gated.
+candidate is not selected; the next step is CPU-first metric-source
+reconciliation. H2 is held for image-conditioned portability; CLiD is
+hold-candidate; variation remains data-gated.

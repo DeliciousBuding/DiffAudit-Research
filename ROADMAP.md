@@ -8,8 +8,8 @@ This is the short steering document for Research. Execution history is in
 ## Current Focus
 
 - **Active work:** recon product-consumable strengthening
-- **Next GPU task:** recon validation packet pending score-artifact restore or bounded rerun
-- **CPU work:** recover or regenerate recon public-100 score artifacts and record strict-tail value
+- **Next GPU task:** none selected
+- **CPU work:** reconcile recon product-validation metric sources before promotion
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -40,9 +40,9 @@ packet without a new protocol that isolates image identity from
 prompt-conditioned behavior. The recon CPU contract is now frozen in
 [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md).
 The recon code path now emits complete low-FPR metric fields, including
-`TPR@0.1%FPR`; the remaining blocker is artifact-backed validation of the
-admitted public-100 packet because its ignored score artifacts are not present
-in the Git working tree.
+`TPR@0.1%FPR`. A bounded public-100 step30 rerun validates nonzero strict-tail
+signal (`TPR@0.1%FPR = 0.2`), but product-row promotion is blocked until the
+upstream-eval and artifact-summary metric sources are reconciled.
 
 ## Key Documents
 
@@ -58,6 +58,7 @@ in the Git working tree.
 - CLiD control attribution: [docs/evidence/clid-control-attribution.md](docs/evidence/clid-control-attribution.md)
 - Non-CLiD black-box reselection: [docs/evidence/non-clid-blackbox-reselection.md](docs/evidence/non-clid-blackbox-reselection.md)
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
+- Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

@@ -7,8 +7,8 @@
   lane for product-consumable strengthening.
 - Supporting methods: `CLiD`, `variation`, `H2 response-strength`, and
   semantic-auxiliary classifiers.
-- Candidate method: `recon` validation packet, pending score-artifact restore
-  or bounded rerun to record strict-tail value.
+- Candidate method: `recon` product-validation packet, strict-tail confirmed
+  but metric-source reconciliation pending.
 - GPU: no active black-box GPU task running now.
 
 ## Files
@@ -27,6 +27,9 @@ Current non-CLiD reselection:
 
 Current recon validation contract:
 [../../docs/evidence/recon-product-validation-contract.md](../../docs/evidence/recon-product-validation-contract.md).
+
+Current recon validation result:
+[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
 
 ## Archive
 
