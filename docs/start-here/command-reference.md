@@ -178,6 +178,19 @@ python scripts/collect_h2_img2img_response_cache.py `
   --run-root workspaces/black-box/runs/h2-img2img-simple-distance-stability-20260501-r1
 ```
 
+Dry-run the frozen 25/25 simple-distance admission packet:
+
+```powershell
+python scripts/collect_h2_img2img_response_cache.py `
+  --split-name derived-public-50 `
+  --sample-offset 20 `
+  --packet-size 25 `
+  --strengths 0.75 `
+  --repeats 2 `
+  --num-inference-steps 30 `
+  --run-root workspaces/black-box/runs/h2-img2img-simple-distance-admission-20260501-r1
+```
+
 Validate a prepared local CLiD bridge contract:
 
 ```powershell
