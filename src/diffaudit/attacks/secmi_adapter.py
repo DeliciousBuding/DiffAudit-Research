@@ -10,6 +10,8 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any
 
+import numpy as np
+
 from diffaudit.attacks.secmi import (
     SECMI_DEFAULT_FLAG_VALUES,
     SecmiArtifacts,
@@ -20,6 +22,7 @@ from diffaudit.attacks.secmi import (
     resolve_secmi_artifacts,
 )
 from diffaudit.config import AuditConfig
+from diffaudit.utils.metrics import metric_bundle
 
 
 @dataclass(frozen=True)
@@ -194,6 +197,48 @@ def parse_secmi_flagfile(flagfile_path: str | Path) -> SimpleNamespace:
     return SimpleNamespace(**values)
 
 
+def _secmi_l2_scores(t_results: dict[str, Any], *, device: str) -> dict[str, Any]:
+    """Compute the SecMI statistic attack without the vendored CUDA default."""
+    import torch
+
+    def measure(diffusion: Any, sample: Any) -> torch.Tensor:
+        diffusion_tensor = diffusion.to(device).float()
+        sample_tensor = sample.to(device).float()
+        if len(diffusion_tensor.shape) == 5:
+            num_timestep = diffusion_tensor.size(0)
+            diffusion_tensor = diffusion_tensor.permute(1, 0, 2, 3, 4).reshape(
+                -1,
+                num_timestep * 3,
+                32,
+                32,
+            )
+            sample_tensor = sample_tensor.permute(1, 0, 2, 3, 4).reshape(
+                -1,
+                num_timestep * 3,
+                32,
+                32,
+            )
+        return ((diffusion_tensor - sample_tensor) ** 2).flatten(1).sum(dim=-1).detach().cpu()
+
+    member_scores = measure(t_results["member_diffusions"], t_results["member_internal_samples"])
+    nonmember_scores = measure(t_results["nonmember_diffusions"], t_results["nonmember_internal_samples"])
+    labels = np.asarray([1] * member_scores.numel() + [0] * nonmember_scores.numel(), dtype=np.int64)
+    # SecMI's L2 statistic treats lower reconstruction distance as more member-like.
+    scores = -np.concatenate(
+        [
+            member_scores.numpy().astype(np.float64, copy=False),
+            nonmember_scores.numpy().astype(np.float64, copy=False),
+        ]
+    )
+    metrics = metric_bundle(scores, labels)
+    return {
+        "member_scores": member_scores,
+        "nonmember_scores": nonmember_scores,
+        "auc": metrics["auc"],
+        "asr": metrics["asr"],
+    }
+
+
 def run_synthetic_secmi_stat_smoke(workspace: str | Path, device: str = "cpu") -> dict[str, Any]:
     import torch
 
@@ -233,7 +278,7 @@ def run_synthetic_secmi_stat_smoke(workspace: str | Path, device: str = "cpu") -
         "nonmember_diffusions": nonmember_results["internal_diffusions"],
         "nonmember_internal_samples": nonmember_results["internal_denoise"],
     }
-    attack_results = module.execute_attack(t_results, type="stat")
+    attack_results = _secmi_l2_scores(t_results, device=device)
 
     result = {
         "status": "ready",
