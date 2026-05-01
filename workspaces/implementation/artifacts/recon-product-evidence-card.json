@@ -1,0 +1,62 @@
+{
+  "schema": "diffaudit.product_evidence_card.v1",
+  "updated_at": "2026-05-01T00:00:00+08:00",
+  "status": "admitted",
+  "audience": "platform-runtime",
+  "track": "black-box",
+  "method": {
+    "attack": "recon DDIM public-100 step30",
+    "defense": "none",
+    "model": "Stable Diffusion v1.5 + DDIM"
+  },
+  "metrics": {
+    "auc": 0.837,
+    "asr": 0.74,
+    "tpr_at_1pct_fpr": 0.22,
+    "tpr_at_0_1pct_fpr": 0.11
+  },
+  "metric_source": "upstream_threshold_reimplementation",
+  "evidence_level": "runtime-mainline",
+  "quality_cost": "100 public samples per split; DDIM step30; runtime mainline plus unified artifact threshold replay; cuda runtime",
+  "finite_tail": {
+    "target_member_count": 100,
+    "target_nonmember_count": 100,
+    "gates": {
+      "tpr_at_1pct_fpr": {
+        "allowed_false_positives": 1,
+        "true_positives": 22,
+        "false_positives": 1,
+        "empirical_tpr": 0.22,
+        "empirical_fpr": 0.01
+      },
+      "tpr_at_0_1pct_fpr": {
+        "allowed_false_positives": 0,
+        "true_positives": 11,
+        "false_positives": 0,
+        "empirical_tpr": 0.11,
+        "empirical_fpr": 0.0
+      }
+    },
+    "interpretation": "Finite public-100 target split; strict-tail values are count-level empirical gates, not continuous sub-percent calibration."
+  },
+  "boundary": {
+    "summary": "controlled / public-subset / proxy-shadow-member / risk-exists; TPR@0.1%FPR is a zero-false-positive empirical tail on 100 target nonmembers; not a final exploit, paper-complete reproduction, or full real-world benchmark",
+    "allowed_claims": [
+      "verified black-box privacy-risk signal on a controlled public-100 packet",
+      "all four headline metrics come from one upstream-threshold metric source",
+      "nonzero strict-tail signal with explicit finite-sample caveat"
+    ],
+    "blocked_claims": [
+      "paper-complete reproduction",
+      "general conditional-diffusion result",
+      "full real-world exploit benchmark",
+      "fine-grained sub-percent FPR calibration"
+    ]
+  },
+  "provenance": {
+    "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
+    "source": "docs/evidence/recon-product-validation-result.md",
+    "handoff": "docs/product-bridge/recon-product-validation-handoff.md",
+    "run": "recon-product-validation-public100-step30-20260501-r1"
+  }
+}

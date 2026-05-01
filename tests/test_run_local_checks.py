@@ -21,6 +21,7 @@ class RunLocalChecksTests(unittest.TestCase):
             self.assertEqual(cmd[0], "/portable/python")
         commands = [cmd for cmd, _ in recorded]
         self.assertIn(["/portable/python", "scripts/validate_attack_defense_table.py"], commands)
+        self.assertIn(["/portable/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
 
     def test_main_uses_environment_python_when_not_explicit(self) -> None:
         recorded: list[tuple[list[str], Path]] = []
@@ -37,6 +38,7 @@ class RunLocalChecksTests(unittest.TestCase):
             self.assertEqual(cmd[0], "/env/python")
         commands = [cmd for cmd, _ in recorded]
         self.assertIn(["/env/python", "scripts/validate_attack_defense_table.py"], commands)
+        self.assertIn(["/env/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
 
     def test_main_uses_repo_root_from_script_location(self) -> None:
         recorded: list[tuple[list[str], Path]] = []
