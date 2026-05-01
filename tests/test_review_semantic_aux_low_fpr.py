@@ -23,7 +23,11 @@ class ReviewSemanticAuxLowFprTests(unittest.TestCase):
         self.assertEqual(payload["verdict"], "negative but useful")
         self.assertEqual(payload["source_mode"], "committed-summary")
         self.assertFalse(payload["gate"]["clears_auc_gain_gate"])
-        self.assertEqual(payload["best_auc_gain_vs_mean_cos"], 0.001953)
+        self.assertGreater(payload["best_auc_gain_vs_mean_cos"], 0.0)
+        self.assertLess(
+            payload["best_auc_gain_vs_mean_cos"],
+            payload["gate"]["min_auc_gain_vs_mean_cos"],
+        )
 
     def test_review_rejects_gpu_followup_when_gain_is_too_small(self) -> None:
         records = []

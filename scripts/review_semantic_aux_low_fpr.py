@@ -39,8 +39,8 @@ def build_review(record_paths: list[Path], *, root: Path) -> dict[str, Any]:
         analysis = analyze_semantic_aux_fusion(load_semantic_aux_records(path))
         analysis["records_path"] = _repo_relative(path, root)
         per_run.append(analysis)
-        best_gain = max(best_gain, float(analysis["best_auc_gain_vs_mean_cos"]))
-        for candidate in analysis["candidates"].values():
+        best_gain = max(best_gain, float(analysis.get("best_auc_gain_vs_mean_cos", 0.0)))
+        for candidate in analysis.get("candidates", {}).values():
             strict_tail_positive = strict_tail_positive or float(candidate.get("tpr_at_0_1pct_fpr", 0.0)) > 0.0
 
     clears_gain_gate = best_gain >= 0.01
