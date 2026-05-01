@@ -27,6 +27,12 @@ row uses a unified upstream-threshold metric source and reports all four
 headline metrics. See
 [recon-product-validation-handoff.md](recon-product-validation-handoff.md).
 
+Current H2 image-to-image simple-distance status: the simple-distance signal has
+bounded single-asset evidence on the SD1.5/CelebA-style contract, but it is not
+yet a Platform row. Treat it as a Research-side candidate for a future product
+bridge comparison against recon. See
+[../evidence/h2-img2img-simple-distance-admission-result.md](../evidence/h2-img2img-simple-distance-admission-result.md).
+
 ## Documents
 
 | Document | Purpose |
