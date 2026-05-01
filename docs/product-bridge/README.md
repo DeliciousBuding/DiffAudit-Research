@@ -32,6 +32,8 @@ bounded single-asset evidence on the SD1.5/CelebA-style contract, but it is not
 yet a Platform row. Treat it as a Research-side candidate for a future product
 bridge comparison against recon. See
 [../evidence/h2-img2img-simple-distance-admission-result.md](../evidence/h2-img2img-simple-distance-admission-result.md).
+The current product bridge decision is recorded in
+[h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md).
 
 ## Documents
 
@@ -42,6 +44,7 @@ bridge comparison against recon. See
 | [local-api.md](local-api.md) | Historical local API notes. |
 | [recon-artifact-replay-guidance.md](recon-artifact-replay-guidance.md) | How to interpret recon debug traces. |
 | [recon-product-validation-handoff.md](recon-product-validation-handoff.md) | Current product boundary for the promoted recon black-box row. |
+| [h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md) | Why simple-distance remains Research evidence and what must happen before product consumption. |
 
 ## Integration Rules
 

@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** post-admission simple-distance decision
+- **Active work:** H2 simple-distance portability preflight
 - **Next GPU task:** none selected after the `25/25` admission packet
-- **CPU work:** choose a second-asset portability contract or recon-vs-simple-distance product bridge comparison
+- **CPU work:** determine whether a second valid image-to-image or repeated-response asset contract exists
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -68,9 +68,12 @@ packet on `derived-public-50` positions `[20, 45)`: `AUC = 0.8768`,
 [docs/evidence/h2-img2img-simple-distance-admission-result.md](docs/evidence/h2-img2img-simple-distance-admission-result.md).
 This promotes the signal to bounded single-asset black-box evidence, not a
 conditional-diffusion generalization and not H2 response-strength promotion.
-The next CPU decision is whether to design a second-asset portability contract
-or a recon-vs-simple-distance product bridge comparison. No next GPU task is
-selected.
+The recon-vs-simple-distance product bridge comparison is complete:
+simple-distance is not product-row ready and recon remains the admitted
+black-box Platform row. See
+[docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](docs/product-bridge/h2-simple-distance-product-bridge-comparison.md).
+The next CPU task is a second-asset portability preflight. No next GPU task is
+selected until that preflight finds a valid non-overlapping contract.
 
 ## Key Documents
 
@@ -95,6 +98,7 @@ selected.
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
+- H2 simple-distance product bridge comparison: [docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](docs/product-bridge/h2-simple-distance-product-bridge-comparison.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)
 
