@@ -6,8 +6,8 @@ It does not promote a new result and does not authorize a GPU run yet.
 ## Verdict
 
 ```text
-CPU metric field implemented; strict-tail value validated; product promotion
-blocked by metric-source mismatch
+CPU metric field implemented; strict-tail value validated; metric-source
+reconciled and promoted as current black-box row
 ```
 
 The admitted recon row is the strongest black-box evidence, but it is not yet a
@@ -15,8 +15,8 @@ complete product-consumable packet. The historical summaries report
 `AUC / ASR / TPR@1%FPR`; `TPR@0.1%FPR` was missing from the recon mainline
 summary. The code path now emits `tpr_at_0_1pct_fpr` for new recon summaries,
 and the bounded public-100 rerun validates a nonzero strict-tail value. The
-remaining blocker is metric-source reconciliation: combined runtime summary and
-artifact-summary agree on strict-tail but disagree on AUC/ASR.
+artifact summary now reimplements the upstream threshold semantics so all four
+headline fields can be read from one coherent source.
 
 ## Frozen Candidate Packet
 
@@ -48,26 +48,29 @@ Current status:
   summaries.
 - The bounded public-100 rerun is recorded in
   [recon-product-validation-result.md](recon-product-validation-result.md).
+- The artifact summary now uses `metric_source =
+  upstream_threshold_reimplementation` for headline fields and keeps raw
+  feature-0 metrics only for comparison.
 
-Still required before product-row promotion:
+Post-promotion requirements:
 
-- Reconcile whether product-facing AUC/ASR should come from upstream eval,
-  artifact-summary target scores, or a unified metric path.
-- Confirm the selected metric source is stable and coherent.
 - Keep output schema backward-compatible: the new field is additive; existing
   fields are unchanged.
+- Keep product copy bounded to controlled public-subset and proxy-shadow-member
+  semantics.
 
 ## GPU Gate
 
-Only after the CPU checks pass, schedule one bounded GPU candidate:
+No next GPU task is selected. The bounded GPU candidate has already run:
 
 ```text
 recon-runtime-mainline-ddim-public-100-step30-product-validation
 ```
 
-The GPU run should reuse the frozen packet identity above and write only
-summary-level evidence into Git. Generated images, score artifacts, raw tensors,
-and run payloads must remain ignored outside the public evidence path.
+Do not schedule another recon GPU run unless the promotion review identifies a
+specific gap that cannot be answered from the existing score artifacts.
+Generated images, score artifacts, raw tensors, and run payloads must remain
+ignored outside the public evidence path.
 
 ## Platform / Runtime Handoff
 

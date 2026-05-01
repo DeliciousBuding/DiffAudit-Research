@@ -22,6 +22,11 @@ It can guide research planning, but it should not appear as admitted Platform
 evidence. See
 [../evidence/clid-prompt-conditioning-boundary.md](../evidence/clid-prompt-conditioning-boundary.md).
 
+Current recon status: recon is the admitted black-box product row. The active
+row uses a unified upstream-threshold metric source and reports all four
+headline metrics. See
+[recon-product-validation-handoff.md](recon-product-validation-handoff.md).
+
 ## Documents
 
 | Document | Purpose |
@@ -30,6 +35,7 @@ evidence. See
 | [asset-registry-local-api.md](asset-registry-local-api.md) | Data registry contract for Runtime consumers. |
 | [local-api.md](local-api.md) | Historical local API notes. |
 | [recon-artifact-replay-guidance.md](recon-artifact-replay-guidance.md) | How to interpret recon debug traces. |
+| [recon-product-validation-handoff.md](recon-product-validation-handoff.md) | Current product boundary for the promoted recon black-box row. |
 
 ## Integration Rules
 

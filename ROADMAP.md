@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** recon product-consumable strengthening
+- **Active work:** recon product row synchronized; next research lane selection
 - **Next GPU task:** none selected
-- **CPU work:** reconcile recon product-validation metric sources before promotion
+- **CPU work:** product-bridge sync and next black-box/innovation lane selection
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -40,9 +40,13 @@ packet without a new protocol that isolates image identity from
 prompt-conditioned behavior. The recon CPU contract is now frozen in
 [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md).
 The recon code path now emits complete low-FPR metric fields, including
-`TPR@0.1%FPR`. A bounded public-100 step30 rerun validates nonzero strict-tail
-signal (`TPR@0.1%FPR = 0.2`), but product-row promotion is blocked until the
-upstream-eval and artifact-summary metric sources are reconciled.
+`TPR@0.1%FPR`. A bounded public-100 step30 rerun plus artifact re-summarization
+now yields a coherent upstream-threshold candidate packet: `AUC = 0.837`,
+`ASR = 0.74`, `TPR@1%FPR = 0.22`, and `TPR@0.1%FPR = 0.11`. Product-row
+promotion is complete and recorded in
+[docs/product-bridge/recon-product-validation-handoff.md](docs/product-bridge/recon-product-validation-handoff.md).
+The next research step is to select a new non-recon lane or a truth-hardening
+check that can improve the model story without weakening the claim boundary.
 
 ## Key Documents
 

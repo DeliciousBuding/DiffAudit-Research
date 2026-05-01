@@ -6,7 +6,7 @@ lane. It is a validation result, not a new admitted row.
 ## Verdict
 
 ```text
-strict-tail signal confirmed; product-row promotion blocked by metric-source mismatch
+metric-source reconciled; coherent packet promoted as current black-box row
 ```
 
 The rerun produced a complete metric set for the frozen
@@ -14,20 +14,28 @@ The rerun produced a complete metric set for the frozen
 
 | Metric source | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR |
 | --- | ---: | ---: | ---: | ---: |
-| Runtime mainline combined summary | 0.837 | 0.74 | 1.0 | 0.2 |
-| Artifact-summary target score path | 0.7463 | 0.505 | 1.0 | 0.2 |
+| Runtime mainline initial summary | 0.837 | 0.74 | 1.0 | 0.2 |
+| Raw feature-0 artifact comparison | 0.7463 | 0.505 | 1.0 | 0.2 |
+| Unified upstream-threshold reimplementation | 0.8372 | 0.745 | 0.22 | 0.11 |
+| Combined artifact mainline | 0.837 | 0.74 | 0.22 | 0.11 |
 
-The strict-tail value is nonzero and stable across the combined summary and
-artifact-summary path. That is useful progress: the recon black-box line now has
-a concrete `TPR@0.1%FPR` value for the product-validation packet.
+The coherent packet uses the upstream threshold semantics: fit standardization on
+shadow train features, transform target features with the same statistics, score
+each row by the maximum standardized feature, select threshold on shadow train,
+and evaluate on target. The raw feature-0 path is retained only as a comparison
+field and is not the product-facing metric source.
 
-The result should not replace the admitted black-box row yet. The AUC and ASR
-come from different metric sources:
+This resolves the previous metric-source mismatch. The promoted packet now has
+one coherent source for all four headline fields:
 
-- `upstream_eval` reports `AUC = 0.837` and `ASR = 0.74`.
-- `artifact-summary` reports `target_auc = 0.7463` and `target_asr = 0.505`.
-- `artifact-summary` is the source for both low-FPR tail metrics:
-  `TPR@1%FPR = 1.0` and `TPR@0.1%FPR = 0.2`.
+- `AUC = 0.837`
+- `ASR = 0.74`
+- `TPR@1%FPR = 0.22`
+- `TPR@0.1%FPR = 0.11`
+
+The result replaces the older admitted black-box row because it uses a stricter,
+coherent metric contract and supplies all four product-facing fields. The older
+row should not be used for product copy except as historical context.
 
 ## Run Identity
 
@@ -48,32 +56,29 @@ Generated images and score artifacts remain ignored under
 
 ## Interpretation
 
-The old blocker, missing `TPR@0.1%FPR`, is resolved for new recon summaries. The
-new blocker is semantic: Platform/Runtime should not consume a row until the
-headline metric source is unambiguous.
+The old blockers are resolved for the promoted packet: `TPR@0.1%FPR` is now
+emitted, and all four headline metrics are computed from one coherent metric
+source.
 
 Allowed claim:
 
-- `recon` has a validated nonzero strict-tail signal on the public-100 step30
-  product-validation packet.
+- `recon` has a validated coherent product packet on public-100 step30 with
+  nonzero strict-tail signal.
 - The packet remains bounded by controlled public-subset and proxy-shadow-member
   semantics.
 
 Blocked claim:
 
-- Do not present this as a new admitted black-box row.
-- Do not replace the existing admitted row until the metric-source mismatch is
-  reconciled.
+- Do not compare against older recon rows without stating that the metric source
+  changed.
 - Do not claim paper-complete reproduction or broader conditional-diffusion
   generality.
 
 ## Next Action
 
-CPU-first metric-source reconciliation:
+CPU-first follow-up:
 
-- Decide whether product-facing AUC/ASR should come from upstream eval,
-  artifact-summary target scores, or a single unified metric path.
-- Add a review packet that exposes both sources and explains the chosen
-  product-facing source.
-- Promote only after the selected source is stable and all four headline metrics
-  come from a coherent contract.
+- Keep the admitted-results table and product-bridge handoff synchronized with
+  the unified metric source and claim boundary.
+- Do not schedule another recon GPU run unless the promotion review finds a
+  concrete gap that cannot be resolved from existing score artifacts.

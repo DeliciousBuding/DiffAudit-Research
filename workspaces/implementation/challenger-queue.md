@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `recon product-consumable strengthening`
+- Active work: `post-recon next-lane selection`
 - Next GPU task: `none selected`
-- CPU work: `reconcile recon product-validation metric sources before promotion`
+- CPU work: `product-bridge sync and next black-box/innovation lane selection`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Recon product-consumable strengthening
+### Post-recon next-lane selection
 
-- `mode`: CPU-first evidence hardening
+- `mode`: CPU-first research selection
 - `status`: active
-- `goal`: turn the admitted recon baseline into a stricter system-consumable black-box evidence packet without expanding the claim
+- `goal`: choose the next bounded research lane after recon was promoted with coherent four-metric reporting
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -29,10 +29,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 The CPU-only reselection is recorded in
 [../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
 CLiD moved to hold-candidate after prompt-control attribution. The recon
-product-validation packet confirms nonzero strict-tail signal, but product-row
-promotion is blocked until upstream-eval and artifact-summary metric sources are
-reconciled. The result is recorded in
-[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
+product-validation packet is now the admitted black-box row with coherent
+four-metric reporting. The result is recorded in
+[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md)
+and the product boundary is recorded in
+[../../docs/product-bridge/recon-product-validation-handoff.md](../../docs/product-bridge/recon-product-validation-handoff.md).
 
 ## Ready
 

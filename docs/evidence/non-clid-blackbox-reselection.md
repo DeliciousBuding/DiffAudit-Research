@@ -65,8 +65,9 @@ recon product-consumable validation packet, pending CPU contract
 
 The first bounded GPU validation packet has run and is recorded in
 [recon-product-validation-result.md](recon-product-validation-result.md). It
-confirms nonzero strict-tail signal, but product-row promotion is blocked until
-the recon metric-source mismatch is resolved.
+confirms nonzero strict-tail signal. The metric-source mismatch is now resolved
+by the upstream-threshold reimplementation, so the remaining step is an explicit
+product-row promotion decision.
 
 ## Product Boundary
 

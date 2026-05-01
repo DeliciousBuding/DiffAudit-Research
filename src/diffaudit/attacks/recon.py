@@ -14,7 +14,7 @@ import numpy as np
 import torch
 
 from diffaudit.config import AuditConfig
-from diffaudit.utils.metrics import round6, tpr_at_fpr
+from diffaudit.utils.metrics import auc_score, round6, tpr_at_fpr
 
 
 RECON_WORKSPACE_FILES = (
@@ -391,6 +391,11 @@ def probe_recon_dry_run(
 
 
 def _extract_recon_scores(score_file: str | Path) -> tuple[np.ndarray, np.ndarray]:
+    feature_matrix, labels = _extract_recon_feature_matrix(score_file)
+    return feature_matrix[:, 0], labels
+
+
+def _extract_recon_feature_matrix(score_file: str | Path) -> tuple[np.ndarray, np.ndarray]:
     try:
         payload = torch.load(score_file, map_location="cpu", weights_only=False)
     except TypeError:
@@ -400,12 +405,66 @@ def _extract_recon_scores(score_file: str | Path) -> tuple[np.ndarray, np.ndarra
     for item in payload:
         feature = item[0]
         label = int(item[1])
-        if isinstance(feature, list):
-            features.append(float(feature[0]))
+        if isinstance(feature, torch.Tensor):
+            feature_values = feature.detach().cpu().numpy().astype(float).reshape(-1)
+        elif isinstance(feature, (list, tuple, np.ndarray)):
+            feature_values = np.asarray(feature, dtype=float).reshape(-1)
         else:
-            features.append(float(feature))
+            feature_values = np.asarray([float(feature)], dtype=float)
+        features.append(feature_values)
         labels.append(label)
-    return np.asarray(features, dtype=float), np.asarray(labels, dtype=int)
+    if not features:
+        return np.empty((0, 0), dtype=float), np.asarray(labels, dtype=int)
+    return np.vstack(features).astype(float), np.asarray(labels, dtype=int)
+
+
+def _standardize_like_sklearn(train_features: np.ndarray, test_features: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    mean = train_features.mean(axis=0)
+    scale = train_features.std(axis=0)
+    scale = np.where(scale == 0.0, 1.0, scale)
+    return (train_features - mean) / scale, (test_features - mean) / scale
+
+
+def _threshold_metrics_from_scores(
+    train_scores: np.ndarray,
+    train_labels: np.ndarray,
+    test_scores: np.ndarray,
+    test_labels: np.ndarray,
+) -> dict[str, float]:
+    sorted_scores = np.sort(train_scores)
+    if sorted_scores.size < 2 or float(sorted_scores[0]) == float(sorted_scores[-1]):
+        threshold = float(sorted_scores[0]) if sorted_scores.size else 0.0
+    else:
+        potential_thresholds = (sorted_scores[:-1] + sorted_scores[1:]) / 2.0
+        accuracies = []
+        for candidate in potential_thresholds:
+            predicted = np.where(train_scores > candidate, 1, 0)
+            accuracies.append(float((predicted == train_labels).mean()))
+        threshold = float(potential_thresholds[int(np.argmax(accuracies))])
+    predictions = np.where(test_scores > threshold, 1, 0)
+    return {
+        "threshold": round6(threshold),
+        "asr": round6(float((predictions == test_labels).mean())),
+        "auc": round6(auc_score(test_scores, test_labels)),
+        "tpr_at_1pct_fpr": round6(tpr_at_fpr(test_scores, test_labels, 0.01)),
+        "tpr_at_0_1pct_fpr": round6(tpr_at_fpr(test_scores, test_labels, 0.001)),
+    }
+
+
+def _upstream_threshold_metrics_from_artifacts(score_paths: dict[str, Path]) -> dict[str, float]:
+    shadow_member_features, shadow_member_labels = _extract_recon_feature_matrix(score_paths["shadow_member"])
+    shadow_nonmember_features, shadow_nonmember_labels = _extract_recon_feature_matrix(score_paths["shadow_non_member"])
+    target_member_features, target_member_labels = _extract_recon_feature_matrix(score_paths["target_member"])
+    target_nonmember_features, target_nonmember_labels = _extract_recon_feature_matrix(score_paths["target_non_member"])
+
+    train_features = np.vstack([shadow_member_features, shadow_nonmember_features])
+    train_labels = np.concatenate([shadow_member_labels, shadow_nonmember_labels])
+    test_features = np.vstack([target_member_features, target_nonmember_features])
+    test_labels = np.concatenate([target_member_labels, target_nonmember_labels])
+    train_features, test_features = _standardize_like_sklearn(train_features, test_features)
+    train_scores = np.max(train_features, axis=1)
+    test_scores = np.max(test_features, axis=1)
+    return _threshold_metrics_from_scores(train_scores, train_labels, test_scores, test_labels)
 
 
 def _run_recon_subprocess(
@@ -713,6 +772,7 @@ def run_recon_eval_smoke(workspace: str | Path) -> dict[str, object]:
     target_nonmember_scores, _ = _extract_recon_scores(score_paths["target_non_member"])
     shadow_metrics = _threshold_metrics(shadow_member_scores, shadow_nonmember_scores)
     target_metrics = _threshold_metrics(target_member_scores, target_nonmember_scores)
+    upstream_threshold_metrics = _upstream_threshold_metrics_from_artifacts(score_paths)
 
     result = {
         "status": "ready",
@@ -1123,6 +1183,7 @@ def summarize_recon_artifacts(
     target_nonmember_scores, _ = _extract_recon_scores(score_paths["target_non_member"])
     shadow_metrics = _threshold_metrics(shadow_member_scores, shadow_nonmember_scores)
     target_metrics = _threshold_metrics(target_member_scores, target_nonmember_scores)
+    upstream_threshold_metrics = _upstream_threshold_metrics_from_artifacts(score_paths)
 
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
@@ -1148,19 +1209,27 @@ def summarize_recon_artifacts(
             "threshold_metrics_computed": True,
         },
         "metrics": {
+            "metric_source": "upstream_threshold_reimplementation",
+            "raw_feature0_shadow_auc": round(float(shadow_metrics["auc"]), 6),
+            "raw_feature0_shadow_asr": round(float(shadow_metrics["asr"]), 6),
+            "raw_feature0_target_auc": round(float(target_metrics["auc"]), 6),
+            "raw_feature0_target_asr": round(float(target_metrics["asr"]), 6),
             "shadow_auc": round(float(shadow_metrics["auc"]), 6),
             "shadow_asr": round(float(shadow_metrics["asr"]), 6),
             "shadow_threshold": round(float(shadow_metrics["threshold"]), 6),
             "target_auc": round(float(target_metrics["auc"]), 6),
             "target_asr": round(float(target_metrics["asr"]), 6),
             "target_threshold": round(float(target_metrics["threshold"]), 6),
-            "tpr_at_1pct_fpr": round(float(target_metrics["tpr_at_1pct_fpr"]), 6),
-            "tpr_at_0_1pct_fpr": round(float(target_metrics["tpr_at_0_1pct_fpr"]), 6),
-            "auc": round(float(target_metrics["auc"]), 6),
+            "threshold": upstream_threshold_metrics["threshold"],
+            "tpr_at_1pct_fpr": upstream_threshold_metrics["tpr_at_1pct_fpr"],
+            "tpr_at_0_1pct_fpr": upstream_threshold_metrics["tpr_at_0_1pct_fpr"],
+            "asr": upstream_threshold_metrics["asr"],
+            "auc": upstream_threshold_metrics["auc"],
         },
         "notes": [
             "Summary is recomputed from reconstruction score artifacts compatible with the upstream accuracy script.",
-            "Current implementation reproduces the threshold-style path, not the neural classifier training loop.",
+            "Headline metrics use a local reimplementation of the upstream threshold path: shadow-fitted standardization, row-wise max score, shadow-selected threshold, and target evaluation.",
+            "Raw feature-0 metrics are retained only for backward comparison.",
         ],
     }
     (workspace_path / "summary.json").write_text(

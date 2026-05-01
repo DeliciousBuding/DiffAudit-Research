@@ -14,15 +14,16 @@
 
 ## Next Action
 
-Reconcile recon product-validation metric sources before promotion. The bounded
-public-100 step30 rerun confirms nonzero strict-tail signal, but AUC/ASR differ
-between upstream eval and artifact-summary. Keep status synchronized with
+Recon product-row promotion is complete. The bounded public-100 step30 rerun
+and artifact re-summarization now produce the admitted coherent
+upstream-threshold packet (`AUC = 0.837`, `ASR = 0.74`, `TPR@1%FPR = 0.22`,
+`TPR@0.1%FPR = 0.11`). Keep status synchronized with
 [../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
 
 ## Current Status
 
-Stable admitted baseline plus one selected strengthening lane. `recon` remains
-admitted and is now selected for product-consumable strengthening. The next GPU
-candidate is not selected; the next step is CPU-first metric-source
-reconciliation. H2 is held for image-conditioned portability; CLiD is
+Stable admitted baseline after product-consumable strengthening. `recon` remains
+the admitted black-box row under the unified metric source. The next GPU
+candidate is not selected; the next step is CPU-first lane selection. H2 is held
+for image-conditioned portability; CLiD is
 hold-candidate; variation remains data-gated.
