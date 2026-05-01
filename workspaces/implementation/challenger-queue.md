@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `post-H2 image-to-image lane reselection`
-- Next GPU task: `none selected`
-- CPU work: `decide whether simple img2img distance deserves a bounded stability check, or return to recon product-consumable strengthening`
+- Active work: `simple image-to-image distance stability contract`
+- Next GPU task: `none selected until the stability contract is frozen`
+- CPU work: `choose independent seed, non-overlapping split, or recon product-consumable return`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-H2 image-to-image lane reselection
+### Simple image-to-image distance stability contract
 
 - `mode`: CPU-only decision
 - `status`: active
-- `goal`: choose the next black-box lane after the frozen H2 image-to-image micro-packet
+- `goal`: decide whether the high-strength simple img2img distance signal deserves one bounded stability packet
 - `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -30,10 +30,13 @@ The frozen H2 image-to-image micro-packet is complete. It confirms the protocol
 is runnable, but H2 response-strength does not beat the same-cache simple
 distance comparator. See
 [../../docs/evidence/h2-img2img-micro-result.md](../../docs/evidence/h2-img2img-micro-result.md).
-Do not schedule a larger H2 packet as-is. The next CPU decision is whether the
-simple high-strength img2img distance signal deserves a bounded stability check,
-or whether the black-box slot should return to recon product-consumable
-strengthening.
+The follow-up CPU review confirms that high-strength simple distance is the best
+signal on the cache (`AUC = 0.92`, `ASR = 0.90`, 4/10 TP at 0 FP), but
+cross-strength rank stability is incomplete. See
+[../../docs/evidence/h2-img2img-simple-distance-review.md](../../docs/evidence/h2-img2img-simple-distance-review.md).
+Do not schedule a larger H2 packet as-is. Freeze a stability contract first:
+independent seed on the same 10/10 split, non-overlapping split, or return to
+recon product-consumable strengthening.
 
 ## Ready
 

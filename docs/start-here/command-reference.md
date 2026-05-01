@@ -125,6 +125,15 @@ python scripts/review_h2_lowpass_cutoffs.py `
   --output workspaces/black-box/runs/<run>/lowpass-cutoff-review.json
 ```
 
+Review simple image-to-image response distance on a saved H2 cache:
+
+```powershell
+python scripts/review_h2_img2img_simple_distance.py `
+  --response-cache workspaces/black-box/runs/<run>/response-cache.npz `
+  --evaluation-summary workspaces/black-box/runs/<run>/summary.json `
+  --output workspaces/black-box/runs/<run>/simple-distance-review.json
+```
+
 Probe whether H2 can transfer to a non-DDPM black-box asset contract:
 
 ```powershell

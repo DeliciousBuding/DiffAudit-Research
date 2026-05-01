@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** post-H2 image-to-image lane reselection
-- **Next GPU task:** none selected
-- **CPU work:** decide whether the simple img2img distance signal deserves a bounded stability check, or return to recon product-consumable strengthening
+- **Active work:** simple image-to-image distance stability contract
+- **Next GPU task:** none selected until the stability contract is frozen
+- **CPU work:** freeze whether the next check uses an independent seed, a non-overlapping split, or returns to recon product-consumable strengthening
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -50,9 +50,12 @@ multi-strength logistic curve does not beat the same-cache simple distance
 comparator. The result is recorded in
 [docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md).
 H2 remains candidate-only and should not be scaled as-is. The next CPU decision
-is whether to test the simple img2img distance signal as a small
-recon-adjacent baseline, or return directly to recon product-consumable
-strengthening.
+has now reviewed the simple img2img distance signal. High-strength simple
+distance is stronger than H2 logistic on the frozen cache (`AUC = 0.92`,
+`ASR = 0.90`, 4/10 TP at 0 FP), but cross-strength rank stability is incomplete.
+The review is recorded in
+[docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md).
+Do not schedule another GPU packet until the stability contract is frozen.
 
 ## Key Documents
 
@@ -69,6 +72,7 @@ strengthening.
 - Non-CLiD black-box reselection: [docs/evidence/non-clid-blackbox-reselection.md](docs/evidence/non-clid-blackbox-reselection.md)
 - H2 image-to-image contract: [docs/evidence/h2-image-to-image-contract.md](docs/evidence/h2-image-to-image-contract.md)
 - H2 image-to-image micro result: [docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md)
+- H2 simple-distance review: [docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md)
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
