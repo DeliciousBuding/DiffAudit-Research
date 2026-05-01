@@ -54,14 +54,18 @@ Before scheduling GPU:
 - Produce a compact review packet that Platform/Runtime can cite without
   reading workspace run payloads.
 
+The frozen CPU contract is
+[recon-product-validation-contract.md](recon-product-validation-contract.md).
+
 ## Next GPU Candidate
 
 ```text
 recon product-consumable validation packet, pending CPU contract
 ```
 
-No GPU task is active now. A GPU run is only justified after the CPU contract
-freezes the packet identity and metric completeness checks.
+No GPU task is active now. A GPU run is only justified after the old score
+artifacts are restored or the frozen packet is rerun to record the actual
+strict-tail value with the metric-complete summary path.
 
 ## Product Boundary
 

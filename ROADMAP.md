@@ -8,8 +8,8 @@ This is the short steering document for Research. Execution history is in
 ## Current Focus
 
 - **Active work:** recon product-consumable strengthening
-- **Next GPU task:** recon validation packet pending CPU contract
-- **CPU work:** freeze recon packet identity, strict-tail metric completeness, and product handoff boundary
+- **Next GPU task:** recon validation packet pending score-artifact restore or bounded rerun
+- **CPU work:** recover or regenerate recon public-100 score artifacts and record strict-tail value
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -37,9 +37,12 @@ repeat-stable, but fixed-prompt, swapped-prompt, within-split shuffle,
 prompt-text-only, and attribution controls show that the signal depends on an
 unstable prompt-conditioned auxiliary path. Do not schedule another CLiD GPU
 packet without a new protocol that isolates image identity from
-prompt-conditioned behavior. The next black-box GPU candidate is a recon
-validation packet only after the CPU contract freezes packet identity,
-strict-tail metric completeness, and product handoff boundaries.
+prompt-conditioned behavior. The recon CPU contract is now frozen in
+[docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md).
+The recon code path now emits complete low-FPR metric fields, including
+`TPR@0.1%FPR`; the remaining blocker is artifact-backed validation of the
+admitted public-100 packet because its ignored score artifacts are not present
+in the Git working tree.
 
 ## Key Documents
 
@@ -54,6 +57,7 @@ strict-tail metric completeness, and product handoff boundaries.
 - CLiD prompt-text-only review: [docs/evidence/clid-prompt-text-only-review.md](docs/evidence/clid-prompt-text-only-review.md)
 - CLiD control attribution: [docs/evidence/clid-control-attribution.md](docs/evidence/clid-control-attribution.md)
 - Non-CLiD black-box reselection: [docs/evidence/non-clid-blackbox-reselection.md](docs/evidence/non-clid-blackbox-reselection.md)
+- Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

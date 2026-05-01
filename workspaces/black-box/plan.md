@@ -14,14 +14,15 @@
 
 ## Next Action
 
-Freeze the CPU contract for a recon product-consumable validation packet:
-packet identity, strict-tail metric completeness, and Platform/Runtime handoff
-boundary. Keep status synchronized with
-[../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
+Recover or regenerate the recon public-100 score artifacts, then record the
+strict-tail value with the updated metric-complete recon summary path. Keep
+status synchronized with
+[../../docs/evidence/recon-product-validation-contract.md](../../docs/evidence/recon-product-validation-contract.md).
 
 ## Current Status
 
 Stable admitted baseline plus one selected strengthening lane. `recon` remains
-admitted and is now selected for product-consumable strengthening. H2 is held
-for image-conditioned portability; CLiD is hold-candidate; variation remains
+admitted and is now selected for product-consumable strengthening. The next GPU
+candidate is pending score-artifact restore or a bounded rerun. H2 is held for
+image-conditioned portability; CLiD is hold-candidate; variation remains
 data-gated.

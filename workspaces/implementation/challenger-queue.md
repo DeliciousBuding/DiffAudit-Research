@@ -8,8 +8,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 ## Current State
 
 - Active work: `recon product-consumable strengthening`
-- Next GPU task: `recon validation packet pending CPU contract`
-- CPU work: `freeze recon packet identity, strict-tail metric completeness, and product handoff boundary`
+- Next GPU task: `recon validation packet pending score-artifact restore or bounded rerun`
+- CPU work: `recover or regenerate recon public-100 score artifacts and record strict-tail value`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -22,15 +22,18 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 - `mode`: CPU-first evidence hardening
 - `status`: active
 - `goal`: turn the admitted recon baseline into a stricter system-consumable black-box evidence packet without expanding the claim
-- `GPU`: pending CPU contract
+- `GPU`: pending score-artifact restore or bounded rerun
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
 The CPU-only reselection is recorded in
 [../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
 CLiD moved to hold-candidate after prompt-control attribution. The next black-box
-GPU candidate is a recon validation packet only after packet identity,
-strict-tail metric completeness, and product handoff boundaries are frozen.
+GPU candidate is a recon validation packet after the old score artifacts are
+restored or the frozen packet is rerun. The code path now emits strict-tail
+metric fields; the remaining gap is the artifact-backed value for the admitted
+public-100 packet. The contract is
+[../../docs/evidence/recon-product-validation-contract.md](../../docs/evidence/recon-product-validation-contract.md).
 
 ## Ready
 

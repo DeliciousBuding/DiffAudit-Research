@@ -697,6 +697,11 @@ class ReconAttackTests(unittest.TestCase):
         self.assertEqual(result["stages"]["artifact_summary"]["status"], "ready")
         self.assertEqual(result["stages"]["upstream_eval"]["status"], "ready")
         self.assertEqual(result["metrics"]["auc"], 1.0)
+        self.assertIn("tpr_at_0_1pct_fpr", result["metrics"])
+        self.assertIn(
+            "tpr_at_0_1pct_fpr",
+            result["stages"]["artifact_summary"]["headline_metrics"],
+        )
 
     def test_cli_runs_recon_artifact_mainline(self) -> None:
         from diffaudit.cli import main
@@ -840,6 +845,7 @@ class ReconAttackTests(unittest.TestCase):
         self.assertTrue(payload["checks"]["all_artifacts_generated"])
         self.assertEqual(payload["artifacts"]["target_member"]["sample_count"], 2)
         self.assertEqual(payload["stages"]["artifact_mainline"]["status"], "ready")
+        self.assertIn("tpr_at_0_1pct_fpr", payload["metrics"])
 
     def test_cli_runs_recon_runtime_mainline_with_ddim_scheduler(self) -> None:
         from diffaudit.cli import main

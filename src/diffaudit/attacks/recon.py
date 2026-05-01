@@ -14,6 +14,7 @@ import numpy as np
 import torch
 
 from diffaudit.config import AuditConfig
+from diffaudit.utils.metrics import round6, tpr_at_fpr
 
 
 RECON_WORKSPACE_FILES = (
@@ -648,6 +649,7 @@ def _threshold_metrics(member_scores: np.ndarray, nonmember_scores: np.ndarray) 
             "asr": 0.5,
             "auc": 0.5,
             "tpr_at_1pct_fpr": 0.0,
+            "tpr_at_0_1pct_fpr": 0.0,
         }
 
     thresholds = np.linspace(min_value, max_value, num=1000, endpoint=True)
@@ -672,11 +674,19 @@ def _threshold_metrics(member_scores: np.ndarray, nonmember_scores: np.ndarray) 
     wins = (member_scores[:, None] > nonmember_scores[None, :]).astype(float)
     ties = (member_scores[:, None] == nonmember_scores[None, :]).astype(float) * 0.5
     auc = float((wins + ties).mean())
+    labels = np.concatenate(
+        [
+            np.ones(member_scores.shape[0], dtype=np.int64),
+            np.zeros(nonmember_scores.shape[0], dtype=np.int64),
+        ]
+    )
+    scores = np.concatenate([member_scores, nonmember_scores])
     return {
         "threshold": best_threshold,
         "asr": float(best_asr),
         "auc": auc,
         "tpr_at_1pct_fpr": best_tpr_at_1pct,
+        "tpr_at_0_1pct_fpr": round6(tpr_at_fpr(scores, labels, 0.001)),
     }
 
 
@@ -727,6 +737,7 @@ def run_recon_eval_smoke(workspace: str | Path) -> dict[str, object]:
             "target_auc": round(float(target_metrics["auc"]), 6),
             "target_asr": round(float(target_metrics["asr"]), 6),
             "tpr_at_1pct_fpr": round(float(target_metrics["tpr_at_1pct_fpr"]), 6),
+            "tpr_at_0_1pct_fpr": round(float(target_metrics["tpr_at_0_1pct_fpr"]), 6),
             "auc": round(float(target_metrics["auc"]), 6),
         },
         "notes": [
@@ -1144,6 +1155,7 @@ def summarize_recon_artifacts(
             "target_asr": round(float(target_metrics["asr"]), 6),
             "target_threshold": round(float(target_metrics["threshold"]), 6),
             "tpr_at_1pct_fpr": round(float(target_metrics["tpr_at_1pct_fpr"]), 6),
+            "tpr_at_0_1pct_fpr": round(float(target_metrics["tpr_at_0_1pct_fpr"]), 6),
             "auc": round(float(target_metrics["auc"]), 6),
         },
         "notes": [
@@ -1170,11 +1182,12 @@ def _parse_recon_eval_stdout(stdout: str) -> dict[str, float]:
 def _headline_metrics(payload: dict[str, object]) -> dict[str, float | None]:
     metrics = payload.get("metrics", {})
     if not isinstance(metrics, dict):
-        return {"auc": None, "asr": None, "tpr_at_1pct_fpr": None}
+        return {"auc": None, "asr": None, "tpr_at_1pct_fpr": None, "tpr_at_0_1pct_fpr": None}
     return {
         "auc": metrics.get("reported_auc", metrics.get("auc")),
         "asr": metrics.get("reported_accuracy", metrics.get("asr")),
         "tpr_at_1pct_fpr": metrics.get("tpr_at_1pct_fpr"),
+        "tpr_at_0_1pct_fpr": metrics.get("tpr_at_0_1pct_fpr"),
     }
 
 
@@ -1364,6 +1377,7 @@ def run_recon_mainline_smoke(
             "auc": _headline_metrics(upstream_payload)["auc"],
             "asr": _headline_metrics(upstream_payload)["asr"],
             "tpr_at_1pct_fpr": _headline_metrics(artifact_payload)["tpr_at_1pct_fpr"],
+            "tpr_at_0_1pct_fpr": _headline_metrics(artifact_payload)["tpr_at_0_1pct_fpr"],
         },
         "stages": stages,
         "notes": [
@@ -1437,6 +1451,7 @@ def run_recon_artifact_mainline(
             "auc": _headline_metrics(upstream_payload)["auc"],
             "asr": _headline_metrics(upstream_payload)["asr"],
             "tpr_at_1pct_fpr": _headline_metrics(artifact_payload)["tpr_at_1pct_fpr"],
+            "tpr_at_0_1pct_fpr": _headline_metrics(artifact_payload)["tpr_at_0_1pct_fpr"],
         },
         "stages": stages,
         "notes": [
