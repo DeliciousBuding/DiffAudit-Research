@@ -11,6 +11,8 @@
   evidence, not a product row or portability result.
 - Variation status: blocked until a real member/nonmember query-image set and
   endpoint contract exist.
+- Semantic-auxiliary status: negative-but-useful after low-FPR review; no GPU
+  packet selected.
 - GPU: no active black-box GPU task running now.
 
 ## Files
@@ -38,6 +40,9 @@ Current H2 simple-distance boundary:
 
 Current variation query contract audit:
 [../../docs/evidence/variation-query-contract-audit.md](../../docs/evidence/variation-query-contract-audit.md).
+
+Current semantic-auxiliary low-FPR review:
+[../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).
 
 ## Archive
 
