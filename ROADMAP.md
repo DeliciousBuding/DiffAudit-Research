@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** recon product-row hardening reselection
+- **Active work:** post-guard black-box hardening selection
 - **Next GPU task:** none selected after the `25/25` admission packet
-- **CPU work:** keep simple-distance bounded; choose the next recon product-consumable strengthening task
+- **CPU work:** choose recon provenance/display hardening or a non-recon low-FPR hypothesis
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -76,8 +76,11 @@ The second-asset simple-distance portability preflight is also complete:
 current local assets do not provide a valid second image-to-image or
 repeated-response contract. See
 [docs/evidence/h2-simple-distance-portability-preflight.md](docs/evidence/h2-simple-distance-portability-preflight.md).
-The next active slot returns to recon product-row hardening. No next GPU task is
-selected.
+The recon product row now has a system-consumable validation guard that prevents
+the unified table from silently dropping metric-source, strict-tail, source, or
+boundary fields. See
+[docs/evidence/recon-product-row-validation-guard.md](docs/evidence/recon-product-row-validation-guard.md).
+No next GPU task is selected.
 
 ## Key Documents
 
@@ -102,6 +105,7 @@ selected.
 - H2 simple-distance portability preflight: [docs/evidence/h2-simple-distance-portability-preflight.md](docs/evidence/h2-simple-distance-portability-preflight.md)
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
+- Recon product row validation guard: [docs/evidence/recon-product-row-validation-guard.md](docs/evidence/recon-product-row-validation-guard.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - H2 simple-distance product bridge comparison: [docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](docs/product-bridge/h2-simple-distance-product-bridge-comparison.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)

@@ -23,6 +23,7 @@ This directory contains the public evidence overview.
 | [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) | Superseding CPU-only reselection after CLiD prompt-control closure. |
 | [recon-product-validation-contract.md](recon-product-validation-contract.md) | CPU contract for the next recon product-consumable validation packet. |
 | [recon-product-validation-result.md](recon-product-validation-result.md) | Bounded recon product-validation rerun and metric-source boundary. |
+| [recon-product-row-validation-guard.md](recon-product-row-validation-guard.md) | System-consumable guard for the admitted recon product row. |
 | [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |
 | [clid-score-schema-gate.md](clid-score-schema-gate.md) | CLiD score-summary schema and low-FPR promotion gate. |
 | [clid-tiny-score-bridge.md](clid-tiny-score-bridge.md) | First GPU smoke-scale CLiD score bridge verdict. |
