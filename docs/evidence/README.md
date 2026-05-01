@@ -11,6 +11,7 @@ This directory contains the public evidence overview.
 | [black-box-response-strength-preflight.md](black-box-response-strength-preflight.md) | H2 response-strength candidate status and latest validation verdict. |
 | [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md) | Frozen CPU contract for deciding whether H2 lowpass deserves another bounded GPU packet. |
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
+| [h2-image-to-image-contract.md](h2-image-to-image-contract.md) | CPU contract that reopens H2 portability only under image-to-image response observation. |
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
 | [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) | Superseding CPU-only reselection after CLiD prompt-control closure. |
 | [recon-product-validation-contract.md](recon-product-validation-contract.md) | CPU contract for the next recon product-consumable validation packet. |
