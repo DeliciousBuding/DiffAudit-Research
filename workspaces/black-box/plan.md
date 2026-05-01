@@ -6,7 +6,8 @@
 - `CLiD`: hold-candidate. The prompt-conditioned packet is strong and
   repeat-stable, but prompt controls and attribution block admission as general
   black-box evidence.
-- `variation`: API-only support; needs real query-image data for stronger claims.
+- `variation`: API-only support; executable query-contract audit is now
+  blocked by missing member/nonmember query images and endpoint.
 - `semantic-auxiliary-classifier`: current alternative candidate.
 - `H2 response-strength`: candidate-only with positive non-overlap signal;
   frozen lowpass follow-up is positive-but-bounded on `DDPM/CIFAR10`; SD/CelebA
@@ -28,6 +29,7 @@ Stable admitted baseline after product-consumable strengthening. `recon` remains
 the admitted black-box row under the unified metric source. The H2
 simple-distance product bridge comparison keeps that signal as Research
 evidence only, and the second-asset portability preflight is blocked by missing
-query-image/response-contract assets. The next GPU candidate is not selected;
-the next step returns to CPU-first recon product-row hardening. CLiD is
-hold-candidate; variation remains data-gated.
+query-image/response-contract assets. Variation now has an executable query
+contract audit, but it is blocked by missing real member/nonmember query images
+and endpoint. The next GPU candidate is not selected; CLiD remains
+hold-candidate.

@@ -92,12 +92,20 @@ def _list_split_query_images(query_image_root: str | Path) -> dict[str, list[Pat
 def probe_variation_assets(
     query_image_root: str | Path,
     endpoint: str,
+    min_split_count: int = 1,
+    require_split_layout: bool = False,
 ) -> dict[str, object]:
+    if min_split_count <= 0:
+        raise ValueError("min_split_count must be positive")
     query_root = Path(query_image_root)
     query_images = _list_query_images(query_root)
     split_query_images = _list_split_query_images(query_root)
     has_member_split = bool(split_query_images["member"])
     has_nonmember_split = bool(split_query_images["nonmember"])
+    member_count = len(split_query_images["member"])
+    nonmember_count = len(split_query_images["nonmember"])
+    has_min_member_split = member_count >= min_split_count
+    has_min_nonmember_split = nonmember_count >= min_split_count
     checks = {
         "query_image_root": query_root.exists(),
         "query_images_present": bool(query_images),
@@ -105,10 +113,21 @@ def probe_variation_assets(
         "member_split_present": has_member_split,
         "nonmember_split_present": has_nonmember_split,
         "paper_eval_layout": has_member_split and has_nonmember_split,
+        "member_split_min_count": has_min_member_split,
+        "nonmember_split_min_count": has_min_nonmember_split,
+        "paper_eval_layout_min_count": has_min_member_split and has_min_nonmember_split,
+        "split_layout_required": require_split_layout,
     }
+    has_eligible_layout = (
+        checks["paper_eval_layout_min_count"]
+        if require_split_layout
+        else checks["query_images_present"] or checks["paper_eval_layout_min_count"]
+    )
     status = (
         "ready"
-        if checks["query_image_root"] and (checks["query_images_present"] or checks["paper_eval_layout"]) and checks["endpoint"]
+        if checks["query_image_root"]
+        and has_eligible_layout
+        and checks["endpoint"]
         else "blocked"
     )
     paths = {
@@ -141,9 +160,11 @@ def probe_variation_assets(
         "paths": paths,
         "layout": {
             "flat_query_count": len(query_images),
-            "member_query_count": len(split_query_images["member"]),
-            "nonmember_query_count": len(split_query_images["nonmember"]),
+            "member_query_count": member_count,
+            "nonmember_query_count": nonmember_count,
+            "min_split_count": min_split_count,
             "paper_eval_layout_ready": checks["paper_eval_layout"],
+            "paper_eval_layout_min_count_ready": checks["paper_eval_layout_min_count"],
         },
         "missing": missing,
         "missing_keys": missing_keys,

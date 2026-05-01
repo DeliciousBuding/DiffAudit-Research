@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** recon product evidence-card hardening
+- **Active work:** non-recon black-box low-FPR reselection
 - **Next GPU task:** none selected after the `25/25` admission packet
-- **CPU work:** keep the admitted recon row machine-consumable and synchronized
+- **CPU work:** variation query-contract audit and blocked-lane clarification
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -83,6 +83,10 @@ boundary fields. See
 The admitted recon row is now also exported as a checked product evidence card
 for Platform and Runtime consumers. See
 [docs/product-bridge/recon-product-evidence-card.md](docs/product-bridge/recon-product-evidence-card.md).
+The first non-recon follow-up adds an executable variation query-contract audit.
+It is blocked because the real member/nonmember query-image set and endpoint are
+not present. See
+[docs/evidence/variation-query-contract-audit.md](docs/evidence/variation-query-contract-audit.md).
 No next GPU task is selected.
 
 ## Key Documents
@@ -98,6 +102,7 @@ No next GPU task is selected.
 - CLiD prompt-text-only review: [docs/evidence/clid-prompt-text-only-review.md](docs/evidence/clid-prompt-text-only-review.md)
 - CLiD control attribution: [docs/evidence/clid-control-attribution.md](docs/evidence/clid-control-attribution.md)
 - Non-CLiD black-box reselection: [docs/evidence/non-clid-blackbox-reselection.md](docs/evidence/non-clid-blackbox-reselection.md)
+- Variation query contract audit: [docs/evidence/variation-query-contract-audit.md](docs/evidence/variation-query-contract-audit.md)
 - H2 image-to-image contract: [docs/evidence/h2-image-to-image-contract.md](docs/evidence/h2-image-to-image-contract.md)
 - H2 image-to-image micro result: [docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md)
 - H2 simple-distance review: [docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md)
