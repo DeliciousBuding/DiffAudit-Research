@@ -481,20 +481,21 @@ def _empirical_tail_resolution(
     negatives = scores[labels == 0]
     if positives.size == 0 or negatives.size == 0:
         raise ValueError("tail resolution requires both member and nonmember target scores")
-    unique_thresholds = sorted({float(value) for value in scores}, reverse=True)
+    pos_sorted = np.sort(positives)
+    neg_sorted = np.sort(negatives)
+    unique_thresholds = np.r_[float(np.max(scores)) + 1e-6, np.unique(scores)[::-1]]
     result: dict[str, dict[str, float | int]] = {}
     for target_fpr in target_fprs:
         allowed_false_positives = int(np.floor(float(target_fpr) * negatives.size))
-        best_true_positives = 0
-        best_false_positives = 0
-        best_threshold = float("inf")
-        for threshold in unique_thresholds:
-            false_positives = int((negatives >= threshold).sum())
-            true_positives = int((positives >= threshold).sum())
-            if false_positives <= allowed_false_positives and true_positives > best_true_positives:
-                best_true_positives = true_positives
-                best_false_positives = false_positives
-                best_threshold = float(threshold)
+        false_positive_counts = neg_sorted.size - np.searchsorted(neg_sorted, unique_thresholds, side="left")
+        true_positive_counts = pos_sorted.size - np.searchsorted(pos_sorted, unique_thresholds, side="left")
+        valid = false_positive_counts <= allowed_false_positives
+        valid_indices = np.flatnonzero(valid)
+        valid_true_positive_counts = true_positive_counts[valid_indices]
+        best_index = int(valid_indices[int(np.argmax(valid_true_positive_counts))])
+        best_true_positives = int(true_positive_counts[best_index])
+        best_false_positives = int(false_positive_counts[best_index])
+        best_threshold = float(unique_thresholds[best_index])
         key = f"tpr_at_{str(target_fpr).replace('.', '_')}_fpr"
         result[key] = {
             "target_fpr": round6(target_fpr),
@@ -1236,8 +1237,13 @@ def summarize_recon_artifacts(
     target_nonmember_scores, _ = _extract_recon_scores(score_paths["target_non_member"])
     shadow_metrics = _threshold_metrics(shadow_member_scores, shadow_nonmember_scores)
     target_metrics = _threshold_metrics(target_member_scores, target_nonmember_scores)
-    upstream_threshold_metrics = _upstream_threshold_metrics_from_artifacts(score_paths)
     upstream_threshold_scores = _upstream_threshold_scores_from_artifacts(score_paths)
+    upstream_threshold_metrics = _threshold_metrics_from_scores(
+        upstream_threshold_scores["train_scores"],
+        upstream_threshold_scores["train_labels"],
+        upstream_threshold_scores["test_scores"],
+        upstream_threshold_scores["test_labels"],
+    )
     tail_resolution = _empirical_tail_resolution(
         upstream_threshold_scores["test_scores"],
         upstream_threshold_scores["test_labels"],
