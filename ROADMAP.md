@@ -9,7 +9,7 @@ This is the short steering document for Research. Execution history is in
 
 - **Active work:** non-recon black-box low-FPR reselection
 - **Next GPU task:** none selected after the `25/25` admission packet
-- **CPU work:** variation query-contract audit and blocked-lane clarification
+- **CPU work:** semantic-auxiliary low-FPR review and next-lane clarification
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -87,6 +87,11 @@ The first non-recon follow-up adds an executable variation query-contract audit.
 It is blocked because the real member/nonmember query-image set and endpoint are
 not present. See
 [docs/evidence/variation-query-contract-audit.md](docs/evidence/variation-query-contract-audit.md).
+The semantic-auxiliary classifier lane has also been reviewed against a
+low-FPR promotion gate. It is negative-but-useful: the best auxiliary gain over
+`mean_cos` is `0.001953`, below the `0.01` promotion gate, so no semantic-aux
+GPU packet is selected. See
+[docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md).
 No next GPU task is selected.
 
 ## Key Documents
@@ -103,6 +108,7 @@ No next GPU task is selected.
 - CLiD control attribution: [docs/evidence/clid-control-attribution.md](docs/evidence/clid-control-attribution.md)
 - Non-CLiD black-box reselection: [docs/evidence/non-clid-blackbox-reselection.md](docs/evidence/non-clid-blackbox-reselection.md)
 - Variation query contract audit: [docs/evidence/variation-query-contract-audit.md](docs/evidence/variation-query-contract-audit.md)
+- Semantic-aux low-FPR review: [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md)
 - H2 image-to-image contract: [docs/evidence/h2-image-to-image-contract.md](docs/evidence/h2-image-to-image-contract.md)
 - H2 image-to-image micro result: [docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md)
 - H2 simple-distance review: [docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md)

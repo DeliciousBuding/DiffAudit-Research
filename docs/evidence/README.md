@@ -22,6 +22,7 @@ This directory contains the public evidence overview.
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
 | [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) | Superseding CPU-only reselection after CLiD prompt-control closure. |
 | [variation-query-contract-audit.md](variation-query-contract-audit.md) | Executable audit for deciding whether the variation black-box line has real query images and endpoint readiness. |
+| [semantic-aux-low-fpr-review.md](semantic-aux-low-fpr-review.md) | CPU-only low-FPR review for the semantic-auxiliary classifier lane. |
 | [recon-product-validation-contract.md](recon-product-validation-contract.md) | CPU contract for the next recon product-consumable validation packet. |
 | [recon-product-validation-result.md](recon-product-validation-result.md) | Bounded recon product-validation rerun and metric-source boundary. |
 | [recon-product-row-validation-guard.md](recon-product-row-validation-guard.md) | System-consumable guard for the admitted recon product row. |

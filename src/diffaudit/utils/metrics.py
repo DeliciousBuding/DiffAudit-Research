@@ -141,6 +141,7 @@ def threshold_metrics_grid(labels: np.ndarray, scores: np.ndarray) -> dict[str, 
     auc = float(roc_auc_score(labels, scores))
     fpr, tpr, _thresholds = roc_curve(labels, scores)
     tpr_at_1pct = tpr_at_fpr_from_curve(fpr, tpr, 0.01)
+    tpr_at_0_1pct = tpr_at_fpr_from_curve(fpr, tpr, 0.001)
 
     best_asr = -1.0
     best_threshold = float(scores.min())
@@ -160,6 +161,7 @@ def threshold_metrics_grid(labels: np.ndarray, scores: np.ndarray) -> dict[str, 
         "auc": auc,
         "asr": float(best_asr),
         "tpr_at_1pct_fpr": float(tpr_at_1pct),
+        "tpr_at_0_1pct_fpr": float(tpr_at_0_1pct),
         "threshold": best_threshold,
         "best_tpr": best_tpr,
         "best_fpr": best_fpr,
