@@ -15,6 +15,11 @@ endpoint cannot instantiate H2 response-strength. The image-to-image contract is
 different: it supplies a query image, controlled stochastic repeats, and
 observable response images. Under those conditions the local assets are ready.
 
+The frozen 10/10 micro-packet has now been run. Its verdict is recorded in
+[h2-img2img-micro-result.md](h2-img2img-micro-result.md): H2 remains
+candidate-only because the multi-strength logistic curve does not beat the
+same-cache simple distance comparator.
+
 ## CPU Probe
 
 Command:
@@ -72,7 +77,29 @@ zero-false-positive empirical tail, not calibrated sub-percent FPR.
 
 ## Next Action
 
-The CPU evaluator already accepts image-to-image caches with a `strengths`
+The response-cache collector now exists as a guarded runner. It defaults to a
+dry-run plan and only collects GPU responses when `--execute` is passed:
+
+```powershell
+python -X utf8 scripts/collect_h2_img2img_response_cache.py
+```
+
+The frozen GPU micro-packet command is:
+
+```powershell
+python -X utf8 scripts/collect_h2_img2img_response_cache.py `
+  --execute `
+  --packet-size 10 `
+  --strengths 0.35 0.55 0.75 `
+  --repeats 2 `
+  --device cuda:0
+```
+
+The collector writes ignored local artifacts under
+`workspaces/black-box/runs/<run-id>/` and must not be used for a larger packet
+until the 10/10 cache has been evaluated and reviewed.
+
+The CPU evaluator accepts the generated image-to-image cache with a `strengths`
 axis:
 
 ```powershell
@@ -81,8 +108,7 @@ python -X utf8 scripts/evaluate_h2_response_cache.py `
   --output workspaces/black-box/runs/<run-id>/summary.json
 ```
 
-The missing piece is only the thin image-to-image response collector that writes
-an ignored cache with `labels`, `strengths`, `inputs`, `responses`, and
-`min_distances_rmse`. After that exists, run only the frozen 10/10 packet if GPU
-memory is available. The canonical Git evidence should be a compact summary and
-verdict, not generated images or raw caches.
+The cache schema is frozen as `labels`, `strengths`, `inputs`, `responses`, and
+`min_distances_rmse`, with optional `lowpass_min_distances_rmse`. The canonical
+Git evidence should be a compact summary and verdict, not generated images or
+raw caches.
