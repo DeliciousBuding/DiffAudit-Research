@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `recon low-FPR truth-hardening`
-- Next GPU task: `none selected`
-- CPU work: `finite-sample tail-resolution metadata for admitted recon row`
+- Active work: `H2 image-to-image portability contract`
+- Next GPU task: `H2 SD/CelebA image-to-image 10/10 micro-packet, pending runner and GPU memory check`
+- CPU work: `freeze packet identity and response-cache schema before any GPU run`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,27 +17,21 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Recon low-FPR truth-hardening
+### H2 image-to-image portability contract
 
-- `mode`: CPU-first evidence hardening
+- `mode`: CPU-first GPU contract
 - `status`: active
-- `goal`: make the admitted recon low-FPR row self-describing under finite target-split resolution
-- `GPU`: no
+- `goal`: test whether H2 response-strength can transfer beyond DDPM/CIFAR10 when the black-box surface exposes image-conditioned responses
+- `GPU`: not yet; next candidate is a 10/10 micro-packet after runner/schema freeze
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-The CPU-only reselection is recorded in
-[../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
-CLiD moved to hold-candidate after prompt-control attribution. The recon
-product-validation packet is now the admitted black-box row with coherent
-four-metric reporting. The result is recorded in
-[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md)
-and the product boundary is recorded in
-[../../docs/product-bridge/recon-product-validation-handoff.md](../../docs/product-bridge/recon-product-validation-handoff.md).
-The next hardening step adds `tail_resolution` metadata to recon summaries so
-low-FPR metrics expose allowed false positives, true positives, false positives,
-empirical FPR, and empirical TPR. This keeps the product row scientifically
-honest without running another GPU task.
+Text-to-image SD/CelebA remains protocol-blocked for H2, but image-to-image is
+eligible when query images, controlled repeats, and observable response images
+are explicit. The CPU contract is recorded in
+[../../docs/evidence/h2-image-to-image-contract.md](../../docs/evidence/h2-image-to-image-contract.md).
+Do not schedule a large packet. The next valid GPU candidate is only the frozen
+10 member / 10 nonmember micro-packet.
 
 ## Ready
 
