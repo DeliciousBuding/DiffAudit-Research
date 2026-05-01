@@ -21,6 +21,54 @@ def _require_fields(errors: list[str], prefix: str, payload: dict, required: tup
             errors.append(f"{prefix} missing required field: {key}")
 
 
+def _require_numeric(errors: list[str], prefix: str, payload: dict, fields: tuple[str, ...]) -> None:
+    for key in fields:
+        value = payload.get(key)
+        if not isinstance(value, (int, float)):
+            errors.append(f"{prefix}.{key} must be numeric, got {value!r}")
+
+
+def _validate_recon_product_row(errors: list[str], rows: list[dict]) -> None:
+    candidates = [
+        row
+        for row in rows
+        if row.get("track") == "black-box"
+        and row.get("attack") == "recon DDIM public-100 step30"
+        and row.get("defense") == "none"
+        and row.get("evidence_level") == "runtime-mainline"
+    ]
+    if len(candidates) != 1:
+        errors.append(f"expected exactly one admitted recon product row, found {len(candidates)}")
+        return
+
+    row = candidates[0]
+    _require_fields(
+        errors,
+        "admitted_recon_row",
+        row,
+        ("metric_source", "quality_cost", "note", "boundary", "source"),
+    )
+    _require_numeric(errors, "admitted_recon_row", row, ("auc", "asr", "tpr_at_1pct_fpr", "tpr_at_0_1pct_fpr"))
+
+    if row.get("metric_source") != "upstream_threshold_reimplementation":
+        errors.append(
+            "admitted_recon_row.metric_source must be 'upstream_threshold_reimplementation'"
+        )
+    if row.get("source") != "docs/evidence/recon-product-validation-result.md":
+        errors.append("admitted_recon_row.source must point to recon-product-validation-result.md")
+
+    boundary = str(row.get("boundary", ""))
+    for phrase in (
+        "controlled",
+        "public-subset",
+        "proxy-shadow-member",
+        "zero-false-positive empirical tail",
+        "not a final exploit",
+    ):
+        if phrase not in boundary:
+            errors.append(f"admitted_recon_row.boundary missing phrase: {phrase}")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="validate_attack_defense_table",
@@ -54,10 +102,12 @@ def main(argv: list[str] | None = None) -> int:
         if not isinstance(rows, list) or not rows:
             errors.append("rows must be a non-empty list")
         else:
+            typed_rows: list[dict] = []
             for idx, row in enumerate(rows):
                 if not isinstance(row, dict):
                     errors.append(f"rows[{idx}] must be an object")
                     continue
+                typed_rows.append(row)
 
                 _require_fields(
                     errors,
@@ -92,6 +142,7 @@ def main(argv: list[str] | None = None) -> int:
                     adaptive_check,
                     ("query_repeats", "aggregation", "metrics"),
                 )
+            _validate_recon_product_row(errors, typed_rows)
 
     if errors:
         for error in errors:
