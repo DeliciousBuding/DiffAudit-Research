@@ -61,6 +61,8 @@ def build_recon_product_evidence_card(table: dict[str, Any], *, table_path: Path
         raise ValueError("admitted recon row must point to docs/evidence/recon-product-validation-result.md")
     if row.get("metric_source") != "upstream_threshold_reimplementation":
         raise ValueError("admitted recon row must use upstream_threshold_reimplementation")
+    target_member_count = 100
+    target_nonmember_count = 100
 
     return {
         "schema": "diffaudit.product_evidence_card.v1",
@@ -78,19 +80,19 @@ def build_recon_product_evidence_card(table: dict[str, Any], *, table_path: Path
         "evidence_level": row["evidence_level"],
         "quality_cost": row["quality_cost"],
         "finite_tail": {
-            "target_member_count": 100,
-            "target_nonmember_count": 100,
+            "target_member_count": target_member_count,
+            "target_nonmember_count": target_nonmember_count,
             "gates": {
                 "tpr_at_1pct_fpr": {
                     "allowed_false_positives": 1,
-                    "true_positives": 22,
+                    "true_positives": int(round(metrics["tpr_at_1pct_fpr"] * target_member_count)),
                     "false_positives": 1,
                     "empirical_tpr": metrics["tpr_at_1pct_fpr"],
                     "empirical_fpr": 0.01,
                 },
                 "tpr_at_0_1pct_fpr": {
                     "allowed_false_positives": 0,
-                    "true_positives": 11,
+                    "true_positives": int(round(metrics["tpr_at_0_1pct_fpr"] * target_member_count)),
                     "false_positives": 0,
                     "empirical_tpr": metrics["tpr_at_0_1pct_fpr"],
                     "empirical_fpr": 0.0,

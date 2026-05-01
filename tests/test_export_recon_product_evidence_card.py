@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import importlib.util
 import json
 import tempfile
 import unittest
@@ -8,12 +7,9 @@ from pathlib import Path
 
 
 def load_export_module():
-    module_path = Path(__file__).resolve().parents[1] / "scripts" / "export_recon_product_evidence_card.py"
-    spec = importlib.util.spec_from_file_location("export_recon_product_evidence_card_module", module_path)
-    module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
+    from scripts import export_recon_product_evidence_card
+
+    return export_recon_product_evidence_card
 
 
 class ExportReconProductEvidenceCardTests(unittest.TestCase):
