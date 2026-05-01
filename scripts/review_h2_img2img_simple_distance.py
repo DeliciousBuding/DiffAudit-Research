@@ -144,14 +144,16 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    cache = np.load(args.response_cache)
-    if "strengths" not in cache.files:
-        raise KeyError("response cache must include strengths for image-to-image review")
-    labels = cache["labels"].astype(np.int64)
-    strengths = [float(value) for value in cache["strengths"].astype(np.float32).tolist()]
-    min_distances = cache["min_distances_rmse"].astype(np.float32)
-    if min_distances.shape != (labels.shape[0], len(strengths)):
-        raise ValueError("min_distances_rmse must have shape [sample, strength]")
+    with np.load(args.response_cache) as cache:
+        if "strengths" not in cache.files:
+            raise KeyError("response cache must include strengths for image-to-image review")
+        labels = cache["labels"].astype(np.int64)
+        strengths = [float(value) for value in cache["strengths"].astype(np.float32).tolist()]
+        if not strengths:
+            raise ValueError("response cache strengths array is empty")
+        min_distances = cache["min_distances_rmse"].astype(np.float32)
+        if min_distances.shape != (labels.shape[0], len(strengths)):
+            raise ValueError("min_distances_rmse must have shape [sample, strength]")
 
     candidates: list[dict[str, Any]] = []
     scores_by_strength: list[np.ndarray] = []
@@ -215,8 +217,9 @@ def main() -> int:
         "next_action": "do not scale H2; choose CPU-first split/seed stability design if pursuing simple img2img distance",
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(_sanitize(summary), indent=2, ensure_ascii=True), encoding="utf-8")
-    print(json.dumps(_sanitize(summary), indent=2, ensure_ascii=False))
+    sanitized_payload = _sanitize(summary)
+    args.output.write_text(json.dumps(sanitized_payload, indent=2, ensure_ascii=True), encoding="utf-8")
+    print(json.dumps(sanitized_payload, indent=2, ensure_ascii=False))
     return 0
 
 

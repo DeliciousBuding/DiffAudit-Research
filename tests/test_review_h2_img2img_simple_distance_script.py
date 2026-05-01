@@ -97,6 +97,34 @@ class ReviewH2Img2ImgSimpleDistanceScriptTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("strengths", result.stderr)
 
+    def test_rejects_empty_strength_axis(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            cache = tmp / "response-cache.npz"
+            np.savez_compressed(
+                cache,
+                labels=np.asarray([1, 0], dtype=np.int64),
+                strengths=np.asarray([], dtype=np.float32),
+                min_distances_rmse=np.empty((2, 0), dtype=np.float32),
+            )
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-X",
+                    "utf8",
+                    "scripts/review_h2_img2img_simple_distance.py",
+                    "--response-cache",
+                    str(cache),
+                    "--output",
+                    str(tmp / "out.json"),
+                ],
+                capture_output=True,
+                text=True,
+            )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("strengths array is empty", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
