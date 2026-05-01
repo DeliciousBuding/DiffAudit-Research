@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** post-guard black-box hardening selection
+- **Active work:** recon product evidence-card hardening
 - **Next GPU task:** none selected after the `25/25` admission packet
-- **CPU work:** choose recon provenance/display hardening or a non-recon low-FPR hypothesis
+- **CPU work:** keep the admitted recon row machine-consumable and synchronized
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -80,6 +80,9 @@ The recon product row now has a system-consumable validation guard that prevents
 the unified table from silently dropping metric-source, strict-tail, source, or
 boundary fields. See
 [docs/evidence/recon-product-row-validation-guard.md](docs/evidence/recon-product-row-validation-guard.md).
+The admitted recon row is now also exported as a checked product evidence card
+for Platform and Runtime consumers. See
+[docs/product-bridge/recon-product-evidence-card.md](docs/product-bridge/recon-product-evidence-card.md).
 No next GPU task is selected.
 
 ## Key Documents
@@ -107,6 +110,7 @@ No next GPU task is selected.
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Recon product row validation guard: [docs/evidence/recon-product-row-validation-guard.md](docs/evidence/recon-product-row-validation-guard.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
+- Recon product evidence card: [docs/product-bridge/recon-product-evidence-card.md](docs/product-bridge/recon-product-evidence-card.md)
 - H2 simple-distance product bridge comparison: [docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](docs/product-bridge/h2-simple-distance-product-bridge-comparison.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)
