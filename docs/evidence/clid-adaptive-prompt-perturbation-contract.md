@@ -59,6 +59,8 @@ within-split shuffle control is recorded in
 Both survive with nonzero strict-tail signal but degrade sharply, so the next
 review should check whether an image-only control or independent prompt-control
 repeat answers a genuinely new question.
+The second within-split shuffle seed weakens the residual to `TPR@0.1%FPR =
+0.08` and loses auxiliary permutation significance.
 
 The prompt-text-only nuisance baseline is recorded in
 [clid-prompt-text-only-review.md](clid-prompt-text-only-review.md). It shows
@@ -73,8 +75,8 @@ feature 0 remains more stable.
 ## Current State
 
 - GPU task: none selected.
-- CPU sidecar: compare image-only control feasibility or independent
-  prompt-control repeat designs before any next GPU run. Do not run another
-  prompt-conditioned packet without a new control question.
+- CPU sidecar: move CLiD to hold unless a new protocol can isolate image
+  identity from prompt-conditioned auxiliary behavior. Do not run another
+  same-protocol CLiD GPU packet.
 - Product impact: none. Platform and Runtime should continue treating CLiD as
   candidate-only.

@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `CLiD adaptive prompt-perturbation design`
+- Active work: `non-CLiD black-box lane reselection`
 - Next GPU task: `none selected`
-- CPU work: `design the next admission test that separates prompt signal from membership signal`
+- CPU work: `pick the next model-mainline question after closing CLiD as hold-candidate`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,41 +17,20 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### CLiD adaptive prompt-perturbation design
+### Non-CLiD black-box lane reselection
 
-- `mode`: CPU-first claim hardening
+- `mode`: CPU-first lane selection
 - `status`: active
-- `goal`: define the next CLiD admission test that separates prompt information from membership signal
+- `goal`: choose the next model-mainline question after CLiD prompt-control closure
 - `GPU`: no
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-CLiD is selected as the next black-box lane after H2 text-to-image transfer was
-blocked by protocol mismatch. Local SD1.5, Recon CelebA split, target LoRA, and
-CLiD workspace probes are ready. The first bridge preparation exported 8 member
-and 8 nonmember examples and generated a localized upstream script. Bridge
-contract review passed, and score-summary schema gate is wired into artifact
-summarization. The first 8/8 tiny score bridge is reusable but not promotable
-because it fails the minimum sample gate. The 100/100 score packet clears the
-gate with strong low-FPR signal and survives first integrity review, but remains
-candidate-only. The independent repeat is stable; prompt perturbation is the
-current admission blocker because the prompt-neutral control collapses the
-signal. The canonical boundary is recorded in
-[../../docs/evidence/clid-prompt-conditioning-boundary.md](../../docs/evidence/clid-prompt-conditioning-boundary.md).
-No further CLiD GPU packet should run until a CPU-side perturbation contract
-specifies matched prompt-conditioned and prompt-control gates. The current CPU
-contract is
-[../../docs/evidence/clid-adaptive-prompt-perturbation-contract.md](../../docs/evidence/clid-adaptive-prompt-perturbation-contract.md).
-The swapped-prompt control is now scored and recorded in
-[../../docs/evidence/clid-swapped-prompt-control.md](../../docs/evidence/clid-swapped-prompt-control.md).
-It is positive but degraded, and the within-split shuffle control is weaker
-still but nonzero. CLiD remains candidate-only and needs another control design
-before any next GPU packet is selected. The next CPU-ready question is whether
-an image-only control or independent prompt-control repeat would add new
-evidence. Prompt-text-only review shows moderate AUC but weak strict-tail
-signal, so prompt text alone does not explain the original CLiD repeat. Control
-attribution shows the auxiliary feature is unstable under prompt controls,
-blocking admission.
+CLiD moved to hold-candidate after prompt-control attribution. The next lane
+should not be gray-box by default and should not be another CLiD prompt-control
+GPU packet. Candidate directions are `recon` product-consumable strengthening,
+semantic-auxiliary classifier scoping, or a data-gated variation line if real
+query assets exist.
 
 ## Ready
 
@@ -63,6 +42,25 @@ blocking admission.
   workspace artifact schemas.
 
 ## Hold
+
+### CLiD prompt-conditioned diagnostic lane
+
+- `mode`: black-box candidate
+- `reason for hold`: original prompt-conditioned packet is strong, but fixed
+  prompt, swapped-prompt, within-split shuffle, prompt-text-only, and control
+  attribution reviews show prompt-conditioned auxiliary instability.
+- `reopen trigger`: new protocol that isolates image identity from
+  prompt-conditioned auxiliary behavior and keeps low-FPR metrics primary.
+
+CLiD was selected after H2 text-to-image transfer was blocked by protocol
+mismatch. The bridge preparation, schema gate, 100/100 score packet, integrity
+review, and independent repeat all succeeded under the original
+prompt-conditioned contract. Admission is blocked because prompt-neutral,
+swapped-prompt, within-split shuffle, prompt-text-only, and attribution controls
+show that the strict-tail signal is degraded and auxiliary-feature stability is
+not robust. The canonical boundary is recorded in
+[../../docs/evidence/clid-prompt-conditioning-boundary.md](../../docs/evidence/clid-prompt-conditioning-boundary.md).
+No next CLiD GPU task is selected.
 
 ### Stable Diffusion / CelebA adapter contract watch
 
@@ -137,7 +135,8 @@ blocking admission.
 | H2 raw-primary 512 / 512 validation | Negative-but-useful. Raw H2 kept AUC signal but failed `TPR@0.1%FPR`; lowpass tail review remains active. |
 | H2 lowpass follow-up 512 / 512 validation | Positive-but-bounded. Cutoff-0.50 lowpass passed the frozen candidate gate; H2 remains candidate-only and needs portability evidence before promotion. |
 | H2 SD/CelebA text-to-image preflight | Negative-but-useful. Assets are ready, but prompt-only text-to-image is not H2-compatible. |
-| Black-box next-lane reselection | CLiD selected. Recon is admitted baseline; variation lacks real query assets; H2 portability needs image-conditioned protocol. |
+| Black-box next-lane reselection, first pass | CLiD selected for bounded prompt-conditioned probing. Recon stayed admitted baseline; variation lacked real query assets; H2 portability needed image-conditioned protocol. |
+| CLiD prompt-conditioned probing | Hold-candidate. Strong original packet, but prompt controls and attribution block admission as general black-box evidence. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
 | Architecture triage | Fixed dependency issues; added package initializers; aligned local checks with CI. |
 | Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |

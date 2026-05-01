@@ -17,7 +17,8 @@ The strict-tail retention pattern is:
 | Prompt-conditioned repeat | 1.0 | 1.0 | 1.0 |
 | Fixed prompt | 0.5862 | 0.02 | 0.02 |
 | Swapped prompt | 0.72885 | 0.21 | 0.21 |
-| Within-split prompt shuffle | 0.64105 | 0.12 | 0.12 |
+| Within-split prompt shuffle seed 0 | 0.64105 | 0.12 | 0.12 |
+| Within-split prompt shuffle seed 1 | 0.59425 | 0.08 | 0.08 |
 
 The feature-correlation pattern against the prompt-conditioned repeat is:
 
@@ -25,7 +26,8 @@ The feature-correlation pattern against the prompt-conditioned repeat is:
 | --- | ---: | ---: | ---: | ---: |
 | Fixed prompt | 0.893234 | 0.033173 | 0.948928 | 0.308893 |
 | Swapped prompt | 0.816335 | 0.008105 | 0.930595 | 0.24798 |
-| Within-split prompt shuffle | 0.797516 | 0.086773 | 0.92794 | 0.211426 |
+| Within-split prompt shuffle seed 0 | 0.797516 | 0.086773 | 0.92794 | 0.211426 |
+| Within-split prompt shuffle seed 1 | 0.768709 | 0.024058 | 0.913797 | 0.18218 |
 
 ## Interpretation
 
@@ -37,7 +39,9 @@ auxiliary correlations are weak.
 That is the strongest current evidence that the original `1.0` strict-tail
 signal is not a stable image-identity score. It depends on the prompt-conditioned
 auxiliary path. The controls do not fully collapse every signal, but they
-degrade strict-tail performance enough to block admission.
+degrade strict-tail performance enough to block admission. The second
+within-split shuffle seed further weakens the residual signal, so CLiD should
+not receive another same-protocol GPU packet.
 
 ## Boundary
 

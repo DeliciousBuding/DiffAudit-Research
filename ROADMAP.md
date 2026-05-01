@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** CLiD adaptive prompt-perturbation design
+- **Active work:** non-CLiD black-box lane reselection
 - **Next GPU task:** none selected
-- **CPU work:** design the next admission test that separates prompt signal from membership signal
+- **CPU work:** pick the next model-mainline question after closing CLiD as hold-candidate
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,31 +29,16 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume with CLiD adaptive prompt-perturbation design. H2 is held for cross-asset work
+Resume with non-CLiD black-box lane reselection. H2 is held for cross-asset work
 because SD/CelebA text-to-image is protocol-incompatible with H2
 response-strength. `recon` remains the admitted black-box baseline, `variation`
-lacks a real query set and endpoint, and CLiD is selected as the next bounded
-prompt-conditioned black-box lane. The first local bridge preparation succeeded
-with 8 member and 8 nonmember exports, the bridge contract review passed, and
-the score-summary schema gate is defined. The first 8/8 tiny CLiD score bridge
-was reusable but not promotable. The 100/100 packet clears the score-summary
-gate with strong low-FPR signal, but remains candidate-only until stability,
-row-alignment, and adaptive leakage review pass. The first integrity review
-found no obvious row-alignment, duplicate-image, duplicate-prompt, or text-length
-leakage explanation, and an independent repeat is stable. Prompt-neutral
-perturbation collapses the signal, so CLiD should be treated as a
-prompt-conditioned candidate rather than admitted general black-box evidence.
-The next CLiD task is CPU-only: specify an admission test that can separate
-prompt information from membership signal before any new GPU packet is selected.
-The swapped-prompt control is positive but degraded, so CLiD is not explained
-by fixed prompt text alone. It remains candidate-only; the next CPU step is to
-design image-only or independent prompt-control repeat controls before selecting
-another GPU packet. The within-split shuffle control is weaker than the
-swapped-prompt control but still nonzero, which reinforces the prompt-image
-contract boundary. Prompt-text-only review shows moderate AUC but weak
-strict-tail signal, so text alone does not explain the original CLiD repeat.
-Control attribution shows the CLiD auxiliary feature is unstable under prompt
-controls, which blocks admission.
+lacks a real query set and endpoint, and CLiD is now hold-candidate. CLiD's
+100/100 prompt-conditioned packet is strong and repeat-stable, but fixed-prompt,
+swapped-prompt, within-split shuffle, prompt-text-only, and attribution controls
+show that the signal depends on an unstable prompt-conditioned auxiliary path.
+Do not schedule another CLiD GPU packet without a new protocol that isolates
+image identity from prompt-conditioned behavior. The immediate CPU task is to
+choose the next black-box question that can improve product-consumable evidence.
 
 ## Key Documents
 

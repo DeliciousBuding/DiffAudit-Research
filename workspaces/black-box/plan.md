@@ -17,14 +17,10 @@
 
 ## Next Action
 
-Design the next CLiD adaptive prompt-perturbation contract. The contract must
-separate prompt information from membership signal before any new GPU packet is
-selected. The first swapped-prompt control is positive but degraded, so the next
-CPU design should separate image identity, prompt-image mismatch, and CLiD
-auxiliary scoring artifacts. The first within-split shuffle control is weaker
-than swapped-prompt but nonzero, and prompt-text-only review is moderate AUC but
-weak strict-tail. Control attribution shows auxiliary-feature instability under
-prompt controls. CLiD remains candidate-only. Keep status synchronized with
+Reselect the next non-CLiD black-box lane. CLiD prompt-control work is closed as
+hold-candidate: fixed prompt collapses, swapped prompt degrades, within-split
+shuffle is weak and seed-sensitive, prompt-text-only has weak strict-tail, and
+control attribution shows auxiliary-feature instability. Keep status synchronized with
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status

@@ -17,7 +17,7 @@ The evidence separates three facts:
 | Is the 100/100 signal strong and repeat-stable under the original prompt-conditioned contract? | [clid-100-score-packet.md](clid-100-score-packet.md), [clid-repeat-stability.md](clid-repeat-stability.md) | yes |
 | Does the signal survive a prompt-neutral control on the same images? | [clid-prompt-perturbation.md](clid-prompt-perturbation.md) | no |
 | Does the signal survive row-wise prompt swapping across splits? | [clid-swapped-prompt-control.md](clid-swapped-prompt-control.md) | partially; degraded but nonzero strict-tail signal |
-| Does the signal survive prompt shuffling inside each split? | [clid-within-split-shuffle-control.md](clid-within-split-shuffle-control.md) | weakly; further degraded but nonzero strict-tail signal |
+| Does the signal survive prompt shuffling inside each split? | [clid-within-split-shuffle-control.md](clid-within-split-shuffle-control.md) | weakly and seed-sensitively; seed 1 drops to 0.08 strict-tail |
 | Can prompt text alone explain the original strict-tail signal? | [clid-prompt-text-only-review.md](clid-prompt-text-only-review.md) | no; prompt text is moderately separable but strict-tail is only 0.02 |
 | Is the original auxiliary feature stable under prompt controls? | [clid-control-attribution.md](clid-control-attribution.md) | no; auxiliary correlations degrade sharply |
 
@@ -52,8 +52,7 @@ Allowed claim:
 - The current result is not explained by fixed prompt text alone, because the
   swapped-prompt control preserves a weaker strict-tail signal.
 - Preserving split-level prompt distribution is not enough to recover the
-  original signal, because within-split shuffle remains weaker than the original
-  prompt-conditioned packet.
+  original signal, because within-split shuffle remains weak and seed-sensitive.
 - Prompt text alone is a nuisance factor but does not explain the original
   strict-tail signal.
 - Control attribution shows that the original auxiliary feature is not stable
