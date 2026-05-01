@@ -48,12 +48,22 @@ def main() -> int:
     args = parse_args()
     cache = np.load(args.response_cache)
     labels = cache["labels"].astype(np.int64)
-    timesteps = cache["timesteps"].astype(np.int64)
+    if "timesteps" in cache.files:
+        axis_name = "timesteps"
+        response_axis = cache["timesteps"].astype(np.int64)
+        response_axis_values = [int(value) for value in response_axis.tolist()]
+    elif "strengths" in cache.files:
+        axis_name = "strengths"
+        strengths = cache["strengths"].astype(np.float32)
+        response_axis = np.rint(strengths * 1000.0).astype(np.int64)
+        response_axis_values = [float(value) for value in strengths.tolist()]
+    else:
+        raise KeyError("response cache must include either timesteps or strengths")
     raw_min_distances = cache["min_distances_rmse"].astype(np.float32)
 
     raw = evaluate_h2_response_cache(
         labels,
-        timesteps,
+        response_axis,
         raw_min_distances,
         seed=args.seed,
         holdout_repeats=args.holdout_repeats,
@@ -76,7 +86,7 @@ def main() -> int:
         if lowpass_min_distances is not None:
             lowpass = evaluate_h2_response_cache(
                 labels,
-                timesteps,
+                response_axis,
                 lowpass_min_distances,
                 seed=args.seed + 500,
                 holdout_repeats=args.holdout_repeats,
@@ -93,7 +103,10 @@ def main() -> int:
             "sample_count": int(labels.shape[0]),
             "member_count": int((labels == 1).sum()),
             "nonmember_count": int((labels == 0).sum()),
-            "timesteps": [int(value) for value in timesteps.tolist()],
+            "response_axis": axis_name,
+            "response_axis_values": response_axis_values,
+            "timesteps": response_axis_values if axis_name == "timesteps" else None,
+            "strengths": response_axis_values if axis_name == "strengths" else None,
             "seed": int(args.seed),
             "holdout_repeats": int(args.holdout_repeats),
             "bootstrap_iters": int(args.bootstrap_iters),
