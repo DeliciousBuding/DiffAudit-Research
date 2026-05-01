@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `post-admission simple-distance decision`
+- Active work: `H2 simple-distance portability preflight`
 - Next GPU task: `none selected after the 25/25 admission packet`
-- CPU work: `choose second-asset portability contract or recon-vs-simple-distance product bridge comparison`
+- CPU work: `determine whether a second valid image-to-image or repeated-response asset contract exists`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-admission simple-distance decision
+### H2 simple-distance portability preflight
 
 - `mode`: CPU-only decision
 - `status`: active
-- `goal`: decide whether bounded single-asset simple-distance evidence should next test portability or product consumption
+- `goal`: decide whether bounded single-asset simple-distance evidence has a valid second-asset portability path
 - `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -54,8 +54,11 @@ positives at 0 false positives. See
 [../../docs/evidence/h2-img2img-simple-distance-admission-result.md](../../docs/evidence/h2-img2img-simple-distance-admission-result.md).
 This is bounded single-asset black-box evidence, not H2 response-strength
 promotion and not a conditional-diffusion generalization. The next decision is
-CPU-only: choose either a second-asset portability contract or a
-recon-vs-simple-distance product bridge comparison.
+complete: the product bridge comparison keeps recon as the admitted black-box
+Platform row and keeps simple-distance as Research evidence. See
+[../../docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](../../docs/product-bridge/h2-simple-distance-product-bridge-comparison.md).
+The next CPU task is a second-asset portability preflight. Do not schedule a GPU
+packet until the preflight identifies a valid non-overlapping contract.
 
 ## Ready
 
