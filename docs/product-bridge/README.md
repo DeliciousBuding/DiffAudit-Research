@@ -26,6 +26,10 @@ Current recon status: recon is the admitted black-box product row. The active
 row uses a unified upstream-threshold metric source and reports all four
 headline metrics. See
 [recon-product-validation-handoff.md](recon-product-validation-handoff.md).
+The machine-readable product evidence card is
+[`../../workspaces/implementation/artifacts/recon-product-evidence-card.json`](../../workspaces/implementation/artifacts/recon-product-evidence-card.json)
+and its contract is documented in
+[recon-product-evidence-card.md](recon-product-evidence-card.md).
 
 Current H2 image-to-image simple-distance status: the simple-distance signal has
 bounded single-asset evidence on the SD1.5/CelebA-style contract, but it is not
@@ -44,6 +48,7 @@ The current product bridge decision is recorded in
 | [local-api.md](local-api.md) | Historical local API notes. |
 | [recon-artifact-replay-guidance.md](recon-artifact-replay-guidance.md) | How to interpret recon debug traces. |
 | [recon-product-validation-handoff.md](recon-product-validation-handoff.md) | Current product boundary for the promoted recon black-box row. |
+| [recon-product-evidence-card.md](recon-product-evidence-card.md) | Machine-readable product card for the admitted recon row. |
 | [h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md) | Why simple-distance remains Research evidence and what must happen before product consumption. |
 
 ## Integration Rules

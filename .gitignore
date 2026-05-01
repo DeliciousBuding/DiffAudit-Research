@@ -133,6 +133,7 @@ workspaces/**/artifacts/**
 # Curated artifact summaries already committed under ignored artifact trees.
 !workspaces/implementation/artifacts/research-automation-health-20260416.json
 !workspaces/implementation/artifacts/unified-attack-defense-table.json
+!workspaces/implementation/artifacts/recon-product-evidence-card.json
 !workspaces/white-box/artifacts/whitebox-attack-defense-table.json
 *.stdout.log
 *.stderr.log
