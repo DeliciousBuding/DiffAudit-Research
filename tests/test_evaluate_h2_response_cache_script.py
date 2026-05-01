@@ -54,6 +54,8 @@ class EvaluateH2ResponseCacheScriptTests(unittest.TestCase):
             self.assertEqual(summary["status"], "ready")
             self.assertEqual(summary["inputs"]["sample_count"], 12)
             self.assertEqual(summary["inputs"]["response_axis"], "timesteps")
+            self.assertEqual(summary["inputs"]["timesteps"], [40, 80])
+            self.assertIsNone(summary["inputs"]["strengths"])
             self.assertIn("logistic", summary["raw_h2"])
 
     def test_script_accepts_image_to_image_strength_axis(self) -> None:
@@ -101,6 +103,8 @@ class EvaluateH2ResponseCacheScriptTests(unittest.TestCase):
             self.assertEqual(summary["status"], "ready")
             self.assertEqual(summary["inputs"]["response_axis"], "strengths")
             self.assertEqual(summary["inputs"]["response_axis_values"], [0.25, 0.5])
+            self.assertIsNone(summary["inputs"]["timesteps"])
+            self.assertEqual(summary["inputs"]["strengths"], [0.25, 0.5])
             self.assertIn("logistic", summary["raw_h2"])
 
 

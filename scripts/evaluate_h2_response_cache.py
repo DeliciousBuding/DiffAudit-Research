@@ -105,6 +105,8 @@ def main() -> int:
             "nonmember_count": int((labels == 0).sum()),
             "response_axis": axis_name,
             "response_axis_values": response_axis_values,
+            "timesteps": response_axis_values if axis_name == "timesteps" else None,
+            "strengths": response_axis_values if axis_name == "strengths" else None,
             "seed": int(args.seed),
             "holdout_repeats": int(args.holdout_repeats),
             "bootstrap_iters": int(args.bootstrap_iters),
