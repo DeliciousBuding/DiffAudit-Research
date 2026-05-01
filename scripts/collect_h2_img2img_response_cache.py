@@ -86,6 +86,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--image-size", type=int, default=512)
     parser.add_argument("--packet-size", type=int, default=10)
+    parser.add_argument("--sample-offset", type=int, default=0)
     parser.add_argument("--strengths", type=float, nargs="+", default=list(DEFAULT_STRENGTHS))
     parser.add_argument("--repeats", type=int, default=2)
     parser.add_argument("--num-inference-steps", type=int, default=30)
@@ -110,6 +111,8 @@ def _build_plan(args: argparse.Namespace) -> dict[str, Any]:
     strengths = _validate_strengths(args.strengths)
     if args.packet_size <= 0:
         raise ValueError("--packet-size must be positive")
+    if args.sample_offset < 0:
+        raise ValueError("--sample-offset must be non-negative")
     if args.repeats <= 0:
         raise ValueError("--repeats must be positive")
     if args.image_size <= 0:
@@ -128,6 +131,8 @@ def _build_plan(args: argparse.Namespace) -> dict[str, Any]:
             "split_root": split_root,
             "lora_dir": None if args.no_lora else lora_dir,
             "packet_size_per_class": int(args.packet_size),
+            "sample_offset_per_class": int(args.sample_offset),
+            "sample_position_range_per_class": [int(args.sample_offset), int(args.sample_offset) + int(args.packet_size)],
             "strengths": strengths,
             "repeats": int(args.repeats),
             "num_inference_steps": int(args.num_inference_steps),
@@ -148,7 +153,7 @@ def _build_plan(args: argparse.Namespace) -> dict[str, Any]:
                 "min_distances_rmse": f"[{sample_count}, {len(strengths)}]",
             },
         },
-        "verdict": "dry-run ready; pass --execute only for the frozen 10/10 GPU micro-packet",
+        "verdict": "dry-run ready; pass --execute only for a frozen bounded GPU packet",
     }
 
 
@@ -185,19 +190,23 @@ def _load_pipeline(plan: dict[str, Any]) -> Any:
 def _collect(plan: dict[str, Any]) -> dict[str, np.ndarray]:
     split_root = Path(plan["inputs"]["split_root"])
     packet_size = int(plan["inputs"]["packet_size_per_class"])
+    sample_offset = int(plan["inputs"]["sample_offset_per_class"])
     image_size = int(plan["inputs"]["image_size"])
     strengths = [float(value) for value in plan["inputs"]["strengths"]]
     repeats = int(plan["inputs"]["repeats"])
     seed = int(plan["inputs"]["seed"])
 
     member_prompts, member_images, nonmember_prompts, nonmember_images = _load_recon_split(split_root)
-    if len(member_images) < packet_size or len(nonmember_images) < packet_size:
+    end = sample_offset + packet_size
+    if len(member_images) < end or len(nonmember_images) < end:
         raise ValueError(
             f"split {split_root} has {len(member_images)} members and {len(nonmember_images)} nonmembers; "
-            f"need {packet_size} each"
+            f"need offset {sample_offset} plus {packet_size} each"
         )
-    prompts = member_prompts[:packet_size] + nonmember_prompts[:packet_size]
-    images = member_images[:packet_size] + nonmember_images[:packet_size]
+    member_slice = slice(sample_offset, end)
+    nonmember_slice = slice(sample_offset, end)
+    prompts = member_prompts[member_slice] + nonmember_prompts[nonmember_slice]
+    images = member_images[member_slice] + nonmember_images[nonmember_slice]
     labels = np.concatenate(
         [np.ones(packet_size, dtype=np.int64), np.zeros(packet_size, dtype=np.int64)]
     )
@@ -244,8 +253,10 @@ def _collect(plan: dict[str, Any]) -> dict[str, np.ndarray]:
         "distances_rmse": distances.astype(np.float32),
         "min_distances_rmse": min_distances,
         "lowpass_min_distances_rmse": lowpass_min_distances.astype(np.float32),
-        "member_prompts": np.asarray(member_prompts[:packet_size], dtype=str),
-        "nonmember_prompts": np.asarray(nonmember_prompts[:packet_size], dtype=str),
+        "member_prompts": np.asarray(member_prompts[member_slice], dtype=str),
+        "nonmember_prompts": np.asarray(nonmember_prompts[nonmember_slice], dtype=str),
+        "member_source_positions": np.arange(sample_offset, end, dtype=np.int64),
+        "nonmember_source_positions": np.arange(sample_offset, end, dtype=np.int64),
     }
 
 
