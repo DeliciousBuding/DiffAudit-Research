@@ -3,12 +3,12 @@
 ## Current Status
 
 - Direction: black-box membership inference attacks.
-- Main method: `recon` is the strongest black-box attack and the selected next
-  lane for product-consumable strengthening.
+- Main method: `recon` is the admitted black-box product row and the selected
+  lane for further product-consumable hardening.
 - Supporting methods: `CLiD`, `variation`, `H2 response-strength`, and
   semantic-auxiliary classifiers.
-- Candidate method: `recon` product-validation packet, strict-tail confirmed
-  but metric-source reconciliation pending.
+- Candidate method: simple image-to-image distance is bounded single-asset
+  evidence, not a product row or portability result.
 - GPU: no active black-box GPU task running now.
 
 ## Files
@@ -30,6 +30,9 @@ Current recon validation contract:
 
 Current recon validation result:
 [../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
+
+Current H2 simple-distance boundary:
+[../../docs/evidence/h2-simple-distance-portability-preflight.md](../../docs/evidence/h2-simple-distance-portability-preflight.md).
 
 ## Archive
 

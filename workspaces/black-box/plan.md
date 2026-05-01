@@ -8,9 +8,11 @@
   black-box evidence.
 - `variation`: API-only support; needs real query-image data for stronger claims.
 - `semantic-auxiliary-classifier`: current alternative candidate.
-- `H2 response-strength`: live candidate with positive non-overlap signal;
+- `H2 response-strength`: candidate-only with positive non-overlap signal;
   frozen lowpass follow-up is positive-but-bounded on `DDPM/CIFAR10`; SD/CelebA
   text-to-image transfer is protocol-blocked.
+- `simple image-to-image distance`: bounded single-asset evidence on
+  SD1.5/CelebA; not a product row and not portability evidence.
 
 ## Next Action
 
@@ -23,7 +25,9 @@ upstream-threshold packet (`AUC = 0.837`, `ASR = 0.74`, `TPR@1%FPR = 0.22`,
 ## Current Status
 
 Stable admitted baseline after product-consumable strengthening. `recon` remains
-the admitted black-box row under the unified metric source. The next GPU
-candidate is not selected; the next step is CPU-first lane selection. H2 is held
-for image-conditioned portability; CLiD is
+the admitted black-box row under the unified metric source. The H2
+simple-distance product bridge comparison keeps that signal as Research
+evidence only, and the second-asset portability preflight is blocked by missing
+query-image/response-contract assets. The next GPU candidate is not selected;
+the next step returns to CPU-first recon product-row hardening. CLiD is
 hold-candidate; variation remains data-gated.
