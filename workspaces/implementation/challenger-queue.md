@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `post-guard black-box hardening selection`
+- Active work: `recon product evidence-card hardening`
 - Next GPU task: `none selected after the 25/25 admission packet`
-- CPU work: `choose recon provenance/display hardening or a non-recon low-FPR hypothesis`
+- CPU work: `keep the admitted recon row machine-consumable and synchronized`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,7 +17,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-guard black-box hardening selection
+### Recon product evidence-card hardening
 
 - `mode`: CPU-only decision
 - `status`: active
@@ -66,9 +66,11 @@ be CPU-first and should not add a Platform row unless it improves the existing
 admitted recon evidence boundary.
 The recon product row guard is now implemented in
 [../../docs/evidence/recon-product-row-validation-guard.md](../../docs/evidence/recon-product-row-validation-guard.md).
-Next selection remains CPU-only: improve recon provenance/display handoff, or
-pick a non-recon low-FPR hypothesis with a stronger contract than the current
-data-gated lanes.
+The selected CPU follow-up is the recon product evidence card. It exports the
+admitted row, finite-tail interpretation, claim boundary, and provenance as a
+checked machine-readable card for Platform and Runtime consumers. See
+[../../docs/product-bridge/recon-product-evidence-card.md](../../docs/product-bridge/recon-product-evidence-card.md).
+No GPU task is selected.
 
 ## Ready
 
