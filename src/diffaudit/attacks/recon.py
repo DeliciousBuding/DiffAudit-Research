@@ -451,7 +451,7 @@ def _threshold_metrics_from_scores(
     }
 
 
-def _upstream_threshold_metrics_from_artifacts(score_paths: dict[str, Path]) -> dict[str, float]:
+def _upstream_threshold_scores_from_artifacts(score_paths: dict[str, Path]) -> dict[str, np.ndarray]:
     shadow_member_features, shadow_member_labels = _extract_recon_feature_matrix(score_paths["shadow_member"])
     shadow_nonmember_features, shadow_nonmember_labels = _extract_recon_feature_matrix(score_paths["shadow_non_member"])
     target_member_features, target_member_labels = _extract_recon_feature_matrix(score_paths["target_member"])
@@ -464,7 +464,60 @@ def _upstream_threshold_metrics_from_artifacts(score_paths: dict[str, Path]) -> 
     train_features, test_features = _standardize_like_sklearn(train_features, test_features)
     train_scores = np.max(train_features, axis=1)
     test_scores = np.max(test_features, axis=1)
-    return _threshold_metrics_from_scores(train_scores, train_labels, test_scores, test_labels)
+    return {
+        "train_scores": train_scores,
+        "train_labels": train_labels,
+        "test_scores": test_scores,
+        "test_labels": test_labels,
+    }
+
+
+def _empirical_tail_resolution(
+    scores: np.ndarray,
+    labels: np.ndarray,
+    target_fprs: tuple[float, ...] = (0.01, 0.001),
+) -> dict[str, dict[str, float | int]]:
+    positives = scores[labels == 1]
+    negatives = scores[labels == 0]
+    if positives.size == 0 or negatives.size == 0:
+        raise ValueError("tail resolution requires both member and nonmember target scores")
+    unique_thresholds = sorted({float(value) for value in scores}, reverse=True)
+    result: dict[str, dict[str, float | int]] = {}
+    for target_fpr in target_fprs:
+        allowed_false_positives = int(np.floor(float(target_fpr) * negatives.size))
+        best_true_positives = 0
+        best_false_positives = 0
+        best_threshold = float("inf")
+        for threshold in unique_thresholds:
+            false_positives = int((negatives >= threshold).sum())
+            true_positives = int((positives >= threshold).sum())
+            if false_positives <= allowed_false_positives and true_positives > best_true_positives:
+                best_true_positives = true_positives
+                best_false_positives = false_positives
+                best_threshold = float(threshold)
+        key = f"tpr_at_{str(target_fpr).replace('.', '_')}_fpr"
+        result[key] = {
+            "target_fpr": round6(target_fpr),
+            "target_members": int(positives.size),
+            "target_nonmembers": int(negatives.size),
+            "allowed_false_positives": int(allowed_false_positives),
+            "true_positives": int(best_true_positives),
+            "false_positives": int(best_false_positives),
+            "empirical_tpr": round6(best_true_positives / positives.size),
+            "empirical_fpr": round6(best_false_positives / negatives.size),
+            "threshold": round6(best_threshold),
+        }
+    return result
+
+
+def _upstream_threshold_metrics_from_artifacts(score_paths: dict[str, Path]) -> dict[str, float]:
+    scores = _upstream_threshold_scores_from_artifacts(score_paths)
+    return _threshold_metrics_from_scores(
+        scores["train_scores"],
+        scores["train_labels"],
+        scores["test_scores"],
+        scores["test_labels"],
+    )
 
 
 def _run_recon_subprocess(
@@ -1184,6 +1237,11 @@ def summarize_recon_artifacts(
     shadow_metrics = _threshold_metrics(shadow_member_scores, shadow_nonmember_scores)
     target_metrics = _threshold_metrics(target_member_scores, target_nonmember_scores)
     upstream_threshold_metrics = _upstream_threshold_metrics_from_artifacts(score_paths)
+    upstream_threshold_scores = _upstream_threshold_scores_from_artifacts(score_paths)
+    tail_resolution = _empirical_tail_resolution(
+        upstream_threshold_scores["test_scores"],
+        upstream_threshold_scores["test_labels"],
+    )
 
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
@@ -1226,10 +1284,12 @@ def summarize_recon_artifacts(
             "asr": upstream_threshold_metrics["asr"],
             "auc": upstream_threshold_metrics["auc"],
         },
+        "tail_resolution": tail_resolution,
         "notes": [
             "Summary is recomputed from reconstruction score artifacts compatible with the upstream accuracy script.",
             "Headline metrics use a local reimplementation of the upstream threshold path: shadow-fitted standardization, row-wise max score, shadow-selected threshold, and target evaluation.",
             "Raw feature-0 metrics are retained only for backward comparison.",
+            "Tail-resolution counts expose finite-sample low-FPR limits and must be used when interpreting sub-percent FPR claims.",
         ],
     }
     (workspace_path / "summary.json").write_text(

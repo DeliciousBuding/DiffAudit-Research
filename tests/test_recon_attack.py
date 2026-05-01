@@ -730,6 +730,36 @@ class ReconAttackTests(unittest.TestCase):
         self.assertEqual(result["metrics"]["asr"], 1.0)
         self.assertEqual(result["metrics"]["tpr_at_0_1pct_fpr"], 1.0)
 
+    def test_summarize_recon_artifacts_reports_tail_resolution_counts(self) -> None:
+        from diffaudit.attacks.recon import summarize_recon_artifacts
+        import torch
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            artifact_dir = root / "scores"
+            artifact_dir.mkdir()
+            torch_payloads = {
+                "target_member.pt": [([0.0, 0.95], 1), ([0.0, 0.90], 1), ([0.0, 0.40], 1)],
+                "target_non_member.pt": [([0.0, 0.80], 0), ([0.0, 0.30], 0), ([0.0, 0.20], 0)],
+                "shadow_member.pt": [([0.0, 0.95], 1), ([0.0, 0.90], 1), ([0.0, 0.85], 1)],
+                "shadow_non_member.pt": [([0.0, 0.15], 0), ([0.0, 0.10], 0), ([0.0, 0.05], 0)],
+            }
+            for filename, payload in torch_payloads.items():
+                torch.save(payload, artifact_dir / filename)
+
+            result = summarize_recon_artifacts(
+                artifact_dir=artifact_dir,
+                workspace=root / "artifact-summary",
+            )
+
+        strict_tail = result["tail_resolution"]["tpr_at_0_001_fpr"]
+        self.assertEqual(strict_tail["target_members"], 3)
+        self.assertEqual(strict_tail["target_nonmembers"], 3)
+        self.assertEqual(strict_tail["allowed_false_positives"], 0)
+        self.assertEqual(strict_tail["false_positives"], 0)
+        self.assertEqual(strict_tail["true_positives"], 2)
+        self.assertAlmostEqual(strict_tail["empirical_tpr"], 2 / 3, places=6)
+
     def test_cli_runs_recon_artifact_mainline(self) -> None:
         from diffaudit.cli import main
         import torch
