@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `H2 img2img simple-distance admission contract`
-- Next GPU task: `frozen 25/25 simple-distance admission packet on derived-public-50 positions [20, 45)`
-- CPU work: `recon product-consumable strengthening sidecar`
+- Active work: `post-admission simple-distance decision`
+- Next GPU task: `none selected after the 25/25 admission packet`
+- CPU work: `choose second-asset portability contract or recon-vs-simple-distance product bridge comparison`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,12 +17,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### H2 img2img simple-distance admission contract
+### Post-admission simple-distance decision
 
-- `mode`: frozen bounded GPU candidate
+- `mode`: CPU-only decision
 - `status`: active
-- `goal`: test whether the simple img2img distance signal survives an admission-scale 25/25 non-overlapping packet
-- `GPU`: one packet selected, not yet run
+- `goal`: decide whether bounded single-asset simple-distance evidence should next test portability or product consumption
+- `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
@@ -49,8 +49,13 @@ The next decision is recorded as a `25/25` admission contract on
 `derived-public-50`, sample positions `[20, 45)`, `strength = 0.75`, and
 `repeats = 2`. See
 [../../docs/evidence/h2-img2img-simple-distance-admission-contract.md](../../docs/evidence/h2-img2img-simple-distance-admission-contract.md).
-Run no other GPU task concurrently. Recon product-consumable strengthening is
-the CPU sidecar while this packet waits.
+The packet passed with `AUC = 0.8768`, `ASR = 0.84`, and 11/25 member true
+positives at 0 false positives. See
+[../../docs/evidence/h2-img2img-simple-distance-admission-result.md](../../docs/evidence/h2-img2img-simple-distance-admission-result.md).
+This is bounded single-asset black-box evidence, not H2 response-strength
+promotion and not a conditional-diffusion generalization. The next decision is
+CPU-only: choose either a second-asset portability contract or a
+recon-vs-simple-distance product bridge comparison.
 
 ## Ready
 
