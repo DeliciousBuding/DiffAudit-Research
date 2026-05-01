@@ -24,7 +24,7 @@ def _require_fields(errors: list[str], prefix: str, payload: dict, required: tup
 def _require_numeric(errors: list[str], prefix: str, payload: dict, fields: tuple[str, ...]) -> None:
     for key in fields:
         value = payload.get(key)
-        if not isinstance(value, (int, float)):
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
             errors.append(f"{prefix}.{key} must be numeric, got {value!r}")
 
 
