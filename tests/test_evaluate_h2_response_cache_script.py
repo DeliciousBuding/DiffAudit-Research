@@ -53,6 +53,58 @@ class EvaluateH2ResponseCacheScriptTests(unittest.TestCase):
             summary = json.loads(output_path.read_text(encoding="utf-8"))
             self.assertEqual(summary["status"], "ready")
             self.assertEqual(summary["inputs"]["sample_count"], 12)
+            self.assertEqual(summary["inputs"]["response_axis"], "timesteps")
+            self.assertEqual(summary["inputs"]["timesteps"], [40, 80])
+            self.assertIsNone(summary["inputs"]["strengths"])
+            self.assertIn("logistic", summary["raw_h2"])
+
+    def test_script_accepts_image_to_image_strength_axis(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            cache_path = root / "img2img-response-cache.npz"
+            output_path = root / "summary.json"
+            labels = np.asarray([1] * 6 + [0] * 6, dtype=np.int64)
+            strengths = np.asarray([0.25, 0.50], dtype=np.float32)
+            member_distances = np.stack(
+                [np.linspace(0.1, 0.2, 6), np.linspace(0.2, 0.3, 6)],
+                axis=1,
+            )
+            nonmember_distances = np.stack(
+                [np.linspace(0.8, 0.9, 6), np.linspace(0.9, 1.0, 6)],
+                axis=1,
+            )
+            np.savez_compressed(
+                cache_path,
+                labels=labels,
+                strengths=strengths,
+                min_distances_rmse=np.concatenate([member_distances, nonmember_distances], axis=0).astype(np.float32),
+            )
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-X",
+                    "utf8",
+                    "scripts/evaluate_h2_response_cache.py",
+                    "--response-cache",
+                    str(cache_path),
+                    "--output",
+                    str(output_path),
+                    "--bootstrap-iters",
+                    "0",
+                    "--no-lowpass",
+                ],
+                check=True,
+                cwd=Path(__file__).resolve().parents[1],
+                stdout=subprocess.DEVNULL,
+            )
+
+            summary = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(summary["status"], "ready")
+            self.assertEqual(summary["inputs"]["response_axis"], "strengths")
+            self.assertEqual(summary["inputs"]["response_axis_values"], [0.25, 0.5])
+            self.assertIsNone(summary["inputs"]["timesteps"])
+            self.assertEqual(summary["inputs"]["strengths"], [0.25, 0.5])
             self.assertIn("logistic", summary["raw_h2"])
 
 
