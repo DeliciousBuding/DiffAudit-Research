@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `recon product-row hardening reselection`
+- Active work: `post-guard black-box hardening selection`
 - Next GPU task: `none selected after the 25/25 admission packet`
-- CPU work: `keep simple-distance bounded and choose the next recon product-consumable strengthening task`
+- CPU work: `choose recon provenance/display hardening or a non-recon low-FPR hypothesis`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Recon product-row hardening reselection
+### Post-guard black-box hardening selection
 
 - `mode`: CPU-only decision
 - `status`: active
-- `goal`: select the next product-consumable black-box strengthening task after simple-distance portability is blocked
+- `goal`: choose the next product-consumable or low-FPR black-box strengthening task after recon row guard hardening
 - `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -64,6 +64,11 @@ simple-distance. See
 The active slot returns to recon product-row hardening. The next action should
 be CPU-first and should not add a Platform row unless it improves the existing
 admitted recon evidence boundary.
+The recon product row guard is now implemented in
+[../../docs/evidence/recon-product-row-validation-guard.md](../../docs/evidence/recon-product-row-validation-guard.md).
+Next selection remains CPU-only: improve recon provenance/display handoff, or
+pick a non-recon low-FPR hypothesis with a stronger contract than the current
+data-gated lanes.
 
 ## Ready
 
