@@ -26,7 +26,9 @@ Allowed product copy:
   public-100 Stable Diffusion packet.
 - The admitted row now reports all four headline metrics from one coherent
   threshold-style metric source.
-- The strict-tail signal is nonzero at `TPR@0.1%FPR = 0.11`.
+- The strict-tail signal is nonzero at `TPR@0.1%FPR = 0.11`, interpreted as
+  zero false positives out of 100 target nonmembers with 11 true positives out
+  of 100 target members.
 
 Blocked product copy:
 
@@ -35,6 +37,9 @@ Blocked product copy:
 - Do not remove the controlled public-subset and proxy-shadow-member caveats.
 - Do not compare the new low-FPR values against older recon rows without
   stating that the metric source changed.
+- Do not describe `TPR@0.1%FPR` as fine-grained sub-percent calibration; the
+  target nonmember split has 100 rows, so the empirical strict-tail point is a
+  zero-false-positive gate.
 
 ## Runtime Boundary
 

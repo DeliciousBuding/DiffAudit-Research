@@ -1,7 +1,8 @@
 # Recon Product Validation Result
 
 This note records the bounded GPU rerun for the selected recon strengthening
-lane. It is a validation result, not a new admitted row.
+lane. It is the current admitted black-box row after metric-source
+reconciliation.
 
 ## Verdict
 
@@ -53,6 +54,20 @@ row should not be used for product copy except as historical context.
 
 Generated images and score artifacts remain ignored under
 `workspaces/black-box/runs/`.
+
+## Tail Resolution
+
+The target split has 100 members and 100 nonmembers, so the empirical FPR grid
+is coarse. The admitted low-FPR tail should be read as a held-out target ranking
+property, not as a precise continuous sub-percent operating point:
+
+| Gate | Empirical interpretation | Result |
+| --- | --- | --- |
+| `TPR@1%FPR = 0.22` | at most 1 false positive out of 100 target nonmembers | 22 true positives out of 100 target members |
+| `TPR@0.1%FPR = 0.11` | zero false positives out of 100 target nonmembers | 11 true positives out of 100 target members |
+
+This is enough to keep the strict-tail signal nonzero, but not enough to claim
+fine-grained calibration below the dataset's empirical FPR resolution.
 
 ## Interpretation
 
