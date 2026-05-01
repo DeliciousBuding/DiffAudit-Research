@@ -93,6 +93,7 @@ def probe_variation_assets(
     query_image_root: str | Path,
     endpoint: str,
     min_split_count: int = 1,
+    require_split_layout: bool = False,
 ) -> dict[str, object]:
     if min_split_count <= 0:
         raise ValueError("min_split_count must be positive")
@@ -115,11 +116,17 @@ def probe_variation_assets(
         "member_split_min_count": has_min_member_split,
         "nonmember_split_min_count": has_min_nonmember_split,
         "paper_eval_layout_min_count": has_min_member_split and has_min_nonmember_split,
+        "split_layout_required": require_split_layout,
     }
+    has_eligible_layout = (
+        checks["paper_eval_layout_min_count"]
+        if require_split_layout
+        else checks["query_images_present"] or checks["paper_eval_layout_min_count"]
+    )
     status = (
         "ready"
         if checks["query_image_root"]
-        and (checks["query_images_present"] or checks["paper_eval_layout_min_count"])
+        and has_eligible_layout
         and checks["endpoint"]
         else "blocked"
     )

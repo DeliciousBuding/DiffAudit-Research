@@ -44,6 +44,7 @@ def main(argv: list[str] | None = None) -> int:
         query_image_root=args.query_root,
         endpoint=args.endpoint.strip(),
         min_split_count=args.min_split_count,
+        require_split_layout=True,
     )
     payload["contract"] = {
         "required_layout": "member/nonmember query-image split",

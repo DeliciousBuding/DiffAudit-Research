@@ -34,6 +34,37 @@ class AuditVariationQueryContractTests(unittest.TestCase):
         self.assertEqual(payload["status"], "blocked")
         self.assertFalse(payload["checks"]["query_image_root"])
         self.assertFalse(payload["checks"]["endpoint"])
+        self.assertTrue(payload["checks"]["split_layout_required"])
+
+    def test_blocks_flat_layout_even_with_endpoint(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir) / "variation-query-set"
+            root.mkdir(parents=True)
+            for index in range(2):
+                (root / f"q{index}.png").write_bytes(b"png")
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/audit_variation_query_contract.py",
+                    "--query-root",
+                    str(root),
+                    "--endpoint",
+                    "https://example.invalid/variation",
+                    "--min-split-count",
+                    "2",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                cwd=Path(__file__).resolve().parents[1],
+            )
+
+        self.assertEqual(completed.returncode, 1)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["status"], "blocked")
+        self.assertTrue(payload["checks"]["query_images_present"])
+        self.assertFalse(payload["checks"]["paper_eval_layout_min_count"])
 
     def test_accepts_minimum_member_nonmember_contract(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
