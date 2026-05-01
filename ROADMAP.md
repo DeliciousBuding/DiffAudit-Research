@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** H2 image-to-image portability contract
-- **Next GPU task:** H2 SD/CelebA image-to-image 10/10 micro-packet, pending runner and GPU memory check
-- **CPU work:** freeze packet identity and response-cache schema before any GPU run
+- **Active work:** post-H2 image-to-image lane reselection
+- **Next GPU task:** none selected
+- **CPU work:** decide whether the simple img2img distance signal deserves a bounded stability check, or return to recon product-consumable strengthening
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -45,11 +45,14 @@ now yields a coherent upstream-threshold candidate packet: `AUC = 0.837`,
 `ASR = 0.74`, `TPR@1%FPR = 0.22`, and `TPR@0.1%FPR = 0.11`. Product-row
 promotion is complete and recorded in
 [docs/product-bridge/recon-product-validation-handoff.md](docs/product-bridge/recon-product-validation-handoff.md).
-The next research step is H2 portability under an image-to-image response
-contract. Text-to-image remains blocked for H2, but the CPU probe confirms local
-SD1.5/CelebA/recon assets are eligible when a query image, controlled repeats,
-and observable response images are available. The frozen contract is recorded in
-[docs/evidence/h2-image-to-image-contract.md](docs/evidence/h2-image-to-image-contract.md).
+The H2 image-to-image micro-packet has run. The protocol is runnable, but the H2
+multi-strength logistic curve does not beat the same-cache simple distance
+comparator. The result is recorded in
+[docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md).
+H2 remains candidate-only and should not be scaled as-is. The next CPU decision
+is whether to test the simple img2img distance signal as a small
+recon-adjacent baseline, or return directly to recon product-consumable
+strengthening.
 
 ## Key Documents
 
@@ -65,6 +68,7 @@ and observable response images are available. The frozen contract is recorded in
 - CLiD control attribution: [docs/evidence/clid-control-attribution.md](docs/evidence/clid-control-attribution.md)
 - Non-CLiD black-box reselection: [docs/evidence/non-clid-blackbox-reselection.md](docs/evidence/non-clid-blackbox-reselection.md)
 - H2 image-to-image contract: [docs/evidence/h2-image-to-image-contract.md](docs/evidence/h2-image-to-image-contract.md)
+- H2 image-to-image micro result: [docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md)
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
