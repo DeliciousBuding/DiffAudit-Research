@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** H2 simple-distance portability preflight
+- **Active work:** recon product-row hardening reselection
 - **Next GPU task:** none selected after the `25/25` admission packet
-- **CPU work:** determine whether a second valid image-to-image or repeated-response asset contract exists
+- **CPU work:** keep simple-distance bounded; choose the next recon product-consumable strengthening task
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -72,8 +72,12 @@ The recon-vs-simple-distance product bridge comparison is complete:
 simple-distance is not product-row ready and recon remains the admitted
 black-box Platform row. See
 [docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](docs/product-bridge/h2-simple-distance-product-bridge-comparison.md).
-The next CPU task is a second-asset portability preflight. No next GPU task is
-selected until that preflight finds a valid non-overlapping contract.
+The second-asset simple-distance portability preflight is also complete:
+current local assets do not provide a valid second image-to-image or
+repeated-response contract. See
+[docs/evidence/h2-simple-distance-portability-preflight.md](docs/evidence/h2-simple-distance-portability-preflight.md).
+The next active slot returns to recon product-row hardening. No next GPU task is
+selected.
 
 ## Key Documents
 
@@ -95,6 +99,7 @@ selected until that preflight finds a valid non-overlapping contract.
 - H2 simple-distance stability result: [docs/evidence/h2-img2img-simple-distance-stability-result.md](docs/evidence/h2-img2img-simple-distance-stability-result.md)
 - H2 simple-distance admission contract: [docs/evidence/h2-img2img-simple-distance-admission-contract.md](docs/evidence/h2-img2img-simple-distance-admission-contract.md)
 - H2 simple-distance admission result: [docs/evidence/h2-img2img-simple-distance-admission-result.md](docs/evidence/h2-img2img-simple-distance-admission-result.md)
+- H2 simple-distance portability preflight: [docs/evidence/h2-simple-distance-portability-preflight.md](docs/evidence/h2-simple-distance-portability-preflight.md)
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
