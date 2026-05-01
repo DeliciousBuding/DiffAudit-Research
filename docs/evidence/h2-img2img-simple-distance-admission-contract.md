@@ -38,10 +38,9 @@ but it cannot establish portability to conditional diffusion in general.
 | Primary scorer | simple negative minimum response RMSE at strength `0.75` |
 | Secondary check | H2 cache evaluator for same-cache comparator context only |
 
-The contract deliberately avoids `derived-public-50` positions `[0, 25)` because
-that would overlap both prior packets. The selected `[20, 45)` window uses a
-larger split while keeping the first 20 positions reserved for already-reviewed
-evidence.
+The contract reserves `derived-public-50` positions `[0, 20)` for the two
+already-reviewed packets. The selected `[20, 45)` window uses a larger split
+without overlapping those reviewed positions.
 
 ## Gate
 
