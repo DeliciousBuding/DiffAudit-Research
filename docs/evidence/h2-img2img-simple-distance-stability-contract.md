@@ -15,6 +15,9 @@ result is cache-local. The next valid test is a non-overlapping packet that
 keeps the scoring surface minimal: one strength, fixed repeats, same local
 assets, and the same finite-sample reporting boundary.
 
+The packet has now run. The result is recorded in
+[h2-img2img-simple-distance-stability-result.md](h2-img2img-simple-distance-stability-result.md).
+
 ## Packet Identity
 
 | Field | Value |
