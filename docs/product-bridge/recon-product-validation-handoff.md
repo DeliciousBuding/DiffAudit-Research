@@ -49,3 +49,9 @@ No Runtime schema change is required. The promoted row uses existing fields:
 Runtime consumers should treat `metric_source =
 upstream_threshold_reimplementation` as explanatory metadata, not a required
 new schema field.
+
+New recon artifact summaries may also include optional `tail_resolution`
+metadata with target member/nonmember counts, allowed false positives, true
+positives, false positives, empirical TPR/FPR, and threshold per low-FPR gate.
+Platform can ignore this field for existing displays, but it should use the
+field when rendering low-FPR caveats or technical detail panels.
