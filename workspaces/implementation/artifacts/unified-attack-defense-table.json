@@ -1,6 +1,6 @@
 {
   "schema": "diffaudit.attack_defense_table.v1",
-  "updated_at": "2026-04-26T00:00:00+08:00",
+  "updated_at": "2026-05-01T00:00:00+08:00",
   "dataset": "CIFAR-10",
   "model_family": "DDPM",
   "rows": [
@@ -9,15 +9,16 @@
       "attack": "recon DDIM public-100 step30",
       "defense": "none",
       "model": "Stable Diffusion v1.5 + DDIM",
-      "auc": 0.849,
-      "asr": 0.51,
-      "tpr_at_1pct_fpr": 1.0,
-      "tpr_at_0_1pct_fpr": null,
-      "quality_cost": "100 public samples per split; DDIM step30; artifact-mainline ready; cuda runtime",
+      "auc": 0.837,
+      "asr": 0.74,
+      "tpr_at_1pct_fpr": 0.22,
+      "tpr_at_0_1pct_fpr": 0.11,
+      "quality_cost": "100 public samples per split; DDIM step30; runtime mainline plus unified artifact threshold replay; cuda runtime",
       "evidence_level": "runtime-mainline",
-      "note": "current black-box main evidence",
-      "boundary": "controlled / public-subset / proxy-shadow-member / risk-exists; not a final exploit or full real-world benchmark",
-      "source": "experiments/recon-runtime-mainline-ddim-public-100-step30/summary.json"
+      "metric_source": "upstream_threshold_reimplementation",
+      "note": "current black-box main evidence; replaces the older incomplete recon row with a coherent four-metric product-validation packet",
+      "boundary": "controlled / public-subset / proxy-shadow-member / risk-exists; TPR@0.1%FPR is a zero-false-positive empirical tail on 100 target nonmembers; not a final exploit, paper-complete reproduction, or full real-world benchmark",
+      "source": "docs/evidence/recon-product-validation-result.md"
     },
     {
       "track": "black-box",
