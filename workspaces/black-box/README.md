@@ -9,6 +9,8 @@
   semantic-auxiliary classifiers.
 - Candidate method: simple image-to-image distance is bounded single-asset
   evidence, not a product row or portability result.
+- Variation status: blocked until a real member/nonmember query-image set and
+  endpoint contract exist.
 - GPU: no active black-box GPU task running now.
 
 ## Files
@@ -33,6 +35,9 @@ Current recon validation result:
 
 Current H2 simple-distance boundary:
 [../../docs/evidence/h2-simple-distance-portability-preflight.md](../../docs/evidence/h2-simple-distance-portability-preflight.md).
+
+Current variation query contract audit:
+[../../docs/evidence/variation-query-contract-audit.md](../../docs/evidence/variation-query-contract-audit.md).
 
 ## Archive
 
