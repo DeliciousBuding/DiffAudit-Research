@@ -135,6 +135,27 @@ The default SD/CelebA text-to-image mode is expected to be protocol-blocked for
 H2 response-strength. Use `--endpoint-mode image_to_image` only when the target
 surface actually supports image-conditioned repeated queries.
 
+Prepare the frozen H2 SD/CelebA image-to-image micro-packet without running GPU:
+
+```powershell
+python scripts/collect_h2_img2img_response_cache.py
+```
+
+Collect the bounded 10/10 GPU micro-packet only after confirming GPU memory:
+
+```powershell
+python scripts/collect_h2_img2img_response_cache.py `
+  --execute `
+  --packet-size 10 `
+  --strengths 0.35 0.55 0.75 `
+  --repeats 2 `
+  --device cuda:0
+```
+
+The script writes local run artifacts under ignored workspace run directories.
+Commit only reviewed summaries and evidence notes, not response caches or
+generated images.
+
 Validate a prepared local CLiD bridge contract:
 
 ```powershell
