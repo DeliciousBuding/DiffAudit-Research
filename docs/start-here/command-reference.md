@@ -165,6 +165,19 @@ The script writes local run artifacts under ignored workspace run directories.
 Commit only reviewed summaries and evidence notes, not response caches or
 generated images.
 
+Dry-run the non-overlapping simple-distance stability packet:
+
+```powershell
+python scripts/collect_h2_img2img_response_cache.py `
+  --split-name derived-public-25 `
+  --sample-offset 10 `
+  --packet-size 10 `
+  --strengths 0.75 `
+  --repeats 2 `
+  --num-inference-steps 30 `
+  --run-root workspaces/black-box/runs/h2-img2img-simple-distance-stability-20260501-r1
+```
+
 Validate a prepared local CLiD bridge contract:
 
 ```powershell

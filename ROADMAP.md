@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** simple image-to-image distance stability contract
-- **Next GPU task:** none selected until the stability contract is frozen
-- **CPU work:** freeze whether the next check uses an independent seed, a non-overlapping split, or returns to recon product-consumable strengthening
+- **Active work:** simple image-to-image distance stability contract frozen
+- **Next GPU task:** H2 img2img simple-distance non-overlapping 10/10 stability packet, pending GPU memory check
+- **CPU work:** keep recon product-consumable strengthening as the sidecar if GPU is busy
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -56,6 +56,11 @@ distance is stronger than H2 logistic on the frozen cache (`AUC = 0.92`,
 The review is recorded in
 [docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md).
 Do not schedule another GPU packet until the stability contract is frozen.
+The stability contract is now frozen as a non-overlapping `derived-public-25`
+offset-10 packet with one high-strength simple-distance scorer. See
+[docs/evidence/h2-img2img-simple-distance-stability-contract.md](docs/evidence/h2-img2img-simple-distance-stability-contract.md).
+If that packet fails the stability gate, close the simple-distance branch and
+return to recon product-consumable strengthening.
 
 ## Key Documents
 
@@ -73,6 +78,7 @@ Do not schedule another GPU packet until the stability contract is frozen.
 - H2 image-to-image contract: [docs/evidence/h2-image-to-image-contract.md](docs/evidence/h2-image-to-image-contract.md)
 - H2 image-to-image micro result: [docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md)
 - H2 simple-distance review: [docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md)
+- H2 simple-distance stability contract: [docs/evidence/h2-img2img-simple-distance-stability-contract.md](docs/evidence/h2-img2img-simple-distance-stability-contract.md)
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
