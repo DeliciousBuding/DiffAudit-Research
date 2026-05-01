@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `post-stability black-box lane decision`
-- Next GPU task: `none selected until a simple-distance admission contract or recon follow-up is frozen`
-- CPU work: `choose 25/25 simple-distance admission contract or recon product-consumable strengthening`
+- Active work: `H2 img2img simple-distance admission contract`
+- Next GPU task: `frozen 25/25 simple-distance admission packet on derived-public-50 positions [20, 45)`
+- CPU work: `recon product-consumable strengthening sidecar`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,12 +17,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-stability black-box lane decision
+### H2 img2img simple-distance admission contract
 
-- `mode`: CPU-only decision
+- `mode`: frozen bounded GPU candidate
 - `status`: active
-- `goal`: decide whether the simple img2img distance signal deserves an admission-scale packet or should yield back to recon
-- `GPU`: none selected
+- `goal`: test whether the simple img2img distance signal survives an admission-scale 25/25 non-overlapping packet
+- `GPU`: one packet selected, not yet run
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
@@ -45,9 +45,12 @@ sample positions `[10, 20)`, `packet-size = 10`, `strength = 0.75`, and
 The packet passed with `AUC = 0.99`, `ASR = 0.95`, and 9/10 member true
 positives at 0 false positives. See
 [../../docs/evidence/h2-img2img-simple-distance-stability-result.md](../../docs/evidence/h2-img2img-simple-distance-stability-result.md).
-The next CPU decision is whether to freeze a `25/25` admission contract on
-`derived-public-50` or return to recon product-consumable strengthening. Do not
-run another GPU packet until that decision is recorded.
+The next decision is recorded as a `25/25` admission contract on
+`derived-public-50`, sample positions `[20, 45)`, `strength = 0.75`, and
+`repeats = 2`. See
+[../../docs/evidence/h2-img2img-simple-distance-admission-contract.md](../../docs/evidence/h2-img2img-simple-distance-admission-contract.md).
+Run no other GPU task concurrently. Recon product-consumable strengthening is
+the CPU sidecar while this packet waits.
 
 ## Ready
 

@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** post-stability black-box lane decision
-- **Next GPU task:** none selected until a simple-distance admission contract or recon follow-up is frozen
-- **CPU work:** choose between a `25/25` simple-distance admission contract and recon product-consumable strengthening
+- **Active work:** H2 image-to-image simple-distance admission contract
+- **Next GPU task:** frozen `25/25` simple-distance admission packet on `derived-public-50` positions `[20, 45)`
+- **CPU work:** keep recon product-consumable strengthening as the sidecar while the GPU packet waits
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -63,9 +63,12 @@ That packet passed: `AUC = 0.99`, `ASR = 0.95`, and 9/10 member true positives
 at 0 false positives on the finite 10/10 split. See
 [docs/evidence/h2-img2img-simple-distance-stability-result.md](docs/evidence/h2-img2img-simple-distance-stability-result.md).
 The simple image-to-image distance signal is now a live black-box candidate, but
-not admitted evidence. The next CPU decision is whether to freeze a larger
-`25/25` admission contract on `derived-public-50` or return to recon
-product-consumable strengthening.
+not admitted evidence. The next decision is frozen: run one `25/25`
+admission-scale packet on `derived-public-50` positions `[20, 45)` with the same
+single-strength scorer. The contract is recorded in
+[docs/evidence/h2-img2img-simple-distance-admission-contract.md](docs/evidence/h2-img2img-simple-distance-admission-contract.md).
+Recon product-consumable strengthening remains the CPU sidecar while that GPU
+candidate waits.
 
 ## Key Documents
 
@@ -85,6 +88,7 @@ product-consumable strengthening.
 - H2 simple-distance review: [docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md)
 - H2 simple-distance stability contract: [docs/evidence/h2-img2img-simple-distance-stability-contract.md](docs/evidence/h2-img2img-simple-distance-stability-contract.md)
 - H2 simple-distance stability result: [docs/evidence/h2-img2img-simple-distance-stability-result.md](docs/evidence/h2-img2img-simple-distance-stability-result.md)
+- H2 simple-distance admission contract: [docs/evidence/h2-img2img-simple-distance-admission-contract.md](docs/evidence/h2-img2img-simple-distance-admission-contract.md)
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
