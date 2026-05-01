@@ -22,7 +22,7 @@ python -X utf8 scripts/review_semantic_aux_low_fpr.py
 | Device | CPU only. |
 | Minimum AUC gain over `mean_cos` | `0.01`. |
 | Observed best AUC gain over `mean_cos` | `0.001953`. |
-| Strict-tail requirement | Candidate metrics must include positive `TPR@0.1%FPR`. |
+| Strict-tail requirement | Candidate metrics must include positive `TPR@0.1%FPR`; the committed summary does not clear the gate. |
 | GPU decision | Not selected. |
 
 The best observed auxiliary fusion only marginally improves over the plain
@@ -34,9 +34,13 @@ be interpreted as bounded packet metrics, not a broad deployment claim.
 
 | Input | Role |
 | --- | --- |
-| `workspaces/black-box/runs/semantic-aux-classifier-comparator-20260415-r1/outputs/records.json` | First existing comparator record dump. |
-| `workspaces/black-box/runs/semantic-aux-classifier-comparator-20260416-r2/outputs/records.json` | Larger existing comparator record dump. |
+| `workspaces/black-box/runs/semantic-aux-fusion-20260416-r1/summary.json` | Committed compact summary used by the default review command and CI. |
+| `workspaces/black-box/runs/semantic-aux-classifier-comparator-20260415-r1/outputs/records.json` | Optional local raw record dump for recomputation when present outside the committed evidence path. |
+| `workspaces/black-box/runs/semantic-aux-classifier-comparator-20260416-r2/outputs/records.json` | Optional local raw record dump for recomputation when present outside the committed evidence path. |
 
+The default review uses the committed compact summary so that a clean clone can
+reproduce the verdict without raw run payloads. When local raw record dumps are
+available, `--records` can recompute the candidate metrics from those records.
 The review does not create new images, train a new model, or call an endpoint.
 It only decides whether the existing semantic-auxiliary surface is strong enough
 to consume the next GPU slot.

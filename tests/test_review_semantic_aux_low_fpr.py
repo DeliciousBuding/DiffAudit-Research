@@ -21,6 +21,7 @@ class ReviewSemanticAuxLowFprTests(unittest.TestCase):
         self.assertEqual(completed.returncode, 0)
         payload = json.loads(completed.stdout)
         self.assertEqual(payload["verdict"], "negative but useful")
+        self.assertEqual(payload["source_mode"], "committed-summary")
         self.assertFalse(payload["gate"]["clears_auc_gain_gate"])
         self.assertEqual(payload["best_auc_gain_vs_mean_cos"], 0.001953)
 
@@ -55,6 +56,7 @@ class ReviewSemanticAuxLowFprTests(unittest.TestCase):
         self.assertEqual(completed.returncode, 0)
         payload = json.loads(completed.stdout)
         self.assertEqual(payload["verdict"], "negative but useful")
+        self.assertEqual(payload["source_mode"], "raw-records")
         self.assertFalse(payload["gate"]["clears_auc_gain_gate"])
 
 
