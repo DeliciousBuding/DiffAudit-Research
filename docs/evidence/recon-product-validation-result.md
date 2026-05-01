@@ -69,6 +69,11 @@ property, not as a precise continuous sub-percent operating point:
 This is enough to keep the strict-tail signal nonzero, but not enough to claim
 fine-grained calibration below the dataset's empirical FPR resolution.
 
+The artifact summary now emits this finite-sample boundary as machine-readable
+`tail_resolution` metadata for future recon summaries. The promoted packet was
+replayed through that path on 2026-05-01 and reproduced the same headline
+metrics plus the count-level interpretation above.
+
 ## Interpretation
 
 The old blockers are resolved for the promoted packet: `TPR@0.1%FPR` is now
