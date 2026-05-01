@@ -94,6 +94,69 @@ Run the paper Stage 0 gate:
 python -m diffaudit check-recon-stage0-paper-gate --repo-root external/Reconstruction-based-Attack --bundle-root "$env:DIFFAUDIT_ROOT/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models" --attack-scenario attack-i
 ```
 
+Evaluate a saved H2 response-strength cache:
+
+```powershell
+python scripts/evaluate_h2_response_cache.py `
+  --response-cache workspaces/black-box/runs/<run>/response-cache.npz `
+  --output workspaces/black-box/runs/<run>/cache-eval-summary.json
+```
+
+This is a CPU-only candidate scorer. It does not collect model responses and
+does not promote H2 to admitted evidence.
+
+Run the bounded H2 response-strength validation candidate:
+
+```powershell
+python scripts/run_h2_response_strength_validation.py `
+  --packet-size 512 `
+  --split-offset 512 `
+  --primary-scorer raw_h2_logistic `
+  --device cuda:0
+```
+
+This is a GPU validation candidate, not an admitted benchmark.
+
+Review lowpass cutoff sensitivity on a saved H2 cache:
+
+```powershell
+python scripts/review_h2_lowpass_cutoffs.py `
+  --response-cache workspaces/black-box/runs/<run>/response-cache.npz `
+  --output workspaces/black-box/runs/<run>/lowpass-cutoff-review.json
+```
+
+Probe whether H2 can transfer to a non-DDPM black-box asset contract:
+
+```powershell
+python scripts/probe_h2_cross_asset_contract.py
+```
+
+The default SD/CelebA text-to-image mode is expected to be protocol-blocked for
+H2 response-strength. Use `--endpoint-mode image_to_image` only when the target
+surface actually supports image-conditioned repeated queries.
+
+Validate a prepared local CLiD bridge contract:
+
+```powershell
+python scripts/review_clid_bridge_contract.py `
+  --run-root workspaces/black-box/runs/<clid-bridge-run>
+```
+
+Validate a CLiD score-summary gate before promotion:
+
+```powershell
+python scripts/review_clid_score_schema.py `
+  --summary workspaces/black-box/runs/<clid-score-run>/score-summary.json
+```
+
+Summarize a local two-file CLiD bridge output pair:
+
+```powershell
+python scripts/summarize_clid_bridge_pair_outputs.py `
+  --artifact-dir workspaces/black-box/runs/<clid-bridge-run>/outputs `
+  --workspace workspaces/black-box/runs/<clid-bridge-run>/score-summary-workspace
+```
+
 Plan `variation`:
 
 ```powershell
