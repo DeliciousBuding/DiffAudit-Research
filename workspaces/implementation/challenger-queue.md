@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `H2 simple-distance portability preflight`
+- Active work: `recon product-row hardening reselection`
 - Next GPU task: `none selected after the 25/25 admission packet`
-- CPU work: `determine whether a second valid image-to-image or repeated-response asset contract exists`
+- CPU work: `keep simple-distance bounded and choose the next recon product-consumable strengthening task`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,11 +17,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### H2 simple-distance portability preflight
+### Recon product-row hardening reselection
 
 - `mode`: CPU-only decision
 - `status`: active
-- `goal`: decide whether bounded single-asset simple-distance evidence has a valid second-asset portability path
+- `goal`: select the next product-consumable black-box strengthening task after simple-distance portability is blocked
 - `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
@@ -57,8 +57,13 @@ promotion and not a conditional-diffusion generalization. The next decision is
 complete: the product bridge comparison keeps recon as the admitted black-box
 Platform row and keeps simple-distance as Research evidence. See
 [../../docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](../../docs/product-bridge/h2-simple-distance-product-bridge-comparison.md).
-The next CPU task is a second-asset portability preflight. Do not schedule a GPU
-packet until the preflight identifies a valid non-overlapping contract.
+The second-asset portability preflight is complete and blocked: current local
+assets do not provide a second image-to-image or repeated-response contract for
+simple-distance. See
+[../../docs/evidence/h2-simple-distance-portability-preflight.md](../../docs/evidence/h2-simple-distance-portability-preflight.md).
+The active slot returns to recon product-row hardening. The next action should
+be CPU-first and should not add a Platform row unless it improves the existing
+admitted recon evidence boundary.
 
 ## Ready
 
