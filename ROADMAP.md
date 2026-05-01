@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** non-CLiD black-box lane reselection
-- **Next GPU task:** none selected
-- **CPU work:** pick the next model-mainline question after closing CLiD as hold-candidate
+- **Active work:** recon product-consumable strengthening
+- **Next GPU task:** recon validation packet pending CPU contract
+- **CPU work:** freeze recon packet identity, strict-tail metric completeness, and product handoff boundary
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -29,16 +29,17 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Resume with non-CLiD black-box lane reselection. H2 is held for cross-asset work
-because SD/CelebA text-to-image is protocol-incompatible with H2
-response-strength. `recon` remains the admitted black-box baseline, `variation`
-lacks a real query set and endpoint, and CLiD is now hold-candidate. CLiD's
-100/100 prompt-conditioned packet is strong and repeat-stable, but fixed-prompt,
-swapped-prompt, within-split shuffle, prompt-text-only, and attribution controls
-show that the signal depends on an unstable prompt-conditioned auxiliary path.
-Do not schedule another CLiD GPU packet without a new protocol that isolates
-image identity from prompt-conditioned behavior. The immediate CPU task is to
-choose the next black-box question that can improve product-consumable evidence.
+Proceed with recon product-consumable strengthening. H2 is held for cross-asset
+work because SD/CelebA text-to-image is protocol-incompatible with H2
+response-strength. `variation` lacks a real query set and endpoint. CLiD is now
+hold-candidate: its 100/100 prompt-conditioned packet is strong and
+repeat-stable, but fixed-prompt, swapped-prompt, within-split shuffle,
+prompt-text-only, and attribution controls show that the signal depends on an
+unstable prompt-conditioned auxiliary path. Do not schedule another CLiD GPU
+packet without a new protocol that isolates image identity from
+prompt-conditioned behavior. The next black-box GPU candidate is a recon
+validation packet only after the CPU contract freezes packet identity,
+strict-tail metric completeness, and product handoff boundaries.
 
 ## Key Documents
 
@@ -52,6 +53,7 @@ choose the next black-box question that can improve product-consumable evidence.
 - CLiD within-split shuffle control: [docs/evidence/clid-within-split-shuffle-control.md](docs/evidence/clid-within-split-shuffle-control.md)
 - CLiD prompt-text-only review: [docs/evidence/clid-prompt-text-only-review.md](docs/evidence/clid-prompt-text-only-review.md)
 - CLiD control attribution: [docs/evidence/clid-control-attribution.md](docs/evidence/clid-control-attribution.md)
+- Non-CLiD black-box reselection: [docs/evidence/non-clid-blackbox-reselection.md](docs/evidence/non-clid-blackbox-reselection.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
 - Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)

@@ -12,6 +12,7 @@ This directory contains the public evidence overview.
 | [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md) | Frozen CPU contract for deciding whether H2 lowpass deserves another bounded GPU packet. |
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
+| [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) | Superseding CPU-only reselection after CLiD prompt-control closure. |
 | [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |
 | [clid-score-schema-gate.md](clid-score-schema-gate.md) | CLiD score-summary schema and low-FPR promotion gate. |
 | [clid-tiny-score-bridge.md](clid-tiny-score-bridge.md) | First GPU smoke-scale CLiD score bridge verdict. |

@@ -2,6 +2,11 @@
 
 This note records the CPU-only reselection after the H2 cross-asset preflight.
 
+> Superseded on 2026-05-01 by
+> [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) after
+> CLiD prompt-control closure. This note remains the trace for why CLiD was
+> selected for bounded probing.
+
 ## Verdict
 
 ```text

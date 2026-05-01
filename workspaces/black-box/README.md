@@ -3,10 +3,11 @@
 ## Current Status
 
 - Direction: black-box membership inference attacks.
-- Main method: `recon` is the strongest black-box attack.
-- Supporting methods: `CLiD`, `variation`, and semantic-auxiliary classifiers.
-- Candidate method: `H2 response-strength` is the next bounded GPU candidate
-  after runner promotion.
+- Main method: `recon` is the strongest black-box attack and the selected next
+  lane for product-consumable strengthening.
+- Supporting methods: `CLiD`, `variation`, `H2 response-strength`, and
+  semantic-auxiliary classifiers.
+- Candidate method: `recon` validation packet, pending CPU contract.
 - GPU: no active black-box GPU task running now.
 
 ## Files
@@ -19,6 +20,9 @@
 
 Current H2 candidate boundary:
 [../../docs/evidence/black-box-response-strength-preflight.md](../../docs/evidence/black-box-response-strength-preflight.md).
+
+Current non-CLiD reselection:
+[../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
 
 ## Archive
 

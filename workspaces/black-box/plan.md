@@ -3,12 +3,9 @@
 ## Status
 
 - `recon`: strongest main black-box method, but public data limits strict paper-aligned claims.
-- `CLiD`: next selected bounded lane; local bridge preparation succeeded, and
-  bridge contract validation passed. Score-summary gate is defined and wired
-  into artifact summarization; the 8/8 tiny score bridge is reusable but not
-  promotable. The 100/100 score packet clears the gate and is now under
-  stability/adaptive review. First integrity review passed, and the repeat is
-  stable. Prompt-neutral perturbation collapses the signal.
+- `CLiD`: hold-candidate. The prompt-conditioned packet is strong and
+  repeat-stable, but prompt controls and attribution block admission as general
+  black-box evidence.
 - `variation`: API-only support; needs real query-image data for stronger claims.
 - `semantic-auxiliary-classifier`: current alternative candidate.
 - `H2 response-strength`: live candidate with positive non-overlap signal;
@@ -17,17 +14,14 @@
 
 ## Next Action
 
-Reselect the next non-CLiD black-box lane. CLiD prompt-control work is closed as
-hold-candidate: fixed prompt collapses, swapped prompt degrades, within-split
-shuffle is weak and seed-sensitive, prompt-text-only has weak strict-tail, and
-control attribution shows auxiliary-feature instability. Keep status synchronized with
-[../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
+Freeze the CPU contract for a recon product-consumable validation packet:
+packet identity, strict-tail metric completeness, and Platform/Runtime handoff
+boundary. Keep status synchronized with
+[../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
 
 ## Current Status
 
-Stable admitted baseline plus one selected next lane. `recon` remains admitted;
-H2 is held for image-conditioned portability; CLiD is the next bounded
-prompt-conditioned black-box lane. The tiny bridge passed schema validation but
-failed promotion by sample count; the 100/100 packet is a positive bounded
-candidate that survives first integrity review and repeat, but fails
-prompt-neutral perturbation. It is not admitted evidence.
+Stable admitted baseline plus one selected strengthening lane. `recon` remains
+admitted and is now selected for product-consumable strengthening. H2 is held
+for image-conditioned portability; CLiD is hold-candidate; variation remains
+data-gated.

@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `non-CLiD black-box lane reselection`
-- Next GPU task: `none selected`
-- CPU work: `pick the next model-mainline question after closing CLiD as hold-candidate`
+- Active work: `recon product-consumable strengthening`
+- Next GPU task: `recon validation packet pending CPU contract`
+- CPU work: `freeze recon packet identity, strict-tail metric completeness, and product handoff boundary`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -17,20 +17,20 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Non-CLiD black-box lane reselection
+### Recon product-consumable strengthening
 
-- `mode`: CPU-first lane selection
+- `mode`: CPU-first evidence hardening
 - `status`: active
-- `goal`: choose the next model-mainline question after CLiD prompt-control closure
-- `GPU`: no
+- `goal`: turn the admitted recon baseline into a stricter system-consumable black-box evidence packet without expanding the claim
+- `GPU`: pending CPU contract
 - `integration`: no Platform or Runtime schema change unless a concrete
   mismatch is found
 
-CLiD moved to hold-candidate after prompt-control attribution. The next lane
-should not be gray-box by default and should not be another CLiD prompt-control
-GPU packet. Candidate directions are `recon` product-consumable strengthening,
-semantic-auxiliary classifier scoping, or a data-gated variation line if real
-query assets exist.
+The CPU-only reselection is recorded in
+[../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
+CLiD moved to hold-candidate after prompt-control attribution. The next black-box
+GPU candidate is a recon validation packet only after packet identity,
+strict-tail metric completeness, and product handoff boundaries are frozen.
 
 ## Ready
 
