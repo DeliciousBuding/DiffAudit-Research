@@ -28,9 +28,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `black-box response-contract asset acquisition: needs external package`
+- Active work: `temporary resting state: needs external assets or new hypothesis`
 - Next GPU candidate: none selected
-- CPU work: CLiD/variation boundary maintenance plus response-contract asset watch
+- CPU work: none currently reducible
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

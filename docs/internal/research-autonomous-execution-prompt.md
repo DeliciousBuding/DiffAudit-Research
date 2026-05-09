@@ -43,11 +43,13 @@ auxiliary.
 - Admitted black-box line: `recon`
 - Admitted gray-box line: `PIA + stochastic-dropout`
 - Admitted white-box comparator line: `GSA + DPDM W-1`
-- Active work as of 2026-05-10: `black-box response-contract asset acquisition: needs external package`
+- Active work as of 2026-05-10: `temporary resting state: needs external assets or new hypothesis`
 - Next GPU candidate as of 2026-05-10: none selected
 - Non-gray-box GPU candidate: none selected
 - ReDiffuse is candidate-only / hold after the negative ResNet parity packet
   and direct-distance boundary review.
+- Current CPU sidecar: none currently reducible; restart only when an asset
+  package or new falsifiable hypothesis appears.
 - Platform/Runtime impact: none until a reviewed product-bridge handoff says
   otherwise
 
