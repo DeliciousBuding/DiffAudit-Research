@@ -7,9 +7,9 @@ This is the short steering document for Research. Execution history is in
 
 ## Current Focus
 
-- **Active work:** non-recon black-box low-FPR reselection
+- **Active work:** recon finite-tail confidence hardening
 - **Next GPU task:** none selected after the `25/25` admission packet
-- **CPU work:** semantic-auxiliary low-FPR review and next-lane clarification
+- **CPU work:** strict-tail confidence review for the admitted recon row
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
@@ -92,6 +92,11 @@ low-FPR promotion gate. It is negative-but-useful: the best auxiliary gain over
 `mean_cos` is `0.001953`, below the `0.01` promotion gate, so no semantic-aux
 GPU packet is selected. See
 [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md).
+The admitted recon row now has a finite-sample confidence review. It remains
+the black-box product row, but strict-tail wording must stay finite-count:
+public-100 zero-FP evidence does not calibrate a continuous `0.1%` FPR operating
+point at 95% confidence. See
+[docs/evidence/recon-tail-confidence-review.md](docs/evidence/recon-tail-confidence-review.md).
 No next GPU task is selected.
 
 ## Key Documents
@@ -119,6 +124,7 @@ No next GPU task is selected.
 - H2 simple-distance portability preflight: [docs/evidence/h2-simple-distance-portability-preflight.md](docs/evidence/h2-simple-distance-portability-preflight.md)
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
+- Recon tail confidence review: [docs/evidence/recon-tail-confidence-review.md](docs/evidence/recon-tail-confidence-review.md)
 - Recon product row validation guard: [docs/evidence/recon-product-row-validation-guard.md](docs/evidence/recon-product-row-validation-guard.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Recon product evidence card: [docs/product-bridge/recon-product-evidence-card.md](docs/product-bridge/recon-product-evidence-card.md)

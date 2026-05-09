@@ -53,6 +53,7 @@ def main(argv: list[str] | None = None) -> None:
             "unittest",
             "tests.test_audit_variation_query_contract",
             "tests.test_review_semantic_aux_low_fpr",
+            "tests.test_review_recon_tail_confidence",
         ],
         repo_root,
     )
