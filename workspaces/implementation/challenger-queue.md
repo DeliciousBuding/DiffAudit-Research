@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| ReDiffuse 750k ResNet parity | gray-box | GPU-light | 64/64 packet, `--scoring-mode resnet`, four metrics, split hash, scorer counts | none after CPU/runtime probes | run one bounded GPU packet |
+| ReDiffuse 750k ResNet parity | gray-box | GPU-light | 64/64 packet, `--scoring-mode resnet`, four metrics, split hash `aca922ecee25ef00dc6b6377ebaf7875dfcc77c2cdfe27c873b26a65134aa0c0`, scorer counts | none after CPU/runtime probes | run one bounded GPU packet |
 | ReDiffuse 800k sanity | gray-box | CPU/GPU-light | 800k runtime probe passed; metrics not run | wait for 750k ResNet verdict | run direct-distance 64/64 only if 750k parity is interpretable |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |

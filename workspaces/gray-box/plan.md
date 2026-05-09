@@ -30,12 +30,39 @@ Run one bounded 750k `64/64` parity packet with:
 
 - `--scoring-mode resnet`
 - `--max-samples 64`
+- `--batch-size 8`
 - `--attack-num 1`
 - `--interval 200`
 - `--average 10`
 - `--k 100`
 - `--scorer-train-portion 0.2`
 - `--scorer-epochs 15`
+- `--scorer-batch-size 128`
+
+Frozen command:
+
+```powershell
+conda run -n diffaudit-research python -X utf8 -m diffaudit run-rediffuse-runtime-packet `
+  --workspace workspaces/gray-box/runs/rediffuse-cifar10-750k-resnet-parity-20260510-gpu-64 `
+  --device cuda `
+  --max-samples 64 `
+  --batch-size 8 `
+  --attack-num 1 `
+  --interval 200 `
+  --average 10 `
+  --k 100 `
+  --scoring-mode resnet `
+  --scorer-train-portion 0.2 `
+  --scorer-epochs 15 `
+  --scorer-batch-size 128
+```
+
+Evidence target: `docs/evidence/rediffuse-resnet-parity-packet.md`.
+
+Stop conditions: CUDA unavailable, memory pressure, missing low-FPR fields,
+missing split/checkpoint/scorer provenance, reversed or near-random ResNet
+score orientation, or any result that would require Platform/Runtime schema
+changes before a handoff exists.
 
 After that packet, write a verdict note and decide whether to:
 
