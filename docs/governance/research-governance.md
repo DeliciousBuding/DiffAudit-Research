@@ -12,10 +12,14 @@ chooses work; this document defines where work products belong.
 The 2026-04-29 and 2026-04-30 governance cleanups are merged to `main`
 from PR #26 through PR #36. The ongoing baseline is:
 
-- Active work is `ReDiffuse scoring-contract parity review`
-- Next GPU candidate is `ReDiffuse 750k ResNet 64/64 parity packet`
+- Active work is `black-box response-contract asset acquisition: needs
+  external package`
+- Next GPU candidate is none selected
 - ReDiffuse is a candidate gray-box baseline-alignment track, not an admitted
-  result release
+  result release; reopen only with a new scorer or checkpoint-portability
+  hypothesis
+- The black-box response-contract lane is blocked on a second asset package
+  matching the acquisition spec
 - No history rewrite or force-push should be performed without separate approval
 - Future cleanup output should be PR-reviewable and reversible
 - Research is deployable as a conda/editable Python package and CLI research
