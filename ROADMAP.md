@@ -10,17 +10,17 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `ReDiffuse post-parity contract review` |
+| Active work | `I-A truth-hardening CPU review` |
 | Current GPU candidate | none selected |
-| CPU sidecar | `ReDiffuse direct-distance boundary review` plus CLiD/variation boundary maintenance |
+| CPU sidecar | CLiD/variation boundary maintenance and non-gray-box reselection watch |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: close the ReDiffuse scoring-contract gate. The
+Current objective: return from ReDiffuse to CPU-first truth-hardening. The
 collaborator-style ResNet scorer ran on the 750k checkpoint but did not produce
-an interpretable membership signal. Research should keep the current
-`first_step_distance_mean` surface as candidate-only unless a new CPU contract
-justifies a different scorer hypothesis.
+an interpretable membership signal. The direct-distance surface is now closed
+as candidate-only with no 800k GPU release. See
+[docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md).
 
 ## Mainline Claims
 
@@ -29,12 +29,13 @@ justifies a different scorer hypothesis.
 | Black-box `recon` | admitted | Current black-box product row and minimal-permission risk proof. | Public-100 strict-tail fields are finite-count evidence, not calibrated continuous sub-percent FPR. |
 | Gray-box `PIA` | admitted | Strongest gray-box attack + stochastic-dropout defense story. | Workspace-verified and adaptive-reviewed, but paper-aligned release provenance remains bounded. |
 | White-box `GSA + DPDM W-1` | admitted comparator | Strongest white-box risk upper bound plus defended comparator. | Not a final paper-level benchmark. |
-| ReDiffuse | candidate-only | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-probe compatible; ResNet parity packet is negative. | Not admitted; current paper-faithful scoring parity is unresolved. |
+| ReDiffuse | candidate-only / hold | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-probe compatible; ResNet parity packet is negative; direct-distance boundary review blocks automatic 800k metrics. | Reopen only with a new scorer or checkpoint-portability hypothesis. |
 | CLiD / H2 / simple-distance / variation / semantic-aux | hold or candidate-only | Useful diagnostics and bounded candidates. | No GPU task unless a new protocol/data contract clears a CPU preflight. |
 
 ## Current Gate Verdict
 
-The released 750k ResNet parity packet has completed:
+The ReDiffuse gate is closed as candidate-only. The released 750k ResNet parity
+packet completed:
 
 ```powershell
 conda run -n diffaudit-research python -X utf8 -m diffaudit run-rediffuse-runtime-packet `
@@ -57,15 +58,19 @@ Result: `AUC = 0.411982`, `ASR = 0.538462`, `TPR@1%FPR = 0.0`,
 passed, but the scorer is not a viable parity surface at this gate. See
 [docs/evidence/rediffuse-resnet-parity-packet.md](docs/evidence/rediffuse-resnet-parity-packet.md).
 
+The follow-up direct-distance boundary review blocks an automatic 800k metrics
+packet because it would only test a Research-specific proxy surface. See
+[docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md).
+
 ## Next Decision Contract
 
-1. Freeze ReDiffuse as `candidate-only / scoring-contract unresolved`.
-2. Do not run an automatic 800k metrics packet from the failed ResNet parity
-   gate.
-3. Run a CPU-only direct-distance boundary review before any further ReDiffuse
-   GPU work.
-4. Do not update `docs/evidence/admitted-results-summary.md` unless a later
-   reviewed packet is explicitly promoted.
+1. Do not run ReDiffuse GPU work without a new CPU contract.
+2. Reopen I-A truth-hardening as the active CPU task: formal statement,
+   adaptive-attacker boundary, low-FPR wording, and finite-sample caveats for
+   admitted gray-box `PIA + stochastic-dropout`.
+3. If I-A has no reducible boundary issue, proceed to non-gray-box reselection.
+4. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
+   packet is explicitly promoted.
 5. Do not change Platform or Runtime schemas in this cycle.
 
 ## Long-Running Goal Loop
@@ -90,7 +95,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| ReDiffuse direct-distance boundary review | CPU-only | Decide whether the positive 750k direct-distance packet is worth a new hypothesis, or should close as separate candidate-only surface. |
+| non-gray-box reselection watch | CPU-only | Decide on the next non-gray-box lane if I-A truth-hardening completes without reducible issues. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -103,6 +108,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse 750k direct-distance 64/64 | positive compatibility packet, not admitted | [docs/evidence/rediffuse-cifar10-small-packet.md](docs/evidence/rediffuse-cifar10-small-packet.md) |
 | ReDiffuse 800k runtime probe | runtime-compatible, metrics not run | [docs/evidence/rediffuse-800k-runtime-probe.md](docs/evidence/rediffuse-800k-runtime-probe.md) |
 | ReDiffuse 750k ResNet parity | negative-but-useful; scoring-contract unresolved | [docs/evidence/rediffuse-resnet-parity-packet.md](docs/evidence/rediffuse-resnet-parity-packet.md) |
+| ReDiffuse direct-distance boundary | closed as candidate-only; no GPU release | [docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
 | Semantic-aux low-FPR review | negative-but-useful | [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md) |
 

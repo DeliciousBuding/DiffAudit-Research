@@ -12,8 +12,7 @@
 
 ## Active Question
 
-Can collaborator-style ReDiffuse scoring become a comparable gray-box baseline
-against the existing PIA/SecMI line?
+Is there any active gray-box candidate that should consume the next GPU slot?
 
 Current evidence:
 
@@ -24,14 +23,14 @@ Current evidence:
   `ASR = 0.538462`, and both low-FPR metrics are `0.0`.
 - 800k PIA checkpoint is ReDiffuse runtime-probe compatible on CPU; metrics are
   not run yet.
+- Direct-distance boundary review blocks automatic 800k metrics because it
+  would only test a Research-specific proxy surface.
 
 ## Next Action
 
-Run a CPU-only direct-distance boundary review before releasing any further
-ReDiffuse GPU work. The review must decide whether the positive
-`first_step_distance_mean` packet is a useful standalone Research surface or
-whether the ReDiffuse lane should close until a stronger collaborator-style
-scorer hypothesis appears.
+No gray-box GPU task is released. Keep `PIA` as the admitted gray-box line and
+return the active Research slot to I-A truth-hardening unless a new ReDiffuse
+scorer or checkpoint-portability hypothesis is written first.
 
 ## GPU Policy
 

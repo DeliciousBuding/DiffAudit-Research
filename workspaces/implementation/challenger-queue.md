@@ -9,18 +9,19 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `ReDiffuse post-parity contract review` |
+| Active work | `I-A truth-hardening CPU review` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | `ReDiffuse direct-distance boundary review`; CLiD/variation boundary maintenance |
-| Gray-box status | ReDiffuse remains candidate-only after negative ResNet parity; PIA remains admitted |
+| CPU sidecar | CLiD/variation boundary maintenance; non-gray-box reselection watch |
+| Gray-box status | ReDiffuse is candidate-only / hold; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
 ## Decision Inbox
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| ReDiffuse direct-distance boundary | gray-box | CPU-only | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | decide whether any future 800k sanity packet has a new hypothesis |
+| non-gray-box reselection watch | cross-track | CPU-only | I-A truth-hardening completes | active I-A review | monitor I-A progress |
+| ReDiffuse future reopen | gray-box | needs hypothesis | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | hold until new scorer or checkpoint-portability contract exists |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
@@ -28,23 +29,23 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### ReDiffuse Post-Parity Contract Review
+### I-A Truth-Hardening CPU Review
 
 - `mode`: CPU-only
 - `status`: active
-- `goal`: decide whether ReDiffuse direct-distance is a useful standalone
-  Research candidate or whether the lane should close until a stronger
-  paper-faithful scorer hypothesis appears.
-- `latest verdict`: the 750k ResNet parity packet is negative-but-useful:
-  `AUC = 0.411982`, `ASR = 0.538462`, and both low-FPR metrics are `0.0`.
+- `goal`: keep the admitted gray-box `PIA + stochastic-dropout` claim rigorous:
+  formal boundary, adaptive-attacker caveat, low-FPR metric discipline, and
+  finite-sample wording.
+- `latest trigger`: ReDiffuse is closed as candidate-only, so the active slot
+  returns to the strongest admitted innovation line.
 - `GPU cap`: no GPU released.
 - `integration`: no Platform or Runtime schema change.
 
 Required next evidence update:
 
-- create a CPU boundary note only if the direct-distance surface is reopened
-  for a new hypothesis.
-- otherwise keep ReDiffuse as candidate-only and move gray-box back to hold.
+- create or update an I-A truth-hardening evidence note if the audit finds stale
+  or overbroad wording.
+- otherwise record a no-change review and select the next CPU-first lane.
 
 ## Ready
 
