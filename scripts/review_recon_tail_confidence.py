@@ -11,6 +11,10 @@ from typing import Any
 
 DEFAULT_CARD = Path("workspaces/implementation/artifacts/recon-product-evidence-card.json")
 Z_95 = 1.959963984540054
+TAIL_TARGET_FPR = {
+    "tpr_at_1pct_fpr": 0.01,
+    "tpr_at_0_1pct_fpr": 0.001,
+}
 
 
 def _repo_root() -> Path:
@@ -39,10 +43,13 @@ def wilson_interval(successes: int, total: int, *, z: float = Z_95) -> dict[str,
         * math.sqrt((p_hat * (1.0 - p_hat) / total) + (z * z / (4.0 * total * total)))
         / denom
     )
+    lower = max(0.0, center - margin)
+    if successes == 0:
+        lower = 0.0
     return {
-        "estimate": round(p_hat, 6),
-        "lower_95": round(max(0.0, center - margin), 6),
-        "upper_95": round(min(1.0, center + margin), 6),
+        "estimate": p_hat,
+        "lower_95": lower,
+        "upper_95": min(1.0, center + margin),
     }
 
 
@@ -50,14 +57,16 @@ def build_review(card_path: Path, *, root: Path) -> dict[str, Any]:
     card = json.loads(card_path.read_text(encoding="utf-8"))
     finite_tail = card["finite_tail"]
     gates = finite_tail["gates"]
+    member_count = int(finite_tail["target_member_count"])
+    nonmember_count = int(finite_tail["target_nonmember_count"])
 
     reviewed_gates: dict[str, Any] = {}
     for gate_name, gate in gates.items():
-        member_count = int(finite_tail["target_member_count"])
-        nonmember_count = int(finite_tail["target_nonmember_count"])
+        if gate_name not in TAIL_TARGET_FPR:
+            raise KeyError(f"Unsupported finite-tail gate: {gate_name}")
         true_positives = int(gate["true_positives"])
         false_positives = int(gate["false_positives"])
-        target_fpr = 0.01 if gate_name == "tpr_at_1pct_fpr" else 0.001
+        target_fpr = TAIL_TARGET_FPR[gate_name]
         fpr_interval = wilson_interval(false_positives, nonmember_count)
         tpr_interval = wilson_interval(true_positives, member_count)
         reviewed_gates[gate_name] = {
@@ -66,12 +75,14 @@ def build_review(card_path: Path, *, root: Path) -> dict[str, Any]:
             "nonmember_count": nonmember_count,
             "true_positives": true_positives,
             "false_positives": false_positives,
-            "tpr_interval": tpr_interval,
-            "fpr_interval": fpr_interval,
+            "tpr_interval": {key: round(value, 6) for key, value in tpr_interval.items()},
+            "fpr_interval": {key: round(value, 6) for key, value in fpr_interval.items()},
             "calibrated_to_target_fpr": fpr_interval["upper_95"] <= target_fpr,
         }
 
-    strict_gate = reviewed_gates["tpr_at_0_1pct_fpr"]
+    strict_gate = reviewed_gates.get("tpr_at_0_1pct_fpr")
+    if strict_gate is None:
+        raise KeyError("Missing required finite-tail gate: tpr_at_0_1pct_fpr")
     verdict = (
         "admitted-finite-tail-only"
         if strict_gate["true_positives"] > 0 and not strict_gate["calibrated_to_target_fpr"]
