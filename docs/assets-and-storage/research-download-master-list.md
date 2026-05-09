@@ -65,7 +65,15 @@ These assets support multiple directions and should be downloaded first.
 |---|---|---|---|---|---|---|
 | `BB-SUP-01` | Recon official non-GitHub asset bundle or mirrors | Needed if current local recon assets need to be rebuilt / cross-validated | manual author / project release if available | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-official-assets/` |
 | `BB-SUP-02` | CLiD supplementary / artifact release | Needed for paper-faithful upgrade beyond current local bridge | manual author / supplementary release | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/clid-release/` |
+| `BB-DS-01` | Second response-contract query set | Required to reopen black-box response-strength, simple-distance portability, or variation with a second asset family | team acquisition / public dataset + documented split | Maybe manual | starts at 25/25 query identities | `<DIFFAUDIT_ROOT>/Download/black-box/datasets/response-contract-<dataset>-<model>-YYYYMMDD/` |
+| `BB-SUP-03` | Second response-contract response packet | Required companion responses or endpoint replay contract for `BB-DS-01` | team acquisition / endpoint capture / model response export | Maybe manual | depends on repeats and response type | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/response-contract-<dataset>-<model>-YYYYMMDD/` |
 | `BB-PAP-01` | Any missing black-box paper supplements | Backup for protocol details if local PDFs are insufficient | paper supplement pages | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/black-box/papers/` |
+
+`BB-DS-01` and `BB-SUP-03` are specified in
+[../evidence/blackbox-response-contract-asset-acquisition-spec.md](../evidence/blackbox-response-contract-asset-acquisition-spec.md).
+They are not generic raw image dumps: they must include member/nonmember query
+identity, model or endpoint identity, controlled repeats, response observability,
+and integrity metadata before any GPU packet is released.
 
 ### Already local, no urgent external download required
 
