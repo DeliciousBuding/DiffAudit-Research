@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `black-box response-contract asset-acquisition spec` |
+| Active work | `black-box response-contract asset acquisition: needs external package` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | CLiD/variation boundary maintenance |
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box response-contract asset-acquisition spec | black-box | CPU-only | acquisition audit closed as `needs-assets` | missing second compatible response contract | define exact asset/spec needed to reopen |
+| black-box response-contract asset acquisition | black-box | needs assets | acquisition audit and acquisition spec closed as `needs-assets` | missing second compatible response contract package | acquire or construct package matching the spec |
 | ReDiffuse future reopen | gray-box | needs hypothesis | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | hold until new scorer or checkpoint-portability contract exists |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -29,22 +29,27 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Black-Box Response-Contract Asset-Acquisition Spec
+### Black-Box Response-Contract Asset Acquisition
 
 - `mode`: CPU-only
-- `status`: active
-- `goal`: define the minimal second response-contract asset package needed to
-  reopen black-box response-strength or simple-distance execution.
+- `status`: needs-assets
+- `goal`: acquire or construct the minimal second response-contract asset
+  package needed to reopen black-box response-strength, simple-distance, or
+  variation execution.
 - `latest trigger`: local acquisition audit found no second compatible
   response contract; same SD1.5/CelebA image-to-image is not enough.
 - `GPU cap`: no GPU released.
 - `integration`: no Platform or Runtime schema change.
 
-Required next evidence update:
+Current evidence:
 
-- write a minimal asset acquisition spec with dataset/model/split/endpoint
-  requirements.
-- release no GPU task.
+- [../../docs/evidence/blackbox-response-contract-acquisition-audit.md](../../docs/evidence/blackbox-response-contract-acquisition-audit.md)
+- [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
+
+Required next evidence update after assets arrive:
+
+- run the CPU preflight from the acquisition spec.
+- release no GPU task until the CPU gate passes.
 
 ## Ready
 
@@ -119,12 +124,13 @@ Required next evidence update:
 | --- | --- | --- |
 | Cross-box transfer / portability | missing paired model contracts, paired split contracts, and one shared-surface hypothesis | do not schedule execution until required paired data is present in `Download/` or documented through workspace manifests |
 | Conditional diffusion wider-family validation | current `DDPM/CIFAR10` results cannot generalize to conditional diffusion | raw datasets, weights, and supplementary files belong under `<DIFFAUDIT_ROOT>/Download/`, not Git |
-| Simple-distance second asset | no valid second image-to-image or repeated-response contract | preflight before GPU |
+| Simple-distance second asset | no valid second image-to-image or repeated-response contract | follow [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md) before GPU |
 
 ## Closed
 
 | Task | Result |
 | --- | --- |
+| Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |
 | ReDiffuse collaborator bundle intake | Positive intake; complete enough for bounded compatibility review, not admitted evidence. |
 | ReDiffuse 750k direct-distance packet | Positive compatibility packet at 64/64; not comparable with PIA/SecMI without scoring-mode caveat. |
 | Recon tail confidence review | Admitted-finite-tail-only; recon remains black-box product row. |

@@ -10,16 +10,17 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `black-box response-contract asset-acquisition spec` |
+| Active work | `black-box response-contract asset acquisition: needs external package` |
 | Current GPU candidate | none selected |
 | CPU sidecar | CLiD/variation boundary maintenance |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: specify the missing second black-box response contract after
-the local acquisition audit closed as `needs-assets`. No GPU task is released.
-See
-[docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md).
+Current objective: acquire or construct a second black-box response-contract
+package. The CPU-only spec is complete and no GPU task is released. See
+[docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
+and
+[docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md).
 
 ## Mainline Claims
 
@@ -67,7 +68,10 @@ packet because it would only test a Research-specific proxy surface. See
 2. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
 3. Non-gray-box reselection selected a CPU-only black-box response-contract
-   acquisition audit. It closed as `needs-assets`, not GPU-ready; see
+   acquisition audit. It closed as `needs-assets`, not GPU-ready. The minimum
+   acquisition package is specified in
+   [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md);
+   see also
    [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
    for the audit result and
    [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
@@ -113,6 +117,7 @@ Every autonomous research cycle must follow this loop:
 | PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
 | Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
 | Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
+| Black-box response-contract asset spec | needs-assets; minimum second-asset package defined; no GPU release | [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
 | Semantic-aux low-FPR review | negative-but-useful | [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md) |
 
