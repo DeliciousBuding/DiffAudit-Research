@@ -47,10 +47,10 @@ conditions below is satisfied.
 
 | Slot | Value |
 | --- | --- |
-| Active GPU question | none |
-| Next GPU candidate | none |
+| Active GPU question | none running |
+| Next GPU candidate | none selected |
 | CPU sidecar | none currently reducible |
-| Active work | temporary resting state until assets or a new hypothesis arrive |
+| Active work | temporary resting state: needs external assets or new hypothesis |
 
 ## Platform and Runtime Impact
 
