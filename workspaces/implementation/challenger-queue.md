@@ -9,19 +9,18 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `ReDiffuse scoring-contract parity review` |
+| Active work | `ReDiffuse post-parity contract review` |
 | Active GPU task | none running |
-| Next GPU candidate | `ReDiffuse 750k ResNet 64/64 parity packet` |
-| CPU sidecar | `ReDiffuse 800k probe evidence sync`; CLiD/variation boundary maintenance |
-| Gray-box status | reopened only for bounded ReDiffuse baseline alignment; PIA remains admitted |
+| Next GPU candidate | none selected |
+| CPU sidecar | `ReDiffuse direct-distance boundary review`; CLiD/variation boundary maintenance |
+| Gray-box status | ReDiffuse remains candidate-only after negative ResNet parity; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
 ## Decision Inbox
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| ReDiffuse 750k ResNet parity | gray-box | GPU-light | 64/64 packet, `--scoring-mode resnet`, four metrics, split hash `aca922ecee25ef00dc6b6377ebaf7875dfcc77c2cdfe27c873b26a65134aa0c0`, scorer counts | none after CPU/runtime probes | run one bounded GPU packet |
-| ReDiffuse 800k sanity | gray-box | CPU/GPU-light | 800k runtime probe passed; metrics not run | wait for 750k ResNet verdict | run direct-distance 64/64 only if 750k parity is interpretable |
+| ReDiffuse direct-distance boundary | gray-box | CPU-only | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | decide whether any future 800k sanity packet has a new hypothesis |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
@@ -29,63 +28,25 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### ReDiffuse Scoring-Contract Parity Review
-
-- `mode`: GPU-light after CPU/runtime probes
-- `status`: active
-- `goal`: decide whether collaborator ReDiffuse can be compared with existing
-  PIA/SecMI gray-box evidence under a paper-faithful scorer.
-- `hypothesis`: the collaborator-style second-stage ResNet scorer will produce
-  an interpretable 64/64 membership signal on the 750k checkpoint. If it does
-  not, the direct-distance scorer remains a separate Research baseline only.
-- `GPU cap`: one 750k `64/64` ResNet parity packet. Do not auto-scale to
-  `128/128` or `512/512`.
-- `integration`: no Platform or Runtime schema change.
-
-Command released by the roadmap:
-
-```powershell
-conda run -n diffaudit-research python -X utf8 -m diffaudit run-rediffuse-runtime-packet `
-  --workspace workspaces/gray-box/runs/rediffuse-cifar10-750k-resnet-parity-20260510-gpu-64 `
-  --device cuda `
-  --max-samples 64 `
-  --batch-size 8 `
-  --attack-num 1 `
-  --interval 200 `
-  --average 10 `
-  --k 100 `
-  --scoring-mode resnet `
-  --scorer-train-portion 0.2 `
-  --scorer-epochs 15 `
-  --scorer-batch-size 128
-```
-
-Required evidence update after the packet:
-
-- create `docs/evidence/rediffuse-resnet-parity-packet.md`
-- update `ROADMAP.md`
-- update this queue
-- update `workspaces/gray-box/plan.md`
-- update `docs/evidence/reproduction-status.md` only if the status stage changes
-
-Stop triggers:
-
-- CUDA unavailable or memory pressure
-- missing low-FPR fields
-- missing split hash / checkpoint step / scorer contract fields
-- ResNet score orientation is reversed or near-random at 64/64
-- result interpretation would require Platform/Runtime schema changes
-
-## Ready
-
-### ReDiffuse 800k Runtime-Probe Evidence Sync
+### ReDiffuse Post-Parity Contract Review
 
 - `mode`: CPU-only
-- `status`: ready
-- `result`: `runtime-probe-rediffuse` can load the existing PIA 800k checkpoint
-  with the collaborator ReDiffuse bundle and run a CPU preview forward pass.
-- `next action`: keep as evidence note; do not run metrics until the 750k
-  ResNet parity result is interpretable.
+- `status`: active
+- `goal`: decide whether ReDiffuse direct-distance is a useful standalone
+  Research candidate or whether the lane should close until a stronger
+  paper-faithful scorer hypothesis appears.
+- `latest verdict`: the 750k ResNet parity packet is negative-but-useful:
+  `AUC = 0.411982`, `ASR = 0.538462`, and both low-FPR metrics are `0.0`.
+- `GPU cap`: no GPU released.
+- `integration`: no Platform or Runtime schema change.
+
+Required next evidence update:
+
+- create a CPU boundary note only if the direct-distance surface is reopened
+  for a new hypothesis.
+- otherwise keep ReDiffuse as candidate-only and move gray-box back to hold.
+
+## Ready
 
 ### Public Documentation Sync
 
