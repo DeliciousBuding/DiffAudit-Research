@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-A truth-hardening CPU review` |
+| Active work | `non-gray-box reselection CPU review` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CLiD/variation boundary maintenance; non-gray-box reselection watch |
+| CPU sidecar | CLiD/variation boundary maintenance |
 | Gray-box status | ReDiffuse is candidate-only / hold; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| non-gray-box reselection watch | cross-track | CPU-only | I-A truth-hardening completes | active I-A review | monitor I-A progress |
+| non-gray-box reselection | cross-track | CPU-only | I-A truth-hardening completed without GPU release | no current GPU candidate | choose next CPU-first lane |
 | ReDiffuse future reopen | gray-box | needs hypothesis | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | hold until new scorer or checkpoint-portability contract exists |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -29,23 +29,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### I-A Truth-Hardening CPU Review
+### Non-Gray-Box Reselection CPU Review
 
 - `mode`: CPU-only
 - `status`: active
-- `goal`: keep the admitted gray-box `PIA + stochastic-dropout` claim rigorous:
-  formal boundary, adaptive-attacker caveat, low-FPR metric discipline, and
-  finite-sample wording.
-- `latest trigger`: ReDiffuse is closed as candidate-only, so the active slot
-  returns to the strongest admitted innovation line.
+- `goal`: select the next bounded non-gray-box lane after ReDiffuse closed and
+  I-A truth-hardening completed without a GPU release.
+- `latest trigger`: I-A review hardened wording around bounded adaptive checks,
+  finite low-FPR tails, and provisional stochastic-dropout semantics.
 - `GPU cap`: no GPU released.
 - `integration`: no Platform or Runtime schema change.
 
 Required next evidence update:
 
-- create or update an I-A truth-hardening evidence note if the audit finds stale
-  or overbroad wording.
-- otherwise record a no-change review and select the next CPU-first lane.
+- create a CPU reselection note comparing black-box, white-box, defense, and
+  cross-box candidates.
+- release no GPU task unless the note freezes a new hypothesis and stop gate.
 
 ## Ready
 
