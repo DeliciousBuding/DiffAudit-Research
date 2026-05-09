@@ -42,6 +42,10 @@ The black-box response-contract acquisition audit also closes as
 `needs-assets`: SD1.5/CelebA image-to-image is CPU-eligible but is the same
 asset family as the existing simple-distance evidence, while variation and
 Kandinsky/Pokemon lack the required split/endpoint contract.
+The minimum second-asset package is now specified in
+[../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md).
+Do not release a black-box response-contract GPU task until a candidate package
+passes that CPU preflight.
 
 The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
