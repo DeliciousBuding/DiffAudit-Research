@@ -31,7 +31,7 @@ Both rows use `512` target nonmembers. The `TPR@0.1%FPR` values are finite
 empirical strict-tail points on that split, not calibrated continuous
 sub-percent FPR estimates.
 
-The repeated-query review is bounded to `adaptive_query_repeats = 3` and mean
+The repeated-query review is bounded to `adaptive repeats=3` and mean
 aggregation. It should be described as bounded repeated-query adaptive review,
 not full adaptive robustness.
 
