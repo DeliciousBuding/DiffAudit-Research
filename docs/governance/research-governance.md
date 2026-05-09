@@ -12,9 +12,10 @@ chooses work; this document defines where work products belong.
 The 2026-04-29 and 2026-04-30 governance cleanups are merged to `main`
 from PR #26 through PR #36. The ongoing baseline is:
 
-- Active work is `Cross-box experiment boundary hardening`
-- Next GPU candidate is `none`
-- Cross-box boundary hardening is a method-hardening track, not a result release
+- Active work is `ReDiffuse scoring-contract parity review`
+- Next GPU candidate is `ReDiffuse 750k ResNet 64/64 parity packet`
+- ReDiffuse is a candidate gray-box baseline-alignment track, not an admitted
+  result release
 - No history rewrite or force-push should be performed without separate approval
 - Future cleanup output should be PR-reviewable and reversible
 - Research is deployable as a conda/editable Python package and CLI research
