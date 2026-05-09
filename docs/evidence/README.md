@@ -30,6 +30,7 @@ This directory contains the public evidence overview.
 | [rediffuse-collaborator-bundle-intake.md](rediffuse-collaborator-bundle-intake.md) | Asset-level intake record for the collaborator ReDiffuse bundle. |
 | [rediffuse-runtime-smoke-result.md](rediffuse-runtime-smoke-result.md) | CPU and CUDA compatibility smoke result for the ReDiffuse adapter. |
 | [rediffuse-cifar10-small-packet.md](rediffuse-cifar10-small-packet.md) | Bounded 64/64 CIFAR10 candidate packet on the direct-distance ReDiffuse surface. |
+| [rediffuse-800k-runtime-probe.md](rediffuse-800k-runtime-probe.md) | CPU runtime compatibility probe for the existing PIA 800k checkpoint under the ReDiffuse adapter. |
 | [recon-product-row-validation-guard.md](recon-product-row-validation-guard.md) | System-consumable guard for the admitted recon product row. |
 | [../product-bridge/recon-product-evidence-card.md](../product-bridge/recon-product-evidence-card.md) | Product-facing machine-readable evidence-card contract for the admitted recon row. |
 | [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |

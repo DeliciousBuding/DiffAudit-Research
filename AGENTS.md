@@ -28,10 +28,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD prompt-conditioning boundary analysis`
-- Next GPU task: `none selected`
-- CPU work: `formalize prompt-conditioned claim and compare with prompt-neutral control`
+- Active work: `ReDiffuse scoring-contract parity review`
+- Next GPU candidate: `ReDiffuse 750k ResNet 64/64 parity packet`
+- CPU work: `ReDiffuse 800k probe evidence sync` plus CLiD/variation boundary maintenance
 - No GPU task should start from documentation or governance cleanup alone.
+- Only one GPU task may run at a time; every GPU task needs a frozen command,
+  metric contract, stop condition, and evidence-note target.
 - No history rewrite or force-push without a separate approved audit.
 
 ## Research Rules
@@ -42,6 +44,10 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   defense results when applicable.
 - DDPM/CIFAR10 results cannot be generalized to conditional-diffusion or
   commercial models without separate evidence.
+- Candidate results must stay labeled as candidate-only until promoted through
+  an evidence note and roadmap decision. Smoke tests are not benchmark results.
+- Long autonomous runs must follow:
+  `review -> select -> preflight -> run -> verdict -> docs -> next`.
 
 ## Workspace Structure
 

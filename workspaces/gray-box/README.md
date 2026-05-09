@@ -5,7 +5,8 @@
 - Direction: partial-observation membership inference (PIA, SecMI, TMIA-DM) and defense evaluation.
 - Main method: `PIA` is the strongest gray-box attack with defense evaluation.
 - Defense reference: stochastic dropout is the main defended baseline.
-- GPU: no active gray-box GPU task.
+- Active candidate: ReDiffuse scoring-contract parity review.
+- GPU: one released candidate, `ReDiffuse 750k ResNet 64/64 parity packet`.
 
 ## Files
 
