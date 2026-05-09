@@ -49,4 +49,7 @@ passes that CPU preflight.
 
 The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
-GPU candidate is not selected; CLiD remains hold-candidate.
+GPU candidate is not selected; CLiD remains hold-candidate. The current
+Research-level resting-state audit records that no black-box CPU sidecar is
+currently reducible without new assets or a new protocol. See
+[../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md).

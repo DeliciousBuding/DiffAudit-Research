@@ -12,8 +12,9 @@ chooses work; this document defines where work products belong.
 The 2026-04-29 and 2026-04-30 governance cleanups are merged to `main`
 from PR #26 through PR #36. The ongoing baseline is:
 
-- Active work is `black-box response-contract asset acquisition: needs external package`
+- Active work is `temporary resting state: needs external assets or new hypothesis`
 - Next GPU candidate is none selected
+- Current CPU sidecar is none currently reducible
 - ReDiffuse is a candidate gray-box baseline-alignment track, not an admitted
   result release; reopen only with a new scorer or checkpoint-portability
   hypothesis
