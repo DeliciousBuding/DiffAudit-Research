@@ -21,6 +21,7 @@ This directory contains the public evidence overview.
 | [h2-simple-distance-portability-preflight.md](h2-simple-distance-portability-preflight.md) | CPU-only preflight for second-asset simple-distance portability. |
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
 | [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) | Superseding CPU-only reselection after CLiD prompt-control closure. |
+| [non-graybox-reselection-20260510.md](non-graybox-reselection-20260510.md) | CPU reselection after ReDiffuse and I-A closure; selects response-contract acquisition audit. |
 | [variation-query-contract-audit.md](variation-query-contract-audit.md) | Executable audit for deciding whether the variation black-box line has real query images and endpoint readiness. |
 | [semantic-aux-low-fpr-review.md](semantic-aux-low-fpr-review.md) | CPU-only low-FPR review for the semantic-auxiliary classifier lane. |
 | [recon-product-validation-contract.md](recon-product-validation-contract.md) | CPU contract for the next recon product-consumable validation packet. |
