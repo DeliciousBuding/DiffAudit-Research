@@ -3,8 +3,9 @@
 ## Current Status
 
 - Direction: partial-observation membership inference (PIA, SecMI, TMIA-DM) and defense evaluation.
-- Main method: `PIA` is the strongest gray-box attack with defense evaluation.
-- Defense reference: stochastic dropout is the main defended baseline.
+- Main method: `PIA` is the strongest admitted local DDPM/CIFAR10 gray-box line.
+- Defense reference: stochastic dropout is a provisional defended comparator,
+  not validated privacy protection.
 - Active candidate: none; ReDiffuse is candidate-only / hold after negative
   ResNet parity and direct-distance boundary review.
 - GPU: none released.
