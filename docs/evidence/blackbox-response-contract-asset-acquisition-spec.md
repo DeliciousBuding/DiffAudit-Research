@@ -73,11 +73,11 @@ query-image identity, observable responses, and controlled repeats.
 
 ## CPU Preflight Contract
 
-After a candidate package lands, run:
+After a candidate package lands, run from the `Research/` repository root:
 
 ```powershell
 python -X utf8 scripts/audit_variation_query_contract.py `
-  --query-root ..\Download\black-box\datasets\<asset-id>\query `
+  --query-root ../Download/black-box/datasets/<asset-id>/query `
   --min-split-count 25
 ```
 
@@ -85,6 +85,7 @@ If the package is image-to-image compatible, also run:
 
 ```powershell
 python -X utf8 scripts/probe_h2_cross_asset_contract.py `
+  --download-root ../Download `
   --endpoint-mode image_to_image `
   --controlled-repeats `
   --response-images-observable
