@@ -27,7 +27,7 @@ as candidate-only with no 800k GPU release. See
 | Lane | Status | Current claim | Boundary |
 | --- | --- | --- | --- |
 | Black-box `recon` | admitted | Current black-box product row and minimal-permission risk proof. | Public-100 strict-tail fields are finite-count evidence, not calibrated continuous sub-percent FPR. |
-| Gray-box `PIA` | admitted | Strongest gray-box attack + stochastic-dropout defense story. | Workspace-verified and adaptive-reviewed, but paper-aligned release provenance remains bounded. |
+| Gray-box `PIA` | admitted | Strongest admitted local DDPM/CIFAR10 gray-box line; stochastic dropout is a provisional defended comparator. | Bounded repeated-query adaptive review only; low-FPR values are finite empirical tails, not calibrated sub-percent FPR. |
 | White-box `GSA + DPDM W-1` | admitted comparator | Strongest white-box risk upper bound plus defended comparator. | Not a final paper-level benchmark. |
 | ReDiffuse | candidate-only / hold | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-probe compatible; ResNet parity packet is negative; direct-distance boundary review blocks automatic 800k metrics. | Reopen only with a new scorer or checkpoint-portability hypothesis. |
 | CLiD / H2 / simple-distance / variation / semantic-aux | hold or candidate-only | Useful diagnostics and bounded candidates. | No GPU task unless a new protocol/data contract clears a CPU preflight. |
@@ -65,10 +65,9 @@ packet because it would only test a Research-specific proxy surface. See
 ## Next Decision Contract
 
 1. Do not run ReDiffuse GPU work without a new CPU contract.
-2. Reopen I-A truth-hardening as the active CPU task: formal statement,
-   adaptive-attacker boundary, low-FPR wording, and finite-sample caveats for
-   admitted gray-box `PIA + stochastic-dropout`.
-3. If I-A has no reducible boundary issue, proceed to non-gray-box reselection.
+2. I-A truth-hardening completed as positive boundary hardening. See
+   [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
+3. Next active task: CPU-first non-gray-box reselection.
 4. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
 5. Do not change Platform or Runtime schemas in this cycle.
@@ -95,7 +94,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| non-gray-box reselection watch | CPU-only | Decide on the next non-gray-box lane if I-A truth-hardening completes without reducible issues. |
+| non-gray-box reselection | CPU-only | Select the next non-gray-box lane after I-A boundary hardening completed without a GPU release. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -109,6 +108,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse 800k runtime probe | runtime-compatible, metrics not run | [docs/evidence/rediffuse-800k-runtime-probe.md](docs/evidence/rediffuse-800k-runtime-probe.md) |
 | ReDiffuse 750k ResNet parity | negative-but-useful; scoring-contract unresolved | [docs/evidence/rediffuse-resnet-parity-packet.md](docs/evidence/rediffuse-resnet-parity-packet.md) |
 | ReDiffuse direct-distance boundary | closed as candidate-only; no GPU release | [docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md) |
+| PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
 | Semantic-aux low-FPR review | negative-but-useful | [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md) |
 
