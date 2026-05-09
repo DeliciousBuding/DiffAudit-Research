@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `black-box response-contract acquisition audit` |
+| Active work | `black-box response-contract asset-acquisition spec` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | CLiD/variation boundary maintenance |
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box response-contract acquisition audit | black-box | CPU-only | non-gray-box reselection selected response-contract acquisition | unknown local second-asset readiness | audit `Download/` manifest and local asset contracts |
+| black-box response-contract asset-acquisition spec | black-box | CPU-only | acquisition audit closed as `needs-assets` | missing second compatible response contract | define exact asset/spec needed to reopen |
 | ReDiffuse future reopen | gray-box | needs hypothesis | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | hold until new scorer or checkpoint-portability contract exists |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -29,23 +29,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Black-Box Response-Contract Acquisition Audit
+### Black-Box Response-Contract Asset-Acquisition Spec
 
 - `mode`: CPU-only
 - `status`: active
-- `goal`: decide whether local assets contain a second compatible black-box
-  response-strength or simple-distance contract.
-- `latest trigger`: non-gray-box reselection selected this as the only path
-  that could reopen a meaningful GPU task without repeating a closed observable.
+- `goal`: define the minimal second response-contract asset package needed to
+  reopen black-box response-strength or simple-distance execution.
+- `latest trigger`: local acquisition audit found no second compatible
+  response contract; same SD1.5/CelebA image-to-image is not enough.
 - `GPU cap`: no GPU released.
 - `integration`: no Platform or Runtime schema change.
 
 Required next evidence update:
 
-- audit `Download/` manifest and local asset contracts.
-- classify as `ready`, `needs-assets`, or `blocked`.
-- release no GPU task unless the audit freezes a complete contract and stop
-  gate.
+- write a minimal asset acquisition spec with dataset/model/split/endpoint
+  requirements.
+- release no GPU task.
 
 ## Ready
 
