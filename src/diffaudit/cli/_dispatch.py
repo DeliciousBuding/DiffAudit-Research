@@ -91,6 +91,18 @@ def _handle_asset_probes(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
+    if args.command == "probe-rediffuse-assets":
+        from diffaudit.attacks.rediffuse import explain_rediffuse_assets
+
+        payload = explain_rediffuse_assets(
+            bundle_root=args.bundle_root,
+            checkpoint_path=args.checkpoint_path,
+            dataset_root=args.dataset_root,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
     if args.command == "probe-clid-assets":
         from diffaudit.attacks.clid import explain_clid_assets
 
@@ -634,6 +646,23 @@ def _handle_pia_runtime(args: Any) -> int:
         return exit_code
 
 
+    if args.command == "runtime-probe-rediffuse":
+        from diffaudit.attacks.rediffuse_adapter import probe_rediffuse_runtime
+
+        exit_code, payload = probe_rediffuse_runtime(
+            bundle_root=args.bundle_root,
+            checkpoint_path=args.checkpoint_path,
+            dataset_root=args.dataset_root,
+            device=args.device,
+            attack_num=args.attack_num,
+            interval=args.interval,
+            average=args.average,
+            k=args.k,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return exit_code
+
+
     if args.command == "runtime-preview-pia":
         from diffaudit.attacks.pia_adapter import probe_pia_runtime_preview
 
@@ -781,6 +810,59 @@ def _handle_secmi_pia_smokes(args: Any) -> int:
             args.workspace,
             repo_root=args.repo_root,
             device=args.device,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
+    if args.command == "run-rediffuse-runtime-smoke":
+        from diffaudit.attacks.rediffuse_adapter import run_rediffuse_runtime_smoke
+
+        payload = run_rediffuse_runtime_smoke(
+            workspace=args.workspace,
+            bundle_root=args.bundle_root,
+            checkpoint_path=args.checkpoint_path,
+            dataset_root=args.dataset_root,
+            device=args.device,
+            max_samples=args.max_samples,
+            batch_size=args.batch_size,
+            attack_num=args.attack_num,
+            interval=args.interval,
+            average=args.average,
+            k=args.k,
+            norm=args.norm,
+            scoring_mode=args.scoring_mode,
+            scorer_train_portion=args.scorer_train_portion,
+            scorer_epochs=args.scorer_epochs,
+            scorer_lr=args.scorer_lr,
+            scorer_batch_size=args.scorer_batch_size,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
+    if args.command == "run-rediffuse-runtime-packet":
+        from diffaudit.attacks.rediffuse_adapter import run_rediffuse_runtime_packet
+
+        payload = run_rediffuse_runtime_packet(
+            workspace=args.workspace,
+            bundle_root=args.bundle_root,
+            checkpoint_path=args.checkpoint_path,
+            dataset_root=args.dataset_root,
+            device=args.device,
+            max_samples=args.max_samples,
+            batch_size=args.batch_size,
+            attack_num=args.attack_num,
+            interval=args.interval,
+            average=args.average,
+            k=args.k,
+            norm=args.norm,
+            scoring_mode=args.scoring_mode,
+            scorer_train_portion=args.scorer_train_portion,
+            scorer_epochs=args.scorer_epochs,
+            scorer_lr=args.scorer_lr,
+            scorer_batch_size=args.scorer_batch_size,
+            provenance_status=args.provenance_status,
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
@@ -1158,6 +1240,7 @@ _COMMAND_HANDLERS: dict[str, CommandHandler] = {
     "plan-variation": _handle_foundation,
     "probe-secmi-assets": _handle_asset_probes,
     "probe-pia-assets": _handle_asset_probes,
+    "probe-rediffuse-assets": _handle_asset_probes,
     "probe-clid-assets": _handle_asset_probes,
     "probe-recon-assets": _handle_asset_probes,
     "probe-recon-score-artifacts": _handle_asset_probes,
@@ -1195,6 +1278,7 @@ _COMMAND_HANDLERS: dict[str, CommandHandler] = {
     "summarize-blackbox-results": _handle_reports,
     "summarize-mainline-audit": _handle_reports,
     "runtime-probe-pia": _handle_pia_runtime,
+    "runtime-probe-rediffuse": _handle_pia_runtime,
     "runtime-preview-pia": _handle_pia_runtime,
     "export-pia-packet-scores": _handle_pia_runtime,
     "export-sima-packet-scores": _handle_pia_runtime,
@@ -1206,6 +1290,8 @@ _COMMAND_HANDLERS: dict[str, CommandHandler] = {
     "run-pia-synth-smoke": _handle_secmi_pia_smokes,
     "run-pia-runtime-smoke": _handle_secmi_pia_smokes,
     "run-pia-runtime-mainline": _handle_secmi_pia_smokes,
+    "run-rediffuse-runtime-smoke": _handle_secmi_pia_smokes,
+    "run-rediffuse-runtime-packet": _handle_secmi_pia_smokes,
     "run-gsa-runtime-mainline": _handle_gsa_runtime,
     "export-gsa-loss-score-packet": _handle_gsa_runtime,
     "evaluate-gsa-loss-score-packet": _handle_gsa_runtime,

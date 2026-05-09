@@ -1,27 +1,39 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-01
+> Last updated: 2026-05-09
 
 This is the short steering document for Research. Execution history is in
 `legacy/`; current workspace state is in `workspaces/`.
 
 ## Current Focus
 
-- **Active work:** recon finite-tail confidence hardening
-- **Next GPU task:** none selected after the `25/25` admission packet
-- **CPU work:** strict-tail confidence review for the admitted recon row
+- **Active work:** ReDiffuse scoring-contract parity review
+- **Next GPU task:** none selected after the 64/64 ReDiffuse compatibility packet
+- **CPU work:** compare the direct-distance adapter scoring contract with the collaborator script's second-stage ResNet classifier
 
 The information-architecture reset, shared utilities extraction, asset boundary
 cleanup, and CLI package split are all merged. Cross-box boundary hardening is
 now recorded as candidate-only evidence: score sharing is useful for internal
 comparison, but the existing packets do not establish stable low-FPR gains.
+On 2026-05-09, a collaborator-provided `DDIMrediffuse` bundle and 750k DDIM
+checkpoint were ingested as local `Download/` assets. The bundle includes
+`ReDiffuseAttacker`, matches the existing PIA CIFAR10 ratio0.5 split hash, and
+can load the 750k checkpoint with the bundled UNet. This reopens a bounded
+gray-box baseline-alignment task, not an admitted result. See
+[docs/evidence/rediffuse-collaborator-bundle-intake.md](docs/evidence/rediffuse-collaborator-bundle-intake.md).
+The Research-side adapter now passes CPU `2/2` and CUDA `8/8` compatibility
+smokes, and a CUDA `64/64` small packet on the direct-distance scoring surface.
+See [docs/evidence/rediffuse-runtime-smoke-result.md](docs/evidence/rediffuse-runtime-smoke-result.md).
+The small packet is recorded in
+[docs/evidence/rediffuse-cifar10-small-packet.md](docs/evidence/rediffuse-cifar10-small-packet.md).
 
 ## Research Directions
 
 - **Black-box:** `recon` is the strongest main line. `CLiD` and
   semantic-auxiliary classifiers are supplementary methods.
 - **Gray-box:** `PIA` is the strongest attack + defense story. Gray-box work
-  will not take the next research slot unless new findings change priorities.
+  remains the strongest admitted line. The new ReDiffuse bundle is a
+  candidate-only baseline-alignment task.
 - **White-box:** `GSA` provides the strongest upper-bound results. `DPDM` is
   the defended comparator.
 - **Cross-box:** Score sharing is useful for internal comparison, but remains
@@ -29,7 +41,19 @@ comparison, but the existing packets do not establish stable low-FPR gains.
 
 ## Next Steps
 
-Proceed with recon product-consumable strengthening. H2 is held for cross-asset
+Proceed with ReDiffuse compatibility review before scheduling another model
+run. The immediate goal is to determine whether the collaborator bundle can
+reproduce a small CIFAR10 membership-inference packet and whether its protocol
+can be compared against the existing PIA/SecMI line without changing output
+schemas. Do not promote the 750k checkpoint or ReDiffuse runner until a real
+attack run produces metrics with provenance, split, and low-FPR fields.
+The next concrete step is a CPU-first scoring-contract review: run the newly
+integrated collaborator-style second-stage ResNet scorer, then decide whether
+ReDiffuse should be compared with PIA/SecMI as paper-faithful ReDiffuse or kept
+as a separate direct-distance Research baseline.
+
+Recon product-consumable strengthening is complete for the current admitted
+row. H2 is held for cross-asset
 work because SD/CelebA text-to-image is protocol-incompatible with H2
 response-strength. `variation` lacks a real query set and endpoint. CLiD is now
 hold-candidate: its 100/100 prompt-conditioned packet is strong and
@@ -125,6 +149,10 @@ No next GPU task is selected.
 - Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
 - Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
 - Recon tail confidence review: [docs/evidence/recon-tail-confidence-review.md](docs/evidence/recon-tail-confidence-review.md)
+- ReDiffuse collaborator bundle intake: [docs/evidence/rediffuse-collaborator-bundle-intake.md](docs/evidence/rediffuse-collaborator-bundle-intake.md)
+- ReDiffuse collaborator integration report: [docs/evidence/rediffuse-collaborator-integration-report.md](docs/evidence/rediffuse-collaborator-integration-report.md)
+- ReDiffuse runtime smoke result: [docs/evidence/rediffuse-runtime-smoke-result.md](docs/evidence/rediffuse-runtime-smoke-result.md)
+- ReDiffuse CIFAR10 small packet: [docs/evidence/rediffuse-cifar10-small-packet.md](docs/evidence/rediffuse-cifar10-small-packet.md)
 - Recon product row validation guard: [docs/evidence/recon-product-row-validation-guard.md](docs/evidence/recon-product-row-validation-guard.md)
 - Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Recon product evidence card: [docs/product-bridge/recon-product-evidence-card.md](docs/product-bridge/recon-product-evidence-card.md)
