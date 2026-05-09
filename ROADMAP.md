@@ -1,168 +1,142 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-09
+> Last updated: 2026-05-10
 
-This is the short steering document for Research. Execution history is in
-`legacy/`; current workspace state is in `workspaces/`.
+This is the short steering document for Research. Execution history and old
+run narratives live in `legacy/`; current workspace state lives in
+`workspaces/`; reviewed evidence lives in `docs/evidence/`.
 
 ## Current Focus
 
-- **Active work:** ReDiffuse scoring-contract parity review
-- **Next GPU task:** none selected after the 64/64 ReDiffuse compatibility packet
-- **CPU work:** compare the direct-distance adapter scoring contract with the collaborator script's second-stage ResNet classifier
+| Field | Current value |
+| --- | --- |
+| Active work | `ReDiffuse scoring-contract parity review` |
+| Current GPU candidate | `ReDiffuse 750k ResNet 64/64 parity packet` |
+| CPU sidecar | `ReDiffuse 800k probe evidence sync` plus CLiD/variation boundary maintenance |
+| Active GPU question | none running |
+| Platform/Runtime impact | none; candidate-only Research work |
 
-The information-architecture reset, shared utilities extraction, asset boundary
-cleanup, and CLI package split are all merged. Cross-box boundary hardening is
-now recorded as candidate-only evidence: score sharing is useful for internal
-comparison, but the existing packets do not establish stable low-FPR gains.
-On 2026-05-09, a collaborator-provided `DDIMrediffuse` bundle and 750k DDIM
-checkpoint were ingested as local `Download/` assets. The bundle includes
-`ReDiffuseAttacker`, matches the existing PIA CIFAR10 ratio0.5 split hash, and
-can load the 750k checkpoint with the bundled UNet. This reopens a bounded
-gray-box baseline-alignment task, not an admitted result. See
-[docs/evidence/rediffuse-collaborator-bundle-intake.md](docs/evidence/rediffuse-collaborator-bundle-intake.md).
-The Research-side adapter now passes CPU `2/2` and CUDA `8/8` compatibility
-smokes, and a CUDA `64/64` small packet on the direct-distance scoring surface.
-See [docs/evidence/rediffuse-runtime-smoke-result.md](docs/evidence/rediffuse-runtime-smoke-result.md).
-The small packet is recorded in
-[docs/evidence/rediffuse-cifar10-small-packet.md](docs/evidence/rediffuse-cifar10-small-packet.md).
+Current objective: decide whether the collaborator `DDIMrediffuse` bundle can
+produce a paper-faithful gray-box baseline that is comparable with PIA/SecMI, or
+whether Research should keep the current `first_step_distance_mean` scorer as a
+separate candidate baseline.
 
-## Research Directions
+## Mainline Claims
 
-- **Black-box:** `recon` is the strongest main line. `CLiD` and
-  semantic-auxiliary classifiers are supplementary methods.
-- **Gray-box:** `PIA` is the strongest attack + defense story. Gray-box work
-  remains the strongest admitted line. The new ReDiffuse bundle is a
-  candidate-only baseline-alignment task.
-- **White-box:** `GSA` provides the strongest upper-bound results. `DPDM` is
-  the defended comparator.
-- **Cross-box:** Score sharing is useful for internal comparison, but remains
-  candidate-only. See [docs/evidence/cross-box-boundary-status.md](docs/evidence/cross-box-boundary-status.md).
+| Lane | Status | Current claim | Boundary |
+| --- | --- | --- | --- |
+| Black-box `recon` | admitted | Current black-box product row and minimal-permission risk proof. | Public-100 strict-tail fields are finite-count evidence, not calibrated continuous sub-percent FPR. |
+| Gray-box `PIA` | admitted | Strongest gray-box attack + stochastic-dropout defense story. | Workspace-verified and adaptive-reviewed, but paper-aligned release provenance remains bounded. |
+| White-box `GSA + DPDM W-1` | admitted comparator | Strongest white-box risk upper bound plus defended comparator. | Not a final paper-level benchmark. |
+| ReDiffuse | candidate | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-probe compatible. | Not admitted; scoring-contract parity is unresolved. |
+| CLiD / H2 / simple-distance / variation / semantic-aux | hold or candidate-only | Useful diagnostics and bounded candidates. | No GPU task unless a new protocol/data contract clears a CPU preflight. |
 
-## Next Steps
+## Current Gate
 
-Proceed with ReDiffuse compatibility review before scheduling another model
-run. The immediate goal is to determine whether the collaborator bundle can
-reproduce a small CIFAR10 membership-inference packet and whether its protocol
-can be compared against the existing PIA/SecMI line without changing output
-schemas. Do not promote the 750k checkpoint or ReDiffuse runner until a real
-attack run produces metrics with provenance, split, and low-FPR fields.
-The next concrete step is a CPU-first scoring-contract review: run the newly
-integrated collaborator-style second-stage ResNet scorer, then decide whether
-ReDiffuse should be compared with PIA/SecMI as paper-faithful ReDiffuse or kept
-as a separate direct-distance Research baseline.
+The only released next GPU candidate is:
 
-Recon product-consumable strengthening is complete for the current admitted
-row. H2 is held for cross-asset
-work because SD/CelebA text-to-image is protocol-incompatible with H2
-response-strength. `variation` lacks a real query set and endpoint. CLiD is now
-hold-candidate: its 100/100 prompt-conditioned packet is strong and
-repeat-stable, but fixed-prompt, swapped-prompt, within-split shuffle,
-prompt-text-only, and attribution controls show that the signal depends on an
-unstable prompt-conditioned auxiliary path. Do not schedule another CLiD GPU
-packet without a new protocol that isolates image identity from
-prompt-conditioned behavior. The recon CPU contract is now frozen in
-[docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md).
-The recon code path now emits complete low-FPR metric fields, including
-`TPR@0.1%FPR`. A bounded public-100 step30 rerun plus artifact re-summarization
-now yields a coherent upstream-threshold candidate packet: `AUC = 0.837`,
-`ASR = 0.74`, `TPR@1%FPR = 0.22`, and `TPR@0.1%FPR = 0.11`. Product-row
-promotion is complete and recorded in
-[docs/product-bridge/recon-product-validation-handoff.md](docs/product-bridge/recon-product-validation-handoff.md).
-The H2 image-to-image micro-packet has run. The protocol is runnable, but the H2
-multi-strength logistic curve does not beat the same-cache simple distance
-comparator. The result is recorded in
-[docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md).
-H2 remains candidate-only and should not be scaled as-is. The next CPU decision
-has now reviewed the simple img2img distance signal. High-strength simple
-distance is stronger than H2 logistic on the frozen cache (`AUC = 0.92`,
-`ASR = 0.90`, 4/10 TP at 0 FP), but cross-strength rank stability is incomplete.
-The review is recorded in
-[docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md).
-Do not schedule another GPU packet until the stability contract is frozen.
-The stability contract is now frozen as a non-overlapping `derived-public-25`
-offset-10 packet with one high-strength simple-distance scorer. See
-[docs/evidence/h2-img2img-simple-distance-stability-contract.md](docs/evidence/h2-img2img-simple-distance-stability-contract.md).
-That packet passed: `AUC = 0.99`, `ASR = 0.95`, and 9/10 member true positives
-at 0 false positives on the finite 10/10 split. See
-[docs/evidence/h2-img2img-simple-distance-stability-result.md](docs/evidence/h2-img2img-simple-distance-stability-result.md).
-The simple image-to-image distance signal passed its `25/25` admission-scale
-packet on `derived-public-50` positions `[20, 45)`: `AUC = 0.8768`,
-`ASR = 0.84`, and 11/25 member true positives at 0 false positives. See
-[docs/evidence/h2-img2img-simple-distance-admission-result.md](docs/evidence/h2-img2img-simple-distance-admission-result.md).
-This promotes the signal to bounded single-asset black-box evidence, not a
-conditional-diffusion generalization and not H2 response-strength promotion.
-The recon-vs-simple-distance product bridge comparison is complete:
-simple-distance is not product-row ready and recon remains the admitted
-black-box Platform row. See
-[docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](docs/product-bridge/h2-simple-distance-product-bridge-comparison.md).
-The second-asset simple-distance portability preflight is also complete:
-current local assets do not provide a valid second image-to-image or
-repeated-response contract. See
-[docs/evidence/h2-simple-distance-portability-preflight.md](docs/evidence/h2-simple-distance-portability-preflight.md).
-The recon product row now has a system-consumable validation guard that prevents
-the unified table from silently dropping metric-source, strict-tail, source, or
-boundary fields. See
-[docs/evidence/recon-product-row-validation-guard.md](docs/evidence/recon-product-row-validation-guard.md).
-The admitted recon row is now also exported as a checked product evidence card
-for Platform and Runtime consumers. See
-[docs/product-bridge/recon-product-evidence-card.md](docs/product-bridge/recon-product-evidence-card.md).
-The first non-recon follow-up adds an executable variation query-contract audit.
-It is blocked because the real member/nonmember query-image set and endpoint are
-not present. See
-[docs/evidence/variation-query-contract-audit.md](docs/evidence/variation-query-contract-audit.md).
-The semantic-auxiliary classifier lane has also been reviewed against a
-low-FPR promotion gate. It is negative-but-useful: the best auxiliary gain over
-`mean_cos` is `0.001953`, below the `0.01` promotion gate, so no semantic-aux
-GPU packet is selected. See
-[docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md).
-The admitted recon row now has a finite-sample confidence review. It remains
-the black-box product row, but strict-tail wording must stay finite-count:
-public-100 zero-FP evidence does not calibrate a continuous `0.1%` FPR operating
-point at 95% confidence. See
-[docs/evidence/recon-tail-confidence-review.md](docs/evidence/recon-tail-confidence-review.md).
-No next GPU task is selected.
+```powershell
+conda run -n diffaudit-research python -X utf8 -m diffaudit run-rediffuse-runtime-packet `
+  --workspace workspaces/gray-box/runs/rediffuse-cifar10-750k-resnet-parity-20260510-gpu-64 `
+  --device cuda `
+  --max-samples 64 `
+  --batch-size 8 `
+  --attack-num 1 `
+  --interval 200 `
+  --average 10 `
+  --k 100 `
+  --scoring-mode resnet `
+  --scorer-train-portion 0.2 `
+  --scorer-epochs 15 `
+  --scorer-batch-size 128
+```
 
-## Key Documents
+Success criteria:
+
+- `status = ready`
+- same CIFAR10 ratio0.5 split hash:
+  `aca922ecee25ef00dc6b6377ebaf7875dfcc77c2cdfe27c873b26a65134aa0c0`
+- `checkpoint_step = 750000`
+- `scoring_mode = resnet`
+- four metrics present: `AUC`, `ASR`, `TPR@1%FPR`, `TPR@0.1%FPR`
+- ResNet train/test counts recorded
+- verdict states whether ResNet parity is viable, candidate-only, or negative
+
+Stop conditions:
+
+- CUDA unavailable or memory pressure appears
+- ResNet scorer is reversed or near-random at 64/64
+- output lacks low-FPR fields, split identity, checkpoint step, or scorer
+  contract fields
+- result would require Platform/Runtime schema changes before a product-bridge
+  handoff exists
+
+## Next Decision Contract
+
+After the 750k ResNet 64/64 parity packet:
+
+1. If ResNet parity is positive and not reversed, run a 800k ReDiffuse
+   direct-distance sanity packet before any PIA/SecMI comparison.
+2. If ResNet parity is weak or reversed, freeze ReDiffuse as
+   `candidate-only / scoring-contract unresolved` and keep direct-distance as a
+   separate Research surface.
+3. Do not update `docs/evidence/admitted-results-summary.md` unless a later
+   reviewed packet is explicitly promoted.
+4. Do not change Platform or Runtime schemas in this cycle.
+
+## Long-Running Goal Loop
+
+Every autonomous research cycle must follow this loop:
+
+1. `review`: read this roadmap, reproduction status, admitted results,
+   workspace evidence index, challenger queue, and the relevant workspace plan.
+2. `select`: choose one bounded question; keep at most one active GPU task.
+3. `preflight`: freeze hypothesis, assets, split, metrics, falsifier, GPU cap,
+   output path, and stop conditions.
+4. `run`: start with CPU/tiny smoke; run at most one bounded GPU packet.
+5. `verdict`: classify as `admitted`, `candidate-only`, `hold`, or
+   `negative-but-useful`.
+6. `sync`: update the evidence note, `ROADMAP.md`,
+   `workspaces/implementation/challenger-queue.md`, and the relevant workspace
+   plan.
+7. `next`: set `next_gpu_candidate = none` unless the next bounded packet is
+   explicitly released.
+
+## Current Sidecars
+
+| Sidecar | Mode | Why |
+| --- | --- | --- |
+| ReDiffuse 800k runtime-probe note | CPU-only | 800k can load under the ReDiffuse bundle, but metrics are not run yet. |
+| CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
+| Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
+| Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
+
+## Recent Verdicts
+
+| Item | Verdict | Evidence |
+| --- | --- | --- |
+| ReDiffuse collaborator bundle intake | positive intake, candidate-only | [docs/evidence/rediffuse-collaborator-bundle-intake.md](docs/evidence/rediffuse-collaborator-bundle-intake.md) |
+| ReDiffuse 750k direct-distance 64/64 | positive compatibility packet, not admitted | [docs/evidence/rediffuse-cifar10-small-packet.md](docs/evidence/rediffuse-cifar10-small-packet.md) |
+| ReDiffuse 800k runtime probe | runtime-compatible, metrics not run | [docs/evidence/rediffuse-800k-runtime-probe.md](docs/evidence/rediffuse-800k-runtime-probe.md) |
+| Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
+| Semantic-aux low-FPR review | negative-but-useful | [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md) |
+
+## Key Source Documents
 
 - Project overview: [README.md](README.md)
 - Documentation index: [docs/README.md](docs/README.md)
 - Experiment status: [docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md)
-- CLiD score gate: [docs/evidence/clid-score-schema-gate.md](docs/evidence/clid-score-schema-gate.md)
-- CLiD prompt boundary: [docs/evidence/clid-prompt-conditioning-boundary.md](docs/evidence/clid-prompt-conditioning-boundary.md)
-- CLiD prompt-control contract: [docs/evidence/clid-adaptive-prompt-perturbation-contract.md](docs/evidence/clid-adaptive-prompt-perturbation-contract.md)
-- CLiD swapped-prompt control: [docs/evidence/clid-swapped-prompt-control.md](docs/evidence/clid-swapped-prompt-control.md)
-- CLiD within-split shuffle control: [docs/evidence/clid-within-split-shuffle-control.md](docs/evidence/clid-within-split-shuffle-control.md)
-- CLiD prompt-text-only review: [docs/evidence/clid-prompt-text-only-review.md](docs/evidence/clid-prompt-text-only-review.md)
-- CLiD control attribution: [docs/evidence/clid-control-attribution.md](docs/evidence/clid-control-attribution.md)
-- Non-CLiD black-box reselection: [docs/evidence/non-clid-blackbox-reselection.md](docs/evidence/non-clid-blackbox-reselection.md)
-- Variation query contract audit: [docs/evidence/variation-query-contract-audit.md](docs/evidence/variation-query-contract-audit.md)
-- Semantic-aux low-FPR review: [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md)
-- H2 image-to-image contract: [docs/evidence/h2-image-to-image-contract.md](docs/evidence/h2-image-to-image-contract.md)
-- H2 image-to-image micro result: [docs/evidence/h2-img2img-micro-result.md](docs/evidence/h2-img2img-micro-result.md)
-- H2 simple-distance review: [docs/evidence/h2-img2img-simple-distance-review.md](docs/evidence/h2-img2img-simple-distance-review.md)
-- H2 simple-distance stability contract: [docs/evidence/h2-img2img-simple-distance-stability-contract.md](docs/evidence/h2-img2img-simple-distance-stability-contract.md)
-- H2 simple-distance stability result: [docs/evidence/h2-img2img-simple-distance-stability-result.md](docs/evidence/h2-img2img-simple-distance-stability-result.md)
-- H2 simple-distance admission contract: [docs/evidence/h2-img2img-simple-distance-admission-contract.md](docs/evidence/h2-img2img-simple-distance-admission-contract.md)
-- H2 simple-distance admission result: [docs/evidence/h2-img2img-simple-distance-admission-result.md](docs/evidence/h2-img2img-simple-distance-admission-result.md)
-- H2 simple-distance portability preflight: [docs/evidence/h2-simple-distance-portability-preflight.md](docs/evidence/h2-simple-distance-portability-preflight.md)
-- Recon product validation contract: [docs/evidence/recon-product-validation-contract.md](docs/evidence/recon-product-validation-contract.md)
-- Recon product validation result: [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md)
-- Recon tail confidence review: [docs/evidence/recon-tail-confidence-review.md](docs/evidence/recon-tail-confidence-review.md)
-- ReDiffuse collaborator bundle intake: [docs/evidence/rediffuse-collaborator-bundle-intake.md](docs/evidence/rediffuse-collaborator-bundle-intake.md)
-- ReDiffuse collaborator integration report: [docs/evidence/rediffuse-collaborator-integration-report.md](docs/evidence/rediffuse-collaborator-integration-report.md)
-- ReDiffuse runtime smoke result: [docs/evidence/rediffuse-runtime-smoke-result.md](docs/evidence/rediffuse-runtime-smoke-result.md)
-- ReDiffuse CIFAR10 small packet: [docs/evidence/rediffuse-cifar10-small-packet.md](docs/evidence/rediffuse-cifar10-small-packet.md)
-- Recon product row validation guard: [docs/evidence/recon-product-row-validation-guard.md](docs/evidence/recon-product-row-validation-guard.md)
-- Platform integration: [docs/product-bridge/README.md](docs/product-bridge/README.md)
-- Recon product evidence card: [docs/product-bridge/recon-product-evidence-card.md](docs/product-bridge/recon-product-evidence-card.md)
-- H2 simple-distance product bridge comparison: [docs/product-bridge/h2-simple-distance-product-bridge-comparison.md](docs/product-bridge/h2-simple-distance-product-bridge-comparison.md)
+- Verified results: [docs/evidence/admitted-results-summary.md](docs/evidence/admitted-results-summary.md)
+- Innovation map: [docs/evidence/innovation-evidence-map.md](docs/evidence/innovation-evidence-map.md)
+- Workspace index: [docs/evidence/workspace-evidence-index.md](docs/evidence/workspace-evidence-index.md)
+- Active queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)
+- Gray-box plan: [workspaces/gray-box/plan.md](workspaces/gray-box/plan.md)
+- Product bridge: [docs/product-bridge/README.md](docs/product-bridge/README.md)
 - Research governance: [docs/governance/research-governance.md](docs/governance/research-governance.md)
-- Active task queue: [workspaces/implementation/challenger-queue.md](workspaces/implementation/challenger-queue.md)
 
 ## Platform and Runtime Boundary
 
-No Platform or Runtime schema changes are needed for the current cleanup. If a
-future result changes exported fields, report format, or recommendation logic,
-create a handoff note under `docs/product-bridge/` before changing sibling
-repositories.
+No Platform or Runtime schema changes are needed for the current ReDiffuse
+parity cycle. If a future result changes exported fields, report format, or
+recommendation logic, create a handoff note under `docs/product-bridge/` before
+changing sibling repositories.
