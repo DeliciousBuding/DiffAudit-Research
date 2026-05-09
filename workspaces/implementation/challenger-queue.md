@@ -7,9 +7,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `non-recon black-box low-FPR reselection`
+- Active work: `recon finite-tail confidence hardening`
 - Next GPU task: `none selected after the 25/25 admission packet`
-- CPU work: `semantic-auxiliary low-FPR review and next-lane clarification`
+- CPU work: `strict-tail confidence review for the admitted recon row`
 - Gray-box: paused unless a new finding changes priorities
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
@@ -78,6 +78,11 @@ The semantic-auxiliary classifier follow-up is closed negative-but-useful:
 best auxiliary AUC gain over `mean_cos` is `0.001953`, below the `0.01`
 promotion gate, so no semantic-auxiliary GPU packet is selected. See
 [../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).
+The current CPU hardening task reviews finite-sample confidence bounds for the
+admitted recon tail counts. Recon remains admitted, but public-100 zero-FP
+evidence is finite-tail evidence rather than calibrated continuous sub-percent
+FPR. See
+[../../docs/evidence/recon-tail-confidence-review.md](../../docs/evidence/recon-tail-confidence-review.md).
 No GPU task is selected.
 
 ## Ready
@@ -188,6 +193,7 @@ No next CLiD GPU task is selected.
 | Black-box next-lane reselection, first pass | CLiD selected for bounded prompt-conditioned probing. Recon stayed admitted baseline; variation lacked real query assets; H2 portability needed image-conditioned protocol. |
 | CLiD prompt-conditioned probing | Hold-candidate. Strong original packet, but prompt controls and attribution block admission as general black-box evidence. |
 | Semantic-auxiliary low-FPR review | Negative-but-useful. Existing auxiliary fusion records do not clear the `0.01` AUC-gain promotion gate over `mean_cos`; no GPU packet selected. |
+| Recon tail confidence review | Admitted-finite-tail-only. Recon stays the black-box product row, but public-100 tail counts do not calibrate continuous sub-percent FPR. |
 | Local data boundary cleanup | Raw data and generated run outputs were moved out of the working tree. |
 | Architecture triage | Fixed dependency issues; added package initializers; aligned local checks with CI. |
 | Shared utility extraction | Metrics, JSON I/O, Gaussian helpers, and schedule helpers now have a package home. |
