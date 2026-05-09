@@ -49,6 +49,7 @@ This directory contains the public evidence overview.
 | [clid-prompt-text-only-review.md](clid-prompt-text-only-review.md) | Prompt-text-only nuisance baseline for the CLiD 100/100 bridge. |
 | [clid-control-attribution.md](clid-control-attribution.md) | Control-packet attribution comparing strict-tail retention and feature correlations. |
 | [research-boundary-card.md](research-boundary-card.md) | Limitations card for downstream consumers. |
+| [pia-stochastic-dropout-truth-hardening-review.md](pia-stochastic-dropout-truth-hardening-review.md) | CPU review hardening admitted PIA + stochastic-dropout formal, adaptive, and low-FPR boundaries. |
 | [workspace-evidence-index.md](workspace-evidence-index.md) | Where active and archived workspace evidence lives. |
 
 Evidence labels define the project boundary. Do not promote smoke tests,

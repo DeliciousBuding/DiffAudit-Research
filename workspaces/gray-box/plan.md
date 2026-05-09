@@ -2,7 +2,8 @@
 
 ## Status
 
-- `PIA`: strongest admitted gray-box attack + defense method.
+- `PIA`: strongest admitted local DDPM/CIFAR10 gray-box attack plus
+  provisional defended comparator.
 - `SecMI`: supporting reference and corroboration line, not the primary
   headline.
 - `TMIA-DM`: strong gray-box alternative, secondary to PIA.
@@ -28,9 +29,9 @@ Current evidence:
 
 ## Next Action
 
-No gray-box GPU task is released. Keep `PIA` as the admitted gray-box line and
-return the active Research slot to I-A truth-hardening unless a new ReDiffuse
-scorer or checkpoint-portability hypothesis is written first.
+No gray-box GPU task is released. Keep `PIA` as the admitted gray-box line with
+bounded adaptive and finite low-FPR caveats. Continue outside gray-box unless a
+new ReDiffuse scorer or checkpoint-portability hypothesis is written first.
 
 ## GPU Policy
 
