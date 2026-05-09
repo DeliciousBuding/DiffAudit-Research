@@ -95,7 +95,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| I-A truth-hardening review | CPU-only | Keep admitted PIA + stochastic-dropout claims formal, adaptive-aware, low-FPR-aware, and finite-sample bounded. |
+| non-gray-box reselection watch | CPU-only | Decide on the next non-gray-box lane if I-A truth-hardening completes without reducible issues. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |

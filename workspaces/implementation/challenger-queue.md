@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| I-A truth-hardening | gray-box / defense | CPU-only | admitted PIA + stochastic-dropout needs formal, adaptive-aware, low-FPR-aware wording | no active inconsistency identified yet | audit admitted summary and innovation map |
+| non-gray-box reselection watch | cross-track | CPU-only | I-A truth-hardening completes | active I-A review | monitor I-A progress |
 | ReDiffuse future reopen | gray-box | needs hypothesis | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | hold until new scorer or checkpoint-portability contract exists |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
