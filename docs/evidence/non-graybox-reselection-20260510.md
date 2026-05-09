@@ -22,14 +22,15 @@ which non-gray-box lane should receive the next active research slot?
 
 ## Selection
 
-Select a CPU-only black-box response-strength acquisition audit.
+Select a CPU-only `black-box response-contract acquisition audit`.
 
 Rationale:
 
 - It is the only non-gray-box path that could reopen a meaningful GPU task
   without repeating a closed observable.
-- It directly targets the current blocker: lack of a compatible response
-  contract outside the existing DDPM/CIFAR10 packet.
+- It directly targets the current blocker: lack of a compatible
+  response-strength or simple-distance response contract outside the existing
+  DDPM/CIFAR10 packet.
 - It preserves low-FPR discipline because no execution is released until the
   audit freezes target asset identity, comparator surface, query budget,
   adaptive-attacker boundary, and low-FPR gate.
