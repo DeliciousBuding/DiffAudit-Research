@@ -32,6 +32,7 @@ This directory contains the public evidence overview.
 | [rediffuse-cifar10-small-packet.md](rediffuse-cifar10-small-packet.md) | Bounded 64/64 CIFAR10 candidate packet on the direct-distance ReDiffuse surface. |
 | [rediffuse-800k-runtime-probe.md](rediffuse-800k-runtime-probe.md) | CPU runtime compatibility probe for the existing PIA 800k checkpoint under the ReDiffuse adapter. |
 | [rediffuse-resnet-parity-packet.md](rediffuse-resnet-parity-packet.md) | Negative-but-useful 750k ResNet scoring-contract parity packet for ReDiffuse. |
+| [rediffuse-direct-distance-boundary-review.md](rediffuse-direct-distance-boundary-review.md) | CPU boundary review closing ReDiffuse direct-distance as candidate-only with no automatic 800k GPU release. |
 | [recon-product-row-validation-guard.md](recon-product-row-validation-guard.md) | System-consumable guard for the admitted recon product row. |
 | [../product-bridge/recon-product-evidence-card.md](../product-bridge/recon-product-evidence-card.md) | Product-facing machine-readable evidence-card contract for the admitted recon row. |
 | [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |
