@@ -136,7 +136,7 @@ Every autonomous research cycle must follow this loop:
 
 ## Platform and Runtime Boundary
 
-No Platform or Runtime schema changes are needed for the current ReDiffuse
-parity cycle. If a future result changes exported fields, report format, or
-recommendation logic, create a handoff note under `docs/product-bridge/` before
-changing sibling repositories.
+No Platform or Runtime schema changes are needed for the current black-box
+response-contract acquisition state. If a future result changes exported
+fields, report format, or recommendation logic, create a handoff note under
+`docs/product-bridge/` before changing sibling repositories.

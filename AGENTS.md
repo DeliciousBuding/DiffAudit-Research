@@ -28,9 +28,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `ReDiffuse scoring-contract parity review`
-- Next GPU candidate: `ReDiffuse 750k ResNet 64/64 parity packet`
-- CPU work: `ReDiffuse 800k probe evidence sync` plus CLiD/variation boundary maintenance
+- Active work: `black-box response-contract asset acquisition: needs external package`
+- Next GPU candidate: none selected
+- CPU work: CLiD/variation boundary maintenance plus response-contract asset watch
+- ReDiffuse is closed as candidate-only / hold unless a new scorer or
+  checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
 - Only one GPU task may run at a time; every GPU task needs a frozen command,
   metric contract, stop condition, and evidence-note target.
