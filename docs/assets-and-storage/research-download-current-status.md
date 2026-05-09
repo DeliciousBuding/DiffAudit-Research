@@ -1,6 +1,6 @@
 # Research Download Current Status
 
-> Updated: `2026-04-30`
+> Updated: `2026-05-10`
 > Scope: only assets that are already local, currently being handled by Codex, or may still require user-side manual web actions.
 
 ---
@@ -121,6 +121,22 @@ Recommended location:
 - GitHub code repositories are `Research/external/` clones or vendored-code management, not part of the manual download list.
 - No new first-wave `OneDrive / Google Drive` manual download gaps exist.
 - Any future gated assets requiring manual web confirmation should be recorded in this file or [research-download-master-list.md](research-download-master-list.md) with direct links, license notes, and target paths.
+
+### 4.1 Black-Box Response-Contract Gap
+
+The black-box response-contract audit found no second compatible asset family
+ready for execution. The required acquisition package is now specified in
+[../evidence/blackbox-response-contract-asset-acquisition-spec.md](../evidence/blackbox-response-contract-asset-acquisition-spec.md).
+
+Current status:
+
+- `Download/black-box/datasets/variation-query-set` is missing.
+- SD1.5/CelebA image-to-image is locally CPU-eligible, but it is the same asset
+  family as the existing simple-distance packet and does not test portability.
+- A new package must provide member/nonmember query identities, response files
+  or replayable endpoint contract, controlled repeats, and integrity metadata.
+- No GPU task is released until the CPU preflight in the acquisition spec
+  passes.
 
 ---
 
