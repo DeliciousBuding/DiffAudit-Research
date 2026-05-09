@@ -4,7 +4,7 @@
 
 - Direction: black-box membership inference attacks.
 - Main method: `recon` is the admitted black-box product row and the selected
-  lane for further product-consumable hardening.
+  lane for finite-tail confidence hardening.
 - Supporting methods: `CLiD`, `variation`, `H2 response-strength`, and
   semantic-auxiliary classifiers.
 - Candidate method: simple image-to-image distance is bounded single-asset
@@ -34,6 +34,9 @@ Current recon validation contract:
 
 Current recon validation result:
 [../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
+
+Current recon tail confidence review:
+[../../docs/evidence/recon-tail-confidence-review.md](../../docs/evidence/recon-tail-confidence-review.md).
 
 Current H2 simple-distance boundary:
 [../../docs/evidence/h2-simple-distance-portability-preflight.md](../../docs/evidence/h2-simple-distance-portability-preflight.md).
