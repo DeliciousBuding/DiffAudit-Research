@@ -10,16 +10,17 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `ReDiffuse scoring-contract parity review` |
-| Current GPU candidate | `ReDiffuse 750k ResNet 64/64 parity packet` |
-| CPU sidecar | `ReDiffuse 800k probe evidence sync` plus CLiD/variation boundary maintenance |
+| Active work | `ReDiffuse post-parity contract review` |
+| Current GPU candidate | none selected |
+| CPU sidecar | `ReDiffuse direct-distance boundary review` plus CLiD/variation boundary maintenance |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: decide whether the collaborator `DDIMrediffuse` bundle can
-produce a paper-faithful gray-box baseline that is comparable with PIA/SecMI, or
-whether Research should keep the current `first_step_distance_mean` scorer as a
-separate candidate baseline.
+Current objective: close the ReDiffuse scoring-contract gate. The
+collaborator-style ResNet scorer ran on the 750k checkpoint but did not produce
+an interpretable membership signal. Research should keep the current
+`first_step_distance_mean` surface as candidate-only unless a new CPU contract
+justifies a different scorer hypothesis.
 
 ## Mainline Claims
 
@@ -28,12 +29,12 @@ separate candidate baseline.
 | Black-box `recon` | admitted | Current black-box product row and minimal-permission risk proof. | Public-100 strict-tail fields are finite-count evidence, not calibrated continuous sub-percent FPR. |
 | Gray-box `PIA` | admitted | Strongest gray-box attack + stochastic-dropout defense story. | Workspace-verified and adaptive-reviewed, but paper-aligned release provenance remains bounded. |
 | White-box `GSA + DPDM W-1` | admitted comparator | Strongest white-box risk upper bound plus defended comparator. | Not a final paper-level benchmark. |
-| ReDiffuse | candidate | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-probe compatible. | Not admitted; scoring-contract parity is unresolved. |
+| ReDiffuse | candidate-only | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-probe compatible; ResNet parity packet is negative. | Not admitted; current paper-faithful scoring parity is unresolved. |
 | CLiD / H2 / simple-distance / variation / semantic-aux | hold or candidate-only | Useful diagnostics and bounded candidates. | No GPU task unless a new protocol/data contract clears a CPU preflight. |
 
-## Current Gate
+## Current Gate Verdict
 
-The only released next GPU candidate is:
+The released 750k ResNet parity packet has completed:
 
 ```powershell
 conda run -n diffaudit-research python -X utf8 -m diffaudit run-rediffuse-runtime-packet `
@@ -51,38 +52,21 @@ conda run -n diffaudit-research python -X utf8 -m diffaudit run-rediffuse-runtim
   --scorer-batch-size 128
 ```
 
-Success criteria:
-
-- `status = ready`
-- same CIFAR10 ratio0.5 split hash:
-  `aca922ecee25ef00dc6b6377ebaf7875dfcc77c2cdfe27c873b26a65134aa0c0`
-- `checkpoint_step = 750000`
-- `scoring_mode = resnet`
-- four metrics present: `AUC`, `ASR`, `TPR@1%FPR`, `TPR@0.1%FPR`
-- ResNet train/test counts recorded
-- verdict states whether ResNet parity is viable, candidate-only, or negative
-
-Stop conditions:
-
-- CUDA unavailable or memory pressure appears
-- ResNet scorer is reversed or near-random at 64/64
-- output lacks low-FPR fields, split identity, checkpoint step, or scorer
-  contract fields
-- result would require Platform/Runtime schema changes before a product-bridge
-  handoff exists
+Result: `AUC = 0.411982`, `ASR = 0.538462`, `TPR@1%FPR = 0.0`,
+`TPR@0.1%FPR = 0.0`, and best held-out ResNet accuracy `0.5`. Runtime checks
+passed, but the scorer is not a viable parity surface at this gate. See
+[docs/evidence/rediffuse-resnet-parity-packet.md](docs/evidence/rediffuse-resnet-parity-packet.md).
 
 ## Next Decision Contract
 
-After the 750k ResNet 64/64 parity packet:
-
-1. If ResNet parity is positive and not reversed, run a 800k ReDiffuse
-   direct-distance sanity packet before any PIA/SecMI comparison.
-2. If ResNet parity is weak or reversed, freeze ReDiffuse as
-   `candidate-only / scoring-contract unresolved` and keep direct-distance as a
-   separate Research surface.
-3. Do not update `docs/evidence/admitted-results-summary.md` unless a later
+1. Freeze ReDiffuse as `candidate-only / scoring-contract unresolved`.
+2. Do not run an automatic 800k metrics packet from the failed ResNet parity
+   gate.
+3. Run a CPU-only direct-distance boundary review before any further ReDiffuse
+   GPU work.
+4. Do not update `docs/evidence/admitted-results-summary.md` unless a later
    reviewed packet is explicitly promoted.
-4. Do not change Platform or Runtime schemas in this cycle.
+5. Do not change Platform or Runtime schemas in this cycle.
 
 ## Long-Running Goal Loop
 
@@ -106,7 +90,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| ReDiffuse 800k runtime-probe note | CPU-only | 800k can load under the ReDiffuse bundle, but metrics are not run yet. |
+| ReDiffuse direct-distance boundary review | CPU-only | Decide whether the positive 750k direct-distance packet is worth a new hypothesis, or should close as separate candidate-only surface. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -118,6 +102,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse collaborator bundle intake | positive intake, candidate-only | [docs/evidence/rediffuse-collaborator-bundle-intake.md](docs/evidence/rediffuse-collaborator-bundle-intake.md) |
 | ReDiffuse 750k direct-distance 64/64 | positive compatibility packet, not admitted | [docs/evidence/rediffuse-cifar10-small-packet.md](docs/evidence/rediffuse-cifar10-small-packet.md) |
 | ReDiffuse 800k runtime probe | runtime-compatible, metrics not run | [docs/evidence/rediffuse-800k-runtime-probe.md](docs/evidence/rediffuse-800k-runtime-probe.md) |
+| ReDiffuse 750k ResNet parity | negative-but-useful; scoring-contract unresolved | [docs/evidence/rediffuse-resnet-parity-packet.md](docs/evidence/rediffuse-resnet-parity-packet.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
 | Semantic-aux low-FPR review | negative-but-useful | [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md) |
 

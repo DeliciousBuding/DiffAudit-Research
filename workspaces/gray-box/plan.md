@@ -20,60 +20,23 @@ Current evidence:
 - 750k ReDiffuse asset intake is positive and candidate-only.
 - 750k `first_step_distance_mean` 64/64 packet is positive as compatibility,
   but not comparable with PIA/SecMI admitted metrics.
-- 750k `resnet` scorer smoke runs, but only at a tiny held-out 4/4 scale.
+- 750k `resnet` 64/64 parity packet is negative: `AUC = 0.411982`,
+  `ASR = 0.538462`, and both low-FPR metrics are `0.0`.
 - 800k PIA checkpoint is ReDiffuse runtime-probe compatible on CPU; metrics are
   not run yet.
 
 ## Next Action
 
-Run one bounded 750k `64/64` parity packet with:
-
-- `--scoring-mode resnet`
-- `--max-samples 64`
-- `--batch-size 8`
-- `--attack-num 1`
-- `--interval 200`
-- `--average 10`
-- `--k 100`
-- `--scorer-train-portion 0.2`
-- `--scorer-epochs 15`
-- `--scorer-batch-size 128`
-
-Frozen command:
-
-```powershell
-conda run -n diffaudit-research python -X utf8 -m diffaudit run-rediffuse-runtime-packet `
-  --workspace workspaces/gray-box/runs/rediffuse-cifar10-750k-resnet-parity-20260510-gpu-64 `
-  --device cuda `
-  --max-samples 64 `
-  --batch-size 8 `
-  --attack-num 1 `
-  --interval 200 `
-  --average 10 `
-  --k 100 `
-  --scoring-mode resnet `
-  --scorer-train-portion 0.2 `
-  --scorer-epochs 15 `
-  --scorer-batch-size 128
-```
-
-Evidence target: `docs/evidence/rediffuse-resnet-parity-packet.md`.
-
-Stop conditions: CUDA unavailable, memory pressure, missing low-FPR fields,
-missing split/checkpoint/scorer provenance, reversed or near-random ResNet
-score orientation, or any result that would require Platform/Runtime schema
-changes before a handoff exists.
-
-After that packet, write a verdict note and decide whether to:
-
-1. keep ReDiffuse as paper-faithful enough for a same-contract 800k sanity
-   packet, or
-2. freeze it as candidate-only with unresolved scoring-contract parity.
+Run a CPU-only direct-distance boundary review before releasing any further
+ReDiffuse GPU work. The review must decide whether the positive
+`first_step_distance_mean` packet is a useful standalone Research surface or
+whether the ReDiffuse lane should close until a stronger collaborator-style
+scorer hypothesis appears.
 
 ## GPU Policy
 
-One GPU task is released: `ReDiffuse 750k ResNet 64/64 parity packet`.
+No ReDiffuse GPU task is released.
 
-Do not run 800k metrics, 128/128, 256/256, or 512/512 until the 750k parity
-verdict is documented. Keep PIA-related admitted claims aligned with
+Do not run 800k metrics, 128/128, 256/256, or 512/512 without a new CPU
+contract. Keep PIA-related admitted claims aligned with
 [../../docs/evidence/admitted-results-summary.md](../../docs/evidence/admitted-results-summary.md).
