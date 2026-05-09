@@ -39,7 +39,7 @@ Rationale:
 Create a CPU-only audit that answers:
 
 ```text
-Do local Download assets contain any second black-box response-strength or
+Do local `Download/` assets contain any second black-box response-strength or
 simple-distance contract with member/nonmember query images, observable
 responses, controlled repeats, and a documented query budget?
 ```
