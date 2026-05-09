@@ -36,9 +36,13 @@ simple-distance product bridge comparison keeps that signal as Research
 evidence only, and the second-asset portability preflight is blocked by missing
 query-image/response-contract assets. Variation now has an executable query
 contract audit, but it is blocked by missing real member/nonmember query images
-and endpoint. The black-box response-contract acquisition audit also closes as
+and endpoint.
+
+The black-box response-contract acquisition audit also closes as
 `needs-assets`: SD1.5/CelebA image-to-image is CPU-eligible but is the same
 asset family as the existing simple-distance evidence, while variation and
-Kandinsky/Pokemon lack the required split/endpoint contract. The semantic-auxiliary classifier lane also fails promotion:
+Kandinsky/Pokemon lack the required split/endpoint contract.
+
+The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
 GPU candidate is not selected; CLiD remains hold-candidate.

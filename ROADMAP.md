@@ -67,7 +67,9 @@ packet because it would only test a Research-specific proxy surface. See
 2. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
 3. Non-gray-box reselection selected a CPU-only black-box response-contract
-   acquisition audit. It closed as `needs-assets`, not GPU-ready. See
+   acquisition audit. It closed as `needs-assets`, not GPU-ready; see
+   [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
+   for the audit result and
    [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
 4. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
