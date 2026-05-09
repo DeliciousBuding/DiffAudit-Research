@@ -10,17 +10,16 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `I-A truth-hardening CPU review` |
+| Active work | `black-box response-contract acquisition audit` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CLiD/variation boundary maintenance and non-gray-box reselection watch |
+| CPU sidecar | CLiD/variation boundary maintenance |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: return from ReDiffuse to CPU-first truth-hardening. The
-collaborator-style ResNet scorer ran on the 750k checkpoint but did not produce
-an interpretable membership signal. The direct-distance surface is now closed
-as candidate-only with no 800k GPU release. See
-[docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md).
+Current objective: audit whether local assets contain a compatible second
+black-box response contract for response-strength or simple-distance work. This
+follows the non-gray-box reselection review and releases no GPU task. See
+[docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
 
 ## Mainline Claims
 
@@ -67,7 +66,9 @@ packet because it would only test a Research-specific proxy surface. See
 1. Do not run ReDiffuse GPU work without a new CPU contract.
 2. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
-3. Next active task: CPU-first non-gray-box reselection.
+3. Non-gray-box reselection selected a CPU-only black-box response-contract
+   acquisition audit. See
+   [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
 4. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
 5. Do not change Platform or Runtime schemas in this cycle.
@@ -94,7 +95,6 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| non-gray-box reselection | CPU-only | Select the next non-gray-box lane after I-A boundary hardening completed without a GPU release. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -109,6 +109,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse 750k ResNet parity | negative-but-useful; scoring-contract unresolved | [docs/evidence/rediffuse-resnet-parity-packet.md](docs/evidence/rediffuse-resnet-parity-packet.md) |
 | ReDiffuse direct-distance boundary | closed as candidate-only; no GPU release | [docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md) |
 | PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
+| Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
 | Semantic-aux low-FPR review | negative-but-useful | [docs/evidence/semantic-aux-low-fpr-review.md](docs/evidence/semantic-aux-low-fpr-review.md) |
 
