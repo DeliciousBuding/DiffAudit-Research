@@ -43,10 +43,11 @@ auxiliary.
 - Admitted black-box line: `recon`
 - Admitted gray-box line: `PIA + stochastic-dropout`
 - Admitted white-box comparator line: `GSA + DPDM W-1`
-- Active work as of 2026-05-10: `ReDiffuse scoring-contract parity review`
-- Released next GPU candidate as of 2026-05-10:
-  `ReDiffuse 750k ResNet 64/64 parity packet`
+- Active work as of 2026-05-10: `black-box response-contract asset acquisition: needs external package`
+- Next GPU candidate as of 2026-05-10: none selected
 - Non-gray-box GPU candidate: none selected
+- ReDiffuse is candidate-only / hold after the negative ResNet parity packet
+  and direct-distance boundary review.
 - Platform/Runtime impact: none until a reviewed product-bridge handoff says
   otherwise
 
