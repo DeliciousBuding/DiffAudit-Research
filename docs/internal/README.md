@@ -15,3 +15,6 @@ It may contain:
 Do not link these files as product copy. If a finding becomes public-facing,
 rewrite it into [../evidence/](../evidence/) or
 [../product-bridge/](../product-bridge/) with explicit evidence status.
+
+Current long-running goal prompt:
+[research-autonomous-execution-prompt.md](research-autonomous-execution-prompt.md).
