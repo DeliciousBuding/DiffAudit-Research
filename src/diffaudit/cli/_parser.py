@@ -69,6 +69,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="path to PIA DDPM member split npz files",
     )
 
+    rediffuse_asset_probe_parser = subparsers.add_parser(
+        "probe-rediffuse-assets",
+        help="inspect collaborator ReDiffuse asset readiness without running the attack",
+    )
+    rediffuse_asset_probe_parser.add_argument("--bundle-root", default=None)
+    rediffuse_asset_probe_parser.add_argument("--checkpoint-path", default=None)
+    rediffuse_asset_probe_parser.add_argument("--dataset-root", default=None)
+
     clid_asset_probe_parser = subparsers.add_parser(
         "probe-clid-assets",
         help="inspect CLiD asset readiness without importing the runtime",
@@ -616,6 +624,19 @@ def build_parser() -> argparse.ArgumentParser:
         help="device used for the runtime probe",
     )
 
+    rediffuse_runtime_probe_parser = subparsers.add_parser(
+        "runtime-probe-rediffuse",
+        help="load the collaborator ReDiffuse bundle, checkpoint, and attacker without scoring a dataset packet",
+    )
+    rediffuse_runtime_probe_parser.add_argument("--bundle-root", default=None)
+    rediffuse_runtime_probe_parser.add_argument("--checkpoint-path", default=None)
+    rediffuse_runtime_probe_parser.add_argument("--dataset-root", default=None)
+    rediffuse_runtime_probe_parser.add_argument("--device", default="cpu")
+    rediffuse_runtime_probe_parser.add_argument("--attack-num", type=int, default=1)
+    rediffuse_runtime_probe_parser.add_argument("--interval", type=int, default=200)
+    rediffuse_runtime_probe_parser.add_argument("--average", type=int, default=10)
+    rediffuse_runtime_probe_parser.add_argument("--k", type=int, default=100)
+
     pia_runtime_preview_parser = subparsers.add_parser(
         "runtime-preview-pia",
         help="run a real-data PIA preview using member/non-member batches from the configured dataset root",
@@ -799,6 +820,59 @@ def build_parser() -> argparse.ArgumentParser:
         default="cpu",
         help="device used for the runtime smoke run",
     )
+
+    rediffuse_runtime_smoke_parser = subparsers.add_parser(
+        "run-rediffuse-runtime-smoke",
+        help="run a tiny collaborator ReDiffuse compatibility packet",
+    )
+    rediffuse_runtime_smoke_parser.add_argument("--workspace", required=True)
+    rediffuse_runtime_smoke_parser.add_argument("--bundle-root", default=None)
+    rediffuse_runtime_smoke_parser.add_argument("--checkpoint-path", default=None)
+    rediffuse_runtime_smoke_parser.add_argument("--dataset-root", default=None)
+    rediffuse_runtime_smoke_parser.add_argument("--device", default="cpu")
+    rediffuse_runtime_smoke_parser.add_argument("--max-samples", type=int, default=8)
+    rediffuse_runtime_smoke_parser.add_argument("--batch-size", type=int, default=4)
+    rediffuse_runtime_smoke_parser.add_argument("--attack-num", type=int, default=1)
+    rediffuse_runtime_smoke_parser.add_argument("--interval", type=int, default=200)
+    rediffuse_runtime_smoke_parser.add_argument("--average", type=int, default=10)
+    rediffuse_runtime_smoke_parser.add_argument("--k", type=int, default=100)
+    rediffuse_runtime_smoke_parser.add_argument("--norm", type=int, default=1)
+    rediffuse_runtime_smoke_parser.add_argument(
+        "--scoring-mode",
+        choices=["first_step_distance_mean", "direct-distance", "resnet"],
+        default="first_step_distance_mean",
+    )
+    rediffuse_runtime_smoke_parser.add_argument("--scorer-train-portion", type=float, default=0.2)
+    rediffuse_runtime_smoke_parser.add_argument("--scorer-epochs", type=int, default=15)
+    rediffuse_runtime_smoke_parser.add_argument("--scorer-lr", type=float, default=0.001)
+    rediffuse_runtime_smoke_parser.add_argument("--scorer-batch-size", type=int, default=128)
+
+    rediffuse_runtime_packet_parser = subparsers.add_parser(
+        "run-rediffuse-runtime-packet",
+        help="run a bounded collaborator ReDiffuse CIFAR10 candidate packet",
+    )
+    rediffuse_runtime_packet_parser.add_argument("--workspace", required=True)
+    rediffuse_runtime_packet_parser.add_argument("--bundle-root", default=None)
+    rediffuse_runtime_packet_parser.add_argument("--checkpoint-path", default=None)
+    rediffuse_runtime_packet_parser.add_argument("--dataset-root", default=None)
+    rediffuse_runtime_packet_parser.add_argument("--device", default="cpu")
+    rediffuse_runtime_packet_parser.add_argument("--max-samples", type=int, default=64)
+    rediffuse_runtime_packet_parser.add_argument("--batch-size", type=int, default=8)
+    rediffuse_runtime_packet_parser.add_argument("--attack-num", type=int, default=1)
+    rediffuse_runtime_packet_parser.add_argument("--interval", type=int, default=200)
+    rediffuse_runtime_packet_parser.add_argument("--average", type=int, default=10)
+    rediffuse_runtime_packet_parser.add_argument("--k", type=int, default=100)
+    rediffuse_runtime_packet_parser.add_argument("--norm", type=int, default=1)
+    rediffuse_runtime_packet_parser.add_argument(
+        "--scoring-mode",
+        choices=["first_step_distance_mean", "direct-distance", "resnet"],
+        default="first_step_distance_mean",
+    )
+    rediffuse_runtime_packet_parser.add_argument("--scorer-train-portion", type=float, default=0.2)
+    rediffuse_runtime_packet_parser.add_argument("--scorer-epochs", type=int, default=15)
+    rediffuse_runtime_packet_parser.add_argument("--scorer-lr", type=float, default=0.001)
+    rediffuse_runtime_packet_parser.add_argument("--scorer-batch-size", type=int, default=128)
+    rediffuse_runtime_packet_parser.add_argument("--provenance-status", default="collaborator-grounded")
 
     pia_runtime_mainline_parser = subparsers.add_parser(
         "run-pia-runtime-mainline",
