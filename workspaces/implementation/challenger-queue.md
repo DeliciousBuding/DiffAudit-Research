@@ -1,26 +1,53 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-01
+> Last refreshed: 2026-05-09
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Current State
 
-- Active work: `recon finite-tail confidence hardening`
-- Next GPU task: `none selected after the 25/25 admission packet`
-- CPU work: `strict-tail confidence review for the admitted recon row`
-- Gray-box: paused unless a new finding changes priorities
+- Active work: `ReDiffuse scoring-contract parity review`
+- Next GPU task: `none selected after the 64/64 ReDiffuse compatibility packet`
+- CPU work: `compare direct-distance adapter scoring against collaborator ResNet scorer`
+- Gray-box: reopened only for bounded baseline alignment; PIA remains the admitted line
 - Strongest recent candidate: response-strength black-box result on
   `DDPM/CIFAR10`; positive-but-bounded, not a `recon` replacement
 - Internal gray-box result: useful for research triage, not public evidence
 
 ## Active
 
+### ReDiffuse collaborator bundle compatibility review
+
+- `mode`: CPU-first, GPU-light only after path checks
+- `status`: active
+- `goal`: determine whether the collaborator `DDIMrediffuse` bundle can run as a comparable CIFAR10 membership-inference baseline against the existing PIA/SecMI line
+- `GPU`: none selected; first GPU run must be a tiny smoke, not a scale packet
+- `integration`: no Platform or Runtime schema change unless a reproduced packet needs a new admitted method field
+
+The bundle is stored outside Git under
+`<DIFFAUDIT_ROOT>/Download/shared/supplementary/collaborator-ddim-rediffuse-20260509/`.
+It includes the missing dependencies for the earlier single `attack.py`,
+including `components.py` with `ReDiffuseAttacker`, `model_unet.py`,
+`dataset_utils.py`, and `resnet.py`. The included `CIFAR10_train_ratio0.5.npz`
+matches the current PIA CIFAR10 split hash, and the bundled UNet loads the
+collaborator 750k checkpoint. See
+[../../docs/evidence/rediffuse-collaborator-bundle-intake.md](../../docs/evidence/rediffuse-collaborator-bundle-intake.md).
+
+Do not treat this as admitted evidence. The CPU `2/2` and CUDA `8/8`
+compatibility smokes have passed and are recorded in
+[../../docs/evidence/rediffuse-runtime-smoke-result.md](../../docs/evidence/rediffuse-runtime-smoke-result.md).
+A CUDA `64/64` direct-distance small packet has also run and is recorded in
+[../../docs/evidence/rediffuse-cifar10-small-packet.md](../../docs/evidence/rediffuse-cifar10-small-packet.md).
+The collaborator-style second-stage ResNet scorer is now integrated behind
+`--scoring-mode resnet`. Next action is to run a bounded parity packet with that
+mode. Do not compare the current direct-distance packet against PIA/SecMI
+admitted metrics without marking the scoring-mode difference.
+
 ### Non-recon black-box low-FPR reselection
 
 - `mode`: CPU-only decision
-- `status`: active
+- `status`: paused behind ReDiffuse intake
 - `goal`: decide whether any non-recon black-box lane is ready for a real low-FPR candidate packet after recon product hardening
 - `GPU`: none selected
 - `integration`: no Platform or Runtime schema change unless a concrete
