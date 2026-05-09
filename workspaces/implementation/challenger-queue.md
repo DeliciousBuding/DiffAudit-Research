@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `black-box response-contract asset acquisition: needs external package` |
+| Active work | `temporary resting state: needs external assets or new hypothesis` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CLiD/variation boundary maintenance |
+| CPU sidecar | none currently reducible |
 | Gray-box status | ReDiffuse is candidate-only / hold; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
@@ -29,15 +29,14 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Black-Box Response-Contract Asset Acquisition
+### Temporary Resting State
 
 - `mode`: CPU-only
-- `status`: needs-assets
-- `goal`: acquire or construct the minimal second response-contract asset
-  package needed to reopen black-box response-strength, simple-distance, or
-  variation execution.
-- `latest trigger`: local acquisition audit found no second compatible
-  response contract; same SD1.5/CelebA image-to-image is not enough.
+- `status`: resting until assets or a new hypothesis arrive
+- `goal`: avoid same-observable reruns and GPU release while all current lanes
+  are blocked, hold, or needs-assets.
+- `latest trigger`: the resting-state audit found no active GPU candidate and
+  no currently reducible CPU sidecar.
 - `GPU cap`: no GPU released.
 - `integration`: no Platform or Runtime schema change.
 
@@ -45,11 +44,14 @@ Current evidence:
 
 - [../../docs/evidence/blackbox-response-contract-acquisition-audit.md](../../docs/evidence/blackbox-response-contract-acquisition-audit.md)
 - [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
+- [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
 
-Required next evidence update after assets arrive:
+Restart conditions:
 
-- run the CPU preflight from the acquisition spec.
-- release no GPU task until the CPU gate passes.
+- a second response-contract asset package passes CPU preflight.
+- a new scorer, protocol, or observable hypothesis appears with a falsifier.
+- Platform or Runtime requests a concrete system-consumable sync not covered by
+  current admitted artifacts.
 
 ## Ready
 
@@ -130,6 +132,7 @@ Required next evidence update after assets arrive:
 
 | Task | Result |
 | --- | --- |
+| Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |
 | ReDiffuse collaborator bundle intake | Positive intake; complete enough for bounded compatibility review, not admitted evidence. |
 | ReDiffuse 750k direct-distance packet | Positive compatibility packet at 64/64; not comparable with PIA/SecMI without scoring-mode caveat. |
