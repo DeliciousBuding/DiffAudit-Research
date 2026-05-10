@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `post-tri-score reselection` |
+| Active work | `black-box second response-contract asset intake` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none; tri-score truth-hardening closed positive-but-bounded |
+| CPU sidecar | CPU-only package discovery; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box second response-contract acquisition | black-box | needs-assets | post-ReDiffuse reselection selected this lane; repository-level discovery found no ready package | missing second compatible response contract package | acquire or construct package matching `BB-DS-01` and `BB-SUP-03`, then rerun discovery and package preflight |
+| black-box second response-contract acquisition | black-box | needs-assets | post-tri-score intake refresh found no ready package | missing second compatible response contract package | acquire or construct package matching `BB-DS-01` and `BB-SUP-03`, then rerun discovery and package preflight |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
@@ -32,16 +32,14 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Tri-Score Reselection
+### Black-Box Second Response-Contract Asset Intake
 
 - `mode`: CPU-only
-- `status`: active
-- `goal`: select the next bounded Research question after ReDiffuse,
-  black-box response-contract discovery, GSA loss-score LR, and gray-box
-  tri-score truth-hardening all closed without a GPU release candidate.
-- `latest trigger`: tri-score truth-hardening survives as internal
-  positive-but-bounded evidence, but same-contract gray-box expansion would not
-  change the project story.
+- `status`: active; current verdict is `needs-assets`
+- `goal`: verify whether a paired second response-contract package exists in
+  the portable `Download/black-box` roots before any black-box GPU work.
+- `latest trigger`: post-tri-score reselection selected the only reducible
+  non-gray-box lane; discovery still finds no ready package.
 - `GPU cap`: none
 - `integration`: none
 
@@ -56,6 +54,7 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
 - [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md)
 - [../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md)
+- [../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
 - [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
 - [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
@@ -169,6 +168,7 @@ Restart conditions:
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |
 | Black-box response-contract discovery | needs-assets; discovery found no paired second response-contract package under black-box dataset/supplementary roots. |
+| Black-box response-contract second-asset intake | needs-assets; post-tri-score refresh found no ready paired package. |
 | ReDiffuse collaborator bundle intake | Positive intake; complete enough for bounded compatibility review, not admitted evidence. |
 | ReDiffuse 750k direct-distance packet | Positive compatibility packet at 64/64; not comparable with PIA/SecMI without scoring-mode caveat. |
 | Recon tail confidence review | Admitted-finite-tail-only; recon remains black-box product row. |
