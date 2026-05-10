@@ -10,16 +10,18 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `black-box response-contract package preflight` |
+| Active work | `ReDiffuse checkpoint-portability gate review` |
 | Current GPU candidate | none selected |
-| CPU sidecar | GSA LR stability closed negative; Kandinsky/Pokemon package preflight closed needs-assets |
+| CPU sidecar | ReDiffuse 800k portability shortcut closed blocked-by-scoring-contract |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: acquire or construct a true second response-contract
-package without replaying the existing SD1.5/CelebA family. The package-level
-Kandinsky/Pokemon preflight is executable and currently closes as
-`needs-assets`; no GPU task is released. See
+Current objective: prevent an 800k ReDiffuse metrics shortcut unless both
+checkpoint portability and the scorer contract are resolved. The CPU gate shows
+750k/800k checkpoint metadata and split hash are compatible, but release remains
+blocked by the unresolved scorer contract; no GPU task is released. See
+[docs/evidence/rediffuse-checkpoint-portability-gate.md](docs/evidence/rediffuse-checkpoint-portability-gate.md).
+The black-box response-contract package preflight remains `needs-assets`; see
 [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
 and
 [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md).
@@ -38,7 +40,7 @@ path as negative-but-useful; see
 | Black-box `recon` | admitted | Current black-box product row and minimal-permission risk proof. | Public-100 strict-tail fields are finite-count evidence, not calibrated continuous sub-percent FPR. |
 | Gray-box `PIA` | admitted | Strongest admitted local DDPM/CIFAR10 gray-box line; stochastic dropout is a provisional defended comparator. | Bounded repeated-query adaptive review only; low-FPR values are finite empirical tails, not calibrated sub-percent FPR. |
 | White-box `GSA + DPDM W-1` | admitted comparator | Strongest white-box risk upper bound plus defended comparator. | Not a final paper-level benchmark. |
-| ReDiffuse | candidate-only / hold | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-probe compatible; ResNet parity packet is negative; direct-distance boundary review blocks automatic 800k metrics. | Reopen only with a new scorer or checkpoint-portability hypothesis. |
+| ReDiffuse | candidate-only / hold | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-compatible, but checkpoint-portability gate is blocked by the unresolved scorer contract. | Reopen only with exact ResNet contract replay or a genuinely new non-direct-distance scorer hypothesis. |
 | CLiD / H2 / simple-distance / variation / semantic-aux | hold or candidate-only | Useful diagnostics and bounded candidates. | No GPU task unless a new protocol/data contract clears a CPU preflight. |
 
 ## Current Gate Verdict
@@ -70,6 +72,10 @@ passed, but the scorer is not a viable parity surface at this gate. See
 The follow-up direct-distance boundary review blocks an automatic 800k metrics
 packet because it would only test a Research-specific proxy surface. See
 [docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md).
+The checkpoint-portability gate confirms that 750k/800k metadata and the
+collaborator split are compatible, but it still blocks GPU because the
+paper-faithful scorer contract is unresolved. See
+[docs/evidence/rediffuse-checkpoint-portability-gate.md](docs/evidence/rediffuse-checkpoint-portability-gate.md).
 
 ## Next Decision Contract
 
@@ -123,6 +129,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse 800k runtime probe | runtime-compatible, metrics not run | [docs/evidence/rediffuse-800k-runtime-probe.md](docs/evidence/rediffuse-800k-runtime-probe.md) |
 | ReDiffuse 750k ResNet parity | negative-but-useful; scoring-contract unresolved | [docs/evidence/rediffuse-resnet-parity-packet.md](docs/evidence/rediffuse-resnet-parity-packet.md) |
 | ReDiffuse direct-distance boundary | closed as candidate-only; no GPU release | [docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md) |
+| ReDiffuse checkpoint-portability gate | blocked-by-scoring-contract; 800k metrics shortcut remains closed | [docs/evidence/rediffuse-checkpoint-portability-gate.md](docs/evidence/rediffuse-checkpoint-portability-gate.md) |
 | PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
 | Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
 | Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
