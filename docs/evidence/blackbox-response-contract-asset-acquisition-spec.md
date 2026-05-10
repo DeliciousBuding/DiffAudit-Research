@@ -96,6 +96,30 @@ second asset must add or configure an equivalent CPU probe before the first
 GPU-eligible verdict. Both the dataset/query split and the response or endpoint
 contract must pass CPU validation.
 
+To avoid hand-built partial packages, first dry-run the scaffold:
+
+```powershell
+python -X utf8 scripts/scaffold_response_contract_package.py `
+  --asset-id response-contract-<dataset>-<model>-YYYYMMDD `
+  --download-root ../Download `
+  --dataset-name <dataset> `
+  --model-identity <model-or-endpoint> `
+  --endpoint-mode image_to_image `
+  --repeat-count <fixed-repeat-count>
+```
+
+Only add `--create` after the package identity and repeat policy are final.
+The scaffold writes empty templates only; it does not satisfy the query,
+response, provenance, or integrity requirements by itself.
+
+To scan all current candidates:
+
+```powershell
+python -X utf8 scripts/discover_response_contract_packages.py `
+  --download-root ../Download `
+  --include-asset-id response-contract-<dataset>-<model>-YYYYMMDD
+```
+
 ## Verdict
 
 `needs-assets`.
