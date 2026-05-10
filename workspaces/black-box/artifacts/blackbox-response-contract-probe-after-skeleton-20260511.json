@@ -1,0 +1,84 @@
+{
+  "status": "needs_query_split",
+  "asset_id": "response-contract-pokemon-kandinsky-20260511",
+  "track": "black-box",
+  "method": "response-contract-package-preflight",
+  "min_split_count": 25,
+  "paths": {
+    "dataset_root": "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511",
+    "supplementary_root": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511",
+    "query_root": "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/query",
+    "response_root": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/responses",
+    "dataset_manifest": "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/manifest.json",
+    "endpoint_contract": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/endpoint_contract.json",
+    "response_manifest": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/response_manifest.json"
+  },
+  "counts": {
+    "query": {
+      "member": 0,
+      "nonmember": 0
+    },
+    "responses": {
+      "member": 0,
+      "nonmember": 0
+    },
+    "expected_responses": {
+      "member": 0,
+      "nonmember": 0
+    },
+    "response_coverage": {
+      "member": {
+        "ready": false,
+        "covered_queries": 0,
+        "missing_queries": [],
+        "source": "response_manifest.responses_by_query"
+      },
+      "nonmember": {
+        "ready": false,
+        "covered_queries": 0,
+        "missing_queries": [],
+        "source": "response_manifest.responses_by_query"
+      }
+    }
+  },
+  "parse_errors": {
+    "dataset_manifest": null,
+    "endpoint_contract": null,
+    "response_manifest": null
+  },
+  "contract": {
+    "endpoint_mode": "image_to_image",
+    "repeat_count": 1,
+    "controlled_repeats_or_seed_policy": true,
+    "response_observability": "image",
+    "dataset_name": "pokemon",
+    "model_identity": "kandinsky"
+  },
+  "checks": {
+    "dataset_root": true,
+    "supplementary_root": true,
+    "query_member_min_count": false,
+    "query_nonmember_min_count": false,
+    "member_ids_json": true,
+    "nonmember_ids_json": true,
+    "dataset_manifest": true,
+    "dataset_manifest_json_valid": true,
+    "endpoint_contract": true,
+    "endpoint_contract_json_valid": true,
+    "endpoint_mode_supported": true,
+    "repeat_count_valid": true,
+    "controlled_repeats_or_seed_policy": true,
+    "response_manifest": true,
+    "response_manifest_json_valid": true,
+    "response_member_count": false,
+    "response_nonmember_count": false
+  },
+  "missing": [
+    "query_member_min_count",
+    "query_nonmember_min_count",
+    "response_member_count",
+    "response_nonmember_count"
+  ],
+  "verdict": "needs-assets; member/nonmember query split is incomplete",
+  "next_action": "add at least the minimum member/nonmember query images and split metadata"
+}
