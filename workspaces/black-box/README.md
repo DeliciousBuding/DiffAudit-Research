@@ -44,6 +44,9 @@ Current H2 simple-distance boundary:
 Current variation query contract audit:
 [../../docs/evidence/variation-query-contract-audit.md](../../docs/evidence/variation-query-contract-audit.md).
 
+Current response-contract package preflight:
+[../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).
+
 Current semantic-auxiliary low-FPR review:
 [../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).
 
