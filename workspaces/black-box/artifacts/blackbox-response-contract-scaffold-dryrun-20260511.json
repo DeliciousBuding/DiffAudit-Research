@@ -1,0 +1,43 @@
+{
+  "status": "dry_run",
+  "asset_id": "response-contract-pokemon-kandinsky-20260511",
+  "track": "black-box",
+  "method": "response-contract-scaffold",
+  "download_root": "../Download",
+  "create": false,
+  "paths": {
+    "dataset_root": "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511",
+    "supplementary_root": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511"
+  },
+  "directories": [
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/query/member",
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/query/nonmember",
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/splits",
+    "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/responses/member",
+    "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/responses/nonmember"
+  ],
+  "template_files": [
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/splits/member_ids.json",
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/splits/nonmember_ids.json",
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/manifest.json",
+    "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/endpoint_contract.json",
+    "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/response_manifest.json"
+  ],
+  "would_create_directories": [
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/query/member",
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/query/nonmember",
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/splits",
+    "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/responses/member",
+    "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/responses/nonmember"
+  ],
+  "would_create_files": [
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/splits/member_ids.json",
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/splits/nonmember_ids.json",
+    "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/manifest.json",
+    "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/endpoint_contract.json",
+    "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/response_manifest.json"
+  ],
+  "existing_files": [],
+  "verdict": "dry-run only; rerun with --create to write the package skeleton",
+  "next_action": "add query images, split ids, endpoint provenance, responses, and integrity hashes before preflight"
+}

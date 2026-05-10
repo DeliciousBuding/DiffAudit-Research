@@ -28,8 +28,10 @@ This directory contains the public evidence overview.
 | [blackbox-response-contract-package-preflight.md](blackbox-response-contract-package-preflight.md) | Executable package-level preflight for the Kandinsky/Pokemon second-contract candidate. |
 | [blackbox-response-contract-discovery.md](blackbox-response-contract-discovery.md) | Repository-level discovery pass showing no paired second response-contract package is currently present. |
 | [blackbox-response-contract-second-asset-intake-20260511.md](blackbox-response-contract-second-asset-intake-20260511.md) | Post-tri-score intake refresh confirming no ready second response-contract package is present. |
+| [blackbox-response-contract-protocol-scaffold-20260511.md](blackbox-response-contract-protocol-scaffold-20260511.md) | CPU-only scaffold dry-run that freezes the next response-contract package handoff layout without releasing GPU work. |
 | [research-boundary-consumability-sync-20260510.md](research-boundary-consumability-sync-20260510.md) | Downstream-consumer boundary sync after ReDiffuse, tri-score, GSA LR, and response-contract closures. |
 | [ib-risk-targeted-unlearning-successor-scope.md](ib-risk-targeted-unlearning-successor-scope.md) | CPU scoping review that keeps I-B risk-targeted unlearning on hold until defended-shadow/adaptive review is specified. |
+| [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |
 | [research-resting-state-audit-20260510.md](research-resting-state-audit-20260510.md) | Current audit showing Research has no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | [gsa-loss-score-shadow-stability-review.md](gsa-loss-score-shadow-stability-review.md) | CPU-only leave-one-shadow-out review falsifying the immediate GSA loss-score LR distinct-scorer rescue path. |
 | [variation-query-contract-audit.md](variation-query-contract-audit.md) | Executable audit for deciding whether the variation black-box line has real query images and endpoint readiness. |
