@@ -50,7 +50,9 @@ creation roll the concrete candidate id forward from the missing 2026-05-10
 placeholder to `response-contract-pokemon-kandinsky-20260511` and freeze the
 next package handoff layout without releasing GPU. The query-source audit
 blocks local self-fill from existing weights/tensors. See
-[docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
+[docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md),
+[docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md),
+[docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](docs/evidence/blackbox-response-contract-skeleton-create-20260511.md),
 and
 [docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](docs/evidence/blackbox-response-contract-query-source-audit-20260511.md).
 The 750k

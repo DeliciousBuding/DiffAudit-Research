@@ -19,8 +19,11 @@ Get-ChildItem ../Download/black-box/supplementary/recon-assets -Recurse -File |
 ```
 
 ```powershell
-Get-ChildItem ../Download -Recurse -File |
-  Where-Object { $_.FullName -match 'pokemon|kandinsky|celeba|member|non_member|nonmember|query|response' }
+$roots = @("../Download/black-box", "../Download/shared")
+foreach ($root in $roots) {
+  Get-ChildItem $root -Recurse -File |
+    Where-Object { $_.FullName -match 'pokemon|kandinsky|celeba|member|non_member|nonmember|query|response' }
+}
 ```
 
 The audit is CPU-only and does not modify assets.
@@ -29,12 +32,12 @@ The audit is CPU-only and does not modify assets.
 
 | Root | Finding | Can fill skeleton? |
 | --- | --- | --- |
-| `Download/black-box/supplementary/recon-assets/public-kandinsky-pokemon/` | Contains LoRA/weight files and Hugging Face cache metadata only: `.safetensors`, `.metadata`, `.gitignore`, and `CACHEDIR.TAG`. No query images and no responses. | no |
-| `Download/black-box/supplementary/recon-assets/.../source-datasets/` | Contains recon protocol `dataset.pkl` files under CelebA target/shadow source datasets. | no; different protocol and not a Pokemon/Kandinsky response-contract package |
-| `Download/black-box/supplementary/recon-assets/.../derived-public-*` | Contains derived `.pt` tensors used by the admitted recon path. | no; tensor summaries are not query images or response files |
-| `Download/shared/datasets/celeba/` | Contains CelebA archives and annotations. | no for the current Pokemon/Kandinsky package; using it would require a new asset identity and response-capture contract |
-| `Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/` | Skeleton manifests and empty split files exist. | not ready |
-| `Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/` | Endpoint and response manifest templates exist; response folders are empty. | not ready |
+| `../Download/black-box/supplementary/recon-assets/public-kandinsky-pokemon/` | Contains LoRA/weight files and Hugging Face cache metadata only: `.safetensors`, `.metadata`, `.gitignore`, and `CACHEDIR.TAG`. No query images and no responses. | no |
+| `../Download/black-box/supplementary/recon-assets/.../source-datasets/` | Contains recon protocol `dataset.pkl` files under CelebA target/shadow source datasets. | no; different protocol and not a Pokemon/Kandinsky response-contract package |
+| `../Download/black-box/supplementary/recon-assets/.../derived-public-*` | Contains derived `.pt` tensors used by the admitted recon path. | no; tensor summaries are not query images or response files |
+| `../Download/shared/datasets/celeba/` | Contains CelebA archives and annotations. | no for the current Pokemon/Kandinsky package; using it would require a new asset identity and response-capture contract |
+| `../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/` | Skeleton manifests and empty split files exist. | not ready |
+| `../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/` | Endpoint and response manifest templates exist; response folders are empty. | not ready |
 
 ## Verdict
 
