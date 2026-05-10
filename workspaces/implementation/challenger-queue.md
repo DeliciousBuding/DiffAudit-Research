@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `research boundary-consumability sync` |
+| Active work | `I-B risk-targeted unlearning successor scope` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | admitted-vs-candidate boundary sync; no model run |
+| CPU sidecar | CPU-only defense successor scoping; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -30,19 +30,20 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | White-box distinct family | white-box | CPU-first | genuinely new observable, not same-family rescue | no new hypothesis | hold |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
+| I-B risk-targeted unlearning successor | defense | hold | full-split attack-side reviews show small reductions | no defended-shadow/adaptive attacker contract | freeze defended-shadow/adaptive review contract before any GPU |
 
 ## Active
 
-### Research Boundary-Consumability Sync
+### I-B Risk-Targeted Unlearning Successor Scope
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `synchronized`
-- `goal`: ensure downstream consumers distinguish admitted evidence from
-  candidate-only, negative, hold, and needs-assets Research states.
-- `latest trigger`: ReDiffuse, black-box response-contract intake, GSA LR, and
-  gray-box tri-score all closed without admitted promotion or GPU release.
+- `status`: active; current verdict is `hold`
+- `goal`: decide whether risk-targeted unlearning has a scientifically valid
+  successor after existing attack-side diagnostics.
+- `latest trigger`: boundary sync completed and no box-level GPU candidate is
+  selected.
 - `GPU cap`: none
-- `integration`: docs/product-bridge boundary only; no schema change
+- `integration`: none
 
 Current evidence:
 
@@ -59,6 +60,7 @@ Current evidence:
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
 - [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
 - [../../docs/evidence/research-boundary-consumability-sync-20260510.md](../../docs/evidence/research-boundary-consumability-sync-20260510.md)
+- [../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
 - [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
 - [../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md)
 
@@ -77,6 +79,8 @@ Restart conditions:
   falsifier and CPU preflight.
 - do not expose ReDiffuse, tri-score, cross-box fusion, GSA LR, H2/simple-distance,
   CLiD, or response-contract acquisition as admitted Platform evidence.
+- do not GPU-scale I-B from existing attack-side threshold-transfer diagnostics
+  until defended-shadow or adaptive-attacker review is specified.
 
 ## Ready
 
@@ -174,6 +178,7 @@ Restart conditions:
 | Black-box response-contract discovery | needs-assets; discovery found no paired second response-contract package under black-box dataset/supplementary roots. |
 | Black-box response-contract second-asset intake | needs-assets; post-tri-score refresh found no ready paired package. |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no GPU release and no schema change. |
+| I-B risk-targeted unlearning successor scope | hold; small attack-side reductions are not enough without defended-shadow/adaptive review. |
 | ReDiffuse collaborator bundle intake | Positive intake; complete enough for bounded compatibility review, not admitted evidence. |
 | ReDiffuse 750k direct-distance packet | Positive compatibility packet at 64/64; not comparable with PIA/SecMI without scoring-mode caveat. |
 | Recon tail confidence review | Admitted-finite-tail-only; recon remains black-box product row. |
