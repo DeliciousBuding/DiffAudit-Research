@@ -42,7 +42,9 @@ The systematic black-box response-contract discovery closed as `needs-assets`,
 so acquiring or constructing second response-contract assets remains required
 before black-box portability validation can run. The post-tri-score intake
 refresh also closes as `needs-assets`; the 2026-05-11 scaffold and skeleton
-creation now freeze the next package handoff layout without releasing GPU. See
+creation roll the concrete candidate id forward from the missing 2026-05-10
+placeholder to `response-contract-pokemon-kandinsky-20260511` and freeze the
+next package handoff layout without releasing GPU. See
 [docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
 and
 [docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](docs/evidence/blackbox-response-contract-skeleton-create-20260511.md).

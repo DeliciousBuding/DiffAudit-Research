@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box second response-contract acquisition | black-box | needs-query-split | local skeleton exists; package probe returns `needs_query_split` | missing member/nonmember query images and response coverage | add at least `25/25` query images, split ids, provenance, and responses, then rerun package probe |
+| black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split` | missing member/nonmember query images and response coverage | add at least `25/25` query images, split ids, provenance, and responses, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
