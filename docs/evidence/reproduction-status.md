@@ -27,7 +27,7 @@ Smoke tests and dry runs are engineering validation, not benchmark claims.
 | Gray-box `ReDiffuse` | `evidence-ready` | Candidate baseline-alignment line. The collaborator 750k bundle and checkpoint are runnable, a 64/64 direct-distance compatibility packet exists, and the existing PIA 800k checkpoint is runtime-probe compatible. The 750k ResNet scoring-contract parity packet is negative, and the direct-distance boundary review blocks automatic 800k metrics, so this is not admitted evidence. See [rediffuse-collaborator-integration-report.md](rediffuse-collaborator-integration-report.md), [rediffuse-800k-runtime-probe.md](rediffuse-800k-runtime-probe.md), [rediffuse-resnet-parity-packet.md](rediffuse-resnet-parity-packet.md), and [rediffuse-direct-distance-boundary-review.md](rediffuse-direct-distance-boundary-review.md). |
 | Gray-box `SecMI` | `code-ready` | Independent reference method. |
 | Gray-box `TMIA-DM` | `code-ready` | Strong alternative, secondary to PIA. |
-| White-box `GSA` | `evidence-ready` | Strongest white-box method. Upper-bound reference. |
+| White-box `GSA` | `evidence-ready` | Strongest white-box method. Upper-bound reference. The GSA loss-score Gaussian LR scorer did not pass leave-one-shadow-out stability and remains negative-but-useful diagnostic evidence, not a distinct promoted scorer. See [gsa-loss-score-shadow-stability-review.md](gsa-loss-score-shadow-stability-review.md). |
 | White-box `DPDM` | `code-ready` | Defended comparator with protocol limitations. |
 | Cross-box integration | candidate-only | Cross-track score sharing is useful for internal comparison, but current packets do not show stable low-FPR gains. See [cross-box-boundary-status.md](cross-box-boundary-status.md). |
 
