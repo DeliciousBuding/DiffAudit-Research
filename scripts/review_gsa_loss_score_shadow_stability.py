@@ -14,13 +14,18 @@ from diffaudit.utils.io import torch_load_safe, write_summary_json
 from diffaudit.utils.metrics import auc_score, roc_curve_points, round6, tpr_at_fpr_from_curve
 
 
-def _resolve_repo_path(path: str, *, repo_root: Path) -> Path:
-    return Path(path.replace("<DIFFAUDIT_RESEARCH>", str(repo_root))).resolve()
+def _resolve_repo_path(path: str | Path, *, repo_root: Path) -> Path:
+    raw_path = Path(str(path).replace("<DIFFAUDIT_RESEARCH>", str(repo_root)))
+    if raw_path.is_absolute():
+        return raw_path.resolve()
+    return (repo_root / raw_path).resolve()
 
 
 def _load_scores(path: str, *, repo_root: Path) -> np.ndarray:
     tensor = torch_load_safe(_resolve_repo_path(path, repo_root=repo_root), map_location="cpu")
-    return np.asarray(tensor.reshape(-1).tolist(), dtype=float)
+    if hasattr(tensor, "detach"):
+        return tensor.detach().cpu().reshape(-1).numpy().astype(float)
+    return np.asarray(tensor, dtype=float).reshape(-1)
 
 
 def _best_threshold(scores: np.ndarray, labels: np.ndarray) -> float:
@@ -74,9 +79,13 @@ def _orient_raw_scores(
 
 
 def review_shadow_stability(packet_summary: Path, output: Path, *, repo_root: Path) -> dict[str, Any]:
+    packet_summary = _resolve_repo_path(packet_summary, repo_root=repo_root)
+    output = _resolve_repo_path(output, repo_root=repo_root)
     payload = json.loads(packet_summary.read_text(encoding="utf-8"))
     if payload.get("mode") != "loss-score-export":
         raise ValueError("packet summary must have mode=loss-score-export")
+    if payload.get("status") != "ready":
+        raise ValueError("packet summary must have status=ready")
 
     exports = payload["exports"]
     shadow_specs = payload.get("artifact_paths", {}).get("shadow_specs", [])
@@ -109,12 +118,12 @@ def review_shadow_stability(packet_summary: Path, output: Path, *, repo_root: Pa
             heldout["member"],
             heldout["nonmember"],
         )
-        _tm, _tn, target_member_oriented, target_nonmember_oriented, _ = _orient_raw_scores(
-            train_member_raw,
-            train_nonmember_raw,
-            target_member,
-            target_nonmember,
-        )
+        if direction == "member-lower":
+            target_member_oriented = -target_member
+            target_nonmember_oriented = -target_nonmember
+        else:
+            target_member_oriented = target_member
+            target_nonmember_oriented = target_nonmember
         threshold = _best_threshold(
             np.concatenate([train_member, train_nonmember]),
             np.concatenate([np.ones(train_member.size, dtype=np.int64), np.zeros(train_nonmember.size, dtype=np.int64)]),
@@ -184,18 +193,26 @@ def review_shadow_stability(packet_summary: Path, output: Path, *, repo_root: Pa
     heldout_lr = [fold["heldout_shadow"]["gaussian_lr_transfer"] for fold in folds]
     target_threshold = [fold["target_transfer"]["threshold_transfer"] for fold in folds]
     target_lr = [fold["target_transfer"]["gaussian_lr_transfer"] for fold in folds]
+    def _lr_preserves_tail_and_beats_auc(lr: dict[str, Any], threshold: dict[str, Any]) -> bool:
+        return (
+            lr["auc"] > threshold["auc"]
+            and lr["tpr_at_1pct_fpr"] >= threshold["tpr_at_1pct_fpr"]
+            and lr["tpr_at_0_1pct_fpr"] >= threshold["tpr_at_0_1pct_fpr"]
+        )
+
     heldout_lr_beats_threshold = sum(
-        int(lr["auc"] > threshold["auc"] and lr["tpr_at_1pct_fpr"] >= threshold["tpr_at_1pct_fpr"])
+        int(_lr_preserves_tail_and_beats_auc(lr, threshold))
         for lr, threshold in zip(heldout_lr, heldout_threshold)
     )
     target_lr_beats_threshold = sum(
-        int(lr["auc"] > threshold["auc"] and lr["tpr_at_1pct_fpr"] >= threshold["tpr_at_1pct_fpr"])
+        int(_lr_preserves_tail_and_beats_auc(lr, threshold))
         for lr, threshold in zip(target_lr, target_threshold)
     )
     release_gate = {
         "heldout_lr_beats_threshold_folds": heldout_lr_beats_threshold,
         "target_lr_beats_threshold_folds": target_lr_beats_threshold,
         "required_folds": 2,
+        "fold_rule": "LR AUC must beat threshold and preserve TPR@1%FPR plus TPR@0.1%FPR",
         "passed": heldout_lr_beats_threshold >= 2 and target_lr_beats_threshold >= 2,
     }
     verdict = "cpu-preflight-positive" if release_gate["passed"] else "negative-but-useful"
@@ -204,11 +221,14 @@ def review_shadow_stability(packet_summary: Path, output: Path, *, repo_root: Pa
         "track": "white-box",
         "method": "gsa-loss-score-shadow-stability",
         "mode": "leave-one-shadow-out-review",
-        "packet_summary": str(packet_summary),
-        "output": str(output),
+        "packet_summary": packet_summary.as_posix(),
+        "output": output.as_posix(),
         "verdict": verdict,
         "hypothesis": "Gaussian LR transfer is a stable distinct scorer over existing GSA loss-score exports.",
-        "falsifier": "LR fails to beat threshold transfer in at least 2/3 held-out shadow and target folds.",
+        "falsifier": (
+            "LR fails to beat threshold AUC while preserving TPR@1%FPR and "
+            "TPR@0.1%FPR in at least 2/3 held-out shadow and target folds."
+        ),
         "release_gate": release_gate,
         "macro": {
             "heldout_shadow": {
@@ -236,7 +256,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--packet-summary",
-        default="workspaces/white-box/runs/gsa-loss-score-export-bounded-bm0-gpu-20260417-r1/summary.json",
+        required=True,
+        help="local loss-score-export summary.json; run artifacts are intentionally not tracked in Git",
     )
     parser.add_argument(
         "--output",

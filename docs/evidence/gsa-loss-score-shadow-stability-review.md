@@ -13,14 +13,15 @@ artifact?
 
 Gaussian likelihood-ratio transfer should beat threshold transfer in at least
 `2/3` leave-one-shadow-out folds on both held-out shadow transfer and target
-transfer, while preserving low-FPR metrics.
+transfer, while preserving `TPR@1%FPR` and `TPR@0.1%FPR`.
 
 ## CPU Review
 
 Command:
 
 ```powershell
-python -X utf8 scripts/review_gsa_loss_score_shadow_stability.py
+python -X utf8 scripts/review_gsa_loss_score_shadow_stability.py `
+  --packet-summary workspaces/white-box/runs/gsa-loss-score-export-bounded-bm0-gpu-20260417-r1/summary.json
 ```
 
 Output:
@@ -35,14 +36,18 @@ The review uses the existing frozen loss-score export:
 workspaces/white-box/runs/gsa-loss-score-export-bounded-bm0-gpu-20260417-r1/summary.json
 ```
 
+That export is a local generated run artifact, not a Git-tracked public file.
+The evidence below records the canonical review result; rerunning the command
+requires the local export packet to be present.
+
 No GPU task was released.
 
 ## Result
 
-| Board | Threshold AUC | LR AUC | Threshold TPR@1%FPR | LR TPR@1%FPR |
-| --- | ---: | ---: | ---: | ---: |
-| Held-out shadow macro | 0.582682 | 0.574056 | 0.015625 | 0.026042 |
-| Target-transfer macro | 0.671143 | 0.564697 | 0.015625 | 0.010417 |
+| Board | Threshold AUC | LR AUC | Threshold TPR@1%FPR | LR TPR@1%FPR | Threshold TPR@0.1%FPR | LR TPR@0.1%FPR |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Held-out shadow macro | 0.582682 | 0.574056 | 0.015625 | 0.026042 | 0.015625 | 0.026042 |
+| Target-transfer macro | 0.671143 | 0.564697 | 0.015625 | 0.010417 | 0.015625 | 0.010417 |
 
 Release gate:
 
@@ -51,6 +56,7 @@ Release gate:
 | Held-out LR beats threshold folds | 1 / 3 |
 | Target LR beats threshold folds | 0 / 3 |
 | Required folds | 2 / 3 |
+| Fold rule | LR AUC must beat threshold and preserve TPR@1%FPR plus TPR@0.1%FPR |
 | Passed | false |
 
 ## Verdict
