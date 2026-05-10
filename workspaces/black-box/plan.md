@@ -44,6 +44,10 @@ asset family as the existing simple-distance evidence, while variation and
 Kandinsky/Pokemon lack the required split/endpoint contract.
 The minimum second-asset package is now specified in
 [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md).
+The executable package-level preflight confirms that the current
+Kandinsky/Pokemon supplementary root is not enough: it has no member/nonmember
+query package, endpoint contract, response manifest, or responses. See
+[../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).
 Do not release a black-box response-contract GPU task until a candidate package
 passes that CPU preflight.
 
