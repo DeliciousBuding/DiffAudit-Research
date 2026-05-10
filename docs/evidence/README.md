@@ -26,6 +26,7 @@ This directory contains the public evidence overview.
 | [blackbox-response-contract-acquisition-audit.md](blackbox-response-contract-acquisition-audit.md) | CPU audit showing local second response-contract assets are missing; no GPU release. |
 | [blackbox-response-contract-asset-acquisition-spec.md](blackbox-response-contract-asset-acquisition-spec.md) | Minimal portable asset package and CPU gate required to reopen a second black-box response contract. |
 | [blackbox-response-contract-package-preflight.md](blackbox-response-contract-package-preflight.md) | Executable package-level preflight for the Kandinsky/Pokemon second-contract candidate. |
+| [blackbox-response-contract-discovery.md](blackbox-response-contract-discovery.md) | Repository-level discovery pass showing no paired second response-contract package is currently present. |
 | [research-resting-state-audit-20260510.md](research-resting-state-audit-20260510.md) | Current audit showing Research has no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | [gsa-loss-score-shadow-stability-review.md](gsa-loss-score-shadow-stability-review.md) | CPU-only leave-one-shadow-out review falsifying the immediate GSA loss-score LR distinct-scorer rescue path. |
 | [variation-query-contract-audit.md](variation-query-contract-audit.md) | Executable audit for deciding whether the variation black-box line has real query images and endpoint readiness. |

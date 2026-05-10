@@ -48,6 +48,12 @@ The executable package-level preflight confirms that the current
 Kandinsky/Pokemon supplementary root is not enough: it has no member/nonmember
 query package, endpoint contract, response manifest, or responses. See
 [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).
+The repository-level discovery pass generalizes that finding across the current
+black-box package roots: `Download/black-box/datasets` has no package ids,
+`Download/black-box/supplementary` has only `clid-mia-supplementary` and
+`recon-assets` as supplementary-only directories, and no ready paired
+response-contract package exists. See
+[../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md).
 Do not release a black-box response-contract GPU task until a candidate package
 passes that CPU preflight.
 
