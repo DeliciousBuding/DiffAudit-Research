@@ -35,14 +35,16 @@ Current evidence:
 - `resnet_collaborator_replay` now preserves the collaborator
   checkpoint-selection counter contract and passes a 4-sample real-asset CPU
   smoke. This is a preflight, not admitted evidence.
+- 750k `resnet_collaborator_replay` GPU packet completed with `AUC = 0.702293`,
+  `ASR = 0.682692`, `TPR@1%FPR = 0.019231`, and `TPR@0.1%FPR = 0.019231`.
+  This is candidate-only; strict-tail evidence is weak.
 
 ## Next Action
 
 No gray-box GPU task is running. Keep `PIA` as the admitted gray-box line with
-bounded adaptive and finite low-FPR caveats. ReDiffuse may consume the next GPU
-slot only for one bounded 750k exact-replay packet under
-`resnet_collaborator_replay`; do not run 800k before the 750k exact-replay
-verdict.
+bounded adaptive and finite low-FPR caveats. ReDiffuse is closed as
+candidate-only for now; do not run 800k or larger packets without a new scorer
+hypothesis and CPU preflight.
 
 ## GPU Policy
 
@@ -56,5 +58,7 @@ replay by
 [../../docs/evidence/rediffuse-resnet-contract-scout.md](../../docs/evidence/rediffuse-resnet-contract-scout.md).
 The explicit collaborator replay mode is tracked by
 [../../docs/evidence/rediffuse-exact-replay-preflight.md](../../docs/evidence/rediffuse-exact-replay-preflight.md).
+The 750k exact-replay packet verdict is tracked by
+[../../docs/evidence/rediffuse-exact-replay-packet.md](../../docs/evidence/rediffuse-exact-replay-packet.md).
 Keep PIA-related admitted claims aligned with
 [../../docs/evidence/admitted-results-summary.md](../../docs/evidence/admitted-results-summary.md).
