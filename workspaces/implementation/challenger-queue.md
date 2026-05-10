@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `gray-box tri-score truth-hardening preflight` |
+| Active work | `post-tri-score reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none; active work is CPU-first |
+| CPU sidecar | none; tri-score truth-hardening closed positive-but-bounded |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -21,7 +21,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
 | black-box second response-contract acquisition | black-box | needs-assets | post-ReDiffuse reselection selected this lane; repository-level discovery found no ready package | missing second compatible response contract package | acquire or construct package matching `BB-DS-01` and `BB-SUP-03`, then rerun discovery and package preflight |
-| gray-box tri-score truth-hardening | gray-box | selected CPU-first | X-88/X-141/X-142 show positive-but-bounded internal evidence aggregation | internal-only contract and low-FPR uncertainty not yet hardened | freeze two-seed review, test uncertainty/leave-one-surface gate, and keep admitted PIA row unchanged |
+| gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
@@ -32,14 +32,16 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Gray-Box Tri-Score Truth-Hardening Preflight
+### Post-Tri-Score Reselection
 
 - `mode`: CPU-only
 - `status`: active
-- `goal`: decide whether existing CDI/TMIA-DM/PIA tri-score packets can become
-  a stable internal Research candidate without admission or product promotion.
-- `latest trigger`: black-box second response-contract discovery closed as
-  `needs-assets`, while X-88/X-141/X-142 tri-score packets already exist.
+- `goal`: select the next bounded Research question after ReDiffuse,
+  black-box response-contract discovery, GSA loss-score LR, and gray-box
+  tri-score truth-hardening all closed without a GPU release candidate.
+- `latest trigger`: tri-score truth-hardening survives as internal
+  positive-but-bounded evidence, but same-contract gray-box expansion would not
+  change the project story.
 - `GPU cap`: none
 - `integration`: none
 
@@ -55,21 +57,23 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md)
 - [../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md)
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
+- [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
 - [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
 - [../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md)
 
 Restart conditions:
 
-- harden the gray-box tri-score candidate with CPU-only uncertainty or
-  leave-one-surface checks before any GPU expansion.
+- do not run a larger same-contract tri-score packet; it is closed as
+  internal-only positive-but-bounded evidence.
 - continue scouting or constructing a second response-contract asset package
   only when assets exist.
 - do not run 800k ReDiffuse metrics as an automatic shortcut.
 - do not run larger ReDiffuse packets without a new scorer hypothesis and CPU
   preflight.
 - do not GPU-scale GSA loss-score LR from the current stability review.
-- open a new scorer, protocol, or observable only if it has a falsifier and CPU
-  preflight.
+- prefer the next CPU-first task in `I-B / I-C / I-D`, cross-box/system
+  consumability, or a non-gray-box asset/protocol scout only if it has a
+  falsifier and CPU preflight.
 
 ## Ready
 
@@ -152,6 +156,7 @@ Restart conditions:
 | --- | --- |
 | Post-ReDiffuse reselection | Selects black-box second response-contract acquisition; no GPU release. |
 | Gray-box tri-score consolidation | Positive-but-bounded internal evidence; no admitted promotion and no GPU release. |
+| Gray-box tri-score truth-hardening | Positive-but-bounded internal evidence; no admitted promotion, no product promotion, and no GPU release. |
 | PIA stochastic-dropout truth-hardening | Positive boundary hardening; no GPU release. |
 | Non-gray-box reselection | Selected black-box response-contract acquisition audit; no GPU release. |
 | Black-box response-contract acquisition audit | Needs-assets; no GPU release. |
