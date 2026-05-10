@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split` | missing member/nonmember query images and response coverage | add at least `25/25` query images, split ids, provenance, and responses, then rerun package probe |
+| black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split`; query-source audit found no reusable local Pokemon/Kandinsky images or responses | missing member/nonmember query images and response coverage | acquire/build at least `25/25` real query images plus responses, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
@@ -60,6 +60,7 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
 - [../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md)
 - [../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md)
+- [../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md)
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
 - [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
 - [../../docs/evidence/research-boundary-consumability-sync-20260510.md](../../docs/evidence/research-boundary-consumability-sync-20260510.md)
@@ -74,6 +75,8 @@ Restart conditions:
   internal-only positive-but-bounded evidence.
 - continue constructing a second response-contract asset package only against
   the frozen skeleton; do not call empty templates ready assets.
+- do not fill the Pokemon/Kandinsky skeleton with CelebA/recon tensors or
+  weights-only material.
 - do not run 800k ReDiffuse metrics as an automatic shortcut.
 - do not run larger ReDiffuse packets without a new scorer hypothesis and CPU
   preflight.
