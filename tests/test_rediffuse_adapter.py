@@ -27,6 +27,21 @@ class ReDiffuseAdapterUnitTests(unittest.TestCase):
         self.assertEqual(args.device, "cpu")
         self.assertEqual(args.scoring_mode, "first_step_distance_mean")
 
+    def test_cli_rediffuse_runtime_smoke_accepts_collaborator_replay_mode(self) -> None:
+        from diffaudit.cli import build_parser
+
+        args = build_parser().parse_args(
+            [
+                "run-rediffuse-runtime-smoke",
+                "--workspace",
+                "tmp",
+                "--scoring-mode",
+                "resnet_collaborator_replay",
+            ]
+        )
+
+        self.assertEqual(args.scoring_mode, "resnet_collaborator_replay")
+
     def test_resnet_scorer_keeps_member_high_orientation(self) -> None:
         from diffaudit.attacks.rediffuse_adapter import _score_resnet_scorer
 
@@ -57,6 +72,164 @@ class ReDiffuseAdapterUnitTests(unittest.TestCase):
         self.assertGreater(float(member_scores.mean()), float(nonmember_scores.mean()))
         self.assertEqual(scorer_info["resnet_train_count_per_split"], 3)
         self.assertEqual(scorer_info["resnet_test_count_per_split"], 3)
+        self.assertEqual(scorer_info["resnet_checkpoint_policy"], "best_heldout")
+
+    def test_resnet_scorer_collaborator_counter_policy_is_explicit(self) -> None:
+        from diffaudit.attacks import rediffuse_adapter
+
+        class StatefulScorer(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.epoch_marker = torch.nn.Parameter(torch.zeros(1))
+
+            def forward(self, data: torch.Tensor) -> torch.Tensor:
+                return torch.ones(data.shape[0], 1) * self.epoch_marker
+
+        def train_epoch(model, loader, optimizer, device):
+            del loader, optimizer, device
+            with torch.no_grad():
+                model.epoch_marker.add_(1.0)
+            return float(model.epoch_marker.item())
+
+        def eval_epoch(model, loader, device):
+            del loader, device
+            marker = float(model.epoch_marker.item())
+            test_acc = 0.9 if marker == 1.0 else 0.1
+            member_scores = torch.ones(2) * marker
+            nonmember_scores = torch.zeros(2)
+            return test_acc, member_scores, nonmember_scores
+
+        resnet_module = SimpleNamespace(ResNet18=lambda num_channels, num_classes: StatefulScorer())
+        member_features = torch.ones(4, 3, 32, 32)
+        nonmember_features = torch.zeros(4, 3, 32, 32)
+
+        with patch("diffaudit.attacks.rediffuse_adapter._train_resnet_scorer_epoch", train_epoch):
+            with patch("diffaudit.attacks.rediffuse_adapter._eval_resnet_scorer", eval_epoch):
+                best_member_scores, _best_nonmember_scores, best_info = rediffuse_adapter._score_resnet_scorer(
+                    resnet_module,
+                    member_features=member_features,
+                    nonmember_features=nonmember_features,
+                    device="cpu",
+                    train_portion=0.5,
+                    epochs=2,
+                    lr=0.001,
+                    batch_size=4,
+                    checkpoint_policy="best_heldout",
+                )
+                replay_member_scores, _replay_nonmember_scores, replay_info = rediffuse_adapter._score_resnet_scorer(
+                    resnet_module,
+                    member_features=member_features,
+                    nonmember_features=nonmember_features,
+                    device="cpu",
+                    train_portion=0.5,
+                    epochs=2,
+                    lr=0.001,
+                    batch_size=4,
+                    checkpoint_policy="collaborator_counter",
+                )
+
+        self.assertEqual(best_info["resnet_checkpoint_policy"], "best_heldout")
+        self.assertEqual(replay_info["resnet_checkpoint_policy"], "collaborator_counter")
+        self.assertEqual(best_info["resnet_test_acc_selected"], 0.9)
+        self.assertEqual(best_info["resnet_test_acc_best"], 0.9)
+        self.assertEqual(replay_info["resnet_test_acc_selected"], 0.1)
+        self.assertEqual(replay_info["resnet_test_acc_best"], 0.9)
+        self.assertEqual(float(best_member_scores.mean()), 1.0)
+        self.assertEqual(float(replay_member_scores.mean()), 2.0)
+
+    def test_runtime_smoke_maps_collaborator_replay_to_counter_policy_without_assets(self) -> None:
+        from diffaudit.attacks import rediffuse_adapter
+
+        FakeCIFAR10 = make_fake_cifar10((16, 24, 32, 40, 48, 56, 64, 72))
+        scorer_calls = []
+
+        def fake_score_resnet_scorer(*args, **kwargs):
+            scorer_calls.append(kwargs)
+            return (
+                torch.tensor([0.9, 0.8]),
+                torch.tensor([0.2, 0.1]),
+                {
+                    "resnet_train_count_per_split": 2,
+                    "resnet_test_count_per_split": 2,
+                    "resnet_train_acc_last": 1.0,
+                    "resnet_test_acc_selected": 0.5,
+                    "resnet_test_acc_best": 0.75,
+                    "resnet_epochs": 1,
+                    "resnet_lr": 0.001,
+                    "resnet_batch_size": 2,
+                    "resnet_checkpoint_policy": kwargs["checkpoint_policy"],
+                    "resnet_score_orientation": "raw_logits_higher_is_member",
+                },
+            )
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            workspace = Path(tmpdir) / "rediffuse-collaborator-replay-smoke"
+            with patch(
+                "diffaudit.attacks.rediffuse_adapter.probe_rediffuse_runtime",
+                return_value=(
+                    0,
+                    {
+                        "paths": {
+                            "bundle_root": "bundle",
+                            "checkpoint": "checkpoint.pt",
+                            "dataset_root": tmpdir,
+                            "split": "split.npz",
+                        },
+                        "checks": {},
+                        "provenance": {},
+                    },
+                ),
+            ):
+                with patch(
+                    "diffaudit.attacks.rediffuse_adapter.load_rediffuse_modules",
+                    return_value=SimpleNamespace(
+                        components=SimpleNamespace(),
+                        resnet=SimpleNamespace(),
+                        model_unet=SimpleNamespace(),
+                    ),
+                ):
+                    with patch(
+                        "diffaudit.attacks.rediffuse_adapter.load_rediffuse_model",
+                        return_value=(SimpleNamespace(), {"weights_key": "ema_model", "checkpoint_step": 750000}),
+                    ):
+                        with patch("diffaudit.attacks.rediffuse_adapter.build_rediffuse_attacker", return_value=object()):
+                            with patch(
+                                "diffaudit.attacks.rediffuse_adapter._load_split_indices",
+                                return_value=([0, 1, 2, 3], [4, 5, 6, 7]),
+                            ):
+                                with patch("torchvision.datasets.CIFAR10", FakeCIFAR10):
+                                    with patch(
+                                        "diffaudit.attacks.rediffuse_adapter._collect_residual_features",
+                                        side_effect=[
+                                            torch.ones(4, 3, 32, 32),
+                                            torch.zeros(4, 3, 32, 32),
+                                        ],
+                                    ):
+                                        with patch(
+                                            "diffaudit.attacks.rediffuse_adapter._score_resnet_scorer",
+                                            side_effect=fake_score_resnet_scorer,
+                                        ):
+                                            payload = rediffuse_adapter.run_rediffuse_runtime_smoke(
+                                                workspace=workspace,
+                                                dataset_root=tmpdir,
+                                                device="cpu",
+                                                max_samples=4,
+                                                batch_size=2,
+                                                attack_num=1,
+                                                interval=1,
+                                                average=1,
+                                                k=1,
+                                                scoring_mode="resnet_collaborator_replay",
+                                                scorer_train_portion=0.5,
+                                                scorer_epochs=1,
+                                                scorer_batch_size=2,
+                                            )
+
+        self.assertEqual(scorer_calls[0]["checkpoint_policy"], "collaborator_counter")
+        self.assertEqual(payload["runtime"]["scoring_mode"], "resnet_collaborator_replay")
+        self.assertEqual(payload["runtime"]["resnet_checkpoint_policy"], "collaborator_counter")
+        self.assertEqual(payload["runtime"]["resnet_test_acc_selected"], 0.5)
+        self.assertEqual(payload["runtime"]["resnet_test_acc_best"], 0.75)
 
 
 @unittest.skipUnless(local_rediffuse_assets_ready(), "local ReDiffuse collaborator assets are not present")
