@@ -54,6 +54,11 @@ black-box package roots: `Download/black-box/datasets` has no package ids,
 `recon-assets` as supplementary-only directories, and no ready paired
 response-contract package exists. See
 [../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md).
+The post-tri-score intake refresh reconfirms the same status and preserves the
+machine-readable discovery output under
+`workspaces/black-box/artifacts/blackbox-response-contract-second-asset-intake-20260511.json`;
+see
+[../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md).
 Do not release a black-box response-contract GPU task until a candidate package
 passes that CPU preflight.
 
