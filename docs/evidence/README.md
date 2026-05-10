@@ -22,6 +22,7 @@ This directory contains the public evidence overview.
 | [black-box-next-lane-selection.md](black-box-next-lane-selection.md) | CPU-only reselection of the next black-box research lane after H2. |
 | [non-clid-blackbox-reselection.md](non-clid-blackbox-reselection.md) | Superseding CPU-only reselection after CLiD prompt-control closure. |
 | [non-graybox-reselection-20260510.md](non-graybox-reselection-20260510.md) | CPU reselection after ReDiffuse and I-A closure; selects response-contract acquisition audit. |
+| [post-rediffuse-next-lane-reselection.md](post-rediffuse-next-lane-reselection.md) | CPU reselection after ReDiffuse exact-replay closure; selects second response-contract acquisition. |
 | [blackbox-response-contract-acquisition-audit.md](blackbox-response-contract-acquisition-audit.md) | CPU audit showing local second response-contract assets are missing; no GPU release. |
 | [blackbox-response-contract-asset-acquisition-spec.md](blackbox-response-contract-asset-acquisition-spec.md) | Minimal portable asset package and CPU gate required to reopen a second black-box response contract. |
 | [blackbox-response-contract-package-preflight.md](blackbox-response-contract-package-preflight.md) | Executable package-level preflight for the Kandinsky/Pokemon second-contract candidate. |
