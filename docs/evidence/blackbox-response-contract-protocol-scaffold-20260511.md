@@ -17,12 +17,12 @@ layout and handoff target.
 ```powershell
 python -X utf8 scripts/scaffold_response_contract_package.py `
   --asset-id response-contract-pokemon-kandinsky-20260511 `
-  --download-root ..\Download `
+  --download-root ../Download `
   --dataset-name pokemon `
   --model-identity kandinsky `
   --endpoint-mode image_to_image `
   --repeat-count 1 `
-  --output workspaces\black-box\artifacts\blackbox-response-contract-scaffold-dryrun-20260511.json
+  --output workspaces/black-box/artifacts/blackbox-response-contract-scaffold-dryrun-20260511.json
 ```
 
 Artifact:
@@ -68,8 +68,8 @@ After real package contents exist, run:
 ```powershell
 python -X utf8 scripts/probe_response_contract_package.py `
   --asset-id response-contract-pokemon-kandinsky-20260511 `
-  --download-root ..\Download `
-  --output workspaces\black-box\artifacts\blackbox-response-contract-probe-20260511.json
+  --download-root ../Download `
+  --output workspaces/black-box/artifacts/blackbox-response-contract-probe-20260511.json
 ```
 
 Only a `status = ready` probe may reopen a tiny black-box packet. Until then:
