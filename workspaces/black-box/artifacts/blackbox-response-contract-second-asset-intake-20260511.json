@@ -1,0 +1,312 @@
+{
+  "status": "needs_assets",
+  "track": "black-box",
+  "method": "response-contract-discovery",
+  "download_root": "../Download",
+  "min_split_count": 25,
+  "roots": {
+    "datasets": "../Download/black-box/datasets",
+    "supplementary": "../Download/black-box/supplementary"
+  },
+  "counts": {
+    "dataset_ids": 0,
+    "supplementary_ids": 2,
+    "candidate_ids": 3,
+    "status_counts": {
+      "needs_assets": 3
+    }
+  },
+  "ready_asset_ids": [],
+  "dataset_only_asset_ids": [],
+  "supplementary_only_asset_ids": [
+    "clid-mia-supplementary",
+    "recon-assets"
+  ],
+  "missing_requested_asset_ids": [
+    "response-contract-pokemon-kandinsky-20260510"
+  ],
+  "packages": [
+    {
+      "status": "needs_assets",
+      "asset_id": "clid-mia-supplementary",
+      "track": "black-box",
+      "method": "response-contract-package-preflight",
+      "min_split_count": 25,
+      "paths": {
+        "dataset_root": "../Download/black-box/datasets/clid-mia-supplementary",
+        "supplementary_root": "../Download/black-box/supplementary/clid-mia-supplementary",
+        "query_root": "../Download/black-box/datasets/clid-mia-supplementary/query",
+        "response_root": "../Download/black-box/supplementary/clid-mia-supplementary/responses",
+        "dataset_manifest": "../Download/black-box/datasets/clid-mia-supplementary/manifest.json",
+        "endpoint_contract": "../Download/black-box/supplementary/clid-mia-supplementary/endpoint_contract.json",
+        "response_manifest": "../Download/black-box/supplementary/clid-mia-supplementary/response_manifest.json"
+      },
+      "counts": {
+        "query": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "responses": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "expected_responses": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "response_coverage": {
+          "member": {
+            "ready": false,
+            "covered_queries": 0,
+            "missing_queries": [],
+            "source": "filename-prefix"
+          },
+          "nonmember": {
+            "ready": false,
+            "covered_queries": 0,
+            "missing_queries": [],
+            "source": "filename-prefix"
+          }
+        }
+      },
+      "parse_errors": {
+        "dataset_manifest": null,
+        "endpoint_contract": null,
+        "response_manifest": null
+      },
+      "contract": {
+        "endpoint_mode": "",
+        "repeat_count": 0,
+        "controlled_repeats_or_seed_policy": false,
+        "response_observability": "",
+        "dataset_name": "",
+        "model_identity": ""
+      },
+      "checks": {
+        "dataset_root": false,
+        "supplementary_root": true,
+        "query_member_min_count": false,
+        "query_nonmember_min_count": false,
+        "member_ids_json": false,
+        "nonmember_ids_json": false,
+        "dataset_manifest": false,
+        "dataset_manifest_json_valid": true,
+        "endpoint_contract": false,
+        "endpoint_contract_json_valid": true,
+        "endpoint_mode_supported": false,
+        "repeat_count_valid": false,
+        "controlled_repeats_or_seed_policy": false,
+        "response_manifest": false,
+        "response_manifest_json_valid": true,
+        "response_member_count": false,
+        "response_nonmember_count": false
+      },
+      "missing": [
+        "dataset_root",
+        "query_member_min_count",
+        "query_nonmember_min_count",
+        "member_ids_json",
+        "nonmember_ids_json",
+        "dataset_manifest",
+        "endpoint_contract",
+        "endpoint_mode_supported",
+        "repeat_count_valid",
+        "controlled_repeats_or_seed_policy",
+        "response_manifest",
+        "response_member_count",
+        "response_nonmember_count"
+      ],
+      "verdict": "needs-assets; package roots are missing",
+      "next_action": "create the dataset and supplementary package roots under Download/black-box"
+    },
+    {
+      "status": "needs_assets",
+      "asset_id": "recon-assets",
+      "track": "black-box",
+      "method": "response-contract-package-preflight",
+      "min_split_count": 25,
+      "paths": {
+        "dataset_root": "../Download/black-box/datasets/recon-assets",
+        "supplementary_root": "../Download/black-box/supplementary/recon-assets",
+        "query_root": "../Download/black-box/datasets/recon-assets/query",
+        "response_root": "../Download/black-box/supplementary/recon-assets/responses",
+        "dataset_manifest": "../Download/black-box/datasets/recon-assets/manifest.json",
+        "endpoint_contract": "../Download/black-box/supplementary/recon-assets/endpoint_contract.json",
+        "response_manifest": "../Download/black-box/supplementary/recon-assets/response_manifest.json"
+      },
+      "counts": {
+        "query": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "responses": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "expected_responses": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "response_coverage": {
+          "member": {
+            "ready": false,
+            "covered_queries": 0,
+            "missing_queries": [],
+            "source": "filename-prefix"
+          },
+          "nonmember": {
+            "ready": false,
+            "covered_queries": 0,
+            "missing_queries": [],
+            "source": "filename-prefix"
+          }
+        }
+      },
+      "parse_errors": {
+        "dataset_manifest": null,
+        "endpoint_contract": null,
+        "response_manifest": null
+      },
+      "contract": {
+        "endpoint_mode": "",
+        "repeat_count": 0,
+        "controlled_repeats_or_seed_policy": false,
+        "response_observability": "",
+        "dataset_name": "",
+        "model_identity": ""
+      },
+      "checks": {
+        "dataset_root": false,
+        "supplementary_root": true,
+        "query_member_min_count": false,
+        "query_nonmember_min_count": false,
+        "member_ids_json": false,
+        "nonmember_ids_json": false,
+        "dataset_manifest": false,
+        "dataset_manifest_json_valid": true,
+        "endpoint_contract": false,
+        "endpoint_contract_json_valid": true,
+        "endpoint_mode_supported": false,
+        "repeat_count_valid": false,
+        "controlled_repeats_or_seed_policy": false,
+        "response_manifest": false,
+        "response_manifest_json_valid": true,
+        "response_member_count": false,
+        "response_nonmember_count": false
+      },
+      "missing": [
+        "dataset_root",
+        "query_member_min_count",
+        "query_nonmember_min_count",
+        "member_ids_json",
+        "nonmember_ids_json",
+        "dataset_manifest",
+        "endpoint_contract",
+        "endpoint_mode_supported",
+        "repeat_count_valid",
+        "controlled_repeats_or_seed_policy",
+        "response_manifest",
+        "response_member_count",
+        "response_nonmember_count"
+      ],
+      "verdict": "needs-assets; package roots are missing",
+      "next_action": "create the dataset and supplementary package roots under Download/black-box"
+    },
+    {
+      "status": "needs_assets",
+      "asset_id": "response-contract-pokemon-kandinsky-20260510",
+      "track": "black-box",
+      "method": "response-contract-package-preflight",
+      "min_split_count": 25,
+      "paths": {
+        "dataset_root": "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260510",
+        "supplementary_root": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260510",
+        "query_root": "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260510/query",
+        "response_root": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260510/responses",
+        "dataset_manifest": "../Download/black-box/datasets/response-contract-pokemon-kandinsky-20260510/manifest.json",
+        "endpoint_contract": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260510/endpoint_contract.json",
+        "response_manifest": "../Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260510/response_manifest.json"
+      },
+      "counts": {
+        "query": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "responses": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "expected_responses": {
+          "member": 0,
+          "nonmember": 0
+        },
+        "response_coverage": {
+          "member": {
+            "ready": false,
+            "covered_queries": 0,
+            "missing_queries": [],
+            "source": "filename-prefix"
+          },
+          "nonmember": {
+            "ready": false,
+            "covered_queries": 0,
+            "missing_queries": [],
+            "source": "filename-prefix"
+          }
+        }
+      },
+      "parse_errors": {
+        "dataset_manifest": null,
+        "endpoint_contract": null,
+        "response_manifest": null
+      },
+      "contract": {
+        "endpoint_mode": "",
+        "repeat_count": 0,
+        "controlled_repeats_or_seed_policy": false,
+        "response_observability": "",
+        "dataset_name": "",
+        "model_identity": ""
+      },
+      "checks": {
+        "dataset_root": false,
+        "supplementary_root": false,
+        "query_member_min_count": false,
+        "query_nonmember_min_count": false,
+        "member_ids_json": false,
+        "nonmember_ids_json": false,
+        "dataset_manifest": false,
+        "dataset_manifest_json_valid": true,
+        "endpoint_contract": false,
+        "endpoint_contract_json_valid": true,
+        "endpoint_mode_supported": false,
+        "repeat_count_valid": false,
+        "controlled_repeats_or_seed_policy": false,
+        "response_manifest": false,
+        "response_manifest_json_valid": true,
+        "response_member_count": false,
+        "response_nonmember_count": false
+      },
+      "missing": [
+        "dataset_root",
+        "supplementary_root",
+        "query_member_min_count",
+        "query_nonmember_min_count",
+        "member_ids_json",
+        "nonmember_ids_json",
+        "dataset_manifest",
+        "endpoint_contract",
+        "endpoint_mode_supported",
+        "repeat_count_valid",
+        "controlled_repeats_or_seed_policy",
+        "response_manifest",
+        "response_member_count",
+        "response_nonmember_count"
+      ],
+      "verdict": "needs-assets; package roots are missing",
+      "next_action": "create the dataset and supplementary package roots under Download/black-box"
+    }
+  ],
+  "verdict": "no discovered package passes the response-contract CPU gate",
+  "next_action": "create or acquire a paired dataset/supplementary package with query split, protocol, and responses"
+}
