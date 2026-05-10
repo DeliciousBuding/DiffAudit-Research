@@ -15,7 +15,7 @@ def _read(path: Path) -> str:
 
 
 def _snippet_present(text: str, snippet: str) -> bool:
-    return snippet.replace(" ", "") in text.replace(" ", "")
+    return "".join(snippet.split()) in "".join(text.split())
 
 
 def review_resnet_contract_scout(*, bundle_root: Path, output: Path) -> dict[str, Any]:
@@ -36,10 +36,11 @@ def review_resnet_contract_scout(*, bundle_root: Path, output: Path) -> dict[str
     attack_text = _read(attack_py)
     current_adapter = _read(Path(__file__).resolve().parents[1] / "src" / "diffaudit" / "attacks" / "rediffuse_adapter.py")
     collaborator_features = {
-        "uses_resnet18_single_logit": "resnet.ResNet18(num_channels=3 * 1, num_classes=1)" in attack_text,
-        "uses_sgd_mse": "torch.optim.SGD" in attack_text and "((logit - label) ** 2).mean()" in attack_text,
+        "uses_resnet18_single_logit": _snippet_present(attack_text, "resnet.ResNet18(num_channels=3 * 1, num_classes=1)"),
+        "uses_sgd_mse": _snippet_present(attack_text, "torch.optim.SGD")
+        and _snippet_present(attack_text, "((logit - label) ** 2).mean()"),
         "uses_train_prefix_test_suffix": all(
-            token in attack_text
+            _snippet_present(attack_text, token)
             for token in (
                 "train_member_concat = member_concat[:num_train]",
                 "test_member_concat = member_concat[num_train:]",
@@ -47,19 +48,24 @@ def review_resnet_contract_scout(*, bundle_root: Path, output: Path) -> dict[str
                 "test_nonmember_concat = nonmember_concat[num_train:]",
             )
         ),
-        "negates_scores_before_roc": "member *= -1" in attack_text and "nonmember *= -1" in attack_text,
-        "roc_uses_member_lower": "TP = (member_scores <= threshold).sum()" in attack_text,
+        "negates_scores_before_roc": _snippet_present(attack_text, "member *= -1")
+        and _snippet_present(attack_text, "nonmember *= -1"),
+        "roc_uses_member_lower": _snippet_present(attack_text, "TP = (member_scores <= threshold).sum()"),
         "best_checkpoint_counter_not_updated": (
-            "test_acc_best = 0" in attack_text
-            and "if test_acc > test_acc_best:" in attack_text
-            and "test_acc_best = test_acc" not in attack_text
+            _snippet_present(attack_text, "test_acc_best = 0")
+            and _snippet_present(attack_text, "if test_acc > test_acc_best:")
+            and not _snippet_present(attack_text, "test_acc_best = test_acc")
         ),
     }
     adapter_features = {
-        "uses_resnet18_single_logit": "resnet_module.ResNet18(num_channels=3, num_classes=1)" in current_adapter,
-        "uses_sgd_mse": "torch.optim.SGD" in current_adapter and "((logits - label) ** 2).mean()" in current_adapter,
+        "uses_resnet18_single_logit": _snippet_present(
+            current_adapter,
+            "resnet_module.ResNet18(num_channels=3, num_classes=1)",
+        ),
+        "uses_sgd_mse": _snippet_present(current_adapter, "torch.optim.SGD")
+        and _snippet_present(current_adapter, "((logits - label) ** 2).mean()"),
         "uses_train_prefix_test_suffix": all(
-            token in current_adapter
+            _snippet_present(current_adapter, token)
             for token in (
                 "member_features[:train_count]",
                 "member_features[train_count:]",
@@ -68,10 +74,10 @@ def review_resnet_contract_scout(*, bundle_root: Path, output: Path) -> dict[str
             )
         ),
         "stores_best_checkpoint_by_test_acc": (
-            "if test_acc > best_acc:" in current_adapter
+            _snippet_present(current_adapter, "if test_acc > best_acc:")
             and _snippet_present(current_adapter, "best_acc = test_acc")
         ),
-        "returns_unnegated_logits": "member_scores.detach().cpu()" in current_adapter,
+        "returns_unnegated_logits": _snippet_present(current_adapter, "member_scores.detach().cpu()"),
     }
     semantic_mismatches = []
     if collaborator_features["best_checkpoint_counter_not_updated"] and adapter_features["stores_best_checkpoint_by_test_acc"]:
@@ -82,19 +88,22 @@ def review_resnet_contract_scout(*, bundle_root: Path, output: Path) -> dict[str
         semantic_mismatches.append(
             "collaborator negates logits before member-lower ROC, while Research adapter feeds unnegated logits into higher-is-member metrics"
         )
+    collaborator_detected = all(collaborator_features.values())
+    adapter_detected = all(adapter_features.values())
+    exact_replay_ready = collaborator_detected and adapter_detected and len(semantic_mismatches) == 0
     release_gate = {
-        "collaborator_contract_detected": all(collaborator_features.values()),
-        "adapter_contract_detected": all(adapter_features.values()),
+        "collaborator_contract_detected": collaborator_detected,
+        "adapter_contract_detected": adapter_detected,
         "semantic_mismatch_count": len(semantic_mismatches),
-        "exact_replay_ready": len(semantic_mismatches) == 0,
-        "passed": False,
+        "exact_replay_ready": exact_replay_ready,
+        "passed": exact_replay_ready,
     }
     result = {
-        "status": "blocked",
+        "status": "ready" if exact_replay_ready else "blocked",
         "track": "gray-box",
         "method": "rediffuse",
         "mode": "resnet-contract-scout",
-        "verdict": "blocked-by-contract-mismatch",
+        "verdict": "passed" if exact_replay_ready else "blocked-by-contract-mismatch",
         "hypothesis": "A ReDiffuse ResNet replay can release GPU only if the adapter matches collaborator nns_attack semantics.",
         "falsifier": "Any scorer-training, checkpoint-selection, sign, or ROC-direction mismatch blocks GPU release.",
         "release_gate": release_gate,
