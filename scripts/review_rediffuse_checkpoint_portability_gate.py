@@ -19,7 +19,32 @@ def _resolve(path: str | Path, *, repo_root: Path) -> Path:
 
 
 def _checkpoint_metadata(path: Path, *, weights_key: str) -> dict[str, Any]:
-    checkpoint = torch_load_safe(path, map_location="cpu", weights_only=True)
+    if not path.is_file():
+        return {
+            "path": path.as_posix(),
+            "exists": False,
+            "sha256": "",
+            "container": "",
+            "has_weights_key": False,
+            "weights_key": weights_key,
+            "state_dict_key_count": 0,
+            "step": None,
+            "load_error": "missing file",
+        }
+    try:
+        checkpoint = torch_load_safe(path, map_location="cpu", weights_only=True)
+    except (OSError, RuntimeError, ValueError, TypeError) as exc:
+        return {
+            "path": path.as_posix(),
+            "exists": True,
+            "sha256": sha256_file(path),
+            "container": "",
+            "has_weights_key": False,
+            "weights_key": weights_key,
+            "state_dict_key_count": 0,
+            "step": None,
+            "load_error": f"{type(exc).__name__}: {exc}",
+        }
     if not isinstance(checkpoint, dict):
         return {
             "path": path.as_posix(),
@@ -30,16 +55,17 @@ def _checkpoint_metadata(path: Path, *, weights_key: str) -> dict[str, Any]:
             "state_dict_key_count": 0,
             "step": None,
         }
-    state = checkpoint.get(weights_key, {})
+    state = checkpoint.get(weights_key)
+    has_weights_key = isinstance(state, dict)
     return {
         "path": path.as_posix(),
         "exists": path.is_file(),
         "sha256": sha256_file(path) if path.is_file() else "",
         "container": "dict",
         "top_level_keys": sorted(str(key) for key in checkpoint.keys()),
-        "has_weights_key": isinstance(state, dict),
+        "has_weights_key": has_weights_key,
         "weights_key": weights_key,
-        "state_dict_key_count": len(state) if isinstance(state, dict) else 0,
+        "state_dict_key_count": len(state) if has_weights_key else 0,
         "step": int(checkpoint["step"]) if "step" in checkpoint else None,
         "has_x_T": "x_T" in checkpoint,
     }

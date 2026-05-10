@@ -16,15 +16,22 @@ A ReDiffuse 800k packet is releasable only if both conditions hold:
 
 ## CPU Review
 
-Command:
+Command shape:
 
 ```powershell
-python -X utf8 scripts/review_rediffuse_checkpoint_portability_gate.py
+python -X utf8 scripts/review_rediffuse_checkpoint_portability_gate.py `
+  --collaborator-checkpoint <DIFFAUDIT_ROOT>\Download\shared\weights\ddim-cifar10-step750000\raw\DDIM-ckpt-step750000.pt `
+  --comparison-checkpoint workspaces\gray-box\assets\pia\checkpoints\cifar10_ddpm\checkpoint.pt `
+  --split-path <DIFFAUDIT_ROOT>\Download\shared\supplementary\collaborator-ddim-rediffuse-20260509\raw\DDIMrediffuse\CIFAR10_train_ratio0.5.npz
 ```
 
 The command is CPU-only. It reads checkpoint metadata, verifies the collaborator
 CIFAR10 split hash, and checks the current scoring-contract evidence boundary.
 It does not score member/nonmember samples.
+
+The default arguments assume the standard local `Download/` layout documented
+for Research assets. A clean Git checkout without those local assets can still
+run the unit tests, but cannot reproduce the real checkpoint metadata review.
 
 ## Result
 
