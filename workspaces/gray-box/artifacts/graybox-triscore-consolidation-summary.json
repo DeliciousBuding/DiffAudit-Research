@@ -1,0 +1,66 @@
+{
+  "schema": "diffaudit.graybox_triscore_consolidation.v1",
+  "status": "positive-but-bounded",
+  "date": "2026-05-10",
+  "track": "gray-box",
+  "method": "CDI/TMIA-DM/PIA tri-score evidence aggregation",
+  "claim_boundary": {
+    "headline_use_allowed": false,
+    "external_evidence_allowed": false,
+    "admitted_row_replacement_allowed": false,
+    "platform_runtime_schema_change_required": false
+  },
+  "admitted_comparator": {
+    "label": "PIA GPU512 baseline",
+    "auc": 0.841339,
+    "asr": 0.786133,
+    "tpr_at_1pct_fpr": 0.058594,
+    "tpr_at_0_1pct_fpr": 0.011719
+  },
+  "packets": [
+    {
+      "label": "first aligned tri-score canary",
+      "source_run_id": "x88-cdi-tmiadm-triscore-canary-20260417-175249",
+      "source_summary": "workspaces/gray-box/runs/x88-cdi-tmiadm-triscore-canary-20260417-175249/audit_summary.json",
+      "auc": 0.854515,
+      "asr": 0.790039,
+      "tpr_at_1pct_fpr": 0.130859,
+      "tpr_at_0_1pct_fpr": 0.048828,
+      "component_auc": {
+        "pia": 0.835152,
+        "tmiadm": 0.777561,
+        "zscore_sum": 0.852928
+      }
+    },
+    {
+      "label": "larger matched surface seed 1",
+      "source_run_id": "x141-x90-larger-surface-triscore-20260429-r1",
+      "source_summary": "workspaces/gray-box/runs/x141-x90-larger-surface-triscore-20260429-r1/audit_summary.json",
+      "auc": 0.849247,
+      "asr": 0.782226,
+      "tpr_at_1pct_fpr": 0.069336,
+      "tpr_at_0_1pct_fpr": 0.022461,
+      "component_auc": {
+        "pia": 0.834419,
+        "tmiadm": 0.769458,
+        "zscore_sum": 0.845657
+      }
+    },
+    {
+      "label": "larger matched surface seed 2",
+      "source_run_id": "x142-x90-larger-surface-triscore-seed2-20260429-r1",
+      "source_summary": "workspaces/gray-box/runs/x142-x90-larger-surface-triscore-seed2-20260429-r1/audit_summary.json",
+      "auc": 0.859043,
+      "asr": 0.786133,
+      "tpr_at_1pct_fpr": 0.118164,
+      "tpr_at_0_1pct_fpr": 0.023438,
+      "component_auc": {
+        "pia": 0.834419,
+        "tmiadm": 0.771865,
+        "zscore_sum": 0.856071
+      }
+    }
+  ],
+  "verdict": "Existing tri-score packets are positive internal evidence for ranking and low-FPR scouting, but strict-tail gains remain small and contract-bound. Keep this below admitted and product-facing evidence.",
+  "next_action": "Run CPU-only truth-hardening over this curated packet set before any GPU expansion."
+}

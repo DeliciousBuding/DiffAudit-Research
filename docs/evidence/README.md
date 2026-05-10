@@ -45,6 +45,7 @@ This directory contains the public evidence overview.
 | [rediffuse-resnet-contract-scout.md](rediffuse-resnet-contract-scout.md) | CPU scout showing the current Research ResNet mode is not exact collaborator replay. |
 | [rediffuse-exact-replay-preflight.md](rediffuse-exact-replay-preflight.md) | CPU preflight for explicit collaborator checkpoint-selection replay mode. |
 | [rediffuse-exact-replay-packet.md](rediffuse-exact-replay-packet.md) | Bounded 750k exact-replay packet verdict for the collaborator ReDiffuse baseline. |
+| [graybox-triscore-consolidation-review.md](graybox-triscore-consolidation-review.md) | CPU consolidation of existing CDI/TMIA-DM/PIA tri-score packets as positive-but-bounded internal evidence. |
 | [recon-product-row-validation-guard.md](recon-product-row-validation-guard.md) | System-consumable guard for the admitted recon product row. |
 | [../product-bridge/recon-product-evidence-card.md](../product-bridge/recon-product-evidence-card.md) | Product-facing machine-readable evidence-card contract for the admitted recon row. |
 | [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |

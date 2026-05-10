@@ -28,10 +28,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `post-response-contract discovery reselection`
+- Active work: `gray-box tri-score truth-hardening preflight`
 - Next GPU candidate: none selected
 - CPU work: black-box response-contract discovery closed as `needs-assets`;
-  continue CPU-first reselection or asset acquisition
+  gray-box tri-score consolidation is positive-but-bounded and needs
+  CPU-only truth-hardening before any GPU expansion
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
