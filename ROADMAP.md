@@ -10,16 +10,19 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `post-response-contract discovery reselection` |
+| Active work | `gray-box tri-score truth-hardening preflight` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none; response-contract discovery closed as needs-assets |
+| CPU sidecar | none; active work is CPU-first |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: reselect the next bounded CPU-first research lane after the
-systematic black-box response-contract discovery closed as `needs-assets`.
-Acquiring or constructing second response-contract assets (`BB-DS-01`,
-`BB-SUP-03`) remains required before black-box portability validation can run.
+Current objective: harden the positive-but-bounded gray-box tri-score/CDI
+candidate before any GPU expansion. The systematic black-box response-contract
+discovery closed as `needs-assets`, so acquiring or constructing second
+response-contract assets (`BB-DS-01`, `BB-SUP-03`) remains required before
+black-box portability validation can run. The existing tri-score packets are
+now consolidated as internal candidate evidence; see
+[docs/evidence/graybox-triscore-consolidation-review.md](docs/evidence/graybox-triscore-consolidation-review.md).
 The 750k
 exact-replay GPU packet completed with `AUC = 0.702293`, but strict-tail
 evidence remains weak (`TPR@1%FPR = 0.019231`, `TPR@0.1%FPR = 0.019231`) and
@@ -106,9 +109,13 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    until a package matching `BB-DS-01` and `BB-SUP-03` exists and passes
    preflight. The new repository-level discovery pass confirms no such package
    is present in the current `Download/black-box` roots.
-3. I-A truth-hardening completed as positive boundary hardening. See
+3. The next selected CPU-first lane is gray-box tri-score truth-hardening. It
+   may use existing X-88/X-141/X-142 artifacts only. Do not promote to admitted
+   evidence unless the internal-only contract blocker and low-FPR uncertainty
+   gate are resolved.
+4. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
-4. Non-gray-box reselection selected a CPU-only black-box response-contract
+5. Non-gray-box reselection selected a CPU-only black-box response-contract
    acquisition audit. It closed as `needs-assets`, not GPU-ready. The minimum
    acquisition package is specified in
    [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md);
@@ -116,9 +123,9 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
    for the audit result and
    [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
-5. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
+6. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
-6. Do not change Platform or Runtime schemas in this cycle.
+7. Do not change Platform or Runtime schemas in this cycle.
 
 ## Long-Running Goal Loop
 
@@ -160,6 +167,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse exact replay preflight | CPU preflight passed; no GPU release | [docs/evidence/rediffuse-exact-replay-preflight.md](docs/evidence/rediffuse-exact-replay-preflight.md) |
 | ReDiffuse 750k exact replay | candidate-only; modest AUC but weak strict-tail evidence | [docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md) |
 | Post-ReDiffuse reselection | selects black-box second response-contract acquisition; no GPU release | [docs/evidence/post-rediffuse-next-lane-reselection.md](docs/evidence/post-rediffuse-next-lane-reselection.md) |
+| Gray-box tri-score consolidation | positive-but-bounded internal evidence; no admitted promotion | [docs/evidence/graybox-triscore-consolidation-review.md](docs/evidence/graybox-triscore-consolidation-review.md) |
 | PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
 | Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
 | Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
