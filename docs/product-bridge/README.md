@@ -16,6 +16,14 @@ inform internal ranking and future research selection, but it should not appear
 as admitted Platform evidence until low-FPR stability is established. See
 [../evidence/cross-box-boundary-status.md](../evidence/cross-box-boundary-status.md).
 
+Current boundary-consumability status: Platform and Runtime should consume only
+the admitted Research rows (`recon`, `PIA`, and `GSA + DPDM W-1`) unless a
+future reviewed promotion explicitly changes this. ReDiffuse, tri-score,
+cross-box fusion, GSA LR, H2/simple-distance, CLiD, and black-box
+response-contract acquisition are candidate, negative, hold, or needs-assets
+states. See
+[../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md).
+
 Current CLiD status: CLiD is candidate-only. The prompt-conditioned packet is
 strong and repeat-stable, but prompt-neutral perturbation collapses the signal.
 It can guide research planning, but it should not appear as admitted Platform
@@ -50,6 +58,7 @@ The current product bridge decision is recorded in
 | [recon-product-validation-handoff.md](recon-product-validation-handoff.md) | Current product boundary for the promoted recon black-box row. |
 | [recon-product-evidence-card.md](recon-product-evidence-card.md) | Machine-readable product card for the admitted recon row. |
 | [h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md) | Why simple-distance remains Research evidence and what must happen before product consumption. |
+| [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md) | Current admitted-vs-candidate boundary for downstream consumers. |
 
 ## Integration Rules
 
