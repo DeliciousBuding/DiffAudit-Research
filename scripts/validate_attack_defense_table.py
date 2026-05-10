@@ -113,19 +113,25 @@ def _row_matches(row: dict, selector: dict[str, str]) -> bool:
 
 
 def _validate_admitted_consumer_rows(errors: list[str], rows: list[dict]) -> None:
+    identity_keys = ("track", "attack", "defense", "evidence_level")
     for selector in ADMITTED_CONSUMER_ROWS:
-        label = f"{selector['track']}:{selector['attack']}:{selector['defense']}"
-        matches = [row for row in rows if _row_matches(row, selector)]
+        label = f"{selector['track']}:{selector['attack']}:{selector['defense']}:{selector['evidence_level']}"
+        identity = {key: selector[key] for key in identity_keys}
+        matches = [row for row in rows if _row_matches(row, identity)]
         if len(matches) != 1:
             errors.append(f"expected exactly one admitted consumer row for {label}, found {len(matches)}")
             continue
         row = matches[0]
+        if row.get("source") != selector["source"]:
+            errors.append(
+                f"admitted_consumer_row[{label}].source must be {selector['source']!r}, got {row.get('source')!r}"
+            )
         _require_numeric(errors, f"admitted_consumer_row[{label}]", row, REQUIRED_METRICS)
         _require_fields(errors, f"admitted_consumer_row[{label}]", row, ("quality_cost", "boundary"))
-        if not str(row.get("boundary", "")).strip():
-            errors.append(f"admitted_consumer_row[{label}].boundary must be non-empty")
-        if not str(row.get("quality_cost", "")).strip():
-            errors.append(f"admitted_consumer_row[{label}].quality_cost must be non-empty")
+        for field in ("boundary", "quality_cost"):
+            value = row.get(field)
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"admitted_consumer_row[{label}].{field} must be a non-empty string")
 
 
 def main(argv: list[str] | None = None) -> int:
