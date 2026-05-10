@@ -28,7 +28,7 @@ Reviewed sources:
 
 | Evidence class | Current rows | Consumer rule |
 | --- | --- | --- |
-| Admitted evidence | `recon`, `PIA baseline`, `PIA stochastic-dropout comparator`, `GSA + DPDM W-1` | May be used by Runtime/Platform as verified evidence with stated limitations. |
+| Admitted evidence | `recon`, `PIA baseline`, `PIA defended`, `GSA + DPDM W-1` | May be used by Runtime/Platform as verified evidence with stated limitations. `PIA defended` is the stochastic-dropout comparator row. |
 | Internal candidate | ReDiffuse, CDI/TMIA-DM/PIA tri-score, cross-box fusion, H2/simple-distance, CLiD | May guide Research planning and internal comparison only. Do not expose as admitted audit evidence. |
 | Needs assets | Black-box second response-contract package, variation real-query line, simple-distance portability | Do not run GPU or productize until package/query/response contracts pass CPU preflight. |
 | Negative-but-useful | GSA loss-score LR rescue, semantic-aux low-FPR, several activation/trajectory scouts | Preserve as pruning evidence; do not revive without a distinct hypothesis. |
@@ -40,7 +40,7 @@ Reviewed sources:
 The admitted set remains unchanged:
 
 - black-box: `recon`
-- gray-box: `PIA` baseline and stochastic-dropout comparator
+- gray-box: `PIA baseline` and `PIA defended`
 - white-box: `GSA + DPDM W-1`
 
 Recent positive candidates remain explicitly non-admitted:
