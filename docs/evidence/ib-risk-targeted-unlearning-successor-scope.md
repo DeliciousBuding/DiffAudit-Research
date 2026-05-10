@@ -21,6 +21,14 @@ each summary carries the same caveat:
 > attack-side readable, but not defense-aware; provisional until defended
 > shadows are retrained.
 
+Provenance note: `workspaces/**/runs/**` is ignored by Git. The snapshot below
+comes from local generated `summary.json` files, not from portable checked-in
+artifacts. A fresh checkout should treat this document as the reviewed evidence
+anchor. To regenerate the same class of deltas, rerun the risk-targeted
+unlearning review pipeline and compare each run's
+`baseline.threshold_eval.target_transfer.metrics` against
+`defended.threshold_eval.target_transfer.metrics`.
+
 ## Evidence Snapshot
 
 | Run | Delta AUC | Delta TPR@1%FPR | Delta TPR@0.1%FPR |
