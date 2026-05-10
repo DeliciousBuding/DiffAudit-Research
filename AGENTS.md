@@ -28,11 +28,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `gray-box tri-score truth-hardening preflight`
+- Active work: `system-consumable admitted evidence hardening`
 - Next GPU candidate: none selected
-- CPU work: black-box response-contract discovery closed as `needs-assets`;
-  gray-box tri-score consolidation is positive-but-bounded and needs
-  CPU-only truth-hardening before any GPU expansion
+- CPU work: black-box response-contract package construction is blocked as
+  `needs_query_split`; current reducible work is admitted-row contract guarding
+  for Platform/Runtime consumers
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

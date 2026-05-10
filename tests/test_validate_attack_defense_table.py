@@ -294,6 +294,95 @@ class ValidateAttackDefenseTableTests(unittest.TestCase):
 
         self.assertEqual(exit_code, 2)
 
+    def test_validator_rejects_missing_admitted_consumer_row(self) -> None:
+        module = load_validate_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            table_path = Path(tmpdir) / "table.json"
+            table_path.write_text(
+                json.dumps(
+                    {
+                        "schema": "diffaudit.attack_defense_table.v1",
+                        "updated_at": "2026-05-01T00:00:00+08:00",
+                        "rows": [
+                            {
+                                "track": "black-box",
+                                "attack": "recon DDIM public-100 step30",
+                                "defense": "none",
+                                "model": "Stable Diffusion v1.5 + DDIM",
+                                "auc": 0.837,
+                                "asr": 0.74,
+                                "tpr_at_1pct_fpr": 0.22,
+                                "tpr_at_0_1pct_fpr": 0.11,
+                                "evidence_level": "runtime-mainline",
+                                "metric_source": "upstream_threshold_reimplementation",
+                                "quality_cost": "100 public samples per split",
+                                "note": "current black-box main evidence",
+                                "boundary": "controlled / public-subset / proxy-shadow-member / zero-false-positive empirical tail / not a final exploit",
+                                "source": "docs/evidence/recon-product-validation-result.md",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            exit_code = module.main(["--table", str(table_path)])
+
+        self.assertEqual(exit_code, 2)
+
+    def test_validator_rejects_admitted_consumer_source_drift(self) -> None:
+        module = load_validate_module()
+        research_root = Path(__file__).resolve().parents[1]
+        payload = json.loads(
+            (research_root / "workspaces" / "implementation" / "artifacts" / "unified-attack-defense-table.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        for row in payload["rows"]:
+            if (
+                row.get("track") == "white-box"
+                and row.get("attack") == "GSA 1k-3shadow"
+                and row.get("defense") == "none"
+                and row.get("evidence_level") == "runtime-mainline"
+            ):
+                row["source"] = "workspaces/white-box/runs/stale-summary.json"
+                break
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            table_path = Path(tmpdir) / "table.json"
+            table_path.write_text(json.dumps(payload), encoding="utf-8")
+
+            exit_code = module.main(["--table", str(table_path)])
+
+        self.assertEqual(exit_code, 2)
+
+    def test_validator_rejects_null_admitted_consumer_boundary(self) -> None:
+        module = load_validate_module()
+        research_root = Path(__file__).resolve().parents[1]
+        payload = json.loads(
+            (research_root / "workspaces" / "implementation" / "artifacts" / "unified-attack-defense-table.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        for row in payload["rows"]:
+            if (
+                row.get("track") == "white-box"
+                and row.get("attack") == "GSA 1k-3shadow"
+                and row.get("defense") == "none"
+                and row.get("evidence_level") == "runtime-mainline"
+            ):
+                row["boundary"] = None
+                break
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            table_path = Path(tmpdir) / "table.json"
+            table_path.write_text(json.dumps(payload), encoding="utf-8")
+
+            exit_code = module.main(["--table", str(table_path)])
+
+        self.assertEqual(exit_code, 2)
+
 
 if __name__ == "__main__":
     unittest.main()
