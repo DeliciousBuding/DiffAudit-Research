@@ -10,19 +10,21 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `black-box second response-contract acquisition` |
+| Active work | `post-response-contract discovery reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none; active work is CPU-first |
+| CPU sidecar | none; response-contract discovery closed as needs-assets |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: acquire or construct the second response-contract assets
-(`BB-DS-01`, `BB-SUP-03`) needed for black-box portability validation. The 750k
+Current objective: reselect the next bounded CPU-first research lane after the
+systematic black-box response-contract discovery closed as `needs-assets`.
+Acquiring or constructing second response-contract assets (`BB-DS-01`,
+`BB-SUP-03`) remains required before black-box portability validation can run.
+The 750k
 exact-replay GPU packet completed with `AUC = 0.702293`, but strict-tail
 evidence remains weak (`TPR@1%FPR = 0.019231`, `TPR@0.1%FPR = 0.019231`) and
 the held-out ResNet accuracy is `0.5`; ReDiffuse stays candidate-only and no
-800k shortcut is released. The next selected lane is CPU-first black-box second
-response-contract acquisition. See
+800k shortcut is released. See
 [docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md)
 and
 [docs/evidence/post-rediffuse-next-lane-reselection.md](docs/evidence/post-rediffuse-next-lane-reselection.md).
@@ -32,6 +34,8 @@ and
 [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md).
 The package-level preflight is
 [docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md).
+The repository-level discovery pass also found no ready paired package:
+[docs/evidence/blackbox-response-contract-discovery.md](docs/evidence/blackbox-response-contract-discovery.md).
 The resting-state audit is
 [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md).
 The first post-resting CPU discovery review closed the GSA loss-score LR rescue
@@ -100,7 +104,8 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    ReDiffuse packets without a new scorer hypothesis and CPU preflight.
 2. Next active lane is second response-contract acquisition. Do not GPU-scale
    until a package matching `BB-DS-01` and `BB-SUP-03` exists and passes
-   preflight.
+   preflight. The new repository-level discovery pass confirms no such package
+   is present in the current `Download/black-box` roots.
 3. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
 4. Non-gray-box reselection selected a CPU-only black-box response-contract
@@ -160,6 +165,7 @@ Every autonomous research cycle must follow this loop:
 | Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
 | Black-box response-contract asset spec | needs-assets; minimum second-asset package defined; no GPU release | [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md) |
 | Black-box response-contract package preflight | needs-assets; Kandinsky/Pokemon has weights but no query/response package | [docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md) |
+| Black-box response-contract discovery | needs-assets; no paired package found under black-box dataset/supplementary roots | [docs/evidence/blackbox-response-contract-discovery.md](docs/evidence/blackbox-response-contract-discovery.md) |
 | Research resting-state audit | temporary resting state; no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive | [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md) |
 | GSA loss-score shadow stability | negative-but-useful; LR distinct-scorer rescue path fails leave-one-shadow-out gate | [docs/evidence/gsa-loss-score-shadow-stability-review.md](docs/evidence/gsa-loss-score-shadow-stability-review.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |

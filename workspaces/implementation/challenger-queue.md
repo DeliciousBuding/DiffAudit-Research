@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `black-box second response-contract acquisition` |
+| Active work | `post-response-contract discovery reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none; active work is CPU-first |
+| CPU sidecar | none; response-contract discovery closed as needs-assets |
 | Gray-box status | ReDiffuse candidate-only; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box second response-contract acquisition | black-box | selected CPU-first | post-ReDiffuse reselection selected this lane | missing second compatible response contract package | acquire or construct package matching `BB-DS-01` and `BB-SUP-03`, then rerun preflight |
+| black-box second response-contract acquisition | black-box | needs-assets | post-ReDiffuse reselection selected this lane; repository-level discovery found no ready package | missing second compatible response contract package | acquire or construct package matching `BB-DS-01` and `BB-SUP-03`, then rerun discovery and package preflight |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
@@ -31,12 +31,14 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### None
+### Post-Response-Contract Discovery Reselection
 
-- `mode`: idle
-- `status`: no active task
-- `goal`: reselect next research lane
-- `latest trigger`: ReDiffuse 750k exact-replay verdict
+- `mode`: CPU-only
+- `status`: active
+- `goal`: choose the next bounded research lane after black-box second
+  response-contract discovery closed as `needs-assets`.
+- `latest trigger`: repository-level response-contract discovery found no
+  ready paired package under `Download/black-box`.
 - `GPU cap`: none
 - `integration`: none
 
@@ -50,12 +52,14 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-acquisition-audit.md](../../docs/evidence/blackbox-response-contract-acquisition-audit.md)
 - [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
 - [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md)
+- [../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md)
 - [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
 - [../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md)
 
 Restart conditions:
 
-- continue scouting or constructing a second response-contract asset package.
+- continue scouting or constructing a second response-contract asset package,
+  or reselect a non-blocked CPU-first research lane.
 - do not run 800k ReDiffuse metrics as an automatic shortcut.
 - do not run larger ReDiffuse packets without a new scorer hypothesis and CPU
   preflight.
@@ -150,6 +154,7 @@ Restart conditions:
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |
+| Black-box response-contract discovery | needs-assets; discovery found no paired second response-contract package under black-box dataset/supplementary roots. |
 | ReDiffuse collaborator bundle intake | Positive intake; complete enough for bounded compatibility review, not admitted evidence. |
 | ReDiffuse 750k direct-distance packet | Positive compatibility packet at 64/64; not comparable with PIA/SecMI without scoring-mode caveat. |
 | Recon tail confidence review | Admitted-finite-tail-only; recon remains black-box product row. |
