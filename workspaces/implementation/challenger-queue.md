@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `ReDiffuse checkpoint-portability gate review` |
+| Active work | `ReDiffuse ResNet contract scout` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | ReDiffuse 800k portability shortcut closed blocked-by-scoring-contract |
+| CPU sidecar | exact replay decision after ReDiffuse contract mismatch |
 | Gray-box status | ReDiffuse is candidate-only / hold; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
@@ -22,7 +22,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | --- | --- | --- | --- | --- | --- |
 | black-box response-contract asset acquisition | black-box | needs assets | acquisition audit and acquisition spec closed as `needs-assets` | missing second compatible response contract package | acquire or construct package matching the spec |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
-| ReDiffuse future reopen | gray-box | CPU-only | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime/checkpoint compatible | scorer contract unresolved blocks 800k release | exact ResNet contract replay or new non-direct-distance scorer only |
+| ReDiffuse future reopen | gray-box | CPU-only | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime/checkpoint compatible; current adapter is not exact collaborator replay | contract mismatch blocks 800k release | implement exact replay mode or move to a different non-direct-distance scorer |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -31,20 +31,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### ReDiffuse Checkpoint-Portability Gate
+### ReDiffuse ResNet Contract Scout
 
 - `mode`: CPU-only
-- `status`: blocked-by-scoring-contract
-- `goal`: decide whether 800k ReDiffuse runtime compatibility is enough to
-  release a metrics packet.
-- `latest trigger`: checkpoint metadata and split hash are compatible, but the
-  750k ResNet parity packet keeps the scorer contract unresolved.
+- `status`: blocked-by-contract-mismatch
+- `goal`: decide whether the current Research `resnet` scoring mode is exact
+  collaborator replay.
+- `latest trigger`: static scout found two semantic mismatches: collaborator
+  best-checkpoint selection never updates `test_acc_best`, and collaborator
+  score orientation negates logits before member-lower ROC.
 - `GPU cap`: no GPU released.
 - `integration`: no Platform or Runtime schema change.
 
 Current evidence:
 
 - [../../docs/evidence/rediffuse-checkpoint-portability-gate.md](../../docs/evidence/rediffuse-checkpoint-portability-gate.md)
+- [../../docs/evidence/rediffuse-resnet-contract-scout.md](../../docs/evidence/rediffuse-resnet-contract-scout.md)
 - [../../docs/evidence/blackbox-response-contract-acquisition-audit.md](../../docs/evidence/blackbox-response-contract-acquisition-audit.md)
 - [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
 - [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md)
@@ -54,7 +56,7 @@ Current evidence:
 Restart conditions:
 
 - continue scouting or constructing a second response-contract asset package.
-- do not run 800k ReDiffuse metrics until exact scorer-contract replay or a new
+- do not run 800k ReDiffuse metrics until exact replay mode or a new
   non-direct-distance scorer hypothesis clears CPU preflight.
 - do not GPU-scale GSA loss-score LR from the current stability review.
 - open a new scorer, protocol, or observable only if it has a falsifier and CPU
@@ -140,6 +142,7 @@ Restart conditions:
 | Task | Result |
 | --- | --- |
 | ReDiffuse checkpoint-portability gate | blocked-by-scoring-contract; 800k checkpoint compatibility is not enough to release metrics. |
+| ReDiffuse ResNet contract scout | blocked-by-contract-mismatch; current Research `resnet` mode is not exact collaborator replay. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
