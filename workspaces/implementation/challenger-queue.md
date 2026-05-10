@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `temporary resting state: needs external assets or new hypothesis` |
+| Active work | `next-candidate discovery: black-box response-contract asset/protocol scout` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none currently reducible |
+| CPU sidecar | white-box distinct-scorer LR stability closed negative |
 | Gray-box status | ReDiffuse is candidate-only / hold; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
@@ -22,6 +22,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | --- | --- | --- | --- | --- | --- |
 | black-box response-contract asset acquisition | black-box | needs assets | acquisition audit and acquisition spec closed as `needs-assets` | missing second compatible response contract package | acquire or construct package matching the spec |
 | ReDiffuse future reopen | gray-box | needs hypothesis | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | hold until new scorer or checkpoint-portability contract exists |
+| GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
@@ -29,14 +30,14 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Temporary Resting State
+### Next-Candidate Discovery
 
 - `mode`: CPU-only
-- `status`: resting until assets or a new hypothesis arrive
-- `goal`: avoid same-observable reruns and GPU release while all current lanes
-  are blocked, hold, or needs-assets.
-- `latest trigger`: the resting-state audit found no active GPU candidate and
-  no currently reducible CPU sidecar.
+- `status`: active
+- `goal`: find a bounded candidate that can survive CPU preflight without
+  replaying a closed observable.
+- `latest trigger`: the first post-resting CPU review closed the GSA
+  loss-score LR rescue path as negative-but-useful.
 - `GPU cap`: no GPU released.
 - `integration`: no Platform or Runtime schema change.
 
@@ -45,13 +46,14 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-acquisition-audit.md](../../docs/evidence/blackbox-response-contract-acquisition-audit.md)
 - [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
 - [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
+- [../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md)
 
 Restart conditions:
 
-- a second response-contract asset package passes CPU preflight.
-- a new scorer, protocol, or observable hypothesis appears with a falsifier.
-- Platform or Runtime requests a concrete system-consumable sync not covered by
-  current admitted artifacts.
+- continue scouting or constructing a second response-contract asset package.
+- do not GPU-scale GSA loss-score LR from the current stability review.
+- open a new scorer, protocol, or observable only if it has a falsifier and CPU
+  preflight.
 
 ## Ready
 
@@ -132,6 +134,7 @@ Restart conditions:
 
 | Task | Result |
 | --- | --- |
+| GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |
 | ReDiffuse collaborator bundle intake | Positive intake; complete enough for bounded compatibility review, not admitted evidence. |

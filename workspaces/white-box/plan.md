@@ -6,13 +6,20 @@
 - `DPDM`: defended comparator with protocol limitations.
 - `Finding NeMo` and related localization work: exploratory results, not promoted.
 - Distinct second white-box family: still open, not selected.
+- GSA loss-score LR transfer: closed as negative-but-useful after
+  leave-one-shadow-out stability review; do not GPU-scale from the existing
+  scorer.
 
 ## Next Action
 
 Don't reopen same-family GPU work unless a genuinely new hypothesis survives
-CPU review. Keep current status reflected in
+CPU review. The current next-candidate discovery slot should prioritize
+black-box response-contract asset/protocol scouting over another GSA
+loss-score scorer. Keep current status reflected in
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 
 ## Current Status
 
-Strong upper-bound method, no immediate GPU candidate.
+Strong upper-bound method, no immediate GPU candidate. The latest CPU-only
+loss-score shadow stability review is
+[../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md).

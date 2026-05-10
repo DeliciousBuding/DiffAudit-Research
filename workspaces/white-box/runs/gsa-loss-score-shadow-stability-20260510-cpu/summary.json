@@ -1,0 +1,222 @@
+{
+  "status": "ready",
+  "track": "white-box",
+  "method": "gsa-loss-score-shadow-stability",
+  "mode": "leave-one-shadow-out-review",
+  "packet_summary": "workspaces\\white-box\\runs\\gsa-loss-score-export-bounded-bm0-gpu-20260417-r1\\summary.json",
+  "output": "workspaces\\white-box\\runs\\gsa-loss-score-shadow-stability-20260510-cpu\\summary.json",
+  "verdict": "negative-but-useful",
+  "hypothesis": "Gaussian LR transfer is a stable distinct scorer over existing GSA loss-score exports.",
+  "falsifier": "LR fails to beat threshold transfer in at least 2/3 held-out shadow and target folds.",
+  "release_gate": {
+    "heldout_lr_beats_threshold_folds": 1,
+    "target_lr_beats_threshold_folds": 0,
+    "required_folds": 2,
+    "passed": false
+  },
+  "macro": {
+    "heldout_shadow": {
+      "threshold_transfer": {
+        "auc": 0.582682,
+        "asr": 0.513021,
+        "tpr_at_1pct_fpr": 0.015625,
+        "tpr_at_0_1pct_fpr": 0.015625
+      },
+      "gaussian_lr_transfer": {
+        "auc": 0.574056,
+        "asr": 0.513021,
+        "tpr_at_1pct_fpr": 0.026042,
+        "tpr_at_0_1pct_fpr": 0.026042
+      }
+    },
+    "target_transfer": {
+      "threshold_transfer": {
+        "auc": 0.671143,
+        "asr": 0.554687,
+        "tpr_at_1pct_fpr": 0.015625,
+        "tpr_at_0_1pct_fpr": 0.015625
+      },
+      "gaussian_lr_transfer": {
+        "auc": 0.564697,
+        "asr": 0.546875,
+        "tpr_at_1pct_fpr": 0.010417,
+        "tpr_at_0_1pct_fpr": 0.010417
+      }
+    }
+  },
+  "folds": [
+    {
+      "heldout_shadow_name": "shadow-01",
+      "train_shadows": [
+        "shadow-02",
+        "shadow-03"
+      ],
+      "threshold_direction": "member-lower",
+      "heldout_shadow": {
+        "threshold_transfer": {
+          "auc": 0.578857,
+          "asr": 0.492188,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0_1pct_fpr": 0.0,
+          "member_mean_score": -0.494835,
+          "nonmember_mean_score": -0.499406,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.4668812155723572
+        },
+        "gaussian_lr_transfer": {
+          "auc": 0.579102,
+          "asr": 0.492188,
+          "tpr_at_1pct_fpr": 0.015625,
+          "tpr_at_0_1pct_fpr": 0.015625,
+          "member_mean_score": -0.900822,
+          "nonmember_mean_score": -1.213251,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": 0.17698900737475798
+        }
+      },
+      "target_transfer": {
+        "threshold_transfer": {
+          "auc": 0.671143,
+          "asr": 0.648438,
+          "tpr_at_1pct_fpr": 0.015625,
+          "tpr_at_0_1pct_fpr": 0.015625,
+          "member_mean_score": -0.457615,
+          "nonmember_mean_score": -0.467835,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.4668812155723572
+        },
+        "gaussian_lr_transfer": {
+          "auc": 0.623291,
+          "asr": 0.632812,
+          "tpr_at_1pct_fpr": 0.015625,
+          "tpr_at_0_1pct_fpr": 0.015625,
+          "member_mean_score": 0.145624,
+          "nonmember_mean_score": 0.004003,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": 0.17698900737475798
+        }
+      }
+    },
+    {
+      "heldout_shadow_name": "shadow-02",
+      "train_shadows": [
+        "shadow-01",
+        "shadow-03"
+      ],
+      "threshold_direction": "member-lower",
+      "heldout_shadow": {
+        "threshold_transfer": {
+          "auc": 0.594971,
+          "asr": 0.53125,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0_1pct_fpr": 0.0,
+          "member_mean_score": -0.468532,
+          "nonmember_mean_score": -0.474356,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.5039435625076294
+        },
+        "gaussian_lr_transfer": {
+          "auc": 0.587891,
+          "asr": 0.53125,
+          "tpr_at_1pct_fpr": 0.03125,
+          "tpr_at_0_1pct_fpr": 0.03125,
+          "member_mean_score": 0.141396,
+          "nonmember_mean_score": 0.091934,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.22576562460602867
+        }
+      },
+      "target_transfer": {
+        "threshold_transfer": {
+          "auc": 0.671143,
+          "asr": 0.507812,
+          "tpr_at_1pct_fpr": 0.015625,
+          "tpr_at_0_1pct_fpr": 0.015625,
+          "member_mean_score": -0.457615,
+          "nonmember_mean_score": -0.467835,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.5039435625076294
+        },
+        "gaussian_lr_transfer": {
+          "auc": 0.537354,
+          "asr": 0.507812,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0_1pct_fpr": 0.0,
+          "member_mean_score": 0.154368,
+          "nonmember_mean_score": 0.13624,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.22576562460602867
+        }
+      }
+    },
+    {
+      "heldout_shadow_name": "shadow-03",
+      "train_shadows": [
+        "shadow-01",
+        "shadow-02"
+      ],
+      "threshold_direction": "member-lower",
+      "heldout_shadow": {
+        "threshold_transfer": {
+          "auc": 0.574219,
+          "asr": 0.515625,
+          "tpr_at_1pct_fpr": 0.046875,
+          "tpr_at_0_1pct_fpr": 0.046875,
+          "member_mean_score": -0.464651,
+          "nonmember_mean_score": -0.469186,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.5039435625076294
+        },
+        "gaussian_lr_transfer": {
+          "auc": 0.555176,
+          "asr": 0.515625,
+          "tpr_at_1pct_fpr": 0.03125,
+          "tpr_at_0_1pct_fpr": 0.03125,
+          "member_mean_score": 0.204497,
+          "nonmember_mean_score": 0.176728,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.22765207634410478
+        }
+      },
+      "target_transfer": {
+        "threshold_transfer": {
+          "auc": 0.671143,
+          "asr": 0.507812,
+          "tpr_at_1pct_fpr": 0.015625,
+          "tpr_at_0_1pct_fpr": 0.015625,
+          "member_mean_score": -0.457615,
+          "nonmember_mean_score": -0.467835,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.5039435625076294
+        },
+        "gaussian_lr_transfer": {
+          "auc": 0.533447,
+          "asr": 0.5,
+          "tpr_at_1pct_fpr": 0.015625,
+          "tpr_at_0_1pct_fpr": 0.015625,
+          "member_mean_score": 0.186143,
+          "nonmember_mean_score": 0.169427,
+          "member_eval_size": 64,
+          "nonmember_eval_size": 64,
+          "applied_threshold": -0.22765207634410478
+        }
+      }
+    }
+  ],
+  "notes": [
+    "CPU-only review over existing loss-score exports; no GPU task is released.",
+    "Held-out shadow folds test whether the scorer generalizes across shadow checkpoints.",
+    "Target-transfer rows reuse each fold's shadow-only orientation, density fit, and threshold."
+  ]
+}
