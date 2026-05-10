@@ -23,20 +23,26 @@ Current evidence:
 - 750k `resnet` 64/64 parity packet is negative: `AUC = 0.411982`,
   `ASR = 0.538462`, and both low-FPR metrics are `0.0`.
 - 800k PIA checkpoint is ReDiffuse runtime-probe compatible on CPU; metrics are
-  not run yet.
+  not run.
 - Direct-distance boundary review blocks automatic 800k metrics because it
   would only test a Research-specific proxy surface.
+- Checkpoint-portability gate confirms 750k/800k metadata and split hash
+  compatibility, but blocks release because the scorer contract remains
+  unresolved.
 
 ## Next Action
 
 No gray-box GPU task is released. Keep `PIA` as the admitted gray-box line with
-bounded adaptive and finite low-FPR caveats. Continue outside gray-box unless a
-new ReDiffuse scorer or checkpoint-portability hypothesis is written first.
+bounded adaptive and finite low-FPR caveats. If ReDiffuse reopens, the next
+CPU-first task should be exact ResNet contract replay against collaborator
+`nns_attack` semantics, not another direct-distance packet.
 
 ## GPU Policy
 
 No ReDiffuse GPU task is released.
 
 Do not run 800k metrics, 128/128, 256/256, or 512/512 without a new CPU
-contract. Keep PIA-related admitted claims aligned with
+contract. The 800k checkpoint is runtime-compatible, but metrics remain blocked
+by [../../docs/evidence/rediffuse-checkpoint-portability-gate.md](../../docs/evidence/rediffuse-checkpoint-portability-gate.md).
+Keep PIA-related admitted claims aligned with
 [../../docs/evidence/admitted-results-summary.md](../../docs/evidence/admitted-results-summary.md).
