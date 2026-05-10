@@ -7,8 +7,8 @@
 - Defense reference: stochastic dropout is a provisional defended comparator,
   not validated privacy protection.
 - Active candidate: none; ReDiffuse is candidate-only / hold after negative
-  ResNet parity, direct-distance boundary review, and checkpoint-portability
-  gate review.
+  ResNet parity, direct-distance boundary review, checkpoint-portability gate,
+  and ResNet contract scout.
 - GPU: none released.
 
 ## Files
