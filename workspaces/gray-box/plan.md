@@ -13,10 +13,10 @@
 - `CDI/TMIA-DM/PIA tri-score`: positive-but-bounded internal evidence
   aggregation; not admitted and not product-facing.
 
-## Active Question
+## Current Question
 
-Can the existing CDI/TMIA-DM/PIA tri-score packets survive a CPU-only
-truth-hardening preflight strongly enough to remain the next internal candidate?
+What is the correct gray-box boundary after ReDiffuse and CDI/TMIA-DM/PIA
+tri-score both closed as candidate-only or internal-only evidence?
 
 Current evidence:
 
@@ -46,31 +46,31 @@ Current evidence:
   `TPR@1%FPR = 0.118164`, and `TPR@0.1%FPR = 0.023438`, but the contract
   explicitly says `headline_use_allowed = false` and
   `external_evidence_allowed = false`.
+- Tri-score truth-hardening closed as positive-but-bounded: all three frozen
+  packets beat admitted PIA on AUC and both low-FPR fields, while ASR is not
+  stable enough for the support claim. The result remains internal-only.
 
 ## Next Action
 
 No gray-box GPU task is running. Keep `PIA` as the admitted gray-box line with
 bounded adaptive and finite low-FPR caveats. ReDiffuse is closed as
 candidate-only for now; do not run 800k or larger packets without a new scorer
-hypothesis and CPU preflight.
-
-The current CPU-first task is tri-score truth-hardening:
-
-1. freeze the X-88/X-141/X-142 evidence set,
-2. preserve the internal-only contract,
-3. test whether the low-FPR gains survive uncertainty or leave-one-surface
-   review,
-4. do not update admitted summaries unless a later reviewed promotion gate is
-   explicitly passed.
+hypothesis and CPU preflight. CDI/TMIA-DM/PIA tri-score is closed as
+positive-but-bounded internal evidence; do not run a larger same-contract
+tri-score packet.
 
 Canonical consolidation:
 [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md).
+
+Canonical truth-hardening:
+[../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md).
 
 ## GPU Policy
 
 No ReDiffuse GPU task is released.
 
-No tri-score GPU task is released. The next tri-score step is CPU-only.
+No tri-score GPU task is released. The next gray-box task must introduce a new
+scorer, surface, or falsifier before it can become CPU-active again.
 
 Do not run 800k metrics, 128/128, 256/256, or 512/512 without a new CPU
 contract. The 800k checkpoint is runtime-compatible, but metrics remain blocked

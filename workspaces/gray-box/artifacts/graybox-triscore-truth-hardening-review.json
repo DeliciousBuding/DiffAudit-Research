@@ -1,0 +1,117 @@
+{
+  "schema": "diffaudit.graybox_triscore_truth_hardening_review.v1",
+  "status": "positive-but-bounded",
+  "summary_source": "workspaces/gray-box/artifacts/graybox-triscore-consolidation-summary.json",
+  "packet_count": 3,
+  "admitted_comparator": {
+    "label": "PIA GPU512 baseline",
+    "auc": 0.841339,
+    "asr": 0.786133,
+    "tpr_at_1pct_fpr": 0.058594,
+    "tpr_at_0_1pct_fpr": 0.011719
+  },
+  "per_packet": [
+    {
+      "label": "first aligned tri-score canary",
+      "source_run_id": "x88-cdi-tmiadm-triscore-canary-20260417-175249",
+      "metrics": {
+        "auc": 0.854515,
+        "asr": 0.790039,
+        "tpr_at_1pct_fpr": 0.130859,
+        "tpr_at_0_1pct_fpr": 0.048828
+      },
+      "delta_vs_admitted_pia": {
+        "auc": 0.013176,
+        "asr": 0.003906,
+        "tpr_at_1pct_fpr": 0.072265,
+        "tpr_at_0_1pct_fpr": 0.037109
+      },
+      "beats_admitted_pia": {
+        "auc": true,
+        "asr": true,
+        "tpr_at_1pct_fpr": true,
+        "tpr_at_0_1pct_fpr": true
+      }
+    },
+    {
+      "label": "larger matched surface seed 1",
+      "source_run_id": "x141-x90-larger-surface-triscore-20260429-r1",
+      "metrics": {
+        "auc": 0.849247,
+        "asr": 0.782226,
+        "tpr_at_1pct_fpr": 0.069336,
+        "tpr_at_0_1pct_fpr": 0.022461
+      },
+      "delta_vs_admitted_pia": {
+        "auc": 0.007908,
+        "asr": -0.003907,
+        "tpr_at_1pct_fpr": 0.010742,
+        "tpr_at_0_1pct_fpr": 0.010742
+      },
+      "beats_admitted_pia": {
+        "auc": true,
+        "asr": false,
+        "tpr_at_1pct_fpr": true,
+        "tpr_at_0_1pct_fpr": true
+      }
+    },
+    {
+      "label": "larger matched surface seed 2",
+      "source_run_id": "x142-x90-larger-surface-triscore-seed2-20260429-r1",
+      "metrics": {
+        "auc": 0.859043,
+        "asr": 0.786133,
+        "tpr_at_1pct_fpr": 0.118164,
+        "tpr_at_0_1pct_fpr": 0.023438
+      },
+      "delta_vs_admitted_pia": {
+        "auc": 0.017704,
+        "asr": 0.0,
+        "tpr_at_1pct_fpr": 0.05957,
+        "tpr_at_0_1pct_fpr": 0.011719
+      },
+      "beats_admitted_pia": {
+        "auc": true,
+        "asr": false,
+        "tpr_at_1pct_fpr": true,
+        "tpr_at_0_1pct_fpr": true
+      }
+    }
+  ],
+  "aggregate": {
+    "mean_metrics": {
+      "auc": 0.854268,
+      "asr": 0.786133,
+      "tpr_at_1pct_fpr": 0.10612,
+      "tpr_at_0_1pct_fpr": 0.031576
+    },
+    "beats_admitted_pia_counts": {
+      "auc": 3,
+      "asr": 1,
+      "tpr_at_1pct_fpr": 3,
+      "tpr_at_0_1pct_fpr": 3
+    },
+    "min_delta_vs_admitted_pia": {
+      "auc": 0.007908,
+      "asr": -0.003907,
+      "tpr_at_1pct_fpr": 0.010742,
+      "tpr_at_0_1pct_fpr": 0.010742
+    },
+    "max_delta_vs_admitted_pia": {
+      "auc": 0.017704,
+      "asr": 0.003906,
+      "tpr_at_1pct_fpr": 0.072265,
+      "tpr_at_0_1pct_fpr": 0.037109
+    }
+  },
+  "gates": {
+    "auc_beats_in_at_least_2_of_3": true,
+    "tpr_at_1pct_fpr_beats_in_at_least_2_of_3": true,
+    "tpr_at_0_1pct_fpr_reported_positive_in_at_least_2_of_3": true,
+    "internal_only_contract_preserved": true,
+    "gpu_release": false,
+    "admitted_promotion": false
+  },
+  "verdict": "positive-but-bounded",
+  "next_action": "keep as internal candidate; do not run GPU until a separate story-changing expansion is preflighted"
+}
