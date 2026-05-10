@@ -4,11 +4,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 from pathlib import Path
 from typing import Any
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from diffaudit.attacks.response_contract import inspect_response_contract_package
 

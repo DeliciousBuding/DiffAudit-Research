@@ -7,8 +7,6 @@ import tempfile
 import unittest
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-
 from diffaudit.attacks.response_contract import inspect_response_contract_package
 
 
@@ -28,8 +26,11 @@ class ResponseContractPackageTests(unittest.TestCase):
 
         splits = dataset / "splits"
         splits.mkdir(parents=True)
-        (splits / "member_ids.json").write_text(json.dumps(["m0", "m1"]), encoding="utf-8")
-        (splits / "nonmember_ids.json").write_text(json.dumps(["n0", "n1"]), encoding="utf-8")
+        (splits / "member_ids.json").write_text(json.dumps([f"m{index}" for index in range(count)]), encoding="utf-8")
+        (splits / "nonmember_ids.json").write_text(
+            json.dumps([f"n{index}" for index in range(count)]),
+            encoding="utf-8",
+        )
         (dataset / "manifest.json").write_text(
             json.dumps({"dataset_name": "synthetic-response-contract", "member_count": count, "nonmember_count": count}),
             encoding="utf-8",
@@ -80,6 +81,56 @@ class ResponseContractPackageTests(unittest.TestCase):
 
         self.assertEqual(payload["status"], "needs_responses")
         self.assertIn("response_member_count", payload["missing"])
+
+    def test_duplicate_unrelated_responses_do_not_pass_per_query_coverage(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            dataset, supplementary = self._make_ready_package(Path(tmpdir), "response-contract-synthetic")
+            member_response = supplementary / "responses" / "member"
+            for path in member_response.glob("*.png"):
+                path.unlink()
+            for index in range(6):
+                (member_response / f"unrelated-{index}.png").write_bytes(b"png")
+            payload = inspect_response_contract_package(
+                asset_id="response-contract-synthetic",
+                dataset_root=dataset,
+                supplementary_root=supplementary,
+                min_split_count=2,
+            )
+
+        self.assertEqual(payload["status"], "needs_responses")
+        self.assertFalse(payload["counts"]["response_coverage"]["member"]["ready"])
+
+    def test_malformed_manifest_returns_blocked_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            dataset, supplementary = self._make_ready_package(Path(tmpdir), "response-contract-synthetic")
+            (supplementary / "endpoint_contract.json").write_text("{not-json", encoding="utf-8")
+            payload = inspect_response_contract_package(
+                asset_id="response-contract-synthetic",
+                dataset_root=dataset,
+                supplementary_root=supplementary,
+                min_split_count=2,
+            )
+
+        self.assertEqual(payload["status"], "blocked")
+        self.assertIn("endpoint_contract_json_valid", payload["missing"])
+        self.assertIn("invalid JSON", payload["parse_errors"]["endpoint_contract"])
+
+    def test_invalid_repeat_count_returns_blocked_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            dataset, supplementary = self._make_ready_package(Path(tmpdir), "response-contract-synthetic")
+            endpoint = supplementary / "endpoint_contract.json"
+            payload = json.loads(endpoint.read_text(encoding="utf-8"))
+            payload["repeat_count"] = "three"
+            endpoint.write_text(json.dumps(payload), encoding="utf-8")
+            result = inspect_response_contract_package(
+                asset_id="response-contract-synthetic",
+                dataset_root=dataset,
+                supplementary_root=supplementary,
+                min_split_count=2,
+            )
+
+        self.assertEqual(result["status"], "blocked")
+        self.assertIn("repeat_count_valid", result["missing"])
 
     def test_script_reports_needs_assets_for_missing_package(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
