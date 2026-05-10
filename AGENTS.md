@@ -28,9 +28,10 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `next-candidate discovery: black-box response-contract asset/protocol scout`
+- Active work: `post-response-contract discovery reselection`
 - Next GPU candidate: none selected
-- CPU work: GSA loss-score LR stability closed negative; continue candidate discovery
+- CPU work: black-box response-contract discovery closed as `needs-assets`;
+  continue CPU-first reselection or asset acquisition
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

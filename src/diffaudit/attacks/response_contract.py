@@ -232,6 +232,197 @@ def inspect_response_contract_package(
     }
 
 
+def discover_response_contract_packages(
+    *,
+    download_root: str | Path,
+    min_split_count: int = 25,
+    include_asset_ids: list[str] | tuple[str, ...] | None = None,
+) -> dict[str, Any]:
+    """Discover candidate response-contract packages under Download.
+
+    Discovery is intentionally conservative: it only scans the portable
+    `Download/black-box/datasets` and `Download/black-box/supplementary`
+    package roots, then reuses the single-package CPU gate for every candidate
+    id. It does not infer readiness from unrelated weights or old run outputs.
+    """
+
+    root = Path(download_root)
+    dataset_root = root / "black-box" / "datasets"
+    supplementary_root = root / "black-box" / "supplementary"
+
+    dataset_ids = (
+        {path.name for path in dataset_root.iterdir() if path.is_dir()}
+        if dataset_root.is_dir()
+        else set()
+    )
+    supplementary_ids = (
+        {path.name for path in supplementary_root.iterdir() if path.is_dir()}
+        if supplementary_root.is_dir()
+        else set()
+    )
+    requested_ids = set(include_asset_ids or ())
+    asset_ids = sorted(dataset_ids | supplementary_ids | requested_ids)
+
+    packages = [
+        inspect_response_contract_package(
+            asset_id=asset_id,
+            dataset_root=dataset_root / asset_id,
+            supplementary_root=supplementary_root / asset_id,
+            min_split_count=min_split_count,
+        )
+        for asset_id in asset_ids
+    ]
+
+    status_counts: dict[str, int] = {}
+    for package in packages:
+        status = package["status"]
+        status_counts[status] = status_counts.get(status, 0) + 1
+
+    ready = [package["asset_id"] for package in packages if package["status"] == "ready"]
+    dataset_only = sorted(dataset_ids - supplementary_ids)
+    supplementary_only = sorted(supplementary_ids - dataset_ids)
+    missing_requested = sorted(requested_ids - dataset_ids - supplementary_ids)
+
+    if ready:
+        status = "ready"
+        verdict = "one or more response-contract packages passed CPU discovery"
+        next_action = "run package-level preflight for the ready asset and freeze a bounded scout contract"
+    elif packages:
+        status = "needs_assets"
+        verdict = "no discovered package passes the response-contract CPU gate"
+        next_action = "create or acquire a paired dataset/supplementary package with query split, protocol, and responses"
+    else:
+        status = "needs_assets"
+        verdict = "no response-contract package roots were discovered"
+        next_action = "create the first package under Download/black-box/datasets and Download/black-box/supplementary"
+
+    return {
+        "status": status,
+        "track": "black-box",
+        "method": "response-contract-discovery",
+        "download_root": root.as_posix(),
+        "min_split_count": min_split_count,
+        "roots": {
+            "datasets": dataset_root.as_posix(),
+            "supplementary": supplementary_root.as_posix(),
+        },
+        "counts": {
+            "dataset_ids": len(dataset_ids),
+            "supplementary_ids": len(supplementary_ids),
+            "candidate_ids": len(asset_ids),
+            "status_counts": status_counts,
+        },
+        "ready_asset_ids": ready,
+        "dataset_only_asset_ids": dataset_only,
+        "supplementary_only_asset_ids": supplementary_only,
+        "missing_requested_asset_ids": missing_requested,
+        "packages": packages,
+        "verdict": verdict,
+        "next_action": next_action,
+    }
+
+
+def scaffold_response_contract_package(
+    *,
+    asset_id: str,
+    download_root: str | Path,
+    dataset_name: str = "",
+    model_identity: str = "",
+    endpoint_mode: str = "image_to_image",
+    repeat_count: int = 1,
+    create: bool = False,
+) -> dict[str, Any]:
+    """Plan or create the portable directory skeleton for a response contract."""
+
+    if not asset_id.strip():
+        raise ValueError("asset_id must be non-empty")
+    if repeat_count <= 0:
+        raise ValueError("repeat_count must be positive")
+    if endpoint_mode not in SUPPORTED_ENDPOINT_MODES:
+        supported = ", ".join(sorted(SUPPORTED_ENDPOINT_MODES))
+        raise ValueError(f"endpoint_mode must be one of: {supported}")
+
+    root = Path(download_root)
+    dataset = root / "black-box" / "datasets" / asset_id
+    supplementary = root / "black-box" / "supplementary" / asset_id
+    directories = [
+        dataset / "query" / "member",
+        dataset / "query" / "nonmember",
+        dataset / "splits",
+        supplementary / "responses" / "member",
+        supplementary / "responses" / "nonmember",
+    ]
+    files: dict[Path, Any] = {
+        dataset / "splits" / "member_ids.json": [],
+        dataset / "splits" / "nonmember_ids.json": [],
+        dataset / "manifest.json": {
+            "asset_id": asset_id,
+            "dataset_name": dataset_name,
+            "source": "",
+            "license": "",
+            "acquisition_date": "",
+            "split_rule": "",
+            "split_seed": None,
+            "member_count": 0,
+            "nonmember_count": 0,
+            "integrity": {},
+        },
+        supplementary / "endpoint_contract.json": {
+            "asset_id": asset_id,
+            "endpoint_mode": endpoint_mode,
+            "model_identity": model_identity,
+            "repeat_count": repeat_count,
+            "fixed_seed_policy": False,
+            "response_observability": "image",
+            "query_budget": "",
+            "adaptive_boundary": "",
+        },
+        supplementary / "response_manifest.json": {
+            "asset_id": asset_id,
+            "repeat_count": repeat_count,
+            "response_count": 0,
+            "responses_by_query": {"member": {}, "nonmember": {}},
+            "integrity": {},
+        },
+    }
+
+    existing_files = [path for path in files if path.exists()]
+    would_create_files = [path for path in files if not path.exists()]
+    would_create_dirs = [path for path in directories if not path.exists()]
+
+    if create:
+        for directory in directories:
+            directory.mkdir(parents=True, exist_ok=True)
+        for path, payload in files.items():
+            if not path.exists():
+                path.write_text(json.dumps(payload, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+
+    status = "created" if create else "dry_run"
+    return {
+        "status": status,
+        "asset_id": asset_id,
+        "track": "black-box",
+        "method": "response-contract-scaffold",
+        "download_root": root.as_posix(),
+        "create": create,
+        "paths": {
+            "dataset_root": dataset.as_posix(),
+            "supplementary_root": supplementary.as_posix(),
+        },
+        "directories": [path.as_posix() for path in directories],
+        "template_files": [path.as_posix() for path in files],
+        "would_create_directories": [path.as_posix() for path in would_create_dirs],
+        "would_create_files": [path.as_posix() for path in would_create_files],
+        "existing_files": [path.as_posix() for path in existing_files],
+        "verdict": (
+            "created portable response-contract package skeleton"
+            if create
+            else "dry-run only; rerun with --create to write the package skeleton"
+        ),
+        "next_action": "add query images, split ids, endpoint provenance, responses, and integrity hashes before preflight",
+    }
+
+
 def _verdict_for_status(status: str) -> str:
     if status == "ready":
         return "CPU package gate passed; eligible for a bounded scout, not admitted evidence"
