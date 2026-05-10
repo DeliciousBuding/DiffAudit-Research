@@ -9,11 +9,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `ReDiffuse exact replay preflight` |
+| Active work | `ReDiffuse exact replay packet verdict` |
 | Active GPU task | none running |
-| Next GPU candidate | ReDiffuse 750k exact-replay packet, not released |
-| CPU sidecar | decide whether bug-compatible collaborator replay deserves one bounded packet |
-| Gray-box status | ReDiffuse exact replay CPU preflight passed; PIA remains admitted |
+| Next GPU candidate | none selected |
+| CPU sidecar | next-lane reselection after ReDiffuse candidate-only closure |
+| Gray-box status | ReDiffuse candidate-only; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
 ## Decision Inbox
@@ -22,7 +22,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | --- | --- | --- | --- | --- | --- |
 | black-box response-contract asset acquisition | black-box | needs assets | acquisition audit and acquisition spec closed as `needs-assets` | missing second compatible response contract package | acquire or construct package matching the spec |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
-| ReDiffuse exact replay packet | gray-box | GPU candidate, not released | `resnet_collaborator_replay` mode passes CPU/unit preflight | must decide whether collaborator counter contract is scientifically useful enough | if selected, run one 750k exact-replay packet only |
+| ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -31,22 +31,21 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### ReDiffuse Exact Replay Preflight
+### None
 
-- `mode`: CPU-only
-- `status`: CPU preflight passed
-- `goal`: decide whether the explicit collaborator checkpoint-selection replay
-  mode deserves one bounded 750k packet.
-- `latest trigger`: `resnet_collaborator_replay` passed unit characterization
-  and a 4-sample real-asset CPU smoke.
-- `GPU cap`: no GPU released.
-- `integration`: no Platform or Runtime schema change.
+- `mode`: idle
+- `status`: no active task
+- `goal`: reselect next research lane
+- `latest trigger`: ReDiffuse 750k exact-replay verdict
+- `GPU cap`: none
+- `integration`: none
 
 Current evidence:
 
 - [../../docs/evidence/rediffuse-checkpoint-portability-gate.md](../../docs/evidence/rediffuse-checkpoint-portability-gate.md)
 - [../../docs/evidence/rediffuse-resnet-contract-scout.md](../../docs/evidence/rediffuse-resnet-contract-scout.md)
 - [../../docs/evidence/rediffuse-exact-replay-preflight.md](../../docs/evidence/rediffuse-exact-replay-preflight.md)
+- [../../docs/evidence/rediffuse-exact-replay-packet.md](../../docs/evidence/rediffuse-exact-replay-packet.md)
 - [../../docs/evidence/blackbox-response-contract-acquisition-audit.md](../../docs/evidence/blackbox-response-contract-acquisition-audit.md)
 - [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
 - [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md)
@@ -56,9 +55,9 @@ Current evidence:
 Restart conditions:
 
 - continue scouting or constructing a second response-contract asset package.
-- do not run 800k ReDiffuse metrics until 750k exact replay has a verdict.
-- do not run 750k exact replay unless the packet contract fixes sample count,
-  scorer epochs, seed handling, and low-FPR reporting.
+- do not run 800k ReDiffuse metrics as an automatic shortcut.
+- do not run larger ReDiffuse packets without a new scorer hypothesis and CPU
+  preflight.
 - do not GPU-scale GSA loss-score LR from the current stability review.
 - open a new scorer, protocol, or observable only if it has a falsifier and CPU
   preflight.
@@ -145,6 +144,7 @@ Restart conditions:
 | ReDiffuse checkpoint-portability gate | blocked-by-scoring-contract; 800k checkpoint compatibility is not enough to release metrics. |
 | ReDiffuse ResNet contract scout | blocked-by-contract-mismatch; current Research `resnet` mode is not exact collaborator replay. |
 | ReDiffuse exact replay preflight | CPU preflight passed; `resnet_collaborator_replay` mode is available, no GPU release yet. |
+| ReDiffuse 750k exact replay | Candidate-only; modest AUC but weak strict-tail evidence, no admitted promotion. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
