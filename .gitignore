@@ -135,6 +135,7 @@ workspaces/**/artifacts/**
 !workspaces/implementation/artifacts/unified-attack-defense-table.json
 !workspaces/implementation/artifacts/recon-product-evidence-card.json
 !workspaces/gray-box/artifacts/graybox-triscore-consolidation-summary.json
+!workspaces/gray-box/artifacts/graybox-triscore-truth-hardening-review.json
 !workspaces/white-box/artifacts/whitebox-attack-defense-table.json
 *.stdout.log
 *.stderr.log
