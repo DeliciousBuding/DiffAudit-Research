@@ -1,6 +1,6 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-10
+> Last refreshed: 2026-05-11
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-B risk-targeted unlearning successor scope` |
+| Active work | `Kandinsky/Pokemon response-contract protocol scaffold` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only defense successor scoping; no model run |
+| CPU sidecar | CPU-only response-contract package construction; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box second response-contract acquisition | black-box | needs-assets | post-tri-score intake refresh found no ready package | missing second compatible response contract package | acquire or construct package matching `BB-DS-01` and `BB-SUP-03`, then rerun discovery and package preflight |
+| black-box second response-contract acquisition | black-box | needs-assets | post-tri-score intake refresh found no ready package; 2026-05-11 scaffold freezes the next package layout | missing second compatible response contract package | create/acquire package contents for `response-contract-pokemon-kandinsky-20260511`, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
@@ -31,17 +31,18 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | White-box distinct family | white-box | CPU-first | genuinely new observable, not same-family rescue | no new hypothesis | hold |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
 | I-B risk-targeted unlearning successor | defense | hold | full-split attack-side reviews show small reductions | no defended-shadow/adaptive attacker contract | freeze defended-shadow/adaptive review contract before any GPU |
+| I-C cross-permission successor | cross-permission | hold | translated-contract falsifier is negative at the support boundary | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### I-B Risk-Targeted Unlearning Successor Scope
+### Kandinsky/Pokemon Response-Contract Protocol Scaffold
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `hold`
-- `goal`: decide whether risk-targeted unlearning has a scientifically valid
-  successor after existing attack-side diagnostics.
-- `latest trigger`: boundary sync completed and no box-level GPU candidate is
-  selected.
+- `status`: active; current verdict is `needs-assets`
+- `goal`: turn the second response-contract blocker into a concrete portable
+  package handoff without releasing a model run.
+- `latest trigger`: I-B and I-C successor scoping both closed as hold, while
+  black-box response-contract has executable scaffold/probe tooling.
 - `GPU cap`: none
 - `integration`: none
 
@@ -57,10 +58,12 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md)
 - [../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md)
 - [../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
+- [../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md)
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
 - [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
 - [../../docs/evidence/research-boundary-consumability-sync-20260510.md](../../docs/evidence/research-boundary-consumability-sync-20260510.md)
 - [../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
+- [../../docs/evidence/ic-cross-permission-successor-scope.md](../../docs/evidence/ic-cross-permission-successor-scope.md)
 - [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
 - [../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md)
 
@@ -68,8 +71,8 @@ Restart conditions:
 
 - do not run a larger same-contract tri-score packet; it is closed as
   internal-only positive-but-bounded evidence.
-- continue scouting or constructing a second response-contract asset package
-  only when assets exist.
+- continue constructing a second response-contract asset package only against
+  the frozen scaffold layout; do not call scaffold templates ready assets.
 - do not run 800k ReDiffuse metrics as an automatic shortcut.
 - do not run larger ReDiffuse packets without a new scorer hypothesis and CPU
   preflight.
@@ -81,6 +84,8 @@ Restart conditions:
   CLiD, or response-contract acquisition as admitted Platform evidence.
 - do not GPU-scale I-B from existing attack-side threshold-transfer diagnostics
   until defended-shadow or adaptive-attacker review is specified.
+- do not GPU-scale I-C same-pair replay without a same-spec evaluator and
+  matched random comparator contract.
 
 ## Ready
 
