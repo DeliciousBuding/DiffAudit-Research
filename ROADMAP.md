@@ -10,17 +10,19 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `post-ReDiffuse next-lane reselection` |
+| Active work | `black-box second response-contract acquisition` |
 | Current GPU candidate | none selected |
-| CPU sidecar | black-box second response-contract acquisition |
+| CPU sidecar | none; active work is CPU-first |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: move from the closed ReDiffuse gate to the next useful lane.
-The 750k exact-replay GPU packet completed with modest AUC but weak strict-tail
-evidence, so ReDiffuse stays candidate-only and no 800k shortcut is released.
-The next selected lane is CPU-first black-box second response-contract
-acquisition. See
+Current objective: acquire or construct the second response-contract assets
+(`BB-DS-01`, `BB-SUP-03`) needed for black-box portability validation. The 750k
+exact-replay GPU packet completed with `AUC = 0.702293`, but strict-tail
+evidence remains weak (`TPR@1%FPR = 0.019231`, `TPR@0.1%FPR = 0.019231`) and
+the held-out ResNet accuracy is `0.5`; ReDiffuse stays candidate-only and no
+800k shortcut is released. The next selected lane is CPU-first black-box second
+response-contract acquisition. See
 [docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md)
 and
 [docs/evidence/post-rediffuse-next-lane-reselection.md](docs/evidence/post-rediffuse-next-lane-reselection.md).

@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `post-ReDiffuse next-lane reselection` |
+| Active work | `black-box second response-contract acquisition` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | black-box second response-contract acquisition |
+| CPU sidecar | none; active work is CPU-first |
 | Gray-box status | ReDiffuse candidate-only; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box response-contract asset acquisition | black-box | selected CPU-first | post-ReDiffuse reselection selected this lane | missing second compatible response contract package | acquire or construct package matching `BB-DS-01` and `BB-SUP-03`, then rerun preflight |
+| black-box second response-contract acquisition | black-box | selected CPU-first | post-ReDiffuse reselection selected this lane | missing second compatible response contract package | acquire or construct package matching `BB-DS-01` and `BB-SUP-03`, then rerun preflight |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
