@@ -10,6 +10,7 @@ from typing import Any
 
 
 METRIC_FIELDS = ("auc", "asr", "tpr_at_1pct_fpr", "tpr_at_0_1pct_fpr")
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 def _round6(value: float) -> float:
@@ -23,19 +24,44 @@ def _load_json(path: Path) -> dict[str, Any]:
     return payload
 
 
+def _repo_path(path: Path) -> Path:
+    return path if path.is_absolute() else REPO_ROOT / path
+
+
+def _display_path(path: Path) -> str:
+    try:
+        return path.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def _missing_metrics(payload: dict[str, Any]) -> list[str]:
+    return [metric for metric in METRIC_FIELDS if metric not in payload]
+
+
 def review_triscore_truth_hardening(summary_path: Path) -> dict[str, Any]:
+    summary_path = _repo_path(summary_path)
     payload = _load_json(summary_path)
     packets = payload.get("packets", [])
     if not isinstance(packets, list) or not packets:
         raise ValueError("summary must contain a non-empty packets list")
-    comparator = payload.get("admitted_comparator", {})
+    comparator = payload.get("admitted_comparator")
     if not isinstance(comparator, dict):
         raise ValueError("summary admitted_comparator must be an object")
+    missing_comparator_metrics = _missing_metrics(comparator)
+    if missing_comparator_metrics:
+        raise ValueError(f"admitted_comparator missing required metrics: {missing_comparator_metrics}")
+    claim_boundary = payload.get("claim_boundary")
+    if not isinstance(claim_boundary, dict):
+        raise ValueError("summary claim_boundary must be an object")
 
     per_packet = []
-    for packet in packets:
+    for index, packet in enumerate(packets):
         if not isinstance(packet, dict):
             raise ValueError("each packet must be an object")
+        missing_packet_metrics = _missing_metrics(packet)
+        if missing_packet_metrics:
+            raise ValueError(f"packet {index} missing required metrics: {missing_packet_metrics}")
         metric_delta = {
             metric: _round6(float(packet[metric]) - float(comparator[metric]))
             for metric in METRIC_FIELDS
@@ -71,7 +97,10 @@ def review_triscore_truth_hardening(summary_path: Path) -> dict[str, Any]:
     auc_gate = beats_counts["auc"] >= 2
     tpr1_gate = beats_counts["tpr_at_1pct_fpr"] >= 2
     strict_tail_positive = beats_counts["tpr_at_0_1pct_fpr"] >= 2
-    no_admission_contract = not bool(payload.get("claim_boundary", {}).get("headline_use_allowed"))
+    no_admission_contract = (
+        claim_boundary.get("headline_use_allowed") is False
+        and claim_boundary.get("external_evidence_allowed") is False
+    )
     gate_passed = auc_gate and tpr1_gate and no_admission_contract
 
     if gate_passed:
@@ -84,7 +113,7 @@ def review_triscore_truth_hardening(summary_path: Path) -> dict[str, Any]:
     return {
         "schema": "diffaudit.graybox_triscore_truth_hardening_review.v1",
         "status": verdict,
-        "summary_source": summary_path.as_posix(),
+        "summary_source": _display_path(summary_path),
         "packet_count": packet_count,
         "admitted_comparator": comparator,
         "per_packet": per_packet,
@@ -97,7 +126,7 @@ def review_triscore_truth_hardening(summary_path: Path) -> dict[str, Any]:
         "gates": {
             "auc_beats_in_at_least_2_of_3": auc_gate,
             "tpr_at_1pct_fpr_beats_in_at_least_2_of_3": tpr1_gate,
-            "tpr_at_0_1pct_fpr_reported_positive_in_at_least_2_of_3": strict_tail_positive,
+            "tpr_at_0_1pct_fpr_beats_in_at_least_2_of_3": strict_tail_positive,
             "internal_only_contract_preserved": no_admission_contract,
             "gpu_release": False,
             "admitted_promotion": False,
@@ -117,11 +146,14 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()
 
-    result = review_triscore_truth_hardening(args.summary)
+    summary_path = _repo_path(args.summary)
+    output_path = _repo_path(args.output) if args.output is not None else None
+
+    result = review_triscore_truth_hardening(summary_path)
     text = json.dumps(result, indent=2, ensure_ascii=True) + "\n"
-    if args.output is not None:
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(text, encoding="utf-8")
+    if output_path is not None:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(text, encoding="utf-8")
     print(text, end="")
     return 0
 

@@ -35,8 +35,8 @@ The CPU-only gate is intentionally conservative:
   packets.
 - `TPR@1%FPR` must beat the admitted PIA GPU512 baseline in at least `2 / 3`
   frozen packets.
-- `TPR@0.1%FPR` must be reported, but it cannot promote the candidate by
-  itself.
+- `TPR@0.1%FPR` must be reported and compared against the admitted PIA
+  comparator, but it cannot promote the candidate by itself.
 - The internal-only contract must remain preserved:
   `headline_use_allowed = false`, no admitted row replacement, and no product
   promotion.

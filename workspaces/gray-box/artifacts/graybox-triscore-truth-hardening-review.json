@@ -107,7 +107,7 @@
   "gates": {
     "auc_beats_in_at_least_2_of_3": true,
     "tpr_at_1pct_fpr_beats_in_at_least_2_of_3": true,
-    "tpr_at_0_1pct_fpr_reported_positive_in_at_least_2_of_3": true,
+    "tpr_at_0_1pct_fpr_beats_in_at_least_2_of_3": true,
     "internal_only_contract_preserved": true,
     "gpu_release": false,
     "admitted_promotion": false

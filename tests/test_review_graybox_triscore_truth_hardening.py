@@ -44,6 +44,7 @@ class GrayboxTriscoreTruthHardeningReviewTests(unittest.TestCase):
         self.assertTrue(result["gates"]["auc_beats_in_at_least_2_of_3"])
         self.assertTrue(result["gates"]["tpr_at_1pct_fpr_beats_in_at_least_2_of_3"])
         self.assertFalse(result["gates"]["gpu_release"])
+        self.assertTrue(result["gates"]["internal_only_contract_preserved"])
 
     def test_negative_when_tpr1_lift_is_not_stable(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -60,6 +61,38 @@ class GrayboxTriscoreTruthHardeningReviewTests(unittest.TestCase):
 
         self.assertEqual(result["verdict"], "negative-but-useful")
         self.assertFalse(result["gates"]["tpr_at_1pct_fpr_beats_in_at_least_2_of_3"])
+
+    def test_missing_metrics_raise_targeted_value_error(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            summary = Path(tmpdir) / "summary.json"
+            self._write_summary(
+                summary,
+                [
+                    {"label": "a", "auc": 0.86, "asr": 0.79, "tpr_at_1pct_fpr": 0.13},
+                    {"label": "b", "auc": 0.85, "asr": 0.77, "tpr_at_1pct_fpr": 0.07, "tpr_at_0_1pct_fpr": 0.02},
+                    {"label": "c", "auc": 0.83, "asr": 0.78, "tpr_at_1pct_fpr": 0.04, "tpr_at_0_1pct_fpr": 0.0},
+                ],
+            )
+            with self.assertRaisesRegex(ValueError, "packet 0 missing required metrics"):
+                review_triscore_truth_hardening(summary)
+
+    def test_missing_or_open_contract_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            summary = Path(tmpdir) / "summary.json"
+            packets = [
+                {"label": "a", "auc": 0.86, "asr": 0.79, "tpr_at_1pct_fpr": 0.13, "tpr_at_0_1pct_fpr": 0.04},
+                {"label": "b", "auc": 0.85, "asr": 0.77, "tpr_at_1pct_fpr": 0.07, "tpr_at_0_1pct_fpr": 0.02},
+                {"label": "c", "auc": 0.83, "asr": 0.78, "tpr_at_1pct_fpr": 0.04, "tpr_at_0_1pct_fpr": 0.0},
+            ]
+            self._write_summary(summary, packets)
+            payload = json.loads(summary.read_text(encoding="utf-8"))
+            payload["claim_boundary"]["external_evidence_allowed"] = True
+            summary.write_text(json.dumps(payload), encoding="utf-8")
+
+            result = review_triscore_truth_hardening(summary)
+
+        self.assertEqual(result["verdict"], "negative-but-useful")
+        self.assertFalse(result["gates"]["internal_only_contract_preserved"])
 
     def test_cli_writes_review_json(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
