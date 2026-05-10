@@ -68,6 +68,10 @@ It freezes a handoff layout only. The local skeleton has now been created and
 the follow-up probe returns `needs_query_split`; real query images, splits,
 response files, provenance, and integrity hashes are still missing. See
 [../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md).
+The local query-source audit confirms that `public-kandinsky-pokemon` contains
+weights only and cannot fill the query/response package. Do not mix CelebA or
+recon tensor assets into this Pokemon/Kandinsky package. See
+[../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md).
 
 The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
