@@ -60,7 +60,12 @@ machine-readable discovery output under
 see
 [../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md).
 Do not release a black-box response-contract GPU task until a candidate package
-passes that CPU preflight.
+passes that CPU preflight. The current active CPU sidecar is the
+Kandinsky/Pokemon package scaffold dry-run for
+`response-contract-pokemon-kandinsky-20260511`, recorded in
+[../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md).
+It freezes a handoff layout only; real query images, splits, response files,
+provenance, and integrity hashes are still missing.
 
 The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
