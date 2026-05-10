@@ -375,20 +375,22 @@ def _score_resnet_scorer(
     model = resnet_module.ResNet18(num_channels=3, num_classes=1).to(device)
     optimizer = torch.optim.SGD(model.parameters(), lr=float(lr), momentum=0.9, weight_decay=5e-4)
     best_state: dict[str, torch.Tensor] | None = None
-    best_acc = -1.0
+    selected_acc = -1.0
+    heldout_best_acc = -1.0
     collaborator_acc_counter = 0.0
     train_acc = 0.0
     for _epoch in range(int(epochs)):
         train_acc = _train_resnet_scorer_epoch(model, train_loader, optimizer, device=device)
         test_acc, _member_scores, _nonmember_scores = _eval_resnet_scorer(model, test_loader, device=device)
-        if checkpoint_policy == "best_heldout" and test_acc > best_acc:
-            best_acc = test_acc
+        heldout_best_acc = max(heldout_best_acc, float(test_acc))
+        if checkpoint_policy == "best_heldout" and test_acc > selected_acc:
+            selected_acc = test_acc
             best_state = {key: value.detach().cpu().clone() for key, value in model.state_dict().items()}
         elif checkpoint_policy == "collaborator_counter" and test_acc > collaborator_acc_counter:
             # The collaborator script initializes test_acc_best=0 and never
             # updates it. Preserve that contract explicitly instead of
             # silently treating the scorer as a true best-epoch selector.
-            best_acc = test_acc
+            selected_acc = test_acc
             best_state = {key: value.detach().cpu().clone() for key, value in model.state_dict().items()}
     if best_state is not None:
         model.load_state_dict(best_state)
@@ -400,7 +402,8 @@ def _score_resnet_scorer(
             "resnet_train_count_per_split": int(train_count),
             "resnet_test_count_per_split": int(member_scores.shape[0]),
             "resnet_train_acc_last": round(float(train_acc), 6),
-            "resnet_test_acc_best": round(float(best_acc), 6),
+            "resnet_test_acc_selected": round(float(selected_acc), 6),
+            "resnet_test_acc_best": round(float(heldout_best_acc), 6),
             "resnet_epochs": int(epochs),
             "resnet_lr": float(lr),
             "resnet_batch_size": int(batch_size),

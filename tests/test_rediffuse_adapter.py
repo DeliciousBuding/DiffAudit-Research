@@ -130,8 +130,106 @@ class ReDiffuseAdapterUnitTests(unittest.TestCase):
 
         self.assertEqual(best_info["resnet_checkpoint_policy"], "best_heldout")
         self.assertEqual(replay_info["resnet_checkpoint_policy"], "collaborator_counter")
+        self.assertEqual(best_info["resnet_test_acc_selected"], 0.9)
+        self.assertEqual(best_info["resnet_test_acc_best"], 0.9)
+        self.assertEqual(replay_info["resnet_test_acc_selected"], 0.1)
+        self.assertEqual(replay_info["resnet_test_acc_best"], 0.9)
         self.assertEqual(float(best_member_scores.mean()), 1.0)
         self.assertEqual(float(replay_member_scores.mean()), 2.0)
+
+    def test_runtime_smoke_maps_collaborator_replay_to_counter_policy_without_assets(self) -> None:
+        from diffaudit.attacks import rediffuse_adapter
+
+        FakeCIFAR10 = make_fake_cifar10((16, 24, 32, 40, 48, 56, 64, 72))
+        scorer_calls = []
+
+        def fake_score_resnet_scorer(*args, **kwargs):
+            scorer_calls.append(kwargs)
+            return (
+                torch.tensor([0.9, 0.8]),
+                torch.tensor([0.2, 0.1]),
+                {
+                    "resnet_train_count_per_split": 2,
+                    "resnet_test_count_per_split": 2,
+                    "resnet_train_acc_last": 1.0,
+                    "resnet_test_acc_selected": 0.5,
+                    "resnet_test_acc_best": 0.75,
+                    "resnet_epochs": 1,
+                    "resnet_lr": 0.001,
+                    "resnet_batch_size": 2,
+                    "resnet_checkpoint_policy": kwargs["checkpoint_policy"],
+                    "resnet_score_orientation": "raw_logits_higher_is_member",
+                },
+            )
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            workspace = Path(tmpdir) / "rediffuse-collaborator-replay-smoke"
+            with patch(
+                "diffaudit.attacks.rediffuse_adapter.probe_rediffuse_runtime",
+                return_value=(
+                    0,
+                    {
+                        "paths": {
+                            "bundle_root": "bundle",
+                            "checkpoint": "checkpoint.pt",
+                            "dataset_root": tmpdir,
+                            "split": "split.npz",
+                        },
+                        "checks": {},
+                        "provenance": {},
+                    },
+                ),
+            ):
+                with patch(
+                    "diffaudit.attacks.rediffuse_adapter.load_rediffuse_modules",
+                    return_value=SimpleNamespace(
+                        components=SimpleNamespace(),
+                        resnet=SimpleNamespace(),
+                        model_unet=SimpleNamespace(),
+                    ),
+                ):
+                    with patch(
+                        "diffaudit.attacks.rediffuse_adapter.load_rediffuse_model",
+                        return_value=(SimpleNamespace(), {"weights_key": "ema_model", "checkpoint_step": 750000}),
+                    ):
+                        with patch("diffaudit.attacks.rediffuse_adapter.build_rediffuse_attacker", return_value=object()):
+                            with patch(
+                                "diffaudit.attacks.rediffuse_adapter._load_split_indices",
+                                return_value=([0, 1, 2, 3], [4, 5, 6, 7]),
+                            ):
+                                with patch("torchvision.datasets.CIFAR10", FakeCIFAR10):
+                                    with patch(
+                                        "diffaudit.attacks.rediffuse_adapter._collect_residual_features",
+                                        side_effect=[
+                                            torch.ones(4, 3, 32, 32),
+                                            torch.zeros(4, 3, 32, 32),
+                                        ],
+                                    ):
+                                        with patch(
+                                            "diffaudit.attacks.rediffuse_adapter._score_resnet_scorer",
+                                            side_effect=fake_score_resnet_scorer,
+                                        ):
+                                            payload = rediffuse_adapter.run_rediffuse_runtime_smoke(
+                                                workspace=workspace,
+                                                dataset_root=tmpdir,
+                                                device="cpu",
+                                                max_samples=4,
+                                                batch_size=2,
+                                                attack_num=1,
+                                                interval=1,
+                                                average=1,
+                                                k=1,
+                                                scoring_mode="resnet_collaborator_replay",
+                                                scorer_train_portion=0.5,
+                                                scorer_epochs=1,
+                                                scorer_batch_size=2,
+                                            )
+
+        self.assertEqual(scorer_calls[0]["checkpoint_policy"], "collaborator_counter")
+        self.assertEqual(payload["runtime"]["scoring_mode"], "resnet_collaborator_replay")
+        self.assertEqual(payload["runtime"]["resnet_checkpoint_policy"], "collaborator_counter")
+        self.assertEqual(payload["runtime"]["resnet_test_acc_selected"], 0.5)
+        self.assertEqual(payload["runtime"]["resnet_test_acc_best"], 0.75)
 
 
 @unittest.skipUnless(local_rediffuse_assets_ready(), "local ReDiffuse collaborator assets are not present")
