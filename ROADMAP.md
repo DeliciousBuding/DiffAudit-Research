@@ -10,18 +10,18 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `ReDiffuse exact replay preflight` |
-| Current GPU candidate | ReDiffuse 750k exact-replay packet, not released |
-| CPU sidecar | decide whether bug-compatible collaborator replay is scientifically worth one bounded GPU packet |
+| Active work | `ReDiffuse exact replay packet verdict` |
+| Current GPU candidate | none selected |
+| CPU sidecar | next-lane reselection after ReDiffuse candidate-only closure |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: decide whether ReDiffuse deserves one exact-replay packet.
-The prior CPU scout showed the old Research `resnet` mode was not exact
-collaborator replay. The new CPU preflight adds explicit
-`resnet_collaborator_replay` mode and verifies it on a 4-sample real-asset CPU
-smoke; no GPU task is released yet. See
-[docs/evidence/rediffuse-exact-replay-preflight.md](docs/evidence/rediffuse-exact-replay-preflight.md).
+Current objective: close the ReDiffuse exact-replay gate and reselect the next
+lane. The 750k exact-replay GPU packet completed with `AUC = 0.702293`, but
+strict-tail evidence remains weak (`TPR@1%FPR = 0.019231`,
+`TPR@0.1%FPR = 0.019231`) and the held-out ResNet accuracy is `0.5`. ReDiffuse
+stays candidate-only; no 800k shortcut is released. See
+[docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md).
 The black-box response-contract package preflight remains `needs-assets`; see
 [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
 and
@@ -41,7 +41,7 @@ path as negative-but-useful; see
 | Black-box `recon` | admitted | Current black-box product row and minimal-permission risk proof. | Public-100 strict-tail fields are finite-count evidence, not calibrated continuous sub-percent FPR. |
 | Gray-box `PIA` | admitted | Strongest admitted local DDPM/CIFAR10 gray-box line; stochastic dropout is a provisional defended comparator. | Bounded repeated-query adaptive review only; low-FPR values are finite empirical tails, not calibrated sub-percent FPR. |
 | White-box `GSA + DPDM W-1` | admitted comparator | Strongest white-box risk upper bound plus defended comparator. | Not a final paper-level benchmark. |
-| ReDiffuse | candidate-only / CPU preflight passed | Collaborator bundle and 750k checkpoint are runnable; `resnet_collaborator_replay` now expresses the collaborator checkpoint-selection contract and passes tiny CPU smoke. | One 750k exact-replay GPU packet may be considered, but only as candidate evidence; 800k remains blocked until 750k exact replay has a verdict. |
+| ReDiffuse | candidate-only | Collaborator bundle and 750k checkpoint are runnable; exact replay shows modest AUC but weak strict-tail evidence. | Do not promote; do not run 800k automatically; reopen only with a new scorer hypothesis or stricter paper-faithful contract. |
 | CLiD / H2 / simple-distance / variation / semantic-aux | hold or candidate-only | Useful diagnostics and bounded candidates. | No GPU task unless a new protocol/data contract clears a CPU preflight. |
 
 ## Current Gate Verdict
@@ -86,12 +86,14 @@ The exact replay preflight adds `resnet_collaborator_replay`, preserving the
 collaborator checkpoint-selection counter contract while keeping raw logits in
 the project metric convention. A 4-sample CPU smoke passed. See
 [docs/evidence/rediffuse-exact-replay-preflight.md](docs/evidence/rediffuse-exact-replay-preflight.md).
+The bounded 750k exact-replay packet then completed on CUDA. It shows modest
+AUC but weak strict-tail evidence and no admitted promotion. See
+[docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md).
 
 ## Next Decision Contract
 
-1. ReDiffuse GPU is not released automatically. If selected, run at most one
-   750k exact-replay packet under `resnet_collaborator_replay`; do not run 800k
-   before that 750k verdict.
+1. ReDiffuse is closed as candidate-only for now. Do not run 800k or larger
+   ReDiffuse packets without a new scorer hypothesis and CPU preflight.
 2. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
 3. Non-gray-box reselection selected a CPU-only black-box response-contract
@@ -144,6 +146,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse checkpoint-portability gate | blocked-by-scoring-contract; 800k metrics shortcut remains closed | [docs/evidence/rediffuse-checkpoint-portability-gate.md](docs/evidence/rediffuse-checkpoint-portability-gate.md) |
 | ReDiffuse ResNet contract scout | blocked-by-contract-mismatch; current adapter is not exact collaborator replay | [docs/evidence/rediffuse-resnet-contract-scout.md](docs/evidence/rediffuse-resnet-contract-scout.md) |
 | ReDiffuse exact replay preflight | CPU preflight passed; no GPU release | [docs/evidence/rediffuse-exact-replay-preflight.md](docs/evidence/rediffuse-exact-replay-preflight.md) |
+| ReDiffuse 750k exact replay | candidate-only; modest AUC but weak strict-tail evidence | [docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md) |
 | PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
 | Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
 | Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
