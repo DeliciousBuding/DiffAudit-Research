@@ -10,17 +10,20 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `black-box second response-contract asset intake` |
+| Active work | `research boundary-consumability sync` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only package discovery; no model run |
+| CPU sidecar | admitted-vs-candidate boundary sync; no model run |
 | Active GPU question | none running |
-| Platform/Runtime impact | none; candidate-only Research work |
+| Platform/Runtime impact | sync only; no schema change |
 
-Current objective: verify whether a second black-box response-contract package
-has landed after gray-box tri-score truth-hardening closed as
-`positive-but-bounded`. The tri-score line survives as internal Research
-candidate evidence, but it is not admitted, not product-facing, and not a GPU
-release candidate. See
+Current objective: synchronize the consumer boundary after recent candidate
+closures. The admitted rows remain `recon`, `PIA`, and `GSA + DPDM W-1`;
+ReDiffuse, tri-score, cross-box fusion, H2/simple-distance, CLiD, GSA LR, and
+black-box response-contract acquisition remain candidate, negative, hold, or
+needs-assets states. See
+[docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md).
+Gray-box tri-score survives as internal Research candidate evidence, but it is
+not admitted, not product-facing, and not a GPU release candidate. See
 [docs/evidence/graybox-triscore-consolidation-review.md](docs/evidence/graybox-triscore-consolidation-review.md)
 and
 [docs/evidence/graybox-triscore-truth-hardening-review.md](docs/evidence/graybox-triscore-truth-hardening-review.md).
@@ -132,7 +135,9 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
 6. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
-7. Do not change Platform or Runtime schemas in this cycle.
+7. Boundary-consumability sync completed without changing Platform or Runtime
+   schemas. Downstream consumers should continue using only the admitted rows
+   listed in `docs/evidence/admitted-results-summary.md`.
 
 ## Long-Running Goal Loop
 
@@ -183,6 +188,7 @@ Every autonomous research cycle must follow this loop:
 | Black-box response-contract package preflight | needs-assets; Kandinsky/Pokemon has weights but no query/response package | [docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md) |
 | Black-box response-contract discovery | needs-assets; no paired package found under black-box dataset/supplementary roots | [docs/evidence/blackbox-response-contract-discovery.md](docs/evidence/blackbox-response-contract-discovery.md) |
 | Black-box response-contract second-asset intake | needs-assets; no ready package after post-tri-score refresh | [docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md) |
+| Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | Research resting-state audit | temporary resting state; no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive | [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md) |
 | GSA loss-score shadow stability | negative-but-useful; LR distinct-scorer rescue path fails leave-one-shadow-out gate | [docs/evidence/gsa-loss-score-shadow-stability-review.md](docs/evidence/gsa-loss-score-shadow-stability-review.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
@@ -203,7 +209,10 @@ Every autonomous research cycle must follow this loop:
 
 ## Platform and Runtime Boundary
 
-No Platform or Runtime schema changes are needed for the current black-box
-response-contract acquisition state. If a future result changes exported
-fields, report format, or recommendation logic, create a handoff note under
-`docs/product-bridge/` before changing sibling repositories.
+No Platform or Runtime schema changes are needed. The current consumer rule is
+to use only admitted rows (`recon`, `PIA`, `GSA + DPDM W-1`) and keep
+ReDiffuse, tri-score, cross-box fusion, H2/simple-distance, CLiD, GSA LR, and
+response-contract acquisition out of product-facing admitted evidence. If a
+future result changes exported fields, report format, or recommendation logic,
+create a handoff note under `docs/product-bridge/` before changing sibling
+repositories.
