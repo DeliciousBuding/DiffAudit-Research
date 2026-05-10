@@ -6,9 +6,9 @@
 - Main method: `PIA` is the strongest admitted local DDPM/CIFAR10 gray-box line.
 - Defense reference: stochastic dropout is a provisional defended comparator,
   not validated privacy protection.
-- Active candidate: none; ReDiffuse is candidate-only / hold after negative
-  ResNet parity, direct-distance boundary review, checkpoint-portability gate,
-  and ResNet contract scout.
+- Active candidate: ReDiffuse 750k exact-replay packet is a possible next GPU
+  candidate, but not released. `resnet_collaborator_replay` passed CPU
+  preflight; 800k remains blocked.
 - GPU: none released.
 
 ## Files

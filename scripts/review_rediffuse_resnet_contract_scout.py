@@ -74,7 +74,10 @@ def review_resnet_contract_scout(*, bundle_root: Path, output: Path) -> dict[str
             )
         ),
         "stores_best_checkpoint_by_test_acc": (
-            _snippet_present(current_adapter, "if test_acc > best_acc:")
+            (
+                _snippet_present(current_adapter, "if test_acc > best_acc:")
+                or _snippet_present(current_adapter, 'checkpoint_policy == "best_heldout" and test_acc > best_acc')
+            )
             and _snippet_present(current_adapter, "best_acc = test_acc")
         ),
         "returns_unnegated_logits": _snippet_present(current_adapter, "member_scores.detach().cpu()"),

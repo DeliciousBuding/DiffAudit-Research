@@ -362,7 +362,10 @@ def _score_resnet_scorer(
     epochs: int,
     lr: float,
     batch_size: int,
+    checkpoint_policy: str = "best_heldout",
 ) -> tuple[torch.Tensor, torch.Tensor, dict[str, Any]]:
+    if checkpoint_policy not in {"best_heldout", "collaborator_counter"}:
+        raise ValueError(f"Unsupported ReDiffuse ResNet checkpoint policy: {checkpoint_policy}")
     train_loader, test_loader, train_count = _split_resnet_features(
         member_features,
         nonmember_features,
@@ -373,11 +376,18 @@ def _score_resnet_scorer(
     optimizer = torch.optim.SGD(model.parameters(), lr=float(lr), momentum=0.9, weight_decay=5e-4)
     best_state: dict[str, torch.Tensor] | None = None
     best_acc = -1.0
+    collaborator_acc_counter = 0.0
     train_acc = 0.0
     for _epoch in range(int(epochs)):
         train_acc = _train_resnet_scorer_epoch(model, train_loader, optimizer, device=device)
         test_acc, _member_scores, _nonmember_scores = _eval_resnet_scorer(model, test_loader, device=device)
-        if test_acc > best_acc:
+        if checkpoint_policy == "best_heldout" and test_acc > best_acc:
+            best_acc = test_acc
+            best_state = {key: value.detach().cpu().clone() for key, value in model.state_dict().items()}
+        elif checkpoint_policy == "collaborator_counter" and test_acc > collaborator_acc_counter:
+            # The collaborator script initializes test_acc_best=0 and never
+            # updates it. Preserve that contract explicitly instead of
+            # silently treating the scorer as a true best-epoch selector.
             best_acc = test_acc
             best_state = {key: value.detach().cpu().clone() for key, value in model.state_dict().items()}
     if best_state is not None:
@@ -394,6 +404,12 @@ def _score_resnet_scorer(
             "resnet_epochs": int(epochs),
             "resnet_lr": float(lr),
             "resnet_batch_size": int(batch_size),
+            "resnet_checkpoint_policy": checkpoint_policy,
+            "resnet_score_orientation": "raw_logits_higher_is_member",
+            "resnet_orientation_note": (
+                "Raw logits are project-metric equivalent to the collaborator "
+                "negated-logit plus member-lower ROC convention."
+            ),
         },
     )
 
@@ -574,7 +590,7 @@ def run_rediffuse_runtime_packet(
     if normalized_scoring_mode == "first_step_distance_mean":
         member_scores = _score_loader_distance(attacker, member_loader, device=device, norm=norm)
         nonmember_scores = _score_loader_distance(attacker, nonmember_loader, device=device, norm=norm)
-    elif normalized_scoring_mode == "resnet":
+    elif normalized_scoring_mode in {"resnet", "resnet_collaborator_replay"}:
         member_features = _collect_residual_features(attacker, member_loader, device=device, norm=norm)
         nonmember_features = _collect_residual_features(attacker, nonmember_loader, device=device, norm=norm)
         member_scores, nonmember_scores, scorer_info = _score_resnet_scorer(
@@ -586,6 +602,9 @@ def run_rediffuse_runtime_packet(
             epochs=scorer_epochs,
             lr=scorer_lr,
             batch_size=scorer_batch_size,
+            checkpoint_policy="collaborator_counter"
+            if normalized_scoring_mode == "resnet_collaborator_replay"
+            else "best_heldout",
         )
     else:
         raise ValueError(f"Unsupported ReDiffuse scoring mode: {scoring_mode}")
@@ -645,7 +664,7 @@ def run_rediffuse_runtime_packet(
         "provenance": readiness["provenance"],
         "notes": [
             "This is a bounded ReDiffuse compatibility packet, not an admitted benchmark result.",
-            "Default scores use a direct first-step distance surface; resnet mode follows the collaborator script's second-stage classifier contract.",
+            "Default scores use a direct first-step distance surface; resnet_collaborator_replay preserves the collaborator checkpoint-selection contract.",
         ],
     }
     write_json(workspace_path / "summary.json", result)
