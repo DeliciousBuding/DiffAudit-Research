@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| black-box second response-contract acquisition | black-box | needs-assets | post-tri-score intake refresh found no ready package; 2026-05-11 scaffold freezes the next package layout | missing second compatible response contract package | create/acquire package contents for `response-contract-pokemon-kandinsky-20260511`, then rerun package probe |
+| black-box second response-contract acquisition | black-box | needs-query-split | local skeleton exists; package probe returns `needs_query_split` | missing member/nonmember query images and response coverage | add at least `25/25` query images, split ids, provenance, and responses, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
@@ -38,7 +38,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 ### Kandinsky/Pokemon Response-Contract Protocol Scaffold
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `needs-assets`
+- `status`: active; current verdict is `needs_query_split`
 - `goal`: turn the second response-contract blocker into a concrete portable
   package handoff without releasing a model run.
 - `latest trigger`: I-B and I-C successor scoping both closed as hold, while
@@ -59,6 +59,7 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md)
 - [../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
 - [../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md)
+- [../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md)
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
 - [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
 - [../../docs/evidence/research-boundary-consumability-sync-20260510.md](../../docs/evidence/research-boundary-consumability-sync-20260510.md)
@@ -72,7 +73,7 @@ Restart conditions:
 - do not run a larger same-contract tri-score packet; it is closed as
   internal-only positive-but-bounded evidence.
 - continue constructing a second response-contract asset package only against
-  the frozen scaffold layout; do not call scaffold templates ready assets.
+  the frozen skeleton; do not call empty templates ready assets.
 - do not run 800k ReDiffuse metrics as an automatic shortcut.
 - do not run larger ReDiffuse packets without a new scorer hypothesis and CPU
   preflight.
