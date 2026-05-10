@@ -1,6 +1,6 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-10
+> Last updated: 2026-05-11
 
 This is the short steering document for Research. Execution history and old
 run narratives live in `legacy/`; current workspace state lives in
@@ -10,17 +10,24 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `I-B risk-targeted unlearning successor scope` |
+| Active work | `black-box response-contract protocol scaffold` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only defense successor scoping; no model run |
+| CPU sidecar | CPU-only response-contract package construction; no model run |
 | Active GPU question | none running |
-| Platform/Runtime impact | none; hold verdict only |
+| Platform/Runtime impact | none; asset-readiness verdict only |
 
-Current objective: scope whether I-B risk-targeted unlearning can reopen as a
-bounded successor lane. Existing full-split attack-side reviews show small
-metric reductions, but they remain provisional because defended shadows were
-not retrained and adaptive attacker behavior is unresolved. See
-[docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md).
+Current objective: turn the black-box response-contract blocker into a precise
+portable package handoff without claiming assets are ready. The
+Kandinsky/Pokemon package scaffold dry-run is frozen at
+`response-contract-pokemon-kandinsky-20260511`; it still needs real
+member/nonmember query images, split ids, endpoint provenance, response files,
+manifest metadata, and integrity hashes before any model run can reopen. See
+[docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md).
+I-B risk-targeted unlearning and I-C cross-permission successor scoping are both
+on hold; neither releases GPU work. See
+[docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
+and
+[docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md).
 The downstream consumer boundary is synchronized: admitted rows remain `recon`,
 `PIA`, and `GSA + DPDM W-1`; ReDiffuse, tri-score, cross-box fusion,
 H2/simple-distance, CLiD, GSA LR, and black-box response-contract acquisition
@@ -32,10 +39,13 @@ not admitted, not product-facing, and not a GPU release candidate. See
 and
 [docs/evidence/graybox-triscore-truth-hardening-review.md](docs/evidence/graybox-triscore-truth-hardening-review.md).
 The systematic black-box response-contract discovery closed as `needs-assets`,
-so acquiring or constructing second response-contract assets (`BB-DS-01`,
-`BB-SUP-03`) remains required before black-box portability validation can run.
-The post-tri-score intake refresh also closes as `needs-assets`; see
-[docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md).
+so acquiring or constructing second response-contract assets remains required
+before black-box portability validation can run. The post-tri-score intake
+refresh also closes as `needs-assets`; the 2026-05-11 scaffold dry-run now
+freezes the next package handoff layout without changing that verdict. See
+[docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
+and
+[docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md).
 The 750k
 exact-replay GPU packet completed with `AUC = 0.702293`, but strict-tail
 evidence remains weak (`TPR@1%FPR = 0.019231`, `TPR@0.1%FPR = 0.019231`) and
@@ -118,12 +128,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 
 1. ReDiffuse is closed as candidate-only for now. Do not run 800k or larger
    ReDiffuse packets without a new scorer hypothesis and CPU preflight.
-2. Black-box second response-contract acquisition is a `needs-assets` watch,
-   not the active lane. Do not GPU-scale until a package matching `BB-DS-01`
-   and `BB-SUP-03` exists and passes preflight. The repository-level discovery
-   pass confirms no such package is present in the current `Download/black-box`
-   roots. The post-tri-score intake refresh reconfirmed this verdict with a
-   tracked machine-readable artifact.
+2. Black-box second response-contract acquisition is the active CPU sidecar,
+   but remains `needs-assets`. Do not GPU-scale until a package matching the
+   frozen `response-contract-pokemon-kandinsky-20260511` layout exists and
+   passes preflight. The scaffold dry-run is a handoff contract, not readiness.
 3. Gray-box tri-score truth-hardening used existing X-88/X-141/X-142 artifacts
    only and closed as `positive-but-bounded`. Do not promote to admitted
    evidence and do not run a larger same-contract packet.
@@ -145,6 +153,9 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 8. I-B risk-targeted unlearning is on hold until a defended-shadow or
    adaptive-attacker review contract is frozen. Do not GPU-scale the existing
    threshold-transfer diagnostics.
+9. I-C cross-permission / translated-contract work is on hold until a same-spec
+   evaluator and matched random comparator contract exist. Do not spend GPU on
+   same-pair replay.
 
 ## Long-Running Goal Loop
 
@@ -171,6 +182,7 @@ Every autonomous research cycle must follow this loop:
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
+| Response-contract package construction | CPU-only / needs assets | Use the 2026-05-11 scaffold as the portable handoff target; no GPU until preflight is ready. |
 
 ## Recent Verdicts
 
@@ -195,8 +207,10 @@ Every autonomous research cycle must follow this loop:
 | Black-box response-contract package preflight | needs-assets; Kandinsky/Pokemon has weights but no query/response package | [docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md) |
 | Black-box response-contract discovery | needs-assets; no paired package found under black-box dataset/supplementary roots | [docs/evidence/blackbox-response-contract-discovery.md](docs/evidence/blackbox-response-contract-discovery.md) |
 | Black-box response-contract second-asset intake | needs-assets; no ready package after post-tri-score refresh | [docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md) |
+| Black-box response-contract protocol scaffold | CPU-only scaffold dry-run; needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
+| I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |
 | Research resting-state audit | temporary resting state; no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive | [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md) |
 | GSA loss-score shadow stability | negative-but-useful; LR distinct-scorer rescue path fails leave-one-shadow-out gate | [docs/evidence/gsa-loss-score-shadow-stability-review.md](docs/evidence/gsa-loss-score-shadow-stability-review.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
