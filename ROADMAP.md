@@ -10,14 +10,19 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `black-box response-contract protocol scaffold` |
+| Active work | `system-consumable admitted evidence hardening` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only response-contract package construction; no model run |
+| CPU sidecar | CPU-only admitted-row contract guard; no model run |
 | Active GPU question | none running |
-| Platform/Runtime impact | none; asset-readiness verdict only |
+| Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: turn the black-box response-contract blocker into a precise
-portable package handoff without claiming assets are ready. The
+Current objective: keep the admitted Research evidence surface safe for
+Platform and Runtime while scientific successor lanes are blocked by missing
+assets or lack of a new falsifiable hypothesis. The post-response-contract
+reselection keeps `active_gpu_question = none` and `next_gpu_candidate = none`,
+then selects CPU-only admitted evidence hardening as the next sidecar. See
+[docs/evidence/post-response-contract-reselection-20260511.md](docs/evidence/post-response-contract-reselection-20260511.md).
+The
 Kandinsky/Pokemon package skeleton now exists locally at
 `response-contract-pokemon-kandinsky-20260511`, but the probe verdict is
 `needs_query_split`: real member/nonmember query images and response coverage
@@ -27,6 +32,9 @@ The local query-source audit confirms that the available Kandinsky/Pokemon
 material is weights-only and cannot fill the package; CelebA/recon artifacts
 must not be copied into this asset identity. See
 [docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](docs/evidence/blackbox-response-contract-query-source-audit-20260511.md).
+`scripts/validate_attack_defense_table.py` now guards the full admitted
+consumer set (`recon`, `PIA baseline`, `PIA defended`, `GSA`, and `DPDM W-1`)
+so candidate-only rows cannot silently become product-consumable evidence.
 I-B risk-targeted unlearning and I-C cross-permission successor scoping are both
 on hold; neither releases GPU work. See
 [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
@@ -137,17 +145,22 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 
 1. ReDiffuse is closed as candidate-only for now. Do not run 800k or larger
    ReDiffuse packets without a new scorer hypothesis and CPU preflight.
-2. Black-box second response-contract acquisition is the active CPU sidecar,
-   but remains `needs_query_split`. Do not GPU-scale until the local
+2. Black-box second response-contract acquisition remains `needs_query_split`.
+   It is no longer the immediate active work until real query/response assets
+   appear. Do not GPU-scale until the local
    `response-contract-pokemon-kandinsky-20260511` package has at least `25/25`
    real query images, response coverage, and a ready package probe. Existing
    local Kandinsky/Pokemon weights are not query images or responses.
-3. Gray-box tri-score truth-hardening used existing X-88/X-141/X-142 artifacts
+3. The current active CPU task is system-consumable admitted evidence hardening.
+   The validator must keep the admitted consumer set aligned with
+   [docs/evidence/admitted-results-summary.md](docs/evidence/admitted-results-summary.md)
+   and reject source/provenance drift.
+4. Gray-box tri-score truth-hardening used existing X-88/X-141/X-142 artifacts
    only and closed as `positive-but-bounded`. Do not promote to admitted
    evidence and do not run a larger same-contract packet.
-4. I-A truth-hardening completed as positive boundary hardening. See
+5. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
-5. Non-gray-box reselection selected a CPU-only black-box response-contract
+6. Non-gray-box reselection selected a CPU-only black-box response-contract
    acquisition audit. It closed as `needs-assets`, not GPU-ready. The minimum
    acquisition package is specified in
    [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md);
@@ -155,15 +168,15 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
    for the audit result and
    [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
-6. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
+7. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
-7. Boundary-consumability sync completed without changing Platform or Runtime
+8. Boundary-consumability sync completed without changing Platform or Runtime
    schemas. Downstream consumers should continue using only the admitted rows
    listed in `docs/evidence/admitted-results-summary.md`.
-8. I-B risk-targeted unlearning is on hold until a defended-shadow or
+9. I-B risk-targeted unlearning is on hold until a defended-shadow or
    adaptive-attacker review contract is frozen. Do not GPU-scale the existing
    threshold-transfer diagnostics.
-9. I-C cross-permission / translated-contract work is on hold until a same-spec
+10. I-C cross-permission / translated-contract work is on hold until a same-spec
    evaluator and matched random comparator contract exist. Do not spend GPU on
    same-pair replay.
 
@@ -220,6 +233,7 @@ Every autonomous research cycle must follow this loop:
 | Black-box response-contract protocol scaffold | CPU-only scaffold dry-run; needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md) |
 | Black-box response-contract skeleton create | local skeleton created; needs query split; no GPU release | [docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](docs/evidence/blackbox-response-contract-skeleton-create-20260511.md) |
 | Black-box response-contract query-source audit | needs-assets; local Kandinsky/Pokemon material is weights-only | [docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](docs/evidence/blackbox-response-contract-query-source-audit-20260511.md) |
+| Post-response-contract reselection | CPU-only system-consumable admitted evidence hardening; no GPU release | [docs/evidence/post-response-contract-reselection-20260511.md](docs/evidence/post-response-contract-reselection-20260511.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |

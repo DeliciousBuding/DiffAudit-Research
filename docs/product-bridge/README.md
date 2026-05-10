@@ -23,6 +23,10 @@ cross-box fusion, GSA LR, H2/simple-distance, CLiD, and black-box
 response-contract acquisition are candidate, negative, hold, or needs-assets
 states. See
 [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md).
+The admitted-row guard is now enforced by
+`scripts/validate_attack_defense_table.py`, which checks the complete admitted
+consumer set before local checks pass. See
+[../evidence/post-response-contract-reselection-20260511.md](../evidence/post-response-contract-reselection-20260511.md).
 
 Current CLiD status: CLiD is candidate-only. The prompt-conditioned packet is
 strong and repeat-stable, but prompt-neutral perturbation collapses the signal.
