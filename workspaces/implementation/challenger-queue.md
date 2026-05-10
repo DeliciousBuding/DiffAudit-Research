@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `next-candidate discovery: black-box response-contract asset/protocol scout` |
+| Active work | `black-box response-contract package preflight` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | white-box distinct-scorer LR stability closed negative |
+| CPU sidecar | GSA LR stability closed negative; Kandinsky/Pokemon package preflight closed needs-assets |
 | Gray-box status | ReDiffuse is candidate-only / hold; PIA remains admitted |
 | Non-gray-box GPU | none selected |
 
@@ -21,6 +21,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
 | black-box response-contract asset acquisition | black-box | needs assets | acquisition audit and acquisition spec closed as `needs-assets` | missing second compatible response contract package | acquire or construct package matching the spec |
+| Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | needs hypothesis | 750k direct-distance positive; 750k ResNet parity negative; 800k runtime probe passed | no paper-faithful scoring parity | hold until new scorer or checkpoint-portability contract exists |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
@@ -30,14 +31,14 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Next-Candidate Discovery
+### Black-Box Response-Contract Package Preflight
 
 - `mode`: CPU-only
-- `status`: active
-- `goal`: find a bounded candidate that can survive CPU preflight without
-  replaying a closed observable.
-- `latest trigger`: the first post-resting CPU review closed the GSA
-  loss-score LR rescue path as negative-but-useful.
+- `status`: needs-assets
+- `goal`: test whether a local Kandinsky/Pokemon directory is a real second
+  response-contract package, without replaying SD1.5/CelebA.
+- `latest trigger`: package-level preflight found weights/supplementary assets
+  but no query split, endpoint contract, response manifest, or responses.
 - `GPU cap`: no GPU released.
 - `integration`: no Platform or Runtime schema change.
 
@@ -45,6 +46,7 @@ Current evidence:
 
 - [../../docs/evidence/blackbox-response-contract-acquisition-audit.md](../../docs/evidence/blackbox-response-contract-acquisition-audit.md)
 - [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
+- [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md)
 - [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
 - [../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md)
 
@@ -134,6 +136,7 @@ Restart conditions:
 
 | Task | Result |
 | --- | --- |
+| Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |

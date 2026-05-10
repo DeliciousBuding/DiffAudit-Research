@@ -10,18 +10,21 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `next-candidate discovery: black-box response-contract asset/protocol scout` |
+| Active work | `black-box response-contract package preflight` |
 | Current GPU candidate | none selected |
-| CPU sidecar | white-box distinct-scorer LR stability closed negative |
+| CPU sidecar | GSA LR stability closed negative; Kandinsky/Pokemon package preflight closed needs-assets |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: actively discover the next bounded candidate without
-replaying closed observables. The black-box response-contract CPU-only spec is
-complete and no GPU task is released. See
+Current objective: acquire or construct a true second response-contract
+package without replaying the existing SD1.5/CelebA family. The package-level
+Kandinsky/Pokemon preflight is executable and currently closes as
+`needs-assets`; no GPU task is released. See
 [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
 and
 [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md).
+The package-level preflight is
+[docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md).
 The resting-state audit is
 [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md).
 The first post-resting CPU discovery review closed the GSA loss-score LR rescue
@@ -124,6 +127,7 @@ Every autonomous research cycle must follow this loop:
 | Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
 | Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
 | Black-box response-contract asset spec | needs-assets; minimum second-asset package defined; no GPU release | [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md) |
+| Black-box response-contract package preflight | needs-assets; Kandinsky/Pokemon has weights but no query/response package | [docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md) |
 | Research resting-state audit | temporary resting state; no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive | [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md) |
 | GSA loss-score shadow stability | negative-but-useful; LR distinct-scorer rescue path fails leave-one-shadow-out gate | [docs/evidence/gsa-loss-score-shadow-stability-review.md](docs/evidence/gsa-loss-score-shadow-stability-review.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
