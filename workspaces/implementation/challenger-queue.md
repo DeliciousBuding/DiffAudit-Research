@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `black-box second response-contract asset intake` |
+| Active work | `research boundary-consumability sync` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only package discovery; no model run |
+| CPU sidecar | admitted-vs-candidate boundary sync; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -29,19 +29,20 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | White-box distinct family | white-box | CPU-first | genuinely new observable, not same-family rescue | no new hypothesis | hold |
+| Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
 
 ## Active
 
-### Black-Box Second Response-Contract Asset Intake
+### Research Boundary-Consumability Sync
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `needs-assets`
-- `goal`: verify whether a paired second response-contract package exists in
-  the portable `Download/black-box` roots before any black-box GPU work.
-- `latest trigger`: post-tri-score reselection selected the only reducible
-  non-gray-box lane; discovery still finds no ready package.
+- `status`: active; current verdict is `synchronized`
+- `goal`: ensure downstream consumers distinguish admitted evidence from
+  candidate-only, negative, hold, and needs-assets Research states.
+- `latest trigger`: ReDiffuse, black-box response-contract intake, GSA LR, and
+  gray-box tri-score all closed without admitted promotion or GPU release.
 - `GPU cap`: none
-- `integration`: none
+- `integration`: docs/product-bridge boundary only; no schema change
 
 Current evidence:
 
@@ -57,6 +58,7 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
 - [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
+- [../../docs/evidence/research-boundary-consumability-sync-20260510.md](../../docs/evidence/research-boundary-consumability-sync-20260510.md)
 - [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
 - [../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md)
 
@@ -73,6 +75,8 @@ Restart conditions:
 - prefer the next CPU-first task in `I-B / I-C / I-D`, cross-box/system
   consumability, or a non-gray-box asset/protocol scout only if it has a
   falsifier and CPU preflight.
+- do not expose ReDiffuse, tri-score, cross-box fusion, GSA LR, H2/simple-distance,
+  CLiD, or response-contract acquisition as admitted Platform evidence.
 
 ## Ready
 
@@ -169,6 +173,7 @@ Restart conditions:
 | Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |
 | Black-box response-contract discovery | needs-assets; discovery found no paired second response-contract package under black-box dataset/supplementary roots. |
 | Black-box response-contract second-asset intake | needs-assets; post-tri-score refresh found no ready paired package. |
+| Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no GPU release and no schema change. |
 | ReDiffuse collaborator bundle intake | Positive intake; complete enough for bounded compatibility review, not admitted evidence. |
 | ReDiffuse 750k direct-distance packet | Positive compatibility packet at 64/64; not comparable with PIA/SecMI without scoring-mode caveat. |
 | Recon tail confidence review | Admitted-finite-tail-only; recon remains black-box product row. |
