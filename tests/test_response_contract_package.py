@@ -7,7 +7,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from diffaudit.attacks.response_contract import inspect_response_contract_package
+from diffaudit.attacks.response_contract import (
+    discover_response_contract_packages,
+    inspect_response_contract_package,
+    scaffold_response_contract_package,
+)
 
 
 class ResponseContractPackageTests(unittest.TestCase):
@@ -178,6 +182,151 @@ class ResponseContractPackageTests(unittest.TestCase):
         self.assertEqual(completed.returncode, 0, completed.stderr)
         payload = json.loads(completed.stdout)
         self.assertEqual(payload["status"], "ready")
+
+    def test_discovery_reports_ready_and_orphan_packages(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            self._make_ready_package(root, "response-contract-ready")
+            (root / "black-box" / "supplementary" / "response-contract-orphan").mkdir(parents=True)
+            payload = discover_response_contract_packages(
+                download_root=root,
+                min_split_count=2,
+                include_asset_ids=["response-contract-missing"],
+            )
+
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["ready_asset_ids"], ["response-contract-ready"])
+        self.assertEqual(payload["supplementary_only_asset_ids"], ["response-contract-orphan"])
+        self.assertEqual(payload["missing_requested_asset_ids"], ["response-contract-missing"])
+        self.assertEqual(payload["counts"]["candidate_ids"], 3)
+
+    def test_discovery_script_returns_nonzero_without_ready_package(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            (root / "black-box" / "supplementary" / "response-contract-orphan").mkdir(parents=True)
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/discover_response_contract_packages.py",
+                    "--download-root",
+                    tmpdir,
+                    "--min-split-count",
+                    "2",
+                    "--include-asset-id",
+                    "response-contract-missing",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                cwd=Path(__file__).resolve().parents[1],
+            )
+
+        self.assertEqual(completed.returncode, 1)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["status"], "needs_assets")
+        self.assertEqual(payload["supplementary_only_asset_ids"], ["response-contract-orphan"])
+        self.assertEqual(payload["missing_requested_asset_ids"], ["response-contract-missing"])
+
+    def test_scaffold_dry_run_does_not_write_files(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            payload = scaffold_response_contract_package(
+                asset_id="response-contract-synthetic",
+                download_root=root,
+                dataset_name="synthetic",
+                model_identity="model",
+                create=False,
+            )
+
+            self.assertEqual(payload["status"], "dry_run")
+            self.assertFalse((root / "black-box").exists())
+            self.assertIn("manifest.json", "\n".join(payload["template_files"]))
+
+    def test_scaffold_rejects_unsupported_endpoint_mode(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with self.assertRaisesRegex(ValueError, "endpoint_mode must be one of"):
+                scaffold_response_contract_package(
+                    asset_id="response-contract-synthetic",
+                    download_root=Path(tmpdir),
+                    endpoint_mode="typo_mode",
+                )
+
+    def test_scaffold_create_writes_templates_that_probe_as_incomplete(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            payload = scaffold_response_contract_package(
+                asset_id="response-contract-synthetic",
+                download_root=root,
+                dataset_name="synthetic",
+                model_identity="model",
+                endpoint_mode="image_to_image",
+                repeat_count=2,
+                create=True,
+            )
+            preflight = inspect_response_contract_package(
+                asset_id="response-contract-synthetic",
+                dataset_root=root / "black-box" / "datasets" / "response-contract-synthetic",
+                supplementary_root=root / "black-box" / "supplementary" / "response-contract-synthetic",
+                min_split_count=2,
+            )
+
+        self.assertEqual(payload["status"], "created")
+        self.assertEqual(preflight["status"], "needs_query_split")
+        self.assertTrue(preflight["checks"]["endpoint_mode_supported"])
+        self.assertTrue(preflight["checks"]["controlled_repeats_or_seed_policy"])
+
+    def test_scaffold_script_create_writes_expected_layout(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/scaffold_response_contract_package.py",
+                    "--asset-id",
+                    "response-contract-synthetic",
+                    "--download-root",
+                    tmpdir,
+                    "--dataset-name",
+                    "synthetic",
+                    "--model-identity",
+                    "model",
+                    "--repeat-count",
+                    "2",
+                    "--create",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                cwd=Path(__file__).resolve().parents[1],
+            )
+
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            payload = json.loads(completed.stdout)
+            self.assertEqual(payload["status"], "created")
+            self.assertTrue(
+                (Path(tmpdir) / "black-box" / "datasets" / "response-contract-synthetic" / "manifest.json").is_file()
+            )
+
+    def test_scaffold_script_rejects_bad_endpoint_mode(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/scaffold_response_contract_package.py",
+                    "--asset-id",
+                    "response-contract-synthetic",
+                    "--download-root",
+                    tmpdir,
+                    "--endpoint-mode",
+                    "typo_mode",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                cwd=Path(__file__).resolve().parents[1],
+            )
+
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("invalid choice", completed.stderr)
 
 
 if __name__ == "__main__":
