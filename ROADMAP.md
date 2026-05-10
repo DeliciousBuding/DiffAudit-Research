@@ -10,22 +10,25 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `post-tri-score reselection` |
+| Active work | `black-box second response-contract asset intake` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none; tri-score truth-hardening closed positive-but-bounded |
+| CPU sidecar | CPU-only package discovery; no model run |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: reselect the next bounded lane after gray-box tri-score
-truth-hardening closed as `positive-but-bounded`. The tri-score line survives
-as internal Research candidate evidence, but it is not admitted, not
-product-facing, and not a GPU release candidate. See
+Current objective: verify whether a second black-box response-contract package
+has landed after gray-box tri-score truth-hardening closed as
+`positive-but-bounded`. The tri-score line survives as internal Research
+candidate evidence, but it is not admitted, not product-facing, and not a GPU
+release candidate. See
 [docs/evidence/graybox-triscore-consolidation-review.md](docs/evidence/graybox-triscore-consolidation-review.md)
 and
 [docs/evidence/graybox-triscore-truth-hardening-review.md](docs/evidence/graybox-triscore-truth-hardening-review.md).
 The systematic black-box response-contract discovery closed as `needs-assets`,
 so acquiring or constructing second response-contract assets (`BB-DS-01`,
 `BB-SUP-03`) remains required before black-box portability validation can run.
+The post-tri-score intake refresh also closes as `needs-assets`; see
+[docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md).
 The 750k
 exact-replay GPU packet completed with `AUC = 0.702293`, but strict-tail
 evidence remains weak (`TPR@1%FPR = 0.019231`, `TPR@0.1%FPR = 0.019231`) and
@@ -112,7 +115,8 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    not the active lane. Do not GPU-scale until a package matching `BB-DS-01`
    and `BB-SUP-03` exists and passes preflight. The repository-level discovery
    pass confirms no such package is present in the current `Download/black-box`
-   roots.
+   roots. The post-tri-score intake refresh reconfirmed this verdict with a
+   tracked machine-readable artifact.
 3. Gray-box tri-score truth-hardening used existing X-88/X-141/X-142 artifacts
    only and closed as `positive-but-bounded`. Do not promote to admitted
    evidence and do not run a larger same-contract packet.
@@ -178,6 +182,7 @@ Every autonomous research cycle must follow this loop:
 | Black-box response-contract asset spec | needs-assets; minimum second-asset package defined; no GPU release | [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md) |
 | Black-box response-contract package preflight | needs-assets; Kandinsky/Pokemon has weights but no query/response package | [docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md) |
 | Black-box response-contract discovery | needs-assets; no paired package found under black-box dataset/supplementary roots | [docs/evidence/blackbox-response-contract-discovery.md](docs/evidence/blackbox-response-contract-discovery.md) |
+| Black-box response-contract second-asset intake | needs-assets; no ready package after post-tri-score refresh | [docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md) |
 | Research resting-state audit | temporary resting state; no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive | [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md) |
 | GSA loss-score shadow stability | negative-but-useful; LR distinct-scorer rescue path fails leave-one-shadow-out gate | [docs/evidence/gsa-loss-score-shadow-stability-review.md](docs/evidence/gsa-loss-score-shadow-stability-review.md) |
 | Recon product row | admitted black-box row | [docs/evidence/recon-product-validation-result.md](docs/evidence/recon-product-validation-result.md) |
