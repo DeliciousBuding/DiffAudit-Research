@@ -4,6 +4,45 @@ import argparse
 import json
 from pathlib import Path
 
+ADMITTED_CONSUMER_ROWS = (
+    {
+        "track": "black-box",
+        "attack": "recon DDIM public-100 step30",
+        "defense": "none",
+        "evidence_level": "runtime-mainline",
+        "source": "docs/evidence/recon-product-validation-result.md",
+    },
+    {
+        "track": "gray-box",
+        "attack": "PIA GPU512 baseline",
+        "defense": "none",
+        "evidence_level": "runtime-mainline",
+        "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/summary.json",
+    },
+    {
+        "track": "gray-box",
+        "attack": "PIA GPU512 baseline",
+        "defense": "provisional G-1 = stochastic-dropout (all_steps)",
+        "evidence_level": "runtime-mainline",
+        "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/summary.json",
+    },
+    {
+        "track": "white-box",
+        "attack": "GSA 1k-3shadow",
+        "defense": "none",
+        "evidence_level": "runtime-mainline",
+        "source": "workspaces/white-box/runs/gsa-runtime-mainline-20260409-cifar10-1k-3shadow-epoch300-rerun1/summary.json",
+    },
+    {
+        "track": "white-box",
+        "attack": "GSA 1k-3shadow",
+        "defense": "W-1 strong-v3 full-scale",
+        "evidence_level": "runtime-smoke",
+        "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/summary.json",
+    },
+)
+REQUIRED_METRICS = ("auc", "asr", "tpr_at_1pct_fpr", "tpr_at_0_1pct_fpr")
+
 
 def _load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -67,6 +106,26 @@ def _validate_recon_product_row(errors: list[str], rows: list[dict]) -> None:
     ):
         if phrase not in boundary:
             errors.append(f"admitted_recon_row.boundary missing phrase: {phrase}")
+
+
+def _row_matches(row: dict, selector: dict[str, str]) -> bool:
+    return all(row.get(key) == value for key, value in selector.items())
+
+
+def _validate_admitted_consumer_rows(errors: list[str], rows: list[dict]) -> None:
+    for selector in ADMITTED_CONSUMER_ROWS:
+        label = f"{selector['track']}:{selector['attack']}:{selector['defense']}"
+        matches = [row for row in rows if _row_matches(row, selector)]
+        if len(matches) != 1:
+            errors.append(f"expected exactly one admitted consumer row for {label}, found {len(matches)}")
+            continue
+        row = matches[0]
+        _require_numeric(errors, f"admitted_consumer_row[{label}]", row, REQUIRED_METRICS)
+        _require_fields(errors, f"admitted_consumer_row[{label}]", row, ("quality_cost", "boundary"))
+        if not str(row.get("boundary", "")).strip():
+            errors.append(f"admitted_consumer_row[{label}].boundary must be non-empty")
+        if not str(row.get("quality_cost", "")).strip():
+            errors.append(f"admitted_consumer_row[{label}].quality_cost must be non-empty")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -143,6 +202,7 @@ def main(argv: list[str] | None = None) -> int:
                     ("query_repeats", "aggregation", "metrics"),
                 )
             _validate_recon_product_row(errors, typed_rows)
+            _validate_admitted_consumer_rows(errors, typed_rows)
 
     if errors:
         for error in errors:

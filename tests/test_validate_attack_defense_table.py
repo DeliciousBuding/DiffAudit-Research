@@ -88,6 +88,62 @@ class ValidateAttackDefenseTableTests(unittest.TestCase):
         self.assertEqual(recon_row["tpr_at_0_1pct_fpr"], 0.11)
         self.assertIn("zero-false-positive empirical tail", recon_row["boundary"])
 
+    def test_project_table_has_expected_admitted_consumer_rows(self) -> None:
+        research_root = Path(__file__).resolve().parents[1]
+        payload = json.loads(
+            (research_root / "workspaces" / "implementation" / "artifacts" / "unified-attack-defense-table.json").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        selectors = [
+            {
+                "track": "black-box",
+                "attack": "recon DDIM public-100 step30",
+                "defense": "none",
+                "evidence_level": "runtime-mainline",
+            },
+            {
+                "track": "gray-box",
+                "attack": "PIA GPU512 baseline",
+                "defense": "none",
+                "evidence_level": "runtime-mainline",
+            },
+            {
+                "track": "gray-box",
+                "attack": "PIA GPU512 baseline",
+                "defense": "provisional G-1 = stochastic-dropout (all_steps)",
+                "evidence_level": "runtime-mainline",
+            },
+            {
+                "track": "white-box",
+                "attack": "GSA 1k-3shadow",
+                "defense": "none",
+                "evidence_level": "runtime-mainline",
+            },
+            {
+                "track": "white-box",
+                "attack": "GSA 1k-3shadow",
+                "defense": "W-1 strong-v3 full-scale",
+                "evidence_level": "runtime-smoke",
+            },
+        ]
+
+        for selector in selectors:
+            matches = [
+                row
+                for row in payload["rows"]
+                if all(row.get(key) == value for key, value in selector.items())
+            ]
+            self.assertEqual(len(matches), 1, f"Expected exactly one admitted consumer row for {selector}")
+            row = matches[0]
+            self.assertIsInstance(row["auc"], (int, float))
+            self.assertIsInstance(row["asr"], (int, float))
+            self.assertIsInstance(row["tpr_at_1pct_fpr"], (int, float))
+            self.assertIsInstance(row["tpr_at_0_1pct_fpr"], (int, float))
+            self.assertTrue(row["boundary"])
+            self.assertTrue(row["quality_cost"])
+
     def test_validator_rejects_row_missing_required_field(self) -> None:
         module = load_validate_module()
 
@@ -274,6 +330,43 @@ class ValidateAttackDefenseTableTests(unittest.TestCase):
                                 "defense": "none",
                                 "model": "Stable Diffusion v1.5 + DDIM",
                                 "auc": True,
+                                "asr": 0.74,
+                                "tpr_at_1pct_fpr": 0.22,
+                                "tpr_at_0_1pct_fpr": 0.11,
+                                "evidence_level": "runtime-mainline",
+                                "metric_source": "upstream_threshold_reimplementation",
+                                "quality_cost": "100 public samples per split",
+                                "note": "current black-box main evidence",
+                                "boundary": "controlled / public-subset / proxy-shadow-member / zero-false-positive empirical tail / not a final exploit",
+                                "source": "docs/evidence/recon-product-validation-result.md",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            exit_code = module.main(["--table", str(table_path)])
+
+        self.assertEqual(exit_code, 2)
+
+    def test_validator_rejects_missing_admitted_consumer_row(self) -> None:
+        module = load_validate_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            table_path = Path(tmpdir) / "table.json"
+            table_path.write_text(
+                json.dumps(
+                    {
+                        "schema": "diffaudit.attack_defense_table.v1",
+                        "updated_at": "2026-05-01T00:00:00+08:00",
+                        "rows": [
+                            {
+                                "track": "black-box",
+                                "attack": "recon DDIM public-100 step30",
+                                "defense": "none",
+                                "model": "Stable Diffusion v1.5 + DDIM",
+                                "auc": 0.837,
                                 "asr": 0.74,
                                 "tpr_at_1pct_fpr": 0.22,
                                 "tpr_at_0_1pct_fpr": 0.11,

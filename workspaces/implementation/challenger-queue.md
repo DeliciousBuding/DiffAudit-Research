@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Kandinsky/Pokemon response-contract protocol scaffold` |
+| Active work | `system-consumable admitted evidence hardening` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only response-contract package construction; no model run |
+| CPU sidecar | CPU-only admitted-row contract guard; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -28,23 +28,24 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
-| White-box distinct family | white-box | CPU-first | genuinely new observable, not same-family rescue | no new hypothesis | hold |
+| White-box distinct family | white-box | hold | genuinely new observable, not same-family rescue | no actionable CPU-first successor | reopen only with a genuinely different observable or paper-backed family |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
 | I-B risk-targeted unlearning successor | defense | hold | full-split attack-side reviews show small reductions | no defended-shadow/adaptive attacker contract | freeze defended-shadow/adaptive review contract before any GPU |
 | I-C cross-permission successor | cross-permission | hold | translated-contract falsifier is negative at the support boundary | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### Kandinsky/Pokemon Response-Contract Protocol Scaffold
+### System-Consumable Admitted Evidence Hardening
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `needs_query_split`
-- `goal`: turn the second response-contract blocker into a concrete portable
-  package handoff without releasing a model run.
-- `latest trigger`: I-B and I-C successor scoping both closed as hold, while
-  black-box response-contract has executable scaffold/probe tooling.
+- `status`: active; current verdict is `synchronized`
+- `goal`: keep admitted Research rows consumable by Platform/Runtime without
+  letting candidate-only rows drift into product evidence.
+- `latest trigger`: response-contract query-source audit closed as
+  `needs-assets`, while white-box and I-D scouts found no actionable CPU-first
+  successor.
 - `GPU cap`: none
-- `integration`: none
+- `integration`: no schema change; admitted-row validator guard only
 
 Current evidence:
 
@@ -61,6 +62,7 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md)
 - [../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md)
 - [../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md)
+- [../../docs/evidence/post-response-contract-reselection-20260511.md](../../docs/evidence/post-response-contract-reselection-20260511.md)
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
 - [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
 - [../../docs/evidence/research-boundary-consumability-sync-20260510.md](../../docs/evidence/research-boundary-consumability-sync-20260510.md)
@@ -81,9 +83,8 @@ Restart conditions:
 - do not run larger ReDiffuse packets without a new scorer hypothesis and CPU
   preflight.
 - do not GPU-scale GSA loss-score LR from the current stability review.
-- prefer the next CPU-first task in `I-B / I-C / I-D`, cross-box/system
-  consumability, or a non-gray-box asset/protocol scout only if it has a
-  falsifier and CPU preflight.
+- prefer system-consumable evidence hardening until a real second
+  response-contract package or genuinely new scientific hypothesis appears.
 - do not expose ReDiffuse, tri-score, cross-box fusion, GSA LR, H2/simple-distance,
   CLiD, or response-contract acquisition as admitted Platform evidence.
 - do not GPU-scale I-B from existing attack-side threshold-transfer diagnostics
