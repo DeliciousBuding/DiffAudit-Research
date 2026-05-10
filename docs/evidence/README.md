@@ -40,6 +40,7 @@ This directory contains the public evidence overview.
 | [rediffuse-resnet-parity-packet.md](rediffuse-resnet-parity-packet.md) | Negative-but-useful 750k ResNet scoring-contract parity packet for ReDiffuse. |
 | [rediffuse-direct-distance-boundary-review.md](rediffuse-direct-distance-boundary-review.md) | CPU boundary review closing ReDiffuse direct-distance as candidate-only with no automatic 800k GPU release. |
 | [rediffuse-checkpoint-portability-gate.md](rediffuse-checkpoint-portability-gate.md) | CPU gate showing 800k checkpoint portability is blocked by unresolved scorer contract. |
+| [rediffuse-resnet-contract-scout.md](rediffuse-resnet-contract-scout.md) | CPU scout showing the current Research ResNet mode is not exact collaborator replay. |
 | [recon-product-row-validation-guard.md](recon-product-row-validation-guard.md) | System-consumable guard for the admitted recon product row. |
 | [../product-bridge/recon-product-evidence-card.md](../product-bridge/recon-product-evidence-card.md) | Product-facing machine-readable evidence-card contract for the admitted recon row. |
 | [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |

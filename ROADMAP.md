@@ -10,17 +10,17 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `ReDiffuse checkpoint-portability gate review` |
+| Active work | `ReDiffuse ResNet contract scout` |
 | Current GPU candidate | none selected |
-| CPU sidecar | ReDiffuse 800k portability shortcut closed blocked-by-scoring-contract |
+| CPU sidecar | exact ReDiffuse replay decision after contract mismatch |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: prevent an 800k ReDiffuse metrics shortcut unless both
-checkpoint portability and the scorer contract are resolved. The CPU gate shows
-750k/800k checkpoint metadata and split hash are compatible, but release remains
-blocked by the unresolved scorer contract; no GPU task is released. See
-[docs/evidence/rediffuse-checkpoint-portability-gate.md](docs/evidence/rediffuse-checkpoint-portability-gate.md).
+Current objective: close the ReDiffuse scorer-contract ambiguity before any
+800k metrics shortcut. The CPU scout shows the current Research `resnet` mode is
+not exact collaborator replay because checkpoint selection and score orientation
+semantics differ; no GPU task is released. See
+[docs/evidence/rediffuse-resnet-contract-scout.md](docs/evidence/rediffuse-resnet-contract-scout.md).
 The black-box response-contract package preflight remains `needs-assets`; see
 [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
 and
@@ -40,7 +40,7 @@ path as negative-but-useful; see
 | Black-box `recon` | admitted | Current black-box product row and minimal-permission risk proof. | Public-100 strict-tail fields are finite-count evidence, not calibrated continuous sub-percent FPR. |
 | Gray-box `PIA` | admitted | Strongest admitted local DDPM/CIFAR10 gray-box line; stochastic dropout is a provisional defended comparator. | Bounded repeated-query adaptive review only; low-FPR values are finite empirical tails, not calibrated sub-percent FPR. |
 | White-box `GSA + DPDM W-1` | admitted comparator | Strongest white-box risk upper bound plus defended comparator. | Not a final paper-level benchmark. |
-| ReDiffuse | candidate-only / hold | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-compatible, but checkpoint-portability gate is blocked by the unresolved scorer contract. | Reopen only with exact ResNet contract replay or a genuinely new non-direct-distance scorer hypothesis. |
+| ReDiffuse | candidate-only / hold | Collaborator bundle and 750k checkpoint are runnable; 800k checkpoint is runtime-compatible, but the current Research ResNet mode is not exact collaborator replay. | Reopen only with explicit exact ResNet replay or a genuinely new non-direct-distance scorer hypothesis. |
 | CLiD / H2 / simple-distance / variation / semantic-aux | hold or candidate-only | Useful diagnostics and bounded candidates. | No GPU task unless a new protocol/data contract clears a CPU preflight. |
 
 ## Current Gate Verdict
@@ -76,10 +76,16 @@ The checkpoint-portability gate confirms that 750k/800k metadata and the
 collaborator split are compatible, but it still blocks GPU because the
 paper-faithful scorer contract is unresolved. See
 [docs/evidence/rediffuse-checkpoint-portability-gate.md](docs/evidence/rediffuse-checkpoint-portability-gate.md).
+The ResNet contract scout resolves the ambiguity against the current adapter:
+collaborator `nns_attack` does not update `test_acc_best` and negates logits
+before a member-lower ROC, while the Research adapter restores the true best
+held-out epoch and uses unnegated logits as higher-is-member scores. See
+[docs/evidence/rediffuse-resnet-contract-scout.md](docs/evidence/rediffuse-resnet-contract-scout.md).
 
 ## Next Decision Contract
 
-1. Do not run ReDiffuse GPU work without a new CPU contract.
+1. Do not run ReDiffuse GPU work without either exact replay mode or a new
+   non-direct-distance scorer hypothesis that passes CPU characterization.
 2. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
 3. Non-gray-box reselection selected a CPU-only black-box response-contract
@@ -130,6 +136,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse 750k ResNet parity | negative-but-useful; scoring-contract unresolved | [docs/evidence/rediffuse-resnet-parity-packet.md](docs/evidence/rediffuse-resnet-parity-packet.md) |
 | ReDiffuse direct-distance boundary | closed as candidate-only; no GPU release | [docs/evidence/rediffuse-direct-distance-boundary-review.md](docs/evidence/rediffuse-direct-distance-boundary-review.md) |
 | ReDiffuse checkpoint-portability gate | blocked-by-scoring-contract; 800k metrics shortcut remains closed | [docs/evidence/rediffuse-checkpoint-portability-gate.md](docs/evidence/rediffuse-checkpoint-portability-gate.md) |
+| ReDiffuse ResNet contract scout | blocked-by-contract-mismatch; current adapter is not exact collaborator replay | [docs/evidence/rediffuse-resnet-contract-scout.md](docs/evidence/rediffuse-resnet-contract-scout.md) |
 | PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
 | Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
 | Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
