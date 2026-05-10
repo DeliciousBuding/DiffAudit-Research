@@ -10,18 +10,20 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `ReDiffuse exact replay packet verdict` |
+| Active work | `post-ReDiffuse next-lane reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | next-lane reselection after ReDiffuse candidate-only closure |
+| CPU sidecar | black-box second response-contract acquisition |
 | Active GPU question | none running |
 | Platform/Runtime impact | none; candidate-only Research work |
 
-Current objective: close the ReDiffuse exact-replay gate and reselect the next
-lane. The 750k exact-replay GPU packet completed with `AUC = 0.702293`, but
-strict-tail evidence remains weak (`TPR@1%FPR = 0.019231`,
-`TPR@0.1%FPR = 0.019231`) and the held-out ResNet accuracy is `0.5`. ReDiffuse
-stays candidate-only; no 800k shortcut is released. See
-[docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md).
+Current objective: move from the closed ReDiffuse gate to the next useful lane.
+The 750k exact-replay GPU packet completed with modest AUC but weak strict-tail
+evidence, so ReDiffuse stays candidate-only and no 800k shortcut is released.
+The next selected lane is CPU-first black-box second response-contract
+acquisition. See
+[docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md)
+and
+[docs/evidence/post-rediffuse-next-lane-reselection.md](docs/evidence/post-rediffuse-next-lane-reselection.md).
 The black-box response-contract package preflight remains `needs-assets`; see
 [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
 and
@@ -94,9 +96,12 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 
 1. ReDiffuse is closed as candidate-only for now. Do not run 800k or larger
    ReDiffuse packets without a new scorer hypothesis and CPU preflight.
-2. I-A truth-hardening completed as positive boundary hardening. See
+2. Next active lane is second response-contract acquisition. Do not GPU-scale
+   until a package matching `BB-DS-01` and `BB-SUP-03` exists and passes
+   preflight.
+3. I-A truth-hardening completed as positive boundary hardening. See
    [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md).
-3. Non-gray-box reselection selected a CPU-only black-box response-contract
+4. Non-gray-box reselection selected a CPU-only black-box response-contract
    acquisition audit. It closed as `needs-assets`, not GPU-ready. The minimum
    acquisition package is specified in
    [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md);
@@ -104,9 +109,9 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
    for the audit result and
    [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
-4. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
+5. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
-5. Do not change Platform or Runtime schemas in this cycle.
+6. Do not change Platform or Runtime schemas in this cycle.
 
 ## Long-Running Goal Loop
 
@@ -147,6 +152,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse ResNet contract scout | blocked-by-contract-mismatch; current adapter is not exact collaborator replay | [docs/evidence/rediffuse-resnet-contract-scout.md](docs/evidence/rediffuse-resnet-contract-scout.md) |
 | ReDiffuse exact replay preflight | CPU preflight passed; no GPU release | [docs/evidence/rediffuse-exact-replay-preflight.md](docs/evidence/rediffuse-exact-replay-preflight.md) |
 | ReDiffuse 750k exact replay | candidate-only; modest AUC but weak strict-tail evidence | [docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md) |
+| Post-ReDiffuse reselection | selects black-box second response-contract acquisition; no GPU release | [docs/evidence/post-rediffuse-next-lane-reselection.md](docs/evidence/post-rediffuse-next-lane-reselection.md) |
 | PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
 | Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
 | Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
