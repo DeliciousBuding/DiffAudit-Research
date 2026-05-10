@@ -14,8 +14,9 @@ This packet uses:
 
 - checkpoint: collaborator 750k DDIM checkpoint
 - dataset: CIFAR10 train split
-- split: collaborator `CIFAR10_train_ratio0.5.npz`, hash-checked against the
-  known PIA/ReDiffuse split
+- split: collaborator `CIFAR10_train_ratio0.5.npz`, SHA256
+  `aca922ecee25ef00dc6b6377ebaf7875dfcc77c2cdfe27c873b26a65134aa0c0`,
+  hash-checked against the known PIA/ReDiffuse split
 - scoring mode: `resnet_collaborator_replay`
 - checkpoint policy: `collaborator_counter`
 - metric convention: raw logits as higher-is-member, equivalent to the

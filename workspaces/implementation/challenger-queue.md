@@ -31,16 +31,14 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### ReDiffuse Exact Replay Packet
+### None
 
-- `mode`: bounded GPU packet completed
-- `status`: candidate-only
-- `goal`: decide whether the explicit collaborator checkpoint-selection replay
-  mode has a usable signal.
-- `latest trigger`: 750k exact replay completed with modest AUC but weak
-  strict-tail evidence.
-- `GPU cap`: no GPU released.
-- `integration`: no Platform or Runtime schema change.
+- `mode`: idle
+- `status`: no active task
+- `goal`: reselect next research lane
+- `latest trigger`: ReDiffuse 750k exact-replay verdict
+- `GPU cap`: none
+- `integration`: none
 
 Current evidence:
 
