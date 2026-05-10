@@ -25,6 +25,7 @@ This directory contains the public evidence overview.
 | [blackbox-response-contract-acquisition-audit.md](blackbox-response-contract-acquisition-audit.md) | CPU audit showing local second response-contract assets are missing; no GPU release. |
 | [blackbox-response-contract-asset-acquisition-spec.md](blackbox-response-contract-asset-acquisition-spec.md) | Minimal portable asset package and CPU gate required to reopen a second black-box response contract. |
 | [research-resting-state-audit-20260510.md](research-resting-state-audit-20260510.md) | Current audit showing Research has no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
+| [gsa-loss-score-shadow-stability-review.md](gsa-loss-score-shadow-stability-review.md) | CPU-only leave-one-shadow-out review falsifying the immediate GSA loss-score LR distinct-scorer rescue path. |
 | [variation-query-contract-audit.md](variation-query-contract-audit.md) | Executable audit for deciding whether the variation black-box line has real query images and endpoint readiness. |
 | [semantic-aux-low-fpr-review.md](semantic-aux-low-fpr-review.md) | CPU-only low-FPR review for the semantic-auxiliary classifier lane. |
 | [recon-product-validation-contract.md](recon-product-validation-contract.md) | CPU contract for the next recon product-consumable validation packet. |
