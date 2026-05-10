@@ -43,14 +43,17 @@ auxiliary.
 - Admitted black-box line: `recon`
 - Admitted gray-box line: `PIA + stochastic-dropout`
 - Admitted white-box comparator line: `GSA + DPDM W-1`
-- Active work as of 2026-05-10: `next-candidate discovery: black-box response-contract asset/protocol scout`
+- Active work as of 2026-05-10: `post-tri-score reselection`
 - Next GPU candidate as of 2026-05-10: none selected
 - Non-gray-box GPU candidate: none selected
-- ReDiffuse is candidate-only / hold after the negative ResNet parity packet
-  and direct-distance boundary review.
-- Current CPU sidecar: GSA loss-score LR stability closed negative; continue
-  candidate discovery, prioritizing black-box response-contract asset/protocol
-  scouting.
+- ReDiffuse is candidate-only / hold after exact replay showed modest AUC but
+  weak strict-tail evidence.
+- Black-box response-contract acquisition is `needs-assets`; the repository
+  discovery pass found no paired `Download/black-box` package.
+- Gray-box tri-score truth-hardening closed as positive-but-bounded
+  internal-only evidence; no admitted promotion and no GPU release.
+- Current CPU sidecar: none selected; the next cycle must reselect a bounded
+  non-redundant task rather than expanding the same tri-score contract.
 - Platform/Runtime impact: none until a reviewed product-bridge handoff says
   otherwise
 
