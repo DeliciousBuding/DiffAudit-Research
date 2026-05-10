@@ -839,7 +839,7 @@ def build_parser() -> argparse.ArgumentParser:
     rediffuse_runtime_smoke_parser.add_argument("--norm", type=int, default=1)
     rediffuse_runtime_smoke_parser.add_argument(
         "--scoring-mode",
-        choices=["first_step_distance_mean", "direct-distance", "resnet"],
+        choices=["first_step_distance_mean", "direct-distance", "resnet", "resnet_collaborator_replay"],
         default="first_step_distance_mean",
     )
     rediffuse_runtime_smoke_parser.add_argument("--scorer-train-portion", type=float, default=0.2)
@@ -865,7 +865,7 @@ def build_parser() -> argparse.ArgumentParser:
     rediffuse_runtime_packet_parser.add_argument("--norm", type=int, default=1)
     rediffuse_runtime_packet_parser.add_argument(
         "--scoring-mode",
-        choices=["first_step_distance_mean", "direct-distance", "resnet"],
+        choices=["first_step_distance_mean", "direct-distance", "resnet", "resnet_collaborator_replay"],
         default="first_step_distance_mean",
     )
     rediffuse_runtime_packet_parser.add_argument("--scorer-train-portion", type=float, default=0.2)
