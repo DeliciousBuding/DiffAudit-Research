@@ -1,0 +1,77 @@
+{
+  "schema": "diffaudit.ib_adaptive_defense_contract.v1",
+  "status": "hold",
+  "admitted": false,
+  "gpu_release": "none",
+  "track": "defense",
+  "method": "risk-targeted unlearning",
+  "claim": "existing attack-side threshold-transfer reductions are not defense-aware",
+  "reviewed_runs": [
+    {
+      "run": "risk-targeted-unlearning-review-fullsplit-k16-pairednoise-20260418-r1",
+      "delta_auc": -0.00119,
+      "delta_tpr_at_1pct_fpr": -0.001,
+      "delta_tpr_at_0_1pct_fpr": 0.0
+    },
+    {
+      "run": "risk-targeted-unlearning-review-fullsplit-k32-pairednoise-20260418-r1",
+      "delta_auc": -0.005635,
+      "delta_tpr_at_1pct_fpr": -0.001,
+      "delta_tpr_at_0_1pct_fpr": 0.0
+    },
+    {
+      "run": "risk-targeted-unlearning-review-fullsplit-k8-pairednoise-20260418-r1",
+      "delta_auc": -0.002326,
+      "delta_tpr_at_1pct_fpr": -0.002,
+      "delta_tpr_at_0_1pct_fpr": 0.0
+    },
+    {
+      "run": "risk-targeted-unlearning-review-fullsplit-k16-alpha075-pairednoise-20260418-r1",
+      "delta_auc": -0.0004,
+      "delta_tpr_at_1pct_fpr": -0.003,
+      "delta_tpr_at_0_1pct_fpr": 0.0
+    },
+    {
+      "run": "risk-targeted-unlearning-review-fullsplit-k16-lambda04375-pairednoise-20260418-r1",
+      "delta_auc": 0.000893,
+      "delta_tpr_at_1pct_fpr": -0.006,
+      "delta_tpr_at_0_1pct_fpr": 0.0
+    },
+    {
+      "run": "risk-targeted-unlearning-review-fullsplit-k32-20260418-r1",
+      "delta_auc": -0.021347,
+      "delta_tpr_at_1pct_fpr": -0.007,
+      "delta_tpr_at_0_1pct_fpr": -0.003
+    }
+  ],
+  "observed_boundary": {
+    "best_auc_reduction": -0.021347,
+    "best_tpr_at_1pct_fpr_reduction": -0.007,
+    "best_tpr_at_0_1pct_fpr_reduction": -0.003,
+    "strict_tail_claim_supported": false,
+    "defense_aware_attacker_used": false
+  },
+  "required_reopen_contract": {
+    "defended_shadow_training_protocol": "required",
+    "adaptive_attacker_protocol": "required",
+    "same_member_nonmember_identity": "required",
+    "low_fpr_primary_gate": "required",
+    "retained_utility_metric": "required",
+    "stop_condition_for_no_strict_tail_improvement": "required"
+  },
+  "promotion_blockers": [
+    "no defended-shadow attacker",
+    "no adaptive attacker review",
+    "strict-tail improvement is absent or too small",
+    "retained utility is not part of the current evidence"
+  ],
+  "blocked_claims": [
+    "admitted defense evidence",
+    "adaptive robustness",
+    "low-FPR defense improvement",
+    "Platform/Runtime defense row"
+  ],
+  "evidence_docs": [
+    "docs/evidence/ib-risk-targeted-unlearning-successor-scope.md"
+  ]
+}
