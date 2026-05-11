@@ -61,6 +61,10 @@ I-B should not reopen as a GPU lane from the existing packets. The next
 scientifically valid successor is a CPU preflight for a defended-shadow or
 adaptive-attacker review contract.
 
+The hold boundary is now machine-guarded by
+[`ib-adaptive-defense-contract-20260511.md`](ib-adaptive-defense-contract-20260511.md)
+and `scripts/validate_ib_adaptive_defense_contract.py`.
+
 ## Reopen Gate
 
 Before any GPU run, freeze:
