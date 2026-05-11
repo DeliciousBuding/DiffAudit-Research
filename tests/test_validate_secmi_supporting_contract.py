@@ -59,6 +59,7 @@ class ValidateSecmiSupportingContractTests(unittest.TestCase):
                 "admitted-consumer boundary contract",
                 "structured adaptive_check comparable to admitted PIA rows",
                 "bounded repeated-query adaptive review",
+                "checkpoint/source provenance alignment with admitted gray-box consumer language",
             ],
         }
         stat_row = copy.deepcopy(base_row)
@@ -85,6 +86,7 @@ class ValidateSecmiSupportingContractTests(unittest.TestCase):
                     "decide whether NNS may ever be product-facing or must remain Research-only",
                     "freeze an adaptive repeated-query review protocol",
                     "freeze low-FPR finite-tail denominator semantics",
+                    "define source/provenance language compatible with admitted gray-box rows",
                 ],
                 "gpu_cap": "none until the CPU contract is reviewed",
             },
@@ -156,7 +158,38 @@ class ValidateSecmiSupportingContractTests(unittest.TestCase):
             if blocker != "explicit product-facing auxiliary-head contract"
         ]
         errors = validate_secmi_supporting_contract.validate_hardening(artifact)
-        self.assertIn("NNS row must require an explicit product-facing auxiliary-head contract", errors)
+        self.assertIn(
+            "NNS row missing admission blocker: explicit product-facing auxiliary-head contract",
+            errors,
+        )
+
+    def test_hardening_rejects_missing_common_admission_blocker(self) -> None:
+        artifact = self._hardening_artifact()
+        stat_row = artifact["candidate_rows"][0]
+        stat_row["missing_for_admission"] = [
+            blocker
+            for blocker in stat_row["missing_for_admission"]
+            if blocker != "structured adaptive_check comparable to admitted PIA rows"
+        ]
+        errors = validate_secmi_supporting_contract.validate_hardening(artifact)
+        self.assertIn(
+            "candidate_rows[0] missing admission blocker: structured adaptive_check comparable to admitted PIA rows",
+            errors,
+        )
+
+    def test_hardening_rejects_missing_required_cpu_gate(self) -> None:
+        artifact = self._hardening_artifact()
+        required = artifact["next_reopen_contract"]["required_before_gpu"]
+        artifact["next_reopen_contract"]["required_before_gpu"] = [
+            gate
+            for gate in required
+            if gate != "freeze low-FPR finite-tail denominator semantics"
+        ]
+        errors = validate_secmi_supporting_contract.validate_hardening(artifact)
+        self.assertIn(
+            "missing required CPU gate: freeze low-FPR finite-tail denominator semantics",
+            errors,
+        )
 
     def test_hardening_rejects_gpu_release(self) -> None:
         artifact = self._hardening_artifact()

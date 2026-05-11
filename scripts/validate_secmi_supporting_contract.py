@@ -28,6 +28,22 @@ REQUIRED_BLOCKED_CLAIMS = (
     "product-facing NNS auxiliary head",
     "adaptive robustness",
 )
+REQUIRED_MISSING_FOR_ADMISSION = (
+    "admitted-consumer boundary contract",
+    "structured adaptive_check comparable to admitted PIA rows",
+    "bounded repeated-query adaptive review",
+    "checkpoint/source provenance alignment with admitted gray-box consumer language",
+)
+REQUIRED_NNS_MISSING_FOR_ADMISSION = (
+    "explicit product-facing auxiliary-head contract",
+)
+REQUIRED_REOPEN_GATES = (
+    "define a SecMI consumer row schema separate from the admitted PIA rows",
+    "decide whether NNS may ever be product-facing or must remain Research-only",
+    "freeze an adaptive repeated-query review protocol",
+    "freeze low-FPR finite-tail denominator semantics",
+    "define source/provenance language compatible with admitted gray-box rows",
+)
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -126,12 +142,16 @@ def validate_hardening(payload: Any) -> list[str]:
             else:
                 _require_numeric(errors, f"candidate_rows[{index}].metrics", metrics, REQUIRED_METRICS)
             missing = row.get("missing_for_admission")
-            if not isinstance(missing, list) or "bounded repeated-query adaptive review" not in missing:
-                errors.append(f"candidate_rows[{index}].missing_for_admission must include bounded repeated-query adaptive review")
-            if row.get("head") == "nns" and (
-                not isinstance(missing, list) or "explicit product-facing auxiliary-head contract" not in missing
-            ):
-                errors.append("NNS row must require an explicit product-facing auxiliary-head contract")
+            if not isinstance(missing, list):
+                errors.append(f"candidate_rows[{index}].missing_for_admission must be a list")
+            else:
+                for blocker in REQUIRED_MISSING_FOR_ADMISSION:
+                    if blocker not in missing:
+                        errors.append(f"candidate_rows[{index}] missing admission blocker: {blocker}")
+                if row.get("head") == "nns":
+                    for blocker in REQUIRED_NNS_MISSING_FOR_ADMISSION:
+                        if blocker not in missing:
+                            errors.append(f"NNS row missing admission blocker: {blocker}")
 
     blocked_claims = payload.get("blocked_claims")
     if not isinstance(blocked_claims, list):
@@ -150,8 +170,12 @@ def validate_hardening(payload: Any) -> list[str]:
         if reopen.get("gpu_cap") != "none until the CPU contract is reviewed":
             errors.append("next_reopen_contract.gpu_cap must block GPU until CPU review")
         required = reopen.get("required_before_gpu")
-        if not isinstance(required, list) or len(required) < 4:
-            errors.append("next_reopen_contract.required_before_gpu must list the CPU gates")
+        if not isinstance(required, list):
+            errors.append("next_reopen_contract.required_before_gpu must be a list")
+        else:
+            for gate in REQUIRED_REOPEN_GATES:
+                if gate not in required:
+                    errors.append(f"missing required CPU gate: {gate}")
 
     evidence_docs = payload.get("evidence_docs")
     if not isinstance(evidence_docs, list):
