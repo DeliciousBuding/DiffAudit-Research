@@ -11,6 +11,8 @@
   evidence, not a product row or portability result.
 - Variation status: blocked until a real member/nonmember query-image set and
   endpoint contract exist.
+- CLiD status: hold-candidate; prompt controls block image-identity and admitted
+  black-box claims.
 - Semantic-auxiliary status: negative-but-useful after low-FPR review; no GPU
   packet selected.
 - GPU: no active black-box GPU task running now.
@@ -43,6 +45,9 @@ Current H2 simple-distance boundary:
 
 Current variation query contract audit:
 [../../docs/evidence/variation-query-contract-audit.md](../../docs/evidence/variation-query-contract-audit.md).
+
+Current CLiD image-identity boundary:
+[../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md).
 
 Current response-contract package preflight:
 [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).

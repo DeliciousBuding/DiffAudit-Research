@@ -1,0 +1,83 @@
+{
+  "schema": "diffaudit.clid_image_identity_boundary.v1",
+  "status": "hold-candidate",
+  "admitted": false,
+  "gpu_release": "none",
+  "track": "black-box",
+  "method": "CLiD",
+  "claim": "prompt-conditioned diagnostic candidate, not admitted image-identity membership evidence",
+  "baseline": {
+    "contract": "prompt-conditioned repeat",
+    "auc": 1.0,
+    "asr": 1.0,
+    "tpr_at_1pct_fpr": 1.0,
+    "tpr_at_0_1pct_fpr": 1.0
+  },
+  "controls": [
+    {
+      "contract": "fixed prompt",
+      "auc": 0.5862,
+      "asr": 0.585,
+      "tpr_at_1pct_fpr": 0.02,
+      "tpr_at_0_1pct_fpr": 0.02,
+      "strict_tail_retention_vs_baseline": 0.02
+    },
+    {
+      "contract": "swapped prompt",
+      "auc": 0.72885,
+      "asr": 0.67,
+      "tpr_at_1pct_fpr": 0.21,
+      "tpr_at_0_1pct_fpr": 0.21,
+      "strict_tail_retention_vs_baseline": 0.21
+    },
+    {
+      "contract": "within-split prompt shuffle seed 0",
+      "auc": 0.64105,
+      "asr": 0.645,
+      "tpr_at_1pct_fpr": 0.12,
+      "tpr_at_0_1pct_fpr": 0.12,
+      "strict_tail_retention_vs_baseline": 0.12
+    },
+    {
+      "contract": "within-split prompt shuffle seed 1",
+      "auc": 0.59425,
+      "asr": 0.6,
+      "tpr_at_1pct_fpr": 0.08,
+      "tpr_at_0_1pct_fpr": 0.08,
+      "strict_tail_retention_vs_baseline": 0.08
+    },
+    {
+      "contract": "prompt text only",
+      "auc": 0.70715,
+      "asr": 0.66,
+      "tpr_at_1pct_fpr": 0.02,
+      "tpr_at_0_1pct_fpr": 0.02,
+      "strict_tail_retention_vs_baseline": 0.02
+    }
+  ],
+  "identity_boundary": {
+    "max_control_tpr_at_0_1pct_fpr": 0.21,
+    "max_control_strict_tail_retention": 0.21,
+    "prompt_conditioned_auxiliary_stable": false,
+    "image_identity_admitted": false
+  },
+  "promotion_blockers": [
+    "prompt controls degrade strict-tail signal",
+    "auxiliary feature is unstable under prompt controls",
+    "no independent image-identity contract",
+    "no Platform/Runtime consumer contract"
+  ],
+  "blocked_claims": [
+    "admitted black-box evidence",
+    "image-identity membership signal",
+    "replacement for recon product row",
+    "conditional-diffusion generalization"
+  ],
+  "evidence_docs": [
+    "docs/evidence/clid-prompt-conditioning-boundary.md",
+    "docs/evidence/clid-control-attribution.md",
+    "docs/evidence/clid-swapped-prompt-control.md",
+    "docs/evidence/clid-within-split-shuffle-control.md",
+    "docs/evidence/clid-prompt-text-only-review.md"
+  ]
+}

@@ -5,7 +5,8 @@
 - `recon`: strongest main black-box method, but public data limits strict paper-aligned claims.
 - `CLiD`: hold-candidate. The prompt-conditioned packet is strong and
   repeat-stable, but prompt controls and attribution block admission as general
-  black-box evidence.
+  black-box evidence. The current machine-readable boundary is
+  [../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md).
 - `variation`: API-only support; executable query-contract audit is now
   blocked by missing member/nonmember query images and endpoint.
 - `semantic-auxiliary-classifier`: negative-but-useful after low-FPR review;
@@ -72,6 +73,13 @@ The local query-source audit confirms that `public-kandinsky-pokemon` contains
 weights only and cannot fill the query/response package. Do not mix CelebA or
 recon tensor assets into this Pokemon/Kandinsky package. See
 [../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md).
+
+The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
+candidate, not image-identity membership evidence. The prompt-conditioned
+repeat has `TPR@0.1%FPR = 1.0`, but the best prompt-control strict-tail value
+is `0.21`, and fixed-prompt / prompt-text-only controls are `0.02`. Do not run
+another CLiD GPU packet unless a new CPU-first protocol can isolate image
+identity from prompt-image pairing and auxiliary-score behavior.
 
 The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
