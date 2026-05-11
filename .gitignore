@@ -139,6 +139,7 @@ workspaces/**/artifacts/**
 !workspaces/black-box/artifacts/blackbox-response-contract-scaffold-dryrun-20260511.json
 !workspaces/black-box/artifacts/blackbox-response-contract-scaffold-create-20260511.json
 !workspaces/black-box/artifacts/blackbox-response-contract-probe-after-skeleton-20260511.json
+!workspaces/black-box/artifacts/clid-image-identity-boundary-20260511.json
 !workspaces/gray-box/artifacts/graybox-triscore-consolidation-summary.json
 !workspaces/gray-box/artifacts/graybox-triscore-truth-hardening-review.json
 !workspaces/gray-box/artifacts/secmi-full-split-admission-boundary-20260511.json

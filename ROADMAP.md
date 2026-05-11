@@ -51,6 +51,9 @@ on hold; neither releases GPU work. See
 [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
 and
 [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md).
+CLiD is now guarded as a prompt-conditioned diagnostic candidate rather than
+image-identity black-box evidence. See
+[docs/evidence/clid-image-identity-boundary-contract-20260511.md](docs/evidence/clid-image-identity-boundary-contract-20260511.md).
 The downstream consumer boundary is synchronized: admitted rows remain `recon`,
 `PIA`, and `GSA + DPDM W-1`; ReDiffuse, tri-score, cross-box fusion,
 H2/simple-distance, CLiD, GSA LR, and black-box response-contract acquisition
