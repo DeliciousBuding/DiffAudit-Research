@@ -91,6 +91,7 @@ def _blocked_claims(row: dict[str, Any]) -> list[str]:
 
 
 def _tail_nonmember_count(row: dict[str, Any]) -> int:
+    row_label = f"{row.get('track')}::{row.get('attack')}::{row.get('defense')}::{row.get('evidence_level')}"
     cost = row.get("cost")
     if isinstance(cost, dict):
         sample_count = cost.get("sample_count_per_split")
@@ -104,10 +105,12 @@ def _tail_nonmember_count(row: dict[str, Any]) -> int:
     ):
         match = re.search(pattern, quality_cost)
         if match:
-            return int(match.group("count"))
+            count = int(match.group("count"))
+            if count > 0:
+                return count
 
     raise ValueError(
-        "admitted evidence row needs a recoverable nonmember denominator for low-FPR interpretation"
+        f"admitted evidence row {row_label} needs a recoverable nonmember denominator for low-FPR interpretation"
     )
 
 

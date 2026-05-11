@@ -189,6 +189,19 @@ class ExportAdmittedEvidenceBundleTests(unittest.TestCase):
 
         self.assertEqual(exit_code, 2)
 
+    def test_tail_denominator_extraction_fails_closed_on_zero_count(self) -> None:
+        module = load_export_module()
+        with self.assertRaisesRegex(ValueError, "black-box::zero-count::none::runtime-mainline"):
+            module._tail_nonmember_count(
+                {
+                    "track": "black-box",
+                    "attack": "zero-count",
+                    "defense": "none",
+                    "evidence_level": "runtime-mainline",
+                    "quality_cost": "0 public samples per split",
+                }
+            )
+
     def test_cli_relative_paths_resolve_from_current_working_directory(self) -> None:
         module = load_export_module()
         research_root = Path(__file__).resolve().parents[1]
