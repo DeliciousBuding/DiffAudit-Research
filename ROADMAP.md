@@ -10,18 +10,20 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `SecMI admitted-consumer contract hardening` |
+| Active work | `white-box influence/curvature feasibility scout` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only SecMI supporting-reference contract guard; no model run |
+| CPU sidecar | CPU-only white-box distinct-observable feasibility audit; no model run |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: harden the strongest non-admitted gray-box supporting
-reference without promoting it into the admitted bundle. PR #92 closed the I-B
-adaptive-defense guard; the next CPU-first task is SecMI admitted-consumer
-contract hardening. This keeps `active_gpu_question = none` and
+Current objective: after SecMI admission-contract hardening, move the active
+CPU slot to the next honest scientific gap without releasing GPU. The selected
+lane is a white-box influence/curvature feasibility scout: it must first prove
+that a genuinely distinct observable exists beyond scalar loss, gradient norm,
+GSA loss-score LR, and activation-subspace variants. This keeps
+`active_gpu_question = none` and
 `next_gpu_candidate = none`. See
-[docs/evidence/secmi-admission-contract-hardening-20260511.md](docs/evidence/secmi-admission-contract-hardening-20260511.md).
+[docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md).
 The
 Kandinsky/Pokemon package skeleton now exists locally at
 `response-contract-pokemon-kandinsky-20260511`, but the probe verdict is
@@ -258,6 +260,7 @@ Every autonomous research cycle must follow this loop:
 | Admitted evidence bundle | synchronized; complete admitted consumer set exported as checked machine-readable bundle | [docs/evidence/admitted-evidence-bundle-20260511.md](docs/evidence/admitted-evidence-bundle-20260511.md) |
 | SecMI full-split admission boundary | evidence-ready supporting reference; not admitted | [docs/evidence/secmi-full-split-admission-boundary-review.md](docs/evidence/secmi-full-split-admission-boundary-review.md) |
 | SecMI admission contract hardening | supporting-reference-hardened; not admitted; no GPU release | [docs/evidence/secmi-admission-contract-hardening-20260511.md](docs/evidence/secmi-admission-contract-hardening-20260511.md) |
+| Post-SecMI next-lane reselection | selects CPU-first white-box influence/curvature feasibility scout; no GPU release | [docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |
