@@ -28,11 +28,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `system-consumable admitted evidence hardening`
+- Active work: `white-box influence/curvature feasibility scout`
 - Next GPU candidate: none selected
-- CPU work: black-box response-contract package construction is blocked as
-  `needs_query_split`; current reducible work is admitted-row contract guarding
-  for Platform/Runtime consumers
+- CPU work: diagonal-Fisher layer scope is mixed but not GPU-ready; at most
+  one CPU stability board on `up_blocks.1.attentions.0.to_v` may run before
+  closing the line or reselecting another lane
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

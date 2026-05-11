@@ -148,6 +148,7 @@ workspaces/**/artifacts/**
 !workspaces/white-box/artifacts/whitebox-attack-defense-table.json
 !workspaces/white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json
 !workspaces/white-box/artifacts/gsa-diagonal-fisher-feasibility-microboard-20260511.json
+!workspaces/white-box/artifacts/gsa-diagonal-fisher-layer-scope-20260511-*.json
 *.stdout.log
 *.stderr.log
 
