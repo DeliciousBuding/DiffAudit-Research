@@ -13,13 +13,7 @@ class ValidateClidIdentityBoundaryTests(unittest.TestCase):
     def _artifact(self) -> dict:
         root = Path(__file__).resolve().parents[1]
         return json.loads(
-            (
-                root
-                / "workspaces"
-                / "black-box"
-                / "artifacts"
-                / "clid-image-identity-boundary-20260511.json"
-            ).read_text(encoding="utf-8")
+            (root / validate_clid_identity_boundary.DEFAULT_ARTIFACT).read_text(encoding="utf-8")
         )
 
     def test_project_artifact_is_valid(self) -> None:
@@ -65,6 +59,16 @@ class ValidateClidIdentityBoundaryTests(unittest.TestCase):
             errors,
         )
 
+    def test_rejects_boundary_retention_max_mismatch(self) -> None:
+        artifact = self._artifact()
+        artifact["identity_boundary"] = copy.deepcopy(artifact["identity_boundary"])
+        artifact["identity_boundary"]["max_control_strict_tail_retention"] = 0.12
+        errors = validate_clid_identity_boundary.validate(artifact)
+        self.assertIn(
+            "identity_boundary.max_control_strict_tail_retention must match max control retention",
+            errors,
+        )
+
     def test_rejects_high_control_strict_tail_for_hold_candidate(self) -> None:
         artifact = self._artifact()
         artifact["controls"] = copy.deepcopy(artifact["controls"])
@@ -87,6 +91,12 @@ class ValidateClidIdentityBoundaryTests(unittest.TestCase):
             path.write_text("{bad json", encoding="utf-8")
             exit_code = validate_clid_identity_boundary.main(["--artifact", str(path)])
         self.assertEqual(exit_code, 2)
+
+    def test_cli_resolves_relative_artifact_from_repo_root(self) -> None:
+        exit_code = validate_clid_identity_boundary.main(
+            ["--artifact", str(validate_clid_identity_boundary.DEFAULT_ARTIFACT)]
+        )
+        self.assertEqual(exit_code, 0)
 
 
 if __name__ == "__main__":

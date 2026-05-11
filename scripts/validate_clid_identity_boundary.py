@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -67,6 +68,7 @@ def validate(payload: Any) -> list[str]:
 
     controls = payload.get("controls")
     control_strict_tails: list[float] = []
+    control_retentions: list[float] = []
     if not isinstance(controls, list) or not controls:
         errors.append("controls must be a non-empty list")
     else:
@@ -83,9 +85,13 @@ def validate(payload: Any) -> list[str]:
                 control_strict_tails.append(float(strict_tail))
             retention = control.get("strict_tail_retention_vs_baseline")
             if not isinstance(retention, (int, float)) or isinstance(retention, bool):
-                errors.append(f"{prefix}.strict_tail_retention_vs_baseline must be numeric")
+                errors.append(f"{prefix}.strict_tail_retention_vs_baseline must be numeric, got {retention!r}")
             elif not math.isfinite(float(retention)) or not 0.0 <= float(retention) <= 1.0:
-                errors.append(f"{prefix}.strict_tail_retention_vs_baseline must be finite and in [0, 1]")
+                errors.append(
+                    f"{prefix}.strict_tail_retention_vs_baseline must be finite and in [0, 1], got {retention!r}"
+                )
+            else:
+                control_retentions.append(float(retention))
 
     boundary = payload.get("identity_boundary")
     if not isinstance(boundary, dict):
@@ -102,6 +108,16 @@ def validate(payload: Any) -> list[str]:
             errors.append("identity_boundary.max_control_tpr_at_0_1pct_fpr must match max control strict tail")
         if isinstance(max_control, (int, float)) and not isinstance(max_control, bool) and float(max_control) > 0.25:
             errors.append("identity_boundary.max_control_tpr_at_0_1pct_fpr is too high for hold-candidate boundary")
+        max_retention = boundary.get("max_control_strict_tail_retention")
+        if not isinstance(max_retention, (int, float)) or isinstance(max_retention, bool):
+            errors.append("identity_boundary.max_control_strict_tail_retention must be numeric")
+        elif not math.isfinite(float(max_retention)) or not 0.0 <= float(max_retention) <= 1.0:
+            errors.append(
+                "identity_boundary.max_control_strict_tail_retention must be finite and in [0, 1], "
+                f"got {max_retention!r}"
+            )
+        elif control_retentions and round(max(control_retentions), 6) != round(float(max_retention), 6):
+            errors.append("identity_boundary.max_control_strict_tail_retention must match max control retention")
 
     blockers = payload.get("promotion_blockers")
     if not isinstance(blockers, list):
@@ -136,7 +152,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     root = Path(__file__).resolve().parents[1]
-    artifact_path = (args.artifact or root / DEFAULT_ARTIFACT).resolve()
+    artifact_arg = args.artifact
+    if artifact_arg is None:
+        artifact_path = (root / DEFAULT_ARTIFACT).resolve()
+    else:
+        artifact_path = (artifact_arg if artifact_arg.is_absolute() else root / artifact_arg).resolve()
     errors: list[str] = []
     if not artifact_path.exists():
         errors.append(f"artifact does not exist: {artifact_path}")
@@ -148,7 +168,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if errors:
         for error in errors:
-            print(f"ERROR {error}")
+            print(f"ERROR {error}", file=sys.stderr)
         return 2
 
     print(f"OK {artifact_path}")
