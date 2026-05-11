@@ -12,10 +12,11 @@ chooses work; this document defines where work products belong.
 The 2026-04-29 and 2026-04-30 governance cleanups are merged to `main`
 from PR #26 through PR #36. The ongoing baseline is:
 
-- Active work is `next-candidate discovery: black-box response-contract asset/protocol scout`
+- Active work is `white-box influence/curvature feasibility scout`
 - Next GPU candidate is none selected
-- Current CPU sidecar is GSA loss-score LR stability closed negative; continue
-  candidate discovery
+- Current CPU sidecar is a checked CPU-only feasibility contract; next work is
+  a micro-board implementation only if it retains selected-layer raw gradient
+  coordinates and compares against required baselines
 - ReDiffuse is a candidate gray-box baseline-alignment track, not an admitted
   result release; reopen only with a new scorer or checkpoint-portability
   hypothesis

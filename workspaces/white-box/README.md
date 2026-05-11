@@ -5,8 +5,8 @@
 - Direction: white-box membership inference using internal model signals.
 - Main method: `GSA` is the strongest white-box attack.
 - Defense comparator: `DPDM` provides defended baseline comparison.
-- Active CPU task: influence/curvature feasibility scout for a genuinely
-  distinct white-box observable.
+- Active CPU task: influence/curvature feasibility contract for a genuinely
+  distinct white-box observable; micro-board implementation is next.
 - GPU: no active white-box GPU task.
 
 ## Files
@@ -18,6 +18,9 @@
 
 Current lane selection:
 [../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md).
+
+Current feasibility contract:
+[../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md).
 
 ## Archive
 

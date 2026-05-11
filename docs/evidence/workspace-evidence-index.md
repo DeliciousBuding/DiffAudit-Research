@@ -8,7 +8,7 @@ This index separates current track state from archived research history.
 | --- | --- | --- |
 | Black-box | [workspaces/black-box/README.md](../../workspaces/black-box/README.md), [plan.md](../../workspaces/black-box/plan.md) | Reconstruction, CLiD, variation, and black-box candidate status. |
 | Gray-box | [workspaces/gray-box/README.md](../../workspaces/gray-box/README.md), [plan.md](../../workspaces/gray-box/plan.md) | PIA, SecMI, TMIA-DM, and gray-box defense boundary status. |
-| White-box | [workspaces/white-box/README.md](../../workspaces/white-box/README.md), [plan.md](../../workspaces/white-box/plan.md) | GSA, DPDM, Finding NeMo, and white-box boundary status. |
+| White-box | [workspaces/white-box/README.md](../../workspaces/white-box/README.md), [plan.md](../../workspaces/white-box/plan.md), [whitebox-influence-curvature-feasibility-scout-20260511.md](whitebox-influence-curvature-feasibility-scout-20260511.md) | GSA, DPDM, Finding NeMo, and white-box boundary status. |
 | Implementation | [workspaces/implementation/README.md](../../workspaces/implementation/README.md), [challenger-queue.md](../../workspaces/implementation/challenger-queue.md) | Shared CLI, schemas, queue state, and research operations. |
 | Intake | [workspaces/intake/README.md](../../workspaces/intake/README.md) | Candidate intake and archived paper-backed scouting. |
 | Runtime | [workspaces/runtime/README.md](../../workspaces/runtime/README.md) | Research-side runtime contract notes. |

@@ -48,6 +48,7 @@ def main(argv: list[str] | None = None) -> None:
     run([python_executable, "scripts/validate_secmi_supporting_contract.py"], repo_root)
     run([python_executable, "scripts/validate_clid_identity_boundary.py"], repo_root)
     run([python_executable, "scripts/validate_ib_adaptive_defense_contract.py"], repo_root)
+    run([python_executable, "scripts/validate_whitebox_influence_curvature_contract.py"], repo_root)
     run([python_executable, "scripts/export_recon_product_evidence_card.py", "--check"], repo_root)
     run([python_executable, "scripts/export_admitted_evidence_bundle.py", "--check"], repo_root)
     run(
