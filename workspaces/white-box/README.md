@@ -5,8 +5,8 @@
 - Direction: white-box membership inference using internal model signals.
 - Main method: `GSA` is the strongest white-box attack.
 - Defense comparator: `DPDM` provides defended baseline comparison.
-- Active CPU task: influence/curvature CPU stability decision after the
-  diagonal-Fisher layer-scope review closed mixed but not GPU-ready.
+- Active CPU task: none in this lane; diagonal-Fisher self-influence is closed
+  as negative-but-useful after the stability board.
 - GPU: no active white-box GPU task.
 
 ## Files
@@ -27,6 +27,9 @@ Current micro-board result:
 
 Current layer-scope review:
 [../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md).
+
+Current stability board:
+[../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md).
 
 ## Archive
 

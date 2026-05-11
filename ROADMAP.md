@@ -10,19 +10,20 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `white-box influence/curvature feasibility scout` |
+| Active work | `I-A finite-tail / adaptive boundary hardening` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only white-box diagonal-Fisher stability follow-up; no GPU run |
+| CPU sidecar | CPU-only admitted-evidence strict-tail and adaptive-language review |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: after SecMI admission-contract hardening, move the active
-CPU slot to the next honest scientific gap without releasing GPU. The selected
-lane is a white-box influence/curvature feasibility scout: it must first prove
-that a genuinely distinct observable exists beyond scalar loss, gradient norm,
-GSA loss-score LR, and activation-subspace variants. This keeps
-`active_gpu_question = none` and
+Current objective: after closing diagonal-Fisher self-influence as
+`negative-but-useful`, move the active CPU slot to I-A truth hardening without
+releasing GPU. The selected lane checks that admitted evidence is interpreted
+with finite-tail denominators, bounded adaptive-attacker language, and strict
+provenance boundaries. This keeps `active_gpu_question = none` and
 `next_gpu_candidate = none`. See
+[docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md)
+and
 [docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md).
 The first feasibility contract is now checked as a CPU-only artifact. The GSA
 assets are ready only with the workspace-scoped upstream checkout, and the
@@ -39,6 +40,10 @@ The follow-up layer-scope review is mixed but still not GPU-ready: one
 alternate attention layer transfers on the tiny target pair, but it ties
 `raw_grad_l2_sq` and lacks held-out shadow stability. See
 [docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md).
+The stability board closes the line: at `4` samples per split,
+diagonal-Fisher target-transfer AUC is `0.5`, equal to `raw_grad_l2_sq`, with
+no strict-tail advantage. See
+[docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md).
 The
 Kandinsky/Pokemon package skeleton now exists locally at
 `response-contract-pokemon-kandinsky-20260511`, but the probe verdict is
@@ -189,11 +194,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    `response-contract-pokemon-kandinsky-20260511` package has at least `25/25`
    real query images, response coverage, and a ready package probe. Existing
    local Kandinsky/Pokemon weights are not query images or responses.
-3. The current active CPU task is the white-box influence/curvature stability
-   decision. The layer-scope review found one non-dead attention layer but no
-   GPU-ready evidence. Run at most one more CPU-only stability board on
-   `up_blocks.1.attentions.0.to_v`; if it does not beat `raw_grad_l2_sq` under
-   shadow-frozen orientation, close this diagonal-Fisher line.
+3. The white-box influence/curvature stability decision is closed. The
+   `up_blocks.1.attentions.0.to_v` board at `4` samples per split ties
+   `raw_grad_l2_sq` under shadow-frozen target transfer, so diagonal-Fisher
+   self-influence is `negative-but-useful` and not GPU-ready.
 4. Gray-box tri-score truth-hardening used existing X-88/X-141/X-142 artifacts
    only and closed as `positive-but-bounded`. Do not promote to admitted
    evidence and do not run a larger same-contract packet.
@@ -280,6 +284,8 @@ Every autonomous research cycle must follow this loop:
 | White-box influence/curvature feasibility | CPU contract ready; assets ready with workspace-scoped GSA checkout; no GPU release | [docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md) |
 | GSA diagonal-Fisher micro-board | negative-but-useful; selected-layer raw gradients are extractable, but the score fails target transfer and no GPU is released | [docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md) |
 | GSA diagonal-Fisher layer scope | mixed-but-not-gpu-ready; one layer transfers on a tiny pair but ties `raw_grad_l2_sq` | [docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md) |
+| GSA diagonal-Fisher stability board | negative-but-useful; the only transferring layer ties `raw_grad_l2_sq` at `4` samples per split, closing the line | [docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md) |
+| Post-Fisher next-lane reselection | selects CPU-only I-A finite-tail / adaptive boundary hardening; no GPU release | [docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |
