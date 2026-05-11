@@ -28,11 +28,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `white-box influence/curvature feasibility scout`
+- Active work: `I-A finite-tail / adaptive boundary hardening`
 - Next GPU candidate: none selected
-- CPU work: diagonal-Fisher layer scope is mixed but not GPU-ready; at most
-  one CPU stability board on `up_blocks.1.attentions.0.to_v` may run before
-  closing the line or reselecting another lane
+- CPU work: diagonal-Fisher self-influence is closed as
+  `negative-but-useful`; current reducible work is admitted-evidence
+  strict-tail and adaptive-language review
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
