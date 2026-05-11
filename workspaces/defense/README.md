@@ -14,6 +14,9 @@ defense-aware because defended shadows were not retrained. See
 [../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
 and
 [../../docs/evidence/ib-adaptive-defense-contract-20260511.md](../../docs/evidence/ib-adaptive-defense-contract-20260511.md).
+The latest defense-aware reopen scout keeps I-B on hold because the current
+best k32 full-split anchor is still attack-side threshold-transfer only:
+[../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md](../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md).
 
 ## Next Steps
 
