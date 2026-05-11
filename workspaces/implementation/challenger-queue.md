@@ -12,7 +12,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Active work | `white-box influence/curvature feasibility scout` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only white-box diagonal-Fisher micro-board closed negative; follow-up decision next |
+| CPU sidecar | CPU-only white-box diagonal-Fisher layer-scope review is mixed but not GPU-ready |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -39,7 +39,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 ### White-Box Influence / Curvature Feasibility Scout
 
 - `mode`: CPU-only
-- `status`: active follow-up; latest verdict is `negative-but-useful`
+- `status`: active follow-up; latest verdict is `mixed-but-not-gpu-ready`
 - `goal`: decide whether a genuinely distinct white-box observable exists
   beyond closed GSA loss-score LR and activation-subspace variants.
 - `latest trigger`: SecMI admission-contract hardening closed the gray-box
@@ -53,6 +53,7 @@ Current evidence:
 - [../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md)
 - [../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md)
 - [../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md)
+- [../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md)
 - [../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json](../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json)
 
 Restart conditions:
@@ -86,6 +87,8 @@ Restart conditions:
   baselines.
 - do not run a larger same-score diagonal-Fisher packet; the first CPU
   micro-board failed target-transfer orientation and baseline comparison.
+- do not release GPU from the layer-scope review; `up_blocks.1.attentions.0.to_v`
+  needs a CPU stability board that beats raw-gradient L2 first.
 
 ## Ready
 
@@ -181,6 +184,7 @@ Restart conditions:
 | Post-SecMI next-lane reselection | Selected white-box influence/curvature feasibility scout as CPU-first; no GPU release. |
 | White-box influence/curvature feasibility | CPU contract ready; GSA assets are ready with workspace-scoped upstream checkout; no GPU release. |
 | GSA diagonal-Fisher micro-board | Negative-but-useful; selected-layer raw gradients are extractable, but the diagonal-Fisher score failed target transfer. |
+| GSA diagonal-Fisher layer scope | Mixed but not GPU-ready; one tiny layer-scope row transfers but ties raw-gradient L2. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
