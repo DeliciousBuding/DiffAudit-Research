@@ -1,6 +1,6 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-11
+> Last refreshed: 2026-05-12
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `cross-box successor scoping` |
+| Active work | `innovation successor reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only cross-box successor hypothesis review |
+| CPU sidecar | CPU-only next-lane review after cross-box hold |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -29,7 +29,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
-| Cross-box successor hypothesis | cross-box | active CPU-first | current cross-box score sharing is candidate-only and existing same-surface routes are closed | no genuinely new shared-surface, calibration, or transfer hypothesis | review existing cross-box evidence and propose one falsifiable CPU contract or close as hold |
+| Cross-box successor hypothesis | cross-box | hold | CPU-only scope review closed without a new release-ready hypothesis | current executable routes are existing score-sharing/fusion/support/tail-gated variants or asset-blocked response-contract transfer | reopen only with a genuinely new observable or ready second response-contract package |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
@@ -38,17 +38,18 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Cross-Box Successor Scoping
+### Innovation Successor Reselection
 
 - `mode`: CPU-only
-- `status`: active follow-up after I-A boundary audit
-- `goal`: decide whether a genuinely new cross-box successor hypothesis exists
-  beyond prior same-surface score sharing and candidate-only fusion.
-- `latest trigger`: diagonal-Fisher self-influence closed as
-  `negative-but-useful`; I-A boundary audit is synchronized; black-box
-  response-contract remains asset-blocked.
+- `status`: active next-lane review after cross-box successor scoping closed
+  as `hold`.
+- `goal`: select one bounded, non-stale scientific question that can change
+  the Research story without reusing a closed same-family route.
+- `latest trigger`: cross-box successor scope found no genuinely new
+  executable hypothesis; black-box response-contract remains asset-blocked;
+  diagonal-Fisher remains closed.
 - `GPU cap`: none
-- `integration`: no schema change; Research-only feasibility audit
+- `integration`: no schema change; Research-only reselection
 
 Current evidence:
 
@@ -59,6 +60,7 @@ Current evidence:
 - [../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md)
 - [../../docs/evidence/post-fisher-next-lane-reselection-20260511.md](../../docs/evidence/post-fisher-next-lane-reselection-20260511.md)
 - [../../docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](../../docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md)
+- [../../docs/evidence/cross-box-successor-scope-20260512.md](../../docs/evidence/cross-box-successor-scope-20260512.md)
 - [../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json](../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json)
 
 Restart conditions:
@@ -94,6 +96,9 @@ Restart conditions:
   micro-board failed target-transfer orientation and baseline comparison.
 - do not release GPU from the stability board; `up_blocks.1.attentions.0.to_v`
   failed to beat `raw_grad_l2_sq`.
+- do not run another cross-box score-sharing, weighted/logistic fusion,
+  support/disconfirm, tail-gated cascade, or same-contract tri-score board
+  without a new observable or ready second response-contract package.
 
 ## Ready
 
@@ -193,6 +198,7 @@ Restart conditions:
 | GSA diagonal-Fisher stability board | Negative-but-useful; the remaining layer ties `raw_grad_l2_sq` at `4` samples per split, closing the line. |
 | Post-Fisher next-lane reselection | Selected CPU-only I-A finite-tail / adaptive boundary hardening; no GPU release. |
 | I-A finite-tail / adaptive boundary audit | Synchronized; admitted strict-tail and adaptive-language boundaries remain guarded. |
+| Cross-box successor scope | Hold; no genuinely new CPU/GPU successor hypothesis is ready. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |

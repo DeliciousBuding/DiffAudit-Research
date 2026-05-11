@@ -8,6 +8,7 @@ This directory contains the public evidence overview.
 | [admitted-results-summary.md](admitted-results-summary.md) | Reviewed verified results summary. |
 | [innovation-evidence-map.md](innovation-evidence-map.md) | Mapping from research claims to evidence status. |
 | [cross-box-boundary-status.md](cross-box-boundary-status.md) | Current cross-box candidate boundary and next research question. |
+| [cross-box-successor-scope-20260512.md](cross-box-successor-scope-20260512.md) | CPU-only successor scoping that closes cross-box as hold until a new observable or second response-contract package exists. |
 | [black-box-response-strength-preflight.md](black-box-response-strength-preflight.md) | H2 response-strength candidate status and latest validation verdict. |
 | [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md) | Frozen CPU contract for deciding whether H2 lowpass deserves another bounded GPU packet. |
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
