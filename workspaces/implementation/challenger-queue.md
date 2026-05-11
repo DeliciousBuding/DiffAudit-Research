@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `white-box influence/curvature feasibility scout` |
+| Active work | `I-A finite-tail / adaptive boundary hardening` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only white-box diagonal-Fisher layer-scope review is mixed but not GPU-ready; no GPU release |
+| CPU sidecar | CPU-only admitted-evidence strict-tail and adaptive-language review |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -29,22 +29,23 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
-| White-box distinct family | white-box | active CPU-first | influence/curvature feasibility scout selected after SecMI hardening | must prove the observable is not scalar loss, gradient norm, or prior activation-subspace work under a new name | run at most one CPU stability board on `up_blocks.1.attentions.0.to_v`; close the diagonal-Fisher line if it does not beat `raw_grad_l2_sq` under shadow-frozen orientation |
+| I-A finite-tail / adaptive boundary | system / I-A | active CPU-first | admitted rows exist and are product-consumable, but strict-tail and adaptive language must stay exact | candidate/admitted leakage or overclaiming finite empirical tails as calibrated sub-percent FPR | audit admitted summaries, bundle docs, product bridge, and validators; patch only if contract drift is found |
+| White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
 | I-B risk-targeted unlearning successor | defense | hold | full-split attack-side reviews show small reductions; adaptive-defense contract exists | no defended-shadow/adaptive attacker run or retained-utility metric | keep hold; do not GPU-scale until the required reopen contract is implemented |
 | I-C cross-permission successor | cross-permission | hold | translated-contract falsifier is negative at the support boundary | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### White-Box Influence / Curvature Feasibility Scout
+### I-A Finite-Tail / Adaptive Boundary Hardening
 
 - `mode`: CPU-only
-- `status`: active follow-up; latest review status is `mixed-but-not-gpu-ready`
-- `goal`: decide whether a genuinely distinct white-box observable exists
-  beyond closed GSA loss-score LR and activation-subspace variants.
-- `latest trigger`: SecMI admission-contract hardening closed the gray-box
-  supporting-reference slot without GPU; black-box response-contract remains
-  asset-blocked.
+- `status`: active follow-up after diagonal-Fisher closure
+- `goal`: keep admitted evidence product-consumable without overstating
+  finite empirical tails, defended/adaptive robustness, or DDPM/CIFAR10
+  provenance.
+- `latest trigger`: diagonal-Fisher self-influence closed as
+  `negative-but-useful`; black-box response-contract remains asset-blocked.
 - `GPU cap`: none
 - `integration`: no schema change; Research-only feasibility audit
 
@@ -54,6 +55,8 @@ Current evidence:
 - [../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md)
 - [../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md)
 - [../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md)
+- [../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md)
+- [../../docs/evidence/post-fisher-next-lane-reselection-20260511.md](../../docs/evidence/post-fisher-next-lane-reselection-20260511.md)
 - [../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json](../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json)
 
 Restart conditions:
@@ -68,8 +71,8 @@ Restart conditions:
 - do not run larger ReDiffuse packets without a new scorer hypothesis and CPU
   preflight.
 - do not GPU-scale GSA loss-score LR from the current stability review.
-- prefer the bounded CPU stability board only; otherwise reselect after
-  closing the diagonal-Fisher line.
+- do not reopen diagonal-Fisher from the current stability board; it ties
+  `raw_grad_l2_sq` and has no GPU release.
 - do not expose ReDiffuse, tri-score, cross-box fusion, GSA LR, H2/simple-distance,
   CLiD, or response-contract acquisition as admitted Platform evidence.
 - do not admit SecMI stat or NNS rows until a separate consumer-row schema,
@@ -87,8 +90,8 @@ Restart conditions:
   baselines.
 - do not run a larger same-score diagonal-Fisher packet; the first CPU
   micro-board failed target-transfer orientation and baseline comparison.
-- do not release GPU from the layer-scope review; `up_blocks.1.attentions.0.to_v`
-  needs a CPU stability board that beats `raw_grad_l2_sq` first.
+- do not release GPU from the stability board; `up_blocks.1.attentions.0.to_v`
+  failed to beat `raw_grad_l2_sq`.
 
 ## Ready
 
@@ -185,6 +188,8 @@ Restart conditions:
 | White-box influence/curvature feasibility | CPU contract ready; GSA assets are ready with workspace-scoped upstream checkout; no GPU release. |
 | GSA diagonal-Fisher micro-board | Negative-but-useful; selected-layer raw gradients are extractable, but the diagonal-Fisher score failed target transfer. |
 | GSA diagonal-Fisher layer scope | Mixed but not GPU-ready; one tiny layer-scope row transfers but ties `raw_grad_l2_sq`. |
+| GSA diagonal-Fisher stability board | Negative-but-useful; the remaining layer ties `raw_grad_l2_sq` at `4` samples per split, closing the line. |
+| Post-Fisher next-lane reselection | Selected CPU-only I-A finite-tail / adaptive boundary hardening; no GPU release. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |

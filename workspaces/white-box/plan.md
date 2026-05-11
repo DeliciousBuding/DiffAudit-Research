@@ -5,8 +5,8 @@
 - `GSA`: strongest white-box method.
 - `DPDM`: defended comparator with protocol limitations.
 - `Finding NeMo` and related localization work: exploratory results, not promoted.
-- Distinct second white-box family: CPU-first diagonal-Fisher layer-scope
-  review is mixed but not GPU-ready; no GPU release.
+- Distinct second white-box family: diagonal-Fisher self-influence is closed
+  as negative-but-useful after the CPU stability board; no GPU release.
 - GSA loss-score LR transfer: closed as negative-but-useful after
   leave-one-shadow-out stability review; do not GPU-scale from the existing
   scorer.
@@ -23,11 +23,10 @@ reflected in
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
 The current machine-readable contract is
 [artifacts/whitebox-influence-curvature-feasibility-20260511.json](artifacts/whitebox-influence-curvature-feasibility-20260511.json).
-The first selected-layer raw-gradient diagonal-Fisher micro-board ran and
-failed the target-transfer gate. Next work should be a CPU-only follow-up
-decision, not a larger same-score packet.
-The layer-scope review found one non-dead attention layer, but it ties
-`raw_grad_l2_sq` and still needs CPU stability before any GPU consideration.
+The first selected-layer raw-gradient diagonal-Fisher micro-board failed the
+target-transfer gate. The layer-scope review found one non-dead attention
+layer, but the stability board shows it ties `raw_grad_l2_sq` under
+shadow-frozen target transfer. Do not run a larger same-score packet.
 
 ## Current Status
 
@@ -44,3 +43,5 @@ The current micro-board result is
 [../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md).
 The current layer-scope review is
 [../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md).
+The current stability board is
+[../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md).
