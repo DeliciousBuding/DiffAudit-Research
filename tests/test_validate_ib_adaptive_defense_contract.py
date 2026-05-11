@@ -61,6 +61,19 @@ class ValidateIbAdaptiveDefenseContractTests(unittest.TestCase):
         errors = validate_ib_adaptive_defense_contract.validate(artifact)
         self.assertIn("missing blocked claim: adaptive robustness", errors)
 
+    def test_rejects_missing_contract_evidence_doc(self) -> None:
+        artifact = self._artifact()
+        artifact["evidence_docs"] = [
+            doc
+            for doc in artifact["evidence_docs"]
+            if doc != "docs/evidence/ib-adaptive-defense-contract-20260511.md"
+        ]
+        errors = validate_ib_adaptive_defense_contract.validate(artifact)
+        self.assertIn(
+            "missing evidence doc: docs/evidence/ib-adaptive-defense-contract-20260511.md",
+            errors,
+        )
+
     def test_rejects_non_object_root(self) -> None:
         errors = validate_ib_adaptive_defense_contract.validate([])
         self.assertEqual(errors, ["artifact must be a JSON object"])

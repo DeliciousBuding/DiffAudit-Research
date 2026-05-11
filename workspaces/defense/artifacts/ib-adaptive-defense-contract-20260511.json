@@ -72,6 +72,7 @@
     "Platform/Runtime defense row"
   ],
   "evidence_docs": [
+    "docs/evidence/ib-adaptive-defense-contract-20260511.md",
     "docs/evidence/ib-risk-targeted-unlearning-successor-scope.md"
   ]
 }

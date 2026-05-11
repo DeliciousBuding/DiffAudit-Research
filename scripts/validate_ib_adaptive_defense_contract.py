@@ -30,6 +30,10 @@ REQUIRED_BLOCKED_CLAIMS = (
     "low-FPR defense improvement",
     "Platform/Runtime defense row",
 )
+REQUIRED_EVIDENCE_DOCS = (
+    "docs/evidence/ib-adaptive-defense-contract-20260511.md",
+    "docs/evidence/ib-risk-targeted-unlearning-successor-scope.md",
+)
 
 
 def _load_json(path: Path) -> Any:
@@ -116,6 +120,14 @@ def validate(payload: Any) -> list[str]:
         for claim in REQUIRED_BLOCKED_CLAIMS:
             if claim not in blocked_claims:
                 errors.append(f"missing blocked claim: {claim}")
+
+    evidence_docs = payload.get("evidence_docs")
+    if not isinstance(evidence_docs, list):
+        errors.append("evidence_docs must be a list")
+    else:
+        for doc in REQUIRED_EVIDENCE_DOCS:
+            if doc not in evidence_docs:
+                errors.append(f"missing evidence doc: {doc}")
 
     return errors
 
