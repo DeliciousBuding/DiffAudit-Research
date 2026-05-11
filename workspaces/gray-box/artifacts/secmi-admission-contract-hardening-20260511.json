@@ -1,0 +1,91 @@
+{
+  "schema": "diffaudit.secmi_admission_contract_hardening.v1",
+  "date": "2026-05-11",
+  "status": "supporting-reference-hardened",
+  "admitted": false,
+  "gpu_release": "none",
+  "source_artifacts": {
+    "secmi_boundary": "workspaces/gray-box/artifacts/secmi-full-split-admission-boundary-20260511.json",
+    "admitted_bundle": "workspaces/implementation/artifacts/admitted-evidence-bundle.json",
+    "admitted_summary": "docs/evidence/admitted-results-summary.md"
+  },
+  "candidate_rows": [
+    {
+      "id": "gray-box::SecMI stat::none::supporting-reference",
+      "head": "stat",
+      "consumer_decision": "research-support-only",
+      "admission_decision": "blocked",
+      "metrics": {
+        "auc": 0.8858329733666311,
+        "asr": 0.8154000043869019,
+        "tpr_at_1pct_fpr": 0.0939600020647049,
+        "tpr_at_0_1pct_fpr": 0.007720000110566616
+      },
+      "cost": {
+        "member_samples": 25000,
+        "nonmember_samples": 25000,
+        "t_sec": 100,
+        "k": 10,
+        "batch_size": 64,
+        "elapsed_seconds": 2108.3398299217224
+      },
+      "missing_for_admission": [
+        "admitted-consumer boundary contract",
+        "structured adaptive_check comparable to admitted PIA rows",
+        "bounded repeated-query adaptive review",
+        "checkpoint/source provenance alignment with admitted gray-box consumer language"
+      ]
+    },
+    {
+      "id": "gray-box::SecMI NNS auxiliary head::none::supporting-reference",
+      "head": "nns",
+      "consumer_decision": "research-support-only",
+      "admission_decision": "blocked",
+      "metrics": {
+        "auc": 0.9462855246744825,
+        "asr": 0.8792750239372253,
+        "tpr_at_1pct_fpr": 0.4004499912261963,
+        "tpr_at_0_1pct_fpr": 0.11400000005960464
+      },
+      "cost": {
+        "member_samples": 25000,
+        "nonmember_samples": 25000,
+        "t_sec": 100,
+        "k": 10,
+        "batch_size": 64,
+        "elapsed_seconds": 2108.3398299217224
+      },
+      "missing_for_admission": [
+        "admitted-consumer boundary contract",
+        "explicit product-facing auxiliary-head contract",
+        "structured adaptive_check comparable to admitted PIA rows",
+        "bounded repeated-query adaptive review",
+        "checkpoint/source provenance alignment with admitted gray-box consumer language"
+      ]
+    }
+  ],
+  "blocked_claims": [
+    "admitted Platform/Runtime row",
+    "PIA replacement",
+    "product-facing NNS auxiliary head",
+    "adaptive robustness",
+    "paper-complete reproduction",
+    "conditional-diffusion generalization",
+    "commercial-model evidence"
+  ],
+  "next_reopen_contract": {
+    "mode": "CPU-first",
+    "required_before_gpu": [
+      "define a SecMI consumer row schema separate from the admitted PIA rows",
+      "decide whether NNS may ever be product-facing or must remain Research-only",
+      "freeze an adaptive repeated-query review protocol",
+      "freeze low-FPR finite-tail denominator semantics",
+      "define source/provenance language compatible with admitted gray-box rows"
+    ],
+    "gpu_cap": "none until the CPU contract is reviewed"
+  },
+  "evidence_docs": [
+    "docs/evidence/secmi-full-split-admission-boundary-review.md",
+    "docs/evidence/secmi-admission-contract-hardening-20260511.md"
+  ]
+}
