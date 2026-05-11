@@ -42,6 +42,10 @@ false-positive budgets for strict low-FPR interpretation:
 SecMI full-split review upgrades SecMI to an evidence-ready supporting gray-box
 reference, but not to admitted Platform/Runtime evidence. See
 [docs/evidence/secmi-full-split-admission-boundary-review.md](docs/evidence/secmi-full-split-admission-boundary-review.md).
+The supporting-reference boundary is now guarded by
+`scripts/validate_secmi_supporting_contract.py`, which is wired into local
+checks to block silent admission, GPU release, missing blockers, or malformed
+metric rows.
 I-B risk-targeted unlearning and I-C cross-permission successor scoping are both
 on hold; neither releases GPU work. See
 [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
