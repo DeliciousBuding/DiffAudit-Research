@@ -44,9 +44,66 @@ class ValidateSecmiSupportingContractTests(unittest.TestCase):
             },
         }
 
+    def _hardening_artifact(self) -> dict:
+        metrics = {
+            "auc": 0.8,
+            "asr": 0.7,
+            "tpr_at_1pct_fpr": 0.1,
+            "tpr_at_0_1pct_fpr": 0.01,
+        }
+        base_row = {
+            "consumer_decision": "research-support-only",
+            "admission_decision": "blocked",
+            "metrics": copy.deepcopy(metrics),
+            "missing_for_admission": [
+                "admitted-consumer boundary contract",
+                "structured adaptive_check comparable to admitted PIA rows",
+                "bounded repeated-query adaptive review",
+                "checkpoint/source provenance alignment with admitted gray-box consumer language",
+            ],
+        }
+        stat_row = copy.deepcopy(base_row)
+        stat_row.update({"id": "stat", "head": "stat"})
+        nns_row = copy.deepcopy(base_row)
+        nns_row.update({"id": "nns", "head": "nns"})
+        nns_row["missing_for_admission"].append("explicit product-facing auxiliary-head contract")
+        return {
+            "schema": "diffaudit.secmi_admission_contract_hardening.v1",
+            "status": "supporting-reference-hardened",
+            "admitted": False,
+            "gpu_release": "none",
+            "candidate_rows": [stat_row, nns_row],
+            "blocked_claims": [
+                "admitted Platform/Runtime row",
+                "PIA replacement",
+                "product-facing NNS auxiliary head",
+                "adaptive robustness",
+            ],
+            "next_reopen_contract": {
+                "mode": "CPU-first",
+                "required_before_gpu": [
+                    "define a SecMI consumer row schema separate from the admitted PIA rows",
+                    "decide whether NNS may ever be product-facing or must remain Research-only",
+                    "freeze an adaptive repeated-query review protocol",
+                    "freeze low-FPR finite-tail denominator semantics",
+                    "define source/provenance language compatible with admitted gray-box rows",
+                ],
+                "gpu_cap": "none until the CPU contract is reviewed",
+            },
+            "evidence_docs": [
+                "docs/evidence/secmi-full-split-admission-boundary-review.md",
+                "docs/evidence/secmi-admission-contract-hardening-20260511.md",
+            ],
+        }
     def test_project_artifact_is_valid(self) -> None:
         exit_code = validate_secmi_supporting_contract.main([])
         self.assertEqual(exit_code, 0)
+
+    def test_project_hardening_artifact_is_valid(self) -> None:
+        path = Path("workspaces/gray-box/artifacts/secmi-admission-contract-hardening-20260511.json")
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        errors = validate_secmi_supporting_contract.validate_hardening(payload)
+        self.assertEqual(errors, [])
 
     def test_rejects_admitted_promotion_without_contract(self) -> None:
         artifact = self._artifact()
@@ -91,6 +148,63 @@ class ValidateSecmiSupportingContractTests(unittest.TestCase):
     def test_rejects_non_object_json_root(self) -> None:
         errors = validate_secmi_supporting_contract.validate([])
         self.assertEqual(errors, ["artifact must be a JSON object"])
+
+    def test_hardening_rejects_nns_without_auxiliary_contract_blocker(self) -> None:
+        artifact = self._hardening_artifact()
+        nns_row = artifact["candidate_rows"][1]
+        nns_row["missing_for_admission"] = [
+            blocker
+            for blocker in nns_row["missing_for_admission"]
+            if blocker != "explicit product-facing auxiliary-head contract"
+        ]
+        errors = validate_secmi_supporting_contract.validate_hardening(artifact)
+        self.assertIn(
+            "NNS row missing admission blocker: explicit product-facing auxiliary-head contract",
+            errors,
+        )
+
+    def test_hardening_rejects_missing_common_admission_blocker(self) -> None:
+        artifact = self._hardening_artifact()
+        stat_row = artifact["candidate_rows"][0]
+        stat_row["missing_for_admission"] = [
+            blocker
+            for blocker in stat_row["missing_for_admission"]
+            if blocker != "structured adaptive_check comparable to admitted PIA rows"
+        ]
+        errors = validate_secmi_supporting_contract.validate_hardening(artifact)
+        self.assertIn(
+            "candidate_rows[0] missing admission blocker: structured adaptive_check comparable to admitted PIA rows",
+            errors,
+        )
+
+    def test_hardening_rejects_missing_required_cpu_gate(self) -> None:
+        artifact = self._hardening_artifact()
+        required = artifact["next_reopen_contract"]["required_before_gpu"]
+        artifact["next_reopen_contract"]["required_before_gpu"] = [
+            gate
+            for gate in required
+            if gate != "freeze low-FPR finite-tail denominator semantics"
+        ]
+        errors = validate_secmi_supporting_contract.validate_hardening(artifact)
+        self.assertIn(
+            "missing required CPU gate: freeze low-FPR finite-tail denominator semantics",
+            errors,
+        )
+
+    def test_hardening_rejects_gpu_release(self) -> None:
+        artifact = self._hardening_artifact()
+        artifact["gpu_release"] = "cuda"
+        errors = validate_secmi_supporting_contract.validate_hardening(artifact)
+        self.assertIn("SecMI hardening contract must not release GPU work", errors)
+
+    def test_hardening_rejects_missing_contract_doc(self) -> None:
+        artifact = self._hardening_artifact()
+        artifact["evidence_docs"] = ["docs/evidence/secmi-full-split-admission-boundary-review.md"]
+        errors = validate_secmi_supporting_contract.validate_hardening(artifact)
+        self.assertIn(
+            "missing evidence doc: docs/evidence/secmi-admission-contract-hardening-20260511.md",
+            errors,
+        )
 
     def test_cli_rejects_invalid_artifact_file(self) -> None:
         artifact = self._artifact()

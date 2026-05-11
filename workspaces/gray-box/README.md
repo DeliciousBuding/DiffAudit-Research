@@ -5,7 +5,8 @@
 - Direction: partial-observation membership inference (PIA, SecMI, TMIA-DM) and defense evaluation.
 - Main method: `PIA` is the strongest admitted local DDPM/CIFAR10 gray-box line.
 - Supporting reference: `SecMI` is evidence-ready after full-split review, but
-  remains outside Platform/Runtime admitted evidence.
+  remains outside Platform/Runtime admitted evidence. Its admission contract is
+  now hardened as Research-only supporting evidence.
 - Defense reference: stochastic dropout is a provisional defended comparator,
   not validated privacy protection.
 - Active candidate: gray-box CDI/TMIA-DM/PIA tri-score truth-hardening is
@@ -21,6 +22,9 @@
 
 Current tri-score consolidation:
 [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md).
+
+Current SecMI admission boundary:
+[../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md).
 
 ## Archive
 
