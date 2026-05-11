@@ -1,6 +1,6 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-11
+> Last updated: 2026-05-12
 
 This is the short steering document for Research. Execution history and old
 run narratives live in `legacy/`; current workspace state lives in
@@ -10,18 +10,18 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `cross-box successor scoping` |
+| Active work | `innovation successor reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only cross-box successor hypothesis review |
+| CPU sidecar | CPU-only reselection after cross-box hold |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: after closing diagonal-Fisher self-influence and confirming
-I-A admitted-boundary sync, move the active CPU slot to cross-box successor
-scoping without releasing GPU. The next question must define a genuinely new
-shared-surface, calibration, or transfer hypothesis; otherwise it should close
-as hold rather than become another same-family rerun. This keeps
-`active_gpu_question = none` and `next_gpu_candidate = none`. See
+Current objective: after closing cross-box successor scoping as `hold`, choose
+the next bounded scientific question without releasing GPU. Cross-box should
+not run another same-family score-sharing, weighted/logistic fusion,
+support/disconfirm, tail-gated cascade, or tri-score rerun unless a new
+observable or second response-contract package exists. See
+[docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md),
 [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md),
 [docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md),
 and [docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md).
@@ -222,6 +222,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 10. I-C cross-permission / translated-contract work is on hold until a same-spec
    evaluator and matched random comparator contract exist. Do not spend GPU on
    same-pair replay.
+11. Cross-box successor scoping is on hold. Existing executable candidates are
+    same-family score-sharing/fusion/support/tail-gated variants or
+    asset-blocked response-contract transfer. Reopen only with a new observable
+    or ready second response-contract package.
 
 ## Long-Running Goal Loop
 
@@ -287,6 +291,7 @@ Every autonomous research cycle must follow this loop:
 | GSA diagonal-Fisher stability board | negative-but-useful; the only transferring layer ties `raw_grad_l2_sq` at `4` samples per split, closing the line | [docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md) |
 | Post-Fisher next-lane reselection | selects CPU-only I-A finite-tail / adaptive boundary hardening; no GPU release | [docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md) |
 | I-A finite-tail / adaptive boundary audit | synchronized; admitted strict-tail and adaptive-language boundaries remain guarded | [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md) |
+| Cross-box successor scope | hold; no genuinely new CPU/GPU successor hypothesis is ready | [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |

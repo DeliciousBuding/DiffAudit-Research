@@ -9,10 +9,12 @@ candidate-only.
 Current integration boundaries are documented in
 [../../docs/product-bridge/README.md](../../docs/product-bridge/README.md) and
 [../../docs/evidence/cross-box-boundary-status.md](../../docs/evidence/cross-box-boundary-status.md) and
+[../../docs/evidence/cross-box-successor-scope-20260512.md](../../docs/evidence/cross-box-successor-scope-20260512.md) and
 [../../docs/evidence/research-boundary-card.md](../../docs/evidence/research-boundary-card.md).
 
 ## Next Steps
 
-Do not schedule another cross-box fusion run without a new low-FPR hypothesis.
-The next research question is the black-box response-strength comparator and
-query-budget preflight described in the evidence boundary.
+There is no active cross-box CPU or GPU task. Do not schedule another
+cross-box fusion run without a new low-FPR hypothesis and a distinct observable
+or transfer contract. Reopen only under the conditions in
+[../../docs/evidence/cross-box-successor-scope-20260512.md](../../docs/evidence/cross-box-successor-scope-20260512.md).
