@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-A finite-tail / adaptive boundary hardening` |
+| Active work | `cross-box successor scoping` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only admitted-evidence strict-tail and adaptive-language review |
+| CPU sidecar | CPU-only cross-box successor hypothesis review |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -29,7 +29,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
-| I-A finite-tail / adaptive boundary | system / I-A | active CPU-first | admitted rows exist and are product-consumable, but strict-tail and adaptive language must stay exact | candidate/admitted leakage or overclaiming finite empirical tails as calibrated sub-percent FPR | audit admitted summaries, bundle docs, product bridge, and validators; patch only if contract drift is found |
+| Cross-box successor hypothesis | cross-box | active CPU-first | current cross-box score sharing is candidate-only and existing same-surface routes are closed | no genuinely new shared-surface, calibration, or transfer hypothesis | review existing cross-box evidence and propose one falsifiable CPU contract or close as hold |
+| I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
 | I-B risk-targeted unlearning successor | defense | hold | full-split attack-side reviews show small reductions; adaptive-defense contract exists | no defended-shadow/adaptive attacker run or retained-utility metric | keep hold; do not GPU-scale until the required reopen contract is implemented |
@@ -37,15 +38,15 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### I-A Finite-Tail / Adaptive Boundary Hardening
+### Cross-Box Successor Scoping
 
 - `mode`: CPU-only
-- `status`: active follow-up after diagonal-Fisher closure
-- `goal`: keep admitted evidence product-consumable without overstating
-  finite empirical tails, defended/adaptive robustness, or DDPM/CIFAR10
-  provenance.
+- `status`: active follow-up after I-A boundary audit
+- `goal`: decide whether a genuinely new cross-box successor hypothesis exists
+  beyond prior same-surface score sharing and candidate-only fusion.
 - `latest trigger`: diagonal-Fisher self-influence closed as
-  `negative-but-useful`; black-box response-contract remains asset-blocked.
+  `negative-but-useful`; I-A boundary audit is synchronized; black-box
+  response-contract remains asset-blocked.
 - `GPU cap`: none
 - `integration`: no schema change; Research-only feasibility audit
 
@@ -57,6 +58,7 @@ Current evidence:
 - [../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md)
 - [../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md)
 - [../../docs/evidence/post-fisher-next-lane-reselection-20260511.md](../../docs/evidence/post-fisher-next-lane-reselection-20260511.md)
+- [../../docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](../../docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md)
 - [../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json](../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json)
 
 Restart conditions:
@@ -190,6 +192,7 @@ Restart conditions:
 | GSA diagonal-Fisher layer scope | Mixed but not GPU-ready; one tiny layer-scope row transfers but ties `raw_grad_l2_sq`. |
 | GSA diagonal-Fisher stability board | Negative-but-useful; the remaining layer ties `raw_grad_l2_sq` at `4` samples per split, closing the line. |
 | Post-Fisher next-lane reselection | Selected CPU-only I-A finite-tail / adaptive boundary hardening; no GPU release. |
+| I-A finite-tail / adaptive boundary audit | Synchronized; admitted strict-tail and adaptive-language boundaries remain guarded. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
