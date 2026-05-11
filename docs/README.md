@@ -33,7 +33,7 @@ Read these in order when getting started:
 
 | Location | Contents |
 | --- | --- |
-| [internal/](internal/) | Agent prompts, progress logs, competition notes, paper reports. |
+| [internal/](internal/) | Internal coordination notes, progress logs, competition notes, paper reports. |
 | [../workspaces/](../workspaces/) | Current research state per direction. |
 | [../legacy/](../legacy/) | Archived experiment logs and closed notes. |
 

@@ -1,0 +1,189 @@
+{
+  "schema": "diffaudit.gsa_influence.diagonal_fisher_contract.v1",
+  "status": "ready",
+  "track": "white-box",
+  "method": "gsa-diagonal-fisher-self-influence",
+  "mode": "diagonal-fisher-feasibility-microboard",
+  "contract_stage": "cpu-feasibility-scout",
+  "gpu_release": "none",
+  "admitted_change": "none",
+  "verdict": "negative-but-useful",
+  "signal_definition": {
+    "score": "sum(g_i^2 / (fisher_diag_i + damping))",
+    "fisher_source": "shadow-calibration-only",
+    "gradient_scope": "selected-layer-parameters-only",
+    "baselines": [
+      "scalar_loss",
+      "raw_grad_l2_sq"
+    ],
+    "raw_gradient_vectors_persisted": false
+  },
+  "requested": {
+    "assets_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1",
+    "repo_root": "workspaces/white-box/external/GSA",
+    "layer_selector": "down_blocks.4.attentions.0.to_v",
+    "ddpm_num_steps": 20,
+    "sampling_frequency": 1,
+    "attack_method": 1,
+    "prediction_type": "epsilon",
+    "device": "cpu",
+    "max_samples_per_split": 1,
+    "fisher_damping": 1e-06,
+    "noise_seed": 0
+  },
+  "resolved": {
+    "layer_binding": {
+      "layer_selector": "down_blocks.4.attentions.0.to_v",
+      "layer_id": "down_blocks.4.attentions.0.to_v",
+      "layer_family": "down_blocks",
+      "module_type": "Linear",
+      "parameter_prefixes": [
+        "down_blocks.4.attentions.0.to_v.bias",
+        "down_blocks.4.attentions.0.to_v.weight"
+      ]
+    },
+    "shadow_specs": [
+      {
+        "name": "shadow-01",
+        "member_dataset": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-01-member",
+        "nonmember_dataset": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-01-nonmember",
+        "checkpoint_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-01"
+      },
+      {
+        "name": "shadow-02",
+        "member_dataset": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-02-member",
+        "nonmember_dataset": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-02-nonmember",
+        "checkpoint_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-02"
+      },
+      {
+        "name": "shadow-03",
+        "member_dataset": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-03-member",
+        "nonmember_dataset": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-03-nonmember",
+        "checkpoint_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-03"
+      }
+    ],
+    "checkpoints": {
+      "shadow-01-member": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-01/checkpoint-9600",
+      "shadow-01-nonmember": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-01/checkpoint-9600",
+      "shadow-02-member": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-02/checkpoint-9600",
+      "shadow-02-nonmember": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-02/checkpoint-9600",
+      "shadow-03-member": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-03/checkpoint-9600",
+      "shadow-03-nonmember": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-03/checkpoint-9600",
+      "target-member": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/target/checkpoint-9600",
+      "target-nonmember": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/target/checkpoint-9600"
+    }
+  },
+  "checks": {
+    "asset_probe_ready": true,
+    "device_cpu_only": true,
+    "shadow_calibration_present": true,
+    "target_transfer_present": true,
+    "raw_gradient_vectors_not_persisted_by_default": true,
+    "records_written": 8
+  },
+  "score_boards": {
+    "shadow_calibration": {
+      "diag_fisher_self_influence": {
+        "auc": 0.666667,
+        "asr": 0.666667,
+        "tpr_at_1pct_fpr": 0.333333,
+        "tpr_at_0_1pct_fpr": 0.333333,
+        "score_direction": "member-lower",
+        "member_mean": 0.206178,
+        "nonmember_mean": 0.389206
+      },
+      "scalar_loss": {
+        "auc": 0.666667,
+        "asr": 0.666667,
+        "tpr_at_1pct_fpr": 0.333333,
+        "tpr_at_0_1pct_fpr": 0.333333,
+        "score_direction": "member-lower",
+        "member_mean": 0.470438,
+        "nonmember_mean": 0.482497
+      },
+      "raw_grad_l2_sq": {
+        "auc": 0.666667,
+        "asr": 0.666667,
+        "tpr_at_1pct_fpr": 0.333333,
+        "tpr_at_0_1pct_fpr": 0.333333,
+        "score_direction": "member-lower",
+        "member_mean": 0.0,
+        "nonmember_mean": 0.0
+      }
+    },
+    "target_transfer": {
+      "diag_fisher_self_influence": {
+        "auc": 0.0,
+        "asr": 0.5,
+        "tpr_at_1pct_fpr": 0.0,
+        "tpr_at_0_1pct_fpr": 0.0,
+        "score_direction": "member-lower",
+        "member_mean": 0.250683,
+        "nonmember_mean": 0.24636
+      },
+      "scalar_loss": {
+        "auc": 0.0,
+        "asr": 0.5,
+        "tpr_at_1pct_fpr": 0.0,
+        "tpr_at_0_1pct_fpr": 0.0,
+        "score_direction": "member-lower",
+        "member_mean": 0.464991,
+        "nonmember_mean": 0.430275
+      },
+      "raw_grad_l2_sq": {
+        "auc": 0.0,
+        "asr": 0.5,
+        "tpr_at_1pct_fpr": 0.0,
+        "tpr_at_0_1pct_fpr": 0.0,
+        "score_direction": "member-lower",
+        "member_mean": 0.0,
+        "nonmember_mean": 0.0
+      }
+    },
+    "target_self_diagnostic": {
+      "diag_fisher_self_influence": {
+        "auc": 1.0,
+        "asr": 1.0,
+        "tpr_at_1pct_fpr": 1.0,
+        "tpr_at_0_1pct_fpr": 1.0,
+        "score_direction": "member-higher",
+        "member_mean": 0.250683,
+        "nonmember_mean": 0.24636
+      },
+      "scalar_loss": {
+        "auc": 1.0,
+        "asr": 1.0,
+        "tpr_at_1pct_fpr": 1.0,
+        "tpr_at_0_1pct_fpr": 1.0,
+        "score_direction": "member-higher",
+        "member_mean": 0.464991,
+        "nonmember_mean": 0.430275
+      },
+      "raw_grad_l2_sq": {
+        "auc": 1.0,
+        "asr": 1.0,
+        "tpr_at_1pct_fpr": 1.0,
+        "tpr_at_0_1pct_fpr": 1.0,
+        "score_direction": "member-higher",
+        "member_mean": 0.0,
+        "nonmember_mean": 0.0
+      }
+    }
+  },
+  "distinctness_checks": {
+    "not_scalar_loss_only": true,
+    "compared_against_raw_grad_l2": true,
+    "fisher_fit_excludes_target": true,
+    "uses_selected_layer_raw_gradients": true
+  },
+  "runtime": {
+    "elapsed_seconds": 11.848925,
+    "shadow_sample_count": 6,
+    "target_sample_count": 2,
+    "grad_numel": 262656
+  },
+  "artifact_paths": {
+    "summary": "workspaces/white-box/runs/gsa-diagonal-fisher-layer-scope-20260511-down_blocks-4-attentions-0-to_v/summary.json",
+    "records": "workspaces/white-box/runs/gsa-diagonal-fisher-layer-scope-20260511-down_blocks-4-attentions-0-to_v/records.jsonl"
+  }
+}
