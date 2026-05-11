@@ -19,8 +19,9 @@ run narratives live in `legacy/`; current workspace state lives in
 Current objective: after SecMI admission-contract hardening, move the active
 CPU slot to the next honest scientific gap without releasing GPU. The selected
 lane is a white-box influence/curvature feasibility scout: it must first prove
-that a genuinely distinct observable exists beyond closed GSA loss-score LR and
-activation-subspace variants. This keeps `active_gpu_question = none` and
+that a genuinely distinct observable exists beyond scalar loss, gradient norm,
+GSA loss-score LR, and activation-subspace variants. This keeps
+`active_gpu_question = none` and
 `next_gpu_candidate = none`. See
 [docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md).
 The
