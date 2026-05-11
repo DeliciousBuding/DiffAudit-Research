@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-B defense-aware reopen scout` |
+| Active work | `post-I-B successor reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only I-B defended-shadow/adaptive contract scout |
+| CPU sidecar | CPU-only next-lane review after I-B hold |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -38,14 +38,16 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### I-B Defense-Aware Reopen Scout
+### Post-I-B Successor Reselection
 
 - `mode`: CPU-only
-- `status`: active scout after cross-box successor scoping closed as `hold`.
-- `goal`: decide whether I-B risk-targeted unlearning has an executable
-  defended-shadow/adaptive-attacker reopen contract.
-- `latest trigger`: I-B is the highest-value defense lane only if it can move
-  beyond attack-side threshold-transfer diagnostics.
+- `status`: active next-lane review after cross-box successor scoping and I-B
+  defense-aware reopen scoping closed as `hold`.
+- `goal`: select one bounded, non-stale scientific question that can change
+  the Research story without reusing a closed same-family route.
+- `latest trigger`: I-B has no executable defended-shadow/adaptive contract;
+  black-box response-contract remains asset-blocked; diagonal-Fisher and
+  cross-box successor routes remain closed.
 - `GPU cap`: none
 - `integration`: no schema change; Research-only scout
 

@@ -10,18 +10,18 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `I-B defense-aware reopen scout` |
+| Active work | `post-I-B successor reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only I-B defended-shadow/adaptive contract scout |
+| CPU sidecar | CPU-only next-lane review after I-B hold |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: after closing cross-box successor scoping as `hold`, check
-whether I-B risk-targeted unlearning has an executable defense-aware reopen
-contract. The scout confirms the current best k32 full-split anchor is still
-attack-side threshold-transfer only; defended-shadow training, adaptive
-attacker, retained utility, and low-FPR primary gates are not executable yet.
-See
+Current objective: after closing cross-box successor scoping and I-B
+defense-aware reopen scoping as `hold`, choose the next bounded scientific
+question without releasing GPU. The I-B scout confirms the current best k32
+full-split anchor is still attack-side threshold-transfer only; defended-shadow
+training, adaptive attacker, retained utility, and low-FPR primary gates are
+not executable yet. See
 [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md),
 [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md),
 [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md),
