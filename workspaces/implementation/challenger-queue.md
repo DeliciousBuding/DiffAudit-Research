@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `SecMI admitted-consumer contract hardening` |
+| Active work | `white-box influence/curvature feasibility scout` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only SecMI supporting-reference guard; no model run |
+| CPU sidecar | CPU-only white-box distinct-observable feasibility audit; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -29,54 +29,28 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
-| White-box distinct family | white-box | hold | genuinely new observable, not same-family rescue | no actionable CPU-first successor | reopen only with a genuinely different observable or paper-backed family |
+| White-box distinct family | white-box | active CPU-first | influence/curvature feasibility scout selected after SecMI hardening | must prove the observable is not scalar loss, gradient norm, or prior activation-subspace work under a new name | audit current code/assets for a genuine influence or curvature-proxy contract; no GPU |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
 | I-B risk-targeted unlearning successor | defense | hold | full-split attack-side reviews show small reductions; adaptive-defense contract exists | no defended-shadow/adaptive attacker run or retained-utility metric | keep hold; do not GPU-scale until the required reopen contract is implemented |
 | I-C cross-permission successor | cross-permission | hold | translated-contract falsifier is negative at the support boundary | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### SecMI Admitted-Consumer Contract Hardening
+### White-Box Influence / Curvature Feasibility Scout
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `supporting-reference-hardened`
-- `goal`: keep SecMI useful as strong gray-box corroboration while preventing
-  stat or NNS rows from silently entering the admitted Platform/Runtime bundle.
-- `latest trigger`: PR #92 closed the I-B adaptive-defense guard; SecMI is now
-  the strongest non-admitted gray-box evidence with a reducible CPU-only
-  consumer-boundary gap.
+- `status`: active; current verdict is `selected-cpu-first`
+- `goal`: decide whether a genuinely distinct white-box observable exists
+  beyond closed GSA loss-score LR and activation-subspace variants.
+- `latest trigger`: SecMI admission-contract hardening closed the gray-box
+  supporting-reference slot without GPU; black-box response-contract remains
+  asset-blocked.
 - `GPU cap`: none
-- `integration`: no schema change; SecMI remains Research-only supporting
-  evidence
+- `integration`: no schema change; Research-only feasibility audit
 
 Current evidence:
 
-- [../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md)
-- [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md)
-- [../../docs/evidence/ib-adaptive-defense-contract-20260511.md](../../docs/evidence/ib-adaptive-defense-contract-20260511.md)
-- [../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md)
-- [../../docs/evidence/rediffuse-checkpoint-portability-gate.md](../../docs/evidence/rediffuse-checkpoint-portability-gate.md)
-- [../../docs/evidence/rediffuse-resnet-contract-scout.md](../../docs/evidence/rediffuse-resnet-contract-scout.md)
-- [../../docs/evidence/rediffuse-exact-replay-preflight.md](../../docs/evidence/rediffuse-exact-replay-preflight.md)
-- [../../docs/evidence/rediffuse-exact-replay-packet.md](../../docs/evidence/rediffuse-exact-replay-packet.md)
-- [../../docs/evidence/post-rediffuse-next-lane-reselection.md](../../docs/evidence/post-rediffuse-next-lane-reselection.md)
-- [../../docs/evidence/blackbox-response-contract-acquisition-audit.md](../../docs/evidence/blackbox-response-contract-acquisition-audit.md)
-- [../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md)
-- [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md)
-- [../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md)
-- [../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md)
-- [../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md)
-- [../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md)
-- [../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md)
-- [../../docs/evidence/post-response-contract-reselection-20260511.md](../../docs/evidence/post-response-contract-reselection-20260511.md)
-- [../../docs/evidence/admitted-evidence-bundle-20260511.md](../../docs/evidence/admitted-evidence-bundle-20260511.md)
-- [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
-- [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
-- [../../docs/evidence/research-boundary-consumability-sync-20260510.md](../../docs/evidence/research-boundary-consumability-sync-20260510.md)
-- [../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
-- [../../docs/evidence/ic-cross-permission-successor-scope.md](../../docs/evidence/ic-cross-permission-successor-scope.md)
-- [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md)
-- [../../docs/evidence/gsa-loss-score-shadow-stability-review.md](../../docs/evidence/gsa-loss-score-shadow-stability-review.md)
+- [../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md)
 
 Restart conditions:
 
@@ -101,6 +75,9 @@ Restart conditions:
   until defended-shadow or adaptive-attacker review is specified.
 - do not GPU-scale I-C same-pair replay without a same-spec evaluator and
   matched random comparator contract.
+- do not call an influence/curvature scout distinct unless it defines a signal
+  that is not scalar loss, gradient norm, GSA loss-score LR, or the prior
+  activation-subspace observable.
 
 ## Ready
 
@@ -193,6 +170,7 @@ Restart conditions:
 | ReDiffuse 750k exact replay | Candidate-only; modest AUC but weak strict-tail evidence, no admitted promotion. |
 | SecMI full-split admission boundary | Evidence-ready supporting reference; not admitted until consumer-boundary/adaptive-review contract exists. |
 | SecMI admission contract hardening | Supporting-reference-hardened; SecMI stat and NNS remain Research-only rows with no GPU release. |
+| Post-SecMI next-lane reselection | Selected white-box influence/curvature feasibility scout as CPU-first; no GPU release. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
