@@ -24,6 +24,7 @@
 | `run_local_checks.py` | 运行本地质量检查，支持 `--python` 和 `--fast` |
 | `audit_local_storage.py` | 审计本地大文件和数据边界，默认 dry-run |
 | `validate_attack_defense_table.py` | 校验攻击-防御汇总表 |
+| `export_admitted_evidence_bundle.py` | 导出并校验完整 admitted evidence bundle |
 | `validate_intake_index.py` | 校验 intake index 的数据和清单 |
 | `validate_local_api_registry_alignment.py` | 校验与 Runtime-Server 的注册表一致性 |
 | `monitor_gsa_sequence.py` | 监控 GSA 训练进度 |

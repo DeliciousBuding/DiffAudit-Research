@@ -32,6 +32,7 @@ This directory contains the public evidence overview.
 | [blackbox-response-contract-skeleton-create-20260511.md](blackbox-response-contract-skeleton-create-20260511.md) | CPU-only local skeleton creation and probe showing the package now exists but still needs real query images and responses. |
 | [blackbox-response-contract-query-source-audit-20260511.md](blackbox-response-contract-query-source-audit-20260511.md) | CPU-only local asset audit showing existing Kandinsky/Pokemon material cannot fill the response-contract query split or responses. |
 | [post-response-contract-reselection-20260511.md](post-response-contract-reselection-20260511.md) | CPU-only reselection selecting admitted evidence hardening after response-contract, white-box, and I-D successors fail release gates. |
+| [admitted-evidence-bundle-20260511.md](admitted-evidence-bundle-20260511.md) | CPU-only export of the complete admitted Platform/Runtime consumer set as a checked machine-readable bundle. |
 | [research-boundary-consumability-sync-20260510.md](research-boundary-consumability-sync-20260510.md) | Downstream-consumer boundary sync after ReDiffuse, tri-score, GSA LR, and response-contract closures. |
 | [ib-risk-targeted-unlearning-successor-scope.md](ib-risk-targeted-unlearning-successor-scope.md) | CPU scoping review that keeps I-B risk-targeted unlearning on hold until defended-shadow/adaptive review is specified. |
 | [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |
@@ -57,6 +58,7 @@ This directory contains the public evidence overview.
 | [graybox-triscore-truth-hardening-review.md](graybox-triscore-truth-hardening-review.md) | CPU truth-hardening gate showing tri-score stays positive-but-bounded and internal-only. |
 | [recon-product-row-validation-guard.md](recon-product-row-validation-guard.md) | System-consumable guard for the admitted recon product row. |
 | [../product-bridge/recon-product-evidence-card.md](../product-bridge/recon-product-evidence-card.md) | Product-facing machine-readable evidence-card contract for the admitted recon row. |
+| [../product-bridge/admitted-evidence-bundle.md](../product-bridge/admitted-evidence-bundle.md) | Product-facing machine-readable bundle contract for the complete admitted consumer set. |
 | [clid-bridge-contract.md](clid-bridge-contract.md) | Local CLiD bridge artifact contract and next score-schema gate. |
 | [clid-score-schema-gate.md](clid-score-schema-gate.md) | CLiD score-summary schema and low-FPR promotion gate. |
 | [clid-tiny-score-bridge.md](clid-tiny-score-bridge.md) | First GPU smoke-scale CLiD score bridge verdict. |

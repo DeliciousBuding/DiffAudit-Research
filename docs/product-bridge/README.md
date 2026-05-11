@@ -27,6 +27,10 @@ The admitted-row guard is now enforced by
 `scripts/validate_attack_defense_table.py`, which checks the complete admitted
 consumer set before local checks pass. See
 [../evidence/post-response-contract-reselection-20260511.md](../evidence/post-response-contract-reselection-20260511.md).
+The multi-row machine-readable admitted evidence bundle is
+[`../../workspaces/implementation/artifacts/admitted-evidence-bundle.json`](../../workspaces/implementation/artifacts/admitted-evidence-bundle.json)
+and its contract is documented in
+[admitted-evidence-bundle.md](admitted-evidence-bundle.md).
 
 Current CLiD status: CLiD is candidate-only. The prompt-conditioned packet is
 strong and repeat-stable, but prompt-neutral perturbation collapses the signal.
@@ -61,6 +65,7 @@ The current product bridge decision is recorded in
 | [recon-artifact-replay-guidance.md](recon-artifact-replay-guidance.md) | How to interpret recon debug traces. |
 | [recon-product-validation-handoff.md](recon-product-validation-handoff.md) | Current product boundary for the promoted recon black-box row. |
 | [recon-product-evidence-card.md](recon-product-evidence-card.md) | Machine-readable product card for the admitted recon row. |
+| [admitted-evidence-bundle.md](admitted-evidence-bundle.md) | Machine-readable bundle for the complete admitted Platform/Runtime consumer set. |
 | [h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md) | Why simple-distance remains Research evidence and what must happen before product consumption. |
 | [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md) | Current admitted-vs-candidate boundary for downstream consumers. |
 

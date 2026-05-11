@@ -22,7 +22,13 @@ class RunLocalChecksTests(unittest.TestCase):
         commands = [cmd for cmd, _ in recorded]
         self.assertIn(["/portable/python", "scripts/validate_attack_defense_table.py"], commands)
         self.assertIn(["/portable/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
-        self.assertIn(["/portable/python", "-m", "unittest", "tests.test_audit_variation_query_contract"], commands)
+        self.assertIn(["/portable/python", "scripts/export_admitted_evidence_bundle.py", "--check"], commands)
+        self.assertTrue(
+            any(
+                cmd[:4] == ["/portable/python", "-m", "unittest", "tests.test_audit_variation_query_contract"]
+                for cmd in commands
+            )
+        )
 
     def test_main_uses_environment_python_when_not_explicit(self) -> None:
         recorded: list[tuple[list[str], Path]] = []
@@ -40,7 +46,13 @@ class RunLocalChecksTests(unittest.TestCase):
         commands = [cmd for cmd, _ in recorded]
         self.assertIn(["/env/python", "scripts/validate_attack_defense_table.py"], commands)
         self.assertIn(["/env/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
-        self.assertIn(["/env/python", "-m", "unittest", "tests.test_audit_variation_query_contract"], commands)
+        self.assertIn(["/env/python", "scripts/export_admitted_evidence_bundle.py", "--check"], commands)
+        self.assertTrue(
+            any(
+                cmd[:4] == ["/env/python", "-m", "unittest", "tests.test_audit_variation_query_contract"]
+                for cmd in commands
+            )
+        )
 
     def test_main_uses_repo_root_from_script_location(self) -> None:
         recorded: list[tuple[list[str], Path]] = []
