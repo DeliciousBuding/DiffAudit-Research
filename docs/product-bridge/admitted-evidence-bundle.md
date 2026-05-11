@@ -50,9 +50,19 @@ Per row, the bundle carries:
 | `metrics` | `AUC`, `ASR`, `TPR@1%FPR`, and `TPR@0.1%FPR`. |
 | `quality_cost` | Human-readable packet scale and execution-cost summary from the unified table. |
 | `boundary` | Allowed and blocked consumer claims. |
-| `low_fpr_interpretation` | Finite empirical tail warning shared by all admitted rows. |
+| `low_fpr_interpretation` | Machine-readable finite-tail denominator, false-positive budget, minimum nonzero FPR, and caveat text. |
 | `provenance` | Repo-relative source table and row source path. |
 | `adaptive_check` | Present only for admitted rows that already record bounded adaptive review. |
+
+`low_fpr_interpretation.nonmember_denominator` is the finite packet denominator
+used to interpret the strict-tail readout. It does not convert the value into a
+calibrated continuous FPR estimate. For admitted rows, the bundle also exposes:
+
+| Field | Meaning |
+| --- | --- |
+| `false_positive_budget.at_1pct_fpr` | Expected false-positive budget implied by 1% of the finite denominator. |
+| `false_positive_budget.at_0_1pct_fpr` | Expected false-positive budget implied by 0.1% of the finite denominator. |
+| `minimum_nonzero_fpr` | The smallest nonzero empirical FPR step for that denominator. |
 
 ## Product Boundary
 
@@ -71,5 +81,8 @@ Blocked:
 - Do not infer row admission from `evidence_level` alone.
 - Do not parse `quality_cost` strings into new scientific claims.
 - Do not describe low-FPR values as calibrated continuous sub-percent FPR.
+- Do not treat `nonmember_denominator` or `false_positive_budget` as a new
+  benchmark result; they are interpretation metadata for the existing admitted
+  metrics.
 - Do not present the bundle as paper-complete reproduction or as
   conditional-diffusion / commercial-model evidence.
