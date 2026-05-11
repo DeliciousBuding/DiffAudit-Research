@@ -24,6 +24,12 @@ GSA loss-score LR, and activation-subspace variants. This keeps
 `active_gpu_question = none` and
 `next_gpu_candidate = none`. See
 [docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md).
+The first feasibility contract is now checked as a CPU-only artifact. The GSA
+assets are ready only with the workspace-scoped upstream checkout, and the
+contract blocks GPU until a micro-board proves a distinct non-scalar gradient
+or curvature observable beyond scalar loss, raw gradient norm, GSA loss-score
+LR, and activation-subspace variants:
+[docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md).
 The
 Kandinsky/Pokemon package skeleton now exists locally at
 `response-contract-pokemon-kandinsky-20260511`, but the probe verdict is
@@ -174,10 +180,11 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    `response-contract-pokemon-kandinsky-20260511` package has at least `25/25`
    real query images, response coverage, and a ready package probe. Existing
    local Kandinsky/Pokemon weights are not query images or responses.
-3. The current active CPU task is system-consumable admitted evidence hardening.
-   The validator and bundle exporter must keep the admitted consumer set aligned with
-   [docs/evidence/admitted-results-summary.md](docs/evidence/admitted-results-summary.md)
-   and reject source/provenance or strict-tail denominator drift.
+3. The current active CPU task is the white-box influence/curvature feasibility
+   scout. It has a checked contract, but no implementation packet yet. The next
+   step is a CPU micro-board extractor that must retain non-scalar gradient
+   coordinates and compare against scalar loss, raw gradient norm, GSA
+   loss-score LR, and activation-subspace baselines before any GPU release.
 4. Gray-box tri-score truth-hardening used existing X-88/X-141/X-142 artifacts
    only and closed as `positive-but-bounded`. Do not promote to admitted
    evidence and do not run a larger same-contract packet.
@@ -261,6 +268,7 @@ Every autonomous research cycle must follow this loop:
 | SecMI full-split admission boundary | evidence-ready supporting reference; not admitted | [docs/evidence/secmi-full-split-admission-boundary-review.md](docs/evidence/secmi-full-split-admission-boundary-review.md) |
 | SecMI admission contract hardening | supporting-reference-hardened; not admitted; no GPU release | [docs/evidence/secmi-admission-contract-hardening-20260511.md](docs/evidence/secmi-admission-contract-hardening-20260511.md) |
 | Post-SecMI next-lane reselection | selects CPU-first white-box influence/curvature feasibility scout; no GPU release | [docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md) |
+| White-box influence/curvature feasibility | CPU contract ready; assets ready with workspace-scoped GSA checkout; no GPU release | [docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |

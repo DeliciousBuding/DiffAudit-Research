@@ -34,6 +34,9 @@ This directory contains the public evidence overview.
 | [post-response-contract-reselection-20260511.md](post-response-contract-reselection-20260511.md) | CPU-only reselection selecting admitted evidence hardening after response-contract, white-box, and I-D successors fail release gates. |
 | [admitted-evidence-bundle-20260511.md](admitted-evidence-bundle-20260511.md) | CPU-only export of the complete admitted Platform/Runtime consumer set as a checked machine-readable bundle. |
 | [secmi-full-split-admission-boundary-review.md](secmi-full-split-admission-boundary-review.md) | CPU-only review showing full-split SecMI is evidence-ready supporting gray-box evidence, but not admitted Platform/Runtime evidence. |
+| [secmi-admission-contract-hardening-20260511.md](secmi-admission-contract-hardening-20260511.md) | CPU-only hardening that keeps SecMI stat and NNS as Research-only supporting rows. |
+| [post-secmi-next-lane-reselection-20260511.md](post-secmi-next-lane-reselection-20260511.md) | CPU-only reselection selecting the white-box influence/curvature feasibility scout. |
+| [whitebox-influence-curvature-feasibility-scout-20260511.md](whitebox-influence-curvature-feasibility-scout-20260511.md) | CPU-only white-box influence/curvature feasibility contract; no method result or GPU release yet. |
 | [research-boundary-consumability-sync-20260510.md](research-boundary-consumability-sync-20260510.md) | Downstream-consumer boundary sync after ReDiffuse, tri-score, GSA LR, and response-contract closures. |
 | [ib-risk-targeted-unlearning-successor-scope.md](ib-risk-targeted-unlearning-successor-scope.md) | CPU scoping review that keeps I-B risk-targeted unlearning on hold until defended-shadow/adaptive review is specified. |
 | [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |

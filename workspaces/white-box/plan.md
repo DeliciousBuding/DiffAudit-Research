@@ -5,8 +5,8 @@
 - `GSA`: strongest white-box method.
 - `DPDM`: defended comparator with protocol limitations.
 - `Finding NeMo` and related localization work: exploratory results, not promoted.
-- Distinct second white-box family: selected for CPU-first influence/curvature
-  feasibility scouting; no GPU release.
+- Distinct second white-box family: CPU-first influence/curvature feasibility
+  contract is ready; no GPU release.
 - GSA loss-score LR transfer: closed as negative-but-useful after
   leave-one-shadow-out stability review; do not GPU-scale from the existing
   scorer.
@@ -21,6 +21,11 @@ available signal is only scalar loss, gradient norm, GSA loss-score LR, or a
 prior activation-subspace variant under a new name. Keep current status
 reflected in
 [../../docs/evidence/reproduction-status.md](../../docs/evidence/reproduction-status.md).
+The current machine-readable contract is
+[artifacts/whitebox-influence-curvature-feasibility-20260511.json](artifacts/whitebox-influence-curvature-feasibility-20260511.json).
+Next implementation should be a CPU micro-board only if it can retain
+selected-layer raw gradient coordinates and compare against scalar loss, raw
+gradient norm, GSA loss-score LR, and activation-subspace baselines.
 
 ## Current Status
 
@@ -31,3 +36,5 @@ The current I-C successor review is
 [../../docs/evidence/ic-cross-permission-successor-scope.md](../../docs/evidence/ic-cross-permission-successor-scope.md).
 The current lane reselection is
 [../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md).
+The current feasibility contract is
+[../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md).
