@@ -5,8 +5,8 @@
 - `GSA`: strongest white-box method.
 - `DPDM`: defended comparator with protocol limitations.
 - `Finding NeMo` and related localization work: exploratory results, not promoted.
-- Distinct second white-box family: CPU-first diagonal-Fisher micro-board
-  closed negative-but-useful; no GPU release.
+- Distinct second white-box family: CPU-first diagonal-Fisher layer-scope
+  review is mixed but not GPU-ready; no GPU release.
 - GSA loss-score LR transfer: closed as negative-but-useful after
   leave-one-shadow-out stability review; do not GPU-scale from the existing
   scorer.
@@ -26,6 +26,8 @@ The current machine-readable contract is
 The first selected-layer raw-gradient diagonal-Fisher micro-board ran and
 failed the target-transfer gate. Next work should be a CPU-only follow-up
 decision, not a larger same-score packet.
+The layer-scope review found one non-dead attention layer, but it ties
+`raw_grad_l2_sq` and still needs CPU stability before any GPU consideration.
 
 ## Current Status
 
@@ -40,3 +42,5 @@ The current feasibility contract is
 [../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md).
 The current micro-board result is
 [../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md).
+The current layer-scope review is
+[../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md).

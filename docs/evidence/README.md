@@ -38,6 +38,7 @@ This directory contains the public evidence overview.
 | [post-secmi-next-lane-reselection-20260511.md](post-secmi-next-lane-reselection-20260511.md) | CPU-only reselection selecting the white-box influence/curvature feasibility scout. |
 | [whitebox-influence-curvature-feasibility-scout-20260511.md](whitebox-influence-curvature-feasibility-scout-20260511.md) | CPU-only white-box influence/curvature feasibility contract; no method result or GPU release yet. |
 | [gsa-diagonal-fisher-feasibility-microboard-20260511.md](gsa-diagonal-fisher-feasibility-microboard-20260511.md) | CPU-only selected-layer diagonal-Fisher micro-board result; negative-but-useful and no GPU release. |
+| [gsa-diagonal-fisher-layer-scope-review-20260511.md](gsa-diagonal-fisher-layer-scope-review-20260511.md) | CPU-only layer-scope review for diagonal-Fisher self-influence; mixed but not GPU-ready. |
 | [research-boundary-consumability-sync-20260510.md](research-boundary-consumability-sync-20260510.md) | Downstream-consumer boundary sync after ReDiffuse, tri-score, GSA LR, and response-contract closures. |
 | [ib-risk-targeted-unlearning-successor-scope.md](ib-risk-targeted-unlearning-successor-scope.md) | CPU scoping review that keeps I-B risk-targeted unlearning on hold until defended-shadow/adaptive review is specified. |
 | [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |
