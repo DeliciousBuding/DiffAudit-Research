@@ -47,8 +47,10 @@ The supporting-reference boundary is now guarded by
 checks to block silent admission, GPU release, missing blockers, or malformed
 metric rows.
 I-B risk-targeted unlearning and I-C cross-permission successor scoping are both
-on hold; neither releases GPU work. See
-[docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
+on hold; neither releases GPU work. I-B now has an explicit defended-shadow /
+adaptive-attacker reopen contract. See
+[docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md),
+[docs/evidence/ib-adaptive-defense-contract-20260511.md](docs/evidence/ib-adaptive-defense-contract-20260511.md),
 and
 [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md).
 CLiD is now guarded as a prompt-conditioned diagnostic candidate rather than

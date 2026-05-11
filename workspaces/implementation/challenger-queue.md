@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `CLiD image-identity boundary contract` |
+| Active work | `I-B adaptive defense contract` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only CLiD prompt-control boundary guard; no model run |
+| CPU sidecar | CPU-only defended-shadow/adaptive-attacker guard; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -31,27 +31,26 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | White-box distinct family | white-box | hold | genuinely new observable, not same-family rescue | no actionable CPU-first successor | reopen only with a genuinely different observable or paper-backed family |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
-| I-B risk-targeted unlearning successor | defense | hold | full-split attack-side reviews show small reductions | no defended-shadow/adaptive attacker contract | freeze defended-shadow/adaptive review contract before any GPU |
+| I-B risk-targeted unlearning successor | defense | hold | full-split attack-side reviews show small reductions; adaptive-defense contract exists | no defended-shadow/adaptive attacker run or retained-utility metric | keep hold; do not GPU-scale until the required reopen contract is implemented |
 | I-C cross-permission successor | cross-permission | hold | translated-contract falsifier is negative at the support boundary | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### CLiD Image-Identity Boundary Contract
+### I-B Adaptive Defense Contract
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `hold-candidate`
-- `goal`: keep the CLiD prompt-conditioned diagnostic useful without letting
-  its `1.0` prompt-conditioned packet drift into image-identity or admitted
-  black-box evidence.
-- `latest trigger`: system-consumable hardening closed the SecMI supporting
-  boundary, while the next non-asset-dependent black-box falsifier is CLiD's
-  prompt-control interpretation.
+- `status`: active; current verdict is `hold`
+- `goal`: keep the defense lane honest by requiring defended-shadow or
+  adaptive-attacker evidence before any defense promotion or GPU release.
+- `latest trigger`: CLiD boundary hardening closed the prompt-conditioned
+  black-box candidate; the next non-asset-dependent scientific gate is I-B's
+  adaptive-attacker requirement.
 - `GPU cap`: none
-- `integration`: no schema change; CLiD remains Research-only candidate
-  evidence
+- `integration`: no schema change; I-B remains Research-only hold evidence
 
 Current evidence:
 
+- [../../docs/evidence/ib-adaptive-defense-contract-20260511.md](../../docs/evidence/ib-adaptive-defense-contract-20260511.md)
 - [../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md)
 - [../../docs/evidence/rediffuse-checkpoint-portability-gate.md](../../docs/evidence/rediffuse-checkpoint-portability-gate.md)
 - [../../docs/evidence/rediffuse-resnet-contract-scout.md](../../docs/evidence/rediffuse-resnet-contract-scout.md)
