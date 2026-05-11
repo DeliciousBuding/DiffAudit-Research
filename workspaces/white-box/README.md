@@ -5,8 +5,8 @@
 - Direction: white-box membership inference using internal model signals.
 - Main method: `GSA` is the strongest white-box attack.
 - Defense comparator: `DPDM` provides defended baseline comparison.
-- Active CPU task: influence/curvature feasibility contract for a genuinely
-  distinct white-box observable; micro-board implementation is next.
+- Active CPU task: influence/curvature follow-up decision after the first
+  diagonal-Fisher micro-board closed negative-but-useful.
 - GPU: no active white-box GPU task.
 
 ## Files
@@ -21,6 +21,9 @@ Current lane selection:
 
 Current feasibility contract:
 [../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md).
+
+Current micro-board result:
+[../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md).
 
 ## Archive
 
