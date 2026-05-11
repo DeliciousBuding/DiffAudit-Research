@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `system-consumable admitted strict-tail denominator hardening` |
+| Active work | `CLiD image-identity boundary contract` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only admitted-row contract guard; no model run |
+| CPU sidecar | CPU-only CLiD prompt-control boundary guard; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -26,7 +26,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | SecMI admission contract | gray-box | CPU-only | full-split stat/NNS evidence is strong and now evidence-ready; supporting-reference validator exists | not admitted; missing admitted-consumer boundary and adaptive-review contract | keep validator active; harden admitted-row contract before any promotion or GPU |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
-| CLiD boundary maintenance | black-box | CPU-only | keep prompt-conditioned diagnostic claim honest | no new image-identity protocol | maintain docs, no GPU |
+| CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | White-box distinct family | white-box | hold | genuinely new observable, not same-family rescue | no actionable CPU-first successor | reopen only with a genuinely different observable or paper-backed family |
@@ -36,22 +36,23 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### System-Consumable Admitted Evidence Hardening
+### CLiD Image-Identity Boundary Contract
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `synchronized`
-- `goal`: keep admitted Research rows consumable by Platform/Runtime without
-  letting candidate-only rows drift into product evidence.
-- `latest trigger`: response-contract query-source audit closed as
-  `needs-assets`, while white-box and I-D scouts found no actionable CPU-first
-  successor.
+- `status`: active; current verdict is `hold-candidate`
+- `goal`: keep the CLiD prompt-conditioned diagnostic useful without letting
+  its `1.0` prompt-conditioned packet drift into image-identity or admitted
+  black-box evidence.
+- `latest trigger`: system-consumable hardening closed the SecMI supporting
+  boundary, while the next non-asset-dependent black-box falsifier is CLiD's
+  prompt-control interpretation.
 - `GPU cap`: none
-- `integration`: no schema change; admitted-row validator guard plus checked
-  admitted evidence bundle with explicit finite-tail denominators and
-  false-positive budgets
+- `integration`: no schema change; CLiD remains Research-only candidate
+  evidence
 
 Current evidence:
 
+- [../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md)
 - [../../docs/evidence/rediffuse-checkpoint-portability-gate.md](../../docs/evidence/rediffuse-checkpoint-portability-gate.md)
 - [../../docs/evidence/rediffuse-resnet-contract-scout.md](../../docs/evidence/rediffuse-resnet-contract-scout.md)
 - [../../docs/evidence/rediffuse-exact-replay-preflight.md](../../docs/evidence/rediffuse-exact-replay-preflight.md)
