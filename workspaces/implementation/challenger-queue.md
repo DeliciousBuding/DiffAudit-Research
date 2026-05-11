@@ -39,7 +39,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 ### White-Box Influence / Curvature Feasibility Scout
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `cpu-contract-ready`
+- `status`: active; contract is `cpu-contract-ready`; verdict remains `selected-cpu-first`
 - `goal`: decide whether a genuinely distinct white-box observable exists
   beyond closed GSA loss-score LR and activation-subspace variants.
 - `latest trigger`: SecMI admission-contract hardening closed the gray-box

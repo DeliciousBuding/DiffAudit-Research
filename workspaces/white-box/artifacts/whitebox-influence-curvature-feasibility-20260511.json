@@ -73,7 +73,7 @@
       "TPR@0.1%FPR",
       "baseline comparison table",
       "runtime seconds",
-    "failure reason if not runnable"
+      "failure reason if not runnable"
     ],
     "raw_artifact_policy": "do not persist raw gradient tensors by default; records may contain scalar scores and feature dimensionality only",
     "promotion_floor": {
