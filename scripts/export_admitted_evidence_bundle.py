@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -89,6 +90,47 @@ def _blocked_claims(row: dict[str, Any]) -> list[str]:
     return blocked
 
 
+def _tail_nonmember_count(row: dict[str, Any]) -> int:
+    row_label = f"{row.get('track')}::{row.get('attack')}::{row.get('defense')}::{row.get('evidence_level')}"
+    cost = row.get("cost")
+    if isinstance(cost, dict):
+        sample_count = cost.get("sample_count_per_split")
+        if isinstance(sample_count, int) and not isinstance(sample_count, bool) and sample_count > 0:
+            return sample_count
+
+    quality_cost = str(row.get("quality_cost", ""))
+    for pattern in (
+        r"(?P<count>\d+)\s+public samples per split",
+        r"target_eval_size=(?P<count>\d+)",
+    ):
+        match = re.search(pattern, quality_cost)
+        if match:
+            count = int(match.group("count"))
+            if count > 0:
+                return count
+
+    raise ValueError(
+        f"admitted evidence row {row_label} needs a recoverable nonmember denominator for low-FPR interpretation"
+    )
+
+
+def _low_fpr_interpretation(row: dict[str, Any]) -> dict[str, Any]:
+    nonmember_count = _tail_nonmember_count(row)
+    return {
+        "type": "finite_empirical_tail",
+        "nonmember_denominator": nonmember_count,
+        "false_positive_budget": {
+            "at_1pct_fpr": nonmember_count * 0.01,
+            "at_0_1pct_fpr": nonmember_count * 0.001,
+        },
+        "minimum_nonzero_fpr": 1.0 / nonmember_count,
+        "summary": (
+            "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. "
+            "They must not be treated as calibrated continuous sub-percent FPR estimates."
+        ),
+    }
+
+
 def _build_card(row: dict[str, Any], *, table_path: Path, root: Path) -> dict[str, Any]:
     metrics = {key: _require_numeric(row, key) for key in REQUIRED_METRICS}
     card: dict[str, Any] = {
@@ -109,13 +151,7 @@ def _build_card(row: dict[str, Any], *, table_path: Path, root: Path) -> dict[st
             "allowed_claims": _allowed_claims(row),
             "blocked_claims": _blocked_claims(row),
         },
-        "low_fpr_interpretation": {
-            "type": "finite_empirical_tail",
-            "summary": (
-                "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. "
-                "They must not be treated as calibrated continuous sub-percent FPR estimates."
-            ),
-        },
+        "low_fpr_interpretation": _low_fpr_interpretation(row),
         "provenance": {
             "table": _repo_relative(table_path, root),
             "source": row["source"],

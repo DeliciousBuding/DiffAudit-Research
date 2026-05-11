@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `system-consumable admitted evidence hardening` |
+| Active work | `system-consumable admitted strict-tail denominator hardening` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | CPU-only admitted-row contract guard; no model run |
@@ -46,7 +46,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   successor.
 - `GPU cap`: none
 - `integration`: no schema change; admitted-row validator guard plus checked
-  admitted evidence bundle
+  admitted evidence bundle with explicit finite-tail denominators and
+  false-positive budgets
 
 Current evidence:
 

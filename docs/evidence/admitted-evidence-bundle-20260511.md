@@ -50,6 +50,13 @@ Each row carries metrics, `quality_cost`, boundary language, finite-tail
 interpretation, repo-relative provenance, and optional existing structured
 fields such as `adaptive_check` and `cost`.
 
+The finite-tail interpretation is now machine-readable. For each admitted row,
+`low_fpr_interpretation` includes the nonmember denominator, the implied
+false-positive budgets for `1%` and `0.1%` FPR, and the minimum nonzero
+empirical FPR step. These fields are interpretation metadata only; they do not
+change the admitted metrics or turn strict-tail values into calibrated
+continuous FPR estimates.
+
 ## Verdict
 
 `synchronized`.
