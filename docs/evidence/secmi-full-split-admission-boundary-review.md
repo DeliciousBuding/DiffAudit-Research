@@ -19,6 +19,9 @@ No model was run for this review. It is a CPU-only boundary audit of existing
 artifacts. The raw local SecMI run remains outside the default public checkout;
 the committed review artifact above is the stable repository evidence anchor
 for the metrics and verdict used here.
+`scripts/validate_secmi_supporting_contract.py` validates that the artifact
+stays a supporting-reference contract and cannot silently become an admitted
+Platform/Runtime row.
 
 ## Observed Metrics
 
@@ -61,7 +64,8 @@ No GPU task is released. The next SecMI step, if selected later, should be a
 CPU-first admission-contract hardening pass:
 
 1. Add structured cost/provenance/adaptive-boundary metadata for the full-split
-   SecMI stat and NNS rows.
+   SecMI stat and NNS rows. The first supporting-reference validator is now in
+   place; an admitted-row contract would need a separate reviewed change.
 2. Decide whether NNS is allowed as a product-facing auxiliary head or must
    remain a Research-only corroboration surface.
 3. Only after that contract exists, consider a small repeated-query/adaptive

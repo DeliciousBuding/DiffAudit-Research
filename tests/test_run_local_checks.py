@@ -21,6 +21,7 @@ class RunLocalChecksTests(unittest.TestCase):
             self.assertEqual(cmd[0], "/portable/python")
         commands = [cmd for cmd, _ in recorded]
         self.assertIn(["/portable/python", "scripts/validate_attack_defense_table.py"], commands)
+        self.assertIn(["/portable/python", "scripts/validate_secmi_supporting_contract.py"], commands)
         self.assertIn(["/portable/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
         self.assertIn(["/portable/python", "scripts/export_admitted_evidence_bundle.py", "--check"], commands)
         self.assertTrue(
@@ -45,6 +46,7 @@ class RunLocalChecksTests(unittest.TestCase):
             self.assertEqual(cmd[0], "/env/python")
         commands = [cmd for cmd, _ in recorded]
         self.assertIn(["/env/python", "scripts/validate_attack_defense_table.py"], commands)
+        self.assertIn(["/env/python", "scripts/validate_secmi_supporting_contract.py"], commands)
         self.assertIn(["/env/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
         self.assertIn(["/env/python", "scripts/export_admitted_evidence_bundle.py", "--check"], commands)
         self.assertTrue(
