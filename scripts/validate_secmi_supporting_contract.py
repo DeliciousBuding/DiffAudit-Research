@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -25,10 +26,16 @@ def _require_numeric(errors: list[str], prefix: str, payload: dict[str, Any], fi
         value = payload.get(field)
         if not isinstance(value, (int, float)) or isinstance(value, bool):
             errors.append(f"{prefix}.{field} must be numeric, got {value!r}")
+        elif not math.isfinite(float(value)):
+            errors.append(f"{prefix}.{field} must be finite, got {value!r}")
+        elif not 0.0 <= float(value) <= 1.0:
+            errors.append(f"{prefix}.{field} must be in [0, 1], got {value!r}")
 
 
-def validate(payload: dict[str, Any]) -> list[str]:
+def validate(payload: Any) -> list[str]:
     errors: list[str] = []
+    if not isinstance(payload, dict):
+        return ["artifact must be a JSON object"]
     if payload.get("schema") != "diffaudit.secmi_admission_boundary_review.v1":
         errors.append(f"unsupported schema: {payload.get('schema')!r}")
     if payload.get("status") != "evidence-ready-supporting-reference":
@@ -91,7 +98,10 @@ def main(argv: list[str] | None = None) -> int:
     if not artifact_path.exists():
         errors.append(f"artifact does not exist: {artifact_path}")
     else:
-        errors.extend(validate(_load_json(artifact_path)))
+        try:
+            errors.extend(validate(_load_json(artifact_path)))
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"failed to load artifact: {exc}")
 
     if errors:
         for error in errors:
