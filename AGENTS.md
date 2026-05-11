@@ -28,11 +28,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `I-A finite-tail / adaptive boundary hardening`
+- Active work: `cross-box successor scoping`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence is closed as
-  `negative-but-useful`; current reducible work is admitted-evidence
-  strict-tail and adaptive-language review
+  `negative-but-useful`; I-A admitted-boundary audit is synchronized; current
+  reducible work is a CPU-only cross-box successor hypothesis review
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
