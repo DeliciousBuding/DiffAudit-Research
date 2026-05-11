@@ -10,18 +10,18 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `system-consumable admitted evidence hardening` |
+| Active work | `SecMI admitted-consumer contract hardening` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only admitted-row contract guard; no model run |
+| CPU sidecar | CPU-only SecMI supporting-reference contract guard; no model run |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: keep the admitted Research evidence surface safe for
-Platform and Runtime while scientific successor lanes are blocked by missing
-assets or lack of a new falsifiable hypothesis. The post-response-contract
-reselection keeps `active_gpu_question = none` and `next_gpu_candidate = none`,
-then selects CPU-only admitted evidence hardening as the next sidecar. See
-[docs/evidence/post-response-contract-reselection-20260511.md](docs/evidence/post-response-contract-reselection-20260511.md).
+Current objective: harden the strongest non-admitted gray-box supporting
+reference without promoting it into the admitted bundle. PR #92 closed the I-B
+adaptive-defense guard; the next CPU-first task is SecMI admitted-consumer
+contract hardening. This keeps `active_gpu_question = none` and
+`next_gpu_candidate = none`. See
+[docs/evidence/secmi-admission-contract-hardening-20260511.md](docs/evidence/secmi-admission-contract-hardening-20260511.md).
 The
 Kandinsky/Pokemon package skeleton now exists locally at
 `response-contract-pokemon-kandinsky-20260511`, but the probe verdict is
@@ -45,7 +45,11 @@ reference, but not to admitted Platform/Runtime evidence. See
 The supporting-reference boundary is now guarded by
 `scripts/validate_secmi_supporting_contract.py`, which is wired into local
 checks to block silent admission, GPU release, missing blockers, or malformed
-metric rows.
+metric rows. The admission-contract hardening pass adds a second
+machine-readable artifact that keeps SecMI stat and NNS as
+`research-support-only` rows unless a future CPU-first consumer contract is
+reviewed:
+[docs/evidence/secmi-admission-contract-hardening-20260511.md](docs/evidence/secmi-admission-contract-hardening-20260511.md).
 I-B risk-targeted unlearning and I-C cross-permission successor scoping are both
 on hold; neither releases GPU work. I-B now has an explicit defended-shadow /
 adaptive-attacker reopen contract. See
@@ -253,6 +257,7 @@ Every autonomous research cycle must follow this loop:
 | Post-response-contract reselection | CPU-only system-consumable admitted evidence hardening; no GPU release | [docs/evidence/post-response-contract-reselection-20260511.md](docs/evidence/post-response-contract-reselection-20260511.md) |
 | Admitted evidence bundle | synchronized; complete admitted consumer set exported as checked machine-readable bundle | [docs/evidence/admitted-evidence-bundle-20260511.md](docs/evidence/admitted-evidence-bundle-20260511.md) |
 | SecMI full-split admission boundary | evidence-ready supporting reference; not admitted | [docs/evidence/secmi-full-split-admission-boundary-review.md](docs/evidence/secmi-full-split-admission-boundary-review.md) |
+| SecMI admission contract hardening | supporting-reference-hardened; not admitted; no GPU release | [docs/evidence/secmi-admission-contract-hardening-20260511.md](docs/evidence/secmi-admission-contract-hardening-20260511.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |

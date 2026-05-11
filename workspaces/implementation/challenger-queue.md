@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-B adaptive defense contract` |
+| Active work | `SecMI admitted-consumer contract hardening` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only defended-shadow/adaptive-attacker guard; no model run |
+| CPU sidecar | CPU-only SecMI supporting-reference guard; no model run |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -24,7 +24,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
-| SecMI admission contract | gray-box | CPU-only | full-split stat/NNS evidence is strong and now evidence-ready; supporting-reference validator exists | not admitted; missing admitted-consumer boundary and adaptive-review contract | keep validator active; harden admitted-row contract before any promotion or GPU |
+| SecMI admission contract | gray-box | CPU-only | full-split stat/NNS evidence is strong and now evidence-ready; supporting-reference and admission-hardening validators exist | not admitted; NNS product-facing contract and adaptive-review contract are still missing | keep validator active; do not promote or release GPU until a separate CPU-first consumer contract is reviewed |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -36,20 +36,23 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### I-B Adaptive Defense Contract
+### SecMI Admitted-Consumer Contract Hardening
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `hold`
-- `goal`: keep the defense lane honest by requiring defended-shadow or
-  adaptive-attacker evidence before any defense promotion or GPU release.
-- `latest trigger`: CLiD boundary hardening closed the prompt-conditioned
-  black-box candidate; the next non-asset-dependent scientific gate is I-B's
-  adaptive-attacker requirement.
+- `status`: active; current verdict is `supporting-reference-hardened`
+- `goal`: keep SecMI useful as strong gray-box corroboration while preventing
+  stat or NNS rows from silently entering the admitted Platform/Runtime bundle.
+- `latest trigger`: PR #92 closed the I-B adaptive-defense guard; SecMI is now
+  the strongest non-admitted gray-box evidence with a reducible CPU-only
+  consumer-boundary gap.
 - `GPU cap`: none
-- `integration`: no schema change; I-B remains Research-only hold evidence
+- `integration`: no schema change; SecMI remains Research-only supporting
+  evidence
 
 Current evidence:
 
+- [../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md)
+- [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md)
 - [../../docs/evidence/ib-adaptive-defense-contract-20260511.md](../../docs/evidence/ib-adaptive-defense-contract-20260511.md)
 - [../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md)
 - [../../docs/evidence/rediffuse-checkpoint-portability-gate.md](../../docs/evidence/rediffuse-checkpoint-portability-gate.md)
@@ -91,6 +94,9 @@ Restart conditions:
   response-contract package or genuinely new scientific hypothesis appears.
 - do not expose ReDiffuse, tri-score, cross-box fusion, GSA LR, H2/simple-distance,
   CLiD, or response-contract acquisition as admitted Platform evidence.
+- do not admit SecMI stat or NNS rows until a separate consumer-row schema,
+  NNS product-facing decision, adaptive-review protocol, finite-tail semantics,
+  and provenance language are reviewed.
 - do not GPU-scale I-B from existing attack-side threshold-transfer diagnostics
   until defended-shadow or adaptive-attacker review is specified.
 - do not GPU-scale I-C same-pair replay without a same-spec evaluator and
@@ -186,6 +192,7 @@ Restart conditions:
 | ReDiffuse exact replay preflight | CPU preflight passed; `resnet_collaborator_replay` mode is available, no GPU release yet. |
 | ReDiffuse 750k exact replay | Candidate-only; modest AUC but weak strict-tail evidence, no admitted promotion. |
 | SecMI full-split admission boundary | Evidence-ready supporting reference; not admitted until consumer-boundary/adaptive-review contract exists. |
+| SecMI admission contract hardening | Supporting-reference-hardened; SecMI stat and NNS remain Research-only rows with no GPU release. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
