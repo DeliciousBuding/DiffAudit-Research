@@ -141,6 +141,7 @@ workspaces/**/artifacts/**
 !workspaces/black-box/artifacts/blackbox-response-contract-probe-after-skeleton-20260511.json
 !workspaces/gray-box/artifacts/graybox-triscore-consolidation-summary.json
 !workspaces/gray-box/artifacts/graybox-triscore-truth-hardening-review.json
+!workspaces/gray-box/artifacts/secmi-full-split-admission-boundary-20260511.json
 !workspaces/white-box/artifacts/whitebox-attack-defense-table.json
 *.stdout.log
 *.stderr.log

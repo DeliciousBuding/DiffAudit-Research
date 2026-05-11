@@ -11,13 +11,14 @@ admitted gray-box Platform/Runtime bundle next to PIA?
 
 ## Inputs
 
-- `workspaces/gray-box/runs/secmi-cifar10-gpu-full-stat-20260415-r2/summary.json`
-- `workspaces/gray-box/runs/secmi-cifar10-gpu-full-stat-20260415-r2/analysis.md`
+- `workspaces/gray-box/artifacts/secmi-full-split-admission-boundary-20260511.json`
 - `workspaces/implementation/artifacts/admitted-evidence-bundle.json`
 - `docs/evidence/admitted-results-summary.md`
 
 No model was run for this review. It is a CPU-only boundary audit of existing
-artifacts.
+artifacts. The raw local SecMI run remains outside the default public checkout;
+the committed review artifact above is the stable repository evidence anchor
+for the metrics and verdict used here.
 
 ## Observed Metrics
 
