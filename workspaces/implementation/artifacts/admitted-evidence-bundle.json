@@ -1,0 +1,276 @@
+{
+  "schema": "diffaudit.admitted_evidence_bundle.v1",
+  "updated_at": "2026-05-01T00:00:00+08:00",
+  "status": "admitted-only",
+  "audience": "platform-runtime",
+  "source_table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
+  "row_count": 5,
+  "rows": [
+    {
+      "id": "black-box::recon DDIM public-100 step30::none::runtime-mainline",
+      "status": "admitted",
+      "audience": "platform-runtime",
+      "track": "black-box",
+      "method": {
+        "attack": "recon DDIM public-100 step30",
+        "defense": "none",
+        "model": "Stable Diffusion v1.5 + DDIM"
+      },
+      "metrics": {
+        "auc": 0.837,
+        "asr": 0.74,
+        "tpr_at_1pct_fpr": 0.22,
+        "tpr_at_0_1pct_fpr": 0.11
+      },
+      "evidence_level": "runtime-mainline",
+      "quality_cost": "100 public samples per split; DDIM step30; runtime mainline plus unified artifact threshold replay; cuda runtime",
+      "boundary": {
+        "summary": "controlled / public-subset / proxy-shadow-member / risk-exists; TPR@0.1%FPR is a zero-false-positive empirical tail on 100 target nonmembers; not a final exploit, paper-complete reproduction, or full real-world benchmark",
+        "allowed_claims": [
+          "verified black-box privacy-risk signal under the stated controlled packet",
+          "all headline metrics are tied to the recorded metric source",
+          "strict-tail values are finite empirical gates, not continuous calibration"
+        ],
+        "blocked_claims": [
+          "paper-complete reproduction",
+          "general conditional-diffusion result",
+          "commercial-model or real-world deployment benchmark",
+          "continuous sub-percent FPR calibration"
+        ]
+      },
+      "low_fpr_interpretation": {
+        "type": "finite_empirical_tail",
+        "summary": "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. They must not be treated as calibrated continuous sub-percent FPR estimates."
+      },
+      "provenance": {
+        "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
+        "source": "docs/evidence/recon-product-validation-result.md"
+      },
+      "metric_source": "upstream_threshold_reimplementation"
+    },
+    {
+      "id": "gray-box::PIA GPU512 baseline::none::runtime-mainline",
+      "status": "admitted",
+      "audience": "platform-runtime",
+      "track": "gray-box",
+      "method": {
+        "attack": "PIA GPU512 baseline",
+        "defense": "none",
+        "model": "CIFAR-10 DDPM"
+      },
+      "metrics": {
+        "auc": 0.841339,
+        "asr": 0.786133,
+        "tpr_at_1pct_fpr": 0.058594,
+        "tpr_at_0_1pct_fpr": 0.011719
+      },
+      "evidence_level": "runtime-mainline",
+      "quality_cost": "attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=212.993833s",
+      "boundary": {
+        "summary": "workspace-verified + adaptive-reviewed + paper-alignment blocked by checkpoint/source provenance",
+        "allowed_claims": [
+          "workspace-verified DDPM/CIFAR10 gray-box evidence under the stated query budget",
+          "bounded repeated-query adaptive review is recorded when adaptive_check.status is completed",
+          "strict-tail values are finite empirical points over the recorded packet scale"
+        ],
+        "blocked_claims": [
+          "paper-complete reproduction",
+          "general conditional-diffusion result",
+          "commercial-model or real-world deployment benchmark",
+          "continuous sub-percent FPR calibration",
+          "full adaptive robustness beyond the recorded repeated-query review"
+        ]
+      },
+      "low_fpr_interpretation": {
+        "type": "finite_empirical_tail",
+        "summary": "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. They must not be treated as calibrated continuous sub-percent FPR estimates."
+      },
+      "provenance": {
+        "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
+        "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/summary.json"
+      },
+      "provenance_status": "workspace-verified",
+      "cost": {
+        "device": "cuda:0",
+        "execution_mode": "single-device-serial",
+        "sample_count_per_split": 512,
+        "batch_size": 8,
+        "attack_num": 30,
+        "interval": 10,
+        "queries_per_sample": 30,
+        "model_queries_per_sample": 31,
+        "adaptive_query_repeats": 3,
+        "wall_clock_seconds": 212.993833
+      },
+      "adaptive_check": {
+        "status": "completed",
+        "query_repeats": 3,
+        "aggregation": "mean",
+        "metrics": {
+          "auc": 0.841339,
+          "asr": 0.786133,
+          "tpr_at_1pct_fpr": 0.058594,
+          "tpr_at_0_1pct_fpr": 0.011719
+        }
+      }
+    },
+    {
+      "id": "gray-box::PIA GPU512 baseline::provisional G-1 = stochastic-dropout (all_steps)::runtime-mainline",
+      "status": "admitted",
+      "audience": "platform-runtime",
+      "track": "gray-box",
+      "method": {
+        "attack": "PIA GPU512 baseline",
+        "defense": "provisional G-1 = stochastic-dropout (all_steps)",
+        "model": "CIFAR-10 DDPM"
+      },
+      "metrics": {
+        "auc": 0.828075,
+        "asr": 0.767578,
+        "tpr_at_1pct_fpr": 0.052734,
+        "tpr_at_0_1pct_fpr": 0.009766
+      },
+      "evidence_level": "runtime-mainline",
+      "quality_cost": "attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=223.128438s",
+      "boundary": {
+        "summary": "workspace-verified + adaptive-reviewed + paper-alignment blocked by checkpoint/source provenance",
+        "allowed_claims": [
+          "workspace-verified DDPM/CIFAR10 gray-box evidence under the stated query budget",
+          "bounded repeated-query adaptive review is recorded when adaptive_check.status is completed",
+          "strict-tail values are finite empirical points over the recorded packet scale"
+        ],
+        "blocked_claims": [
+          "paper-complete reproduction",
+          "general conditional-diffusion result",
+          "commercial-model or real-world deployment benchmark",
+          "continuous sub-percent FPR calibration",
+          "full adaptive robustness beyond the recorded repeated-query review"
+        ]
+      },
+      "low_fpr_interpretation": {
+        "type": "finite_empirical_tail",
+        "summary": "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. They must not be treated as calibrated continuous sub-percent FPR estimates."
+      },
+      "provenance": {
+        "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
+        "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/summary.json"
+      },
+      "provenance_status": "workspace-verified",
+      "cost": {
+        "device": "cuda:0",
+        "execution_mode": "single-device-serial",
+        "sample_count_per_split": 512,
+        "batch_size": 8,
+        "attack_num": 30,
+        "interval": 10,
+        "queries_per_sample": 30,
+        "model_queries_per_sample": 31,
+        "adaptive_query_repeats": 3,
+        "wall_clock_seconds": 223.128438
+      },
+      "adaptive_check": {
+        "status": "completed",
+        "query_repeats": 3,
+        "aggregation": "mean",
+        "metrics": {
+          "auc": 0.828075,
+          "asr": 0.767578,
+          "tpr_at_1pct_fpr": 0.052734,
+          "tpr_at_0_1pct_fpr": 0.009766
+        }
+      }
+    },
+    {
+      "id": "white-box::GSA 1k-3shadow::none::runtime-mainline",
+      "status": "admitted",
+      "audience": "platform-runtime",
+      "track": "white-box",
+      "method": {
+        "attack": "GSA 1k-3shadow",
+        "defense": "none",
+        "model": "CIFAR-10 DDPM"
+      },
+      "metrics": {
+        "auc": 0.998192,
+        "asr": 0.9895,
+        "tpr_at_1pct_fpr": 0.987,
+        "tpr_at_0_1pct_fpr": 0.432
+      },
+      "evidence_level": "runtime-mainline",
+      "quality_cost": "target_eval_size=2000; shadow_train_size=4200; 3 shadows; cuda",
+      "boundary": {
+        "summary": "admitted white-box bridge / risk upper-bound; not a final paper-level benchmark",
+        "allowed_claims": [
+          "workspace-verified white-box risk or defended-comparator evidence under the stated protocol",
+          "the row can be used as an admitted upper-bound or comparator with its boundary language attached",
+          "strict-tail values are finite empirical points, not paper-complete calibration"
+        ],
+        "blocked_claims": [
+          "paper-complete reproduction",
+          "general conditional-diffusion result",
+          "commercial-model or real-world deployment benchmark",
+          "continuous sub-percent FPR calibration",
+          "final paper-level benchmark"
+        ]
+      },
+      "low_fpr_interpretation": {
+        "type": "finite_empirical_tail",
+        "summary": "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. They must not be treated as calibrated continuous sub-percent FPR estimates."
+      },
+      "provenance": {
+        "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
+        "source": "workspaces/white-box/runs/gsa-runtime-mainline-20260409-cifar10-1k-3shadow-epoch300-rerun1/summary.json"
+      }
+    },
+    {
+      "id": "white-box::GSA 1k-3shadow::W-1 strong-v3 full-scale::runtime-smoke",
+      "status": "admitted",
+      "audience": "platform-runtime",
+      "track": "white-box",
+      "method": {
+        "attack": "GSA 1k-3shadow",
+        "defense": "W-1 strong-v3 full-scale",
+        "model": "DPDM / Diffusion-DP"
+      },
+      "metrics": {
+        "auc": 0.488783,
+        "asr": 0.4985,
+        "tpr_at_1pct_fpr": 0.009,
+        "tpr_at_0_1pct_fpr": 0.0
+      },
+      "evidence_level": "runtime-smoke",
+      "quality_cost": "target_eval_size=2000; shadow_train_size=6000; classifier=logistic-regression-1d",
+      "boundary": {
+        "summary": "admitted white-box bridge / defended comparator; not a final paper-level benchmark",
+        "allowed_claims": [
+          "workspace-verified white-box risk or defended-comparator evidence under the stated protocol",
+          "the row can be used as an admitted upper-bound or comparator with its boundary language attached",
+          "strict-tail values are finite empirical points, not paper-complete calibration"
+        ],
+        "blocked_claims": [
+          "paper-complete reproduction",
+          "general conditional-diffusion result",
+          "commercial-model or real-world deployment benchmark",
+          "continuous sub-percent FPR calibration",
+          "final paper-level benchmark"
+        ]
+      },
+      "low_fpr_interpretation": {
+        "type": "finite_empirical_tail",
+        "summary": "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. They must not be treated as calibrated continuous sub-percent FPR estimates."
+      },
+      "provenance": {
+        "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
+        "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/summary.json"
+      }
+    }
+  ],
+  "excluded_states": [
+    "candidate-only",
+    "hold",
+    "needs-assets",
+    "negative-but-useful",
+    "runtime-candidate",
+    "runtime-challenger"
+  ]
+}
