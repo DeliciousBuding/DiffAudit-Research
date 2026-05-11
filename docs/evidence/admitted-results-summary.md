@@ -4,6 +4,10 @@
 > results are excluded until explicitly promoted.
 > Each row comes from `unified-attack-defense-table.json` and retains
 > the evidence level, cost, and limitation language tied to the reported metrics.
+> Platform and Runtime consumers can also read the checked multi-row bundle at
+> `workspaces/implementation/artifacts/admitted-evidence-bundle.json`; its
+> contract is documented in
+> [../product-bridge/admitted-evidence-bundle.md](../product-bridge/admitted-evidence-bundle.md).
 
 | Track | Method | Attack | Defense | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR | Evidence Level | Quality / Cost | Evidence Location | Limitations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
