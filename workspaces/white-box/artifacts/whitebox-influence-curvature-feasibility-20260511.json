@@ -1,0 +1,101 @@
+{
+  "schema": "diffaudit.whitebox_influence_curvature_feasibility.v1",
+  "status": "cpu-contract-ready",
+  "verdict": "selected-cpu-first",
+  "admitted": false,
+  "gpu_release": "none",
+  "active_question": "Can a white-box influence or curvature-proxy observable provide a distinct membership signal beyond existing GSA-derived surfaces?",
+  "asset_probe": {
+    "status": "ready",
+    "asset_identity": "gsa-cifar10-1k-3shadow-epoch300-rerun1",
+    "repo_root": "workspaces/white-box/external/GSA",
+    "assets_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1",
+    "ready_buckets": [
+      "target-member dataset",
+      "target-nonmember dataset",
+      "target checkpoint",
+      "shadow-01 member/nonmember datasets and checkpoint",
+      "shadow-02 member/nonmember datasets and checkpoint",
+      "shadow-03 member/nonmember datasets and checkpoint"
+    ],
+    "known_bad_default": {
+      "repo_root": "external/GSA",
+      "reason": "not the runnable GSA workspace for this asset identity"
+    }
+  },
+  "candidate_observable": {
+    "name": "diagonal-Fisher self-influence / curvature proxy",
+    "required_raw_signal": "per-sample gradient vector or per-channel gradient vector at fixed timestep and fixed noise",
+    "minimum_implementation_scope": "selected-layer raw parameter gradients; full-model Fisher/HVP/K-FAC is out of scope for the first scout",
+    "shadow_estimator": "diagonal Fisher or curvature proxy estimated only from shadow-side gradients",
+    "score_family": "g^T (F + lambda)^-1 g or an explicitly equivalent diagonal preconditioned gradient energy",
+    "allowed_inputs": [
+      "fixed-timestep model prediction loss",
+      "raw gradients before scalar aggregation",
+      "shadow-only diagonal curvature statistics",
+      "member/nonmember split labels only for shadow fitting and held-out evaluation"
+    ]
+  },
+  "distinctness_gate": {
+    "must_not_be": [
+      "scalar diffusion reconstruction loss under a new name",
+      "plain gradient norm under a new name",
+      "per-parameter gradient-norm dump from _extract_gsa_gradients_with_fixed_mask",
+      "GSA loss-score threshold transfer",
+      "GSA loss-score Gaussian likelihood-ratio transfer",
+      "prior activation-subspace or channel-mask observable under a new name"
+    ],
+    "required_baselines": [
+      "scalar loss",
+      "raw gradient norm",
+      "GSA loss-score LR",
+      "activation-subspace or masked-observability packet when available"
+    ],
+    "release_rule": "GPU stays blocked unless a CPU micro-board shows a distinct extractor, comparable baselines, and a positive held-out shadow/target signal."
+  },
+  "cpu_micro_board_contract": {
+    "mode": "CPU-first",
+    "target_sample_cap": {
+      "member": 4,
+      "nonmember": 4
+    },
+    "shadow_sample_cap_per_shadow": {
+      "member": 4,
+      "nonmember": 4
+    },
+    "required_outputs": [
+      "extractor provenance",
+      "feature dimensionality after truncation or projection",
+      "score direction",
+      "AUC",
+      "ASR",
+      "TPR@1%FPR",
+      "TPR@0.1%FPR",
+      "baseline comparison table",
+      "runtime seconds",
+    "failure reason if not runnable"
+    ],
+    "raw_artifact_policy": "do not persist raw gradient tensors by default; records may contain scalar scores and feature dimensionality only",
+    "promotion_floor": {
+      "heldout_shadow_folds_improving_over_baselines": 2,
+      "total_shadow_folds": 3,
+      "target_must_not_regress_all_low_fpr_fields": true
+    }
+  },
+  "blocked_claims": [
+    "admitted Platform/Runtime white-box row",
+    "new white-box family established",
+    "GPU packet authorized",
+    "paper-level benchmark",
+    "conditional diffusion generalization"
+  ],
+  "next_steps": [
+    "Implement a CPU micro-board extractor only if it can retain non-scalar gradient coordinates.",
+    "Close as blocked if the available code path only emits scalar loss or gradient norms.",
+    "Release no GPU task until the CPU micro-board artifact exists and passes validator review."
+  ],
+  "evidence_docs": [
+    "docs/evidence/post-secmi-next-lane-reselection-20260511.md",
+    "docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md"
+  ]
+}

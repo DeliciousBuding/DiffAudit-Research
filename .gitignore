@@ -146,6 +146,7 @@ workspaces/**/artifacts/**
 !workspaces/gray-box/artifacts/secmi-admission-contract-hardening-20260511.json
 !workspaces/gray-box/artifacts/secmi-full-split-admission-boundary-20260511.json
 !workspaces/white-box/artifacts/whitebox-attack-defense-table.json
+!workspaces/white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json
 *.stdout.log
 *.stderr.log
 

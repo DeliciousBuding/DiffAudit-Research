@@ -12,7 +12,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Active work | `white-box influence/curvature feasibility scout` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only white-box distinct-observable feasibility audit; no model run |
+| CPU sidecar | CPU-only white-box distinct-observable contract; micro-board implementation next |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -39,7 +39,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 ### White-Box Influence / Curvature Feasibility Scout
 
 - `mode`: CPU-only
-- `status`: active; current verdict is `selected-cpu-first`
+- `status`: active; current verdict is `cpu-contract-ready`
 - `goal`: decide whether a genuinely distinct white-box observable exists
   beyond closed GSA loss-score LR and activation-subspace variants.
 - `latest trigger`: SecMI admission-contract hardening closed the gray-box
@@ -51,6 +51,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 Current evidence:
 
 - [../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md)
+- [../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md)
+- [../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json](../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json)
 
 Restart conditions:
 
@@ -78,6 +80,9 @@ Restart conditions:
 - do not call an influence/curvature scout distinct unless it defines a signal
   that is not scalar loss, gradient norm, GSA loss-score LR, or the prior
   activation-subspace observable.
+- do not release GPU for the influence/curvature scout until a CPU micro-board
+  retains selected-layer raw gradient coordinates and compares against required
+  baselines.
 
 ## Ready
 
@@ -171,6 +176,7 @@ Restart conditions:
 | SecMI full-split admission boundary | Evidence-ready supporting reference; not admitted until consumer-boundary/adaptive-review contract exists. |
 | SecMI admission contract hardening | Supporting-reference-hardened; SecMI stat and NNS remain Research-only rows with no GPU release. |
 | Post-SecMI next-lane reselection | Selected white-box influence/curvature feasibility scout as CPU-first; no GPU release. |
+| White-box influence/curvature feasibility | CPU contract ready; GSA assets are ready with workspace-scoped upstream checkout; no GPU release. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
