@@ -172,8 +172,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     try:
-        table_path = args.table if args.table.is_absolute() else root / args.table
-        output_path = args.output if args.output.is_absolute() else root / args.output
+        table_path = args.table.resolve()
+        output_path = args.output.resolve()
         bundle = build_admitted_evidence_bundle(_load_json(table_path), table_path=table_path, root=root)
         rendered = json.dumps(bundle, indent=2, ensure_ascii=True) + "\n"
         if args.check:

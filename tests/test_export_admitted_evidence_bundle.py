@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -122,6 +123,26 @@ class ExportAdmittedEvidenceBundleTests(unittest.TestCase):
             exit_code = module.main(["--table", str(table_path), "--output", str(output_path)])
 
         self.assertEqual(exit_code, 2)
+
+    def test_cli_relative_paths_resolve_from_current_working_directory(self) -> None:
+        module = load_export_module()
+        research_root = Path(__file__).resolve().parents[1]
+        table_source = research_root / "workspaces" / "implementation" / "artifacts" / "unified-attack-defense-table.json"
+        original_cwd = Path.cwd()
+
+        with tempfile.TemporaryDirectory(dir=research_root) as tmpdir:
+            tmp_path = Path(tmpdir)
+            table_path = tmp_path / "table.json"
+            output_path = tmp_path / "bundle.json"
+            table_path.write_text(table_source.read_text(encoding="utf-8"), encoding="utf-8")
+            os.chdir(tmp_path)
+            try:
+                exit_code = module.main(["--table", "table.json", "--output", "bundle.json"])
+            finally:
+                os.chdir(original_cwd)
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(output_path.exists())
 
 
 if __name__ == "__main__":
