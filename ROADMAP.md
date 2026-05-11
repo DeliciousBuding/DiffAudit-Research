@@ -10,21 +10,21 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `I-A finite-tail / adaptive boundary hardening` |
+| Active work | `cross-box successor scoping` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only admitted-evidence strict-tail and adaptive-language review |
+| CPU sidecar | CPU-only cross-box successor hypothesis review |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: after closing diagonal-Fisher self-influence as
-`negative-but-useful`, move the active CPU slot to I-A truth hardening without
-releasing GPU. The selected lane checks that admitted evidence is interpreted
-with finite-tail denominators, bounded adaptive-attacker language, and strict
-provenance boundaries. This keeps `active_gpu_question = none` and
-`next_gpu_candidate = none`. See
-[docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md)
-and
-[docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md).
+Current objective: after closing diagonal-Fisher self-influence and confirming
+I-A admitted-boundary sync, move the active CPU slot to cross-box successor
+scoping without releasing GPU. The next question must define a genuinely new
+shared-surface, calibration, or transfer hypothesis; otherwise it should close
+as hold rather than become another same-family rerun. This keeps
+`active_gpu_question = none` and `next_gpu_candidate = none`. See
+[docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md),
+[docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md),
+and [docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md).
 The first feasibility contract is now checked as a CPU-only artifact. The GSA
 assets are ready only with the workspace-scoped upstream checkout, and the
 contract blocks GPU until a micro-board proves a distinct non-scalar gradient
@@ -286,6 +286,7 @@ Every autonomous research cycle must follow this loop:
 | GSA diagonal-Fisher layer scope | mixed-but-not-gpu-ready; one layer transfers on a tiny pair but ties `raw_grad_l2_sq` | [docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md) |
 | GSA diagonal-Fisher stability board | negative-but-useful; the only transferring layer ties `raw_grad_l2_sq` at `4` samples per split, closing the line | [docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md) |
 | Post-Fisher next-lane reselection | selects CPU-only I-A finite-tail / adaptive boundary hardening; no GPU release | [docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md) |
+| I-A finite-tail / adaptive boundary audit | synchronized; admitted strict-tail and adaptive-language boundaries remain guarded | [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |
