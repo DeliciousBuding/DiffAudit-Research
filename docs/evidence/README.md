@@ -41,6 +41,7 @@ This directory contains the public evidence overview.
 | [gsa-diagonal-fisher-layer-scope-review-20260511.md](gsa-diagonal-fisher-layer-scope-review-20260511.md) | CPU-only layer-scope review for diagonal-Fisher self-influence; mixed but not GPU-ready. |
 | [gsa-diagonal-fisher-stability-board-20260511.md](gsa-diagonal-fisher-stability-board-20260511.md) | CPU-only stability board closing diagonal-Fisher self-influence as negative-but-useful; no GPU release. |
 | [post-fisher-next-lane-reselection-20260511.md](post-fisher-next-lane-reselection-20260511.md) | CPU-only reselection selecting I-A finite-tail / adaptive boundary hardening after diagonal-Fisher closure. |
+| [ia-finite-tail-adaptive-boundary-audit-20260511.md](ia-finite-tail-adaptive-boundary-audit-20260511.md) | CPU-only no-drift audit for admitted strict-tail, adaptive, and candidate/admitted boundaries. |
 | [research-boundary-consumability-sync-20260510.md](research-boundary-consumability-sync-20260510.md) | Downstream-consumer boundary sync after ReDiffuse, tri-score, GSA LR, and response-contract closures. |
 | [ib-risk-targeted-unlearning-successor-scope.md](ib-risk-targeted-unlearning-successor-scope.md) | CPU scoping review that keeps I-B risk-targeted unlearning on hold until defended-shadow/adaptive review is specified. |
 | [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |
