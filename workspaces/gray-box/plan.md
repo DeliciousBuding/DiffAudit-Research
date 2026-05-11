@@ -4,8 +4,8 @@
 
 - `PIA`: strongest admitted local DDPM/CIFAR10 gray-box attack plus
   provisional defended comparator.
-- `SecMI`: supporting reference and corroboration line, not the primary
-  headline.
+- `SecMI`: evidence-ready supporting reference and corroboration line, not the
+  admitted primary headline.
 - `TMIA-DM`: strong gray-box alternative, secondary to PIA.
 - `ReDiffuse`: candidate baseline-alignment line opened by the collaborator
   `DDIMrediffuse` bundle and 750k checkpoint.
@@ -49,11 +49,17 @@ Current evidence:
 - Tri-score truth-hardening closed as positive-but-bounded: all three frozen
   packets beat admitted PIA on AUC and both low-FPR fields, while ASR is not
   stable enough for the support claim. The result remains internal-only.
+- SecMI full-split admission-boundary review upgrades SecMI from `code-ready`
+  to `evidence-ready` supporting reference: full `25k / 25k` execution reports
+  stat `AUC = 0.885833` and NNS `AUC = 0.946286`, but it remains outside the
+  admitted bundle until its consumer boundary, structured cost, and
+  adaptive-review contract are hardened.
 
 ## Next Action
 
 No gray-box GPU task is running. Keep `PIA` as the admitted gray-box line with
-bounded adaptive and finite low-FPR caveats. ReDiffuse is closed as
+bounded adaptive and finite low-FPR caveats. Keep SecMI as a strong supporting
+reference, not a Platform/Runtime row. ReDiffuse is closed as
 candidate-only for now; do not run 800k or larger packets without a new scorer
 hypothesis and CPU preflight. CDI/TMIA-DM/PIA tri-score is closed as
 positive-but-bounded internal evidence; do not run a larger same-contract
@@ -84,3 +90,5 @@ The 750k exact-replay packet verdict is tracked by
 [../../docs/evidence/rediffuse-exact-replay-packet.md](../../docs/evidence/rediffuse-exact-replay-packet.md).
 Keep PIA-related admitted claims aligned with
 [../../docs/evidence/admitted-results-summary.md](../../docs/evidence/admitted-results-summary.md).
+Keep the SecMI admission boundary aligned with
+[../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md).
