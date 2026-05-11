@@ -1,0 +1,61 @@
+{
+  "schema": "diffaudit.secmi_admission_boundary_review.v1",
+  "date": "2026-05-11",
+  "status": "evidence-ready-supporting-reference",
+  "admitted": false,
+  "gpu_release": "none",
+  "source_artifacts": {
+    "local_secmi_summary": "workspaces/gray-box/runs/secmi-cifar10-gpu-full-stat-20260415-r2/summary.json",
+    "admitted_bundle": "workspaces/implementation/artifacts/admitted-evidence-bundle.json"
+  },
+  "secmi_runtime": {
+    "member_samples": 25000,
+    "nonmember_samples": 25000,
+    "t_sec": 100,
+    "k": 10,
+    "batch_size": 64,
+    "elapsed_seconds": 2108.3398299217224
+  },
+  "secmi_stat": {
+    "auc": 0.8858329733666311,
+    "asr": 0.8154000043869019,
+    "tpr_at_1pct_fpr": 0.0939600020647049,
+    "tpr_at_0_1pct_fpr": 0.007720000110566616
+  },
+  "secmi_nns": {
+    "auc": 0.9462855246744825,
+    "asr": 0.8792750239372253,
+    "tpr_at_1pct_fpr": 0.4004499912261963,
+    "tpr_at_0_1pct_fpr": 0.11400000005960464
+  },
+  "pia_admitted_baseline": {
+    "sample_count_per_split": 512,
+    "auc": 0.841339,
+    "asr": 0.786133,
+    "tpr_at_1pct_fpr": 0.058594,
+    "tpr_at_0_1pct_fpr": 0.011719
+  },
+  "secmi_minus_pia": {
+    "stat_auc": 0.04449397336663119,
+    "nns_auc": 0.10494652467448251,
+    "stat_tpr_at_1pct_fpr": 0.035366002064704895,
+    "nns_tpr_at_1pct_fpr": 0.3418559912261963,
+    "stat_tpr_at_0_1pct_fpr": -0.003998999889433384,
+    "nns_tpr_at_0_1pct_fpr": 0.10228100005960464
+  },
+  "verdict": {
+    "summary": "SecMI is a strong evidence-ready supporting gray-box reference, but not admitted Platform/Runtime evidence.",
+    "promotion_blockers": [
+      "missing admitted-consumer boundary contract",
+      "missing structured admitted-row cost/adaptive_check fields",
+      "NNS auxiliary head needs an explicit product-facing scorer contract",
+      "no bounded repeated-query adaptive review"
+    ],
+    "blocked_claims": [
+      "admitted Platform/Runtime row",
+      "paper-complete reproduction",
+      "conditional-diffusion generalization",
+      "commercial-model evidence"
+    ]
+  }
+}
