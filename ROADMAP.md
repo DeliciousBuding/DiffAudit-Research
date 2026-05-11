@@ -36,7 +36,8 @@ must not be copied into this asset identity. See
 consumer set (`recon`, `PIA baseline`, `PIA defended`, `GSA`, and `DPDM W-1`)
 so candidate-only rows cannot silently become product-consumable evidence.
 The same admitted set is now exported as a checked machine-readable bundle for
-Platform/Runtime consumers:
+Platform/Runtime consumers, including explicit finite-tail denominators and
+false-positive budgets for strict low-FPR interpretation:
 [docs/evidence/admitted-evidence-bundle-20260511.md](docs/evidence/admitted-evidence-bundle-20260511.md).
 I-B risk-targeted unlearning and I-C cross-permission successor scoping are both
 on hold; neither releases GPU work. See
@@ -155,9 +156,9 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    real query images, response coverage, and a ready package probe. Existing
    local Kandinsky/Pokemon weights are not query images or responses.
 3. The current active CPU task is system-consumable admitted evidence hardening.
-   The validator must keep the admitted consumer set aligned with
+   The validator and bundle exporter must keep the admitted consumer set aligned with
    [docs/evidence/admitted-results-summary.md](docs/evidence/admitted-results-summary.md)
-   and reject source/provenance drift.
+   and reject source/provenance or strict-tail denominator drift.
 4. Gray-box tri-score truth-hardening used existing X-88/X-141/X-142 artifacts
    only and closed as `positive-but-bounded`. Do not promote to admitted
    evidence and do not run a larger same-contract packet.
