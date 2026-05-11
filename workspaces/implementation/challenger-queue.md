@@ -45,7 +45,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   `needs-assets`, while white-box and I-D scouts found no actionable CPU-first
   successor.
 - `GPU cap`: none
-- `integration`: no schema change; admitted-row validator guard only
+- `integration`: no schema change; admitted-row validator guard plus checked
+  admitted evidence bundle
 
 Current evidence:
 
@@ -63,6 +64,7 @@ Current evidence:
 - [../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md)
 - [../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md)
 - [../../docs/evidence/post-response-contract-reselection-20260511.md](../../docs/evidence/post-response-contract-reselection-20260511.md)
+- [../../docs/evidence/admitted-evidence-bundle-20260511.md](../../docs/evidence/admitted-evidence-bundle-20260511.md)
 - [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md)
 - [../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md)
 - [../../docs/evidence/research-boundary-consumability-sync-20260510.md](../../docs/evidence/research-boundary-consumability-sync-20260510.md)
@@ -188,6 +190,7 @@ Restart conditions:
 | Black-box response-contract discovery | needs-assets; discovery found no paired second response-contract package under black-box dataset/supplementary roots. |
 | Black-box response-contract second-asset intake | needs-assets; post-tri-score refresh found no ready paired package. |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no GPU release and no schema change. |
+| Admitted evidence bundle | Synchronized; complete admitted consumer set exported as checked machine-readable bundle. |
 | I-B risk-targeted unlearning successor scope | hold; small attack-side reductions are not enough without defended-shadow/adaptive review. |
 | ReDiffuse collaborator bundle intake | Positive intake; complete enough for bounded compatibility review, not admitted evidence. |
 | ReDiffuse 750k direct-distance packet | Positive compatibility packet at 64/64; not comparable with PIA/SecMI without scoring-mode caveat. |
