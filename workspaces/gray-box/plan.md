@@ -54,12 +54,15 @@ Current evidence:
   stat `AUC = 0.885833` and NNS `AUC = 0.946286`, but it remains outside the
   admitted bundle until its consumer boundary, structured cost, and
   adaptive-review contract are hardened.
+- SecMI admission-contract hardening keeps both stat and NNS as
+  `research-support-only` rows. NNS still needs an explicit product-facing
+  auxiliary-head contract before any admission discussion.
 
 ## Next Action
 
 No gray-box GPU task is running. Keep `PIA` as the admitted gray-box line with
-bounded adaptive and finite low-FPR caveats. Keep SecMI as a strong supporting
-reference, not a Platform/Runtime row. ReDiffuse is closed as
+bounded adaptive and finite low-FPR caveats. Keep SecMI as a strong hardened
+supporting reference, not a Platform/Runtime row. ReDiffuse is closed as
 candidate-only for now; do not run 800k or larger packets without a new scorer
 hypothesis and CPU preflight. CDI/TMIA-DM/PIA tri-score is closed as
 positive-but-bounded internal evidence; do not run a larger same-contract
@@ -92,3 +95,5 @@ Keep PIA-related admitted claims aligned with
 [../../docs/evidence/admitted-results-summary.md](../../docs/evidence/admitted-results-summary.md).
 Keep the SecMI admission boundary aligned with
 [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md).
+The hardened SecMI admission-contract artifact is tracked by
+[../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md).
