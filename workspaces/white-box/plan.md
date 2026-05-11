@@ -27,7 +27,7 @@ The first selected-layer raw-gradient diagonal-Fisher micro-board ran and
 failed the target-transfer gate. Next work should be a CPU-only follow-up
 decision, not a larger same-score packet.
 The layer-scope review found one non-dead attention layer, but it ties
-raw-gradient L2 and still needs CPU stability before any GPU consideration.
+`raw_grad_l2_sq` and still needs CPU stability before any GPU consideration.
 
 ## Current Status
 
