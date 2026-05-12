@@ -68,6 +68,32 @@ public DDPM dataset. Treat this as a route decision:
   or a sharper second-model scorer that can plausibly change the portability
   decision.
 
+## Per-Timestep Guard
+
+To check whether the four-timestep average hid a local signal, a second CPU
+scout reused the same `16 / 16` split and scored individual timesteps only. No
+sample expansion, GPU run, or new script was added.
+
+| Timestep | AUC, lower loss = member | Best ASR |
+| ---: | ---: | ---: |
+| `0` | `0.488281` | `0.562500` |
+| `25` | `0.484375` | `0.562500` |
+| `50` | `0.507812` | `0.625000` |
+| `100` | `0.578125` | `0.625000` |
+| `200` | `0.441406` | `0.531250` |
+| `350` | `0.578125` | `0.656250` |
+| `500` | `0.578125` | `0.625000` |
+| `650` | `0.570312` | `0.625000` |
+| `800` | `0.578125` | `0.625000` |
+| `950` | `0.503906` | `0.562500` |
+
+Best single-timestep AUC was `0.578125`. The weak average result was therefore
+not hiding an obvious high-AUC timestep.
+
+Decision: close MNIST/DDPM raw-loss portability unless a new scorer changes the
+observable, such as a calibrated likelihood proxy, per-class conditioning, or a
+residual feature that is not just raw noise-prediction MSE.
+
 ## Platform and Runtime Impact
 
 None. This is not admitted evidence and does not change exported product rows.
