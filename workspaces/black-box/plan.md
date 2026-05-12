@@ -130,6 +130,13 @@ but it is also weak: mean `x0` MSE/L1/edge residual AUCs are about `0.55`, and
 the best single-timestep `x0` L1 AUC is only `0.656250`. Do not expand raw-loss
 or simple `x0` residual scoring on MNIST/DDPM without a sharper mechanism. See
 [../../docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md](../../docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md).
+A tiny known-split MNIST denoiser sanity check then tested whether controlling
+the training set makes raw denoising loss useful. It does not at this gate:
+after `8` CPU epochs the training loss decreased, but membership AUC was
+`0.492676` with zero strict-tail recovery. Do not turn this into an
+epoch/sample ablation table; future work needs a mechanism beyond simple MSE or
+an external benchmark with documented provenance. See
+[../../docs/evidence/tiny-known-split-denoising-sanity-20260512.md](../../docs/evidence/tiny-known-split-denoising-sanity-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
