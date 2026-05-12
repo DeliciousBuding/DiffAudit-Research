@@ -46,8 +46,9 @@ python -m unittest tests.test_midfreq_residual
 
 It checks per-sample distance shape, score orientation, standard metric
 summary output, metadata preservation, and invalid band rejection. The test is
-also included in `scripts/run_local_checks.py --fast` and the GitHub Actions
-`unit-tests` command.
+included in `scripts/run_local_checks.py --fast` and the GitHub Actions
+`full-checks` job. The required PR `unit-tests` check is now a fast syntax and
+documentation gate only.
 
 ## Next Action
 

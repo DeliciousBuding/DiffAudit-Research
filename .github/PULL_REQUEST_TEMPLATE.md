@@ -4,8 +4,8 @@
 
 ## Validation
 
-- Docs/evidence-only: `python -X utf8 scripts/run_docs_checks.py`
-- Code/script/test/config/workflow: `python -X utf8 scripts/run_local_checks.py --fast`
+- Fast PR gate: `python -X utf8 scripts/run_pr_checks.py`
+- Full local gate, when behavior changes: `python -X utf8 scripts/run_local_checks.py --fast`
 - Not run:
 
 ## Review Notes
