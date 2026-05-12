@@ -43,8 +43,10 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   confirms the active risk-targeted unlearning review path used to borrow an
   undefended shadow reference. A machine-checkable defended-shadow reopen
   protocol is now frozen, and the review entrypoint now rejects undefended
-  threshold references in explicit `defended-shadow-reopen` mode, but it still
-  releases no GPU and does not train defended shadows. Post-I-B reselection selected I-C same-spec evaluator
+  threshold references in explicit `defended-shadow-reopen` mode. A CPU-only
+  defended-shadow training manifest now checks three shadow entries and k32
+  identity files, but no defended-shadow training has run and no GPU is
+  released. Post-I-B reselection selected I-C same-spec evaluator
   feasibility, and that scout is also closed as hold because the active PIA
   bridge surface is translated-alias-only with `same_spec_reuse = false`. The
   admitted consumer drift audit also verified that Platform/Runtime-visible rows

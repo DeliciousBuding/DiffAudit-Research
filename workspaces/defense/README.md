@@ -28,10 +28,14 @@ The active review entrypoint now has a CPU guard: explicit
 `defended-shadow-reopen` mode rejects old undefended shadow threshold
 references, while legacy diagnostic mode stays reproducible:
 [../../docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](../../docs/evidence/ib-reopen-shadow-reference-guard-20260512.md).
+The future defended-shadow training set now has a CPU-only manifest with three
+ready shadow entries and fixed k32 identity files, but no training has run:
+[../../docs/evidence/ib-defended-shadow-training-manifest-20260512.md](../../docs/evidence/ib-defended-shadow-training-manifest-20260512.md).
 
 ## Next Steps
 
 The next valid I-B implementation step is not another threshold-transfer review.
-It is a tiny defended-shadow training artifact plus adaptive-attacker and
-retained-utility measurements under the frozen protocol. Verified defense
-claims belong in [../../docs/evidence/](../../docs/evidence/) after review.
+It is executing a tiny defended-shadow training artifact, then producing
+defended-shadow threshold references plus adaptive-attacker and retained-utility
+measurements under the frozen protocol. Verified defense claims belong in
+[../../docs/evidence/](../../docs/evidence/) after review.
