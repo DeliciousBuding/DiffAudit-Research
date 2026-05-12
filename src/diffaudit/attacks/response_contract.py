@@ -10,7 +10,7 @@ from typing import Any
 QUERY_SUFFIXES = {".png", ".jpg", ".jpeg", ".bmp", ".webp"}
 RESPONSE_SUFFIXES = QUERY_SUFFIXES | {".pt", ".pth", ".npy", ".npz", ".json", ".jsonl", ".safetensors"}
 SPLITS = ("member", "nonmember")
-SUPPORTED_ENDPOINT_MODES = {"image_to_image", "repeated_response_api", "ddpm_unconditional"}
+SUPPORTED_ENDPOINT_MODES = {"text_to_image", "image_to_image", "repeated_response_api", "ddpm_unconditional"}
 
 
 def _list_files(root: Path, suffixes: set[str], *, recursive: bool = False) -> list[Path]:
