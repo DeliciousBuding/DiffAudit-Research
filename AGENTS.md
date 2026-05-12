@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CopyMark CommonCanvas response generation blocked locally`
+- Active work: `CopyMark CommonCanvas first response-contract scorer complete; weak simple-distance result`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -51,22 +51,21 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   contract with `eval` and `test` splits, but the archive itself carries only
   images plus `caption.json` fields (`path`, `height`, `width`, `caption`), not
   per-row membership provenance. A local
-  `response-contract-copymark-commoncanvas-20260512` query split now exists
-  under `<DIFFAUDIT_ROOT>/Download` with `50` CommonCatalog member queries and
-  `50` COCO holdout queries; the package probe returns `needs_responses`, not
-  `ready`. A response preflight found the default PATH Python uses CPU-only
-  Torch, but this must not be mistaken for "no CUDA on this machine": the
-  `diffaudit-research` conda environment has CUDA Torch (`cu121`) and can see
-  the local RTX 4070 Laptop GPU. The unresolved blocker is CommonCanvas model
-  availability and a frozen deterministic response command, not absence of
-  local CUDA. The current reducible work is to locate or fetch the exact
-  `common-canvas/CommonCanvas-XL-C` weights, generate deterministic responses
-  in the CUDA environment, attach responses generated elsewhere, or mark the
-  package query-only/blocked. Do not return to I-B remap training,
-  Beans distance variants, MNIST raw/x0 residual repeats,
-  tiny-denoiser MSE ablations,
-  external-weight downloads without provenance, full CopyMark dataset download
-  before a tiny target is frozen, gradient layer sweeps, or same-contract
+  `response-contract-copymark-commoncanvas-20260512` query split exists under
+  `<DIFFAUDIT_ROOT>/Download` with `50` CommonCatalog member queries and `50`
+  COCO holdout queries. The `diffaudit-research` conda environment has CUDA
+  Torch (`cu121`) and can see the local RTX 4070 Laptop GPU; do not confuse the
+  default PATH CPU-only Python with the actual research environment. The
+  `common-canvas/CommonCanvas-XL-C` single checkpoint has been downloaded, a
+  CUDA smoke passed, deterministic `50/50` text-to-image responses were
+  generated, and the package probe returns `ready`. The first simple scorer
+  `negative_pixel_mse_resized_512` is weak (`AUC = 0.5736`, `ASR = 0.6000`,
+  `TPR@1%FPR = 0.04`, `TPR@0.1%FPR = 0.04`), so it is not admitted and does
+  not trigger Platform/Runtime consumption. Do not expand this into a
+  CLIP/pixel/LPIPS metric matrix by default. Do not return to I-B remap
+  training, Beans distance variants, MNIST raw/x0 residual repeats,
+  tiny-denoiser MSE ablations, external-weight downloads without provenance,
+  full CopyMark dataset download, gradient layer sweeps, or same-contract
   residual repeats by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
