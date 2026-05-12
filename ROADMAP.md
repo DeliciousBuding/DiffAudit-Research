@@ -1,6 +1,86 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-12
+> Last updated: 2026-05-13
+
+## 2026-05-13 Leader Steering
+
+> 入口约束:Researcher / Codex 在选下一条 lane 前必须先读完本节。本节覆盖下方 `Current Focus`、`Next Decision Contract`、`Current Sidecars` 中与之冲突的优先级,直至被显式撤回。
+
+### 现状诊断
+
+最近 48h(2026-05-11 → 2026-05-12)产出 49 份 evidence,但模型主线本体没有动:第二资产没有跑出一次真实 scoring 结果,任何一个 box 的 admitted row 都没有变化。真正发生的事情几乎全是 `contract / preflight / manifest / scout / scope / audit / reselection`,典型循环包括 I-B(4 份均 hold)、midfreq(11 份 doc 最终 `mid-band 不 dominate full/low`)、Beans/SD1.5(5 份 doc 自己证伪 split membership 语义)、SecMI / cross-box / archived gray-box(全 hold)。
+
+这是 [AGENTS.md §五 反屎山规则](AGENTS.md) 与本文件 `Research Taste Guard` 明令禁止的"差生文具多"循环 — 在用工程复杂度伪装研究推进。
+
+### 真正的两个抓手
+
+1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选,query split `50/50` 已就绪,endpoint 已校正为 `text_to_image`,package 精确状态是 `needs_responses`。当前采用 `commoncanvas_xl_c.safetensors` 单 checkpoint 路线,先跑 `1 member + 1 nonmember` CUDA smoke,再生成 `50/50` deterministic responses。这是过去 48h 唯一一条"会改变 box-level story"的 lane。
+2. **tiny-overfit gradient-norm scout**:5/12 在 `8/8` overfit 上 `AUC = 0.734`,`16/64` stability gate 跌到 `0.535`。这是 mechanism-level 唯一一次正信号,但只是 hint。
+
+### P0 — 唯一冲刺方向
+
+CopyMark / CommonCanvas 必须跑出第一个真实 `50/50` scorer 结果。在该结果落地前,**不开任何其他 lane,不写任何与 P0 无关的 contract / scope / scout doc**。
+
+执行步骤:
+
+1. 完成 `common-canvas/CommonCanvas-XL-C` 单 checkpoint 下载。当前优先 `commoncanvas_xl_c.safetensors` + resumable `curl -L -C -`;不要先回到全 diffusers component 下载,除非 single-file loading 明确失败。优先按时序选最快路径,不再补 download 策略对比 doc。
+2. `1 member + 1 nonmember` caption 的 CUDA smoke,确认 8GB RTX 4070 envelope。失败则同步给管理员;不写第二份 preflight。
+3. 生成 `50/50` deterministic responses(fixed seed manifest)。`package probe` 必须返回 `ready`。
+4. 跑**最简单**的 scorer:直接复用项目内 `recon` 或最 raw 的 distance scorer,**不要先发明新机制**。报 `AUC`、`ASR`、`TPR@1%FPR`、`TPR@0.1%FPR` 四指标。
+5. 出 verdict。`positive` → 第二资产 portability 从假说变成证据,直接 sync `admitted-results-summary` 候选讨论;`negative` → 写最短结论说明本攻击家族在 SDXL-class CommonCanvas 上不成立,再转入 P1。两种结果都比再开一条 lane 有价值 10 倍。
+
+P0 钳制:
+
+- 24h 内 step 1 仍未完成且没有可行 mirror / 外接生成路径 → **escalate 到管理员讨论 acquisition route**(例如改用其他 CC-licensed open-weight diffusion model 或外部 inference endpoint),不允许 reselection 到第三条 lane。
+- 不允许把 P0 折射成第二份 acquisition spec、package preflight v2、query split rebuild。
+
+### 2026-05-13 P0 live checkpoint
+
+- 已确认:HF auth 可用,`diffaudit-research` 环境有 CUDA Torch 并能看到 RTX 4070;默认 PATH Python 是 CPU-only,不得再把它误判为本机无 CUDA。
+- 当前下载路线:`commoncanvas_xl_c.safetensors`,预期大小 `6,938,040,286` bytes,使用 resumable `curl` 写入 HF cache。下载完成前不切 lane。
+- 下一决策:checkpoint 能加载 → 立即跑 `1 member + 1 nonmember` smoke;smoke 通过 → 生成 `50/50` responses;加载失败 → 记录精确错误并修 single-file loading 或换 acquisition route,不写新 scope doc。
+
+### P1 — 备胎(P0 严格 blocked 之后才启动)
+
+`tiny self-trained MNIST/DDPM known-split target × gradient-sensitive scorer`。
+
+- 唯一依据:5/12 `tiny-overfit-gradient-norm-scout` 在 `8/8` overfit 上 `AUC = 0.734`,`16/64` stability gate 跌到 `0.535`。
+- 唯一合理 follow-up:在更真实的 known-split target(非 8-member overfit)上重测 gradient-sensitive observable。
+- **不**继续叠 raw-MSE / x0-residual / pixel-distance / CLIP-distance 变体。
+
+### 冻结清单(违反即视为浪费 cycle)
+
+- **I-B**:任何 reopen-protocol / shadow-reference / defended-shadow training manifest / shadow-local identity scout / defense-aware reopen 的第 N+1 版。`hold-protocol-frozen` 已是终态;reopen 必须由新的 bounded hypothesis 触发,而不是再加一份 audit。
+- **midfreq**:同 DDPM/CIFAR10 资产的第三个 seed、新 comparator、新 stability 跑。`mid-frequency-specific` 已被 5/12 comparator audit 证伪。
+- **Beans/SD1.5**:任何 distance variant。membership semantics 已被 `beans-sd15-membership-semantics-correction-20260512` 证伪;contract-debug 价值已耗尽。
+- **cross-box / archived gray-box paper candidates**:第二版 successor scope 或 reentry review。
+- **SecMI**:第 N+1 版 admission-contract-hardening。`research-support-only` 是终态。
+- **ReDiffuse**:800k 任何版本、新 scoring contract 变体。`candidate-only / hold` 是终态。
+- **I-C same-spec evaluator**:不再写 third 份 feasibility scout。
+
+### 程序性约束 — 防止再次进入空转
+
+1. **3-doc cap per lane**:同一 lane 在不出真实 metric(`AUC / TPR / ASR`)前,累计 contract / manifest / preflight / scout / scope / audit 类 evidence 上限 3 份;第 4 份触发自动暂停并向管理员 escalate。
+2. **Trigger-word audit**:连续 3 份 evidence 标题含 `contract`/`preflight`/`manifest`/`scout`/`scope`/`audit`/`reselection` 之一,必须暂停并 escalate,由把控者决定是切 lane、改 acquisition,还是确认死路。
+3. **Reselection 必须答一句**:本次 reselection 改变了什么具体决策?若答案只是"换下一条 hold lane",不允许 reselection,必须 escalate。
+4. **GPU release 不再走"CPU-first scoping"反复流程**:P0 step 3 完成 → step 4 直接释放 GPU(`active_gpu_question` 升为 `commoncanvas-recon-50/50`)。RTX 4070 闲置写 prose 是研究失败,不是审慎。
+5. **不再写"反思 / taste reset / 路线纠偏"长 doc**:这种 doc 本身就是新一轮"差生文具多"。本节是当前唯一有效的纠偏 source-of-truth,直到 P0 出结果为止。
+
+### Sync 字段(覆盖下方 `Current Focus` 表格,直至 P0 verdict)
+
+| Field | 2026-05-13 value |
+| --- | --- |
+| Active work | CopyMark CommonCanvas fp16 weight + deterministic `50/50` response sprint(P0) |
+| Active GPU question | `commoncanvas-recon-50/50`(about-to-release 一旦 weights & responses 就绪) |
+| Next GPU candidate | simplest recon / distance scorer on CommonCanvas `50/50` deterministic responses |
+| CPU sidecar | gradient-sensitive scorer design on known-split MNIST/DDPM(P1,parked until P0 blocks) |
+| Platform/Runtime impact | none until P0 出 positive 且经评审准入 |
+
+### 对 Codex 的明确指令
+
+"现在的真正瓶颈不是契约不够严,是模型还没在第二个真实 membership 资产上跑过一次。停止再写第 N 份 reopen protocol、第 N 份 comparator audit。把 CommonCanvas fp16 essentials 下完,跑出 `50/50` deterministic responses,run 一个 simplest possible scorer。无论 positive 还是 negative,都比再来一份 `needs-assets` verdict 有价值 10 倍。"
+
+---
 
 This is the short steering document for Research. Execution history and old
 run narratives live in `legacy/`; current workspace state lives in
@@ -10,10 +90,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CopyMark CommonCanvas response generation blocked locally` |
-| Current GPU candidate | none selected |
-| CPU sidecar | response generation needs CommonCanvas weights plus a frozen deterministic text-to-image command, or external responses |
-| Active GPU question | none running |
+| Active work | `CopyMark CommonCanvas single-checkpoint download + deterministic response generation` |
+| Current GPU candidate | `1 member + 1 nonmember` CommonCanvas CUDA smoke after checkpoint load |
+| CPU sidecar | none except monitoring acquisition; P1 MNIST gradient-sensitive scorer stays parked until P0 strictly blocks |
+| Active GPU question | `commoncanvas-text-to-image-response-smoke` pending checkpoint completion |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
