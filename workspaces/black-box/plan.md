@@ -159,6 +159,15 @@ recovery. Treat gradient norm as a mechanism hint only; do not GPU-scale or run
 a layer sweep from this result. See
 [../../docs/evidence/gradient-norm-stability-gate-20260512.md](../../docs/evidence/gradient-norm-stability-gate-20260512.md).
 
+CopyMark is now the highest-value external intake candidate. Its paper-level
+protocol is directly about real-world diffusion membership/copyright detection,
+so it is a better next acquisition target than more generic Hugging Face model
+cards. It is still not `ready-to-score`: the next step is an asset manifest and
+`diffusers/` script provenance check for target identity, member/nonmember
+labels, validation/test split, and query/response availability. Do not download
+the large dataset or release GPU until that check passes. See
+[../../docs/evidence/copymark-provenance-intake-20260512.md](../../docs/evidence/copymark-provenance-intake-20260512.md).
+
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
 repeat has `TPR@0.1%FPR = 1.0`, but the best prompt-control strict-tail value
