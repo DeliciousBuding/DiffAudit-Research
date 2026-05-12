@@ -7,7 +7,7 @@ model states and does not release GPU.
 ## Verdict
 
 ```text
-scorer-contract-ready; collector still pending; no GPU release
+scorer-contract-ready; collector and synthetic runner now available; no GPU release
 ```
 
 The Research package now has a reusable scorer for the proposed
@@ -52,7 +52,8 @@ documentation gate only.
 
 ## Next Action
 
-Implement a tiny residual collector that stores:
+The collector and synthetic tiny cache writer now exist. The next real-asset
+preflight must preserve these fields:
 
 - `labels`
 - `x_t`
@@ -61,9 +62,9 @@ Implement a tiny residual collector that stores:
 - noise provenance
 - `bandpass_l2`
 
-The first executable packet remains capped at `64` members and `64`
-nonmembers. A larger packet or GPU release remains blocked until this collector
-produces a valid cache and the same-cache final-response comparator is frozen.
+The first real-asset packet remains capped at `4/4` or `8/8`. A larger packet
+or GPU release remains blocked until this schema works on real assets and the
+same-cache final-response comparator is frozen.
 
 ## Boundary
 

@@ -874,6 +874,23 @@ def build_parser() -> argparse.ArgumentParser:
     rediffuse_runtime_packet_parser.add_argument("--scorer-batch-size", type=int, default=128)
     rediffuse_runtime_packet_parser.add_argument("--provenance-status", default="collaborator-grounded")
 
+    midfreq_tiny_parser = subparsers.add_parser(
+        "run-midfreq-residual-tiny-cache",
+        help="write a CPU-only synthetic mid-frequency residual cache schema preflight",
+    )
+    midfreq_tiny_parser.add_argument("--workspace", required=True)
+    midfreq_tiny_parser.add_argument("--member-count", type=int, default=4)
+    midfreq_tiny_parser.add_argument("--nonmember-count", type=int, default=4)
+    midfreq_tiny_parser.add_argument("--batch-size", type=int, default=4)
+    midfreq_tiny_parser.add_argument("--timestep", type=int, default=80)
+    midfreq_tiny_parser.add_argument("--seed", type=int, default=0)
+    midfreq_tiny_parser.add_argument("--cutoff", type=float, default=0.25)
+    midfreq_tiny_parser.add_argument("--cutoff-high", type=float, default=0.50)
+    midfreq_tiny_parser.add_argument("--image-size", type=int, default=32)
+    midfreq_tiny_parser.add_argument("--channels", type=int, default=3)
+    midfreq_tiny_parser.add_argument("--device", default="cpu", choices=["cpu"])
+    midfreq_tiny_parser.add_argument("--provenance-status", default="synthetic-schema-preflight")
+
     pia_runtime_mainline_parser = subparsers.add_parser(
         "run-pia-runtime-mainline",
         help="run the canonical PIA DDPM path on real local assets and emit a reproducible summary",
