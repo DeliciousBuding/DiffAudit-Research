@@ -80,4 +80,5 @@ jobs:
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
           python -m unittest tests.test_attack_registry tests.test_smoke_pipeline tests.test_audit_variation_query_contract tests.test_review_semantic_aux_low_fpr tests.test_review_recon_tail_confidence tests.test_midfreq_residual
+          python -m unittest tests.test_run_pr_checks
           python -m pytest tests/test_variation_attack.py tests/test_render_team_local_configs.py -q

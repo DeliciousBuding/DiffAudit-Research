@@ -15,6 +15,7 @@ from pathlib import Path
 
 def run(cmd: list[str], cwd: Path) -> None:
     env = os.environ.copy()
+    env["PYTHONUTF8"] = "1"
     src_path = str(cwd / "src")
     existing_pythonpath = env.get("PYTHONPATH", "")
     env["PYTHONPATH"] = src_path if not existing_pythonpath else f"{src_path}{os.pathsep}{existing_pythonpath}"
