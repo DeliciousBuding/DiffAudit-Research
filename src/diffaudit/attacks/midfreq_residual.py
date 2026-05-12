@@ -198,8 +198,8 @@ def collect_midfreq_residual_states(
                 device=device,
             )
             inputs.append(batch)
-            x_t_batches.append(x_t.numpy().astype(np.float32))
-            tilde_batches.append(tilde_x_t.numpy().astype(np.float32))
+            x_t_batches.append(x_t.numpy())
+            tilde_batches.append(tilde_x_t.numpy())
             running_offset += int(batch.shape[0])
     return (
         torch.cat(inputs, dim=0),
