@@ -79,7 +79,10 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   next asset: model cards give broad HakuBooru/Danbooru2023 training-source
   provenance, but no exact target member list or fixed selection manifest. Do
   not download `38-40 GB` Kohaku weights or TB-scale Danbooru image assets for
-  pseudo-membership scoring.
+  pseudo-membership scoring. A small Fashion-MNIST DDPM PIA-style loss scout
+  on `ynwag9/fashion_mnist_ddpm_32` used a real Fashion-MNIST train/test split
+  and CUDA, but remained weak (`AUC = 0.535889`, `TPR@1%FPR = 0.03125`);
+  do not expand it into seed, timestep, or packet-size sweeps.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
