@@ -35,7 +35,7 @@ NVIDIA GeForce RTX 4070 Laptop GPU, 8188 MiB total, about 3033 MiB free
 Local model cache check:
 
 ```text
-C:\Users\Ding\.cache\huggingface has no CommonCanvas/CommonCanvas-XL-C hit
+<HF_CACHE> has no CommonCanvas/CommonCanvas-XL-C hit
 ```
 
 The query package itself exists under `<DIFFAUDIT_ROOT>/Download` and the
