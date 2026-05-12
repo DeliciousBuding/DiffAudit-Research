@@ -5,6 +5,7 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: tests-${{ github.workflow }}-${{ github.ref }}
@@ -12,6 +13,25 @@ concurrency:
 
 jobs:
   unit-tests:
+    name: unit-tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Run Fast PR Gate
+        run: python -X utf8 scripts/run_pr_checks.py
+
+  full-checks:
+    name: full-checks
+    if: github.event_name != 'pull_request'
     runs-on: windows-latest
     defaults:
       run:
@@ -20,74 +40,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-
-      - name: Classify Change Set
-        id: changes
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $PSNativeCommandUseErrorActionPreference = $true
-
-          if ("${{ github.event_name }}" -ne "pull_request") {
-            $changed = git diff --name-only HEAD~1 HEAD
-            if (-not $changed) {
-              $changed = @()
-            }
-            $forceFull = $true
-          } else {
-            $base = "${{ github.event.pull_request.base.sha }}"
-            $changed = git diff --name-only $base HEAD
-            if (-not $changed) {
-              $changed = @()
-            }
-
-            $fullPatterns = @(
-              '^src/',
-              '^scripts/',
-              '^tests/',
-              '^tools/',
-              '^configs/',
-              '^environment\.yml$',
-              '^pyproject\.toml$',
-              '^pytest\.ini$',
-              '^setup\.cfg$',
-              '^\.github/workflows/'
-            )
-            $forceFull = $false
-            foreach ($path in $changed) {
-              $normalized = $path -replace '\\', '/'
-              foreach ($pattern in $fullPatterns) {
-                if ($normalized -match $pattern) {
-                  $forceFull = $true
-                  break
-                }
-              }
-              if ($forceFull) {
-                break
-              }
-            }
-          }
-
-          "changed_files<<EOF" >> $env:GITHUB_OUTPUT
-          ($changed -join "`n") >> $env:GITHUB_OUTPUT
-          "EOF" >> $env:GITHUB_OUTPUT
-          "full=$($forceFull.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
-
-      - name: Lightweight Documentation Guards
-        if: steps.changes.outputs.full != 'true'
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $PSNativeCommandUseErrorActionPreference = $true
-          python scripts/run_docs_checks.py
+          cache: pip
 
       - name: Install CI Dependencies
-        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
@@ -96,14 +56,12 @@ jobs:
           python -m pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio
 
       - name: Public Surface Guard
-        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
           python scripts/run_docs_checks.py
 
       - name: Verify CLI Install
-        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
@@ -112,16 +70,15 @@ jobs:
           python -m pip check
 
       - name: Render Local Config Templates
-        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
           python scripts/render_team_local_configs.py --team-local configs/assets/team.local.template.yaml --output-dir tmp/configs/rendered-ci
 
       - name: Run Core Tests
-        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
           python -m unittest tests.test_attack_registry tests.test_smoke_pipeline tests.test_audit_variation_query_contract tests.test_review_semantic_aux_low_fpr tests.test_review_recon_tail_confidence tests.test_midfreq_residual
+          python -m unittest tests.test_run_pr_checks
           python -m pytest tests/test_variation_attack.py tests/test_render_team_local_configs.py -q

@@ -54,14 +54,19 @@ Recommended rules:
 - Require at least 1 review before merging
 - Require the `unit-tests` status check
 
-The `unit-tests` check has a fast path for documentation-only and
-evidence-only PRs. It keeps the required status-check name stable, but skips
-dependency installation unless the change touches code, tests, scripts,
-configs, tools, root Python/environment config files, or GitHub workflow files.
-Pushes to `main` always use the full path. The full path uses a lightweight
-pip-based CI environment; the local researcher environment can still use Conda.
-This keeps research-note PRs cheap while preserving full checks for executable
-changes.
+The required `unit-tests` check is intentionally a fast PR gate. It runs public
+documentation guards, Markdown link checks, Python syntax compilation, and a CLI
+parser smoke without installing PyTorch or executing runtime tests. This keeps
+PR iteration short and stable.
+
+Full validation is still available, but it is not the default PR bottleneck:
+
+- `full-checks` runs automatically after merges to `main`
+- `full-checks` can be triggered manually with `workflow_dispatch`
+- local behavior-changing PRs should run `python -X utf8 scripts/run_local_checks.py --fast`
+
+This split keeps the required status-check name stable while moving heavyweight
+dependency installation and runtime tests out of every PR commit.
 
 For a smaller team, a lighter version works:
 
