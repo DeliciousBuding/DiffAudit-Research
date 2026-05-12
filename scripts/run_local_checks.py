@@ -62,6 +62,7 @@ def main(argv: list[str] | None = None) -> None:
             "tests.test_review_recon_tail_confidence",
             "tests.test_midfreq_residual",
             "tests.test_run_pr_checks",
+            "tests.test_risk_targeted_unlearning",
             "tests.test_validate_ib_defended_shadow_reopen_protocol",
         ],
         repo_root,

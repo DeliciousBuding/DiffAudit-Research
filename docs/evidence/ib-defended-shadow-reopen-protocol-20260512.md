@@ -52,7 +52,9 @@ the line closes without a larger GPU packet.
 
 ## Next Action
 
-Do not launch GPU from this protocol alone. The next valid implementation step
-is CPU-first code plumbing that refuses `review-risk-targeted-unlearning-pilot`
-when the threshold reference is still an undefended shadow summary and accepts
-only defended-shadow references for an I-B reopen packet.
+Do not launch GPU from this protocol alone. The first CPU plumbing step is now
+complete:
+[ib-reopen-shadow-reference-guard-20260512.md](ib-reopen-shadow-reference-guard-20260512.md).
+The remaining reopen requirements are defended-shadow training artifacts,
+adaptive-attacker measurement, retained utility, and strict-tail improvement
+under a defended-shadow threshold reference.
