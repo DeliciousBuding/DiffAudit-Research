@@ -59,6 +59,8 @@ This directory contains the public evidence overview.
 | [ib-defense-aware-reopen-scout-20260512.md](ib-defense-aware-reopen-scout-20260512.md) | CPU scout showing I-B still lacks an executable defended-shadow/adaptive-attacker reopen contract. |
 | [ib-defense-reopen-protocol-audit-20260512.md](ib-defense-reopen-protocol-audit-20260512.md) | Code-aware audit confirming the current I-B review path borrows undefended shadow threshold transfer and cannot release GPU work. |
 | [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |
+| [post-ib-next-lane-reselection-20260512.md](post-ib-next-lane-reselection-20260512.md) | CPU-only reselection after I-B protocol audit; selects I-C same-spec evaluator feasibility scout. |
+| [ic-same-spec-evaluator-feasibility-scout-20260512.md](ic-same-spec-evaluator-feasibility-scout-20260512.md) | CPU-only I-C feasibility scout showing current translated-alias probes are not same-spec evaluator release surfaces. |
 | [research-resting-state-audit-20260510.md](research-resting-state-audit-20260510.md) | Current audit showing Research has no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | [gsa-loss-score-shadow-stability-review.md](gsa-loss-score-shadow-stability-review.md) | CPU-only leave-one-shadow-out review falsifying the immediate GSA loss-score LR distinct-scorer rescue path. |
 | [variation-query-contract-audit.md](variation-query-contract-audit.md) | Executable audit for deciding whether the variation black-box line has real query images and endpoint readiness. |
