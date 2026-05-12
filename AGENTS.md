@@ -102,6 +102,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 - Before declaring GPU blocked, probe the actual CUDA-capable environments,
   especially `conda run -n diffaudit-research python -X utf8 -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'no cuda')"`.
   Do not infer GPU unavailability from the default PATH Python alone.
+- Hugging Face CLI is available in the `diffaudit-research` environment and
+  should be treated as the normal asset-acquisition path when a model card,
+  gated repo, or checkpoint needs verification. Do not write tokens into docs
+  or scripts; if auth is uncertain, check `hf auth whoami` inside the research
+  environment before claiming that an asset is inaccessible.
 - No history rewrite or force-push without a separate approved audit.
 
 ## Research Rules
