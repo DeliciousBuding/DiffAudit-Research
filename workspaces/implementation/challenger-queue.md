@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `post-I-B successor reselection` |
+| Active work | `paper-backed new-observable intake scout` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | CPU-only next-lane review after I-B hold |
+| CPU sidecar | gray-box paper-candidate reentry review closed as hold; next work must identify a genuinely new observable or ready asset contract |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -30,6 +30,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | Cross-box successor hypothesis | cross-box | hold | CPU-only scope review closed without a new release-ready hypothesis | current executable routes are existing score-sharing/fusion/support/tail-gated variants or asset-blocked response-contract transfer | reopen only with a genuinely new observable or ready second response-contract package |
+| gray-box archived paper candidates | gray-box / intake | hold | reentry review covers SIMA, Noise-as-Probe, MoFit, and Structural Memorization | current artifacts are weak, canary-only, low-FPR unstable, or covered by closed fusion/support routes | reopen only with a new low-FPR-primary observable or protocol |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
@@ -38,21 +39,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-I-B Successor Reselection
+### Paper-Backed New-Observable Intake Scout
 
 - `mode`: CPU-only
-- `status`: active next-lane review after cross-box successor scoping and I-B
-  defense-aware reopen scoping closed as `hold`.
-- `goal`: select one bounded, non-stale scientific question that can change
-  the Research story without reusing a closed same-family route.
-- `latest trigger`: I-B has no executable defended-shadow/adaptive contract;
-  black-box response-contract remains asset-blocked; diagonal-Fisher and
-  cross-box successor routes remain closed.
+- `status`: active next-lane scout after cross-box successor scoping, I-B
+  defense-aware reopen scoping, and archived gray-box paper-candidate reentry
+  all closed as `hold`.
+- `goal`: identify one bounded, non-stale scientific question with a genuinely
+  new observable or ready asset contract.
+- `latest trigger`: SIMA, Noise-as-Probe, MoFit, and Structural Memorization
+  do not release GPU or CPU expansion from their current artifacts.
 - `GPU cap`: none
 - `integration`: no schema change; Research-only scout
 
 Current evidence:
 
+- [../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md)
 - [../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md)
 - [../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md)
 - [../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md)
@@ -206,6 +208,7 @@ Restart conditions:
 | I-A finite-tail / adaptive boundary audit | Synchronized; admitted strict-tail and adaptive-language boundaries remain guarded. |
 | Cross-box successor scope | Hold; no genuinely new CPU/GPU successor hypothesis is ready. |
 | I-B defense-aware reopen scout | Hold; current I-B evidence is not defense-aware and releases no GPU. |
+| Gray-box paper-candidate reentry | Hold; archived paper candidates do not release CPU/GPU work from current artifacts. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |

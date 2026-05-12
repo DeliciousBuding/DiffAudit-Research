@@ -9,6 +9,8 @@
 - `TMIA-DM`: strong gray-box alternative, secondary to PIA.
 - `ReDiffuse`: candidate baseline-alignment line opened by the collaborator
   `DDIMrediffuse` bundle and 750k checkpoint.
+- `SIMA / Noise-as-Probe / MoFit / Structural Memorization`: archived
+  paper-backed candidates; reentry review keeps them on hold.
 - `PIA vs TMIA-DM confidence-gated switching`: closed as negative but useful.
 - `CDI/TMIA-DM/PIA tri-score`: positive-but-bounded internal evidence
   aggregation; not admitted and not product-facing.
@@ -57,6 +59,10 @@ Current evidence:
 - SecMI admission-contract hardening keeps both stat and NNS as
   `research-support-only` rows. NNS still needs an explicit product-facing
   auxiliary-head contract before any admission discussion.
+- Archived gray-box paper candidates were re-reviewed after I-B hold. SIMA has
+  weak standalone metrics and unstable strict-tail pairboard gains;
+  Noise-as-Probe is sensitive to guidance leakage; MoFit remains canary-only;
+  Structural Memorization is negative on the local smoke. None releases GPU.
 
 ## Next Action
 
@@ -67,6 +73,8 @@ candidate-only for now; do not run 800k or larger packets without a new scorer
 hypothesis and CPU preflight. CDI/TMIA-DM/PIA tri-score is closed as
 positive-but-bounded internal evidence; do not run a larger same-contract
 tri-score packet.
+Do not reopen SIMA, Noise-as-Probe, MoFit, or Structural Memorization without
+a genuinely new low-FPR-primary observable or protocol.
 
 Canonical consolidation:
 [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md).
@@ -97,3 +105,5 @@ Keep the SecMI admission boundary aligned with
 [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md).
 The hardened SecMI admission-contract artifact is tracked by
 [../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md).
+Archived paper-candidate reentry is tracked by
+[../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md).
