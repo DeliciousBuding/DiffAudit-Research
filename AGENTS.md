@@ -80,8 +80,8 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   excuses. A local RTX 4070 sitting idle while the agent writes more prose is a
   research failure, not prudence.
 - Before declaring GPU blocked, probe the actual CUDA-capable environments,
-  especially `conda run -n diffaudit-research python -X utf8 ...`. Do not infer
-  GPU unavailability from the default PATH Python alone.
+  especially `conda run -n diffaudit-research python -X utf8 -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'no cuda')"`.
+  Do not infer GPU unavailability from the default PATH Python alone.
 - No history rewrite or force-push without a separate approved audit.
 
 ## Research Rules
