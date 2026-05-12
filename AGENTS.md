@@ -28,17 +28,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `true second membership benchmark scope`
+- Active work: `MNIST/DDPM x0 reconstruction scout closed; choose next true benchmark route`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
   membership. MNIST/DDPM via `1aurent/ddpm-mnist` has cleaner train/test
-  membership semantics, but raw PIA-style loss is weak and already closed
-  unless a sharper scorer appears. The current reducible work is choosing one
-  valid next path: a new MNIST/DDPM scorer with a different observable, or a
-  tiny known-split self-trained/fine-tuned target. Do not return to I-B remap
-  training, Beans distance variants, or same-contract residual repeats by
-  default.
+  membership semantics, but raw PIA-style loss and simple `x0`
+  reconstruction residuals are weak. The current reducible work is choosing one
+  valid next path: a sharper MNIST/DDPM mechanism, or preferably a tiny
+  known-split self-trained/fine-tuned target. Do not return to I-B remap
+  training, Beans distance variants, MNIST raw/x0 residual repeats, or
+  same-contract residual repeats by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

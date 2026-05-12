@@ -125,6 +125,11 @@ result was near-random (`AUC = 0.496094`, `best ASR = 0.562500`). A
 same-split per-timestep guard peaked at only `AUC = 0.578125`, so direct
 raw-loss transfer is closed unless a sharper scorer hypothesis appears. See
 [../../docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](../../docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md).
+The follow-up CPU-only `x0` reconstruction scout tests a different observable,
+but it is also weak: mean `x0` MSE/L1/edge residual AUCs are about `0.55`, and
+the best single-timestep `x0` L1 AUC is only `0.656250`. Do not expand raw-loss
+or simple `x0` residual scoring on MNIST/DDPM without a sharper mechanism. See
+[../../docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md](../../docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
