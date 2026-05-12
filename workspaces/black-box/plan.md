@@ -95,14 +95,19 @@ deterministic local SD1.5 responses, and the existing CPU package probe returns
 `status = ready`. This does not release GPU or prove a signal; it only unlocks
 tiny CPU scorer design. See
 [../../docs/evidence/beans-sd15-response-contract-ready-20260512.md](../../docs/evidence/beans-sd15-response-contract-ready-20260512.md).
+After semantic review, the package is contract/debug only: beans train versus
+validation is not proven SD1.5 training membership. Keep the package for
+response-contract and scorer plumbing, but do not cite it as true membership
+evidence. See
+[../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md).
 The first tiny scorer, raw query-response pixel distance, is weak on this
 package: MSE gives `AUC = 0.5088` and MAE gives `AUC = 0.4992`. Do not scale
-this exact scorer. See
+this exact scorer or treat it as true SD1.5 membership evidence. See
 [../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md](../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md).
 The second cheap scorer, local CLIP image-embedding distance, is also weak:
 under the lower-distance member convention it gives `AUC = 0.4224`, and the
 reverse direction is only `0.5776`. Do not expand simple distance scoring
-without a different mechanism. See
+without a different mechanism or true membership split. See
 [../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md).
 
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested
