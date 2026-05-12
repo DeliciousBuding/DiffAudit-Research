@@ -66,11 +66,11 @@ class ValidateIbAdaptiveDefenseContractTests(unittest.TestCase):
         artifact["evidence_docs"] = [
             doc
             for doc in artifact["evidence_docs"]
-            if doc != "docs/evidence/ib-adaptive-defense-contract-20260511.md"
+            if doc != "docs/evidence/ib-defense-reopen-protocol-audit-20260512.md"
         ]
         errors = validate_ib_adaptive_defense_contract.validate(artifact)
         self.assertIn(
-            "missing evidence doc: docs/evidence/ib-adaptive-defense-contract-20260511.md",
+            "missing evidence doc: docs/evidence/ib-defense-reopen-protocol-audit-20260512.md",
             errors,
         )
 

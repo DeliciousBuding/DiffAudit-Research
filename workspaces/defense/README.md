@@ -17,6 +17,11 @@ and
 The latest defense-aware reopen scout keeps I-B on hold because the current
 best k32 full-split anchor is still attack-side threshold-transfer only:
 [../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md](../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md).
+The follow-up protocol audit checks the active CLI/code path and confirms that
+`review-risk-targeted-unlearning-pilot` still borrows an undefended shadow
+reference, so the lane has no executable defended-shadow or adaptive-attacker
+protocol yet:
+[../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md).
 
 ## Next Steps
 
