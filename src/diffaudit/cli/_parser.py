@@ -1458,6 +1458,12 @@ def build_parser() -> argparse.ArgumentParser:
     risk_targeted_unlearning_review_parser.add_argument("--device", default="cuda")
     risk_targeted_unlearning_review_parser.add_argument("--noise-seed", type=int, default=None)
     risk_targeted_unlearning_review_parser.add_argument("--provenance-status", default="workspace-verified")
+    risk_targeted_unlearning_review_parser.add_argument(
+        "--review-mode",
+        default="threshold-transfer-diagnostic",
+        choices=["threshold-transfer-diagnostic", "defended-shadow-reopen"],
+        help="legacy diagnostic mode permits old threshold-transfer summaries; defended-shadow reopen requires threshold_reference=defended-shadows",
+    )
 
     temporal_surrogate_export_parser = subparsers.add_parser(
         "export-temporal-surrogate-feature-packet",

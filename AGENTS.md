@@ -40,10 +40,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   mid-frequency-specific mechanism. Same-contract residual GPU expansion is
   closed. SecMI consumer-contract review keeps SecMI as
   `structural-support-only`, not system-consumable. The I-B protocol audit now
-  confirms the active risk-targeted unlearning review path still borrows an
+  confirms the active risk-targeted unlearning review path used to borrow an
   undefended shadow reference. A machine-checkable defended-shadow reopen
-  protocol is now frozen, but it releases no GPU and does not train defended
-  shadows. Post-I-B reselection selected I-C same-spec evaluator
+  protocol is now frozen, and the review entrypoint now rejects undefended
+  threshold references in explicit `defended-shadow-reopen` mode, but it still
+  releases no GPU and does not train defended shadows. Post-I-B reselection selected I-C same-spec evaluator
   feasibility, and that scout is also closed as hold because the active PIA
   bridge surface is translated-alias-only with `same_spec_reuse = false`. The
   admitted consumer drift audit also verified that Platform/Runtime-visible rows
