@@ -13,6 +13,7 @@ This page tracks the status of each research direction. Detailed notes are in
 | `evidence-ready` | A reviewed experiment summary exists. |
 | `benchmark-ready` | Paper-level benchmarks can be reproduced. |
 | `hold-protocol-frozen` | Reopen rules are machine-checkable, but the lane still has no admissible result or GPU release. |
+| `hold-membership-blocked` | Candidate asset has broad provenance, but lacks a verified target member/nonmember split. |
 
 Smoke tests and dry runs are engineering validation, not benchmark claims.
 
