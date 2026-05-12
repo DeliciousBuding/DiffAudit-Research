@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CopyMark provenance intake selected; no GPU release` |
+| Active work | `CopyMark CommonCanvas tiny subset target selected; no GPU release` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CopyMark is high-value candidate, but needs asset manifest/provenance check before scoring |
+| CPU sidecar | CopyMark CommonCanvas/CommonCatalog tiny CPU asset packet is next; no full download |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -78,10 +78,14 @@ but blocks GPU scaling and broad layer sweeps. See
 [docs/evidence/gradient-norm-stability-gate-20260512.md](docs/evidence/gradient-norm-stability-gate-20260512.md).
 CopyMark is now the best external intake candidate because its paper and
 repository describe a diffusion membership/copyright benchmark rather than a
-generic model card. It is not yet ready to score locally: the dataset package
-and `diffusers/` scripts still need a manifest-level check for target identity,
-member/nonmember provenance, validation/test split, and query/response
-availability. No large dataset download or GPU run is released. See
+generic model card. The follow-up manifest pass inspected `diffusers/` scripts,
+zip headers, the zip central directory, and representative `caption.json`
+payloads without downloading image data. CopyMark has a concrete directory-level
+member/holdout contract with `eval` and `test` splits, but the archive does not
+ship per-row membership provenance beyond directory choice. The next selected
+target is CommonCanvas/CommonCatalog, because it has cleaner open-model/open-data
+provenance than SD1.5/LAION. Do not download the full `5.66GB` archive or
+release GPU. See
 [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
@@ -426,7 +430,7 @@ Every autonomous research cycle must follow this loop:
 | Sidecar | Mode | Why |
 | --- | --- | --- |
 | True second membership benchmark | CPU-only / needs sharper mechanism or provenance | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit and weakens at `16 / 64`; no GPU. |
-| CopyMark external benchmark intake | CPU-only / needs asset manifest check | Paper-level protocol matches the second-benchmark blocker, but local scoring waits for archive/script provenance and query/response confirmation; no GPU. |
+| CopyMark external benchmark intake | CPU-only / CommonCanvas tiny target selected | Script and zip manifest shape are now known; labels are directory-level, so start with a tiny CommonCanvas/CommonCatalog subset before any full download or GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -453,7 +457,7 @@ Every autonomous research cycle must follow this loop:
 | Tiny overfit gradient-norm scout | positive mechanism scout on `8 / 64`; no GPU release until stability gate | [docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md) |
 | Gradient-norm stability gate | weakened at `16 / 64`; gradient norm stays mechanism hint only | [docs/evidence/gradient-norm-stability-gate-20260512.md](docs/evidence/gradient-norm-stability-gate-20260512.md) |
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
-| CopyMark provenance intake | high-value external candidate; needs asset manifest/provenance check before scoring | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
+| CopyMark provenance intake | high-value external candidate; manifest inspected; CommonCanvas/CommonCatalog tiny CPU target selected | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
