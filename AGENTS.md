@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `raw denoising MSE stopped; acquisition or new observable needed`
+- Active work: `tiny overfit gradient-norm mechanism scout positive; stability gate needed`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -37,14 +37,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   reconstruction residuals are weak. A tiny controlled MNIST denoiser with a
   real train/held-out split also failed under raw denoising loss despite
   decreasing training loss; a deliberately overfit `8`-member upperbound still
-  produced only weak raw-MSE AUC and zero low-FPR recovery. A quick external
+  produced only weak raw-MSE AUC and zero low-FPR recovery. A final-layer
+  per-sample gradient-norm scout on that same overfit target is positive
+  (`AUC = 0.734375`, `1 / 8` members recovered at zero false positives), so the
+  next mechanism candidate is gradient-sensitive, not MSE. A quick external
   diffusion benchmark scan did not find a ready target whose model card alone
-  proves exact member/nonmember provenance. The current reducible work is
-  acquisition or mechanism design: get documented target membership, or propose
-  a scorer beyond simple MSE. Do not return to I-B remap training, Beans
-  distance variants, MNIST raw/x0 residual repeats, tiny-denoiser ablations,
-  external-weight downloads without provenance, or same-contract residual
-  repeats by default.
+  proves exact member/nonmember provenance. The current reducible work is a
+  CPU-only stability gate for gradient-norm on a less extreme known split, or
+  acquisition of documented target membership. Do not return to I-B remap
+  training, Beans distance variants, MNIST raw/x0 residual repeats,
+  tiny-denoiser MSE ablations, external-weight downloads without provenance, or
+  same-contract residual repeats by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
