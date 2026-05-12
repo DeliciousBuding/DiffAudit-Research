@@ -45,6 +45,7 @@ This directory contains the public evidence overview.
 | [blackbox-response-contract-query-source-audit-20260511.md](blackbox-response-contract-query-source-audit-20260511.md) | CPU-only local asset audit showing existing Kandinsky/Pokemon material cannot fill the response-contract query split or responses. |
 | [post-response-contract-reselection-20260511.md](post-response-contract-reselection-20260511.md) | CPU-only reselection selecting admitted evidence hardening after response-contract, white-box, and I-D successors fail release gates. |
 | [admitted-evidence-bundle-20260511.md](admitted-evidence-bundle-20260511.md) | CPU-only export of the complete admitted Platform/Runtime consumer set as a checked machine-readable bundle. |
+| [admitted-consumer-drift-audit-20260512.md](admitted-consumer-drift-audit-20260512.md) | CPU-only no-drift audit proving recent candidate closures did not change the admitted Platform/Runtime consumer boundary. |
 | [secmi-full-split-admission-boundary-review.md](secmi-full-split-admission-boundary-review.md) | CPU-only review showing full-split SecMI is evidence-ready supporting gray-box evidence, but not admitted Platform/Runtime evidence. |
 | [secmi-admission-contract-hardening-20260511.md](secmi-admission-contract-hardening-20260511.md) | CPU-only hardening that keeps SecMI stat and NNS as Research-only supporting rows. |
 | [post-secmi-next-lane-reselection-20260511.md](post-secmi-next-lane-reselection-20260511.md) | CPU-only reselection selecting the white-box influence/curvature feasibility scout. |

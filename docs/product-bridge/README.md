@@ -17,11 +17,14 @@ as admitted Platform evidence until low-FPR stability is established. See
 [../evidence/cross-box-boundary-status.md](../evidence/cross-box-boundary-status.md).
 
 Current boundary-consumability status: Platform and Runtime should consume only
-the admitted Research rows (`recon`, `PIA`, and `GSA + DPDM W-1`) unless a
-future reviewed promotion explicitly changes this. ReDiffuse, tri-score,
-cross-box fusion, GSA LR, H2/simple-distance, CLiD, and black-box
-response-contract acquisition are candidate, negative, hold, or needs-assets
-states. See
+the five admitted bundle rows (`recon`, `PIA baseline`, `PIA defended`, `GSA`,
+and `DPDM W-1`) unless a future reviewed promotion explicitly changes this.
+ReDiffuse, SecMI stat/NNS, tri-score, cross-box fusion, GSA LR,
+H2/simple-distance, CLiD, black-box response-contract acquisition, I-B, and I-C
+are candidate, supporting-reference, negative, hold, or needs-assets states.
+See
+[../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md)
+and
 [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md).
 The admitted-row guard is now enforced by
 `scripts/validate_attack_defense_table.py`, which checks the complete admitted
@@ -67,6 +70,7 @@ The current product bridge decision is recorded in
 | [recon-product-evidence-card.md](recon-product-evidence-card.md) | Machine-readable product card for the admitted recon row. |
 | [admitted-evidence-bundle.md](admitted-evidence-bundle.md) | Machine-readable bundle for the complete admitted Platform/Runtime consumer set. |
 | [h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md) | Why simple-distance remains Research evidence and what must happen before product consumption. |
+| [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md) | Latest no-drift audit for the admitted Platform/Runtime consumer boundary. |
 | [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md) | Current admitted-vs-candidate boundary for downstream consumers. |
 
 ## Integration Rules
