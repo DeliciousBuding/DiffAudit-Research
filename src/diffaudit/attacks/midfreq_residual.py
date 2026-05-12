@@ -150,7 +150,7 @@ def one_step_same_noise_state(
         raise ValueError(f"timestep must be < {alpha_bars.shape[0]}: {strength_t}")
 
     noise = torch.randn(x0.shape, generator=generator, device=device, dtype=x0.dtype)
-    alpha_t = alpha_bars[strength_t].view(1, 1, 1, 1)
+    alpha_t = alpha_bars[strength_t].to(device).view(1, 1, 1, 1)
     x_t = alpha_t.sqrt() * x0 + (1.0 - alpha_t).sqrt() * noise
 
     t_tensor = torch.full((x_t.shape[0],), strength_t, device=device, dtype=torch.long)
@@ -185,9 +185,9 @@ def collect_midfreq_residual_states(
     running_offset = int(sample_offset)
     model.eval()
     with torch.no_grad():
+        generator = torch.Generator(device=device)
         for batch, _ in loader:
             batch = batch.detach().cpu()
-            generator = torch.Generator(device=device)
             generator.manual_seed(int(seed) + int(running_offset))
             x_t, tilde_x_t = one_step_same_noise_state(
                 model,
