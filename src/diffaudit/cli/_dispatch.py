@@ -868,6 +868,27 @@ def _handle_secmi_pia_smokes(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
+    if args.command == "run-midfreq-residual-tiny-cache":
+        from diffaudit.attacks.midfreq_residual import run_midfreq_residual_tiny_cache
+
+        payload = run_midfreq_residual_tiny_cache(
+            workspace=args.workspace,
+            member_count=args.member_count,
+            nonmember_count=args.nonmember_count,
+            batch_size=args.batch_size,
+            timestep=args.timestep,
+            seed=args.seed,
+            cutoff=args.cutoff,
+            cutoff_high=args.cutoff_high,
+            image_size=args.image_size,
+            channels=args.channels,
+            device=args.device,
+            provenance_status=args.provenance_status,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
     if args.command == "run-pia-runtime-mainline":
         from diffaudit.attacks.pia_adapter import run_pia_runtime_mainline
 
@@ -1292,6 +1313,7 @@ _COMMAND_HANDLERS: dict[str, CommandHandler] = {
     "run-pia-runtime-mainline": _handle_secmi_pia_smokes,
     "run-rediffuse-runtime-smoke": _handle_secmi_pia_smokes,
     "run-rediffuse-runtime-packet": _handle_secmi_pia_smokes,
+    "run-midfreq-residual-tiny-cache": _handle_secmi_pia_smokes,
     "run-gsa-runtime-mainline": _handle_gsa_runtime,
     "export-gsa-loss-score-packet": _handle_gsa_runtime,
     "evaluate-gsa-loss-score-packet": _handle_gsa_runtime,

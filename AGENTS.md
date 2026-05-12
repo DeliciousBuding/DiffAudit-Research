@@ -28,13 +28,14 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `mid-frequency same-noise residual tiny runner`
+- Active work: `mid-frequency same-noise residual real-asset tiny preflight`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
-  reentry are closed or on hold. The mid-frequency residual scorer and
-  collector functions are now ready; the current reducible work is a CPU-first
-  tiny runner for the distinct same-noise observable.
+  reentry are closed or on hold. The mid-frequency residual scorer, collector
+  functions, and synthetic tiny cache writer are now ready; the current
+  reducible work is a real-asset `4/4` or `8/8` cache preflight for the
+  distinct same-noise observable.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
