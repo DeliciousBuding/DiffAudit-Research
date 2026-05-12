@@ -17,6 +17,17 @@
 1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。pixel-distance、CLIP image-similarity、prompt-response consistency 三个单点机制均弱。该 CommonCanvas packet 默认关闭,不是 admitted evidence。
 2. **tiny known-split gradient-sensitive scout**:5/12 在 `8/8` overfit 上 gradient norm 到过 `AUC = 0.734`,但 `16/64` stability gate 跌到 `0.535`;5/13 更乐观的 `64/64` oracle gradient-prototype alignment 也只有 `AUC = 0.500977` 且低 FPR 为 0。该机制 hint 已被削弱,不释放 GPU,不再跑同家族梯度变体。
 
+### 2026-05-13 外部资产边界
+
+Kohaku XL / Danbooru 被短探测后暂不进入实验。Kohaku Delta/Epsilon 的模型卡
+确实指向 HakuBooru / Danbooru2023 训练来源,但当前公开材料只给出大规模数据
+来源和 ID 段选择描述,没有可复核的逐样本 target-member 列表或 exact fixed-seed
+selection artifact。权重约 `38-40 GB`,相关图像/metadata 仓从 `47 GB` 到 TB 级,
+其中部分 `gated=auto`。这不是 GPU blocker,而是 membership 语义 blocker:继续
+会重复 Beans/SD1.5 的 pseudo-membership 错误。除非出现精确成员清单、小型
+verified split 或 paper-level target split,否则不下载大权重、不跑 Kohaku scorer。
+见 [docs/evidence/kohaku-danbooru-asset-decision-20260513.md](docs/evidence/kohaku-danbooru-asset-decision-20260513.md)。
+
 ### P0 — 完成且弱
 
 CopyMark / CommonCanvas 已跑出第一个真实 `50/50` scorer 结果:
@@ -83,10 +94,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas current packet closed by default |
+| Active work | P0/P1 weak; Kohaku/Danbooru not clean enough for target-membership split |
 | Active GPU question | none selected after weak P0/P1 results |
-| Next GPU candidate | none by default; reopen only with a genuinely new mechanism |
-| CPU sidecar | none selected; next action is mechanism reselection, not variant expansion |
+| Next GPU candidate | none by default; reopen only with a genuinely new mechanism or cleaner asset |
+| CPU sidecar | none selected; do not turn Kohaku/Danbooru into a pseudo-membership lane |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -546,6 +557,7 @@ Every autonomous research cycle must follow this loop:
 | --- | --- | --- |
 | True second membership benchmark | hold / needs genuinely different mechanism | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit, weakens at `16 / 64`, and oracle gradient-prototype alignment is random at `64 / 64`; no GPU. |
 | CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), the single CLIP image-similarity follow-up is weak (`AUC = 0.4588`, zero low-FPR recovery), and prompt-response consistency is weak (`AUC = 0.4408`). Close this packet by default. |
+| Kohaku/Danbooru external asset | hold / membership-semantics blocked | Model cards identify broad HakuBooru/Danbooru2023 training sources, but no exact target member list or fixed selection manifest is available; do not download `38-40 GB` weights or TB-scale image assets for pseudo-membership scoring. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | weak on CommonCanvas | First valid second response contract is ready, but pixel and CLIP image-similarity scorers are weak; do not treat this as transfer evidence. |
@@ -576,6 +588,7 @@ Every autonomous research cycle must follow this loop:
 | CopyMark provenance intake | high-value external candidate; manifest inspected; CommonCanvas/CommonCatalog tiny CPU target selected | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
 | CopyMark CommonCanvas query asset | local `50/50` query split ready; deterministic responses generated in P0 | [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md) |
 | CopyMark CommonCanvas response and scorers | package probe `ready`; pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`); CLIP image-similarity is weak (`AUC = 0.4588`, zero low-FPR recovery); prompt-response consistency is weak (`AUC = 0.4408`); no admitted promotion | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
+| Kohaku/Danbooru asset decision | hold; broad training-source provenance is not enough for a clean target member/nonmember split | [docs/evidence/kohaku-danbooru-asset-decision-20260513.md](docs/evidence/kohaku-danbooru-asset-decision-20260513.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
