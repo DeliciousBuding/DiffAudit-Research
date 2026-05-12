@@ -35,8 +35,9 @@ def validate(payload: Any, *, repo_root: Path | None = None) -> list[str]:
         return ["artifact must be a JSON object"]
     if payload.get("schema") != "diffaudit.ib_defended_shadow_training_manifest.v1":
         errors.append(f"unsupported schema: {payload.get('schema')!r}")
-    if payload.get("status") != "ready":
-        errors.append("status must be ready")
+    status = payload.get("status")
+    if status not in {"ready", "blocked"}:
+        errors.append("status must be ready or blocked")
     if payload.get("admitted") is not False:
         errors.append("artifact must not mark I-B admitted")
     if payload.get("gpu_release") != "none":
@@ -87,10 +88,16 @@ def validate(payload: Any, *, repo_root: Path | None = None) -> list[str]:
                 errors.append(f"duplicate shadow_id: {shadow_id}")
             else:
                 seen.add(shadow_id)
-            if entry.get("status") != "ready":
-                errors.append(f"shadow_training[{position}].status must be ready")
+            entry_status = entry.get("status")
+            if entry_status not in {"ready", "blocked"}:
+                errors.append(f"shadow_training[{position}].status must be ready or blocked")
             if entry.get("training_role") != "defended-shadow":
                 errors.append(f"shadow_training[{position}].training_role must be defended-shadow")
+            coverage = entry.get("forget_identity_coverage")
+            if not isinstance(coverage, dict):
+                errors.append(f"shadow_training[{position}].forget_identity_coverage must be an object")
+            elif status == "ready" and coverage.get("missing_count") != 0:
+                errors.append(f"shadow_training[{position}].forget_identity_coverage.missing_count must be 0")
             for key in ("member_dataset_dir", "checkpoint_root", "output_workspace"):
                 _validate_portable_path(entry.get(key), f"shadow_training[{position}].{key}", errors)
 
@@ -104,6 +111,7 @@ def validate(payload: Any, *, repo_root: Path | None = None) -> list[str]:
             errors.append(f"missing blocked claim: {claim}")
 
     for requirement in (
+        "construct shadow-local forget identity files or remap the defended-shadow contract",
         "execute tiny defended-shadow training",
         "run explicit defended-shadow reopen review",
         "measure retained utility",
@@ -121,6 +129,13 @@ def validate(payload: Any, *, repo_root: Path | None = None) -> list[str]:
                 errors.append(f"missing evidence doc: {doc}")
             elif not (repo_root / doc).is_file():
                 errors.append(f"evidence doc does not exist: {doc}")
+
+    if status == "ready":
+        for position, entry in enumerate(shadow_training if isinstance(shadow_training, list) else []):
+            if isinstance(entry, dict) and entry.get("status") != "ready":
+                errors.append(f"shadow_training[{position}].status must be ready when artifact status is ready")
+    elif status == "blocked" and not payload.get("errors"):
+        errors.append("blocked artifact must include errors")
 
     return errors
 

@@ -287,7 +287,10 @@ class RiskTargetedUnlearningPilotTests(unittest.TestCase):
             root = Path(tmpdir)
             assets_root = root / "assets"
             for shadow_id in ("shadow-01", "shadow-02"):
-                (assets_root / "datasets" / f"{shadow_id}-member").mkdir(parents=True, exist_ok=True)
+                member_dir = assets_root / "datasets" / f"{shadow_id}-member"
+                member_dir.mkdir(parents=True, exist_ok=True)
+                _write_png(member_dir / "00-data_batch_1-00010.png", (255, 0, 0))
+                _write_png(member_dir / "00-data_batch_1-00011.png", (0, 255, 0))
                 (assets_root / "checkpoints" / shadow_id).mkdir(parents=True, exist_ok=True)
             forget_index_file = root / "forget-members-k2.txt"
             matched_index_file = root / "matched-nonmembers-k2.txt"
@@ -312,9 +315,38 @@ class RiskTargetedUnlearningPilotTests(unittest.TestCase):
         self.assertEqual(len(manifest["shadow_training"]), 2)
         self.assertEqual(manifest["shadow_training"][0]["status"], "ready")
         self.assertEqual(manifest["shadow_training"][0]["training_role"], "defended-shadow")
+        self.assertEqual(manifest["shadow_training"][0]["forget_identity_coverage"]["missing_count"], 0)
         self.assertTrue(manifest["shadow_training"][0]["output_workspace"].endswith("training-runs/shadow-01"))
         self.assertIn("--training-role", manifest["shadow_training"][0]["command"])
         self.assertIn("defended-shadow", manifest["shadow_training"][0]["command"])
+
+    def test_defended_shadow_training_manifest_blocks_missing_forget_identity_coverage(self) -> None:
+        from diffaudit.defenses.risk_targeted_unlearning import build_defended_shadow_training_manifest
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            assets_root = root / "assets"
+            for shadow_id in ("shadow-01", "shadow-02"):
+                member_dir = assets_root / "datasets" / f"{shadow_id}-member"
+                member_dir.mkdir(parents=True, exist_ok=True)
+                _write_png(member_dir / "00-data_batch_1-00010.png", (255, 0, 0))
+                (assets_root / "checkpoints" / shadow_id).mkdir(parents=True, exist_ok=True)
+            forget_index_file = root / "forget-members-k2.txt"
+            matched_index_file = root / "matched-nonmembers-k2.txt"
+            forget_index_file.write_text("10\n11\n", encoding="utf-8")
+            matched_index_file.write_text("20\n21\n", encoding="utf-8")
+
+            manifest = build_defended_shadow_training_manifest(
+                workspace=root / "manifest",
+                assets_root=assets_root,
+                forget_member_index_file=forget_index_file,
+                matched_nonmember_index_file=matched_index_file,
+                shadow_ids=["shadow-01", "shadow-02"],
+            )
+
+        self.assertEqual(manifest["status"], "blocked")
+        self.assertIn("shadow-01: forget identity coverage incomplete", manifest["errors"])
+        self.assertEqual(manifest["shadow_training"][0]["forget_identity_coverage"]["missing_count"], 1)
 
     def test_defended_shadow_training_manifest_blocks_missing_shadow_assets(self) -> None:
         from diffaudit.defenses.risk_targeted_unlearning import build_defended_shadow_training_manifest
@@ -322,7 +354,10 @@ class RiskTargetedUnlearningPilotTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
             assets_root = root / "assets"
-            (assets_root / "datasets" / "shadow-01-member").mkdir(parents=True, exist_ok=True)
+            member_dir = assets_root / "datasets" / "shadow-01-member"
+            member_dir.mkdir(parents=True, exist_ok=True)
+            _write_png(member_dir / "00-data_batch_1-00010.png", (255, 0, 0))
+            _write_png(member_dir / "00-data_batch_1-00011.png", (0, 255, 0))
             (assets_root / "checkpoints" / "shadow-01").mkdir(parents=True, exist_ok=True)
             forget_index_file = root / "forget-members-k2.txt"
             matched_index_file = root / "matched-nonmembers-k2.txt"
@@ -760,7 +795,10 @@ class RiskTargetedUnlearningReviewTests(unittest.TestCase):
             root = Path(tmpdir)
             assets_root = root / "assets"
             for shadow_id in ("shadow-01", "shadow-02"):
-                (assets_root / "datasets" / f"{shadow_id}-member").mkdir(parents=True, exist_ok=True)
+                member_dir = assets_root / "datasets" / f"{shadow_id}-member"
+                member_dir.mkdir(parents=True, exist_ok=True)
+                _write_png(member_dir / "00-data_batch_1-00010.png", (255, 0, 0))
+                _write_png(member_dir / "00-data_batch_1-00011.png", (0, 255, 0))
                 (assets_root / "checkpoints" / shadow_id).mkdir(parents=True, exist_ok=True)
             forget_index_file = root / "forget-members-k2.txt"
             matched_index_file = root / "matched-nonmembers-k2.txt"

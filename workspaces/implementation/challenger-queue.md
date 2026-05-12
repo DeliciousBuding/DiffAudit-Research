@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-B defended-shadow training manifest ready; next-lane reselection` |
+| Active work | `I-B defended-shadow training manifest blocked; next-lane reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | choose the next bounded scientific question after I-B training-manifest preflight |
@@ -35,12 +35,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
-| I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but it remains attack-side threshold transfer; the defended-shadow reopen protocol is machine-checkable, explicit reopen mode rejects undefended threshold references, and a three-shadow training manifest is ready | no executed defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is a tiny defended-shadow training execution plus adaptive and utility measurement, not GPU from old diagnostics |
+| I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but it remains attack-side threshold transfer; the defended-shadow reopen protocol is machine-checkable, explicit reopen mode rejects undefended threshold references, and the coverage-aware training manifest blocks the current target k32 identity contract | target k32 forget IDs are not covered by the shadow member datasets; no executed defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is shadow-local forget identity construction or contract remapping before any tiny defended-shadow training execution |
 | I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### I-B Defended-Shadow Training Manifest And Next-Lane Reselection
+### I-B Defended-Shadow Training Manifest Block And Next-Lane Reselection
 
 - `mode`: CPU-only
 - `status`: SecMI consumer review closed as structural-support-only; I-B
@@ -48,8 +48,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   scout closed as hold; admitted consumer drift audit found no candidate leakage
   into Platform/Runtime bundle rows; I-B defended-shadow reopen protocol is now
   frozen as a machine-checkable CPU artifact, explicit reopen mode now rejects
-  undefended threshold references, and a three-shadow CPU training manifest is
-  ready.
+  undefended threshold references, and a coverage-aware CPU training manifest
+  now blocks the current target k32 identity contract because the three shadow
+  member datasets cover only `2/32`, `2/32`, and `1/32` forget IDs.
 - `goal`: choose the next bounded question that can change Research direction
   without repeating closed residual, SecMI, diagonal-Fisher, I-B
   threshold-transfer, I-C translated-alias, no-drift consumer-boundary, or
@@ -117,6 +118,7 @@ Restart conditions:
   and provenance language are reviewed.
 - do not GPU-scale I-B from existing attack-side threshold-transfer diagnostics.
 - do not call the I-B defended-shadow reopen protocol executable for GPU until
+  shadow-local forget identities or a remapped defended-shadow contract,
   tiny defended-shadow training output, adaptive-attacker measurement, and
   retained-utility measurement are available.
 - do not GPU-scale I-C same-pair replay without a same-spec evaluator and
@@ -254,7 +256,7 @@ Restart conditions:
 | I-B defense-aware reopen scout | Hold; current I-B evidence is not defense-aware and releases no GPU. |
 | I-B defense reopen protocol audit | Hold-structural; current code path borrows undefended shadow threshold transfer and cannot release defended-shadow or adaptive-attacker work. |
 | I-B reopen shadow-reference guard | Ready CPU guard; explicit reopen mode rejects undefended threshold references but releases no GPU. |
-| I-B defended-shadow training manifest | Ready CPU manifest; three shadow entries and k32 identity files checked, but no training run or defense result. |
+| I-B defended-shadow training manifest | Blocked CPU manifest; current target k32 forget IDs are not covered by shadow member datasets, so no training run or defense result. |
 | Post-I-B next-lane reselection | Selected I-C same-spec evaluator feasibility scout; no GPU release. |
 | I-C same-spec evaluator feasibility | Hold; current translated-alias probes are not same-spec evaluator release surfaces and emit no split-level four-metric board. |
 | Gray-box paper-candidate reentry | Hold; archived paper candidates do not release CPU/GPU work from current artifacts. |
