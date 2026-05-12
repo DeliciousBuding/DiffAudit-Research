@@ -12,7 +12,7 @@ run narratives live in `legacy/`; current workspace state lives in
 | --- | --- |
 | Active work | `post-midfreq next-lane reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | choose the next bounded non-resting question after closing same-contract residual GPU expansion |
+| CPU sidecar | choose the next bounded non-resting question after residual comparator audit narrowed the claim |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -30,7 +30,11 @@ The verdict is candidate-only. The seed-only stability repeat retained the
 signal with `AUC = 0.719238`, `ASR = 0.6875`, and finite strict-tail
 `TPR = 3/64` at zero false positives. The line is now
 `candidate-stable-but-bounded`: it remains internal Research evidence, but no
-same-contract GPU expansion is authorized. See
+same-contract GPU expansion is authorized. A CPU-only comparator audit then
+narrowed the claim: low-frequency and full-band residual comparators are at
+least as strong as the frozen mid-band score on AUC, so do not phrase the line
+as proven mid-frequency-specific. See
+[docs/evidence/midfreq-residual-comparator-audit-20260512.md](docs/evidence/midfreq-residual-comparator-audit-20260512.md),
 [docs/evidence/midfreq-residual-stability-result-20260512.md](docs/evidence/midfreq-residual-stability-result-20260512.md),
 [docs/evidence/midfreq-residual-stability-decision-20260512.md](docs/evidence/midfreq-residual-stability-decision-20260512.md),
 [docs/evidence/midfreq-residual-signcheck-20260512.md](docs/evidence/midfreq-residual-signcheck-20260512.md),
@@ -262,7 +266,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
     sign-check is candidate-only with `AUC = 0.733398` and finite `4/64`
     zero-FP recovery. The seed-only repeat retained signal with
     `AUC = 0.719238` and finite `3/64` zero-FP recovery. Stop same-contract
-    GPU expansion; reopen only with a new comparator, second asset, or protocol.
+    GPU expansion. The comparator audit shows the mid-band does not dominate
+    full or low-frequency residual comparators, narrowing the claim to
+    same-noise residual distance rather than a proven mid-frequency-specific
+    mechanism. Reopen only with a new comparator, second asset, or protocol.
 
 ## Long-Running Goal Loop
 
@@ -296,6 +303,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Mid-frequency residual comparator audit | candidate-boundary-narrowed; mid-frequency-specific claim not supported | [docs/evidence/midfreq-residual-comparator-audit-20260512.md](docs/evidence/midfreq-residual-comparator-audit-20260512.md) |
 | Mid-frequency residual stability result | candidate-stable-but-bounded; no admitted promotion; stop same-contract GPU | [docs/evidence/midfreq-residual-stability-result-20260512.md](docs/evidence/midfreq-residual-stability-result-20260512.md) |
 | Mid-frequency residual stability decision | release-one-stability-probe; no admitted promotion | [docs/evidence/midfreq-residual-stability-decision-20260512.md](docs/evidence/midfreq-residual-stability-decision-20260512.md) |
 | Mid-frequency residual 64/64 sign-check | candidate-only; bounded signal present; no admitted promotion | [docs/evidence/midfreq-residual-signcheck-20260512.md](docs/evidence/midfreq-residual-signcheck-20260512.md) |

@@ -20,7 +20,9 @@
   scorer, collector functions, synthetic tiny cache writer, real-asset `4/4`
   preflight, and frozen `64/64` sign-check are implemented. The line is
   candidate-stable-but-bounded after the seed-only repeat retained signal, but
-  it is not admitted evidence and same-contract GPU expansion is closed.
+  the comparator audit narrows the claim to same-noise residual rather than
+  proven mid-frequency specificity. It is not admitted evidence and
+  same-contract GPU expansion is closed.
 
 ## Next Action
 
@@ -97,6 +99,8 @@ candidate-only. The seed-only repeat at the same timestep and band retained
 signal with `AUC = 0.719238`, `ASR = 0.6875`, and finite `3/64` zero-FP
 recovery. Same-contract GPU expansion is now closed. The stability result is
 [../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md);
+the comparator audit is
+[../../docs/evidence/midfreq-residual-comparator-audit-20260512.md](../../docs/evidence/midfreq-residual-comparator-audit-20260512.md);
 the stability decision is
 [../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md);
 the sign-check is
