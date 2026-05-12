@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `MNIST/DDPM x0 reconstruction scout closed; choose next true benchmark route` |
+| Active work | `simple MNIST true-membership scorers closed; choose sharper mechanism or external benchmark` |
 | Current GPU candidate | none selected |
-| CPU sidecar | simple MNIST/DDPM raw-loss and x0 residual scorers are weak; next valid path needs a sharper mechanism or tiny known-split target |
+| CPU sidecar | public MNIST/DDPM raw/x0 scorers and tiny known-split raw-loss denoiser are weak; no GPU release |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -47,6 +47,12 @@ single-timestep `x0` L1 AUC only `0.656250`. This closes simple raw-loss and
 simple reconstruction-residual scoring on MNIST/DDPM unless a sharper mechanism
 appears. See
 [docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md](docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md).
+A tiny known-split MNIST denoising sanity check also failed to produce raw-loss
+membership separation even though the training loss decreased: `AUC = 0.492676`
+and `TPR@1%FPR = 0.0`. This blocks the easy route "train tiny known-split target
+and reuse raw denoising loss"; future work needs a mechanism beyond simple
+MSE or a real external benchmark with documented provenance. See
+[docs/evidence/tiny-known-split-denoising-sanity-20260512.md](docs/evidence/tiny-known-split-denoising-sanity-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
 reopen scoping, archived gray-box paper-candidate reentry, and I-C same-spec
@@ -389,11 +395,11 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| True second membership benchmark | CPU-only / route decision | MNIST/DDPM has valid train/test membership semantics, but raw loss and simple `x0` residual scorers are weak; next route should be a sharper mechanism or tiny known-split target. |
+| True second membership benchmark | CPU-only / route decision | MNIST public-checkpoint raw/x0 and tiny known-split raw-loss sanity are weak; next route needs a sharper mechanism or external benchmark provenance. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
-| MNIST/DDPM simple scorers | CPU-only / closed | Tiny 16/16 CPU scouts on a second public DDPM dataset show weak raw-loss and simple `x0` reconstruction-residual signals; reopen only with a sharper mechanism. |
+| MNIST simple true-membership scorers | CPU-only / closed | Public MNIST/DDPM raw/x0 scouts and a tiny known-split denoiser raw-loss sanity are weak; do not expand simple MSE scoring. |
 | Beans/SD1.5 response-contract scout | CPU-only / contract-debug only | `25/25` beans query images and `25/25` local SD1.5 responses pass the package probe, but the split is beans train/validation, not proven SD1.5 training membership. |
 | Beans/SD1.5 simple-distance scorer | CPU-only / weak pseudo-split debug | Pixel MSE/MAE is near random on the pseudo-member split; do not enlarge this exact score or cite it as true membership evidence. |
 | Beans/SD1.5 CLIP-distance scorer | CPU-only / weak pseudo-split debug | Local CLIP distance is weak and wrong-direction under the lower-distance member convention; not true SD1.5 membership evidence. |
@@ -410,6 +416,7 @@ Every autonomous research cycle must follow this loop:
 | Beans SD1.5 membership semantics correction | contract/debug only; beans split is not proven SD1.5 membership | [docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](docs/evidence/beans-sd15-membership-semantics-correction-20260512.md) |
 | MNIST DDPM PIA portability smoke | raw-loss transfer closed unless sharper scorer appears; no GPU release | [docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md) |
 | MNIST DDPM x0 reconstruction scout | simple reconstruction residual weak; no GPU release | [docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md](docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md) |
+| Tiny known-split denoising sanity | raw denoising loss fails even with controlled train/held-out split; no GPU release | [docs/evidence/tiny-known-split-denoising-sanity-20260512.md](docs/evidence/tiny-known-split-denoising-sanity-20260512.md) |
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
