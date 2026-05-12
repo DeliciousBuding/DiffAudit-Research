@@ -12,7 +12,7 @@ run narratives live in `legacy/`; current workspace state lives in
 | --- | --- |
 | Active work | `CopyMark CommonCanvas response generation blocked locally` |
 | Current GPU candidate | none selected |
-| CPU sidecar | response generation needs CUDA-capable Python plus CommonCanvas weights, or external responses |
+| CPU sidecar | response generation needs CommonCanvas weights plus a frozen deterministic text-to-image command, or external responses |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -91,10 +91,14 @@ GPU. See
 [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md).
 The query asset note is
 [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md).
-A response-generation preflight found CPU-only Torch in the current Python, no
-local CommonCanvas cache, and only `nvidia-smi` GPU visibility. The package
-therefore stays `needs_responses`; do not run a scorer until responses are
-attached and the package probe returns `ready`. See
+A response-generation preflight corrected the blocker: the default PATH Python
+is CPU-only, but the `diffaudit-research` conda environment has CUDA Torch and
+sees the local RTX 4070. CommonCanvas is a text-to-image SDXL pipeline, so the
+package contract is now `text_to_image`, not `image_to_image`. The package
+therefore stays `needs_responses`; a minimal fp16 weight download attempt
+started but did not complete, so no response image has been generated yet. Do
+not run a scorer until deterministic responses are attached and the package
+probe returns `ready`. See
 [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
@@ -439,7 +443,7 @@ Every autonomous research cycle must follow this loop:
 | Sidecar | Mode | Why |
 | --- | --- | --- |
 | True second membership benchmark | CPU-only / needs sharper mechanism or provenance | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit and weakens at `16 / 64`; no GPU. |
-| CopyMark external benchmark intake | CPU-only / response generation blocked | Local CommonCanvas/CommonCatalog query split has `50/50` images and passes query/protocol shape, but current Python is CPU-only and no local CommonCanvas weights are cached; no scorer or GPU. |
+| CopyMark external benchmark intake | CUDA-capable / needs text-to-image responses | Local CommonCanvas/CommonCatalog query split has `50/50` images and passes query/protocol shape. The CUDA-capable `diffaudit-research` env exists; the remaining blocker is CommonCanvas weights plus deterministic `text_to_image` responses, not CUDA absence. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -468,7 +472,7 @@ Every autonomous research cycle must follow this loop:
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | CopyMark provenance intake | high-value external candidate; manifest inspected; CommonCanvas/CommonCatalog tiny CPU target selected | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
 | CopyMark CommonCanvas query asset | local `50/50` query split ready; package probe needs responses | [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md) |
-| CopyMark CommonCanvas response preflight | blocked locally by CPU-only Torch and missing CommonCanvas weights; no scorer | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
+| CopyMark CommonCanvas response preflight | CUDA env exists; contract corrected to `text_to_image`; missing deterministic responses; no scorer | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
