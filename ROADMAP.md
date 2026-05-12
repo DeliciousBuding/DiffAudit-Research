@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `simple MNIST true-membership scorers closed; choose sharper mechanism or external benchmark` |
+| Active work | `external benchmark provenance scan closed; acquisition needed` |
 | Current GPU candidate | none selected |
-| CPU sidecar | public MNIST/DDPM raw/x0 scorers and tiny known-split raw-loss denoiser are weak; no GPU release |
+| CPU sidecar | obvious external diffusion candidates need stronger member/nonmember provenance before scoring |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -53,6 +53,12 @@ and `TPR@1%FPR = 0.0`. This blocks the easy route "train tiny known-split target
 and reuse raw denoising loss"; future work needs a mechanism beyond simple
 MSE or a real external benchmark with documented provenance. See
 [docs/evidence/tiny-known-split-denoising-sanity-20260512.md](docs/evidence/tiny-known-split-denoising-sanity-20260512.md).
+An external diffusion benchmark provenance scan did not find an obvious
+ready-to-score second benchmark: Fashion-MNIST/CelebA/CIFAR-style model cards
+are not enough unless they prove exact target training membership and held-out
+nonmembers. Do not download large external weights or run scoring from dataset
+names alone. See
+[docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md](docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
 reopen scoping, archived gray-box paper-candidate reentry, and I-C same-spec
@@ -395,7 +401,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| True second membership benchmark | CPU-only / route decision | MNIST public-checkpoint raw/x0 and tiny known-split raw-loss sanity are weak; next route needs a sharper mechanism or external benchmark provenance. |
+| True second membership benchmark | CPU-only / needs provenance | MNIST public-checkpoint raw/x0 and tiny known-split raw-loss sanity are weak; external candidates need documented target training membership before scoring. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -417,6 +423,7 @@ Every autonomous research cycle must follow this loop:
 | MNIST DDPM PIA portability smoke | raw-loss transfer closed unless sharper scorer appears; no GPU release | [docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md) |
 | MNIST DDPM x0 reconstruction scout | simple reconstruction residual weak; no GPU release | [docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md](docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md) |
 | Tiny known-split denoising sanity | raw denoising loss fails even with controlled train/held-out split; no GPU release | [docs/evidence/tiny-known-split-denoising-sanity-20260512.md](docs/evidence/tiny-known-split-denoising-sanity-20260512.md) |
+| External diffusion benchmark provenance scan | no ready external benchmark found; require documented target membership before scoring | [docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md](docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md) |
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |

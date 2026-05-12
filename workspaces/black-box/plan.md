@@ -137,6 +137,11 @@ after `8` CPU epochs the training loss decreased, but membership AUC was
 epoch/sample ablation table; future work needs a mechanism beyond simple MSE or
 an external benchmark with documented provenance. See
 [../../docs/evidence/tiny-known-split-denoising-sanity-20260512.md](../../docs/evidence/tiny-known-split-denoising-sanity-20260512.md).
+A quick external diffusion benchmark scan did not find a ready-to-score second
+benchmark. Fashion-MNIST/CelebA/CIFAR-style model cards are not enough unless
+they document exact target training membership and held-out nonmembers. Do not
+download large weights or score from dataset names alone. See
+[../../docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md](../../docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
