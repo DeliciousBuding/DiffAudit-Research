@@ -95,6 +95,10 @@ deterministic local SD1.5 responses, and the existing CPU package probe returns
 `status = ready`. This does not release GPU or prove a signal; it only unlocks
 tiny CPU scorer design. See
 [../../docs/evidence/beans-sd15-response-contract-ready-20260512.md](../../docs/evidence/beans-sd15-response-contract-ready-20260512.md).
+The first tiny scorer, raw query-response pixel distance, is weak on this
+package: MSE gives `AUC = 0.5088` and MAE gives `AUC = 0.4992`. Do not scale
+this exact scorer. See
+[../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md](../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md).
 
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested
 raw PIA-style noise-prediction loss on `1aurent/ddpm-mnist` using first `16`
