@@ -84,8 +84,9 @@ recon tensor assets into this Pokemon/Kandinsky package. See
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested
 raw PIA-style noise-prediction loss on `1aurent/ddpm-mnist` using first `16`
 MNIST train images as members and first `16` test images as nonmembers. The
-result was near-random (`AUC = 0.496094`, `best ASR = 0.562500`), so direct
-raw-loss transfer is not an obvious next GPU direction. See
+result was near-random (`AUC = 0.496094`, `best ASR = 0.562500`). A
+same-split per-timestep guard peaked at only `AUC = 0.578125`, so direct
+raw-loss transfer is closed unless a sharper scorer hypothesis appears. See
 [../../docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](../../docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
