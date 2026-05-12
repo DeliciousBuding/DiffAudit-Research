@@ -90,6 +90,11 @@ generator-family result. If asset construction continues, prefer a fresh
 `response-contract-beans-sd15-20260512` package over further polishing the
 empty Pokemon/Kandinsky skeleton. See
 [../../docs/evidence/beans-sd15-response-contract-scout-20260512.md](../../docs/evidence/beans-sd15-response-contract-scout-20260512.md).
+That package now exists locally with `25/25` query images and `25/25`
+deterministic local SD1.5 responses, and the existing CPU package probe returns
+`status = ready`. This does not release GPU or prove a signal; it only unlocks
+tiny CPU scorer design. See
+[../../docs/evidence/beans-sd15-response-contract-ready-20260512.md](../../docs/evidence/beans-sd15-response-contract-ready-20260512.md).
 
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested
 raw PIA-style noise-prediction loss on `1aurent/ddpm-mnist` using first `16`
