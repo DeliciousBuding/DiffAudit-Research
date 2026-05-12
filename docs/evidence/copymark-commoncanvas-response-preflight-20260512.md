@@ -1,20 +1,23 @@
 # CopyMark CommonCanvas Response Preflight
 
 > Date: 2026-05-12
-> Status: needs text-to-image responses / local CUDA exists / no scorer yet
+> Status: responses ready / first simple scorer weak / not admitted
 
 ## Question
 
 Can the fixed CopyMark/CommonCanvas `50/50` query split advance to
-deterministic response generation on the local GPU?
+deterministic response generation on the local GPU, and does the first simple
+distance scorer show useful second-asset transfer?
 
 ## Taste Check
 
 This preflight is a stop/go check, not environment building. The goal is to
 separate real response-generation blockers from avoidable environment excuses.
-If deterministic CommonCanvas responses cannot be generated, the package must
-stay `needs_responses`; if the blocker is only the default Python interpreter,
-use the CUDA-capable Research environment instead of writing more prose.
+The original stop condition was simple: if deterministic CommonCanvas
+responses could not be generated, the package would stay blocked; if responses
+were generated, run the shortest scorer that can change the decision. Do not
+expand into a metric matrix unless the first result justifies a sharper
+hypothesis.
 
 ## Evidence
 
@@ -46,11 +49,11 @@ The correct endpoint mode is text_to_image, not image_to_image.
 <HF_CACHE> has no complete CommonCanvas/CommonCanvas-XL-C weights cached.
 ```
 
-The query package itself exists under `<DIFFAUDIT_ROOT>/Download` and the
-package probe reaches `needs_responses` with `endpoint_mode = text_to_image`.
-The remaining package-gate failures are `response_member_count` and
-`response_nonmember_count`, so the blocker is response generation, not query
-split construction or CUDA absence.
+At the 2026-05-12 preflight, the query package existed under
+`<DIFFAUDIT_ROOT>/Download` and the package probe reached the response-missing
+gate with `endpoint_mode = text_to_image`. The package-gate failures were
+`response_member_count` and `response_nonmember_count`, so the blocker was
+response generation, not query split construction or CUDA absence.
 
 Minimal download / GPU smoke attempt:
 
@@ -66,26 +69,53 @@ This proves the download path starts, but the required CommonCanvas fp16
 weights were not available locally by the end of the attempt. The smoke was
 stopped rather than left as a long-running background process.
 
+2026-05-13 completion:
+
+```text
+checkpoint = commoncanvas_xl_c.safetensors
+checkpoint_size = 6,938,040,286 bytes
+cuda_env = diffaudit-research
+torch = 2.5.1+cu121
+device = NVIDIA GeForce RTX 4070 Laptop GPU
+smoke = 1 member + 1 nonmember generated successfully
+full_responses = 50 member + 50 nonmember ready
+endpoint_mode = text_to_image
+generation = 512x512, steps=20, guidance_scale=7.5, fixed seed base 20260513
+package_probe = ready
+missing = []
+```
+
+First simple scorer:
+
+```text
+score_name = negative_pixel_mse_resized_512
+direction = higher_is_more_member
+AUC = 0.5736
+ASR = 0.6000
+TPR@1%FPR = 0.04
+TPR@0.1%FPR = 0.04
+verdict = negative_or_weak
+```
+
+Artifacts:
+
+```text
+workspaces/black-box/artifacts/copymark-commoncanvas-response-contract-probe-20260513.json
+workspaces/black-box/artifacts/copymark-commoncanvas-simple-distance-20260513.json
+```
+
 ## Verdict
 
-`needs deterministic text-to-image responses / no scorer yet`.
+`ready but weak / not admitted`.
 
-The next valuable action is not a scorer and not another validator. It is:
+This P0 did what it was supposed to do: it moved the project from "second
+response contract missing" to a real transfer check on a second asset. The
+result does not support promoting simple pixel distance on SDXL-class
+CommonCanvas responses. It also does not justify a CLIP/pixel/LPIPS ablation
+matrix just to complete a table.
 
-1. Resume or complete the CommonCanvas fp16 weight download using a faster
-   path, mirror, or pre-attached cache.
-2. Run a minimal CUDA smoke for one member and one nonmember caption using the
-   fixed seed policy.
-3. If the smoke fits the 8GB RTX 4070 envelope, generate the full `50/50`
-   deterministic response packet under the fixed response manifest.
-4. If local generation is too slow or memory-bound, generate deterministic
-   responses elsewhere and attach them under the fixed
-   response manifest.
-5. If neither is feasible, mark the CopyMark/CommonCanvas package
-   `query-only / blocked` and switch to another second-asset route.
-
-No full dataset download is needed for this blocker. No GPU experiment is
-released until the package probe returns `ready`.
+Next work should be selected only if it has a sharper mechanism hypothesis that
+can plausibly change the portability decision.
 
 ## Platform and Runtime Impact
 
