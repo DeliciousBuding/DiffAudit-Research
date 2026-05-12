@@ -62,7 +62,9 @@ The follow-up synthetic runner is recorded in
 [midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md).
 The real-asset `4/4` preflight is recorded in
 [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md).
-Any later sign-check must preserve the same residual cache fields:
+The frozen `64/64` sign-check is recorded in
+[midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+Any later stability probe must preserve the same residual cache fields:
 
 - `labels`
 - `member_indices`
@@ -75,8 +77,9 @@ Any later sign-check must preserve the same residual cache fields:
 - `bandpass_l2`
 - `summary.json`
 
-The first real-asset run was capped at `4/4` for runtime validation. A `64/64`
-sign-check packet remains blocked until that contract is separately frozen.
+The first real-asset run was capped at `4/4` for runtime validation. The
+follow-up `64/64` sign-check is candidate-only; it does not release larger GPU
+packets without a separate stability falsifier.
 
 ## Boundary
 

@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `mid-frequency same-noise residual bounded sign-check contract` |
-| Current GPU candidate | mid-frequency residual `64/64` sign-check candidate, not running |
-| CPU sidecar | mid-frequency residual scorer, collector functions, synthetic tiny cache writer, and real-asset `4/4` cache preflight are ready |
+| Active work | `mid-frequency same-noise residual stability decision` |
+| Current GPU candidate | none selected; `64/64` sign-check completed as candidate-only |
+| CPU sidecar | decide whether one stability check changes the keep/close decision before any further GPU use |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -22,11 +22,13 @@ advance only a genuinely distinct observable with a CPU-first contract. The
 paper-backed new-observable scout identifies mid-frequency same-noise residual
 scoring as distinct from H2/H3 response-cache frequency filtering, but the
 local H2/H3 caches lack `x_t`, `tilde_x_t`, noise provenance, and
-same-noise residual fields. The synthetic tiny cache writer proved the cache
-schema, and the real-asset `4/4` preflight now proves the same schema can be
-written from the collaborator 750k checkpoint and CIFAR10 split. The next step
-is to freeze, then separately approve, a bounded `64/64` sign-check contract;
-no GPU packet is running now. See
+same-noise residual fields. The synthetic tiny cache writer and real-asset
+`4/4` preflight proved the cache path; the frozen `64/64` sign-check then
+completed on the collaborator 750k checkpoint with `AUC = 0.733398`,
+`ASR = 0.710938`, and finite strict-tail `TPR = 4/64` at zero false positives.
+The verdict is candidate-only. No GPU packet is running now, and the next step
+is a CPU-only stability decision before any repeat. See
+[docs/evidence/midfreq-residual-signcheck-20260512.md](docs/evidence/midfreq-residual-signcheck-20260512.md),
 [docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](docs/evidence/midfreq-same-noise-residual-preflight-20260512.md),
 [docs/evidence/midfreq-residual-scorer-contract-20260512.md](docs/evidence/midfreq-residual-scorer-contract-20260512.md),
 [docs/evidence/midfreq-residual-collector-contract-20260512.md](docs/evidence/midfreq-residual-collector-contract-20260512.md),
@@ -249,11 +251,12 @@ AUC but weak strict-tail evidence and no admitted promotion. See
     a genuinely new low-FPR-primary observable or protocol.
 14. Mid-frequency same-noise residual scoring is a distinct black-box
     observable gap, not already covered by H2/H3 response-cache filtering.
-    Existing caches do not contain `x_t`, `tilde_x_t`, noise provenance, or
-    same-noise residuals. The CPU scorer, collector functions, synthetic tiny
-    cache writer, and real-asset `4/4` preflight are ready. The next valid
-    action is to freeze a bounded `64/64` sign-check contract; no GPU packet
-    is running.
+    Existing caches did not contain `x_t`, `tilde_x_t`, noise provenance, or
+    same-noise residuals, so the line first added a scorer, collector,
+    synthetic cache writer, and real-asset `4/4` preflight. The frozen `64/64`
+    sign-check is now candidate-only with `AUC = 0.733398` and finite `4/64`
+    zero-FP recovery. No GPU packet is running; the next valid action is a
+    CPU-only stability decision, not automatic scale-up.
 
 ## Long-Running Goal Loop
 
@@ -277,7 +280,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Mid-frequency same-noise residual sign-check contract | CPU-first / real-asset-preflight-ready | Distinct observable gap; scorer, collector, synthetic cache writer, and real-asset `4/4` cache preflight exist. Freeze a bounded `64/64` sign-check before any GPU run. |
+| Mid-frequency same-noise residual stability decision | CPU-only | `64/64` sign-check is candidate-only; decide whether one stability probe would change keep/close before any GPU repeat. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -287,6 +290,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Mid-frequency residual 64/64 sign-check | candidate-only; bounded signal present; no admitted promotion | [docs/evidence/midfreq-residual-signcheck-20260512.md](docs/evidence/midfreq-residual-signcheck-20260512.md) |
 | Mid-frequency residual real-asset preflight | real-asset-tiny-cache-ready; no GPU release; no admitted evidence | [docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](docs/evidence/midfreq-residual-real-asset-preflight-20260512.md) |
 | Mid-frequency residual tiny runner contract | tiny-runner-schema-ready; real-asset preflight complete; no GPU release | [docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md) |
 | Mid-frequency residual collector contract | collector-function-ready; synthetic tiny runner now follows; no GPU release | [docs/evidence/midfreq-residual-collector-contract-20260512.md](docs/evidence/midfreq-residual-collector-contract-20260512.md) |

@@ -80,6 +80,7 @@ Follow-up implementation anchors:
 - [midfreq-residual-collector-contract-20260512.md](midfreq-residual-collector-contract-20260512.md)
 - [midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md)
 - [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md)
+- [midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md)
 
 ## Falsifier
 
@@ -100,11 +101,13 @@ packet fails to beat the same-cache final-response distance comparator on AUC
 or fails to produce any strict-tail signal. It should stay candidate-only even
 if positive.
 
-## Next Action
+## Follow-Up
 
-Freeze a bounded `64/64` sign-check contract before any GPU release. Existing
-H2 response caches must not be reused as evidence for this observable; the
-sign-check must use an explicit same-noise residual cache.
+The bounded `64/64` sign-check is now recorded in
+[midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+Existing H2 response caches still must not be reused as evidence for this
+observable; any later stability probe must use an explicit same-noise residual
+cache and a pre-frozen falsifier.
 
 ## System Boundary
 

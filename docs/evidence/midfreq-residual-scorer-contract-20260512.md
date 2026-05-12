@@ -50,10 +50,12 @@ included in `scripts/run_local_checks.py --fast` and the GitHub Actions
 `full-checks` job. The required PR `unit-tests` check is now a fast syntax and
 documentation gate only.
 
-## Next Action
+## Follow-Up
 
 The collector, synthetic tiny cache writer, and real-asset `4/4` preflight now
-exist. Any later sign-check must preserve these fields:
+exist. The frozen `64/64` sign-check is recorded in
+[midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+Any later stability probe must preserve these fields:
 
 - `labels`
 - `x_t`
@@ -62,8 +64,9 @@ exist. Any later sign-check must preserve these fields:
 - noise provenance
 - `bandpass_l2`
 
-The real-asset `4/4` cache path works. A larger packet or GPU release remains
-blocked until a bounded `64/64` sign-check contract is separately frozen.
+The real-asset `4/4` cache path works, and the `64/64` sign-check is
+candidate-only. A larger packet or GPU repeat remains blocked until a separate
+stability falsifier is frozen.
 
 ## Boundary
 

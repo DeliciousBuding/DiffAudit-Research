@@ -276,6 +276,80 @@ class MidFrequencyResidualTests(unittest.TestCase):
             self.assertIsNone(payload["paths"]["cache"])
             self.assertTrue((workspace / "summary.json").exists())
 
+    def test_sign_check_reuses_real_asset_runner_and_classifies(self) -> None:
+        from diffaudit.attacks.midfreq_residual import run_midfreq_residual_sign_check
+        from tests.helpers import make_fake_cifar10
+
+        class ZeroEps(torch.nn.Module):
+            def forward(self, x, t):  # type: ignore[no-untyped-def]
+                del t
+                return torch.zeros_like(x)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            split_path = root / "CIFAR10_train_ratio0.5.npz"
+            np.savez(
+                split_path,
+                mia_train_idxs=np.asarray([0, 1, 2, 3], dtype=np.int64),
+                mia_eval_idxs=np.asarray([4, 5, 6, 7], dtype=np.int64),
+            )
+            asset_probe = {
+                "status": "ready",
+                "checks": {
+                    "bundle_root": True,
+                    "required_files": True,
+                    "split_hash": True,
+                    "checkpoint": True,
+                    "checkpoint_has_ema_model": True,
+                    "dataset_root": True,
+                },
+                "paths": {
+                    "bundle_root": str(root / "bundle"),
+                    "checkpoint": str(root / "checkpoint.pt"),
+                    "dataset_root": str(root / "datasets"),
+                    "split": str(split_path),
+                },
+                "provenance": {"source": "unit-test"},
+            }
+            fake_modules = SimpleNamespace(model_unet=SimpleNamespace())
+            FakeCIFAR10 = make_fake_cifar10((16, 32, 48, 64, 80, 96, 112, 128))
+
+            with (
+                patch("diffaudit.attacks.rediffuse.probe_rediffuse_assets", return_value=asset_probe),
+                patch("diffaudit.attacks.rediffuse_adapter.load_rediffuse_modules", return_value=fake_modules),
+                patch(
+                    "diffaudit.attacks.rediffuse_adapter.load_rediffuse_model",
+                    return_value=(ZeroEps(), {"weights_key": "ema_model", "checkpoint_step": 750000}),
+                ),
+                patch("torchvision.datasets.CIFAR10", FakeCIFAR10),
+            ):
+                payload = run_midfreq_residual_sign_check(
+                    workspace=root / "midfreq-sign",
+                    sample_count_per_split=2,
+                    batch_size=1,
+                    timestep=10,
+                    seed=5,
+                    device="cpu",
+                )
+
+            self.assertEqual(payload["status"], "ready")
+            self.assertEqual(payload["mode"], "bounded-sign-check")
+            self.assertIn(payload["verdict"], {"candidate-only", "negative-but-useful"})
+            self.assertEqual(payload["packet"]["sample_count"], 4)
+            self.assertFalse(payload["packet"]["gpu_released"])
+            self.assertIn("release_gate", payload["decision"])
+
+    def test_sign_check_rejects_over_cap_packets(self) -> None:
+        from diffaudit.attacks.midfreq_residual import run_midfreq_residual_sign_check
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with self.assertRaises(ValueError):
+                run_midfreq_residual_sign_check(
+                    workspace=tmpdir,
+                    sample_count_per_split=65,
+                    device="cpu",
+                )
+
     def test_cli_parser_accepts_midfreq_tiny_cache_command(self) -> None:
         from diffaudit.cli import build_parser
 
@@ -310,6 +384,23 @@ class MidFrequencyResidualTests(unittest.TestCase):
 
         self.assertEqual(args.command, "run-midfreq-residual-real-asset-preflight")
         self.assertEqual(args.sample_count_per_split, 2)
+
+    def test_cli_parser_accepts_midfreq_sign_check_command(self) -> None:
+        from diffaudit.cli import build_parser
+
+        args = build_parser().parse_args(
+            [
+                "run-midfreq-residual-sign-check",
+                "--workspace",
+                "tmp/midfreq-sign",
+                "--sample-count-per-split",
+                "16",
+            ]
+        )
+
+        self.assertEqual(args.command, "run-midfreq-residual-sign-check")
+        self.assertEqual(args.sample_count_per_split, 16)
+        self.assertEqual(args.device, "cuda")
 
 
 if __name__ == "__main__":
