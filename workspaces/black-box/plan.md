@@ -81,6 +81,16 @@ weights only and cannot fill the query/response package. Do not mix CelebA or
 recon tensor assets into this Pokemon/Kandinsky package. See
 [../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md).
 
+A more practical near-term response-contract candidate is now
+`AI-Lab-Makerere/beans` plus the local SD1.5 image-to-image pipeline. The beans
+dataset supplies enough real train/validation/test query images, and the local
+SD1.5 image-to-image pipeline loads offline and produced a one-image CPU
+response smoke. This is only a second-query-dataset candidate, not a second
+generator-family result. If asset construction continues, prefer a fresh
+`response-contract-beans-sd15-20260512` package over further polishing the
+empty Pokemon/Kandinsky skeleton. See
+[../../docs/evidence/beans-sd15-response-contract-scout-20260512.md](../../docs/evidence/beans-sd15-response-contract-scout-20260512.md).
+
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested
 raw PIA-style noise-prediction loss on `1aurent/ddpm-mnist` using first `16`
 MNIST train images as members and first `16` test images as nonmembers. The
