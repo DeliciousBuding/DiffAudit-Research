@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `SecMI consumer-contract review` |
+| Active work | `next-lane reselection after SecMI consumer review` |
 | Current GPU candidate | none selected |
-| CPU sidecar | decide whether SecMI can be system-consumable or must remain research-support-only |
+| CPU sidecar | choose the next bounded question after SecMI remains structural-support-only |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -33,8 +33,11 @@ signal with `AUC = 0.719238`, `ASR = 0.6875`, and finite strict-tail
 same-contract GPU expansion is authorized. A CPU-only comparator audit then
 narrowed the claim: low-frequency and full-band residual comparators are at
 least as strong as the frozen mid-band score on AUC, so do not phrase the line
-as proven mid-frequency-specific. Post-midfreq reselection selects a CPU-only
-SecMI consumer-contract review as the next highest-value task. See
+as proven mid-frequency-specific. Post-midfreq reselection selected a CPU-only
+SecMI consumer-contract review; that review keeps SecMI as
+`structural-support-only` because NNS product semantics, adaptive comparability,
+provenance language, and bundle schema fit remain blocked. See
+[docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md),
 [docs/evidence/post-midfreq-next-lane-reselection-20260512.md](docs/evidence/post-midfreq-next-lane-reselection-20260512.md),
 [docs/evidence/midfreq-residual-comparator-audit-20260512.md](docs/evidence/midfreq-residual-comparator-audit-20260512.md),
 [docs/evidence/midfreq-residual-stability-result-20260512.md](docs/evidence/midfreq-residual-stability-result-20260512.md),
@@ -295,7 +298,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| SecMI consumer-contract review | CPU-only | Strong full-split SecMI evidence exists, but consumer semantics, NNS boundary, adaptive review, finite-tail language, and cost/provenance decide whether it can ever become system-consumable. |
+| Next-lane reselection after SecMI consumer review | CPU-only | SecMI remains research-support-only for structural reasons; choose the next bounded question without GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -305,6 +308,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| SecMI consumer-contract review | structural-support-only; not system-consumable; no GPU release | [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md) |
 | Post-midfreq next-lane reselection | select-secmi-consumer-contract-review; no GPU release | [docs/evidence/post-midfreq-next-lane-reselection-20260512.md](docs/evidence/post-midfreq-next-lane-reselection-20260512.md) |
 | Mid-frequency residual comparator audit | candidate-boundary-narrowed; mid-frequency-specific claim not supported | [docs/evidence/midfreq-residual-comparator-audit-20260512.md](docs/evidence/midfreq-residual-comparator-audit-20260512.md) |
 | Mid-frequency residual stability result | candidate-stable-but-bounded; no admitted promotion; stop same-contract GPU | [docs/evidence/midfreq-residual-stability-result-20260512.md](docs/evidence/midfreq-residual-stability-result-20260512.md) |

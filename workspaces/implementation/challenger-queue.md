@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `SecMI consumer-contract review` |
+| Active work | `next-lane reselection after SecMI consumer review` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | decide whether SecMI can be system-consumable or must remain research-support-only |
+| CPU sidecar | choose the next bounded question after SecMI remains structural-support-only |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -25,7 +25,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
-| SecMI admission contract | gray-box | CPU-only / selected | full-split stat/NNS evidence is strong and now evidence-ready; supporting-reference and admission-hardening validators exist | not admitted; NNS product-facing contract and adaptive-review contract are still missing | run CPU-only consumer-contract review; no new metrics |
+| SecMI admission contract | gray-box | structural-support-only | full-split stat/NNS evidence is strong and evidence-ready; consumer review completed | not admitted; NNS product semantics, adaptive comparability, provenance language, and bundle schema fit remain blocked | keep validators active; no new metrics or promotion until a new schema/adaptive protocol exists |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -40,23 +40,21 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### SecMI Consumer-Contract Review
+### Next-Lane Reselection After SecMI Consumer Review
 
 - `mode`: CPU-only
-- `status`: selected by post-midfreq reselection after residual same-contract
-  expansion closed.
-- `goal`: decide whether SecMI can be represented as a system-consumable
-  gray-box evidence row under the PIA admission quality bar, or must remain
-  `research-support-only`.
-- `latest trigger`: SecMI full-split metrics are strong, but current artifacts
-  still lack admitted-row consumer semantics, NNS product-facing language,
-  adaptive-review comparability, finite-tail wording, and structured cost.
+- `status`: SecMI consumer review closed as structural-support-only.
+- `goal`: choose the next bounded question that can change Research direction
+  without repeating closed residual, SecMI, or diagonal-Fisher routes.
+- `latest trigger`: strong metrics alone did not make SecMI system-consumable;
+  the gap is schema/semantics/adaptive-review, not another GPU metric.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only scout
 
 Current evidence:
 
 - [../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md](../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md)
+- [../../docs/evidence/secmi-consumer-contract-review-20260512.md](../../docs/evidence/secmi-consumer-contract-review-20260512.md)
 - [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md)
 - [../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md)
 - [../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md)
