@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `true second membership benchmark scope` |
+| Active work | `MNIST/DDPM x0 reconstruction scout closed; choose next true benchmark route` |
 | Current GPU candidate | none selected |
-| CPU sidecar | freeze true benchmark criteria; choose one next valid scorer/asset path instead of expanding pseudo-splits |
+| CPU sidecar | simple MNIST/DDPM raw-loss and x0 residual scorers are weak; next valid path needs a sharper mechanism or tiny known-split target |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -40,6 +40,13 @@ plumbing; MNIST/DDPM is semantically cleaner but raw-loss transfer is already
 weak. The next valid move is either a sharper MNIST/DDPM scorer or a tiny
 known-split self-trained/fine-tuned target, not more validators or pseudo-split
 distance variants.
+
+A follow-up CPU-only MNIST/DDPM `x0` reconstruction scout is also weak:
+mean `x0` MSE/L1/edge residual AUCs are about `0.55`, with the best
+single-timestep `x0` L1 AUC only `0.656250`. This closes simple raw-loss and
+simple reconstruction-residual scoring on MNIST/DDPM unless a sharper mechanism
+appears. See
+[docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md](docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
 reopen scoping, archived gray-box paper-candidate reentry, and I-C same-spec
@@ -382,11 +389,11 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| True second membership benchmark | CPU-only / scope-frozen | The next route decision needs real target-model membership semantics; choose a sharper MNIST/DDPM scorer or construct a tiny known-split target. |
+| True second membership benchmark | CPU-only / route decision | MNIST/DDPM has valid train/test membership semantics, but raw loss and simple `x0` residual scorers are weak; next route should be a sharper mechanism or tiny known-split target. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
-| MNIST/DDPM PIA-style portability | CPU-only / closed | Tiny 16/16 CPU smoke on a second public DDPM dataset gave near-random raw loss AUC, and per-timestep guard found no hidden strong timestep; reopen only with a sharper scorer hypothesis. |
+| MNIST/DDPM simple scorers | CPU-only / closed | Tiny 16/16 CPU scouts on a second public DDPM dataset show weak raw-loss and simple `x0` reconstruction-residual signals; reopen only with a sharper mechanism. |
 | Beans/SD1.5 response-contract scout | CPU-only / contract-debug only | `25/25` beans query images and `25/25` local SD1.5 responses pass the package probe, but the split is beans train/validation, not proven SD1.5 training membership. |
 | Beans/SD1.5 simple-distance scorer | CPU-only / weak pseudo-split debug | Pixel MSE/MAE is near random on the pseudo-member split; do not enlarge this exact score or cite it as true membership evidence. |
 | Beans/SD1.5 CLIP-distance scorer | CPU-only / weak pseudo-split debug | Local CLIP distance is weak and wrong-direction under the lower-distance member convention; not true SD1.5 membership evidence. |
@@ -402,6 +409,7 @@ Every autonomous research cycle must follow this loop:
 | Beans SD1.5 CLIP-distance scout | weak embedding-distance signal; no GPU release | [docs/evidence/beans-sd15-clip-distance-scout-20260512.md](docs/evidence/beans-sd15-clip-distance-scout-20260512.md) |
 | Beans SD1.5 membership semantics correction | contract/debug only; beans split is not proven SD1.5 membership | [docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](docs/evidence/beans-sd15-membership-semantics-correction-20260512.md) |
 | MNIST DDPM PIA portability smoke | raw-loss transfer closed unless sharper scorer appears; no GPU release | [docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md) |
+| MNIST DDPM x0 reconstruction scout | simple reconstruction residual weak; no GPU release | [docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md](docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md) |
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
