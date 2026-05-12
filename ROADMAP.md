@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `tiny overfit gradient-norm mechanism scout positive; stability gate needed` |
+| Active work | `gradient-norm stability gate weakened; no GPU release` |
 | Current GPU candidate | none selected |
-| CPU sidecar | gradient-sensitive observable is the next CPU mechanism candidate; no GPU release |
+| CPU sidecar | final-layer gradient norm is only a mechanism hint; provenance or sharper observable needed |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -71,6 +71,11 @@ is the first useful post-reset signal: final-layer per-sample gradient L2 gives
 changes the next mechanism candidate from raw MSE to gradient-sensitive
 observables. See
 [docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md).
+A less extreme `16 / 64` CPU stability gate weakens that result: final-layer
+gradient L2 falls to `AUC = 0.535156`, with only `1 / 16` members recovered at
+zero false positives. This keeps gradient-sensitive scoring as a mechanism hint
+but blocks GPU scaling and broad layer sweeps. See
+[docs/evidence/gradient-norm-stability-gate-20260512.md](docs/evidence/gradient-norm-stability-gate-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
 reopen scoping, archived gray-box paper-candidate reentry, and I-C same-spec
@@ -413,7 +418,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| True second membership benchmark | CPU-only / mechanism candidate selected | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak, but an `8`-member overfit gradient-norm scout is positive; next needs CPU stability or external provenance before GPU. |
+| True second membership benchmark | CPU-only / needs sharper mechanism or provenance | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit and weakens at `16 / 64`; no GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -438,6 +443,7 @@ Every autonomous research cycle must follow this loop:
 | External diffusion benchmark provenance scan | no ready external benchmark found; require documented target membership before scoring | [docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md](docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md) |
 | Tiny overfit MSE upperbound | raw denoising MSE remains weak even when overfitting 8 members; no GPU release | [docs/evidence/tiny-overfit-mse-upperbound-20260512.md](docs/evidence/tiny-overfit-mse-upperbound-20260512.md) |
 | Tiny overfit gradient-norm scout | positive mechanism scout on `8 / 64`; no GPU release until stability gate | [docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md) |
+| Gradient-norm stability gate | weakened at `16 / 64`; gradient norm stays mechanism hint only | [docs/evidence/gradient-norm-stability-gate-20260512.md](docs/evidence/gradient-norm-stability-gate-20260512.md) |
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |

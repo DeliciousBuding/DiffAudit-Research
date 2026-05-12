@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `tiny overfit gradient-norm mechanism scout positive; stability gate needed`
+- Active work: `gradient-norm stability gate weakened; no GPU release`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -40,13 +40,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   produced only weak raw-MSE AUC and zero low-FPR recovery. A final-layer
   per-sample gradient-norm scout on that same overfit target is positive
   (`AUC = 0.734375`, `1 / 8` members recovered at zero false positives), so the
-  next mechanism candidate is gradient-sensitive, not MSE. A quick external
+  next mechanism candidate became gradient-sensitive, not MSE. The less extreme
+  `16 / 64` stability gate weakens that result to `AUC = 0.535156`, so it is a
+  mechanism hint only and does not release GPU or layer sweeps. A quick external
   diffusion benchmark scan did not find a ready target whose model card alone
-  proves exact member/nonmember provenance. The current reducible work is a
-  CPU-only stability gate for gradient-norm on a less extreme known split, or
-  acquisition of documented target membership. Do not return to I-B remap
-  training, Beans distance variants, MNIST raw/x0 residual repeats,
-  tiny-denoiser MSE ablations, external-weight downloads without provenance, or
+  proves exact member/nonmember provenance. The current reducible work is
+  acquisition of documented target membership or a sharper observable than
+  final-layer gradient L2. Do not return to I-B remap training, Beans distance
+  variants, MNIST raw/x0 residual repeats, tiny-denoiser MSE ablations,
+  external-weight downloads without provenance, gradient layer sweeps, or
   same-contract residual repeats by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.

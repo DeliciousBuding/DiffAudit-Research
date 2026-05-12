@@ -153,6 +153,11 @@ target is the first useful post-reset mechanism signal: `AUC = 0.734375` and
 admit evidence, but it moves the next CPU mechanism candidate from simple MSE
 to gradient-sensitive observables. See
 [../../docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](../../docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md).
+The less extreme `16 / 64` stability gate weakens the signal: final-layer
+gradient L2 falls to `AUC = 0.535156`, still with `1 / 16` zero-FP member
+recovery. Treat gradient norm as a mechanism hint only; do not GPU-scale or run
+a layer sweep from this result. See
+[../../docs/evidence/gradient-norm-stability-gate-20260512.md](../../docs/evidence/gradient-norm-stability-gate-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
