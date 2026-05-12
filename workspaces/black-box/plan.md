@@ -99,6 +99,11 @@ The first tiny scorer, raw query-response pixel distance, is weak on this
 package: MSE gives `AUC = 0.5088` and MAE gives `AUC = 0.4992`. Do not scale
 this exact scorer. See
 [../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md](../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md).
+The second cheap scorer, local CLIP image-embedding distance, is also weak:
+under the lower-distance member convention it gives `AUC = 0.4224`, and the
+reverse direction is only `0.5776`. Do not expand simple distance scoring
+without a different mechanism. See
+[../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md).
 
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested
 raw PIA-style noise-prediction loss on `1aurent/ddpm-mnist` using first `16`
