@@ -1105,6 +1105,27 @@ def _handle_defenses(args: Any) -> int:
             device=args.device,
             seed=args.seed,
             provenance_status=args.provenance_status,
+            training_role=args.training_role,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
+    if args.command == "prepare-defended-shadow-training-manifest":
+        from diffaudit.defenses.risk_targeted_unlearning import build_defended_shadow_training_manifest
+
+        shadow_ids = [value.strip() for value in str(args.shadow_ids).split(",") if value.strip()]
+        payload = build_defended_shadow_training_manifest(
+            workspace=args.workspace,
+            assets_root=args.assets_root,
+            forget_member_index_file=args.forget_member_index_file,
+            matched_nonmember_index_file=args.matched_nonmember_index_file,
+            shadow_ids=shadow_ids,
+            num_steps=args.num_steps,
+            batch_size=args.batch_size,
+            seed=args.seed,
+            provenance_status=args.provenance_status,
+            training_workspace_root=args.training_workspace_root,
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
@@ -1365,6 +1386,7 @@ _COMMAND_HANDLERS: dict[str, CommandHandler] = {
     "analyze-crossbox-pairboard": _handle_gsa_runtime,
     "prepare-risk-targeted-unlearning-pilot": _handle_defenses,
     "run-risk-targeted-unlearning-pilot": _handle_defenses,
+    "prepare-defended-shadow-training-manifest": _handle_defenses,
     "review-risk-targeted-unlearning-pilot": _handle_defenses,
     "export-temporal-surrogate-feature-packet": _handle_temporal_dpdm,
     "evaluate-temporal-surrogate-packets": _handle_temporal_dpdm,

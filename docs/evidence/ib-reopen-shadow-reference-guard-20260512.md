@@ -11,8 +11,8 @@ the active review entrypoint. `review-risk-targeted-unlearning-pilot` keeps its
 legacy diagnostic behavior by default, but an explicit defended-shadow reopen
 mode refuses old undefended shadow threshold references.
 
-This does not train defended shadows, run an adaptive attacker, report a new
-metric, or release GPU work.
+This does not execute defended-shadow training, run an adaptive attacker,
+report a new metric, or release GPU work.
 
 ## Question
 
@@ -64,6 +64,8 @@ Coverage added:
 ## Boundary
 
 This guard only prevents a specific protocol regression. It does not satisfy
-the defended-shadow training requirement, the adaptive-attacker requirement, or
-the retained-utility requirement. I-B remains on hold until those are available
-under the frozen protocol.
+the executed defended-shadow training requirement, the adaptive-attacker
+requirement, or the retained-utility requirement. The later
+[ib-defended-shadow-training-manifest-20260512.md](ib-defended-shadow-training-manifest-20260512.md)
+preflight specifies the training contract, but I-B remains on hold until
+training outputs and review metrics exist under the frozen protocol.
