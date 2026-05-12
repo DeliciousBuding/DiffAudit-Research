@@ -1,8 +1,8 @@
-"""Mid-frequency same-noise residual scoring and tiny cache utilities.
+"""Mid-frequency same-noise residual scoring and cache preflight utilities.
 
 This module is still pre-admission infrastructure. It provides CPU scoring,
-same-noise state collection helpers, and a synthetic tiny cache-contract runner;
-it does not authorize a GPU packet or benchmark result.
+same-noise state collection helpers, and synthetic/real-asset cache-contract
+runners; it does not authorize a GPU packet or benchmark result.
 """
 
 from __future__ import annotations
@@ -296,6 +296,95 @@ def run_midfreq_residual_tiny_cache(
         },
     )
 
+    return _write_midfreq_cache(
+        workspace=workspace,
+        verdict="tiny-runner-schema-ready",
+        labels=labels,
+        member_indices=member_indices,
+        nonmember_indices=nonmember_indices,
+        inputs=collected_inputs,
+        x_t=x_t,
+        tilde_x_t=tilde_x_t,
+        timestep=int(timestep),
+        seed=int(seed),
+        cutoff=float(cutoff),
+        cutoff_high=float(cutoff_high),
+        summary=summary,
+        payload_extra={
+            "boundary": "synthetic cache-contract preflight; not a benchmark; no GPU release",
+            "packet": {
+                "member_count": member_count_i,
+                "nonmember_count": nonmember_count_i,
+                "sample_count": total,
+                "batch_size": int(batch_size),
+                "device": "cpu",
+                "gpu_released": False,
+                "synthetic": True,
+            },
+            "next_action": "Run or review a real-asset 4/4 or 8/8 cache preflight before any 64/64 sign-check packet.",
+        },
+    )
+
+
+def _load_ratio_split_indices(split_path: str | Path) -> tuple[list[int], list[int]]:
+    with np.load(split_path, allow_pickle=False) as split:
+        return (
+            [int(value) for value in split["mia_train_idxs"].tolist()],
+            [int(value) for value in split["mia_eval_idxs"].tolist()],
+        )
+
+
+def _build_cifar10_loader(
+    *,
+    dataset_root: str | Path,
+    indices: list[int],
+    max_samples: int,
+    batch_size: int,
+) -> Any:
+    if int(max_samples) <= 0:
+        raise ValueError("max_samples must be positive")
+    if int(batch_size) <= 0:
+        raise ValueError("batch_size must be positive")
+    if len(indices) < int(max_samples):
+        raise ValueError(f"split has only {len(indices)} samples, requested {max_samples}")
+
+    from torch.utils.data import DataLoader, Subset
+    from torchvision import datasets as tv_datasets
+    from torchvision import transforms as tv_transforms
+
+    transform = tv_transforms.Compose([tv_transforms.ToTensor()])
+    dataset = tv_datasets.CIFAR10(
+        root=str(dataset_root),
+        train=True,
+        transform=transform,
+        download=False,
+    )
+    subset = Subset(dataset, indices[: int(max_samples)])
+    return DataLoader(
+        subset,
+        batch_size=min(int(batch_size), len(subset)),
+        shuffle=False,
+        num_workers=0,
+    )
+
+
+def _write_midfreq_cache(
+    *,
+    workspace: str | Path,
+    verdict: str,
+    labels: np.ndarray,
+    member_indices: np.ndarray,
+    nonmember_indices: np.ndarray,
+    inputs: Any,
+    x_t: np.ndarray,
+    tilde_x_t: np.ndarray,
+    timestep: int,
+    seed: int,
+    cutoff: float,
+    cutoff_high: float,
+    summary: dict[str, Any],
+    payload_extra: dict[str, Any],
+) -> dict[str, Any]:
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
     cache_path = workspace_path / "residual-cache.npz"
@@ -310,7 +399,7 @@ def run_midfreq_residual_tiny_cache(
         timestep=np.asarray([int(timestep)], dtype=np.int64),
         seed=np.asarray([int(seed)], dtype=np.int64),
         noise_seed=np.asarray([int(seed)], dtype=np.int64),
-        inputs=collected_inputs.numpy().astype(np.float32),
+        inputs=inputs.detach().cpu().numpy().astype(np.float32),
         x_t=x_t.astype(np.float32),
         tilde_x_t=tilde_x_t.astype(np.float32),
         bandpass_l2=distances,
@@ -318,12 +407,10 @@ def run_midfreq_residual_tiny_cache(
         cutoff=np.asarray([float(cutoff)], dtype=np.float32),
         cutoff_high=np.asarray([float(cutoff_high)], dtype=np.float32),
     )
-
     payload = {
         "status": "ready",
-        "verdict": "tiny-runner-schema-ready",
+        "verdict": verdict,
         "method": "mid_frequency_same_noise_residual",
-        "boundary": "synthetic cache-contract preflight; not a benchmark; no GPU release",
         "paths": {
             "workspace": str(workspace_path),
             "cache": str(cache_path),
@@ -347,17 +434,180 @@ def run_midfreq_residual_tiny_cache(
                 "cutoff_high",
             ],
         },
-        "packet": {
-            "member_count": member_count_i,
-            "nonmember_count": nonmember_count_i,
-            "sample_count": total,
-            "batch_size": int(batch_size),
-            "device": "cpu",
-            "gpu_released": False,
-            "synthetic": True,
-        },
         "summary": summary,
-        "next_action": "Run a real-asset 4/4 or 8/8 cache preflight before any 64/64 sign-check packet.",
+        **payload_extra,
     }
     write_summary_json(summary_path, payload)
     return payload
+
+
+def run_midfreq_residual_real_asset_preflight(
+    *,
+    workspace: str | Path,
+    bundle_root: str | Path | None = None,
+    checkpoint_path: str | Path | None = None,
+    dataset_root: str | Path | None = None,
+    sample_count_per_split: int = 4,
+    batch_size: int = 4,
+    timestep: int = 80,
+    seed: int = 0,
+    cutoff: float = DEFAULT_CUTOFF,
+    cutoff_high: float = DEFAULT_CUTOFF_HIGH,
+    device: str = "cpu",
+    weights_key: str = "ema_model",
+    provenance_status: str = "collaborator-grounded-real-asset-preflight",
+) -> dict[str, Any]:
+    """Write a CPU-only tiny residual cache on real CIFAR10/checkpoint assets."""
+
+    if device != "cpu":
+        raise ValueError("real-asset preflight is CPU-only; use device='cpu'")
+    sample_count = int(sample_count_per_split)
+    if sample_count <= 0:
+        raise ValueError("sample_count_per_split must be positive")
+    if sample_count > 8:
+        raise ValueError("real-asset preflight is capped at 8 samples per split")
+    if int(batch_size) <= 0:
+        raise ValueError("batch_size must be positive")
+
+    import torch
+
+    workspace_path = Path(workspace)
+    workspace_path.mkdir(parents=True, exist_ok=True)
+
+    from diffaudit.attacks import rediffuse as rediffuse_assets
+    from diffaudit.attacks import rediffuse_adapter
+
+    asset_probe = rediffuse_assets.probe_rediffuse_assets(
+        bundle_root=bundle_root,
+        checkpoint_path=checkpoint_path,
+        dataset_root=dataset_root,
+    )
+    if asset_probe["status"] != "ready":
+        summary_path = workspace_path / "summary.json"
+        blocked = {
+            "status": "blocked",
+            "verdict": "needs-assets",
+            "method": "mid_frequency_same_noise_residual",
+            "mode": "real-asset-tiny-preflight",
+            "paths": {
+                "workspace": str(workspace_path),
+                "cache": None,
+                "summary": str(summary_path),
+            },
+            "artifact_paths": {"summary": str(summary_path)},
+            "asset_probe": asset_probe,
+            "checks": {"assets_ready": False},
+        }
+        write_summary_json(summary_path, blocked)
+        return blocked
+
+    paths = asset_probe["paths"]
+    modules = rediffuse_adapter.load_rediffuse_modules(paths["bundle_root"])
+    model, load_info = rediffuse_adapter.load_rediffuse_model(
+        paths["checkpoint"],
+        modules.model_unet,
+        device="cpu",
+        weights_key=weights_key,
+    )
+    member_split, nonmember_split = _load_ratio_split_indices(paths["split"])
+    member_indices = member_split[:sample_count]
+    nonmember_indices = nonmember_split[:sample_count]
+    member_loader = _build_cifar10_loader(
+        dataset_root=paths["dataset_root"],
+        indices=member_indices,
+        max_samples=sample_count,
+        batch_size=int(batch_size),
+    )
+    nonmember_loader = _build_cifar10_loader(
+        dataset_root=paths["dataset_root"],
+        indices=nonmember_indices,
+        max_samples=sample_count,
+        batch_size=int(batch_size),
+    )
+    alpha_bars = build_alpha_bars("cpu", timesteps=1000)
+    member_inputs, member_x_t, member_tilde = collect_midfreq_residual_states(
+        model,
+        member_loader,
+        device="cpu",
+        alpha_bars=alpha_bars,
+        timestep=int(timestep),
+        seed=int(seed),
+        sample_offset=0,
+    )
+    nonmember_inputs, nonmember_x_t, nonmember_tilde = collect_midfreq_residual_states(
+        model,
+        nonmember_loader,
+        device="cpu",
+        alpha_bars=alpha_bars,
+        timestep=int(timestep),
+        seed=int(seed),
+        sample_offset=0,
+    )
+    labels = np.asarray([1] * sample_count + [0] * sample_count, dtype=np.int64)
+    summary = summarize_midfreq_packet(
+        labels,
+        np.concatenate([member_x_t, nonmember_x_t], axis=0),
+        np.concatenate([member_tilde, nonmember_tilde], axis=0),
+        cutoff=float(cutoff),
+        cutoff_high=float(cutoff_high),
+        metadata={
+            "packet_type": "real_asset_tiny_preflight",
+            "asset_family": "collaborator_rediffuse_cifar10_750k",
+            "timestep": int(timestep),
+            "seed": int(seed),
+            "noise_provenance": {
+                "collector_seed": int(seed),
+                "batch_reseed_rule": "collector_seed + running_sample_offset",
+                "member_sample_offset": 0,
+                "nonmember_sample_offset": 0,
+                "same_noise_pairing": "member and nonmember batches reuse rank-matched seed offsets",
+            },
+            "provenance_status": provenance_status,
+        },
+    )
+    return _write_midfreq_cache(
+        workspace=workspace_path,
+        verdict="real-asset-tiny-cache-ready",
+        labels=labels,
+        member_indices=np.asarray(member_indices, dtype=np.int64),
+        nonmember_indices=np.asarray(nonmember_indices, dtype=np.int64),
+        inputs=torch.cat([member_inputs, nonmember_inputs], dim=0),
+        x_t=np.concatenate([member_x_t, nonmember_x_t], axis=0),
+        tilde_x_t=np.concatenate([member_tilde, nonmember_tilde], axis=0),
+        timestep=int(timestep),
+        seed=int(seed),
+        cutoff=float(cutoff),
+        cutoff_high=float(cutoff_high),
+        summary=summary,
+        payload_extra={
+            "mode": "real-asset-tiny-preflight",
+            "boundary": "real CIFAR10/checkpoint cache-contract preflight; not a benchmark; no GPU release",
+            "packet": {
+                "member_count": sample_count,
+                "nonmember_count": sample_count,
+                "sample_count": sample_count * 2,
+                "batch_size": int(batch_size),
+                "device": "cpu",
+                "gpu_released": False,
+                "synthetic": False,
+            },
+            "asset_probe": asset_probe,
+            "runtime": {
+                "bundle_root": paths["bundle_root"],
+                "checkpoint": paths["checkpoint"],
+                "dataset_root": paths["dataset_root"],
+                "split": paths["split"],
+                "weights_key": load_info["weights_key"],
+                "checkpoint_step": load_info["checkpoint_step"],
+                "selected_member_indices": member_indices,
+                "selected_nonmember_indices": nonmember_indices,
+            },
+            "checks": {
+                **asset_probe["checks"],
+                "assets_ready": True,
+                "model_loaded": True,
+                "cache_written": True,
+            },
+            "next_action": "Freeze a bounded 64/64 sign-check contract before any GPU packet.",
+        },
+    )

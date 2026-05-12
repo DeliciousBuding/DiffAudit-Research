@@ -891,6 +891,24 @@ def build_parser() -> argparse.ArgumentParser:
     midfreq_tiny_parser.add_argument("--device", default="cpu", choices=["cpu"])
     midfreq_tiny_parser.add_argument("--provenance-status", default="synthetic-schema-preflight")
 
+    midfreq_real_asset_parser = subparsers.add_parser(
+        "run-midfreq-residual-real-asset-preflight",
+        help="write a CPU-only real-asset mid-frequency residual cache preflight",
+    )
+    midfreq_real_asset_parser.add_argument("--workspace", required=True)
+    midfreq_real_asset_parser.add_argument("--bundle-root", default=None)
+    midfreq_real_asset_parser.add_argument("--checkpoint-path", default=None)
+    midfreq_real_asset_parser.add_argument("--dataset-root", default=None)
+    midfreq_real_asset_parser.add_argument("--sample-count-per-split", type=int, default=4)
+    midfreq_real_asset_parser.add_argument("--batch-size", type=int, default=4)
+    midfreq_real_asset_parser.add_argument("--timestep", type=int, default=80)
+    midfreq_real_asset_parser.add_argument("--seed", type=int, default=0)
+    midfreq_real_asset_parser.add_argument("--cutoff", type=float, default=0.25)
+    midfreq_real_asset_parser.add_argument("--cutoff-high", type=float, default=0.50)
+    midfreq_real_asset_parser.add_argument("--device", default="cpu", choices=["cpu"])
+    midfreq_real_asset_parser.add_argument("--weights-key", default="ema_model")
+    midfreq_real_asset_parser.add_argument("--provenance-status", default="collaborator-grounded-real-asset-preflight")
+
     pia_runtime_mainline_parser = subparsers.add_parser(
         "run-pia-runtime-mainline",
         help="run the canonical PIA DDPM path on real local assets and emit a reproducible summary",
