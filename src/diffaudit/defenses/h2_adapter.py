@@ -853,7 +853,9 @@ def review_h2_defense_pilot(
 ) -> dict[str, Any]:
     from diffaudit.attacks.gsa import _extract_gsa_loss_scores, evaluate_gsa_loss_score_packet
     from diffaudit.defenses.risk_targeted_unlearning import (
+        REVIEW_MODE_THRESHOLD_TRANSFER_DIAGNOSTIC,
         _load_shadow_reference_summary,
+        _shadow_reference_threshold,
         _write_review_packet_summary,
     )
 
@@ -879,6 +881,7 @@ def review_h2_defense_pilot(
         return blocked
 
     shadow_reference = _load_shadow_reference_summary(shadow_reference_summary)
+    threshold_reference = _shadow_reference_threshold(shadow_reference)
 
     runtime_defaults = shadow_reference.get("runtime", {}) or {}
     resolution = int(runtime_defaults.get("resolution", 32))
@@ -973,6 +976,8 @@ def review_h2_defense_pilot(
         label="baseline-target-subset",
         sample_id_allowlist=[],
         checkpoint_dir=baseline_checkpoint_dir,
+        review_mode=REVIEW_MODE_THRESHOLD_TRANSFER_DIAGNOSTIC,
+        threshold_reference=threshold_reference,
     )
     _write_review_packet_summary(
         output_path=defended_packet_summary_path,
@@ -982,6 +987,8 @@ def review_h2_defense_pilot(
         label="defended-target-subset",
         sample_id_allowlist=[],
         checkpoint_dir=defended_checkpoint_dir,
+        review_mode=REVIEW_MODE_THRESHOLD_TRANSFER_DIAGNOSTIC,
+        threshold_reference=threshold_reference,
     )
 
     baseline_eval = evaluate_gsa_loss_score_packet(

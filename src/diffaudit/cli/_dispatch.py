@@ -1131,6 +1131,7 @@ def _handle_defenses(args: Any) -> int:
             device=args.device,
             noise_seed=args.noise_seed,
             provenance_status=args.provenance_status,
+            review_mode=args.review_mode,
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
         return 0 if payload["status"] == "ready" else 1
