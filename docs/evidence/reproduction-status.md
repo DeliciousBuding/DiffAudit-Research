@@ -12,6 +12,7 @@ This page tracks the status of each research direction. Detailed notes are in
 | `asset-ready` | Required datasets or model weights are available locally. |
 | `evidence-ready` | A reviewed experiment summary exists. |
 | `benchmark-ready` | Paper-level benchmarks can be reproduced. |
+| `hold-protocol-frozen` | Reopen rules are machine-checkable, but the lane still has no admissible result or GPU release. |
 
 Smoke tests and dry runs are engineering validation, not benchmark claims.
 

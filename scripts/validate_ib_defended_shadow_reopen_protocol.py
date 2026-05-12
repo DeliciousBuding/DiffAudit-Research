@@ -115,9 +115,9 @@ def validate(payload: Any) -> list[str]:
         errors.append("stop_conditions must be an object")
     else:
         if stop_conditions.get("no_strict_tail_improvement") != "close-line":
-            errors.append("stop_conditions.no_strict_tail_improvement must close-line")
+            errors.append("stop_conditions.no_strict_tail_improvement must be close-line")
         if stop_conditions.get("retained_utility_regresses") != "close-line":
-            errors.append("stop_conditions.retained_utility_regresses must close-line")
+            errors.append("stop_conditions.retained_utility_regresses must be close-line")
         if stop_conditions.get("defended_shadow_training_not_available") != "blocked":
             errors.append("stop_conditions.defended_shadow_training_not_available must be blocked")
 
@@ -129,6 +129,7 @@ def validate(payload: Any) -> list[str]:
             "admitted defense evidence",
             "adaptive robustness",
             "Platform/Runtime defense row",
+            "old undefended threshold-transfer GPU packet",
             "GPU packet authorized",
         ):
             if claim not in blocked_claims:

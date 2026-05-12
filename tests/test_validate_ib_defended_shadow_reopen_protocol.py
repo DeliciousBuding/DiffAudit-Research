@@ -72,7 +72,7 @@ class ValidateIbDefendedShadowReopenProtocolTests(unittest.TestCase):
         errors = validate_ib_defended_shadow_reopen_protocol.validate(artifact)
 
         self.assertIn(
-            "stop_conditions.no_strict_tail_improvement must close-line",
+            "stop_conditions.no_strict_tail_improvement must be close-line",
             errors,
         )
 
@@ -88,6 +88,21 @@ class ValidateIbDefendedShadowReopenProtocolTests(unittest.TestCase):
 
         self.assertIn(
             "missing evidence doc: docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
+            errors,
+        )
+
+    def test_rejects_missing_undefended_gpu_blocker(self) -> None:
+        artifact = self._artifact()
+        artifact["blocked_claims"] = [
+            claim
+            for claim in artifact["blocked_claims"]
+            if claim != "old undefended threshold-transfer GPU packet"
+        ]
+
+        errors = validate_ib_defended_shadow_reopen_protocol.validate(artifact)
+
+        self.assertIn(
+            "missing blocked claim: old undefended threshold-transfer GPU packet",
             errors,
         )
 

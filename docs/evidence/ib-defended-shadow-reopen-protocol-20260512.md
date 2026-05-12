@@ -47,7 +47,8 @@ the line closes without a larger GPU packet.
 - Admitted defense evidence.
 - Adaptive robustness claims.
 - Platform/Runtime defense rows.
-- Any GPU packet from the old undefended threshold-transfer review.
+- Old undefended threshold-transfer GPU packets.
+- Any GPU packet authorized by this protocol alone.
 
 ## Next Action
 
