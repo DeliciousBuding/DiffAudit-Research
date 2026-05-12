@@ -272,6 +272,8 @@ class MidFrequencyResidualTests(unittest.TestCase):
 
             self.assertEqual(payload["status"], "blocked")
             self.assertEqual(payload["verdict"], "needs-assets")
+            self.assertEqual(payload["paths"]["workspace"], str(workspace))
+            self.assertIsNone(payload["paths"]["cache"])
             self.assertTrue((workspace / "summary.json").exists())
 
     def test_cli_parser_accepts_midfreq_tiny_cache_command(self) -> None:

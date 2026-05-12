@@ -327,11 +327,11 @@ def run_midfreq_residual_tiny_cache(
 
 
 def _load_ratio_split_indices(split_path: str | Path) -> tuple[list[int], list[int]]:
-    split = np.load(split_path, allow_pickle=False)
-    return (
-        [int(value) for value in split["mia_train_idxs"].tolist()],
-        [int(value) for value in split["mia_eval_idxs"].tolist()],
-    )
+    with np.load(split_path, allow_pickle=False) as split:
+        return (
+            [int(value) for value in split["mia_train_idxs"].tolist()],
+            [int(value) for value in split["mia_eval_idxs"].tolist()],
+        )
 
 
 def _build_cifar10_loader(
@@ -483,17 +483,22 @@ def run_midfreq_residual_real_asset_preflight(
         dataset_root=dataset_root,
     )
     if asset_probe["status"] != "ready":
+        summary_path = workspace_path / "summary.json"
         blocked = {
             "status": "blocked",
             "verdict": "needs-assets",
             "method": "mid_frequency_same_noise_residual",
             "mode": "real-asset-tiny-preflight",
-            "workspace": str(workspace_path),
-            "artifact_paths": {"summary": str(workspace_path / "summary.json")},
+            "paths": {
+                "workspace": str(workspace_path),
+                "cache": None,
+                "summary": str(summary_path),
+            },
+            "artifact_paths": {"summary": str(summary_path)},
             "asset_probe": asset_probe,
             "checks": {"assets_ready": False},
         }
-        write_summary_json(workspace_path / "summary.json", blocked)
+        write_summary_json(summary_path, blocked)
         return blocked
 
     paths = asset_probe["paths"]
