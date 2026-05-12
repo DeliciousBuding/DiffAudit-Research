@@ -54,11 +54,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   `response-contract-copymark-commoncanvas-20260512` query split now exists
   under `<DIFFAUDIT_ROOT>/Download` with `50` CommonCatalog member queries and
   `50` COCO holdout queries; the package probe returns `needs_responses`, not
-  `ready`. A response preflight found the current Python uses CPU-only Torch,
-  the GPU is visible only through `nvidia-smi`, and no local CommonCanvas model
-  cache is present. The current reducible work is to provide a CUDA-capable
-  environment plus CommonCanvas weights, attach responses generated elsewhere,
-  or mark the package query-only/blocked. Do not return to I-B remap training,
+  `ready`. A response preflight found the default PATH Python uses CPU-only
+  Torch, but this must not be mistaken for "no CUDA on this machine": the
+  `diffaudit-research` conda environment has CUDA Torch (`cu121`) and can see
+  the local RTX 4070 Laptop GPU. The unresolved blocker is CommonCanvas model
+  availability and a frozen deterministic response command, not absence of
+  local CUDA. The current reducible work is to locate or fetch the exact
+  `common-canvas/CommonCanvas-XL-C` weights, generate deterministic responses
+  in the CUDA environment, attach responses generated elsewhere, or mark the
+  package query-only/blocked. Do not return to I-B remap training,
   Beans distance variants, MNIST raw/x0 residual repeats,
   tiny-denoiser MSE ablations,
   external-weight downloads without provenance, full CopyMark dataset download
@@ -69,6 +73,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 - No GPU task should start from documentation or governance cleanup alone.
 - Only one GPU task may run at a time; every GPU task needs a frozen command,
   metric contract, stop condition, and evidence-note target.
+- CPU-first means "cheaply prove the contract before spending GPU", not
+  CPU-only or GPU avoidance. When a real asset, clear membership semantics,
+  fixed query split, metric contract, and stop condition exist, prefer a
+  bounded GPU packet over more documentation, validators, or environment
+  excuses. A local RTX 4070 sitting idle while the agent writes more prose is a
+  research failure, not prudence.
+- Before declaring GPU blocked, probe the actual CUDA-capable environments,
+  especially `conda run -n diffaudit-research python -X utf8 ...`. Do not infer
+  GPU unavailability from the default PATH Python alone.
 - No history rewrite or force-push without a separate approved audit.
 
 ## Research Rules
