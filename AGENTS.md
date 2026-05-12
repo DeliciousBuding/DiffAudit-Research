@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `simple MNIST true-membership scorers closed; choose sharper mechanism or external benchmark`
+- Active work: `external benchmark provenance scan closed; acquisition needed`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -36,11 +36,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   membership semantics, but raw PIA-style loss and simple `x0`
   reconstruction residuals are weak. A tiny controlled MNIST denoiser with a
   real train/held-out split also failed under raw denoising loss despite
-  decreasing training loss. The current reducible work is choosing one valid
-  next path: a mechanism beyond simple MSE, or an external benchmark with
-  documented member/nonmember provenance. Do not return to I-B remap training,
-  Beans distance variants, MNIST raw/x0 residual repeats, tiny-denoiser
-  ablations, or same-contract residual repeats by default.
+  decreasing training loss. A quick external diffusion benchmark scan did not
+  find a ready target whose model card alone proves exact member/nonmember
+  provenance. The current reducible work is acquisition or mechanism design:
+  get documented target membership, or propose a scorer beyond simple MSE. Do
+  not return to I-B remap training, Beans distance variants, MNIST raw/x0
+  residual repeats, tiny-denoiser ablations, external-weight downloads without
+  provenance, or same-contract residual repeats by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
