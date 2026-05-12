@@ -14,8 +14,17 @@
 - [ ] I documented anything not verified.
 - [ ] I scanned for private local paths, credentials, and data leaks when touching docs/configs.
 
+Docs-only / evidence-only PRs:
+
 ```powershell
-python scripts/run_local_checks.py --fast
+python -X utf8 scripts/check_public_surface.py
+python -X utf8 scripts/check_markdown_links.py
+```
+
+Code, script, test, config, or workflow PRs:
+
+```powershell
+python -X utf8 scripts/run_local_checks.py --fast
 ```
 
 ## Scope

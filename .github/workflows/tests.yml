@@ -16,8 +16,74 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Classify Change Set
+        id: changes
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
+
+          if ("${{ github.event_name }}" -eq "pull_request") {
+            $base = "${{ github.event.pull_request.base.sha }}"
+          } else {
+            $base = "HEAD~1"
+          }
+
+          $changed = git diff --name-only $base HEAD
+          if (-not $changed) {
+            $changed = @()
+          }
+
+          $fullPatterns = @(
+            '^src/',
+            '^scripts/',
+            '^tests/',
+            '^tools/',
+            '^configs/',
+            '^environment\.yml$',
+            '^pyproject\.toml$',
+            '^pytest\.ini$',
+            '^setup\.cfg$',
+            '^\.github/workflows/'
+          )
+          $forceFull = $false
+          foreach ($path in $changed) {
+            $normalized = $path -replace '\\', '/'
+            foreach ($pattern in $fullPatterns) {
+              if ($normalized -match $pattern) {
+                $forceFull = $true
+                break
+              }
+            }
+            if ($forceFull) {
+              break
+            }
+          }
+
+          "changed_files<<EOF" >> $env:GITHUB_OUTPUT
+          ($changed -join "`n") >> $env:GITHUB_OUTPUT
+          "EOF" >> $env:GITHUB_OUTPUT
+          "full=$($forceFull.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+
+      - name: Lightweight Documentation Guards
+        if: steps.changes.outputs.full != 'true'
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
+          python scripts/check_public_surface.py
+          python scripts/check_markdown_links.py
+          python scripts/validate_attack_defense_table.py
+          python scripts/export_recon_product_evidence_card.py --check
 
       - name: Setup Conda Environment
+        if: steps.changes.outputs.full == 'true'
         uses: conda-incubator/setup-miniconda@v4
         with:
           activate-environment: diffaudit-research
@@ -27,6 +93,7 @@ jobs:
           use-mamba: true
 
       - name: Public Surface Guard
+        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
@@ -36,6 +103,7 @@ jobs:
           python scripts/export_recon_product_evidence_card.py --check
 
       - name: Verify CLI Install
+        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
@@ -45,12 +113,14 @@ jobs:
           python scripts/verify_env.py
 
       - name: Render Local Config Templates
+        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
           python scripts/render_team_local_configs.py --team-local configs/assets/team.local.template.yaml --output-dir tmp/configs/rendered-ci
 
       - name: Run Core Tests
+        if: steps.changes.outputs.full == 'true'
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true

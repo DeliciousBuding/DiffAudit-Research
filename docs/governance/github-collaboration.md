@@ -51,7 +51,13 @@ Recommended rules:
 
 - Block direct pushes to `main`
 - Require Pull Request merges
-- Require at least 1 review before merging
+- Require the `unit-tests` status check
+
+The `unit-tests` check has a fast path for documentation-only and
+evidence-only PRs. It keeps the required status-check name stable, but skips
+Conda setup unless the change touches code, tests, scripts, configs, tools, or
+GitHub workflow files. This keeps research-note PRs cheap while preserving full
+checks for executable changes.
 
 For a smaller team, a lighter version works:
 
