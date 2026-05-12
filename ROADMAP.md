@@ -14,7 +14,7 @@
 
 ### 真正的两个抓手
 
-1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。首个 pixel-distance scorer 弱;唯一批准的 sharper CLIP image-similarity scorer 也弱且反向。该输出相似度线默认关闭,不是 admitted evidence。
+1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。pixel-distance、CLIP image-similarity、prompt-response consistency 三个单点机制均弱。该 CommonCanvas packet 默认关闭,不是 admitted evidence。
 2. **tiny known-split gradient-sensitive scout**:5/12 在 `8/8` overfit 上 gradient norm 到过 `AUC = 0.734`,但 `16/64` stability gate 跌到 `0.535`;5/13 更乐观的 `64/64` oracle gradient-prototype alignment 也只有 `AUC = 0.500977` 且低 FPR 为 0。该机制 hint 已被削弱,不释放 GPU,不再跑同家族梯度变体。
 
 ### P0 — 完成且弱
@@ -37,8 +37,9 @@ P0 结论:
 - 第二响应合同不再是 missing asset 问题;`50/50` responses 已经存在。
 - 最简单 pixel-distance transfer 在 SDXL-class CommonCanvas 上很弱,不准入 admitted evidence。
 - 单点 CLIP image-similarity follow-up 也弱:`AUC = 0.4588`,`ASR = 0.5300`,低 FPR 恢复为 0。
+- 单点 prompt-response consistency follow-up 也弱:`AUC = 0.4408`,`ASR = 0.5100`,低 FPR 只恢复 `1/50` member。
 - 不继续补 CLIP / pixel / LPIPS 变体矩阵来让消融表好看。
-- CommonCanvas 输出相似度方向默认关闭;只有出现非 response-vs-query similarity 的新机制假设时,才允许继续。
+- CommonCanvas 当前 `50/50` packet 默认关闭;只有出现真正不同的新机制或新资产时,才允许继续。
 
 ### 2026-05-13 P0 result checkpoint
 
@@ -49,7 +50,8 @@ P0 结论:
 - package probe artifact `workspaces/black-box/artifacts/copymark-commoncanvas-response-contract-probe-20260513.json` 返回 `ready`,缺失列表为空。
 - simple-distance artifact `workspaces/black-box/artifacts/copymark-commoncanvas-simple-distance-20260513.json` 返回 `negative_or_weak`。
 - CLIP image-similarity artifact `workspaces/black-box/artifacts/copymark-commoncanvas-clip-image-similarity-20260513.json` 返回 `negative_or_weak`:`AUC = 0.4588`,`ASR = 0.5300`,`TPR@1%FPR = 0.0`,`TPR@0.1%FPR = 0.0`。
-- 下一决策:不默认继续 CommonCanvas 输出相似度变体;转入 P1 已知 split 的 gradient-sensitive 机制验证,除非出现非相似度家族的新机制。
+- prompt-response consistency artifact `workspaces/black-box/artifacts/copymark-commoncanvas-prompt-response-consistency-20260513.json` 返回 `negative_or_weak`:`AUC = 0.4408`,`ASR = 0.5100`,`TPR@1%FPR = 0.02`,`TPR@0.1%FPR = 0.02`。
+- 下一决策:不默认继续 CommonCanvas 当前 packet;转入真正不同的机制或新资产,不再挖相邻 CLIP 分数。
 
 ### P1 — 已执行且弱
 
@@ -81,7 +83,7 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0 complete and P1 gradient-prototype follow-up weak |
+| Active work | P0/P1 weak; CommonCanvas current packet closed by default |
 | Active GPU question | none selected after weak P0/P1 results |
 | Next GPU candidate | none by default; reopen only with a genuinely new mechanism |
 | CPU sidecar | none selected; next action is mechanism reselection, not variant expansion |
@@ -89,7 +91,7 @@ P0 结论:
 
 ### 对 Codex 的明确指令
 
-"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance 与单点 CLIP image-similarity 都弱。P1 的 known-split gradient-prototype follow-up 也弱。不要把弱结果扩展成消融矩阵或梯度变体表。下一步必须重新选一个真正不同的机制问题;如果没有,就停在当前结论。"
+"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance、CLIP image-similarity、prompt-response consistency 都弱。P1 的 known-split gradient-prototype follow-up 也弱。不要把弱结果扩展成消融矩阵或梯度变体表。下一步必须重新选一个真正不同的机制或新资产;如果没有,就停在当前结论。"
 
 ---
 
@@ -101,19 +103,19 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas output-similarity closed by default; known-split gradient-prototype follow-up weak` |
+| Active work | `CommonCanvas current packet closed by default; known-split gradient-prototype follow-up weak` |
 | Current GPU candidate | none selected |
 | CPU sidecar | none selected; requires mechanism reselection |
-| Active GPU question | none after weak CommonCanvas P0 + CLIP follow-up and weak P1 gradient-prototype scout |
+| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt-consistency follow-ups and weak P1 gradient-prototype scout |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
-surfaces. The second response contract has now been tested, and both the
-simplest pixel-distance transfer and the one sharper CLIP image-similarity
-follow-up are weak. A more optimistic known-split final-layer gradient prototype
-scout is also weak. The next high-value move must be a genuinely different
-mechanism, not another validator, boundary note, same-family gradient variant,
-same-contract repeat, or remap-training detour.
+surfaces. The second response contract has now been tested, and pixel-distance,
+CLIP image-similarity, and prompt-response consistency are all weak. A more
+optimistic known-split final-layer gradient prototype scout is also weak. The
+next high-value move must be a genuinely different mechanism or new asset, not
+another validator, boundary note, adjacent CLIP score, same-family gradient
+variant, same-contract repeat, or remap-training detour.
 
 Taste reset: every cycle must ask whether the work is finding new signal or
 just adding "more stationery" around a dead end. If a direction is already
@@ -194,8 +196,11 @@ completion generated the deterministic responses and ran two bounded scorers:
 `negative_pixel_mse_resized_512` gives `AUC = 0.5736`, `ASR = 0.6000`,
 `TPR@1%FPR = 0.04`, and `TPR@0.1%FPR = 0.04`; the single sharper
 `clip_vit_l14_query_response_cosine` follow-up gives `AUC = 0.4588`,
-`ASR = 0.5300`, and zero low-FPR recovery. Both are `negative_or_weak` and not
-admitted. Do not expand this weak result into a variant matrix. See
+`ASR = 0.5300`, and zero low-FPR recovery; the distinct
+`clip_vit_l14_prompt_response_cosine` check gives `AUC = 0.4408`,
+`ASR = 0.5100`, and only `1 / 50` member recovered at zero false positives.
+All are `negative_or_weak` and not admitted. Do not expand this weak result into
+a variant matrix. See
 [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
@@ -540,7 +545,7 @@ Every autonomous research cycle must follow this loop:
 | Sidecar | Mode | Why |
 | --- | --- | --- |
 | True second membership benchmark | hold / needs genuinely different mechanism | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit, weakens at `16 / 64`, and oracle gradient-prototype alignment is random at `64 / 64`; no GPU. |
-| CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`) and the single CLIP image-similarity follow-up is also weak (`AUC = 0.4588`, zero low-FPR recovery), so close output-similarity variants by default. |
+| CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), the single CLIP image-similarity follow-up is weak (`AUC = 0.4588`, zero low-FPR recovery), and prompt-response consistency is weak (`AUC = 0.4408`). Close this packet by default. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | weak on CommonCanvas | First valid second response contract is ready, but pixel and CLIP image-similarity scorers are weak; do not treat this as transfer evidence. |
@@ -570,7 +575,7 @@ Every autonomous research cycle must follow this loop:
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | CopyMark provenance intake | high-value external candidate; manifest inspected; CommonCanvas/CommonCatalog tiny CPU target selected | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
 | CopyMark CommonCanvas query asset | local `50/50` query split ready; deterministic responses generated in P0 | [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md) |
-| CopyMark CommonCanvas response and scorers | package probe `ready`; pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`); single CLIP image-similarity follow-up is weaker (`AUC = 0.4588`, zero low-FPR recovery); no admitted promotion | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
+| CopyMark CommonCanvas response and scorers | package probe `ready`; pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`); CLIP image-similarity is weak (`AUC = 0.4588`, zero low-FPR recovery); prompt-response consistency is weak (`AUC = 0.4408`); no admitted promotion | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
