@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CopyMark manifest inspected; choose one tiny CPU subset target`
+- Active work: `CopyMark CommonCanvas query split ready; needs responses`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -50,12 +50,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   zip central directory now show a concrete directory-level member/holdout
   contract with `eval` and `test` splits, but the archive itself carries only
   images plus `caption.json` fields (`path`, `height`, `width`, `caption`), not
-  per-row membership provenance. The current reducible work is a tiny CPU-only
-  CommonCanvas/CommonCatalog subset first, because that pairing has cleaner
-  open-model/open-data provenance than SD1.5/LAION. Fall back to a sharper
-  observable than final-layer gradient L2 only if CopyMark target provenance
-  blocks. Do not return to I-B remap training, Beans distance variants, MNIST
-  raw/x0 residual repeats, tiny-denoiser MSE ablations,
+  per-row membership provenance. A local
+  `response-contract-copymark-commoncanvas-20260512` query split now exists
+  under `<DIFFAUDIT_ROOT>/Download` with `50` CommonCatalog member queries and
+  `50` COCO holdout queries; the package probe returns `needs_responses`, not
+  `ready`. The current reducible work is deterministic CommonCanvas response
+  generation for that fixed split, or falling back to a sharper observable than
+  final-layer gradient L2 only if response generation blocks. Do not return to
+  I-B remap training, Beans distance variants, MNIST raw/x0 residual repeats,
+  tiny-denoiser MSE ablations,
   external-weight downloads without provenance, full CopyMark dataset download
   before a tiny target is frozen, gradient layer sweeps, or same-contract
   residual repeats by default.
