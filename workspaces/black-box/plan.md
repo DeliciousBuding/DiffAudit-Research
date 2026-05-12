@@ -171,21 +171,24 @@ use `commoncatalog-2-5k-{eval,test}` as member directories and
 starting with SD1.5/LAION because CommonCanvas has stronger open-model/open-data
 provenance. Do not download the full `5.66GB` dataset or release GPU. See
 [../../docs/evidence/copymark-provenance-intake-20260512.md](../../docs/evidence/copymark-provenance-intake-20260512.md).
-A local query-only package now exists under `<DIFFAUDIT_ROOT>/Download` with
-`50` member queries and `50` nonmember queries. The package probe returns
-`needs_responses`, so the next real step is deterministic CommonCanvas response
-generation, not scoring or GPU. See
+A local CommonCanvas package now exists under `<DIFFAUDIT_ROOT>/Download` with
+`50` member queries, `50` nonmember queries, deterministic `50/50` responses,
+and a package probe status of `ready`. See
 [../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md](../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md).
-The immediate response-generation preflight corrected the blocker: the default
-PATH Python has CPU-only Torch, but the `diffaudit-research` conda environment
-has CUDA Torch and sees the local RTX 4070. CommonCanvas is a text-to-image
-SDXL pipeline, so the package contract is now `text_to_image`, not
-`image_to_image`. No local CommonCanvas weights are cached yet. Do not start a
-scorer until deterministic responses are generated or attached and the package
-probe returns `ready`. A minimal fp16 snapshot download was attempted with Xet
-disabled, but it did not complete the required weights in this session and no
-response image was generated. See
-[../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md).
+The CommonCanvas response-generation blocker is closed. The default PATH Python
+is still CPU-only, but the `diffaudit-research` conda environment has CUDA
+Torch and sees the local RTX 4070. CommonCanvas is a text-to-image SDXL
+pipeline, so the package contract is `text_to_image`, not `image_to_image`.
+The `commoncanvas_xl_c.safetensors` checkpoint is locally available,
+deterministic `50/50` responses are generated, and the package probe returns
+`ready`. Four bounded scorer/mechanism checks are weak: pixel distance
+(`AUC = 0.5736`), CLIP image-similarity (`AUC = 0.4588`), prompt-response
+consistency (`AUC = 0.4408`), and multi-seed response stability (`4/4`,
+`AUC = 0.5625`). Close CommonCanvas by default; do not expand this into
+metric, seed, subset, or embedding sweeps. See
+[../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md)
+and
+[../../docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](../../docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned

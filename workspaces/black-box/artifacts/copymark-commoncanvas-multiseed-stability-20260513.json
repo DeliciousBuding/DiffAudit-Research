@@ -1,0 +1,180 @@
+{
+  "asset_id": "response-contract-copymark-commoncanvas-20260512",
+  "model_identity": "common-canvas/CommonCanvas-XL-C",
+  "endpoint_mode": "text_to_image",
+  "hypothesis": "If training membership makes CommonCanvas outputs collapse to a more memorized response distribution, member prompts should show higher cross-seed image-embedding stability than nonmember prompts.",
+  "boundary": "single bounded 12/12 by default multi-seed response-distribution scout; not a query-response, pixel, or prompt-adherence metric matrix",
+  "generation": {
+    "samples_per_split": 4,
+    "seeds": [
+      20260613,
+      20260614
+    ],
+    "width": 512,
+    "height": 512,
+    "num_inference_steps": 20,
+    "guidance_scale": 7.5,
+    "response_subdir": "stability_responses_20260513",
+    "checkpoint_name": "commoncanvas_xl_c.safetensors",
+    "checkpoint_bytes": 6938040286,
+    "device": "cuda",
+    "torch": "2.5.1+cu121",
+    "cuda_device": "NVIDIA GeForce RTX 4070 Laptop GPU"
+  },
+  "metric": {
+    "score_name": "clip_vit_l14_response_seed_stability_cosine",
+    "score_direction": "higher_is_more_member",
+    "auc": 0.5625,
+    "asr": 0.625,
+    "best_threshold": {
+      "threshold": 0.9565058353459568,
+      "tp": 1,
+      "fp": 0,
+      "tn": 4,
+      "fn": 3,
+      "asr": 0.625
+    },
+    "tpr_at_1pct_fpr": 0.25,
+    "tpr_at_1pct_fpr_detail": {
+      "threshold": 0.9565058353459568,
+      "tp": 1,
+      "fp": 0,
+      "allowed_fp": 0,
+      "tpr": 0.25
+    },
+    "tpr_at_0_1pct_fpr": 0.25,
+    "tpr_at_0_1pct_fpr_detail": {
+      "threshold": 0.9565058353459568,
+      "tp": 1,
+      "fp": 0,
+      "allowed_fp": 0,
+      "tpr": 0.25
+    },
+    "member_score_mean": 0.843675,
+    "nonmember_score_mean": 0.832792
+  },
+  "verdict": "negative_or_weak",
+  "stop_condition": "If the small packet is negative_or_weak, close this stability mechanism and do not expand seed, subset, or embedding-metric sweeps.",
+  "records": [
+    {
+      "id": "member_000.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a green lizard sitting on a branch in an enclosure",
+      "query_path": "query/member/member_000.jpg",
+      "response_paths": [
+        "stability_responses_20260513/member/member_000-seed20260613-w512-h512-steps20.png",
+        "stability_responses_20260513/member/member_000-seed20260614-w512-h512-steps20.png"
+      ],
+      "pairwise_cosines": [
+        0.956506
+      ],
+      "score": 0.9565058353459568
+    },
+    {
+      "id": "member_001.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a group of young men sitting on a couch",
+      "query_path": "query/member/member_001.jpg",
+      "response_paths": [
+        "stability_responses_20260513/member/member_001-seed20260613-w512-h512-steps20.png",
+        "stability_responses_20260513/member/member_001-seed20260614-w512-h512-steps20.png"
+      ],
+      "pairwise_cosines": [
+        0.795894
+      ],
+      "score": 0.7958941117951072
+    },
+    {
+      "id": "member_002.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a baseball game is in progress",
+      "query_path": "query/member/member_002.jpg",
+      "response_paths": [
+        "stability_responses_20260513/member/member_002-seed20260613-w512-h512-steps20.png",
+        "stability_responses_20260513/member/member_002-seed20260614-w512-h512-steps20.png"
+      ],
+      "pairwise_cosines": [
+        0.694219
+      ],
+      "score": 0.694219419016308
+    },
+    {
+      "id": "member_003.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a calico cat sitting on a rock",
+      "query_path": "query/member/member_003.jpg",
+      "response_paths": [
+        "stability_responses_20260513/member/member_003-seed20260613-w512-h512-steps20.png",
+        "stability_responses_20260513/member/member_003-seed20260614-w512-h512-steps20.png"
+      ],
+      "pairwise_cosines": [
+        0.92808
+      ],
+      "score": 0.9280795567386757
+    },
+    {
+      "id": "nonmember_000.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A stop sign is mounted upside-down on it's post. ",
+      "query_path": "query/nonmember/nonmember_000.jpg",
+      "response_paths": [
+        "stability_responses_20260513/nonmember/nonmember_000-seed20260613-w512-h512-steps20.png",
+        "stability_responses_20260513/nonmember/nonmember_000-seed20260614-w512-h512-steps20.png"
+      ],
+      "pairwise_cosines": [
+        0.863001
+      ],
+      "score": 0.8630014057752833
+    },
+    {
+      "id": "nonmember_001.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "Three teddy bears, each a different color, snuggling together.",
+      "query_path": "query/nonmember/nonmember_001.jpg",
+      "response_paths": [
+        "stability_responses_20260513/nonmember/nonmember_001-seed20260613-w512-h512-steps20.png",
+        "stability_responses_20260513/nonmember/nonmember_001-seed20260614-w512-h512-steps20.png"
+      ],
+      "pairwise_cosines": [
+        0.93658
+      ],
+      "score": 0.9365796494000767
+    },
+    {
+      "id": "nonmember_002.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A woman posing for the camera standing on skis.",
+      "query_path": "query/nonmember/nonmember_002.jpg",
+      "response_paths": [
+        "stability_responses_20260513/nonmember/nonmember_002-seed20260613-w512-h512-steps20.png",
+        "stability_responses_20260513/nonmember/nonmember_002-seed20260614-w512-h512-steps20.png"
+      ],
+      "pairwise_cosines": [
+        0.639327
+      ],
+      "score": 0.6393272417450451
+    },
+    {
+      "id": "nonmember_003.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A kitchen with a refrigerator, stove and oven with cabinets.",
+      "query_path": "query/nonmember/nonmember_003.jpg",
+      "response_paths": [
+        "stability_responses_20260513/nonmember/nonmember_003-seed20260613-w512-h512-steps20.png",
+        "stability_responses_20260513/nonmember/nonmember_003-seed20260614-w512-h512-steps20.png"
+      ],
+      "pairwise_cosines": [
+        0.892261
+      ],
+      "score": 0.8922612452900427
+    }
+  ]
+}
