@@ -14,34 +14,42 @@
 
 ### 真正的两个抓手
 
-1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选,query split `50/50` 已就绪,endpoint 已校正为 `text_to_image`,package 精确状态是 `needs_responses`。当前采用 `commoncanvas_xl_c.safetensors` 单 checkpoint 路线,先跑 `1 member + 1 nonmember` CUDA smoke,再生成 `50/50` deterministic responses。这是过去 48h 唯一一条"会改变 box-level story"的 lane。
+1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成第一轮 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。首个最简单 pixel-distance scorer 弱,不是 admitted evidence。
 2. **tiny-overfit gradient-norm scout**:5/12 在 `8/8` overfit 上 `AUC = 0.734`,`16/64` stability gate 跌到 `0.535`。这是 mechanism-level 唯一一次正信号,但只是 hint。
 
-### P0 — 唯一冲刺方向
+### P0 — 完成且弱
 
-CopyMark / CommonCanvas 必须跑出第一个真实 `50/50` scorer 结果。在该结果落地前,**不开任何其他 lane,不写任何与 P0 无关的 contract / scope / scout doc**。
+CopyMark / CommonCanvas 已跑出第一个真实 `50/50` scorer 结果:
 
-执行步骤:
+```text
+package_probe = ready
+score_name = negative_pixel_mse_resized_512
+direction = higher_is_more_member
+AUC = 0.5736
+ASR = 0.6000
+TPR@1%FPR = 0.04
+TPR@0.1%FPR = 0.04
+verdict = negative_or_weak
+```
 
-1. 完成 `common-canvas/CommonCanvas-XL-C` 单 checkpoint 下载。当前优先 `commoncanvas_xl_c.safetensors` + resumable `curl -L -C -`;不要先回到全 diffusers component 下载,除非 single-file loading 明确失败。优先按时序选最快路径,不再补 download 策略对比 doc。
-2. `1 member + 1 nonmember` caption 的 CUDA smoke,确认 8GB RTX 4070 envelope。失败则同步给管理员;不写第二份 preflight。
-3. 生成 `50/50` deterministic responses(fixed seed manifest)。`package probe` 必须返回 `ready`。
-4. 跑**最简单**的 scorer:直接复用项目内 `recon` 或最 raw 的 distance scorer,**不要先发明新机制**。报 `AUC`、`ASR`、`TPR@1%FPR`、`TPR@0.1%FPR` 四指标。
-5. 出 verdict。`positive` → 第二资产 portability 从假说变成证据,直接 sync `admitted-results-summary` 候选讨论;`negative` → 写最短结论说明本攻击家族在 SDXL-class CommonCanvas 上不成立,再转入 P1。两种结果都比再开一条 lane 有价值 10 倍。
+P0 结论:
 
-P0 钳制:
+- 第二响应合同不再是 missing asset 问题;`50/50` responses 已经存在。
+- 最简单 pixel-distance transfer 在 SDXL-class CommonCanvas 上很弱,不准入 admitted evidence。
+- 不继续补 CLIP / pixel / LPIPS 变体矩阵来让消融表好看。
+- 只有出现更尖锐、可解释、能改变 portability 判断的机制假设时,才允许继续 CommonCanvas。
 
-- 24h 内 step 1 仍未完成且没有可行 mirror / 外接生成路径 → **escalate 到管理员讨论 acquisition route**(例如改用其他 CC-licensed open-weight diffusion model 或外部 inference endpoint),不允许 reselection 到第三条 lane。
-- 不允许把 P0 折射成第二份 acquisition spec、package preflight v2、query split rebuild。
-
-### 2026-05-13 P0 live checkpoint
+### 2026-05-13 P0 result checkpoint
 
 - 已确认:HF auth 可用,`diffaudit-research` 环境有 CUDA Torch 并能看到 RTX 4070;默认 PATH Python 是 CPU-only,不得再把它误判为本机无 CUDA。
-- 当前下载路线:`commoncanvas_xl_c.safetensors`,预期大小 `6,938,040,286` bytes,使用 resumable `curl` 写入 HF cache。下载完成前不切 lane。
-- 2026-05-13 continuation:首个 `curl` 到 `2,543,203,559` bytes(`36.66%`) 后因服务器断连退出;已用 `curl -C - --retry-all-errors` 从断点续传。这是 P0 acquisition retry,不是 lane change。
-- 下一决策:checkpoint 能加载 → 立即跑 `1 member + 1 nonmember` smoke;smoke 通过 → 生成 `50/50` responses;加载失败 → 记录精确错误并修 single-file loading 或换 acquisition route,不写新 scope doc。
+- `commoncanvas_xl_c.safetensors` 已完整下载,大小 `6,938,040,286` bytes。
+- `StableDiffusionXLPipeline.from_single_file` CUDA smoke 已生成 `1 member + 1 nonmember`。
+- full deterministic response packet 已完成:`50` member responses + `50` nonmember responses,`512x512`,`20` steps,`guidance_scale = 7.5`,fixed seed base `20260513`。
+- package probe artifact `workspaces/black-box/artifacts/copymark-commoncanvas-response-contract-probe-20260513.json` 返回 `ready`,缺失列表为空。
+- simple-distance artifact `workspaces/black-box/artifacts/copymark-commoncanvas-simple-distance-20260513.json` 返回 `negative_or_weak`。
+- 下一决策:不默认继续 CommonCanvas 变体消融;若继续,必须先提出一个能改变结论的 sharper scorer hypothesis。
 
-### P1 — 备胎(P0 严格 blocked 之后才启动)
+### P1 — 备胎(P0 弱结果之后才考虑)
 
 `tiny self-trained MNIST/DDPM known-split target × gradient-sensitive scorer`。
 
@@ -71,15 +79,15 @@ P0 钳制:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | CopyMark CommonCanvas fp16 weight + deterministic `50/50` response sprint(P0) |
-| Active GPU question | `commoncanvas-recon-50/50`(about-to-release 一旦 weights & responses 就绪) |
-| Next GPU candidate | simplest recon / distance scorer on CommonCanvas `50/50` deterministic responses |
-| CPU sidecar | gradient-sensitive scorer design on known-split MNIST/DDPM(P1,parked until P0 blocks) |
-| Platform/Runtime impact | none until P0 出 positive 且经评审准入 |
+| Active work | P0 complete: CommonCanvas `50/50` responses ready, first simple scorer weak |
+| Active GPU question | none selected after weak P0 result |
+| Next GPU candidate | none by default; only release for a sharper mechanism hypothesis |
+| CPU sidecar | choose between sharper CommonCanvas scorer hypothesis or P1 known-split gradient-sensitive scorer |
+| Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
 
-"现在的真正瓶颈不是契约不够严,是模型还没在第二个真实 membership 资产上跑过一次。停止再写第 N 份 reopen protocol、第 N 份 comparator audit。把 CommonCanvas fp16 essentials 下完,跑出 `50/50` deterministic responses,run 一个 simplest possible scorer。无论 positive 还是 negative,都比再来一份 `needs-assets` verdict 有价值 10 倍。"
+"CommonCanvas 已经在第二个真实 membership 资产上跑过一次,结论是 simplest pixel-distance transfer 弱。现在不要把弱结果扩展成消融矩阵。下一步只能选会改变决策的问题:要么提出一个更尖锐的 CommonCanvas scorer 假设,要么转向 P1 已知 split 的 gradient-sensitive 机制验证。"
 
 ---
 
@@ -91,18 +99,17 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CopyMark CommonCanvas single-checkpoint download + deterministic response generation` |
-| Current GPU candidate | `1 member + 1 nonmember` CommonCanvas CUDA smoke after checkpoint load |
-| CPU sidecar | none except monitoring acquisition; P1 MNIST gradient-sensitive scorer stays parked until P0 strictly blocks |
-| Active GPU question | `commoncanvas-text-to-image-response-smoke` pending checkpoint completion |
+| Active work | `CopyMark CommonCanvas first response-contract scorer complete; weak simple-distance result` |
+| Current GPU candidate | none selected |
+| CPU sidecar | select the next decision-value hypothesis; do not expand weak P0 into metric-matrix ablations |
+| Active GPU question | none after `negative_or_weak` P0 scorer |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
-surfaces. The next high-value Research move is not another validator, boundary
-note, same-contract repeat, or remap-training detour; it is acquiring or
-constructing a real second asset / second response contract, then testing the
-simplest signal that can decide whether the current attack evidence transfers
-outside the old DDPM/CIFAR10 loop.
+surfaces. The second response contract has now been tested once, and the
+simplest pixel-distance transfer is weak. The next high-value move is a sharper
+mechanism hypothesis that can change the portability decision, not another
+validator, boundary note, same-contract repeat, or remap-training detour.
 
 Taste reset: every cycle must ask whether the work is finding new signal or
 just adding "more stationery" around a dead end. If a direction is already
@@ -163,23 +170,22 @@ generic model card. The follow-up manifest pass inspected `diffusers/` scripts,
 zip headers, the zip central directory, and representative `caption.json`
 payloads without downloading image data. CopyMark has a concrete directory-level
 member/holdout contract with `eval` and `test` splits, but the archive does not
-ship per-row membership provenance beyond directory choice. The next selected
-target is CommonCanvas/CommonCatalog, because it has cleaner open-model/open-data
-provenance than SD1.5/LAION. A local query-only package now exists with `50`
-member and `50` nonmember queries extracted by HTTP range, and its package probe
-returns `needs_responses`. Do not download the full `5.66GB` archive or release
-GPU. See
+ship per-row membership provenance beyond directory choice. The selected
+CommonCanvas/CommonCatalog target now has a local `50/50` query split,
+deterministic `50/50` text-to-image responses from
+`common-canvas/CommonCanvas-XL-C`, and a package probe status of `ready`. See
 [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md).
 The query asset note is
 [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md).
 A response-generation preflight corrected the blocker: the default PATH Python
 is CPU-only, but the `diffaudit-research` conda environment has CUDA Torch and
 sees the local RTX 4070. CommonCanvas is a text-to-image SDXL pipeline, so the
-package contract is now `text_to_image`, not `image_to_image`. The package
-therefore stays `needs_responses`; a minimal fp16 weight download attempt
-started but did not complete, so no response image has been generated yet. Do
-not run a scorer until deterministic responses are attached and the package
-probe returns `ready`. See
+package contract is `text_to_image`, not `image_to_image`. The 2026-05-13
+completion generated the deterministic responses and ran the first simple
+scorer: `negative_pixel_mse_resized_512` gives `AUC = 0.5736`, `ASR = 0.6000`,
+`TPR@1%FPR = 0.04`, and `TPR@0.1%FPR = 0.04`, so the verdict is
+`negative_or_weak` and not admitted. Do not expand this weak result into a
+variant matrix without a sharper hypothesis. See
 [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
@@ -524,10 +530,10 @@ Every autonomous research cycle must follow this loop:
 | Sidecar | Mode | Why |
 | --- | --- | --- |
 | True second membership benchmark | CPU-only / needs sharper mechanism or provenance | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit and weakens at `16 / 64`; no GPU. |
-| CopyMark external benchmark intake | CUDA-capable / needs text-to-image responses | Local CommonCanvas/CommonCatalog query split has `50/50` images and passes query/protocol shape. The CUDA-capable `diffaudit-research` env exists; the remaining blocker is CommonCanvas weights plus deterministic `text_to_image` responses, not CUDA absence. |
+| CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. The first simple pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), so do not expand variants without a sharper hypothesis. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
-| Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
+| Simple-distance second-asset portability | weak on CommonCanvas | First valid second response contract is ready, but the simplest pixel-distance scorer is weak; do not treat this as transfer evidence. |
 | MNIST simple true-membership scorers | CPU-only / closed | Public MNIST/DDPM raw/x0, tiny known-split raw loss, and tiny overfit raw-MSE upperbound are weak; do not expand simple MSE scoring. |
 | Beans/SD1.5 response-contract scout | CPU-only / contract-debug only | `25/25` beans query images and `25/25` local SD1.5 responses pass the package probe, but the split is beans train/validation, not proven SD1.5 training membership. |
 | Beans/SD1.5 simple-distance scorer | CPU-only / weak pseudo-split debug | Pixel MSE/MAE is near random on the pseudo-member split; do not enlarge this exact score or cite it as true membership evidence. |
@@ -552,8 +558,8 @@ Every autonomous research cycle must follow this loop:
 | Gradient-norm stability gate | weakened at `16 / 64`; gradient norm stays mechanism hint only | [docs/evidence/gradient-norm-stability-gate-20260512.md](docs/evidence/gradient-norm-stability-gate-20260512.md) |
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | CopyMark provenance intake | high-value external candidate; manifest inspected; CommonCanvas/CommonCatalog tiny CPU target selected | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
-| CopyMark CommonCanvas query asset | local `50/50` query split ready; package probe needs responses | [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md) |
-| CopyMark CommonCanvas response preflight | CUDA env exists; contract corrected to `text_to_image`; missing deterministic responses; no scorer | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
+| CopyMark CommonCanvas query asset | local `50/50` query split ready; deterministic responses generated in P0 | [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md) |
+| CopyMark CommonCanvas response and first scorer | package probe `ready`; simple pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`); no admitted promotion | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
