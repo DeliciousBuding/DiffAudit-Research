@@ -110,6 +110,14 @@ reverse direction is only `0.5776`. Do not expand simple distance scoring
 without a different mechanism or true membership split. See
 [../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md).
 
+The next black-box portability gate is now a membership-semantics gate, not a
+package-format gate. A true second membership benchmark must identify the
+target model, its real training or fine-tuning members, held-out nonmembers, and
+a reproducible query/response contract. Beans/SD1.5 fails that gate but remains
+useful for contract debugging. MNIST/DDPM passes the cleaner split test, but raw
+loss is weak, so only a different scorer hypothesis should reopen it. See
+[../../docs/evidence/true-second-membership-benchmark-scope-20260512.md](../../docs/evidence/true-second-membership-benchmark-scope-20260512.md).
+
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested
 raw PIA-style noise-prediction loss on `1aurent/ddpm-mnist` using first `16`
 MNIST train images as members and first `16` test images as nonmembers. The
