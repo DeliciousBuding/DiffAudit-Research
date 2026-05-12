@@ -147,6 +147,12 @@ images for `80` CPU epochs. Raw denoising MSE still reached only
 `AUC = 0.552734` with zero strict-tail recovery, so simple raw-MSE known-split
 work is closed. See
 [../../docs/evidence/tiny-overfit-mse-upperbound-20260512.md](../../docs/evidence/tiny-overfit-mse-upperbound-20260512.md).
+A final-layer per-sample gradient-norm scout on that same `8 / 64` overfit
+target is the first useful post-reset mechanism signal: `AUC = 0.734375` and
+`1 / 8` members recovered at zero false positives. This does not release GPU or
+admit evidence, but it moves the next CPU mechanism candidate from simple MSE
+to gradient-sensitive observables. See
+[../../docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](../../docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
