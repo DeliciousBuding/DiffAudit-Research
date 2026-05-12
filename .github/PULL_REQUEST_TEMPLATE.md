@@ -1,39 +1,15 @@
-# Pull Request
-
 ## Summary
-
-- 
-
-## Why
 
 - 
 
 ## Validation
 
-- [ ] I ran the relevant checks.
-- [ ] I documented anything not verified.
-- [ ] I scanned for private local paths, credentials, and data leaks when touching docs/configs.
+- Docs/evidence-only: `python -X utf8 scripts/run_docs_checks.py`
+- Code/script/test/config/workflow: `python -X utf8 scripts/run_local_checks.py --fast`
+- Not run:
 
-```powershell
-python scripts/run_local_checks.py --fast
-```
+## Review Notes
 
-## Scope
-
-- [ ] black-box
-- [ ] white-box
-- [ ] gray-box
-- [ ] implementation
-- [ ] docs
-- [ ] GitHub/repo governance
-- [ ] assets / data setup
-- [ ] third-party / licensing
-
-## Limitations
-
-- [ ] This PR does not present smoke/dry-run results as benchmark claims.
-- [ ] This PR does not relicense or redistribute third-party datasets, weights, papers, or gated assets.
-
-## Blockers / Follow-ups
-
-- 
+- Type: docs/evidence-only | code/runtime | assets/storage | governance
+- Claims boundary:
+- Follow-ups:
