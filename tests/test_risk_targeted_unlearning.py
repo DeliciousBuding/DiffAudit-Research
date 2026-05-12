@@ -484,6 +484,113 @@ class RiskTargetedUnlearningReviewTests(unittest.TestCase):
         self.assertEqual(received_allowlists[0], None)
         self.assertEqual(received_noise_seeds, [11, 11, 11, 11])
 
+    def test_defended_shadow_reopen_rejects_undefended_reference(self) -> None:
+        from diffaudit.defenses.risk_targeted_unlearning import review_risk_targeted_unlearning_pilot
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            shadow_summary = root / "shadow-summary.json"
+            _write_json(
+                shadow_summary,
+                {
+                    "status": "ready",
+                    "mode": "loss-score-export",
+                    "threshold_reference": "undefended-shadows",
+                    "artifact_paths": {"shadow_specs": [{"name": "shadow-01"}]},
+                    "exports": {
+                        "shadow_01_member": {"output_path": str(root / "shadow_01_member.pt")},
+                        "shadow_01_non_member": {"output_path": str(root / "shadow_01_non_member.pt")},
+                    },
+                },
+            )
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "defended-shadow reopen requires shadow reference threshold_reference=defended-shadows",
+            ):
+                review_risk_targeted_unlearning_pilot(
+                    workspace=root / "review",
+                    shadow_reference_summary=shadow_summary,
+                    target_member_dataset_dir=root / "target-member",
+                    target_nonmember_dataset_dir=root / "target-nonmember",
+                    baseline_checkpoint_root=root / "baseline-root",
+                    baseline_checkpoint_dir=root / "baseline-root" / "checkpoint-1",
+                    defended_checkpoint_dir=root / "defended-checkpoint",
+                    review_mode="defended-shadow-reopen",
+                )
+
+    def test_defended_shadow_reopen_accepts_defended_reference_metadata(self) -> None:
+        from diffaudit.defenses.risk_targeted_unlearning import review_risk_targeted_unlearning_pilot
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            shadow_summary = root / "shadow-summary.json"
+            _write_json(
+                shadow_summary,
+                {
+                    "status": "ready",
+                    "mode": "loss-score-export",
+                    "threshold_reference": "defended-shadows",
+                    "artifact_paths": {"shadow_specs": [{"name": "defended-shadow-01"}]},
+                    "exports": {
+                        "shadow_01_member": {"output_path": str(root / "shadow_01_member.pt")},
+                        "shadow_01_non_member": {"output_path": str(root / "shadow_01_non_member.pt")},
+                    },
+                    "runtime": {
+                        "resolution": 32,
+                        "ddpm_num_steps": 20,
+                        "sampling_frequency": 2,
+                        "attack_method": 1,
+                        "prediction_type": "epsilon",
+                    },
+                },
+            )
+
+            def fake_extract(**kwargs):
+                output_path = Path(kwargs["output_path"])
+                records_path = Path(kwargs["records_path"])
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                records_path.parent.mkdir(parents=True, exist_ok=True)
+                output_path.write_bytes(b"tensor")
+                records_path.write_text("{}", encoding="utf-8")
+                return {
+                    "status": "ready",
+                    "output_path": str(output_path),
+                    "records_path": str(records_path),
+                    "checkpoint_dir": str(kwargs.get("checkpoint_dir")),
+                    "sample_count": 4,
+                    "score_stats": {"mean": 0.1, "min": 0.0, "max": 0.2},
+                }
+
+            def fake_eval(*, workspace, packet_summary, evaluation_style="threshold-transfer", provenance_status="workspace-verified"):
+                del workspace, packet_summary, evaluation_style, provenance_status
+                return {
+                    "status": "ready",
+                    "target_transfer": {"metrics": {"auc": 0.6, "asr": 0.5, "tpr_at_1pct_fpr": 0.1, "tpr_at_0_1pct_fpr": 0.02}},
+                    "target_self_diagnostic": {"metrics": {"auc": 0.6, "asr": 0.5, "tpr_at_1pct_fpr": 0.1, "tpr_at_0_1pct_fpr": 0.02}},
+                    "shadow_pool": {"metrics": {"auc": 0.5}},
+                }
+
+            with patch("diffaudit.defenses.risk_targeted_unlearning._extract_gsa_loss_scores", side_effect=fake_extract), patch(
+                "diffaudit.defenses.risk_targeted_unlearning.evaluate_gsa_loss_score_packet",
+                side_effect=fake_eval,
+            ):
+                summary = review_risk_targeted_unlearning_pilot(
+                    workspace=root / "review",
+                    shadow_reference_summary=shadow_summary,
+                    target_member_dataset_dir=root / "target-member",
+                    target_nonmember_dataset_dir=root / "target-nonmember",
+                    baseline_checkpoint_root=root / "baseline-root",
+                    baseline_checkpoint_dir=root / "baseline-root" / "checkpoint-1",
+                    defended_checkpoint_dir=root / "defended-checkpoint",
+                    review_mode="defended-shadow-reopen",
+                )
+
+        self.assertEqual(summary["status"], "ready")
+        self.assertEqual(summary["review_protocol"]["review_mode"], "defended-shadow-reopen")
+        self.assertEqual(summary["review_protocol"]["threshold_reference"], "defended-shadows")
+        self.assertEqual(summary["review_protocol"]["reopen_guard"], "defended-shadow-required")
+
     def test_cli_runs_review_wrapper(self) -> None:
         from diffaudit.cli import main
 
@@ -519,6 +626,7 @@ class RiskTargetedUnlearningReviewTests(unittest.TestCase):
                     "status": "ready",
                     "artifact_paths": {"summary": str(root / "review" / "summary.json")},
                     "subset": {"sample_id_allowlist": [10, 20], "noise_seed": 5},
+                    "review_protocol": {"review_mode": kwargs["review_mode"]},
                     "comparison": {"target_transfer_delta": {"auc": -0.02}},
                 }
 
@@ -543,6 +651,8 @@ class RiskTargetedUnlearningReviewTests(unittest.TestCase):
                             str(matched_index_file),
                             "--noise-seed",
                             "5",
+                            "--review-mode",
+                            "defended-shadow-reopen",
                         ]
                     )
 
@@ -551,6 +661,7 @@ class RiskTargetedUnlearningReviewTests(unittest.TestCase):
         self.assertEqual(payload["status"], "ready")
         self.assertEqual(payload["subset"]["sample_id_allowlist"], [10, 20])
         self.assertEqual(payload["subset"]["noise_seed"], 5)
+        self.assertEqual(payload["review_protocol"]["review_mode"], "defended-shadow-reopen")
 
 
 if __name__ == "__main__":
