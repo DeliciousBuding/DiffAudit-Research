@@ -1,17 +1,19 @@
-"""Mid-frequency same-noise residual scoring utilities.
+"""Mid-frequency same-noise residual scoring and tiny cache utilities.
 
-This module covers CPU scoring only. It does not collect diffusion states or
-authorize a GPU packet; callers must provide matched ``x_t`` and
-``tilde_x_t`` tensors from a frozen residual collection contract.
+This module is still pre-admission infrastructure. It provides CPU scoring,
+same-noise state collection helpers, and a synthetic tiny cache-contract runner;
+it does not authorize a GPU packet or benchmark result.
 """
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 import numpy as np
 
-from diffaudit.attacks.h2_response_strength import build_frequency_mask
+from diffaudit.attacks.h2_response_strength import build_alpha_bars, build_frequency_mask
+from diffaudit.utils.io import write_summary_json
 from diffaudit.utils.metrics import metric_bundle, round6
 
 DEFAULT_CUTOFF = 0.25
@@ -206,3 +208,156 @@ def collect_midfreq_residual_states(
         np.concatenate(x_t_batches, axis=0).astype(np.float32),
         np.concatenate(tilde_batches, axis=0).astype(np.float32),
     )
+
+
+def run_midfreq_residual_tiny_cache(
+    *,
+    workspace: str | Path,
+    member_count: int = 4,
+    nonmember_count: int = 4,
+    batch_size: int = 4,
+    timestep: int = 80,
+    seed: int = 0,
+    cutoff: float = DEFAULT_CUTOFF,
+    cutoff_high: float = DEFAULT_CUTOFF_HIGH,
+    image_size: int = 32,
+    channels: int = 3,
+    device: str = "cpu",
+    provenance_status: str = "synthetic-schema-preflight",
+) -> dict[str, Any]:
+    """Write a tiny CPU-only residual cache that proves the packet schema.
+
+    This runner deliberately uses a synthetic model and synthetic inputs. It is
+    a cache-contract preflight, not a benchmark or GPU release.
+    """
+
+    if device != "cpu":
+        raise ValueError("run_midfreq_residual_tiny_cache is CPU-only; use device='cpu'")
+    if int(member_count) <= 0 or int(nonmember_count) <= 0:
+        raise ValueError("member_count and nonmember_count must be positive")
+    if int(member_count) > 8 or int(nonmember_count) > 8:
+        raise ValueError("tiny cache is capped at 8 members and 8 nonmembers")
+    if int(batch_size) <= 0:
+        raise ValueError("batch_size must be positive")
+    if int(image_size) < 8:
+        raise ValueError("image_size must be at least 8")
+    if int(channels) <= 0:
+        raise ValueError("channels must be positive")
+
+    import torch
+
+    class SyntheticEpsModel(torch.nn.Module):
+        def forward(self, x, t):  # type: ignore[no-untyped-def]
+            del t
+            gate = (x.mean(dim=(1, 2, 3), keepdim=True) > 0.0).to(dtype=x.dtype)
+            return x * (0.05 + 0.45 * gate)
+
+    member_count_i = int(member_count)
+    nonmember_count_i = int(nonmember_count)
+    total = member_count_i + nonmember_count_i
+    labels = np.asarray([1] * member_count_i + [0] * nonmember_count_i, dtype=np.int64)
+    member_indices = np.arange(member_count_i, dtype=np.int64)
+    nonmember_indices = np.arange(member_count_i, total, dtype=np.int64)
+
+    input_generator = torch.Generator(device="cpu")
+    input_generator.manual_seed(int(seed))
+    inputs = torch.empty((total, int(channels), int(image_size), int(image_size)), dtype=torch.float32)
+    inputs[:member_count_i].fill_(0.35)
+    inputs[member_count_i:].fill_(0.65)
+    inputs = torch.clamp(inputs + 0.01 * torch.rand(inputs.shape, generator=input_generator), 0.0, 1.0)
+
+    dataset = torch.utils.data.TensorDataset(inputs, torch.from_numpy(labels))
+    loader = torch.utils.data.DataLoader(dataset, batch_size=int(batch_size), shuffle=False)
+    alpha_bars = build_alpha_bars("cpu", timesteps=1000)
+    collected_inputs, x_t, tilde_x_t = collect_midfreq_residual_states(
+        SyntheticEpsModel(),
+        loader,
+        device="cpu",
+        alpha_bars=alpha_bars,
+        timestep=int(timestep),
+        seed=int(seed),
+    )
+    summary = summarize_midfreq_packet(
+        labels,
+        x_t,
+        tilde_x_t,
+        cutoff=float(cutoff),
+        cutoff_high=float(cutoff_high),
+        metadata={
+            "packet_type": "synthetic_schema_preflight",
+            "timestep": int(timestep),
+            "seed": int(seed),
+            "noise_provenance": {
+                "collector_seed": int(seed),
+                "batch_reseed_rule": "collector_seed + running_sample_offset",
+                "sample_offset": 0,
+            },
+            "provenance_status": provenance_status,
+        },
+    )
+
+    workspace_path = Path(workspace)
+    workspace_path.mkdir(parents=True, exist_ok=True)
+    cache_path = workspace_path / "residual-cache.npz"
+    summary_path = workspace_path / "summary.json"
+    distances = np.asarray(summary["distances"], dtype=np.float32)
+    scores = np.asarray(summary["scores"], dtype=np.float32)
+    np.savez_compressed(
+        cache_path,
+        labels=labels,
+        member_indices=member_indices,
+        nonmember_indices=nonmember_indices,
+        timestep=np.asarray([int(timestep)], dtype=np.int64),
+        seed=np.asarray([int(seed)], dtype=np.int64),
+        noise_seed=np.asarray([int(seed)], dtype=np.int64),
+        inputs=collected_inputs.numpy().astype(np.float32),
+        x_t=x_t.astype(np.float32),
+        tilde_x_t=tilde_x_t.astype(np.float32),
+        bandpass_l2=distances,
+        scores=scores,
+        cutoff=np.asarray([float(cutoff)], dtype=np.float32),
+        cutoff_high=np.asarray([float(cutoff_high)], dtype=np.float32),
+    )
+
+    payload = {
+        "status": "ready",
+        "verdict": "tiny-runner-schema-ready",
+        "method": "mid_frequency_same_noise_residual",
+        "boundary": "synthetic cache-contract preflight; not a benchmark; no GPU release",
+        "paths": {
+            "workspace": str(workspace_path),
+            "cache": str(cache_path),
+            "summary": str(summary_path),
+        },
+        "cache_schema": {
+            "format": "npz",
+            "fields": [
+                "labels",
+                "member_indices",
+                "nonmember_indices",
+                "timestep",
+                "seed",
+                "noise_seed",
+                "inputs",
+                "x_t",
+                "tilde_x_t",
+                "bandpass_l2",
+                "scores",
+                "cutoff",
+                "cutoff_high",
+            ],
+        },
+        "packet": {
+            "member_count": member_count_i,
+            "nonmember_count": nonmember_count_i,
+            "sample_count": total,
+            "batch_size": int(batch_size),
+            "device": "cpu",
+            "gpu_released": False,
+            "synthetic": True,
+        },
+        "summary": summary,
+        "next_action": "Run a real-asset 4/4 or 8/8 cache preflight before any 64/64 sign-check packet.",
+    }
+    write_summary_json(summary_path, payload)
+    return payload
