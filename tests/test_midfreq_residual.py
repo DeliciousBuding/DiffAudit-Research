@@ -1,4 +1,6 @@
 import unittest
+import tempfile
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -141,6 +143,63 @@ class MidFrequencyResidualTests(unittest.TestCase):
         np.testing.assert_allclose(tilde_a, tilde_b)
         self.assertEqual(x_t_a.shape, (3, 1, 8, 8))
         self.assertEqual(tilde_a.shape, (3, 1, 8, 8))
+
+    def test_tiny_cache_runner_writes_required_schema(self) -> None:
+        from diffaudit.attacks.midfreq_residual import run_midfreq_residual_tiny_cache
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            workspace = Path(tmpdir) / "midfreq-tiny"
+            payload = run_midfreq_residual_tiny_cache(
+                workspace=workspace,
+                member_count=2,
+                nonmember_count=2,
+                batch_size=2,
+                image_size=8,
+                channels=1,
+                seed=7,
+            )
+
+            self.assertEqual(payload["status"], "ready")
+            self.assertFalse(payload["packet"]["gpu_released"])
+            self.assertTrue((workspace / "summary.json").exists())
+            self.assertTrue((workspace / "residual-cache.npz").exists())
+            with np.load(workspace / "residual-cache.npz") as cache:
+                for field in payload["cache_schema"]["fields"]:
+                    self.assertIn(field, cache.files)
+                self.assertEqual(cache["labels"].tolist(), [1, 1, 0, 0])
+                self.assertEqual(tuple(cache["x_t"].shape), (4, 1, 8, 8))
+                self.assertEqual(tuple(cache["tilde_x_t"].shape), (4, 1, 8, 8))
+                self.assertEqual(tuple(cache["bandpass_l2"].shape), (4,))
+
+    def test_tiny_cache_runner_rejects_non_tiny_packets(self) -> None:
+        from diffaudit.attacks.midfreq_residual import run_midfreq_residual_tiny_cache
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with self.assertRaises(ValueError):
+                run_midfreq_residual_tiny_cache(
+                    workspace=tmpdir,
+                    member_count=9,
+                    nonmember_count=1,
+                )
+
+    def test_cli_parser_accepts_midfreq_tiny_cache_command(self) -> None:
+        from diffaudit.cli import build_parser
+
+        args = build_parser().parse_args(
+            [
+                "run-midfreq-residual-tiny-cache",
+                "--workspace",
+                "tmp/midfreq",
+                "--member-count",
+                "2",
+                "--nonmember-count",
+                "2",
+            ]
+        )
+
+        self.assertEqual(args.command, "run-midfreq-residual-tiny-cache")
+        self.assertEqual(args.member_count, 2)
+        self.assertEqual(args.nonmember_count, 2)
 
 
 if __name__ == "__main__":
