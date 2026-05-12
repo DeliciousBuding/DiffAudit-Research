@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `next-lane reselection after SecMI consumer review`
+- Active work: `post-I-B protocol audit next-lane reselection`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
@@ -39,8 +39,10 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   candidate-only, but the comparator audit narrows the claim away from a proven
   mid-frequency-specific mechanism. Same-contract residual GPU expansion is
   closed. SecMI consumer-contract review keeps SecMI as
-  `structural-support-only`, not system-consumable. The current reducible work
-  is next-lane reselection.
+  `structural-support-only`, not system-consumable. The I-B protocol audit now
+  confirms the active risk-targeted unlearning review path still borrows an
+  undefended shadow reference, so it cannot release defended-shadow or
+  adaptive-attacker work. The current reducible work is next-lane reselection.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

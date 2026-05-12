@@ -33,6 +33,7 @@ REQUIRED_BLOCKED_CLAIMS = (
 REQUIRED_EVIDENCE_DOCS = (
     "docs/evidence/ib-adaptive-defense-contract-20260511.md",
     "docs/evidence/ib-risk-targeted-unlearning-successor-scope.md",
+    "docs/evidence/ib-defense-reopen-protocol-audit-20260512.md",
 )
 
 
