@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CopyMark provenance intake selected; no GPU release`
+- Active work: `CopyMark manifest inspected; choose one tiny CPU subset target`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -46,14 +46,18 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   diffusion benchmark scan did not find a ready target whose model card alone
   proves exact member/nonmember provenance. CopyMark is now the highest-value
   external intake candidate because its paper-level protocol is explicitly about
-  diffusion membership/copyright detection, but it remains `needs asset
-  manifest check` until the dataset archive and `diffusers/` scripts prove
-  split provenance and query/response availability. The current reducible work
-  is CopyMark provenance/asset inspection or a sharper observable than
-  final-layer gradient L2. Do not return to I-B remap training, Beans distance
-  variants, MNIST raw/x0 residual repeats, tiny-denoiser MSE ablations,
-  external-weight downloads without provenance, CopyMark dataset download
-  without manifest justification, gradient layer sweeps, or same-contract
+  diffusion membership/copyright detection. Its diffusers README, scripts, and
+  zip central directory now show a concrete directory-level member/holdout
+  contract with `eval` and `test` splits, but the archive itself carries only
+  images plus `caption.json` fields (`path`, `height`, `width`, `caption`), not
+  per-row membership provenance. The current reducible work is a tiny CPU-only
+  CommonCanvas/CommonCatalog subset first, because that pairing has cleaner
+  open-model/open-data provenance than SD1.5/LAION. Fall back to a sharper
+  observable than final-layer gradient L2 only if CopyMark target provenance
+  blocks. Do not return to I-B remap training, Beans distance variants, MNIST
+  raw/x0 residual repeats, tiny-denoiser MSE ablations,
+  external-weight downloads without provenance, full CopyMark dataset download
+  before a tiny target is frozen, gradient layer sweeps, or same-contract
   residual repeats by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
