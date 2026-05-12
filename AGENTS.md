@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CopyMark CommonCanvas query split ready; needs responses`
+- Active work: `CopyMark CommonCanvas response generation blocked locally`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -54,10 +54,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   `response-contract-copymark-commoncanvas-20260512` query split now exists
   under `<DIFFAUDIT_ROOT>/Download` with `50` CommonCatalog member queries and
   `50` COCO holdout queries; the package probe returns `needs_responses`, not
-  `ready`. The current reducible work is deterministic CommonCanvas response
-  generation for that fixed split, or falling back to a sharper observable than
-  final-layer gradient L2 only if response generation blocks. Do not return to
-  I-B remap training, Beans distance variants, MNIST raw/x0 residual repeats,
+  `ready`. A response preflight found the current Python uses CPU-only Torch,
+  the GPU is visible only through `nvidia-smi`, and no local CommonCanvas model
+  cache is present. The current reducible work is to provide a CUDA-capable
+  environment plus CommonCanvas weights, attach responses generated elsewhere,
+  or mark the package query-only/blocked. Do not return to I-B remap training,
+  Beans distance variants, MNIST raw/x0 residual repeats,
   tiny-denoiser MSE ablations,
   external-weight downloads without provenance, full CopyMark dataset download
   before a tiny target is frozen, gradient layer sweeps, or same-contract
