@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `Research taste reset; second-asset / second-response-contract pivot` |
+| Active work | `true second membership benchmark scope` |
 | Current GPU candidate | none selected |
-| CPU sidecar | Beans/SD1.5 is contract/debug only because its split is not proven SD1.5 membership; true second membership benchmark still needed |
+| CPU sidecar | freeze true benchmark criteria; choose one next valid scorer/asset path instead of expanding pseudo-splits |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -30,6 +30,16 @@ on unless the next action can change a real decision. ReDiffuse 800k, I-B
 target-risk remap training, I-C translated replay, diagonal-Fisher repeats,
 GSA loss-score LR repeats, and mid-frequency same-contract repeats are not
 default next steps.
+
+The current scope gate is frozen in
+[docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md).
+A true second membership benchmark must identify the target model, its real
+member training or fine-tuning set, a held-out nonmember set, and a reproducible
+query/response contract. Beans/SD1.5 remains useful only for contract/debug
+plumbing; MNIST/DDPM is semantically cleaner but raw-loss transfer is already
+weak. The next valid move is either a sharper MNIST/DDPM scorer or a tiny
+known-split self-trained/fine-tuned target, not more validators or pseudo-split
+distance variants.
 
 After closing cross-box successor scoping, I-B defense-aware
 reopen scoping, archived gray-box paper-candidate reentry, and I-C same-spec
@@ -372,7 +382,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| I-B shadow-local identity decision | CPU-only | A two-shadow target-risk remap is mechanically possible, but true shadow-local scoring is still absent; choose whether to recompute per-shadow risk records or explicitly approve the weaker remap before any training. |
+| True second membership benchmark | CPU-only / scope-frozen | The next route decision needs real target-model membership semantics; choose a sharper MNIST/DDPM scorer or construct a tiny known-split target. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -392,6 +402,7 @@ Every autonomous research cycle must follow this loop:
 | Beans SD1.5 CLIP-distance scout | weak embedding-distance signal; no GPU release | [docs/evidence/beans-sd15-clip-distance-scout-20260512.md](docs/evidence/beans-sd15-clip-distance-scout-20260512.md) |
 | Beans SD1.5 membership semantics correction | contract/debug only; beans split is not proven SD1.5 membership | [docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](docs/evidence/beans-sd15-membership-semantics-correction-20260512.md) |
 | MNIST DDPM PIA portability smoke | raw-loss transfer closed unless sharper scorer appears; no GPU release | [docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md) |
+| True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |

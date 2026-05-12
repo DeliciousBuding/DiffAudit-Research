@@ -28,38 +28,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `I-B shadow-local identity scout closed; next I-B semantic decision`
+- Active work: `true second membership benchmark scope`
 - Next GPU candidate: none selected
-- CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
-  I-B defense-aware reopen scouting, and archived gray-box paper-candidate
-  reentry are closed or on hold. The mid-frequency residual scorer, collector
-  functions, synthetic tiny cache writer, real-asset `4/4` preflight, and
-  frozen `64/64` sign-check, seed-only stability repeat, and CPU comparator
-  audit are now recorded. The repeat retained signal, so the line stays
-  candidate-only, but the comparator audit narrows the claim away from a proven
-  mid-frequency-specific mechanism. Same-contract residual GPU expansion is
-  closed. SecMI consumer-contract review keeps SecMI as
-  `structural-support-only`, not system-consumable. The I-B protocol audit now
-  confirms the active risk-targeted unlearning review path used to borrow an
-  undefended shadow reference. A machine-checkable defended-shadow reopen
-  protocol is now frozen, and the review entrypoint now rejects undefended
-  threshold references in explicit `defended-shadow-reopen` mode. A CPU-only
-  defended-shadow training manifest now checks three shadow entries and k32
-  identity files, but coverage-aware validation blocks the current target k32
-  list because the three shadow member datasets cover only `2/32`, `2/32`, and
-  `1/32` forget IDs. A shadow-local identity scout now shows a mechanically
-  possible two-shadow target-risk remap for `shadow-01` and `shadow-02`, while
-  `shadow-03` has only `31/32` member records. This remains blocked as true
-  shadow-local scoring because the records are target-level PIA/GSA
-  full-overlap records. No defended-shadow training has run and no GPU is
-  released. Post-I-B reselection selected I-C same-spec evaluator
-  feasibility, and that scout is also closed as hold because the active PIA
-  bridge surface is translated-alias-only with `same_spec_reuse = false`. The
-  admitted consumer drift audit also verified that Platform/Runtime-visible rows
-  still contain only the admitted recon, PIA baseline, PIA defended, GSA, and
-  DPDM W-1 bundle rows. The current reducible work is deciding whether to
-  recompute true shadow-local risk records or explicitly approve the weaker
-  two-shadow remap before any tiny training.
+- CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
+  contract/debug only because beans train/validation is not proven SD1.5
+  membership. MNIST/DDPM via `1aurent/ddpm-mnist` has cleaner train/test
+  membership semantics, but raw PIA-style loss is weak and already closed
+  unless a sharper scorer appears. The current reducible work is choosing one
+  valid next path: a new MNIST/DDPM scorer with a different observable, or a
+  tiny known-split self-trained/fine-tuned target. Do not return to I-B remap
+  training, Beans distance variants, or same-contract residual repeats by
+  default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
