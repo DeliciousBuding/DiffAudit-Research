@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `mid-frequency same-noise residual collector implementation` |
+| Active work | `mid-frequency same-noise residual tiny runner` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | mid-frequency residual scorer is ready; collector still must create same-noise cache fields |
+| CPU sidecar | mid-frequency residual scorer and collector functions are ready; tiny executable runner still pending |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| mid-frequency same-noise residual | black-box | CPU-first | distinct from H2/H3 response-cache frequency filtering; cache audit and scorer contract completed | existing caches lack `x_t`, `tilde_x_t`, noise provenance, and same-noise residual fields | implement a tiny residual collector; no GPU until 64/64 cache preflight exists |
+| mid-frequency same-noise residual | black-box | CPU-first | distinct from H2/H3 response-cache frequency filtering; cache audit, scorer contract, and collector functions completed | existing caches lack `x_t`, `tilde_x_t`, noise provenance, and same-noise residual fields | implement a tiny executable runner; no 64/64 packet until real-asset cache preflight exists |
 | black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split`; query-source audit found no reusable local Pokemon/Kandinsky images or responses | missing member/nonmember query images and response coverage | acquire/build at least `25/25` real query images plus responses, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
@@ -44,18 +44,19 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 - `mode`: CPU-first
 - `status`: active successor after the new-observable scout found a distinct
-  gap and the scorer contract was implemented.
-- `goal`: implement a tiny DDPM/CIFAR10 residual cache collector that stores
-  `x_t`, `tilde_x_t`, timestep, noise provenance, labels, and band-pass L2
-  before any GPU packet.
+  gap and scorer/collector functions were implemented.
+- `goal`: implement a tiny DDPM/CIFAR10 residual cache runner that writes
+  `labels`, `x_t`, `tilde_x_t`, timestep, noise provenance, band-pass L2, and
+  summary metrics before any 64/64 packet.
 - `latest trigger`: H2/H3 frequency filters cover response-cache plug-ins only;
-  they do not evaluate the same-noise residual observable. The CPU scorer now
-  lives in `src/diffaudit/attacks/midfreq_residual.py`.
+  they do not evaluate the same-noise residual observable. The CPU scorer and
+  collector functions now live in `src/diffaudit/attacks/midfreq_residual.py`.
 - `GPU cap`: none
 - `integration`: no schema change; Research-only scout
 
 Current evidence:
 
+- [../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md)
 - [../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md)
 - [../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md)
 - [../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md)
@@ -195,6 +196,7 @@ Restart conditions:
 
 | Task | Result |
 | --- | --- |
+| Mid-frequency residual collector contract | Same-noise collector functions ready; executable runner still pending; no GPU release. |
 | Mid-frequency residual scorer contract | Scorer utility and tests ready; collector still pending; no GPU release. |
 | Paper-backed new-observable intake scout | Distinct same-noise mid-frequency residual gap found; existing caches fail the residual-field contract, so no GPU release. |
 | Post-ReDiffuse reselection | Selects black-box second response-contract acquisition; no GPU release. |

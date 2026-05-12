@@ -17,9 +17,9 @@
 - `simple image-to-image distance`: bounded single-asset evidence on
   SD1.5/CelebA; not a product row and not portability evidence.
 - `mid-frequency same-noise residual`: distinct paper-backed observable gap;
-  scorer contract is implemented and tested, but existing H2/H3 caches are
-  insufficient because they lack `x_t`, `tilde_x_t`, and same-noise residual
-  provenance.
+  scorer and collector functions are implemented and tested, but existing
+  H2/H3 caches are insufficient because they lack `x_t`, `tilde_x_t`, and
+  same-noise residual provenance.
 
 ## Next Action
 
@@ -89,9 +89,11 @@ The mid-frequency same-noise residual scout is now the active CPU-first
 black-box successor. It is not covered by the existing H2/H3 lowpass,
 highpass, or bandpass response-cache work because those caches only store final
 inputs/responses and distance summaries. The next action is a residual cache
-collector for a tiny sign-check packet, not a GPU packet. The CPU scorer is
+executable runner for a tiny sign-check packet, not a GPU packet. The CPU scorer is
 tracked in
 [../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md);
+the collector functions are tracked in
+[../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md);
 the cache audit is
 [../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md).
 
