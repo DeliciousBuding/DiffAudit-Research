@@ -38,6 +38,7 @@ P0 钳制:
 
 - 已确认:HF auth 可用,`diffaudit-research` 环境有 CUDA Torch 并能看到 RTX 4070;默认 PATH Python 是 CPU-only,不得再把它误判为本机无 CUDA。
 - 当前下载路线:`commoncanvas_xl_c.safetensors`,预期大小 `6,938,040,286` bytes,使用 resumable `curl` 写入 HF cache。下载完成前不切 lane。
+- 2026-05-13 continuation:首个 `curl` 到 `2,543,203,559` bytes(`36.66%`) 后因服务器断连退出;已用 `curl -C - --retry-all-errors` 从断点续传。这是 P0 acquisition retry,不是 lane change。
 - 下一决策:checkpoint 能加载 → 立即跑 `1 member + 1 nonmember` smoke;smoke 通过 → 生成 `50/50` responses;加载失败 → 记录精确错误并修 single-file loading 或换 acquisition route,不写新 scope doc。
 
 ### P1 — 备胎(P0 严格 blocked 之后才启动)
