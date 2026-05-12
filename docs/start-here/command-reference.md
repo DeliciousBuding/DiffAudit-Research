@@ -107,6 +107,22 @@ python scripts/evaluate_h2_response_cache.py `
 This is a CPU-only candidate scorer. It does not collect model responses and
 does not promote H2 to admitted evidence.
 
+Write the synthetic mid-frequency same-noise residual cache schema preflight:
+
+```powershell
+python -X utf8 -m diffaudit run-midfreq-residual-tiny-cache `
+  --workspace tmp/midfreq-residual-tiny-cache-smoke `
+  --member-count 4 `
+  --nonmember-count 4 `
+  --batch-size 4 `
+  --seed 12 `
+  --timestep 80
+```
+
+This writes `summary.json` and `residual-cache.npz` under the ignored
+workspace. It is a cache-contract smoke only, not a benchmark and not a GPU
+release.
+
 Run the bounded H2 response-strength validation candidate:
 
 ```powershell

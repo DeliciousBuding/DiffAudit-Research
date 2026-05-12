@@ -7,7 +7,7 @@ model result.
 ## Verdict
 
 ```text
-collector-function-ready; executable packet runner pending; no GPU release
+collector-function-ready; synthetic tiny runner now available; no GPU release
 ```
 
 The package now exposes a one-step same-noise state collector in:
@@ -56,10 +56,11 @@ Command:
 python -m unittest tests.test_midfreq_residual
 ```
 
-## Next Action
+## Follow-Up
 
-Add an executable tiny packet runner or CLI entry that writes a residual cache
-with:
+The follow-up synthetic runner is recorded in
+[midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md).
+The next real-asset runner must preserve the same residual cache fields:
 
 - `labels`
 - `member_indices`
@@ -72,9 +73,9 @@ with:
 - `bandpass_l2`
 - `summary.json`
 
-The first real run should be capped at `4/4` or `8/8` for runtime validation.
-A `64/64` sign-check packet remains blocked until that tiny runner proves the
-cache schema on real assets.
+The first real-asset run should be capped at `4/4` or `8/8` for runtime
+validation. A `64/64` sign-check packet remains blocked until that tiny runner
+proves the cache schema on real assets.
 
 ## Boundary
 
