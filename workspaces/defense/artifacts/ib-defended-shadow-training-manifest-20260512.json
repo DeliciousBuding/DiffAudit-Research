@@ -1,6 +1,6 @@
 {
   "schema": "diffaudit.ib_defended_shadow_training_manifest.v1",
-  "status": "ready",
+  "status": "blocked",
   "admitted": false,
   "gpu_release": "none",
   "track": "defense",
@@ -65,11 +65,29 @@
   "shadow_training": [
     {
       "shadow_id": "shadow-01",
-      "status": "ready",
+      "status": "blocked",
       "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-01-member",
       "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-01",
       "output_workspace": "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-01",
       "training_role": "defended-shadow",
+      "forget_identity_coverage": {
+        "required_count": 32,
+        "covered_count": 2,
+        "missing_count": 30,
+        "missing_preview": [
+          1015,
+          1533,
+          1684,
+          1861,
+          2037,
+          2149,
+          2307,
+          2772,
+          2777,
+          3420
+        ],
+        "dataset_image_id_count": 965
+      },
       "command": [
         "run-risk-targeted-unlearning-pilot",
         "--workspace",
@@ -91,15 +109,35 @@
         "--seed",
         "0"
       ],
-      "errors": []
+      "errors": [
+        "forget identity coverage incomplete"
+      ]
     },
     {
       "shadow_id": "shadow-02",
-      "status": "ready",
+      "status": "blocked",
       "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-02-member",
       "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-02",
       "output_workspace": "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-02",
       "training_role": "defended-shadow",
+      "forget_identity_coverage": {
+        "required_count": 32,
+        "covered_count": 2,
+        "missing_count": 30,
+        "missing_preview": [
+          1015,
+          1533,
+          1684,
+          1861,
+          2037,
+          2149,
+          2160,
+          2307,
+          2772,
+          2777
+        ],
+        "dataset_image_id_count": 960
+      },
       "command": [
         "run-risk-targeted-unlearning-pilot",
         "--workspace",
@@ -121,15 +159,35 @@
         "--seed",
         "0"
       ],
-      "errors": []
+      "errors": [
+        "forget identity coverage incomplete"
+      ]
     },
     {
       "shadow_id": "shadow-03",
-      "status": "ready",
+      "status": "blocked",
       "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-03-member",
       "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-03",
       "output_workspace": "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-03",
       "training_role": "defended-shadow",
+      "forget_identity_coverage": {
+        "required_count": 32,
+        "covered_count": 1,
+        "missing_count": 31,
+        "missing_preview": [
+          1015,
+          1533,
+          1684,
+          2037,
+          2149,
+          2160,
+          2307,
+          2772,
+          2777,
+          3420
+        ],
+        "dataset_image_id_count": 969
+      },
       "command": [
         "run-risk-targeted-unlearning-pilot",
         "--workspace",
@@ -151,7 +209,9 @@
         "--seed",
         "0"
       ],
-      "errors": []
+      "errors": [
+        "forget identity coverage incomplete"
+      ]
     }
   ],
   "blocked_claims": [
@@ -161,6 +221,7 @@
     "GPU packet completed"
   ],
   "remaining_requirements": [
+    "construct shadow-local forget identity files or remap the defended-shadow contract",
     "execute tiny defended-shadow training",
     "export defended-shadow threshold references",
     "run explicit defended-shadow reopen review",
@@ -172,7 +233,11 @@
     "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
     "docs/evidence/ib-defended-shadow-training-manifest-20260512.md"
   ],
-  "errors": [],
+  "errors": [
+    "shadow-01: forget identity coverage incomplete",
+    "shadow-02: forget identity coverage incomplete",
+    "shadow-03: forget identity coverage incomplete"
+  ],
   "notes": [
     "This manifest is CPU-only planning; it does not run defended-shadow training.",
     "A ready manifest is only a precondition for a future tiny training run, not defense evidence."
