@@ -14,7 +14,7 @@
 
 ### 真正的两个抓手
 
-1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。pixel-distance、CLIP image-similarity、prompt-response consistency 三个单点机制均弱。该 CommonCanvas packet 默认关闭,不是 admitted evidence。
+1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。pixel-distance、CLIP image-similarity、prompt-response consistency、multi-seed response stability 四个单点机制均弱。该 CommonCanvas packet 默认关闭,不是 admitted evidence。
 2. **tiny known-split gradient-sensitive scout**:5/12 在 `8/8` overfit 上 gradient norm 到过 `AUC = 0.734`,但 `16/64` stability gate 跌到 `0.535`;5/13 更乐观的 `64/64` oracle gradient-prototype alignment 也只有 `AUC = 0.500977` 且低 FPR 为 0。该机制 hint 已被削弱,不释放 GPU,不再跑同家族梯度变体。
 
 ### 2026-05-13 外部资产边界
@@ -38,6 +38,17 @@ loss 结果仍弱:`AUC = 0.535889`,`ASR = 0.570312`,`TPR@1%FPR = 0.03125`,
 只够做 scout;结果也不支持继续 seed/timestep/size 扩展。见
 [docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md](docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md)。
 
+### 2026-05-13 CommonCanvas multi-seed stability scout
+
+为避免只从 query-response 或 prompt-response 相似度角度关停 CommonCanvas,本轮
+补了一个真正不同但仍 bounded 的机制问题:member prompt 是否在固定 seeds 下
+生成更稳定的 response distribution。`4/4` prompts、two fixed seeds、
+`clip_vit_l14_response_seed_stability_cosine` 结果仍弱:`AUC = 0.5625`,
+`ASR = 0.625`,`TPR@1%FPR = 0.25`,`TPR@0.1%FPR = 0.25`。低 FPR 只恢复
+`1/4` member,且 `nonmember_001` 分数高于两个 member 样本。该机制不支持
+继续 `8/8`、更多 seeds 或 embedding metric 变体。见
+[docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md)。
+
 ### P0 — 完成且弱
 
 CopyMark / CommonCanvas 已跑出第一个真实 `50/50` scorer 结果:
@@ -59,8 +70,9 @@ P0 结论:
 - 最简单 pixel-distance transfer 在 SDXL-class CommonCanvas 上很弱,不准入 admitted evidence。
 - 单点 CLIP image-similarity follow-up 也弱:`AUC = 0.4588`,`ASR = 0.5300`,低 FPR 恢复为 0。
 - 单点 prompt-response consistency follow-up 也弱:`AUC = 0.4408`,`ASR = 0.5100`,低 FPR 只恢复 `1/50` member。
+- 单点 multi-seed response stability follow-up 也弱:`4/4`,`AUC = 0.5625`,`ASR = 0.625`,低 FPR 只恢复 `1/4` member。
 - 不继续补 CLIP / pixel / LPIPS 变体矩阵来让消融表好看。
-- CommonCanvas 当前 `50/50` packet 默认关闭;只有出现真正不同的新机制或新资产时,才允许继续。
+- CommonCanvas 当前 packet 默认关闭;只有出现真正不同的新机制或新资产时,才允许继续。
 
 ### 2026-05-13 P0 result checkpoint
 
@@ -72,7 +84,8 @@ P0 结论:
 - simple-distance artifact `workspaces/black-box/artifacts/copymark-commoncanvas-simple-distance-20260513.json` 返回 `negative_or_weak`。
 - CLIP image-similarity artifact `workspaces/black-box/artifacts/copymark-commoncanvas-clip-image-similarity-20260513.json` 返回 `negative_or_weak`:`AUC = 0.4588`,`ASR = 0.5300`,`TPR@1%FPR = 0.0`,`TPR@0.1%FPR = 0.0`。
 - prompt-response consistency artifact `workspaces/black-box/artifacts/copymark-commoncanvas-prompt-response-consistency-20260513.json` 返回 `negative_or_weak`:`AUC = 0.4408`,`ASR = 0.5100`,`TPR@1%FPR = 0.02`,`TPR@0.1%FPR = 0.02`。
-- 下一决策:不默认继续 CommonCanvas 当前 packet;转入真正不同的机制或新资产,不再挖相邻 CLIP 分数。
+- multi-seed response stability artifact `workspaces/black-box/artifacts/copymark-commoncanvas-multiseed-stability-20260513.json` 返回 `negative_or_weak`:`4/4`,`AUC = 0.5625`,`ASR = 0.625`,`TPR@1%FPR = 0.25`,`TPR@0.1%FPR = 0.25`。
+- 下一决策:不默认继续 CommonCanvas 当前 packet;转入真正不同的机制或新资产,不再挖相邻 CLIP 分数、prompt-adherence 或 response-stability 变体。
 
 ### P1 — 已执行且弱
 
@@ -104,15 +117,15 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak |
-| Active GPU question | none selected after weak CommonCanvas, gradient-prototype, and Fashion-MNIST scouts |
+| Active work | P0/P1 weak; CommonCanvas stability weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak |
+| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability, gradient-prototype, and Fashion-MNIST scouts |
 | Next GPU candidate | none by default; reopen only with a genuinely new mechanism or cleaner asset |
 | CPU sidecar | none selected; do not turn Kohaku/Danbooru or Fashion-MNIST into pseudo-progress lanes |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
 
-"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance、CLIP image-similarity、prompt-response consistency 都弱。P1 的 known-split gradient-prototype follow-up 也弱。不要把弱结果扩展成消融矩阵或梯度变体表。下一步必须重新选一个真正不同的机制或新资产;如果没有,就停在当前结论。"
+"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance、CLIP image-similarity、prompt-response consistency、multi-seed response stability 都弱。P1 的 known-split gradient-prototype follow-up 也弱。不要把弱结果扩展成消融矩阵、seed/subset 矩阵或梯度变体表。下一步必须重新选一个真正不同的机制或新资产;如果没有,就停在当前结论。"
 
 ---
 
@@ -124,20 +137,21 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas current packet closed by default; known-split gradient-prototype follow-up weak` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak` |
 | Current GPU candidate | none selected |
 | CPU sidecar | none selected; requires mechanism reselection |
-| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt-consistency follow-ups, weak P1 gradient-prototype scout, and weak Fashion-MNIST PIA-loss scout |
+| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability follow-ups, weak P1 gradient-prototype scout, and weak Fashion-MNIST PIA-loss scout |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
 surfaces. The second response contract has now been tested, and pixel-distance,
-CLIP image-similarity, and prompt-response consistency are all weak. A more
-optimistic known-split final-layer gradient prototype scout is also weak. A
-small Fashion-MNIST DDPM PIA-style loss scout on a real train/test split is
-also weak. The next high-value move must be a genuinely different mechanism or
-cleaner asset, not another validator, boundary note, adjacent CLIP score,
-same-family gradient variant, same-contract repeat, or remap-training detour.
+CLIP image-similarity, prompt-response consistency, and multi-seed response
+stability are all weak. A more optimistic known-split final-layer gradient
+prototype scout is also weak. A small Fashion-MNIST DDPM PIA-style loss scout
+on a real train/test split is also weak. The next high-value move must be a
+genuinely different mechanism or cleaner asset, not another validator,
+boundary note, adjacent CLIP score, stability repeat, same-family gradient
+variant, same-contract repeat, or remap-training detour.
 
 Taste reset: every cycle must ask whether the work is finding new signal or
 just adding "more stationery" around a dead end. If a direction is already
@@ -567,12 +581,12 @@ Every autonomous research cycle must follow this loop:
 | Sidecar | Mode | Why |
 | --- | --- | --- |
 | True second membership benchmark | hold / needs genuinely different mechanism | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit, weakens at `16 / 64`, and oracle gradient-prototype alignment is random at `64 / 64`; no GPU. |
-| CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), the single CLIP image-similarity follow-up is weak (`AUC = 0.4588`, zero low-FPR recovery), and prompt-response consistency is weak (`AUC = 0.4408`). Close this packet by default. |
+| CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), the single CLIP image-similarity follow-up is weak (`AUC = 0.4588`, zero low-FPR recovery), prompt-response consistency is weak (`AUC = 0.4408`), and multi-seed response stability is weak (`4/4`, `AUC = 0.5625`). Close this packet by default. |
 | Kohaku/Danbooru external asset | hold / membership-semantics blocked | Model cards identify broad HakuBooru/Danbooru2023 training sources, but no exact target member list or fixed selection manifest is available; do not download `38-40 GB` weights or TB-scale image assets for pseudo-membership scoring. |
 | Fashion-MNIST DDPM PIA-loss scout | hold / weak scout only | `ynwag9/fashion_mnist_ddpm_32` runs on CUDA with real Fashion-MNIST train/test split, but fixed-timestep epsilon-MSE gives only `AUC = 0.535889` and weak low-FPR recovery; no seed/timestep expansion. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
-| Simple-distance second-asset portability | weak on CommonCanvas | First valid second response contract is ready, but pixel and CLIP image-similarity scorers are weak; do not treat this as transfer evidence. |
+| Simple-distance second-asset portability | weak on CommonCanvas | First valid second response contract is ready, but pixel, CLIP image-similarity, prompt-response consistency, and response-stability scorers are weak; do not treat this as transfer evidence. |
 | MNIST simple true-membership scorers | CPU-only / closed | Public MNIST/DDPM raw/x0, tiny known-split raw loss, and tiny overfit raw-MSE upperbound are weak; do not expand simple MSE scoring. |
 | Beans/SD1.5 response-contract scout | CPU-only / contract-debug only | `25/25` beans query images and `25/25` local SD1.5 responses pass the package probe, but the split is beans train/validation, not proven SD1.5 training membership. |
 | Beans/SD1.5 simple-distance scorer | CPU-only / weak pseudo-split debug | Pixel MSE/MAE is near random on the pseudo-member split; do not enlarge this exact score or cite it as true membership evidence. |
@@ -600,6 +614,7 @@ Every autonomous research cycle must follow this loop:
 | CopyMark provenance intake | high-value external candidate; manifest inspected; CommonCanvas/CommonCatalog tiny CPU target selected | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
 | CopyMark CommonCanvas query asset | local `50/50` query split ready; deterministic responses generated in P0 | [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md) |
 | CopyMark CommonCanvas response and scorers | package probe `ready`; pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`); CLIP image-similarity is weak (`AUC = 0.4588`, zero low-FPR recovery); prompt-response consistency is weak (`AUC = 0.4408`); no admitted promotion | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
+| CopyMark CommonCanvas multi-seed stability | weak bounded scout (`4/4`, `AUC = 0.5625`, `ASR = 0.625`); no seed/subset/embedding expansion | [docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md) |
 | Kohaku/Danbooru asset decision | hold; broad training-source provenance is not enough for a clean target member/nonmember split | [docs/evidence/kohaku-danbooru-asset-decision-20260513.md](docs/evidence/kohaku-danbooru-asset-decision-20260513.md) |
 | Fashion-MNIST DDPM PIA-loss scout | weak `64/64` CUDA scout on a real train/test split; no admitted promotion and no expansion | [docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md](docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |

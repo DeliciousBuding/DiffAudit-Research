@@ -154,6 +154,33 @@ Artifact:
 workspaces/black-box/artifacts/copymark-commoncanvas-prompt-response-consistency-20260513.json
 ```
 
+2026-05-13 multi-seed response-distribution stability scout:
+
+One final bounded mechanism check asked whether member prompts produce a more
+stable response distribution across fixed seeds. This is not query-response
+similarity or prompt adherence: it scores only pairwise similarity among
+generated responses for the same prompt.
+
+```text
+subset = 4 member + 4 nonmember
+seeds = 20260613, 20260614
+score_name = clip_vit_l14_response_seed_stability_cosine
+direction = higher_is_more_member
+AUC = 0.5625
+ASR = 0.625
+TPR@1%FPR = 0.25
+TPR@0.1%FPR = 0.25
+member_score_mean = 0.843675
+nonmember_score_mean = 0.832792
+verdict = negative_or_weak
+```
+
+Artifact:
+
+```text
+workspaces/black-box/artifacts/copymark-commoncanvas-multiseed-stability-20260513.json
+```
+
 ## Verdict
 
 `ready but weak / not admitted / CommonCanvas closed by default`.
@@ -162,12 +189,14 @@ This P0 did what it was supposed to do: it moved the project from "second
 response contract missing" to a real transfer check on a second asset. The
 result does not support promoting simple pixel distance on SDXL-class
 CommonCanvas responses. The one sharper CLIP image-similarity check also fails,
-and the distinct prompt-response consistency check fails as well. CommonCanvas
-should now be closed by default rather than expanded into a similarity or
-prompt-adherence ablation matrix.
+the distinct prompt-response consistency check fails as well, and the bounded
+multi-seed response-stability scout is weak. CommonCanvas should now be closed
+by default rather than expanded into a similarity, prompt-adherence, seed,
+subset, or embedding-metric ablation matrix.
 
 Next work should require a genuinely new mechanism or a new asset. Do not keep
-mining the same CommonCanvas `50/50` response packet with adjacent CLIP scores.
+mining the same CommonCanvas `50/50` response packet with adjacent CLIP scores
+or multi-seed stability repeats.
 
 ## Platform and Runtime Impact
 
