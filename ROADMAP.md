@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `mid-frequency same-noise residual real-asset tiny preflight` |
-| Current GPU candidate | none selected |
-| CPU sidecar | mid-frequency residual scorer, collector functions, and synthetic tiny cache writer are ready; real-asset `4/4` or `8/8` cache preflight pending |
+| Active work | `mid-frequency same-noise residual bounded sign-check contract` |
+| Current GPU candidate | mid-frequency residual `64/64` sign-check candidate, not running |
+| CPU sidecar | mid-frequency residual scorer, collector functions, synthetic tiny cache writer, and real-asset `4/4` cache preflight are ready |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -22,13 +22,16 @@ advance only a genuinely distinct observable with a CPU-first contract. The
 paper-backed new-observable scout identifies mid-frequency same-noise residual
 scoring as distinct from H2/H3 response-cache frequency filtering, but the
 local H2/H3 caches lack `x_t`, `tilde_x_t`, noise provenance, and
-same-noise residual fields. The synthetic tiny cache writer now proves the
-cache schema, but GPU remains blocked until a real-asset `4/4` or `8/8`
-residual cache preflight succeeds. See
+same-noise residual fields. The synthetic tiny cache writer proved the cache
+schema, and the real-asset `4/4` preflight now proves the same schema can be
+written from the collaborator 750k checkpoint and CIFAR10 split. The next step
+is to freeze, then separately approve, a bounded `64/64` sign-check contract;
+no GPU packet is running now. See
 [docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](docs/evidence/midfreq-same-noise-residual-preflight-20260512.md),
 [docs/evidence/midfreq-residual-scorer-contract-20260512.md](docs/evidence/midfreq-residual-scorer-contract-20260512.md),
 [docs/evidence/midfreq-residual-collector-contract-20260512.md](docs/evidence/midfreq-residual-collector-contract-20260512.md),
 [docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md),
+[docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](docs/evidence/midfreq-residual-real-asset-preflight-20260512.md),
 [docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](docs/evidence/graybox-paper-candidate-reentry-review-20260512.md),
 [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md),
 [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md),
@@ -247,9 +250,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 14. Mid-frequency same-noise residual scoring is a distinct black-box
     observable gap, not already covered by H2/H3 response-cache filtering.
     Existing caches do not contain `x_t`, `tilde_x_t`, noise provenance, or
-    same-noise residuals. The CPU scorer, collector functions, and synthetic
-    tiny cache writer are ready, but the next valid action is still a
-    real-asset `4/4` or `8/8` cache preflight; no GPU packet is released.
+    same-noise residuals. The CPU scorer, collector functions, synthetic tiny
+    cache writer, and real-asset `4/4` preflight are ready. The next valid
+    action is to freeze a bounded `64/64` sign-check contract; no GPU packet
+    is running.
 
 ## Long-Running Goal Loop
 
@@ -273,7 +277,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Mid-frequency same-noise residual real-asset tiny preflight | CPU-first / tiny-runner-ready | Distinct observable gap; scorer, collector, and synthetic cache writer exist, but a real-asset `4/4` or `8/8` cache preflight is still required before any `64/64` packet. |
+| Mid-frequency same-noise residual sign-check contract | CPU-first / real-asset-preflight-ready | Distinct observable gap; scorer, collector, synthetic cache writer, and real-asset `4/4` cache preflight exist. Freeze a bounded `64/64` sign-check before any GPU run. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -283,7 +287,8 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
-| Mid-frequency residual tiny runner contract | tiny-runner-schema-ready; real-asset preflight pending; no GPU release | [docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md) |
+| Mid-frequency residual real-asset preflight | real-asset-tiny-cache-ready; no GPU release; no admitted evidence | [docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](docs/evidence/midfreq-residual-real-asset-preflight-20260512.md) |
+| Mid-frequency residual tiny runner contract | tiny-runner-schema-ready; real-asset preflight complete; no GPU release | [docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md) |
 | Mid-frequency residual collector contract | collector-function-ready; synthetic tiny runner now follows; no GPU release | [docs/evidence/midfreq-residual-collector-contract-20260512.md](docs/evidence/midfreq-residual-collector-contract-20260512.md) |
 | Mid-frequency residual scorer contract | scorer-contract-ready; collector and synthetic tiny runner now follow; no GPU release | [docs/evidence/midfreq-residual-scorer-contract-20260512.md](docs/evidence/midfreq-residual-scorer-contract-20260512.md) |
 | Mid-frequency same-noise residual preflight | distinct observable gap, but blocked by missing residual cache fields; no GPU release | [docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](docs/evidence/midfreq-same-noise-residual-preflight-20260512.md) |

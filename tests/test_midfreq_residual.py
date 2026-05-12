@@ -1,6 +1,8 @@
 import unittest
 import tempfile
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import numpy as np
 import torch
@@ -182,6 +184,98 @@ class MidFrequencyResidualTests(unittest.TestCase):
                     nonmember_count=1,
                 )
 
+    def test_real_asset_preflight_writes_required_schema_with_stubbed_assets(self) -> None:
+        from diffaudit.attacks.midfreq_residual import run_midfreq_residual_real_asset_preflight
+        from tests.helpers import make_fake_cifar10
+
+        class ZeroEps(torch.nn.Module):
+            def forward(self, x, t):  # type: ignore[no-untyped-def]
+                del t
+                return torch.zeros_like(x)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            split_path = root / "CIFAR10_train_ratio0.5.npz"
+            np.savez(
+                split_path,
+                mia_train_idxs=np.asarray([0, 1, 2, 3], dtype=np.int64),
+                mia_eval_idxs=np.asarray([4, 5, 6, 7], dtype=np.int64),
+            )
+            asset_probe = {
+                "status": "ready",
+                "checks": {
+                    "bundle_root": True,
+                    "required_files": True,
+                    "split_hash": True,
+                    "checkpoint": True,
+                    "checkpoint_has_ema_model": True,
+                    "dataset_root": True,
+                },
+                "paths": {
+                    "bundle_root": str(root / "bundle"),
+                    "checkpoint": str(root / "checkpoint.pt"),
+                    "dataset_root": str(root / "datasets"),
+                    "split": str(split_path),
+                },
+                "provenance": {"source": "unit-test"},
+            }
+            fake_modules = SimpleNamespace(model_unet=SimpleNamespace())
+            FakeCIFAR10 = make_fake_cifar10((16, 32, 48, 64, 80, 96, 112, 128))
+            workspace = root / "midfreq-real"
+
+            with (
+                patch("diffaudit.attacks.rediffuse.probe_rediffuse_assets", return_value=asset_probe),
+                patch("diffaudit.attacks.rediffuse_adapter.load_rediffuse_modules", return_value=fake_modules),
+                patch(
+                    "diffaudit.attacks.rediffuse_adapter.load_rediffuse_model",
+                    return_value=(ZeroEps(), {"weights_key": "ema_model", "checkpoint_step": 750000}),
+                ),
+                patch("torchvision.datasets.CIFAR10", FakeCIFAR10),
+            ):
+                payload = run_midfreq_residual_real_asset_preflight(
+                    workspace=workspace,
+                    sample_count_per_split=2,
+                    batch_size=1,
+                    timestep=10,
+                    seed=5,
+                )
+
+            self.assertEqual(payload["status"], "ready")
+            self.assertEqual(payload["verdict"], "real-asset-tiny-cache-ready")
+            self.assertFalse(payload["packet"]["gpu_released"])
+            self.assertFalse(payload["packet"]["synthetic"])
+            self.assertEqual(payload["runtime"]["selected_member_indices"], [0, 1])
+            self.assertEqual(payload["runtime"]["selected_nonmember_indices"], [4, 5])
+            with np.load(workspace / "residual-cache.npz") as cache:
+                for field in payload["cache_schema"]["fields"]:
+                    self.assertIn(field, cache.files)
+                self.assertEqual(cache["labels"].tolist(), [1, 1, 0, 0])
+                self.assertEqual(cache["member_indices"].tolist(), [0, 1])
+                self.assertEqual(cache["nonmember_indices"].tolist(), [4, 5])
+                self.assertEqual(tuple(cache["x_t"].shape), (4, 3, 32, 32))
+
+    def test_real_asset_preflight_writes_blocked_summary_when_assets_missing(self) -> None:
+        from diffaudit.attacks.midfreq_residual import run_midfreq_residual_real_asset_preflight
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            workspace = Path(tmpdir) / "blocked"
+            with patch(
+                "diffaudit.attacks.rediffuse.probe_rediffuse_assets",
+                return_value={
+                    "status": "blocked",
+                    "checks": {"dataset_root": False},
+                    "paths": {},
+                    "missing": ["dataset"],
+                },
+            ):
+                payload = run_midfreq_residual_real_asset_preflight(workspace=workspace)
+
+            self.assertEqual(payload["status"], "blocked")
+            self.assertEqual(payload["verdict"], "needs-assets")
+            self.assertEqual(payload["paths"]["workspace"], str(workspace))
+            self.assertIsNone(payload["paths"]["cache"])
+            self.assertTrue((workspace / "summary.json").exists())
+
     def test_cli_parser_accepts_midfreq_tiny_cache_command(self) -> None:
         from diffaudit.cli import build_parser
 
@@ -200,6 +294,22 @@ class MidFrequencyResidualTests(unittest.TestCase):
         self.assertEqual(args.command, "run-midfreq-residual-tiny-cache")
         self.assertEqual(args.member_count, 2)
         self.assertEqual(args.nonmember_count, 2)
+
+    def test_cli_parser_accepts_midfreq_real_asset_preflight_command(self) -> None:
+        from diffaudit.cli import build_parser
+
+        args = build_parser().parse_args(
+            [
+                "run-midfreq-residual-real-asset-preflight",
+                "--workspace",
+                "tmp/midfreq-real",
+                "--sample-count-per-split",
+                "2",
+            ]
+        )
+
+        self.assertEqual(args.command, "run-midfreq-residual-real-asset-preflight")
+        self.assertEqual(args.sample_count_per_split, 2)
 
 
 if __name__ == "__main__":

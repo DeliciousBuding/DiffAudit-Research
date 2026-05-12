@@ -14,7 +14,8 @@ This directory contains the public evidence overview.
 | [midfreq-same-noise-residual-preflight-20260512.md](midfreq-same-noise-residual-preflight-20260512.md) | CPU-only cache audit for the distinct mid-frequency same-noise residual observable; blocks GPU until a residual cache exists. |
 | [midfreq-residual-scorer-contract-20260512.md](midfreq-residual-scorer-contract-20260512.md) | CPU scorer contract for band-pass same-noise residual scoring. |
 | [midfreq-residual-collector-contract-20260512.md](midfreq-residual-collector-contract-20260512.md) | CPU-compatible collector function contract for matched `x_t` / `tilde_x_t` residual states. |
-| [midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md) | CPU-only synthetic tiny runner contract proving the residual cache schema; real-asset preflight remains pending. |
+| [midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md) | CPU-only synthetic tiny runner contract proving the residual cache schema. |
+| [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md) | CPU-only real-asset `4/4` preflight proving the residual cache schema works with the collaborator 750k checkpoint and CIFAR10 split; no GPU release. |
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
 | [h2-image-to-image-contract.md](h2-image-to-image-contract.md) | CPU contract that reopens H2 portability only under image-to-image response observation. |
 | [h2-img2img-micro-result.md](h2-img2img-micro-result.md) | First frozen SD/CelebA image-to-image H2 micro-packet verdict. |

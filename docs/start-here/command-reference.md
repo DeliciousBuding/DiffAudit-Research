@@ -123,6 +123,21 @@ This writes `summary.json` and `residual-cache.npz` under the ignored
 workspace. It is a cache-contract smoke only, not a benchmark and not a GPU
 release.
 
+Write the real-asset mid-frequency same-noise residual cache preflight:
+
+```powershell
+conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-real-asset-preflight `
+  --workspace workspaces/black-box/runs/midfreq-real-asset-tiny-20260512-cpu-4 `
+  --sample-count-per-split 4 `
+  --batch-size 2 `
+  --seed 12 `
+  --timestep 80
+```
+
+This uses the collaborator 750k checkpoint and CIFAR10 ratio0.5 split when the
+local asset manifest paths are present. It is still a `4/4` cache-contract
+preflight, not benchmark evidence and not a GPU release.
+
 Run the bounded H2 response-strength validation candidate:
 
 ```powershell
