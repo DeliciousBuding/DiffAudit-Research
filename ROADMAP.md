@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `mid-frequency same-noise residual collector implementation` |
+| Active work | `mid-frequency same-noise residual tiny runner` |
 | Current GPU candidate | none selected |
-| CPU sidecar | mid-frequency residual scorer contract is ready; collector still must create `x_t` / `tilde_x_t` cache |
+| CPU sidecar | mid-frequency residual scorer and collector functions are ready; executable tiny runner still pending |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -26,6 +26,7 @@ same-noise residual fields. GPU remains blocked until a tiny residual cache
 contract exists. See
 [docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](docs/evidence/midfreq-same-noise-residual-preflight-20260512.md),
 [docs/evidence/midfreq-residual-scorer-contract-20260512.md](docs/evidence/midfreq-residual-scorer-contract-20260512.md),
+[docs/evidence/midfreq-residual-collector-contract-20260512.md](docs/evidence/midfreq-residual-collector-contract-20260512.md),
 [docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](docs/evidence/graybox-paper-candidate-reentry-review-20260512.md),
 [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md),
 [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md),
@@ -244,8 +245,9 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 14. Mid-frequency same-noise residual scoring is a distinct black-box
     observable gap, not already covered by H2/H3 response-cache filtering.
     Existing caches do not contain `x_t`, `tilde_x_t`, noise provenance, or
-    same-noise residuals. The CPU scorer contract is ready, but the next valid
-    action is still a residual collector; no GPU packet is released.
+    same-noise residuals. The CPU scorer and collector functions are ready,
+    but the next valid action is still a tiny executable runner; no GPU packet
+    is released.
 
 ## Long-Running Goal Loop
 
@@ -269,7 +271,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Mid-frequency same-noise residual collector | CPU-first / scorer-ready | Distinct observable gap; scorer utility exists, but a tiny residual cache collector is still required before any GPU packet. |
+| Mid-frequency same-noise residual tiny runner | CPU-first / collector-ready | Distinct observable gap; scorer and collector utilities exist, but a tiny executable cache writer is still required before any 64/64 packet. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -279,6 +281,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Mid-frequency residual collector contract | collector-function-ready; executable packet runner pending; no GPU release | [docs/evidence/midfreq-residual-collector-contract-20260512.md](docs/evidence/midfreq-residual-collector-contract-20260512.md) |
 | Mid-frequency residual scorer contract | scorer-contract-ready; collector still pending; no GPU release | [docs/evidence/midfreq-residual-scorer-contract-20260512.md](docs/evidence/midfreq-residual-scorer-contract-20260512.md) |
 | Mid-frequency same-noise residual preflight | distinct observable gap, but blocked by missing residual cache fields; no GPU release | [docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](docs/evidence/midfreq-same-noise-residual-preflight-20260512.md) |
 | ReDiffuse collaborator bundle intake | positive intake, candidate-only | [docs/evidence/rediffuse-collaborator-bundle-intake.md](docs/evidence/rediffuse-collaborator-bundle-intake.md) |

@@ -122,3 +122,87 @@ def summarize_midfreq_packet(
         "distances": [round6(float(value)) for value in distances.tolist()],
         "scores": [round6(float(value)) for value in scores.tolist()],
     }
+
+
+def one_step_same_noise_state(
+    model: Any,
+    x0_pixels: Any,
+    *,
+    timestep: int,
+    alpha_bars: Any,
+    generator: Any,
+    device: str,
+) -> tuple[Any, Any]:
+    """Return ``(x_t, tilde_x_t)`` for the one-step same-noise contract.
+
+    ``x0_pixels`` is expected in ``[0, 1]`` pixel space. The returned tensors
+    are in DDPM normalized ``[-1, 1]`` space so the residual is computed at the
+    same diffusion state scale.
+    """
+
+    import torch
+
+    x0 = x0_pixels.to(device) * 2.0 - 1.0
+    strength_t = int(timestep)
+    if strength_t <= 0:
+        raise ValueError("timestep must be positive")
+    if strength_t >= int(alpha_bars.shape[0]):
+        raise ValueError(f"timestep must be < {alpha_bars.shape[0]}: {strength_t}")
+
+    noise = torch.randn(x0.shape, generator=generator, device=device, dtype=x0.dtype)
+    alpha_t = alpha_bars[strength_t].view(1, 1, 1, 1)
+    x_t = alpha_t.sqrt() * x0 + (1.0 - alpha_t).sqrt() * noise
+
+    t_tensor = torch.full((x_t.shape[0],), strength_t, device=device, dtype=torch.long)
+    eps = model(x_t, t=t_tensor)
+    x0_pred = (x_t - (1.0 - alpha_t).sqrt() * eps) / alpha_t.sqrt()
+    x0_pred = torch.clamp(x0_pred, -1.0, 1.0)
+    tilde_x_t = alpha_t.sqrt() * x0_pred + (1.0 - alpha_t).sqrt() * noise
+    return x_t.detach().cpu(), tilde_x_t.detach().cpu()
+
+
+def collect_midfreq_residual_states(
+    model: Any,
+    loader: Any,
+    *,
+    device: str,
+    alpha_bars: Any,
+    timestep: int,
+    seed: int,
+    sample_offset: int = 0,
+) -> tuple[Any, np.ndarray, np.ndarray]:
+    """Collect inputs plus matched ``x_t`` and ``tilde_x_t`` arrays.
+
+    This is a state collector only. It does not decide whether a GPU packet is
+    scientifically released; callers still need a frozen packet contract.
+    """
+
+    import torch
+
+    inputs: list[Any] = []
+    x_t_batches: list[np.ndarray] = []
+    tilde_batches: list[np.ndarray] = []
+    running_offset = int(sample_offset)
+    model.eval()
+    with torch.no_grad():
+        for batch, _ in loader:
+            batch = batch.detach().cpu()
+            generator = torch.Generator(device=device)
+            generator.manual_seed(int(seed) + int(running_offset))
+            x_t, tilde_x_t = one_step_same_noise_state(
+                model,
+                batch,
+                timestep=int(timestep),
+                alpha_bars=alpha_bars,
+                generator=generator,
+                device=device,
+            )
+            inputs.append(batch)
+            x_t_batches.append(x_t.numpy().astype(np.float32))
+            tilde_batches.append(tilde_x_t.numpy().astype(np.float32))
+            running_offset += int(batch.shape[0])
+    return (
+        torch.cat(inputs, dim=0),
+        np.concatenate(x_t_batches, axis=0).astype(np.float32),
+        np.concatenate(tilde_batches, axis=0).astype(np.float32),
+    )
