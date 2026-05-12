@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `raw denoising MSE stopped; acquisition or new observable needed` |
+| Active work | `tiny overfit gradient-norm mechanism scout positive; stability gate needed` |
 | Current GPU candidate | none selected |
-| CPU sidecar | MNIST raw/x0/tiny-overfit MSE scouts are weak; external benchmark provenance still needed |
+| CPU sidecar | gradient-sensitive observable is the next CPU mechanism candidate; no GPU release |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -64,6 +64,13 @@ MNIST member images for `80` CPU epochs. Raw denoising MSE still produced only
 `AUC = 0.552734` with `TPR@1%FPR = 0.0`, so simple raw-MSE known-split work is
 closed unless a genuinely different observable appears. See
 [docs/evidence/tiny-overfit-mse-upperbound-20260512.md](docs/evidence/tiny-overfit-mse-upperbound-20260512.md).
+A CPU-only gradient-norm mechanism scout on the same `8`-member overfit target
+is the first useful post-reset signal: final-layer per-sample gradient L2 gives
+`AUC = 0.734375` and recovers `1 / 8` members at zero false positives
+(`TPR@1%FPR = 0.125`). This is not admitted and does not release GPU, but it
+changes the next mechanism candidate from raw MSE to gradient-sensitive
+observables. See
+[docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
 reopen scoping, archived gray-box paper-candidate reentry, and I-C same-spec
@@ -406,7 +413,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| True second membership benchmark | CPU-only / needs provenance or new observable | MNIST public-checkpoint raw/x0, tiny known-split raw loss, and tiny overfit raw-MSE upperbound are weak; external candidates need documented target training membership before scoring. |
+| True second membership benchmark | CPU-only / mechanism candidate selected | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak, but an `8`-member overfit gradient-norm scout is positive; next needs CPU stability or external provenance before GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -430,6 +437,7 @@ Every autonomous research cycle must follow this loop:
 | Tiny known-split denoising sanity | raw denoising loss fails even with controlled train/held-out split; no GPU release | [docs/evidence/tiny-known-split-denoising-sanity-20260512.md](docs/evidence/tiny-known-split-denoising-sanity-20260512.md) |
 | External diffusion benchmark provenance scan | no ready external benchmark found; require documented target membership before scoring | [docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md](docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md) |
 | Tiny overfit MSE upperbound | raw denoising MSE remains weak even when overfitting 8 members; no GPU release | [docs/evidence/tiny-overfit-mse-upperbound-20260512.md](docs/evidence/tiny-overfit-mse-upperbound-20260512.md) |
+| Tiny overfit gradient-norm scout | positive mechanism scout on `8 / 64`; no GPU release until stability gate | [docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md) |
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
