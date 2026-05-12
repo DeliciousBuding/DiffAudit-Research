@@ -94,6 +94,9 @@ Current Beans/SD1.5 response-contract scout:
 Current Beans/SD1.5 response-contract ready package:
 [../../docs/evidence/beans-sd15-response-contract-ready-20260512.md](../../docs/evidence/beans-sd15-response-contract-ready-20260512.md).
 
+Current Beans/SD1.5 simple-distance scout:
+[../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md](../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md).
+
 Current semantic-auxiliary low-FPR review:
 [../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).
 
