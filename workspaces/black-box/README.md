@@ -9,6 +9,9 @@
   semantic-auxiliary classifiers.
 - Candidate method: simple image-to-image distance is bounded single-asset
   evidence, not a product row or portability result.
+- Active preflight: mid-frequency same-noise residual is a distinct observable
+  gap, but existing H2/H3 caches cannot evaluate it because they do not store
+  `x_t` and `tilde_x_t`.
 - Variation status: blocked until a real member/nonmember query-image set and
   endpoint contract exist.
 - CLiD status: hold-candidate; prompt controls block image-identity and admitted
@@ -27,6 +30,9 @@
 
 Current H2 candidate boundary:
 [../../docs/evidence/black-box-response-strength-preflight.md](../../docs/evidence/black-box-response-strength-preflight.md).
+
+Current mid-frequency same-noise residual preflight:
+[../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md).
 
 Current non-CLiD reselection:
 [../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
