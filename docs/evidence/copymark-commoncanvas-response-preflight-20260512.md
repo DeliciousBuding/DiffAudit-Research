@@ -104,18 +104,45 @@ workspaces/black-box/artifacts/copymark-commoncanvas-response-contract-probe-202
 workspaces/black-box/artifacts/copymark-commoncanvas-simple-distance-20260513.json
 ```
 
+2026-05-13 single sharper scorer:
+
+The only approved follow-up hypothesis was that pixel MSE might be too strict
+for text-to-image copying, while CLIP image embedding similarity might recover
+semantic or structural copying. This was tested as one pre-selected scorer, not
+a CLIP/pixel/LPIPS metric matrix.
+
+```text
+score_name = clip_vit_l14_query_response_cosine
+direction = higher_is_more_member
+AUC = 0.4588
+ASR = 0.5300
+TPR@1%FPR = 0.0
+TPR@0.1%FPR = 0.0
+member_score_mean = 0.705783
+nonmember_score_mean = 0.719170
+verdict = negative_or_weak
+```
+
+Artifact:
+
+```text
+workspaces/black-box/artifacts/copymark-commoncanvas-clip-image-similarity-20260513.json
+```
+
 ## Verdict
 
-`ready but weak / not admitted`.
+`ready but weak / not admitted / output-similarity line closed by default`.
 
 This P0 did what it was supposed to do: it moved the project from "second
 response contract missing" to a real transfer check on a second asset. The
 result does not support promoting simple pixel distance on SDXL-class
-CommonCanvas responses. It also does not justify a CLIP/pixel/LPIPS ablation
-matrix just to complete a table.
+CommonCanvas responses. The one sharper CLIP image-similarity check also fails,
+so the output-similarity family should be closed by default rather than
+expanded into a CLIP/pixel/LPIPS ablation matrix.
 
-Next work should be selected only if it has a sharper mechanism hypothesis that
-can plausibly change the portability decision.
+Next work should move to P1 known-split gradient-sensitive mechanism validation
+unless a genuinely new CommonCanvas mechanism appears that is not another
+response-vs-query similarity variant.
 
 ## Platform and Runtime Impact
 

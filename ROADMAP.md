@@ -14,7 +14,7 @@
 
 ### 真正的两个抓手
 
-1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成第一轮 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。首个最简单 pixel-distance scorer 弱,不是 admitted evidence。
+1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。首个 pixel-distance scorer 弱;唯一批准的 sharper CLIP image-similarity scorer 也弱且反向。该输出相似度线默认关闭,不是 admitted evidence。
 2. **tiny-overfit gradient-norm scout**:5/12 在 `8/8` overfit 上 `AUC = 0.734`,`16/64` stability gate 跌到 `0.535`。这是 mechanism-level 唯一一次正信号,但只是 hint。
 
 ### P0 — 完成且弱
@@ -36,8 +36,9 @@ P0 结论:
 
 - 第二响应合同不再是 missing asset 问题;`50/50` responses 已经存在。
 - 最简单 pixel-distance transfer 在 SDXL-class CommonCanvas 上很弱,不准入 admitted evidence。
+- 单点 CLIP image-similarity follow-up 也弱:`AUC = 0.4588`,`ASR = 0.5300`,低 FPR 恢复为 0。
 - 不继续补 CLIP / pixel / LPIPS 变体矩阵来让消融表好看。
-- 只有出现更尖锐、可解释、能改变 portability 判断的机制假设时,才允许继续 CommonCanvas。
+- CommonCanvas 输出相似度方向默认关闭;只有出现非 response-vs-query similarity 的新机制假设时,才允许继续。
 
 ### 2026-05-13 P0 result checkpoint
 
@@ -47,7 +48,8 @@ P0 结论:
 - full deterministic response packet 已完成:`50` member responses + `50` nonmember responses,`512x512`,`20` steps,`guidance_scale = 7.5`,fixed seed base `20260513`。
 - package probe artifact `workspaces/black-box/artifacts/copymark-commoncanvas-response-contract-probe-20260513.json` 返回 `ready`,缺失列表为空。
 - simple-distance artifact `workspaces/black-box/artifacts/copymark-commoncanvas-simple-distance-20260513.json` 返回 `negative_or_weak`。
-- 下一决策:不默认继续 CommonCanvas 变体消融;若继续,必须先提出一个能改变结论的 sharper scorer hypothesis。
+- CLIP image-similarity artifact `workspaces/black-box/artifacts/copymark-commoncanvas-clip-image-similarity-20260513.json` 返回 `negative_or_weak`:`AUC = 0.4588`,`ASR = 0.5300`,`TPR@1%FPR = 0.0`,`TPR@0.1%FPR = 0.0`。
+- 下一决策:不默认继续 CommonCanvas 输出相似度变体;转入 P1 已知 split 的 gradient-sensitive 机制验证,除非出现非相似度家族的新机制。
 
 ### P1 — 备胎(P0 弱结果之后才考虑)
 
@@ -79,15 +81,15 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0 complete: CommonCanvas `50/50` responses ready, first simple scorer weak |
-| Active GPU question | none selected after weak P0 result |
-| Next GPU candidate | none by default; only release for a sharper mechanism hypothesis |
-| CPU sidecar | choose between sharper CommonCanvas scorer hypothesis or P1 known-split gradient-sensitive scorer |
+| Active work | P0 complete: CommonCanvas response contract ready, pixel and CLIP similarity scorers weak |
+| Active GPU question | none selected after weak P0 follow-up |
+| Next GPU candidate | none by default; P1 must start CPU/tiny unless a bounded GPU packet is explicitly justified |
+| CPU sidecar | P1 known-split gradient-sensitive mechanism validation |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
 
-"CommonCanvas 已经在第二个真实 membership 资产上跑过一次,结论是 simplest pixel-distance transfer 弱。现在不要把弱结果扩展成消融矩阵。下一步只能选会改变决策的问题:要么提出一个更尖锐的 CommonCanvas scorer 假设,要么转向 P1 已知 split 的 gradient-sensitive 机制验证。"
+"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance 与单点 CLIP image-similarity 都弱。不要把弱结果扩展成消融矩阵。下一步转向 P1 已知 split 的 gradient-sensitive 机制验证;只有出现非 response-vs-query similarity 的新机制,才允许重开 CommonCanvas。"
 
 ---
 
@@ -99,17 +101,18 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CopyMark CommonCanvas first response-contract scorer complete; weak simple-distance result` |
+| Active work | `CopyMark CommonCanvas response-contract scorer complete; pixel and CLIP similarity results weak` |
 | Current GPU candidate | none selected |
-| CPU sidecar | select the next decision-value hypothesis; do not expand weak P0 into metric-matrix ablations |
-| Active GPU question | none after `negative_or_weak` P0 scorer |
+| CPU sidecar | P1 known-split gradient-sensitive mechanism validation |
+| Active GPU question | none after weak CommonCanvas P0 + CLIP follow-up |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
-surfaces. The second response contract has now been tested once, and the
-simplest pixel-distance transfer is weak. The next high-value move is a sharper
-mechanism hypothesis that can change the portability decision, not another
-validator, boundary note, same-contract repeat, or remap-training detour.
+surfaces. The second response contract has now been tested, and both the
+simplest pixel-distance transfer and the one sharper CLIP image-similarity
+follow-up are weak. The next high-value move is P1 known-split
+gradient-sensitive mechanism validation, not another validator, boundary note,
+same-contract repeat, or remap-training detour.
 
 Taste reset: every cycle must ask whether the work is finding new signal or
 just adding "more stationery" around a dead end. If a direction is already
@@ -181,11 +184,12 @@ A response-generation preflight corrected the blocker: the default PATH Python
 is CPU-only, but the `diffaudit-research` conda environment has CUDA Torch and
 sees the local RTX 4070. CommonCanvas is a text-to-image SDXL pipeline, so the
 package contract is `text_to_image`, not `image_to_image`. The 2026-05-13
-completion generated the deterministic responses and ran the first simple
-scorer: `negative_pixel_mse_resized_512` gives `AUC = 0.5736`, `ASR = 0.6000`,
-`TPR@1%FPR = 0.04`, and `TPR@0.1%FPR = 0.04`, so the verdict is
-`negative_or_weak` and not admitted. Do not expand this weak result into a
-variant matrix without a sharper hypothesis. See
+completion generated the deterministic responses and ran two bounded scorers:
+`negative_pixel_mse_resized_512` gives `AUC = 0.5736`, `ASR = 0.6000`,
+`TPR@1%FPR = 0.04`, and `TPR@0.1%FPR = 0.04`; the single sharper
+`clip_vit_l14_query_response_cosine` follow-up gives `AUC = 0.4588`,
+`ASR = 0.5300`, and zero low-FPR recovery. Both are `negative_or_weak` and not
+admitted. Do not expand this weak result into a variant matrix. See
 [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md).
 
 After closing cross-box successor scoping, I-B defense-aware
@@ -530,10 +534,10 @@ Every autonomous research cycle must follow this loop:
 | Sidecar | Mode | Why |
 | --- | --- | --- |
 | True second membership benchmark | CPU-only / needs sharper mechanism or provenance | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit and weakens at `16 / 64`; no GPU. |
-| CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. The first simple pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), so do not expand variants without a sharper hypothesis. |
+| CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`) and the single CLIP image-similarity follow-up is also weak (`AUC = 0.4588`, zero low-FPR recovery), so close output-similarity variants by default. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
-| Simple-distance second-asset portability | weak on CommonCanvas | First valid second response contract is ready, but the simplest pixel-distance scorer is weak; do not treat this as transfer evidence. |
+| Simple-distance second-asset portability | weak on CommonCanvas | First valid second response contract is ready, but pixel and CLIP image-similarity scorers are weak; do not treat this as transfer evidence. |
 | MNIST simple true-membership scorers | CPU-only / closed | Public MNIST/DDPM raw/x0, tiny known-split raw loss, and tiny overfit raw-MSE upperbound are weak; do not expand simple MSE scoring. |
 | Beans/SD1.5 response-contract scout | CPU-only / contract-debug only | `25/25` beans query images and `25/25` local SD1.5 responses pass the package probe, but the split is beans train/validation, not proven SD1.5 training membership. |
 | Beans/SD1.5 simple-distance scorer | CPU-only / weak pseudo-split debug | Pixel MSE/MAE is near random on the pseudo-member split; do not enlarge this exact score or cite it as true membership evidence. |
@@ -559,7 +563,7 @@ Every autonomous research cycle must follow this loop:
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | CopyMark provenance intake | high-value external candidate; manifest inspected; CommonCanvas/CommonCatalog tiny CPU target selected | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
 | CopyMark CommonCanvas query asset | local `50/50` query split ready; deterministic responses generated in P0 | [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md) |
-| CopyMark CommonCanvas response and first scorer | package probe `ready`; simple pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`); no admitted promotion | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
+| CopyMark CommonCanvas response and scorers | package probe `ready`; pixel-distance scorer is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`); single CLIP image-similarity follow-up is weaker (`AUC = 0.4588`, zero low-FPR recovery); no admitted promotion | [docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](docs/evidence/copymark-commoncanvas-response-preflight-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
