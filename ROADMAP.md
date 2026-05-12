@@ -49,6 +49,17 @@ loss 结果仍弱:`AUC = 0.535889`,`ASR = 0.570312`,`TPR@1%FPR = 0.03125`,
 继续 `8/8`、更多 seeds 或 embedding metric 变体。见
 [docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md)。
 
+### 2026-05-13 local package inventory checkpoint
+
+本轮按 fresh-session 规则重读根级与 Research 入口后,只做浅层
+second-asset / second-response-contract 盘点,没有释放 GPU,也不新增 evidence
+长文档。`<DOWNLOAD_ROOT>/vision` 只有 MNIST 原始数据,属于已验证过的同类小
+split 路线;`<DOWNLOAD_ROOT>/black-box` 只有既有 Beans/SD1.5、
+CommonCanvas、Pokemon/Kandinsky 三类 response-contract。它们分别是
+pseudo-membership、已完成且弱、以及空 split / 无 response,不构成新的 clean
+GPU candidate。当前 `active_gpu_question = none`,`next_gpu_candidate = none`,
+`CPU sidecar = none selected`。
+
 ### P0 — 完成且弱
 
 CopyMark / CommonCanvas 已跑出第一个真实 `50/50` scorer 结果:
@@ -117,10 +128,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas stability weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak |
-| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability, gradient-prototype, and Fashion-MNIST scouts |
-| Next GPU candidate | none by default; reopen only with a genuinely new mechanism or cleaner asset |
-| CPU sidecar | none selected; do not turn Kohaku/Danbooru or Fashion-MNIST into pseudo-progress lanes |
+| Active work | P0/P1 weak; CommonCanvas stability weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; local package inventory found no clean new candidate |
+| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability, gradient-prototype, Fashion-MNIST scouts, and local package inventory |
+| Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
+| CPU sidecar | none selected; local inventory exhausted; do not turn Kohaku/Danbooru, Fashion-MNIST, MNIST raw data, or I-B into pseudo-progress lanes |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -137,10 +148,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak; local package inventory found no clean new candidate` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; requires mechanism reselection |
-| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability follow-ups, weak P1 gradient-prototype scout, and weak Fashion-MNIST PIA-loss scout |
+| CPU sidecar | none selected; local package inventory is exhausted unless a genuinely new mechanism or cleaner asset appears |
+| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, and local package inventory |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
@@ -148,7 +159,9 @@ surfaces. The second response contract has now been tested, and pixel-distance,
 CLIP image-similarity, prompt-response consistency, and multi-seed response
 stability are all weak. A more optimistic known-split final-layer gradient
 prototype scout is also weak. A small Fashion-MNIST DDPM PIA-style loss scout
-on a real train/test split is also weak. The next high-value move must be a
+on a real train/test split is also weak. A fresh shallow local package
+inventory found no clean new response-contract beyond the already weak,
+blocked, or empty packages. The next high-value move must be a
 genuinely different mechanism or cleaner asset, not another validator,
 boundary note, adjacent CLIP score, stability repeat, same-family gradient
 variant, same-contract repeat, or remap-training detour.
