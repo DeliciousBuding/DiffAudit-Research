@@ -1,6 +1,7 @@
 import unittest
 
 import numpy as np
+import torch
 
 
 class MidFrequencyResidualTests(unittest.TestCase):
@@ -76,6 +77,70 @@ class MidFrequencyResidualTests(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             summarize_midfreq_packet(labels, x_t, x_t)
+
+    def test_one_step_same_noise_state_returns_matched_shapes(self) -> None:
+        from diffaudit.attacks.h2_response_strength import build_alpha_bars
+        from diffaudit.attacks.midfreq_residual import one_step_same_noise_state
+
+        class ZeroEps(torch.nn.Module):
+            def forward(self, x, t):  # type: ignore[no-untyped-def]
+                return torch.zeros_like(x)
+
+        x0 = torch.full((2, 1, 8, 8), 0.5, dtype=torch.float32)
+        alpha_bars = build_alpha_bars("cpu", timesteps=100)
+        generator = torch.Generator(device="cpu")
+        generator.manual_seed(123)
+
+        x_t, tilde_x_t = one_step_same_noise_state(
+            ZeroEps(),
+            x0,
+            timestep=10,
+            alpha_bars=alpha_bars,
+            generator=generator,
+            device="cpu",
+        )
+
+        self.assertEqual(tuple(x_t.shape), (2, 1, 8, 8))
+        self.assertEqual(tuple(tilde_x_t.shape), (2, 1, 8, 8))
+        self.assertTrue(torch.isfinite(x_t).all())
+        self.assertTrue(torch.isfinite(tilde_x_t).all())
+
+    def test_collect_midfreq_residual_states_is_deterministic(self) -> None:
+        from diffaudit.attacks.h2_response_strength import build_alpha_bars
+        from diffaudit.attacks.midfreq_residual import collect_midfreq_residual_states
+
+        class ZeroEps(torch.nn.Module):
+            def forward(self, x, t):  # type: ignore[no-untyped-def]
+                return torch.zeros_like(x)
+
+        dataset = torch.utils.data.TensorDataset(
+            torch.full((3, 1, 8, 8), 0.5, dtype=torch.float32),
+            torch.zeros(3, dtype=torch.long),
+        )
+        loader = torch.utils.data.DataLoader(dataset, batch_size=2, shuffle=False)
+        alpha_bars = build_alpha_bars("cpu", timesteps=100)
+
+        _inputs_a, x_t_a, tilde_a = collect_midfreq_residual_states(
+            ZeroEps(),
+            loader,
+            device="cpu",
+            alpha_bars=alpha_bars,
+            timestep=10,
+            seed=99,
+        )
+        _inputs_b, x_t_b, tilde_b = collect_midfreq_residual_states(
+            ZeroEps(),
+            loader,
+            device="cpu",
+            alpha_bars=alpha_bars,
+            timestep=10,
+            seed=99,
+        )
+
+        np.testing.assert_allclose(x_t_a, x_t_b)
+        np.testing.assert_allclose(tilde_a, tilde_b)
+        self.assertEqual(x_t_a.shape, (3, 1, 8, 8))
+        self.assertEqual(tilde_a.shape, (3, 1, 8, 8))
 
 
 if __name__ == "__main__":
