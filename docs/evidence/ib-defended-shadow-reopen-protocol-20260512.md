@@ -55,7 +55,9 @@ the line closes without a larger GPU packet.
 Do not launch GPU from this protocol alone. The first CPU plumbing step is now
 complete:
 [ib-reopen-shadow-reference-guard-20260512.md](ib-reopen-shadow-reference-guard-20260512.md).
-A later CPU preflight also produced a ready three-shadow training manifest:
+A later CPU preflight produced a coverage-aware training manifest, but it is
+blocked because the current target k32 forget IDs are not covered by the shadow
+member datasets:
 [ib-defended-shadow-training-manifest-20260512.md](ib-defended-shadow-training-manifest-20260512.md).
 The remaining reopen requirements are executed defended-shadow training
 artifacts, adaptive-attacker measurement, retained utility, and strict-tail

@@ -4,12 +4,19 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from PIL import Image
+
 from scripts import validate_ib_defended_shadow_training_manifest
 
 
 def _load_default_artifact() -> dict:
     root = Path(__file__).resolve().parents[1]
     return json.loads((root / validate_ib_defended_shadow_training_manifest.DEFAULT_ARTIFACT).read_text(encoding="utf-8"))
+
+
+def _write_png(path: Path, color: tuple[int, int, int]) -> None:
+    image = Image.new("RGB", (32, 32), color=color)
+    image.save(path)
 
 
 class ValidateIBDefendedShadowTrainingManifestTests(unittest.TestCase):
@@ -47,7 +54,10 @@ class ValidateIBDefendedShadowTrainingManifestTests(unittest.TestCase):
             root = Path(tmpdir)
             assets_root = root / "assets"
             for shadow_id in ("shadow-01", "shadow-02"):
-                (assets_root / "datasets" / f"{shadow_id}-member").mkdir(parents=True, exist_ok=True)
+                member_dir = assets_root / "datasets" / f"{shadow_id}-member"
+                member_dir.mkdir(parents=True, exist_ok=True)
+                _write_png(member_dir / "00-data_batch_1-00010.png", (255, 0, 0))
+                _write_png(member_dir / "00-data_batch_1-00011.png", (0, 255, 0))
                 (assets_root / "checkpoints" / shadow_id).mkdir(parents=True, exist_ok=True)
             forget_index_file = root / "forget-members-k2.txt"
             matched_index_file = root / "matched-nonmembers-k2.txt"
@@ -67,6 +77,19 @@ class ValidateIBDefendedShadowTrainingManifestTests(unittest.TestCase):
 
         self.assertEqual(validate_ib_defended_shadow_training_manifest.validate(manifest, repo_root=repo_root), [])
         self.assertTrue(manifest["shadow_training"][0]["output_workspace"].endswith("runs/generated-manifest/shadow-01"))
+
+    def test_rejects_ready_status_with_missing_identity_coverage(self) -> None:
+        artifact = _load_default_artifact()
+        artifact["status"] = "ready"
+        errors = validate_ib_defended_shadow_training_manifest.validate(artifact)
+        self.assertIn("shadow_training[0].forget_identity_coverage.missing_count must be 0", errors)
+        self.assertIn("shadow_training[0].status must be ready when artifact status is ready", errors)
+
+    def test_rejects_blocked_without_errors(self) -> None:
+        artifact = _load_default_artifact()
+        artifact["errors"] = []
+        errors = validate_ib_defended_shadow_training_manifest.validate(artifact)
+        self.assertIn("blocked artifact must include errors", errors)
 
     def test_cli_reports_missing_doc(self) -> None:
         artifact = _load_default_artifact()

@@ -579,6 +579,24 @@ def _index_file_summary(path: str | Path) -> dict[str, Any]:
     }
 
 
+def _member_identity_coverage(
+    *,
+    member_dataset_dir: str | Path,
+    required_indices: list[int],
+) -> dict[str, Any]:
+    image_by_id = _scan_member_image_paths(member_dataset_dir)
+    required = sorted(dict.fromkeys(int(index) for index in required_indices))
+    present = [index for index in required if index in image_by_id]
+    missing = [index for index in required if index not in image_by_id]
+    return {
+        "required_count": int(len(required)),
+        "covered_count": int(len(present)),
+        "missing_count": int(len(missing)),
+        "missing_preview": missing[: min(10, len(missing))],
+        "dataset_image_id_count": int(len(image_by_id)),
+    }
+
+
 def _default_defended_shadow_training_workspace_root(workspace_path: Path) -> Path:
     if workspace_path.parent.name == "artifacts":
         return workspace_path.parent.parent / "runs" / workspace_path.name
@@ -659,6 +677,7 @@ def build_defended_shadow_training_manifest(
 
     forget_summary = _index_file_summary(forget_member_index_file)
     matched_summary = _index_file_summary(matched_nonmember_index_file)
+    forget_indices = _load_index_file(forget_member_index_file)
     errors: list[str] = []
     if forget_summary["count"] == 0:
         errors.append("forget_member_index_file must not be empty")
@@ -679,6 +698,20 @@ def build_defended_shadow_training_manifest(
         entry_errors: list[str] = []
         if not member_dataset_dir.is_dir():
             entry_errors.append("missing member dataset")
+            identity_coverage = {
+                "required_count": int(len(set(forget_indices))),
+                "covered_count": 0,
+                "missing_count": int(len(set(forget_indices))),
+                "missing_preview": sorted(set(int(index) for index in forget_indices))[:10],
+                "dataset_image_id_count": 0,
+            }
+        else:
+            identity_coverage = _member_identity_coverage(
+                member_dataset_dir=member_dataset_dir,
+                required_indices=forget_indices,
+            )
+            if identity_coverage["missing_count"]:
+                entry_errors.append("forget identity coverage incomplete")
         if not checkpoint_root.is_dir():
             entry_errors.append("missing checkpoint root")
         entry_status = "ready" if not entry_errors else "blocked"
@@ -711,6 +744,7 @@ def build_defended_shadow_training_manifest(
                 "checkpoint_root": _manifest_path(checkpoint_root),
                 "output_workspace": _manifest_path(output_workspace),
                 "training_role": DEFENDED_SHADOW_ROLE,
+                "forget_identity_coverage": identity_coverage,
                 "command": command,
                 "errors": entry_errors,
             }
@@ -783,6 +817,7 @@ def build_defended_shadow_training_manifest(
             "GPU packet completed",
         ],
         "remaining_requirements": [
+            "construct shadow-local forget identity files or remap the defended-shadow contract",
             "execute tiny defended-shadow training",
             "export defended-shadow threshold references",
             "run explicit defended-shadow reopen review",
