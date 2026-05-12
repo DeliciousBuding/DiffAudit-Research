@@ -21,6 +21,7 @@
 
 | 脚本 | 用途 |
 | --- | --- |
+| `run_pr_checks.py` | 运行 GitHub PR 快速门禁，不安装 PyTorch，不跑 runtime 测试 |
 | `run_local_checks.py` | 运行本地质量检查，支持 `--python` 和 `--fast` |
 | `audit_local_storage.py` | 审计本地大文件和数据边界，默认 dry-run |
 | `validate_attack_defense_table.py` | 校验攻击-防御汇总表 |

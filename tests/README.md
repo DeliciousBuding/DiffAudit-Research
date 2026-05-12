@@ -20,6 +20,12 @@ DiffAudit Research 的自动化测试套件。
 
 ## 运行测试
 
+PR 快速门禁：
+
+```powershell
+python -X utf8 scripts/run_pr_checks.py
+```
+
 快速本地检查：
 
 ```powershell

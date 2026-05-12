@@ -66,7 +66,9 @@ python -m diffaudit run-smoke --config configs/benchmarks/secmi_smoke.yaml --wor
 Run the local check wrapper:
 
 ```powershell
-python scripts/run_local_checks.py
+python -X utf8 scripts/run_pr_checks.py
+python -X utf8 scripts/run_local_checks.py --fast
+python -X utf8 scripts/run_local_checks.py
 ```
 
 ## Black-Box
