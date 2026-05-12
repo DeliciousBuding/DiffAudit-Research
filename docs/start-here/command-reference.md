@@ -138,6 +138,22 @@ This uses the collaborator 750k checkpoint and CIFAR10 ratio0.5 split when the
 local asset manifest paths are present. It is still a `4/4` cache-contract
 preflight, not benchmark evidence and not a GPU release.
 
+Run the bounded mid-frequency same-noise residual sign-check:
+
+```powershell
+conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-sign-check `
+  --workspace workspaces/black-box/runs/midfreq-residual-signcheck-20260512-gpu-64 `
+  --sample-count-per-split 64 `
+  --batch-size 8 `
+  --seed 12 `
+  --timestep 80 `
+  --device cuda
+```
+
+This is a frozen `64/64` candidate packet. It writes ignored local run
+artifacts and must be summarized through an evidence note before it influences
+the roadmap. It is not an admitted result.
+
 Run the bounded H2 response-strength validation candidate:
 
 ```powershell

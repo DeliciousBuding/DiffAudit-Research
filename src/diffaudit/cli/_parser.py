@@ -909,6 +909,24 @@ def build_parser() -> argparse.ArgumentParser:
     midfreq_real_asset_parser.add_argument("--weights-key", default="ema_model")
     midfreq_real_asset_parser.add_argument("--provenance-status", default="collaborator-grounded-real-asset-preflight")
 
+    midfreq_sign_check_parser = subparsers.add_parser(
+        "run-midfreq-residual-sign-check",
+        help="run a bounded mid-frequency residual 64/64 sign-check packet",
+    )
+    midfreq_sign_check_parser.add_argument("--workspace", required=True)
+    midfreq_sign_check_parser.add_argument("--bundle-root", default=None)
+    midfreq_sign_check_parser.add_argument("--checkpoint-path", default=None)
+    midfreq_sign_check_parser.add_argument("--dataset-root", default=None)
+    midfreq_sign_check_parser.add_argument("--sample-count-per-split", type=int, default=64)
+    midfreq_sign_check_parser.add_argument("--batch-size", type=int, default=8)
+    midfreq_sign_check_parser.add_argument("--timestep", type=int, default=80)
+    midfreq_sign_check_parser.add_argument("--seed", type=int, default=0)
+    midfreq_sign_check_parser.add_argument("--cutoff", type=float, default=0.25)
+    midfreq_sign_check_parser.add_argument("--cutoff-high", type=float, default=0.50)
+    midfreq_sign_check_parser.add_argument("--device", default="cuda")
+    midfreq_sign_check_parser.add_argument("--weights-key", default="ema_model")
+    midfreq_sign_check_parser.add_argument("--provenance-status", default="collaborator-grounded-sign-check")
+
     pia_runtime_mainline_parser = subparsers.add_parser(
         "run-pia-runtime-mainline",
         help="run the canonical PIA DDPM path on real local assets and emit a reproducible summary",
