@@ -35,7 +35,7 @@ def _as_residual_arrays(x_t: np.ndarray, tilde_x_t: np.ndarray) -> tuple[np.ndar
 def _validate_band(cutoff: float, cutoff_high: float) -> tuple[float, float]:
     low = float(cutoff)
     high = float(cutoff_high)
-    if low < 0.0 or high > 1.0 or low >= high:
+    if not np.isfinite(low) or not np.isfinite(high) or low < 0.0 or high > 1.0 or low >= high:
         raise ValueError("cutoff must satisfy 0 <= cutoff < cutoff_high <= 1")
     return low, high
 
@@ -66,7 +66,7 @@ def bandpass_residual_l2(
     ).astype(np.float32)
     residual = tilde_arr - x_arr
     spectrum = np.fft.fftn(residual, axes=(-2, -1), norm="ortho")
-    masked = spectrum * mask[None, :, :, :]
+    masked = spectrum * mask
     distances = np.sqrt(np.mean(np.abs(masked) ** 2, axis=(1, 2, 3)))
     return distances.astype(np.float32)
 
@@ -98,6 +98,8 @@ def summarize_midfreq_packet(
     x_arr, tilde_arr = _as_residual_arrays(x_t, tilde_x_t)
     if labels_i64.shape != (x_arr.shape[0],):
         raise ValueError(f"labels must have shape [{x_arr.shape[0]}], got {labels_i64.shape}")
+    if int((labels_i64 == 1).sum()) == 0 or int((labels_i64 == 0).sum()) == 0:
+        raise ValueError("labels must contain at least one member (1) and one nonmember (0)")
     distances = bandpass_residual_l2(x_arr, tilde_arr, cutoff=cutoff, cutoff_high=cutoff_high)
     scores = -distances
     metrics = metric_bundle(scores.astype(np.float64), labels_i64)

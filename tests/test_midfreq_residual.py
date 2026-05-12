@@ -65,6 +65,17 @@ class MidFrequencyResidualTests(unittest.TestCase):
         x_t = np.zeros((1, 1, 8, 8), dtype=np.float32)
         with self.assertRaises(ValueError):
             bandpass_residual_l2(x_t, x_t, cutoff=0.8, cutoff_high=0.2)
+        with self.assertRaises(ValueError):
+            bandpass_residual_l2(x_t, x_t, cutoff=float("nan"), cutoff_high=0.5)
+
+    def test_single_class_packet_is_rejected(self) -> None:
+        from diffaudit.attacks.midfreq_residual import summarize_midfreq_packet
+
+        labels = np.asarray([1, 1], dtype=np.int64)
+        x_t = np.zeros((2, 1, 8, 8), dtype=np.float32)
+
+        with self.assertRaises(ValueError):
+            summarize_midfreq_packet(labels, x_t, x_t)
 
 
 if __name__ == "__main__":
