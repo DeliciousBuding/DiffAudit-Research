@@ -17,9 +17,10 @@
 - `simple image-to-image distance`: bounded single-asset evidence on
   SD1.5/CelebA; not a product row and not portability evidence.
 - `mid-frequency same-noise residual`: distinct paper-backed observable gap;
-  scorer, collector functions, and the synthetic tiny cache writer are
-  implemented and tested, but existing H2/H3 caches are insufficient because
-  they lack `x_t`, `tilde_x_t`, and same-noise residual provenance.
+  scorer, collector functions, synthetic tiny cache writer, and real-asset
+  `4/4` cache preflight are implemented and tested, but existing H2/H3 caches
+  are insufficient because they lack `x_t`, `tilde_x_t`, and same-noise
+  residual provenance.
 
 ## Next Action
 
@@ -89,14 +90,18 @@ The mid-frequency same-noise residual scout is now the active CPU-first
 black-box successor. It is not covered by the existing H2/H3 lowpass,
 highpass, or bandpass response-cache work because those caches only store final
 inputs/responses and distance summaries. The synthetic residual cache runner is
-now executable and writes the required cache schema; the next action is a
-real-asset `4/4` or `8/8` cache preflight, not a `64/64` GPU packet. The CPU scorer is
+executable and the real-asset `4/4` cache preflight now writes the same schema
+from the collaborator 750k checkpoint and CIFAR10 split. The next action is to
+freeze a bounded `64/64` sign-check contract, not to treat the tiny metrics as
+evidence. The CPU scorer is
 tracked in
 [../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md);
 the collector functions are tracked in
 [../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md);
 the tiny runner contract is
 [../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md);
+the real-asset preflight is
+[../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md);
 the cache audit is
 [../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md).
 

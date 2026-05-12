@@ -7,13 +7,15 @@ It is not admitted evidence and does not release a GPU task.
 ## Verdict
 
 ```text
-blocked-by-cache-contract; distinct observable gap; no GPU release
+distinct observable gap; cache contract now implemented; no GPU release
 ```
 
-The proposed observable is distinct from the existing H2/H3 frequency work, but
-the current local caches cannot evaluate it. Existing H2/H3 artifacts contain
-final response images and response-distance summaries; they do not preserve the
-same-noise state required for a mid-frequency residual score.
+The proposed observable is distinct from the existing H2/H3 frequency work.
+The original local H2/H3 caches could not evaluate it because they contain
+final response images and response-distance summaries, not the same-noise state
+required for a mid-frequency residual score. The follow-up scorer, collector,
+synthetic cache writer, and real-asset `4/4` preflight are now recorded in the
+linked evidence notes.
 
 ## Bounded Question
 
@@ -72,6 +74,13 @@ Audited caches:
 The machine-readable audit summary is
 `workspaces/black-box/artifacts/midfreq-same-noise-residual-cache-audit-20260512.json`.
 
+Follow-up implementation anchors:
+
+- [midfreq-residual-scorer-contract-20260512.md](midfreq-residual-scorer-contract-20260512.md)
+- [midfreq-residual-collector-contract-20260512.md](midfreq-residual-collector-contract-20260512.md)
+- [midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md)
+- [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md)
+
 ## Falsifier
 
 Do not run a GPU packet unless a CPU/tiny preflight can produce a residual cache
@@ -93,10 +102,9 @@ if positive.
 
 ## Next Action
 
-Implement or freeze a CPU-first residual collector contract before any GPU
-release. The collector should reuse the existing DDPM/CIFAR10 model path only
-if it can store same-noise state explicitly. Existing H2 response caches must
-not be reused as evidence for this observable.
+Freeze a bounded `64/64` sign-check contract before any GPU release. Existing
+H2 response caches must not be reused as evidence for this observable; the
+sign-check must use an explicit same-noise residual cache.
 
 ## System Boundary
 

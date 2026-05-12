@@ -3,7 +3,7 @@
   "created_date": "2026-05-12",
   "track": "black-box",
   "question": "Can existing H2/H3 or image-to-image response caches support a same-noise mid-frequency residual observable?",
-  "verdict": "blocked-by-cache-contract",
+  "verdict": "existing-caches-blocked; follow-up-real-asset-cache-ready",
   "gpu_release": false,
   "admitted_change": false,
   "observable_status": "distinct-gap",
@@ -239,6 +239,12 @@
       }
     }
   ],
-  "next_action": "freeze a CPU-first residual collector that stores x_t, tilde_x_t, timestep, noise provenance, labels, and bandpass_l2 before any GPU packet",
-  "canonical_evidence": "docs/evidence/midfreq-same-noise-residual-preflight-20260512.md"
+  "next_action": "freeze a bounded 64/64 sign-check contract that uses an explicit same-noise residual cache before any GPU packet",
+  "canonical_evidence": "docs/evidence/midfreq-same-noise-residual-preflight-20260512.md",
+  "followup_evidence": [
+    "docs/evidence/midfreq-residual-scorer-contract-20260512.md",
+    "docs/evidence/midfreq-residual-collector-contract-20260512.md",
+    "docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md",
+    "docs/evidence/midfreq-residual-real-asset-preflight-20260512.md"
+  ]
 }

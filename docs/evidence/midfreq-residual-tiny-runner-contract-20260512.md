@@ -7,7 +7,7 @@ result.
 ## Verdict
 
 ```text
-tiny-runner-schema-ready; real-asset preflight pending; no GPU release
+tiny-runner-schema-ready; real-asset preflight now complete; no GPU release
 ```
 
 The Research CLI now exposes a CPU-only tiny cache writer:
@@ -88,6 +88,9 @@ The synthetic summary reported finite standard metrics and per-sample
 `bandpass_l2` values. These numbers are a schema smoke only and must not be
 cited as benchmark or candidate evidence.
 
+Current follow-up: the real-asset `4/4` preflight is now recorded in
+[midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md).
+
 ## Validation
 
 Local validation:
@@ -108,10 +111,10 @@ The unit test covers:
 
 ## Next Action
 
-Do not run `64/64` yet. The next valid action is a real-asset `4/4` or `8/8`
-cache preflight that reuses the same cache schema and records the actual model,
-split, timestep, and noise provenance. Only after that succeeds should a
-bounded `64/64` sign-check packet be considered.
+The real-asset `4/4` preflight now exists. Do not run `64/64` from this note
+alone; the next valid action is a separately frozen sign-check contract that
+reuses the same cache schema and records the actual model, split, timestep,
+noise provenance, metrics, and stop condition.
 
 ## Boundary
 

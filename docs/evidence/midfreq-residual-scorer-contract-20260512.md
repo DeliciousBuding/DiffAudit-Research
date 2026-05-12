@@ -52,8 +52,8 @@ documentation gate only.
 
 ## Next Action
 
-The collector and synthetic tiny cache writer now exist. The next real-asset
-preflight must preserve these fields:
+The collector, synthetic tiny cache writer, and real-asset `4/4` preflight now
+exist. Any later sign-check must preserve these fields:
 
 - `labels`
 - `x_t`
@@ -62,9 +62,8 @@ preflight must preserve these fields:
 - noise provenance
 - `bandpass_l2`
 
-The first real-asset packet remains capped at `4/4` or `8/8`. A larger packet
-or GPU release remains blocked until this schema works on real assets and the
-same-cache final-response comparator is frozen.
+The real-asset `4/4` cache path works. A larger packet or GPU release remains
+blocked until a bounded `64/64` sign-check contract is separately frozen.
 
 ## Boundary
 
