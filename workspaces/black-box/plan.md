@@ -176,6 +176,11 @@ A local query-only package now exists under `<DIFFAUDIT_ROOT>/Download` with
 `needs_responses`, so the next real step is deterministic CommonCanvas response
 generation, not scoring or GPU. See
 [../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md](../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md).
+The immediate response-generation preflight is blocked locally: current Python
+has CPU-only Torch, the GPU is visible only through `nvidia-smi`, and no local
+CommonCanvas weights are cached. Do not start a scorer until responses are
+generated or attached and the package probe returns `ready`. See
+[../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
