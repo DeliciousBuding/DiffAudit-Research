@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-B defended-shadow reopen protocol frozen; next-lane reselection` |
+| Active work | `I-B defended-shadow reopen guard landed; next-lane reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | choose the next bounded scientific question after I-B protocol freeze |
+| CPU sidecar | choose the next bounded scientific question after I-B guard landing |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -35,19 +35,20 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
-| I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but the active review path borrows undefended shadow threshold transfer; the defended-shadow reopen protocol is now machine-checkable | no defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is CPU plumbing that rejects undefended shadow references for reopen packets, not GPU |
+| I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but it remains attack-side threshold transfer; the defended-shadow reopen protocol is machine-checkable and explicit reopen mode now rejects undefended threshold references | no defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is defended-shadow training plus adaptive and utility measurement, not GPU from old diagnostics |
 | I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### I-B Defended-Shadow Protocol Freeze And Next-Lane Reselection
+### I-B Defended-Shadow Guard And Next-Lane Reselection
 
 - `mode`: CPU-only
 - `status`: SecMI consumer review closed as structural-support-only; I-B
   protocol audit closed as hold-structural; I-C same-spec evaluator feasibility
   scout closed as hold; admitted consumer drift audit found no candidate leakage
   into Platform/Runtime bundle rows; I-B defended-shadow reopen protocol is now
-  frozen as a machine-checkable CPU artifact.
+  frozen as a machine-checkable CPU artifact, and explicit reopen mode now
+  rejects undefended threshold references.
 - `goal`: choose the next bounded question that can change Research direction
   without repeating closed residual, SecMI, diagonal-Fisher, I-B
   threshold-transfer, I-C translated-alias, no-drift consumer-boundary, or
@@ -87,6 +88,7 @@ Current evidence:
 - [../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md](../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md)
 - [../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md)
 - [../../docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](../../docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md)
+- [../../docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](../../docs/evidence/ib-reopen-shadow-reference-guard-20260512.md)
 - [../../docs/evidence/post-ib-next-lane-reselection-20260512.md](../../docs/evidence/post-ib-next-lane-reselection-20260512.md)
 - [../../docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](../../docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md)
 - [../../docs/evidence/admitted-consumer-drift-audit-20260512.md](../../docs/evidence/admitted-consumer-drift-audit-20260512.md)
@@ -113,8 +115,8 @@ Restart conditions:
   and provenance language are reviewed.
 - do not GPU-scale I-B from existing attack-side threshold-transfer diagnostics.
 - do not call the I-B defended-shadow reopen protocol executable for GPU until
-  code plumbing rejects undefended shadow references and a tiny defended-shadow
-  training path is available.
+  a tiny defended-shadow training path, adaptive-attacker measurement, and
+  retained-utility measurement are available.
 - do not GPU-scale I-C same-pair replay without a same-spec evaluator and
   matched random comparator contract.
 - do not call an influence/curvature scout distinct unless it defines a signal
@@ -249,6 +251,7 @@ Restart conditions:
 | Cross-box successor scope | Hold; no genuinely new CPU/GPU successor hypothesis is ready. |
 | I-B defense-aware reopen scout | Hold; current I-B evidence is not defense-aware and releases no GPU. |
 | I-B defense reopen protocol audit | Hold-structural; current code path borrows undefended shadow threshold transfer and cannot release defended-shadow or adaptive-attacker work. |
+| I-B reopen shadow-reference guard | Ready CPU guard; explicit reopen mode rejects undefended threshold references but releases no GPU. |
 | Post-I-B next-lane reselection | Selected I-C same-spec evaluator feasibility scout; no GPU release. |
 | I-C same-spec evaluator feasibility | Hold; current translated-alias probes are not same-spec evaluator release surfaces and emit no split-level four-metric board. |
 | Gray-box paper-candidate reentry | Hold; archived paper candidates do not release CPU/GPU work from current artifacts. |

@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `I-B defended-shadow reopen protocol frozen; next-lane reselection` |
+| Active work | `I-B defended-shadow reopen guard landed; next-lane reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | choose the next bounded scientific question after I-B protocol freeze |
+| CPU sidecar | choose the next bounded scientific question after I-B guard landing |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -40,16 +40,18 @@ SecMI consumer-contract review; that review keeps SecMI as
 `structural-support-only` because NNS product semantics, adaptive comparability,
 provenance language, and bundle schema fit remain blocked. The follow-up I-B
 protocol audit is also closed as `hold-structural`: the active
-risk-targeted-unlearning review path still borrows an undefended shadow
+risk-targeted-unlearning review path previously borrowed an undefended shadow
 threshold-transfer reference. The defended-shadow reopen protocol is now frozen
-as a machine-checkable CPU artifact, but it releases no GPU and does not train
-defended shadows. Post-I-B reselection selected an I-C same-spec
+as a machine-checkable CPU artifact, and explicit defended-shadow reopen mode
+now rejects undefended threshold references, but it releases no GPU and does
+not train defended shadows. Post-I-B reselection selected an I-C same-spec
 evaluator feasibility scout; that scout is now closed as `hold` because the
 active PIA bridge surface remains translated-alias-only with
 `same_spec_reuse = false` and no split-level four-metric board. The admitted
 consumer drift audit then passed the full consumer-validator chain and
 confirmed the machine-readable Platform/Runtime bundle still admits only recon,
 PIA baseline, PIA defended, GSA, and DPDM W-1. See
+[docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md),
 [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md),
 [docs/evidence/admitted-consumer-drift-audit-20260512.md](docs/evidence/admitted-consumer-drift-audit-20260512.md),
 [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md),
@@ -121,12 +123,13 @@ reviewed:
 [docs/evidence/secmi-admission-contract-hardening-20260511.md](docs/evidence/secmi-admission-contract-hardening-20260511.md).
 I-B risk-targeted unlearning and I-C cross-permission successor scoping are both
 on hold; neither releases GPU work. I-B now has a machine-checkable
-defended-shadow / adaptive-attacker reopen protocol, but it is protocol-only
-until code plumbing rejects undefended threshold references and defended-shadow
-training is available. See
+defended-shadow / adaptive-attacker reopen protocol and an explicit reopen-mode
+guard against undefended threshold references, but it still lacks defended-shadow
+training, adaptive-attacker metrics, and retained utility. See
 [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md),
 [docs/evidence/ib-adaptive-defense-contract-20260511.md](docs/evidence/ib-adaptive-defense-contract-20260511.md),
 [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md),
+[docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md),
 and
 [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md).
 CLiD is now guarded as a prompt-conditioned diagnostic candidate rather than
@@ -271,8 +274,8 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    `workspaces/implementation/artifacts/admitted-evidence-bundle.json`.
 9. I-B risk-targeted unlearning is on hold with a frozen defended-shadow reopen
    protocol. Do not GPU-scale the existing threshold-transfer diagnostics; the
-   next valid work is CPU plumbing that rejects undefended shadow references for
-   reopen packets.
+   explicit reopen mode now rejects undefended shadow references, but defended
+   shadows, adaptive-attacker metrics, and retained utility are still missing.
 10. I-C cross-permission / translated-contract work is on hold until a same-spec
    evaluator and matched random comparator contract exist. The feasibility
    scout confirms the current executable surface is translated-alias-only,
@@ -330,7 +333,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Post-I-B protocol-freeze next-lane reselection | CPU-only | I-B now has a machine-checkable reopen protocol but still no defended-shadow result or GPU release; choose the next bounded scientific question without GPU. |
+| Post-I-B guard next-lane reselection | CPU-only | I-B now has a machine-checkable reopen protocol and code guard, but still no defended-shadow result or GPU release; choose the next bounded scientific question without GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -341,6 +344,7 @@ Every autonomous research cycle must follow this loop:
 | Item | Verdict | Evidence |
 | --- | --- | --- |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
+| I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | Admitted consumer drift audit | synchronized; no candidate leakage into Platform/Runtime bundle; no schema change | [docs/evidence/admitted-consumer-drift-audit-20260512.md](docs/evidence/admitted-consumer-drift-audit-20260512.md) |
 | SecMI consumer-contract review | structural-support-only; not system-consumable; no GPU release | [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md) |
 | I-C same-spec evaluator feasibility | hold; translated-alias probes are not same-spec release surfaces; no GPU release | [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md) |
@@ -393,7 +397,7 @@ Every autonomous research cycle must follow this loop:
 | I-B defense-aware reopen scout | hold; current I-B evidence is not defense-aware and releases no GPU | [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md) |
 | Gray-box paper-candidate reentry | hold; archived paper candidates do not release CPU/GPU work from current artifacts | [docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](docs/evidence/graybox-paper-candidate-reentry-review-20260512.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
-| I-B risk-targeted unlearning successor scope | hold-protocol-frozen; no GPU release until code plumbing and defended-shadow training are available | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
+| I-B risk-targeted unlearning successor scope | hold-protocol-frozen; no GPU release until defended-shadow training, adaptive-attacker metrics, and retained utility are available | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |
 | Research resting-state audit | temporary resting state; no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive | [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md) |
 | GSA loss-score shadow stability | negative-but-useful; LR distinct-scorer rescue path fails leave-one-shadow-out gate | [docs/evidence/gsa-loss-score-shadow-stability-review.md](docs/evidence/gsa-loss-score-shadow-stability-review.md) |

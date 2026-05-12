@@ -60,6 +60,7 @@ This directory contains the public evidence overview.
 | [ib-defense-aware-reopen-scout-20260512.md](ib-defense-aware-reopen-scout-20260512.md) | CPU scout showing I-B still lacks an executable defended-shadow/adaptive-attacker reopen contract. |
 | [ib-defense-reopen-protocol-audit-20260512.md](ib-defense-reopen-protocol-audit-20260512.md) | Code-aware audit confirming the current I-B review path borrows undefended shadow threshold transfer and cannot release GPU work. |
 | [ib-defended-shadow-reopen-protocol-20260512.md](ib-defended-shadow-reopen-protocol-20260512.md) | Machine-checkable CPU reopen protocol for future I-B defended-shadow/adaptive-attacker work; still no GPU release. |
+| [ib-reopen-shadow-reference-guard-20260512.md](ib-reopen-shadow-reference-guard-20260512.md) | CPU guard that makes defended-shadow reopen mode reject old undefended shadow threshold references. |
 | [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |
 | [post-ib-next-lane-reselection-20260512.md](post-ib-next-lane-reselection-20260512.md) | CPU-only reselection after I-B protocol audit; selects I-C same-spec evaluator feasibility scout. |
 | [ic-same-spec-evaluator-feasibility-scout-20260512.md](ic-same-spec-evaluator-feasibility-scout-20260512.md) | CPU-only I-C feasibility scout showing current translated-alias probes are not same-spec evaluator release surfaces. |

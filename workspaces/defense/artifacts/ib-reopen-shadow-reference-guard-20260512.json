@@ -1,0 +1,40 @@
+{
+  "schema": "diffaudit.ib_reopen_shadow_reference_guard.v1",
+  "status": "ready",
+  "admitted": false,
+  "gpu_release": "none",
+  "track": "defense",
+  "method": "risk-targeted unlearning",
+  "question": "Can the active I-B review path prevent a future reopen packet from silently reusing the old undefended shadow threshold-transfer reference?",
+  "hypothesis": "A CPU-only review-mode guard separates historical threshold-transfer diagnostics from future defended-shadow reopen packets.",
+  "falsifier": "review-risk-targeted-unlearning-pilot --review-mode defended-shadow-reopen accepts a shadow reference that lacks threshold_reference=defended-shadows.",
+  "entrypoint": "review-risk-targeted-unlearning-pilot",
+  "legacy_mode": "threshold-transfer-diagnostic",
+  "reopen_mode": "defended-shadow-reopen",
+  "required_reopen_threshold_reference": "defended-shadows",
+  "blocked_references": [
+    "undefended-shadows",
+    "missing threshold_reference"
+  ],
+  "validation": {
+    "command": "conda run -n diffaudit-research python -m unittest tests.test_risk_targeted_unlearning tests.test_h2_adapter",
+    "result": "passed",
+    "test_count": 22
+  },
+  "blocked_claims": [
+    "admitted defense evidence",
+    "adaptive robustness",
+    "Platform/Runtime defense row",
+    "GPU packet authorized"
+  ],
+  "evidence_docs": [
+    "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
+    "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md"
+  ],
+  "next_missing_requirements": [
+    "defended-shadow training artifacts",
+    "adaptive-attacker scoring or thresholding result",
+    "retained-utility result",
+    "strict-tail improvement under defended-shadow threshold reference"
+  ]
+}

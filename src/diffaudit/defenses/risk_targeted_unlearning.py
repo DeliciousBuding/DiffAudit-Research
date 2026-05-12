@@ -14,6 +14,13 @@ import numpy as np
 from diffaudit.attacks.crossbox_pairboard import _align_surfaces, load_pairboard_surface
 from diffaudit.attacks.gsa import _extract_gsa_loss_scores, evaluate_gsa_loss_score_packet
 
+REVIEW_MODE_THRESHOLD_TRANSFER_DIAGNOSTIC = "threshold-transfer-diagnostic"
+REVIEW_MODE_DEFENDED_SHADOW_REOPEN = "defended-shadow-reopen"
+REVIEW_MODES = (
+    REVIEW_MODE_THRESHOLD_TRANSFER_DIAGNOSTIC,
+    REVIEW_MODE_DEFENDED_SHADOW_REOPEN,
+)
+
 
 def _round6(value: float) -> float:
     return round(float(value), 6)
@@ -769,6 +776,35 @@ def _load_shadow_reference_summary(path: str | Path) -> dict[str, Any]:
     return payload
 
 
+def _shadow_reference_threshold(payload: dict[str, Any]) -> str | None:
+    adaptive_protocol = payload.get("adaptive_attacker_protocol")
+    if isinstance(adaptive_protocol, dict) and isinstance(adaptive_protocol.get("threshold_reference"), str):
+        return adaptive_protocol["threshold_reference"]
+    if isinstance(payload.get("threshold_reference"), str):
+        return payload["threshold_reference"]
+    if isinstance(payload.get("shadow_reference_type"), str):
+        return payload["shadow_reference_type"]
+    runtime = payload.get("runtime")
+    if isinstance(runtime, dict):
+        if isinstance(runtime.get("threshold_reference"), str):
+            return runtime["threshold_reference"]
+        if isinstance(runtime.get("shadow_reference_type"), str):
+            return runtime["shadow_reference_type"]
+    return None
+
+
+def _guard_review_shadow_reference(*, shadow_reference_summary: dict[str, Any], review_mode: str) -> str | None:
+    if review_mode not in REVIEW_MODES:
+        raise ValueError(f"review_mode must be one of {', '.join(REVIEW_MODES)}")
+    threshold_reference = _shadow_reference_threshold(shadow_reference_summary)
+    if review_mode == REVIEW_MODE_DEFENDED_SHADOW_REOPEN and threshold_reference != "defended-shadows":
+        raise ValueError(
+            "defended-shadow reopen requires shadow reference threshold_reference=defended-shadows; "
+            f"got {threshold_reference or 'missing'}"
+        )
+    return threshold_reference
+
+
 def _build_subset_allowlist(
     *,
     forget_member_index_file: str | Path | None,
@@ -869,6 +905,8 @@ def _write_review_packet_summary(
     label: str,
     sample_id_allowlist: list[int],
     checkpoint_dir: str | Path,
+    review_mode: str,
+    threshold_reference: str | None,
 ) -> None:
     packet_summary = {
         "status": "ready",
@@ -891,6 +929,8 @@ def _write_review_packet_summary(
             "subset_label": label,
             "sample_id_allowlist_count": int(len(sample_id_allowlist)) if sample_id_allowlist is not None else None,
             "review_checkpoint_dir": str(checkpoint_dir),
+            "review_mode": review_mode,
+            "threshold_reference": threshold_reference,
         },
         "exports": {
             "target_member": target_member_export,
@@ -928,11 +968,16 @@ def review_risk_targeted_unlearning_pilot(
     device: str = "cpu",
     noise_seed: int | None = None,
     provenance_status: str = "workspace-verified",
+    review_mode: str = REVIEW_MODE_THRESHOLD_TRANSFER_DIAGNOSTIC,
 ) -> dict[str, Any]:
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
 
     shadow_reference = _load_shadow_reference_summary(shadow_reference_summary)
+    threshold_reference = _guard_review_shadow_reference(
+        shadow_reference_summary=shadow_reference,
+        review_mode=review_mode,
+    )
     sample_id_allowlist = _build_subset_allowlist(
         forget_member_index_file=forget_member_index_file,
         matched_nonmember_index_file=matched_nonmember_index_file,
@@ -1018,6 +1063,8 @@ def review_risk_targeted_unlearning_pilot(
         label="baseline-target-subset",
         sample_id_allowlist=sample_id_allowlist,
         checkpoint_dir=baseline_checkpoint_dir,
+        review_mode=review_mode,
+        threshold_reference=threshold_reference,
     )
     _write_review_packet_summary(
         output_path=defended_packet_summary_path,
@@ -1027,6 +1074,8 @@ def review_risk_targeted_unlearning_pilot(
         label="defended-target-subset",
         sample_id_allowlist=sample_id_allowlist,
         checkpoint_dir=defended_checkpoint_dir,
+        review_mode=review_mode,
+        threshold_reference=threshold_reference,
     )
 
     baseline_eval = evaluate_gsa_loss_score_packet(
@@ -1073,6 +1122,13 @@ def review_risk_targeted_unlearning_pilot(
             "sample_id_allowlist_count": int(len(sample_id_allowlist)) if sample_id_allowlist is not None else None,
             "noise_seed": int(noise_seed) if noise_seed is not None else None,
         },
+        "review_protocol": {
+            "review_mode": review_mode,
+            "threshold_reference": threshold_reference,
+            "reopen_guard": "defended-shadow-required"
+            if review_mode == REVIEW_MODE_DEFENDED_SHADOW_REOPEN
+            else "diagnostic-legacy-compatible",
+        },
         "baseline": {
             "checkpoint_dir": str(baseline_checkpoint_dir),
             "target_member_export": baseline_member_export,
@@ -1089,8 +1145,9 @@ def review_risk_targeted_unlearning_pilot(
             "target_transfer_delta": delta,
         },
         "notes": [
-            "This review reuses an existing undefended shadow export only for threshold-transfer diagnostics.",
-            "It is attack-side readable, but not defense-aware; any positive or negative read remains provisional until defended shadows are retrained.",
+            "Diagnostic mode reuses an existing undefended shadow export only for threshold-transfer diagnostics.",
+            "Defended-shadow reopen mode is accepted only when the shadow reference declares threshold_reference=defended-shadows.",
+            "Any positive or negative read remains provisional until retained utility and adaptive-attacker gates are satisfied.",
         ],
     }
     summary_path = workspace_path / "summary.json"
