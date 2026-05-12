@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `paper-backed new-observable intake scout` |
+| Active work | `mid-frequency same-noise residual collector contract` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | gray-box paper-candidate reentry review closed as hold; next work must identify a genuinely new observable or ready asset contract |
+| CPU sidecar | mid-frequency same-noise residual is distinct but blocked by missing residual cache fields |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| mid-frequency same-noise residual | black-box | CPU-first | distinct from H2/H3 response-cache frequency filtering; cache audit completed | existing caches lack `x_t`, `tilde_x_t`, noise provenance, and same-noise residual fields | freeze a tiny residual collector contract; no GPU until 64/64 cache preflight exists |
 | black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split`; query-source audit found no reusable local Pokemon/Kandinsky images or responses | missing member/nonmember query images and response coverage | acquire/build at least `25/25` real query images plus responses, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
@@ -39,21 +40,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Paper-Backed New-Observable Intake Scout
+### Mid-Frequency Same-Noise Residual Collector
 
-- `mode`: CPU-only
-- `status`: active next-lane scout after cross-box successor scoping, I-B
-  defense-aware reopen scoping, and archived gray-box paper-candidate reentry
-  all closed as `hold`.
-- `goal`: identify one bounded, non-stale scientific question with a genuinely
-  new observable or ready asset contract.
-- `latest trigger`: SIMA, Noise-as-Probe, MoFit, and Structural Memorization
-  do not release GPU or CPU expansion from their current artifacts.
+- `mode`: CPU-first
+- `status`: active successor after the new-observable scout found a distinct
+  gap but existing caches failed the same-noise residual contract.
+- `goal`: freeze a tiny DDPM/CIFAR10 residual cache contract that stores
+  `x_t`, `tilde_x_t`, timestep, noise provenance, labels, and band-pass L2
+  before any GPU packet.
+- `latest trigger`: H2/H3 frequency filters cover response-cache plug-ins only;
+  they do not evaluate the same-noise residual observable.
 - `GPU cap`: none
 - `integration`: no schema change; Research-only scout
 
 Current evidence:
 
+- [../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md)
 - [../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md)
 - [../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md)
 - [../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md)
@@ -107,6 +109,10 @@ Restart conditions:
 - do not run another cross-box score-sharing, weighted/logistic fusion,
   support/disconfirm, tail-gated cascade, or same-contract tri-score board
   without a new observable or ready second response-contract package.
+- do not treat H2/H3 lowpass, highpass, or bandpass response-cache metrics as
+  evidence for mid-frequency same-noise residual scoring.
+- do not release GPU for the residual line until a CPU/tiny cache stores
+  same-noise `x_t` and `tilde_x_t` states with frozen band-pass L2 scoring.
 
 ## Ready
 
@@ -187,6 +193,7 @@ Restart conditions:
 
 | Task | Result |
 | --- | --- |
+| Paper-backed new-observable intake scout | Distinct same-noise mid-frequency residual gap found; existing caches fail the residual-field contract, so no GPU release. |
 | Post-ReDiffuse reselection | Selects black-box second response-contract acquisition; no GPU release. |
 | Gray-box tri-score consolidation | Positive-but-bounded internal evidence; no admitted promotion and no GPU release. |
 | Gray-box tri-score truth-hardening | Positive-but-bounded internal evidence; no admitted promotion, no product promotion, and no GPU release. |
