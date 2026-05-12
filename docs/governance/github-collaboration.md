@@ -51,6 +51,7 @@ Recommended rules:
 
 - Block direct pushes to `main`
 - Require Pull Request merges
+- Require at least 1 review before merging
 - Require the `unit-tests` status check
 
 The `unit-tests` check has a fast path for documentation-only and
@@ -112,7 +113,7 @@ Current recommended setup:
 - You are the repository owner
 - Add core contributors as collaborators with `Write` permission
 - Protect `main` with branch rules
-- Merge all changes through PRs
+- Merge all changes through PRs after one human review and a passing `unit-tests` check
 
 Additional notes:
 
