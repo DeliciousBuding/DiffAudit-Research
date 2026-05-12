@@ -12,7 +12,7 @@ run narratives live in `legacy/`; current workspace state lives in
 | --- | --- |
 | Active work | `Research taste reset; second-asset / second-response-contract pivot` |
 | Current GPU candidate | none selected |
-| CPU sidecar | Beans/SD1.5 response-contract package is ready; next step is tiny CPU scorer design, not GPU |
+| CPU sidecar | Beans/SD1.5 package ready; naive pixel distance is weak, next scorer needs a new observable |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -378,6 +378,7 @@ Every autonomous research cycle must follow this loop:
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
 | MNIST/DDPM PIA-style portability | CPU-only / closed | Tiny 16/16 CPU smoke on a second public DDPM dataset gave near-random raw loss AUC, and per-timestep guard found no hidden strong timestep; reopen only with a sharper scorer hypothesis. |
 | Beans/SD1.5 response-contract scout | CPU-only / ready package | `25/25` real beans query images and `25/25` local SD1.5 image-to-image responses pass the existing package probe; this is a second-query-dataset candidate, not a second-generator-family result. |
+| Beans/SD1.5 simple-distance scorer | CPU-only / weak | Pixel MSE/MAE on the ready package is near random; do not enlarge this exact score. |
 | Response-contract package construction | CPU-only / needs assets | Use the 2026-05-11 scaffold as the portable handoff target; no GPU until preflight is ready. |
 
 ## Recent Verdicts
@@ -386,6 +387,7 @@ Every autonomous research cycle must follow this loop:
 | --- | --- | --- |
 | Beans SD1.5 response-contract scout | feasible second-query-dataset package candidate; no GPU release | [docs/evidence/beans-sd15-response-contract-scout-20260512.md](docs/evidence/beans-sd15-response-contract-scout-20260512.md) |
 | Beans SD1.5 response-contract package | ready local `25/25` query/response package; no GPU release | [docs/evidence/beans-sd15-response-contract-ready-20260512.md](docs/evidence/beans-sd15-response-contract-ready-20260512.md) |
+| Beans SD1.5 simple-distance scout | weak naive pixel-distance signal; no GPU release | [docs/evidence/beans-sd15-simple-distance-scout-20260512.md](docs/evidence/beans-sd15-simple-distance-scout-20260512.md) |
 | MNIST DDPM PIA portability smoke | raw-loss transfer closed unless sharper scorer appears; no GPU release | [docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
