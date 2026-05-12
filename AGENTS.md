@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `admitted consumer drift audit completed; next-lane reselection`
+- Active work: `I-B defended-shadow reopen protocol frozen; next-lane reselection`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
@@ -41,11 +41,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   closed. SecMI consumer-contract review keeps SecMI as
   `structural-support-only`, not system-consumable. The I-B protocol audit now
   confirms the active risk-targeted unlearning review path still borrows an
-  undefended shadow reference, so it cannot release defended-shadow or
-  adaptive-attacker work. Post-I-B reselection selected I-C same-spec evaluator
+  undefended shadow reference. A machine-checkable defended-shadow reopen
+  protocol is now frozen, but it releases no GPU and does not train defended
+  shadows. Post-I-B reselection selected I-C same-spec evaluator
   feasibility, and that scout is also closed as hold because the active PIA
   bridge surface is translated-alias-only with `same_spec_reuse = false`. The
-  admitted consumer drift audit then verified that Platform/Runtime-visible rows
+  admitted consumer drift audit also verified that Platform/Runtime-visible rows
   still contain only the admitted recon, PIA baseline, PIA defended, GSA, and
   DPDM W-1 bundle rows. The current reducible work is next-lane reselection.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
