@@ -50,6 +50,7 @@ def main(argv: list[str] | None = None) -> None:
     run([python_executable, "scripts/validate_ib_adaptive_defense_contract.py"], repo_root)
     run([python_executable, "scripts/validate_ib_defended_shadow_reopen_protocol.py"], repo_root)
     run([python_executable, "scripts/validate_ib_defended_shadow_training_manifest.py"], repo_root)
+    run([python_executable, "scripts/validate_ib_shadow_local_identity_scout.py"], repo_root)
     run([python_executable, "scripts/validate_whitebox_influence_curvature_contract.py"], repo_root)
     run([python_executable, "scripts/export_recon_product_evidence_card.py", "--check"], repo_root)
     run([python_executable, "scripts/export_admitted_evidence_bundle.py", "--check"], repo_root)
@@ -66,6 +67,7 @@ def main(argv: list[str] | None = None) -> None:
             "tests.test_risk_targeted_unlearning",
             "tests.test_validate_ib_defended_shadow_reopen_protocol",
             "tests.test_validate_ib_defended_shadow_training_manifest",
+            "tests.test_validate_ib_shadow_local_identity_scout",
         ],
         repo_root,
     )
