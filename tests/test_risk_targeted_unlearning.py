@@ -251,6 +251,96 @@ class RiskTargetedUnlearningPilotTests(unittest.TestCase):
         self.assertTrue(summary_exists)
         self.assertTrue(checkpoint_exists)
 
+    def test_run_pilot_records_training_role(self) -> None:
+        from diffaudit.defenses.risk_targeted_unlearning import run_risk_targeted_unlearning_pilot
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            member_dir = root / "target-member"
+            member_dir.mkdir(parents=True, exist_ok=True)
+            _write_png(member_dir / "00-data_batch_1-00010.png", (255, 0, 0))
+            _write_png(member_dir / "00-data_batch_1-00011.png", (0, 255, 0))
+
+            forget_index_file = root / "forget-members-k1.txt"
+            forget_index_file.write_text("10\n", encoding="utf-8")
+
+            summary = run_risk_targeted_unlearning_pilot(
+                workspace=root / "run",
+                member_dataset_dir=member_dir,
+                forget_member_index_file=forget_index_file,
+                random_init=True,
+                num_steps=1,
+                batch_size=1,
+                retain_max_samples=1,
+                num_workers=0,
+                device="cpu",
+                seed=7,
+                training_role="defended-shadow",
+            )
+
+        self.assertEqual(summary["training_role"], "defended-shadow")
+
+    def test_defended_shadow_training_manifest_requires_ready_shadows(self) -> None:
+        from diffaudit.defenses.risk_targeted_unlearning import build_defended_shadow_training_manifest
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            assets_root = root / "assets"
+            for shadow_id in ("shadow-01", "shadow-02"):
+                (assets_root / "datasets" / f"{shadow_id}-member").mkdir(parents=True, exist_ok=True)
+                (assets_root / "checkpoints" / shadow_id).mkdir(parents=True, exist_ok=True)
+            forget_index_file = root / "forget-members-k2.txt"
+            matched_index_file = root / "matched-nonmembers-k2.txt"
+            forget_index_file.write_text("10\n11\n", encoding="utf-8")
+            matched_index_file.write_text("20\n21\n", encoding="utf-8")
+
+            manifest = build_defended_shadow_training_manifest(
+                workspace=root / "manifest",
+                assets_root=assets_root,
+                forget_member_index_file=forget_index_file,
+                matched_nonmember_index_file=matched_index_file,
+                shadow_ids=["shadow-01", "shadow-02"],
+                num_steps=3,
+                batch_size=2,
+                seed=42,
+            )
+
+        self.assertEqual(manifest["status"], "ready")
+        self.assertEqual(manifest["schema"], "diffaudit.ib_defended_shadow_training_manifest.v1")
+        self.assertEqual(manifest["role"], "defended-shadow")
+        self.assertEqual(manifest["identity_contract"]["forget_count"], 2)
+        self.assertEqual(len(manifest["shadow_training"]), 2)
+        self.assertEqual(manifest["shadow_training"][0]["status"], "ready")
+        self.assertEqual(manifest["shadow_training"][0]["training_role"], "defended-shadow")
+        self.assertTrue(manifest["shadow_training"][0]["output_workspace"].endswith("training-runs/shadow-01"))
+        self.assertIn("--training-role", manifest["shadow_training"][0]["command"])
+        self.assertIn("defended-shadow", manifest["shadow_training"][0]["command"])
+
+    def test_defended_shadow_training_manifest_blocks_missing_shadow_assets(self) -> None:
+        from diffaudit.defenses.risk_targeted_unlearning import build_defended_shadow_training_manifest
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            assets_root = root / "assets"
+            (assets_root / "datasets" / "shadow-01-member").mkdir(parents=True, exist_ok=True)
+            (assets_root / "checkpoints" / "shadow-01").mkdir(parents=True, exist_ok=True)
+            forget_index_file = root / "forget-members-k2.txt"
+            matched_index_file = root / "matched-nonmembers-k2.txt"
+            forget_index_file.write_text("10\n11\n", encoding="utf-8")
+            matched_index_file.write_text("20\n21\n", encoding="utf-8")
+
+            manifest = build_defended_shadow_training_manifest(
+                workspace=root / "manifest",
+                assets_root=assets_root,
+                forget_member_index_file=forget_index_file,
+                matched_nonmember_index_file=matched_index_file,
+                shadow_ids=["shadow-01", "shadow-02"],
+            )
+
+        self.assertEqual(manifest["status"], "blocked")
+        self.assertIn("shadow-02: missing member dataset", manifest["errors"])
+        self.assertIn("shadow-02: missing checkpoint root", manifest["errors"])
+
 
 class RiskTargetedUnlearningReviewTests(unittest.TestCase):
     def test_export_retained_highrisk_subset_excludes_forget_and_used_nonmembers(self) -> None:
@@ -662,6 +752,50 @@ class RiskTargetedUnlearningReviewTests(unittest.TestCase):
         self.assertEqual(payload["subset"]["sample_id_allowlist"], [10, 20])
         self.assertEqual(payload["subset"]["noise_seed"], 5)
         self.assertEqual(payload["review_protocol"]["review_mode"], "defended-shadow-reopen")
+
+    def test_cli_builds_defended_shadow_training_manifest(self) -> None:
+        from diffaudit.cli import main
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            assets_root = root / "assets"
+            for shadow_id in ("shadow-01", "shadow-02"):
+                (assets_root / "datasets" / f"{shadow_id}-member").mkdir(parents=True, exist_ok=True)
+                (assets_root / "checkpoints" / shadow_id).mkdir(parents=True, exist_ok=True)
+            forget_index_file = root / "forget-members-k2.txt"
+            matched_index_file = root / "matched-nonmembers-k2.txt"
+            forget_index_file.write_text("10\n11\n", encoding="utf-8")
+            matched_index_file.write_text("20\n21\n", encoding="utf-8")
+
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "prepare-defended-shadow-training-manifest",
+                        "--workspace",
+                        str(root / "manifest"),
+                        "--assets-root",
+                        str(assets_root),
+                        "--forget-member-index-file",
+                        str(forget_index_file),
+                        "--matched-nonmember-index-file",
+                        str(matched_index_file),
+                        "--shadow-ids",
+                        "shadow-01,shadow-02",
+                        "--num-steps",
+                        "3",
+                        "--batch-size",
+                        "2",
+                    ]
+                )
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["mode"], "defended-shadow-training-manifest")
+        self.assertEqual(len(payload["shadow_training"]), 2)
+        self.assertIn("blocked_claims", payload)
+        self.assertEqual(payload["shadow_training"][0]["training_role"], "defended-shadow")
 
 
 if __name__ == "__main__":

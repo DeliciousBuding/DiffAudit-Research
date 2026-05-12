@@ -1423,6 +1423,34 @@ def build_parser() -> argparse.ArgumentParser:
     risk_targeted_unlearning_pilot_parser.add_argument("--device", default="cuda")
     risk_targeted_unlearning_pilot_parser.add_argument("--seed", type=int, default=0)
     risk_targeted_unlearning_pilot_parser.add_argument("--provenance-status", default="workspace-verified")
+    risk_targeted_unlearning_pilot_parser.add_argument(
+        "--training-role",
+        default="target",
+        choices=["target", "defended-shadow"],
+        help="semantic role for this training output; defended-shadow is metadata only and does not promote a defense claim",
+    )
+
+    defended_shadow_manifest_parser = subparsers.add_parser(
+        "prepare-defended-shadow-training-manifest",
+        help="build a CPU-only manifest for future I-B defended-shadow tiny training",
+    )
+    defended_shadow_manifest_parser.add_argument("--workspace", required=True)
+    defended_shadow_manifest_parser.add_argument(
+        "--assets-root",
+        default="workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1",
+    )
+    defended_shadow_manifest_parser.add_argument("--forget-member-index-file", required=True)
+    defended_shadow_manifest_parser.add_argument("--matched-nonmember-index-file", required=True)
+    defended_shadow_manifest_parser.add_argument("--shadow-ids", default="shadow-01,shadow-02,shadow-03")
+    defended_shadow_manifest_parser.add_argument("--num-steps", type=int, default=100)
+    defended_shadow_manifest_parser.add_argument("--batch-size", type=int, default=4)
+    defended_shadow_manifest_parser.add_argument("--seed", type=int, default=0)
+    defended_shadow_manifest_parser.add_argument(
+        "--training-workspace-root",
+        default=None,
+        help="optional root for future defended-shadow training outputs; defaults outside artifacts/ when possible",
+    )
+    defended_shadow_manifest_parser.add_argument("--provenance-status", default="workspace-verified")
 
     risk_targeted_unlearning_review_parser = subparsers.add_parser(
         "review-risk-targeted-unlearning-pilot",
