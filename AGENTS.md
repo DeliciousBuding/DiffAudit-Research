@@ -75,7 +75,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   MNIST raw/x0 residual repeats, tiny-denoiser MSE ablations, final-layer
   gradient norm/cosine variants, external-weight downloads without provenance,
   full CopyMark dataset download, gradient layer sweeps, or same-contract
-  residual repeats by default.
+  residual repeats by default. Kohaku XL / Danbooru is also not a selected
+  next asset: model cards give broad HakuBooru/Danbooru2023 training-source
+  provenance, but no exact target member list or fixed selection manifest. Do
+  not download `38-40 GB` Kohaku weights or TB-scale Danbooru image assets for
+  pseudo-membership scoring.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
