@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `post-I-B protocol audit next-lane reselection` |
+| Active work | `post-I-C same-spec evaluator feasibility next-lane reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | choose the next bounded question after I-B protocol audit remains hold-structural |
+| CPU sidecar | choose the next bounded question after I-C same-spec evaluator feasibility remains hold |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -40,7 +40,12 @@ provenance language, and bundle schema fit remain blocked. The follow-up I-B
 protocol audit is also closed as `hold-structural`: the active
 risk-targeted-unlearning review path still borrows an undefended shadow
 threshold-transfer reference and cannot serve as a defended-shadow or
-adaptive-attacker protocol. See
+adaptive-attacker protocol. Post-I-B reselection selected an I-C same-spec
+evaluator feasibility scout; that scout is now closed as `hold` because the
+active PIA bridge surface remains translated-alias-only with
+`same_spec_reuse = false` and no split-level four-metric board. See
+[docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md),
+[docs/evidence/post-ib-next-lane-reselection-20260512.md](docs/evidence/post-ib-next-lane-reselection-20260512.md),
 [docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](docs/evidence/ib-defense-reopen-protocol-audit-20260512.md),
 [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md),
 [docs/evidence/post-midfreq-next-lane-reselection-20260512.md](docs/evidence/post-midfreq-next-lane-reselection-20260512.md),
@@ -255,8 +260,12 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    adaptive-attacker review contract is frozen. Do not GPU-scale the existing
    threshold-transfer diagnostics.
 10. I-C cross-permission / translated-contract work is on hold until a same-spec
-   evaluator and matched random comparator contract exist. Do not spend GPU on
-   same-pair replay.
+   evaluator and matched random comparator contract exist. The feasibility
+   scout confirms the current executable surface is translated-alias-only,
+   reports `same_spec_reuse = false`, and emits only a local `1 member /
+   1 nonmember` score-gap board. Do not spend CPU/GPU on same-pair replay from
+   current artifacts:
+   [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md).
 11. Cross-box successor scoping is on hold. Existing executable candidates are
     same-family score-sharing/fusion/support/tail-gated variants or
     asset-blocked response-contract transfer. Reopen only with a new observable
@@ -306,7 +315,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Post-I-B protocol audit next-lane reselection | CPU-only | I-B remains hold-structural because the executable review path borrows undefended shadow threshold transfer; choose the next bounded question without GPU. |
+| Post-I-C same-spec evaluator feasibility next-lane reselection | CPU-only | I-C remains hold because current translated-alias probes are not same-spec evaluator release surfaces; choose the next bounded question without GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -317,6 +326,8 @@ Every autonomous research cycle must follow this loop:
 | Item | Verdict | Evidence |
 | --- | --- | --- |
 | SecMI consumer-contract review | structural-support-only; not system-consumable; no GPU release | [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md) |
+| I-C same-spec evaluator feasibility | hold; translated-alias probes are not same-spec release surfaces; no GPU release | [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md) |
+| Post-I-B next-lane reselection | select-I-C-same-spec-evaluator-feasibility-scout; no GPU release | [docs/evidence/post-ib-next-lane-reselection-20260512.md](docs/evidence/post-ib-next-lane-reselection-20260512.md) |
 | I-B defense reopen protocol audit | hold-structural; active code path borrows undefended shadow threshold transfer; no GPU release | [docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](docs/evidence/ib-defense-reopen-protocol-audit-20260512.md) |
 | Post-midfreq next-lane reselection | select-secmi-consumer-contract-review; no GPU release | [docs/evidence/post-midfreq-next-lane-reselection-20260512.md](docs/evidence/post-midfreq-next-lane-reselection-20260512.md) |
 | Mid-frequency residual comparator audit | candidate-boundary-narrowed; mid-frequency-specific claim not supported | [docs/evidence/midfreq-residual-comparator-audit-20260512.md](docs/evidence/midfreq-residual-comparator-audit-20260512.md) |
