@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `mid-frequency same-noise residual seed-stability probe` |
+| Active work | `post-midfreq next-lane reselection` |
 | Active GPU task | none running |
-| Next GPU candidate | one released `64/64` seed-only stability packet, not running |
-| CPU sidecar | after the packet, decide keep/hold/close from frozen gates |
+| Next GPU candidate | none selected |
+| CPU sidecar | choose the next bounded non-resting question after closing residual same-contract GPU expansion |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| mid-frequency same-noise residual | black-box | GPU-candidate / one-packet | CPU stability decision releases a seed-only repeat after frozen `64/64` sign-check gave `AUC = 0.733398`, `ASR = 0.710938`, and finite `4/64` zero-FP recovery | packet not run yet; strict-tail field remains finite, not calibrated sub-percent FPR | run the released seed-23 packet, then keep/hold/close by frozen gates |
+| mid-frequency same-noise residual | black-box | candidate-only / hold | seed-12 and seed-23 `64/64` packets retain signal: `AUC = 0.733398` with `4/64` zero-FP recovery, then `AUC = 0.719238` with `3/64` zero-FP recovery | single DDPM/CIFAR10 asset, finite tails, no product boundary | stop same-contract GPU expansion; reopen only with new comparator, second asset, or protocol |
 | black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split`; query-source audit found no reusable local Pokemon/Kandinsky images or responses | missing member/nonmember query images and response coverage | acquire/build at least `25/25` real query images plus responses, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
@@ -40,25 +40,24 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Mid-Frequency Same-Noise Residual Seed-Stability Probe
+### Post-Midfreq Next-Lane Reselection
 
-- `mode`: GPU-candidate / one-packet
-- `status`: active successor after the new-observable scout found a distinct
-  gap and the frozen `64/64` sign-check showed bounded signal. The CPU
-  decision releases one seed-only repeat.
-- `goal`: run the released seed-23 packet and decide keep/hold/close using the
-  frozen stability gates.
+- `mode`: CPU-only
+- `status`: residual line is candidate-stable-but-bounded and same-contract GPU
+  expansion is closed.
+- `goal`: choose the next bounded question that can change Research direction
+  without repeating residual DDPM/CIFAR10 packets.
 - `latest trigger`: H2/H3 frequency filters cover response-cache plug-ins only;
   they do not evaluate the same-noise residual observable. The CPU scorer and
   collector functions now live in `src/diffaudit/attacks/midfreq_residual.py`.
-- `GPU cap`: exactly one `64/64` packet; no sweep, larger packet, 800k replay,
-  or band search
+- `GPU cap`: none selected
 - `integration`: no schema change; Research-only scout
 
 Current evidence:
 
 - [../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md)
 - [../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md)
+- [../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md)
 - [../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md)
 - [../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md)
 - [../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md)
@@ -124,8 +123,8 @@ Restart conditions:
 - do not cite the `64/64` sign-check as admitted evidence; it is candidate-only
   and strict-tail values are finite packet counts, not calibrated sub-percent
   FPR.
-- do not run any residual packet except the released seed-23 stability probe
-  until that result is reviewed and synced.
+- do not run another same-contract residual packet; the seed-23 stability
+  result is reviewed and synced.
 
 ## Ready
 
