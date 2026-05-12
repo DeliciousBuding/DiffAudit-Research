@@ -20,7 +20,7 @@
   scorer, collector functions, synthetic tiny cache writer, real-asset `4/4`
   preflight, and frozen `64/64` sign-check are implemented. The line is
   candidate-only because the first sign-check has signal but no stability or
-  admission review.
+  admission review. One seed-only stability packet is released.
 
 ## Next Action
 
@@ -93,8 +93,10 @@ inputs/responses and distance summaries. The synthetic residual cache runner
 and real-asset `4/4` preflight established the cache schema, and the frozen
 `64/64` sign-check on the collaborator 750k checkpoint produced
 `AUC = 0.733398`, `ASR = 0.710938`, and finite `4/64` zero-FP recovery. This is
-candidate-only. The next action is a CPU-only stability decision, not
-automatic scale-up. The sign-check is
+candidate-only. The CPU stability decision releases one seed-only repeat at
+the same timestep and band, not automatic scale-up. The stability decision is
+[../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md);
+the sign-check is
 [../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md);
 the CPU scorer is
 tracked in
@@ -112,6 +114,6 @@ The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
 GPU candidate is not selected; CLiD remains hold-candidate. The older
 Research-level resting-state audit remains useful historical context, but the
-current reducible CPU sidecar is the mid-frequency same-noise residual
-stability decision. See
+current reducible task is the mid-frequency same-noise residual seed-stability
+probe. See
 [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md).
