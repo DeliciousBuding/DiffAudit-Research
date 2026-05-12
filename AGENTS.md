@@ -28,13 +28,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `mid-frequency same-noise residual collector contract`
+- Active work: `mid-frequency same-noise residual collector implementation`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
-  reentry are closed or on hold. The current reducible work is a CPU-first
-  residual collector contract for the distinct mid-frequency same-noise
-  observable.
+  reentry are closed or on hold. The mid-frequency residual scorer contract is
+  now ready; the current reducible work is a CPU-first residual collector for
+  the distinct same-noise observable.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
