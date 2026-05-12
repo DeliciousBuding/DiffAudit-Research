@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `mid-frequency same-noise residual collector contract` |
+| Active work | `mid-frequency same-noise residual collector implementation` |
 | Current GPU candidate | none selected |
-| CPU sidecar | paper-backed new-observable scout found a distinct same-noise residual gap, but existing caches lack `x_t` / `tilde_x_t` |
+| CPU sidecar | mid-frequency residual scorer contract is ready; collector still must create `x_t` / `tilde_x_t` cache |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -25,6 +25,7 @@ local H2/H3 caches lack `x_t`, `tilde_x_t`, noise provenance, and
 same-noise residual fields. GPU remains blocked until a tiny residual cache
 contract exists. See
 [docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](docs/evidence/midfreq-same-noise-residual-preflight-20260512.md),
+[docs/evidence/midfreq-residual-scorer-contract-20260512.md](docs/evidence/midfreq-residual-scorer-contract-20260512.md),
 [docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](docs/evidence/graybox-paper-candidate-reentry-review-20260512.md),
 [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md),
 [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md),
@@ -242,9 +243,9 @@ AUC but weak strict-tail evidence and no admitted promotion. See
     a genuinely new low-FPR-primary observable or protocol.
 14. Mid-frequency same-noise residual scoring is a distinct black-box
     observable gap, not already covered by H2/H3 response-cache filtering.
-    However, existing caches do not contain `x_t`, `tilde_x_t`, noise
-    provenance, or same-noise residuals. The next valid action is a CPU-first
-    residual collector contract; no GPU packet is released.
+    Existing caches do not contain `x_t`, `tilde_x_t`, noise provenance, or
+    same-noise residuals. The CPU scorer contract is ready, but the next valid
+    action is still a residual collector; no GPU packet is released.
 
 ## Long-Running Goal Loop
 
@@ -268,7 +269,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Mid-frequency same-noise residual collector | CPU-first / blocked-by-cache-contract | Distinct observable gap; implement a tiny residual cache contract before any GPU packet. |
+| Mid-frequency same-noise residual collector | CPU-first / scorer-ready | Distinct observable gap; scorer utility exists, but a tiny residual cache collector is still required before any GPU packet. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -278,6 +279,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Mid-frequency residual scorer contract | scorer-contract-ready; collector still pending; no GPU release | [docs/evidence/midfreq-residual-scorer-contract-20260512.md](docs/evidence/midfreq-residual-scorer-contract-20260512.md) |
 | Mid-frequency same-noise residual preflight | distinct observable gap, but blocked by missing residual cache fields; no GPU release | [docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](docs/evidence/midfreq-same-noise-residual-preflight-20260512.md) |
 | ReDiffuse collaborator bundle intake | positive intake, candidate-only | [docs/evidence/rediffuse-collaborator-bundle-intake.md](docs/evidence/rediffuse-collaborator-bundle-intake.md) |
 | ReDiffuse 750k direct-distance 64/64 | positive compatibility packet, not admitted | [docs/evidence/rediffuse-cifar10-small-packet.md](docs/evidence/rediffuse-cifar10-small-packet.md) |
