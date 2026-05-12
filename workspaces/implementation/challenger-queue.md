@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `post-I-B protocol audit next-lane reselection` |
+| Active work | `post-I-C same-spec evaluator feasibility next-lane reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | choose the next bounded question after I-B remains hold-structural |
+| CPU sidecar | choose the next bounded question after I-C remains hold |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -36,21 +36,21 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
 | I-B risk-targeted unlearning successor | defense | hold-structural | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but the active review path borrows undefended shadow threshold transfer | no defended-shadow training, adaptive attacker, retained-utility metric, or executable low-FPR primary gate | keep hold; next valid work is a CPU-first defended-shadow/adaptive protocol design, not GPU |
-| I-C cross-permission successor | cross-permission | hold | translated-contract falsifier is negative at the support boundary | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
+| I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### Post-I-B Protocol Audit Next-Lane Reselection
+### Post-I-C Same-Spec Evaluator Feasibility Next-Lane Reselection
 
 - `mode`: CPU-only
 - `status`: SecMI consumer review closed as structural-support-only; I-B
-  protocol audit closed as hold-structural.
+  protocol audit closed as hold-structural; I-C same-spec evaluator feasibility
+  scout closed as hold.
 - `goal`: choose the next bounded question that can change Research direction
-  without repeating closed residual, SecMI, diagonal-Fisher, or I-B
-  threshold-transfer routes.
-- `latest trigger`: the active I-B review path still borrows undefended shadow
-  threshold transfer, so another same-contract packet would not answer the
-  defended-shadow/adaptive-attacker question.
+  without repeating closed residual, SecMI, diagonal-Fisher, I-B
+  threshold-transfer, or I-C translated-alias routes.
+- `latest trigger`: the active I-C PIA bridge surface is still translated-alias
+  only, with `same_spec_reuse = false` and no split-level four-metric board.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only scout
 
@@ -82,6 +82,8 @@ Current evidence:
 - [../../docs/evidence/ib-adaptive-defense-contract-20260511.md](../../docs/evidence/ib-adaptive-defense-contract-20260511.md)
 - [../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md](../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md)
 - [../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md)
+- [../../docs/evidence/post-ib-next-lane-reselection-20260512.md](../../docs/evidence/post-ib-next-lane-reselection-20260512.md)
+- [../../docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](../../docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md)
 - [../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json](../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json)
 
 Restart conditions:
@@ -242,6 +244,8 @@ Restart conditions:
 | Cross-box successor scope | Hold; no genuinely new CPU/GPU successor hypothesis is ready. |
 | I-B defense-aware reopen scout | Hold; current I-B evidence is not defense-aware and releases no GPU. |
 | I-B defense reopen protocol audit | Hold-structural; current code path borrows undefended shadow threshold transfer and cannot release defended-shadow or adaptive-attacker work. |
+| Post-I-B next-lane reselection | Selected I-C same-spec evaluator feasibility scout; no GPU release. |
+| I-C same-spec evaluator feasibility | Hold; current translated-alias probes are not same-spec evaluator release surfaces and emit no split-level four-metric board. |
 | Gray-box paper-candidate reentry | Hold; archived paper candidates do not release CPU/GPU work from current artifacts. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
