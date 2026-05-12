@@ -10,8 +10,8 @@
 - Candidate method: simple image-to-image distance is bounded single-asset
   evidence, not a product row or portability result.
 - Active preflight: mid-frequency same-noise residual is a distinct observable
-  gap. The scorer is implemented, but existing H2/H3 caches cannot evaluate it
-  because they do not store `x_t` and `tilde_x_t`.
+  gap. The scorer and collector functions are implemented, but existing H2/H3
+  caches cannot evaluate it because they do not store `x_t` and `tilde_x_t`.
 - Variation status: blocked until a real member/nonmember query-image set and
   endpoint contract exist.
 - CLiD status: hold-candidate; prompt controls block image-identity and admitted
@@ -36,6 +36,9 @@ Current mid-frequency same-noise residual preflight:
 
 Current mid-frequency residual scorer contract:
 [../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md).
+
+Current mid-frequency residual collector contract:
+[../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md).
 
 Current non-CLiD reselection:
 [../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
