@@ -62,6 +62,7 @@ This directory contains the public evidence overview.
 | [ib-defended-shadow-reopen-protocol-20260512.md](ib-defended-shadow-reopen-protocol-20260512.md) | Machine-checkable CPU reopen protocol for future I-B defended-shadow/adaptive-attacker work; still no GPU release. |
 | [ib-reopen-shadow-reference-guard-20260512.md](ib-reopen-shadow-reference-guard-20260512.md) | CPU guard that makes defended-shadow reopen mode reject old undefended shadow threshold references. |
 | [ib-defended-shadow-training-manifest-20260512.md](ib-defended-shadow-training-manifest-20260512.md) | Coverage-aware CPU manifest blocking the current I-B defended-shadow training contract before any GPU run. |
+| [ib-shadow-local-identity-scout-20260512.md](ib-shadow-local-identity-scout-20260512.md) | CPU semantic scout showing a two-shadow target-risk remap is mechanically possible but not true shadow-local risk scoring. |
 | [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |
 | [post-ib-next-lane-reselection-20260512.md](post-ib-next-lane-reselection-20260512.md) | CPU-only reselection after I-B protocol audit; selects I-C same-spec evaluator feasibility scout. |
 | [ic-same-spec-evaluator-feasibility-scout-20260512.md](ic-same-spec-evaluator-feasibility-scout-20260512.md) | CPU-only I-C feasibility scout showing current translated-alias probes are not same-spec evaluator release surfaces. |
