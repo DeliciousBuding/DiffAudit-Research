@@ -171,6 +171,11 @@ use `commoncatalog-2-5k-{eval,test}` as member directories and
 starting with SD1.5/LAION because CommonCanvas has stronger open-model/open-data
 provenance. Do not download the full `5.66GB` dataset or release GPU. See
 [../../docs/evidence/copymark-provenance-intake-20260512.md](../../docs/evidence/copymark-provenance-intake-20260512.md).
+A local query-only package now exists under `<DIFFAUDIT_ROOT>/Download` with
+`50` member queries and `50` nonmember queries. The package probe returns
+`needs_responses`, so the next real step is deterministic CommonCanvas response
+generation, not scoring or GPU. See
+[../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md](../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned

@@ -139,6 +139,7 @@ workspaces/**/artifacts/**
 !workspaces/black-box/artifacts/blackbox-response-contract-scaffold-dryrun-20260511.json
 !workspaces/black-box/artifacts/blackbox-response-contract-scaffold-create-20260511.json
 !workspaces/black-box/artifacts/blackbox-response-contract-probe-after-skeleton-20260511.json
+!workspaces/black-box/artifacts/copymark-commoncanvas-response-contract-probe-20260512.json
 !workspaces/black-box/artifacts/clid-image-identity-boundary-20260511.json
 !workspaces/black-box/artifacts/midfreq-same-noise-residual-cache-audit-20260512.json
 !workspaces/defense/artifacts/ib-adaptive-defense-contract-20260511.json
