@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `post-I-C same-spec evaluator feasibility next-lane reselection` |
+| Active work | `admitted consumer drift audit completed; next-lane reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | choose the next bounded question after I-C remains hold |
+| CPU sidecar | choose the next bounded scientific question after admitted consumer boundary no-drift verification |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -34,23 +34,25 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | gray-box archived paper candidates | gray-box / intake | hold | reentry review covers SIMA, Noise-as-Probe, MoFit, and Structural Memorization | current artifacts are weak, canary-only, low-FPR unstable, or covered by closed fusion/support routes | reopen only with a new low-FPR-primary observable or protocol |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
-| Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
+| Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
 | I-B risk-targeted unlearning successor | defense | hold-structural | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but the active review path borrows undefended shadow threshold transfer | no defended-shadow training, adaptive attacker, retained-utility metric, or executable low-FPR primary gate | keep hold; next valid work is a CPU-first defended-shadow/adaptive protocol design, not GPU |
 | I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### Post-I-C Same-Spec Evaluator Feasibility Next-Lane Reselection
+### Admitted Consumer Drift Audit And Next-Lane Reselection
 
 - `mode`: CPU-only
 - `status`: SecMI consumer review closed as structural-support-only; I-B
   protocol audit closed as hold-structural; I-C same-spec evaluator feasibility
-  scout closed as hold.
+  scout closed as hold; admitted consumer drift audit found no candidate leakage
+  into Platform/Runtime bundle rows.
 - `goal`: choose the next bounded question that can change Research direction
   without repeating closed residual, SecMI, diagonal-Fisher, I-B
-  threshold-transfer, or I-C translated-alias routes.
-- `latest trigger`: the active I-C PIA bridge surface is still translated-alias
-  only, with `same_spec_reuse = false` and no split-level four-metric board.
+  threshold-transfer, I-C translated-alias, or no-drift consumer-boundary routes.
+- `latest trigger`: all admitted consumer validators and exporters passed after
+  recent candidate closures; the bundle still admits only recon, PIA baseline,
+  PIA defended, GSA, and DPDM W-1.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only scout
 
@@ -84,6 +86,7 @@ Current evidence:
 - [../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md)
 - [../../docs/evidence/post-ib-next-lane-reselection-20260512.md](../../docs/evidence/post-ib-next-lane-reselection-20260512.md)
 - [../../docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](../../docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md)
+- [../../docs/evidence/admitted-consumer-drift-audit-20260512.md](../../docs/evidence/admitted-consumer-drift-audit-20260512.md)
 - [../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json](../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json)
 
 Restart conditions:
