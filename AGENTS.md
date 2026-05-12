@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CopyMark CommonCanvas response-contract scorer complete; pixel and CLIP similarity results weak`
+- Active work: `CommonCanvas output-similarity closed by default; known-split gradient-prototype follow-up weak`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -41,8 +41,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   per-sample gradient-norm scout on that same overfit target is positive
   (`AUC = 0.734375`, `1 / 8` members recovered at zero false positives), so the
   next mechanism candidate became gradient-sensitive, not MSE. The less extreme
-  `16 / 64` stability gate weakens that result to `AUC = 0.535156`, so it is a
-  mechanism hint only and does not release GPU or layer sweeps. A quick external
+  `16 / 64` stability gate weakens that result to `AUC = 0.535156`. The
+  2026-05-13 `64 / 64` oracle-style final-layer gradient prototype alignment
+  follow-up is also weak (`AUC = 0.500977`, zero low-FPR recovery), so
+  same-family final-layer gradient norm/cosine variants are closed by default
+  and do not release GPU or layer sweeps. A quick external
   diffusion benchmark scan did not find a ready target whose model card alone
   proves exact member/nonmember provenance. CopyMark is now the highest-value
   external intake candidate because its paper-level protocol is explicitly about
@@ -67,9 +70,10 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   this into a CLIP/pixel/LPIPS metric matrix by default; close CommonCanvas
   output-similarity variants unless a genuinely new non-similarity mechanism is
   proposed. Do not return to I-B remap training, Beans distance variants, MNIST
-  raw/x0 residual repeats, tiny-denoiser MSE ablations, external-weight
-  downloads without provenance, full CopyMark dataset download, gradient layer
-  sweeps, or same-contract residual repeats by default.
+  raw/x0 residual repeats, tiny-denoiser MSE ablations, final-layer gradient
+  norm/cosine variants, external-weight downloads without provenance, full
+  CopyMark dataset download, gradient layer sweeps, or same-contract residual
+  repeats by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
