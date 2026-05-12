@@ -129,20 +129,45 @@ Artifact:
 workspaces/black-box/artifacts/copymark-commoncanvas-clip-image-similarity-20260513.json
 ```
 
+2026-05-13 prompt-response consistency scorer:
+
+After closing response-vs-query image similarity, one distinct mechanism
+remained: the text-to-image model might follow member CommonCatalog captions
+more consistently than COCO holdout captions. This was tested as one
+pre-selected CLIP text-image scorer on the generated responses.
+
+```text
+score_name = clip_vit_l14_prompt_response_cosine
+direction = higher_is_more_member
+AUC = 0.4408
+ASR = 0.5100
+TPR@1%FPR = 0.02
+TPR@0.1%FPR = 0.02
+member_score_mean = 0.258505
+nonmember_score_mean = 0.266125
+verdict = negative_or_weak
+```
+
+Artifact:
+
+```text
+workspaces/black-box/artifacts/copymark-commoncanvas-prompt-response-consistency-20260513.json
+```
+
 ## Verdict
 
-`ready but weak / not admitted / output-similarity line closed by default`.
+`ready but weak / not admitted / CommonCanvas closed by default`.
 
 This P0 did what it was supposed to do: it moved the project from "second
 response contract missing" to a real transfer check on a second asset. The
 result does not support promoting simple pixel distance on SDXL-class
 CommonCanvas responses. The one sharper CLIP image-similarity check also fails,
-so the output-similarity family should be closed by default rather than
-expanded into a CLIP/pixel/LPIPS ablation matrix.
+and the distinct prompt-response consistency check fails as well. CommonCanvas
+should now be closed by default rather than expanded into a similarity or
+prompt-adherence ablation matrix.
 
-Next work should move to P1 known-split gradient-sensitive mechanism validation
-unless a genuinely new CommonCanvas mechanism appears that is not another
-response-vs-query similarity variant.
+Next work should require a genuinely new mechanism or a new asset. Do not keep
+mining the same CommonCanvas `50/50` response packet with adjacent CLIP scores.
 
 ## Platform and Runtime Impact
 
