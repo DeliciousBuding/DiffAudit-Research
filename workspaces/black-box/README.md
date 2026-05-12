@@ -100,6 +100,9 @@ Current Beans/SD1.5 simple-distance scout:
 Current Beans/SD1.5 CLIP-distance scout:
 [../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md).
 
+Current Beans/SD1.5 membership semantics correction:
+[../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md).
+
 Current semantic-auxiliary low-FPR review:
 [../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).
 
