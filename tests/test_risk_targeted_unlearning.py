@@ -376,6 +376,108 @@ class RiskTargetedUnlearningPilotTests(unittest.TestCase):
         self.assertIn("shadow-02: missing member dataset", manifest["errors"])
         self.assertIn("shadow-02: missing checkpoint root", manifest["errors"])
 
+    def test_shadow_local_identity_scout_records_mechanical_remap_boundary(self) -> None:
+        from diffaudit.defenses.risk_targeted_unlearning import build_shadow_local_identity_scout
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            assets_root = root / "assets"
+            for shadow_id in ("shadow-01", "shadow-02", "shadow-03"):
+                member_dir = assets_root / "datasets" / f"{shadow_id}-member"
+                nonmember_dir = assets_root / "datasets" / f"{shadow_id}-nonmember"
+                member_dir.mkdir(parents=True, exist_ok=True)
+                nonmember_dir.mkdir(parents=True, exist_ok=True)
+                (assets_root / "checkpoints" / shadow_id).mkdir(parents=True, exist_ok=True)
+                member_count = 3 if shadow_id in {"shadow-01", "shadow-02"} else 2
+                nonmember_count = 3
+                for idx in range(member_count):
+                    _write_png(member_dir / f"00-data_batch_1-{10 + idx:05d}.png", (255, idx, 0))
+                for idx in range(nonmember_count):
+                    _write_png(nonmember_dir / f"00-data_batch_1-{20 + idx:05d}.png", (0, idx, 255))
+            member_records = root / "member-risk-records.jsonl"
+            nonmember_records = root / "nonmember-risk-records.jsonl"
+            member_records.write_text(
+                "\n".join(
+                    json.dumps({"split_index": 10 + idx, "combined_rank": idx + 1, "combined_risk": 0.9 - idx * 0.1})
+                    for idx in range(3)
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            nonmember_records.write_text(
+                "\n".join(
+                    json.dumps({"split_index": 20 + idx, "combined_rank": idx + 1, "combined_risk": 0.8 - idx * 0.1})
+                    for idx in range(3)
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            scout = build_shadow_local_identity_scout(
+                workspace=root / "scout",
+                assets_root=assets_root,
+                member_risk_records_path=member_records,
+                nonmember_risk_records_path=nonmember_records,
+                shadow_ids=["shadow-01", "shadow-02", "shadow-03"],
+                top_k=3,
+            )
+
+        self.assertEqual(scout["schema"], "diffaudit.ib_shadow_local_identity_scout.v1")
+        self.assertEqual(scout["status"], "blocked")
+        self.assertEqual(scout["scout_status"], "complete")
+        self.assertEqual(scout["mechanical_status"], "candidate-contract")
+        self.assertEqual(scout["mechanically_possible_shadows"], ["shadow-01", "shadow-02"])
+        self.assertFalse(scout["risk_record_provenance"]["true_shadow_local_risk_scoring"])
+        self.assertIn("true shadow-local risk scoring", scout["blocked_claims"])
+        self.assertEqual(scout["shadow_identity_scout"][0]["candidate_forget_member_indices"], [10, 11, 12])
+        self.assertEqual(scout["shadow_identity_scout"][2]["status"], "blocked")
+
+    def test_shadow_local_identity_scout_cli_writes_summary_even_when_status_blocked(self) -> None:
+        from diffaudit.cli import main
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            assets_root = root / "assets"
+            for shadow_id in ("shadow-01", "shadow-02"):
+                member_dir = assets_root / "datasets" / f"{shadow_id}-member"
+                nonmember_dir = assets_root / "datasets" / f"{shadow_id}-nonmember"
+                member_dir.mkdir(parents=True, exist_ok=True)
+                nonmember_dir.mkdir(parents=True, exist_ok=True)
+                (assets_root / "checkpoints" / shadow_id).mkdir(parents=True, exist_ok=True)
+                _write_png(member_dir / "00-data_batch_1-00010.png", (255, 0, 0))
+                _write_png(nonmember_dir / "00-data_batch_1-00020.png", (0, 0, 255))
+            member_records = root / "member-risk-records.jsonl"
+            nonmember_records = root / "nonmember-risk-records.jsonl"
+            member_records.write_text('{"split_index": 10, "combined_rank": 1, "combined_risk": 0.9}\n', encoding="utf-8")
+            nonmember_records.write_text('{"split_index": 20, "combined_rank": 1, "combined_risk": 0.8}\n', encoding="utf-8")
+
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "prepare-shadow-local-identity-scout",
+                        "--workspace",
+                        str(root / "scout"),
+                        "--assets-root",
+                        str(assets_root),
+                        "--member-risk-records",
+                        str(member_records),
+                        "--nonmember-risk-records",
+                        str(nonmember_records),
+                        "--shadow-ids",
+                        "shadow-01,shadow-02",
+                        "--top-k",
+                        "1",
+                    ]
+            )
+            payload = json.loads(stdout.getvalue())
+            summary_exists = Path(payload["artifact_paths"]["summary"]).exists()
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "blocked")
+        self.assertEqual(payload["scout_status"], "complete")
+        self.assertTrue(summary_exists)
+
 
 class RiskTargetedUnlearningReviewTests(unittest.TestCase):
     def test_export_retained_highrisk_subset_excludes_forget_and_used_nonmembers(self) -> None:
