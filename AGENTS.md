@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CommonCanvas current packet closed by default; known-split gradient-prototype follow-up weak`
+- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -67,15 +67,20 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   response-vs-query similarity follow-up, `clip_vit_l14_query_response_cosine`,
   is weaker (`AUC = 0.4588`, `ASR = 0.5300`, zero low-FPR recovery). The
   distinct prompt-response consistency scorer is also weak (`AUC = 0.4408`,
-  `ASR = 0.5100`, `1 / 50` member recovered at zero false positives). This is
-  not admitted and does not trigger Platform/Runtime consumption. Do not expand
-  this into a CLIP/pixel/LPIPS/prompt-adherence metric matrix by default; close
-  the current CommonCanvas packet unless a genuinely new mechanism or new asset
-  is proposed. Do not return to I-B remap training, Beans distance variants,
+  `ASR = 0.5100`, `1 / 50` member recovered at zero false positives). A bounded
+  multi-seed response-distribution stability scout on `4 / 4` prompts and two
+  fixed seeds is also weak (`AUC = 0.5625`, `ASR = 0.625`, `1 / 4` zero-FP
+  recovery), so do not expand it into seed, subset, or embedding-metric sweeps.
+  This is not admitted and does not trigger Platform/Runtime consumption. Do
+  not expand this into a CLIP/pixel/LPIPS/prompt-adherence/stability metric
+  matrix by default; close the current CommonCanvas packet unless a genuinely
+  new mechanism or new asset is proposed. Do not return to I-B remap training,
+  Beans distance variants,
   MNIST raw/x0 residual repeats, tiny-denoiser MSE ablations, final-layer
   gradient norm/cosine variants, external-weight downloads without provenance,
-  full CopyMark dataset download, gradient layer sweeps, or same-contract
-  residual repeats by default. Kohaku XL / Danbooru is also not a selected
+  full CopyMark dataset download, CommonCanvas multi-seed stability repeats,
+  gradient layer sweeps, or same-contract residual repeats by default. Kohaku
+  XL / Danbooru is also not a selected
   next asset: model cards give broad HakuBooru/Danbooru2023 training-source
   provenance, but no exact target member list or fixed selection manifest. Do
   not download `38-40 GB` Kohaku weights or TB-scale Danbooru image assets for
