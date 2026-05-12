@@ -60,7 +60,9 @@ python -m unittest tests.test_midfreq_residual
 
 The follow-up synthetic runner is recorded in
 [midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md).
-The next real-asset runner must preserve the same residual cache fields:
+The real-asset `4/4` preflight is recorded in
+[midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md).
+Any later sign-check must preserve the same residual cache fields:
 
 - `labels`
 - `member_indices`
@@ -73,9 +75,8 @@ The next real-asset runner must preserve the same residual cache fields:
 - `bandpass_l2`
 - `summary.json`
 
-The first real-asset run should be capped at `4/4` or `8/8` for runtime
-validation. A `64/64` sign-check packet remains blocked until that tiny runner
-proves the cache schema on real assets.
+The first real-asset run was capped at `4/4` for runtime validation. A `64/64`
+sign-check packet remains blocked until that contract is separately frozen.
 
 ## Boundary
 
