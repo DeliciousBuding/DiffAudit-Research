@@ -10,17 +10,19 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `innovation successor reselection` |
+| Active work | `post-I-B successor reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only reselection after cross-box hold |
+| CPU sidecar | CPU-only next-lane review after I-B hold |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: after closing cross-box successor scoping as `hold`, choose
-the next bounded scientific question without releasing GPU. Cross-box should
-not run another same-family score-sharing, weighted/logistic fusion,
-support/disconfirm, tail-gated cascade, or tri-score rerun unless a new
-observable or second response-contract package exists. See
+Current objective: after closing cross-box successor scoping and I-B
+defense-aware reopen scoping as `hold`, choose the next bounded scientific
+question without releasing GPU. The I-B scout confirms the current best k32
+full-split anchor is still attack-side threshold-transfer only; defended-shadow
+training, adaptive attacker, retained utility, and low-FPR primary gates are
+not executable yet. See
+[docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md),
 [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md),
 [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md),
 [docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md),
@@ -226,6 +228,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
     same-family score-sharing/fusion/support/tail-gated variants or
     asset-blocked response-contract transfer. Reopen only with a new observable
     or ready second response-contract package.
+12. I-B defense-aware reopen scout is on hold. The best k32 full-split anchor
+    reduces attack-side AUC by `0.021347`, but the review still borrows
+    undefended shadow threshold transfer and lacks defended-shadow training,
+    adaptive attacker, retained utility, and executable low-FPR gates.
 
 ## Long-Running Goal Loop
 
@@ -292,6 +298,7 @@ Every autonomous research cycle must follow this loop:
 | Post-Fisher next-lane reselection | selects CPU-only I-A finite-tail / adaptive boundary hardening; no GPU release | [docs/evidence/post-fisher-next-lane-reselection-20260511.md](docs/evidence/post-fisher-next-lane-reselection-20260511.md) |
 | I-A finite-tail / adaptive boundary audit | synchronized; admitted strict-tail and adaptive-language boundaries remain guarded | [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md) |
 | Cross-box successor scope | hold; no genuinely new CPU/GPU successor hypothesis is ready | [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md) |
+| I-B defense-aware reopen scout | hold; current I-B evidence is not defense-aware and releases no GPU | [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |
