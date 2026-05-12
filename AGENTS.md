@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `SecMI consumer-contract review`
+- Active work: `next-lane reselection after SecMI consumer review`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
@@ -38,8 +38,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   audit are now recorded. The repeat retained signal, so the line stays
   candidate-only, but the comparator audit narrows the claim away from a proven
   mid-frequency-specific mechanism. Same-contract residual GPU expansion is
-  closed. Post-midfreq reselection selects a CPU-only SecMI consumer-contract
-  review as the current reducible work.
+  closed. SecMI consumer-contract review keeps SecMI as
+  `structural-support-only`, not system-consumable. The current reducible work
+  is next-lane reselection.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
