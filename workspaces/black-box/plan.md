@@ -16,6 +16,9 @@
   text-to-image transfer is protocol-blocked.
 - `simple image-to-image distance`: bounded single-asset evidence on
   SD1.5/CelebA; not a product row and not portability evidence.
+- `mid-frequency same-noise residual`: distinct paper-backed observable gap;
+  existing H2/H3 caches are insufficient because they lack `x_t`, `tilde_x_t`,
+  and same-noise residual provenance.
 
 ## Next Action
 
@@ -81,9 +84,17 @@ is `0.21`, and fixed-prompt / prompt-text-only controls are `0.02`. Do not run
 another CLiD GPU packet unless a new CPU-first protocol can isolate image
 identity from prompt-image pairing and auxiliary-score behavior.
 
+The mid-frequency same-noise residual scout is now the active CPU-first
+black-box successor. It is not covered by the existing H2/H3 lowpass,
+highpass, or bandpass response-cache work because those caches only store final
+inputs/responses and distance summaries. The next action is a residual cache
+collector contract for a tiny sign-check packet, not a GPU packet. See
+[../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md).
+
 The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
-GPU candidate is not selected; CLiD remains hold-candidate. The current
-Research-level resting-state audit records that no black-box CPU sidecar is
-currently reducible without new assets or a new protocol. See
+GPU candidate is not selected; CLiD remains hold-candidate. The older
+Research-level resting-state audit remains useful historical context, but the
+current reducible CPU sidecar is the mid-frequency same-noise residual
+collector contract. See
 [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md).

@@ -1,0 +1,244 @@
+{
+  "artifact": "midfreq-same-noise-residual-cache-audit-20260512",
+  "created_date": "2026-05-12",
+  "track": "black-box",
+  "question": "Can existing H2/H3 or image-to-image response caches support a same-noise mid-frequency residual observable?",
+  "verdict": "blocked-by-cache-contract",
+  "gpu_release": false,
+  "admitted_change": false,
+  "observable_status": "distinct-gap",
+  "required_fields": [
+    "labels",
+    "timesteps",
+    "x_t",
+    "tilde_x_t",
+    "noise_seed",
+    "same_noise_residual"
+  ],
+  "audited_caches": [
+    {
+      "path": "workspaces/black-box/runs/x168-h2-strength-response-gpu-scout-20260429-r1/response-cache.npz",
+      "present": {
+        "labels": true,
+        "timesteps": true,
+        "x_t": false,
+        "tilde_x_t": false,
+        "noise_seed": false,
+        "same_noise_residual": false
+      },
+      "relevant_shapes": {
+        "labels": [
+          128
+        ],
+        "timesteps": [
+          4
+        ],
+        "inputs": [
+          128,
+          3,
+          32,
+          32
+        ],
+        "responses": [
+          128,
+          4,
+          2,
+          3,
+          32,
+          32
+        ],
+        "min_distances_rmse": [
+          128,
+          4
+        ]
+      }
+    },
+    {
+      "path": "workspaces/black-box/runs/x172-h2-strength-response-validation-20260429-r1/response-cache.npz",
+      "present": {
+        "labels": true,
+        "timesteps": true,
+        "x_t": false,
+        "tilde_x_t": false,
+        "noise_seed": false,
+        "same_noise_residual": false
+      },
+      "relevant_shapes": {
+        "labels": [
+          256
+        ],
+        "timesteps": [
+          4
+        ],
+        "inputs": [
+          256,
+          3,
+          32,
+          32
+        ],
+        "responses": [
+          256,
+          4,
+          2,
+          3,
+          32,
+          32
+        ],
+        "lowpass_min_distances_rmse": [
+          256,
+          4
+        ]
+      }
+    },
+    {
+      "path": "workspaces/black-box/runs/x176-h2-nonoverlap-256-validation-20260429-r1/response-cache.npz",
+      "present": {
+        "labels": true,
+        "timesteps": true,
+        "x_t": false,
+        "tilde_x_t": false,
+        "noise_seed": false,
+        "same_noise_residual": false
+      },
+      "relevant_shapes": {
+        "labels": [
+          512
+        ],
+        "timesteps": [
+          4
+        ],
+        "inputs": [
+          512,
+          3,
+          32,
+          32
+        ],
+        "responses": [
+          512,
+          4,
+          2,
+          3,
+          32,
+          32
+        ],
+        "lowpass_min_distances_rmse": [
+          512,
+          4
+        ]
+      }
+    },
+    {
+      "path": "workspaces/black-box/runs/h2-response-strength-512-20260501-r1/response-cache.npz",
+      "present": {
+        "labels": true,
+        "timesteps": true,
+        "x_t": false,
+        "tilde_x_t": false,
+        "noise_seed": false,
+        "same_noise_residual": false
+      },
+      "relevant_shapes": {
+        "labels": [
+          1024
+        ],
+        "timesteps": [
+          4
+        ],
+        "inputs": [
+          1024,
+          3,
+          32,
+          32
+        ],
+        "responses": [
+          1024,
+          4,
+          2,
+          3,
+          32,
+          32
+        ],
+        "lowpass_min_distances_rmse": [
+          1024,
+          4
+        ]
+      }
+    },
+    {
+      "path": "workspaces/black-box/runs/h2-lowpass-followup-512-20260501-r1/response-cache.npz",
+      "present": {
+        "labels": true,
+        "timesteps": true,
+        "x_t": false,
+        "tilde_x_t": false,
+        "noise_seed": false,
+        "same_noise_residual": false
+      },
+      "relevant_shapes": {
+        "labels": [
+          1024
+        ],
+        "timesteps": [
+          4
+        ],
+        "inputs": [
+          1024,
+          3,
+          32,
+          32
+        ],
+        "responses": [
+          1024,
+          4,
+          2,
+          3,
+          32,
+          32
+        ],
+        "lowpass_min_distances_rmse": [
+          1024,
+          4
+        ]
+      }
+    },
+    {
+      "path": "workspaces/black-box/runs/h2-img2img-simple-distance-admission-20260501-r1/response-cache.npz",
+      "present": {
+        "labels": true,
+        "timesteps": false,
+        "x_t": false,
+        "tilde_x_t": false,
+        "noise_seed": false,
+        "same_noise_residual": false
+      },
+      "relevant_shapes": {
+        "labels": [
+          50
+        ],
+        "strengths": [
+          1
+        ],
+        "inputs": [
+          50,
+          3,
+          512,
+          512
+        ],
+        "responses": [
+          50,
+          1,
+          2,
+          3,
+          512,
+          512
+        ],
+        "lowpass_min_distances_rmse": [
+          50,
+          1
+        ]
+      }
+    }
+  ],
+  "next_action": "freeze a CPU-first residual collector that stores x_t, tilde_x_t, timestep, noise provenance, labels, and bandpass_l2 before any GPU packet",
+  "canonical_evidence": "docs/evidence/midfreq-same-noise-residual-preflight-20260512.md"
+}
