@@ -154,6 +154,22 @@ This is a frozen `64/64` candidate packet. It writes ignored local run
 artifacts and must be summarized through an evidence note before it influences
 the roadmap. It is not an admitted result.
 
+Run the released mid-frequency same-noise residual seed-stability probe:
+
+```powershell
+conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-sign-check `
+  --workspace workspaces/black-box/runs/midfreq-residual-stability-seed23-20260512-gpu-64 `
+  --sample-count-per-split 64 `
+  --batch-size 8 `
+  --seed 23 `
+  --timestep 80 `
+  --device cuda
+```
+
+This is the only packet released by
+[midfreq-residual-stability-decision-20260512.md](../evidence/midfreq-residual-stability-decision-20260512.md).
+It tests seed/noise-pairing stability only; it is not a sweep.
+
 Run the bounded H2 response-strength validation candidate:
 
 ```powershell
