@@ -1131,6 +1131,23 @@ def _handle_defenses(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
+    if args.command == "prepare-shadow-local-identity-scout":
+        from diffaudit.defenses.risk_targeted_unlearning import build_shadow_local_identity_scout
+
+        shadow_ids = [value.strip() for value in str(args.shadow_ids).split(",") if value.strip()]
+        payload = build_shadow_local_identity_scout(
+            workspace=args.workspace,
+            assets_root=args.assets_root,
+            member_risk_records_path=args.member_risk_records,
+            nonmember_risk_records_path=args.nonmember_risk_records,
+            shadow_ids=shadow_ids,
+            top_k=args.top_k,
+            provenance_status=args.provenance_status,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["scout_status"] == "complete" else 1
+
+
     if args.command == "review-risk-targeted-unlearning-pilot":
         from diffaudit.defenses.risk_targeted_unlearning import review_risk_targeted_unlearning_pilot
 
@@ -1387,6 +1404,7 @@ _COMMAND_HANDLERS: dict[str, CommandHandler] = {
     "prepare-risk-targeted-unlearning-pilot": _handle_defenses,
     "run-risk-targeted-unlearning-pilot": _handle_defenses,
     "prepare-defended-shadow-training-manifest": _handle_defenses,
+    "prepare-shadow-local-identity-scout": _handle_defenses,
     "review-risk-targeted-unlearning-pilot": _handle_defenses,
     "export-temporal-surrogate-feature-packet": _handle_temporal_dpdm,
     "evaluate-temporal-surrogate-packets": _handle_temporal_dpdm,

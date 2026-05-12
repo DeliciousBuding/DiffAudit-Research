@@ -1,0 +1,514 @@
+{
+  "schema": "diffaudit.ib_shadow_local_identity_scout.v1",
+  "status": "blocked",
+  "scout_status": "complete",
+  "mechanical_status": "candidate-contract",
+  "admitted": false,
+  "gpu_release": "none",
+  "track": "defense",
+  "method": "risk-targeted-siss-shadow-local-identity-scout",
+  "paper": "Diffusion_Unlearning_SISS_ICLR2025",
+  "mode": "shadow-local-identity-scout",
+  "hypothesis": "Existing GSA shadow assets may support at least two target-risk-filtered shadow-local k32 identity remaps, but this does not by itself provide true shadow-local risk scoring.",
+  "falsifier": "If fewer than two shadows expose at least top_k target-risk member and nonmember records in their own splits, even a remapped contract is blocked.",
+  "source_command": "diffaudit prepare-shadow-local-identity-scout --workspace workspaces/defense/artifacts/ib-shadow-local-identity-scout-20260512 --assets-root workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1 --member-risk-records workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/member-risk-records.jsonl --nonmember-risk-records workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/nonmember-risk-records.jsonl --shadow-ids shadow-01,shadow-02,shadow-03 --top-k 32 --provenance-status workspace-verified",
+  "provenance_status": "workspace-verified",
+  "workspace": "workspaces/defense/artifacts/ib-shadow-local-identity-scout-20260512",
+  "workspace_name": "ib-shadow-local-identity-scout-20260512",
+  "artifact_paths": {
+    "summary": "workspaces/defense/artifacts/ib-shadow-local-identity-scout-20260512/summary.json"
+  },
+  "assets_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1",
+  "contract_semantics": "target-risk-filtered-shadow-split-remap",
+  "top_k": 32,
+  "minimum_mechanically_possible_shadows": 2,
+  "mechanically_possible_shadows": [
+    "shadow-01",
+    "shadow-02"
+  ],
+  "risk_record_provenance": {
+    "member_risk_records_path": "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/member-risk-records.jsonl",
+    "nonmember_risk_records_path": "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/nonmember-risk-records.jsonl",
+    "semantic_origin": "target-level PIA/GSA full-overlap risk records",
+    "true_shadow_local_risk_scoring": false
+  },
+  "shadow_identity_scout": [
+    {
+      "shadow_id": "shadow-01",
+      "status": "candidate-contract",
+      "mechanically_possible": true,
+      "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-01-member",
+      "nonmember_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-01-nonmember",
+      "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-01",
+      "dataset_image_id_counts": {
+        "member": 965,
+        "nonmember": 953
+      },
+      "target_risk_record_counts": {
+        "member_available": 42,
+        "nonmember_available": 42,
+        "member_selected": 32,
+        "nonmember_selected": 32,
+        "required_per_split": 32
+      },
+      "candidate_forget_member_indices": [
+        2160,
+        7562,
+        1387,
+        6898,
+        5866,
+        6127,
+        6429,
+        4559,
+        2394,
+        3291,
+        6674,
+        1802,
+        2483,
+        4774,
+        4426,
+        4519,
+        2698,
+        2629,
+        975,
+        5668,
+        1417,
+        1439,
+        1346,
+        1850,
+        6613,
+        1749,
+        8553,
+        2337,
+        7087,
+        3465,
+        4832,
+        4184
+      ],
+      "candidate_matched_nonmember_indices": [
+        2883,
+        1663,
+        6706,
+        3622,
+        1168,
+        2133,
+        7777,
+        6239,
+        6562,
+        1189,
+        4813,
+        6420,
+        7010,
+        242,
+        2240,
+        5528,
+        2638,
+        2530,
+        9371,
+        180,
+        7457,
+        1309,
+        2044,
+        6303,
+        6619,
+        8396,
+        9741,
+        8576,
+        3532,
+        6174,
+        2420,
+        6686
+      ],
+      "candidate_top_k_means": {
+        "member_combined_risk": 0.546333,
+        "nonmember_combined_risk": 0.569835
+      },
+      "record_previews": {
+        "member": [
+          {
+            "split_index": 2160,
+            "combined_rank": 13,
+            "combined_risk": 0.886117
+          },
+          {
+            "split_index": 7562,
+            "combined_rank": 17,
+            "combined_risk": 0.873102
+          },
+          {
+            "split_index": 1387,
+            "combined_rank": 56,
+            "combined_risk": 0.766811
+          },
+          {
+            "split_index": 6898,
+            "combined_rank": 63,
+            "combined_risk": 0.750542
+          },
+          {
+            "split_index": 5866,
+            "combined_rank": 70,
+            "combined_risk": 0.741866
+          }
+        ],
+        "nonmember": [
+          {
+            "split_index": 2883,
+            "combined_rank": 17,
+            "combined_risk": 0.869198
+          },
+          {
+            "split_index": 1663,
+            "combined_rank": 34,
+            "combined_risk": 0.830169
+          },
+          {
+            "split_index": 6706,
+            "combined_rank": 47,
+            "combined_risk": 0.787975
+          },
+          {
+            "split_index": 3622,
+            "combined_rank": 48,
+            "combined_risk": 0.780591
+          },
+          {
+            "split_index": 1168,
+            "combined_rank": 65,
+            "combined_risk": 0.739451
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "shadow_id": "shadow-02",
+      "status": "candidate-contract",
+      "mechanically_possible": true,
+      "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-02-member",
+      "nonmember_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-02-nonmember",
+      "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-02",
+      "dataset_image_id_counts": {
+        "member": 960,
+        "nonmember": 967
+      },
+      "target_risk_record_counts": {
+        "member_available": 44,
+        "nonmember_available": 34,
+        "member_selected": 32,
+        "nonmember_selected": 32,
+        "required_per_split": 32
+      },
+      "candidate_forget_member_indices": [
+        7602,
+        9162,
+        7792,
+        5866,
+        4459,
+        9530,
+        7543,
+        2657,
+        5777,
+        222,
+        2254,
+        7043,
+        6676,
+        1234,
+        942,
+        4487,
+        4426,
+        1227,
+        9358,
+        9095,
+        9027,
+        9725,
+        1217,
+        2700,
+        7408,
+        8232,
+        5176,
+        1746,
+        6651,
+        7669,
+        6722,
+        9398
+      ],
+      "candidate_matched_nonmember_indices": [
+        8324,
+        7633,
+        6706,
+        2779,
+        9751,
+        1821,
+        8106,
+        7104,
+        2506,
+        4089,
+        9313,
+        8493,
+        6799,
+        9858,
+        5897,
+        5000,
+        3875,
+        7102,
+        9627,
+        2747,
+        6804,
+        1172,
+        5932,
+        1786,
+        3089,
+        7412,
+        1269,
+        1592,
+        9384,
+        5211,
+        7979,
+        6977
+      ],
+      "candidate_top_k_means": {
+        "member_combined_risk": 0.574583,
+        "nonmember_combined_risk": 0.506642
+      },
+      "record_previews": {
+        "member": [
+          {
+            "split_index": 7602,
+            "combined_rank": 11,
+            "combined_risk": 0.890456
+          },
+          {
+            "split_index": 9162,
+            "combined_rank": 19,
+            "combined_risk": 0.852495
+          },
+          {
+            "split_index": 7792,
+            "combined_rank": 38,
+            "combined_risk": 0.809111
+          },
+          {
+            "split_index": 5866,
+            "combined_rank": 70,
+            "combined_risk": 0.741866
+          },
+          {
+            "split_index": 4459,
+            "combined_rank": 76,
+            "combined_risk": 0.726681
+          }
+        ],
+        "nonmember": [
+          {
+            "split_index": 8324,
+            "combined_rank": 15,
+            "combined_risk": 0.871308
+          },
+          {
+            "split_index": 7633,
+            "combined_rank": 32,
+            "combined_risk": 0.832278
+          },
+          {
+            "split_index": 6706,
+            "combined_rank": 47,
+            "combined_risk": 0.787975
+          },
+          {
+            "split_index": 2779,
+            "combined_rank": 62,
+            "combined_risk": 0.741561
+          },
+          {
+            "split_index": 9751,
+            "combined_rank": 81,
+            "combined_risk": 0.716245
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "shadow_id": "shadow-03",
+      "status": "blocked",
+      "mechanically_possible": false,
+      "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-03-member",
+      "nonmember_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-03-nonmember",
+      "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-03",
+      "dataset_image_id_counts": {
+        "member": 969,
+        "nonmember": 957
+      },
+      "target_risk_record_counts": {
+        "member_available": 31,
+        "nonmember_available": 33,
+        "member_selected": 31,
+        "nonmember_selected": 32,
+        "required_per_split": 32
+      },
+      "candidate_forget_member_indices": [
+        1861,
+        3498,
+        4621,
+        4298,
+        4467,
+        7543,
+        2580,
+        6127,
+        1119,
+        6005,
+        6674,
+        9690,
+        217,
+        5945,
+        1227,
+        169,
+        7532,
+        9098,
+        777,
+        1817,
+        6134,
+        8207,
+        920,
+        5176,
+        4480,
+        3421,
+        6988,
+        8814,
+        6819,
+        4587,
+        28
+      ],
+      "candidate_matched_nonmember_indices": [
+        3738,
+        7008,
+        2852,
+        1163,
+        2288,
+        7104,
+        110,
+        1189,
+        3642,
+        1231,
+        5450,
+        4813,
+        1443,
+        1577,
+        2714,
+        3502,
+        4050,
+        7121,
+        3454,
+        5055,
+        9920,
+        2747,
+        3228,
+        8648,
+        8210,
+        3386,
+        7901,
+        6959,
+        9594,
+        1639,
+        1562,
+        1408
+      ],
+      "candidate_top_k_means": {
+        "member_combined_risk": 0.505353,
+        "nonmember_combined_risk": 0.538304
+      },
+      "record_previews": {
+        "member": [
+          {
+            "split_index": 1861,
+            "combined_rank": 31,
+            "combined_risk": 0.829718
+          },
+          {
+            "split_index": 3498,
+            "combined_rank": 45,
+            "combined_risk": 0.790672
+          },
+          {
+            "split_index": 4621,
+            "combined_rank": 50,
+            "combined_risk": 0.786334
+          },
+          {
+            "split_index": 4298,
+            "combined_rank": 53,
+            "combined_risk": 0.772234
+          },
+          {
+            "split_index": 4467,
+            "combined_rank": 62,
+            "combined_risk": 0.751627
+          }
+        ],
+        "nonmember": [
+          {
+            "split_index": 3738,
+            "combined_rank": 1,
+            "combined_risk": 0.938819
+          },
+          {
+            "split_index": 7008,
+            "combined_rank": 7,
+            "combined_risk": 0.916667
+          },
+          {
+            "split_index": 2852,
+            "combined_rank": 21,
+            "combined_risk": 0.861814
+          },
+          {
+            "split_index": 1163,
+            "combined_rank": 22,
+            "combined_risk": 0.849156
+          },
+          {
+            "split_index": 2288,
+            "combined_rank": 70,
+            "combined_risk": 0.728903
+          }
+        ]
+      },
+      "errors": [
+        "fewer than 32 target-risk member records in shadow member split"
+      ]
+    }
+  ],
+  "blocked_claims": [
+    "true shadow-local risk scoring",
+    "defended-shadow training release",
+    "admitted defense evidence",
+    "adaptive robustness",
+    "Platform/Runtime defense row",
+    "GPU packet completed"
+  ],
+  "remaining_requirements": [
+    "produce true shadow-local PIA/GSA risk records or explicitly approve the two-shadow remap semantics",
+    "write fixed per-shadow forget and matched-nonmember identity files only after semantic approval",
+    "execute tiny defended-shadow training",
+    "export defended-shadow threshold references",
+    "run explicit defended-shadow reopen review",
+    "measure retained utility",
+    "show strict-tail improvement under defended-shadow threshold references"
+  ],
+  "evidence_docs": [
+    "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
+    "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
+    "docs/evidence/ib-defended-shadow-training-manifest-20260512.md",
+    "docs/evidence/ib-shadow-local-identity-scout-20260512.md"
+  ],
+  "errors": [
+    "shadow-03: fewer than 32 target-risk member records in shadow member split",
+    "target-risk-filtered remap is not true shadow-local risk scoring"
+  ],
+  "notes": [
+    "This scout is CPU-only and reads existing images plus target-level risk records.",
+    "It intentionally does not write training identity files because the current semantics are a remap, not true shadow-local risk scoring.",
+    "A mechanically possible remap can support a future review decision, but it does not release GPU work by itself."
+  ]
+}

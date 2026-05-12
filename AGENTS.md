@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `I-B defended-shadow training manifest blocked; next-lane reselection`
+- Active work: `I-B shadow-local identity scout closed; next I-B semantic decision`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
@@ -47,13 +47,19 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   defended-shadow training manifest now checks three shadow entries and k32
   identity files, but coverage-aware validation blocks the current target k32
   list because the three shadow member datasets cover only `2/32`, `2/32`, and
-  `1/32` forget IDs. No defended-shadow training has run and no GPU is
+  `1/32` forget IDs. A shadow-local identity scout now shows a mechanically
+  possible two-shadow target-risk remap for `shadow-01` and `shadow-02`, while
+  `shadow-03` has only `31/32` member records. This remains blocked as true
+  shadow-local scoring because the records are target-level PIA/GSA
+  full-overlap records. No defended-shadow training has run and no GPU is
   released. Post-I-B reselection selected I-C same-spec evaluator
   feasibility, and that scout is also closed as hold because the active PIA
   bridge surface is translated-alias-only with `same_spec_reuse = false`. The
   admitted consumer drift audit also verified that Platform/Runtime-visible rows
   still contain only the admitted recon, PIA baseline, PIA defended, GSA, and
-  DPDM W-1 bundle rows. The current reducible work is next-lane reselection.
+  DPDM W-1 bundle rows. The current reducible work is deciding whether to
+  recompute true shadow-local risk records or explicitly approve the weaker
+  two-shadow remap before any tiny training.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
@@ -82,6 +88,51 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   an evidence note and roadmap decision. Smoke tests are not benchmark results.
 - Long autonomous runs must follow:
   `review -> select -> preflight -> run -> verdict -> docs -> next`.
+
+### 运行实验原则：决策价值导向实验
+
+1. 实验应以假设和决策价值为导向，而不是为了补齐口径、填满表格、让 ablation 看起来完整。实验必须回答一个明确假设，或支持一个真实路线决策。
+2. 不在低边际信息增益的方向上穷举。当可以预见某组实验对性能提升、方向判断或后续改进都没有明显贡献，尤其只是重复确认“不可行 / 无效果”时，应立即停止，不做穷举式验证。
+
+这条优先于“补实验完整性”的冲动。如果一个方向已经明显效果很差，不允许为了把消融表跑满而继续扩大条件矩阵；应记录最短有用结论，然后切换到更高价值问题。
+
+## Research Taste Guard
+
+Every cycle must start with a blunt self-check before adding code, validators,
+docs, or experiments:
+
+1. Am I discovering a new signal, testing portability, or changing a decision?
+2. Or am I just adding another tool, artifact, validator, or long note around a
+   direction we already know is blocked, weak, or candidate-only?
+3. Would a good scientist stop here and switch direction?
+4. Is this “差生文具多”: more stationery, more process, more scaffolding, but
+   no real model insight?
+
+If the answer suggests tool-making or defensive writing rather than research,
+stop and reselection is required. Do not create another CLI/validator/doc set
+unless at least one is true:
+
+- It gates a high-value experiment that is actually likely to run.
+- It protects an admitted result that Platform/Runtime already consumes.
+- It records a result that changes the project decision.
+- It is the smallest way to prevent a known serious mistake.
+
+Default behavior after a blocked or candidate-only verdict:
+
+- Write the shortest useful conclusion.
+- Do not keep polishing the dead end.
+- Do not run another same-contract repeat unless it can change a decision.
+- Move to a stronger question, preferably second asset / second response
+  contract / second model scenario.
+
+Current strategic correction:
+
+- ReDiffuse 800k, I-B target-risk remap training, I-C translated replay,
+  diagonal-Fisher repeats, GSA loss-score LR repeats, and mid-frequency
+  same-contract repeats are not default next steps.
+- The next high-value Research direction is a real second-asset or
+  second-response-contract package, then simple, direction-setting tests before
+  any complex fusion or new framework.
 
 ## Workspace Structure
 
