@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `post-I-C same-spec evaluator feasibility next-lane reselection`
+- Active work: `admitted consumer drift audit completed; next-lane reselection`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
@@ -45,7 +45,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   adaptive-attacker work. Post-I-B reselection selected I-C same-spec evaluator
   feasibility, and that scout is also closed as hold because the active PIA
   bridge surface is translated-alias-only with `same_spec_reuse = false`. The
-  current reducible work is next-lane reselection.
+  admitted consumer drift audit then verified that Platform/Runtime-visible rows
+  still contain only the admitted recon, PIA baseline, PIA defended, GSA, and
+  DPDM W-1 bundle rows. The current reducible work is next-lane reselection.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

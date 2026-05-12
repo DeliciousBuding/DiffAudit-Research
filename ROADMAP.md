@@ -10,15 +10,16 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `post-I-C same-spec evaluator feasibility next-lane reselection` |
+| Active work | `admitted consumer drift audit completed; next-lane reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | choose the next bounded question after I-C same-spec evaluator feasibility remains hold |
+| CPU sidecar | choose the next bounded scientific question after admitted consumer boundary no-drift verification |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: after closing cross-box successor scoping, I-B defense-aware
-reopen scoping, and archived gray-box paper-candidate reentry as `hold`,
-advance only a genuinely distinct observable with a CPU-first contract. The
+reopen scoping, archived gray-box paper-candidate reentry, and I-C same-spec
+feasibility as `hold`, and after verifying no admitted consumer drift, advance
+only a genuinely distinct observable with a CPU-first contract. The
 paper-backed new-observable scout identifies mid-frequency same-noise residual
 scoring as distinct from H2/H3 response-cache frequency filtering, but the
 local H2/H3 caches lack `x_t`, `tilde_x_t`, noise provenance, and
@@ -43,7 +44,11 @@ threshold-transfer reference and cannot serve as a defended-shadow or
 adaptive-attacker protocol. Post-I-B reselection selected an I-C same-spec
 evaluator feasibility scout; that scout is now closed as `hold` because the
 active PIA bridge surface remains translated-alias-only with
-`same_spec_reuse = false` and no split-level four-metric board. See
+`same_spec_reuse = false` and no split-level four-metric board. The admitted
+consumer drift audit then passed the full consumer-validator chain and
+confirmed the machine-readable Platform/Runtime bundle still admits only recon,
+PIA baseline, PIA defended, GSA, and DPDM W-1. See
+[docs/evidence/admitted-consumer-drift-audit-20260512.md](docs/evidence/admitted-consumer-drift-audit-20260512.md),
 [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md),
 [docs/evidence/post-ib-next-lane-reselection-20260512.md](docs/evidence/post-ib-next-lane-reselection-20260512.md),
 [docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](docs/evidence/ib-defense-reopen-protocol-audit-20260512.md),
@@ -253,9 +258,11 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
 7. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
-8. Boundary-consumability sync completed without changing Platform or Runtime
-   schemas. Downstream consumers should continue using only the admitted rows
-   listed in `docs/evidence/admitted-results-summary.md`.
+8. Boundary-consumability sync and the 2026-05-12 admitted consumer drift audit
+   completed without changing Platform or Runtime schemas. Downstream consumers
+   should continue using only the admitted rows listed in
+   `docs/evidence/admitted-results-summary.md` and exported by
+   `workspaces/implementation/artifacts/admitted-evidence-bundle.json`.
 9. I-B risk-targeted unlearning is on hold until a defended-shadow or
    adaptive-attacker review contract is frozen. Do not GPU-scale the existing
    threshold-transfer diagnostics.
@@ -315,7 +322,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Post-I-C same-spec evaluator feasibility next-lane reselection | CPU-only | I-C remains hold because current translated-alias probes are not same-spec evaluator release surfaces; choose the next bounded question without GPU. |
+| Post-admitted-consumer-drift next-lane reselection | CPU-only | The admitted Platform/Runtime bundle has no drift after recent candidate closures; choose the next bounded scientific question without GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -325,6 +332,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Admitted consumer drift audit | synchronized; no candidate leakage into Platform/Runtime bundle; no schema change | [docs/evidence/admitted-consumer-drift-audit-20260512.md](docs/evidence/admitted-consumer-drift-audit-20260512.md) |
 | SecMI consumer-contract review | structural-support-only; not system-consumable; no GPU release | [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md) |
 | I-C same-spec evaluator feasibility | hold; translated-alias probes are not same-spec release surfaces; no GPU release | [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md) |
 | Post-I-B next-lane reselection | select-I-C-same-spec-evaluator-feasibility-scout; no GPU release | [docs/evidence/post-ib-next-lane-reselection-20260512.md](docs/evidence/post-ib-next-lane-reselection-20260512.md) |
@@ -399,9 +407,10 @@ Every autonomous research cycle must follow this loop:
 ## Platform and Runtime Boundary
 
 No Platform or Runtime schema changes are needed. The current consumer rule is
-to use only admitted rows (`recon`, `PIA`, `GSA + DPDM W-1`) and keep
-ReDiffuse, tri-score, cross-box fusion, H2/simple-distance, CLiD, GSA LR, and
-response-contract acquisition out of product-facing admitted evidence. If a
-future result changes exported fields, report format, or recommendation logic,
-create a handoff note under `docs/product-bridge/` before changing sibling
-repositories.
+to use only the five admitted bundle rows (`recon`, `PIA baseline`,
+`PIA defended`, `GSA`, and `DPDM W-1`) and keep ReDiffuse, SecMI stat/NNS,
+tri-score, cross-box fusion, H2/simple-distance, CLiD, GSA LR,
+response-contract acquisition, I-B, and I-C out of product-facing admitted
+evidence. If a future result changes exported fields, report format, or
+recommendation logic, create a handoff note under `docs/product-bridge/`
+before changing sibling repositories.
