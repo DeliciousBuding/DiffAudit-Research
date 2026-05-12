@@ -18,6 +18,7 @@ This directory contains the public evidence overview.
 | [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md) | CPU-only real-asset `4/4` preflight proving the residual cache schema works with the collaborator 750k checkpoint and CIFAR10 split; no GPU release. |
 | [midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md) | Frozen `64/64` GPU sign-check for the same-noise residual observable; candidate-only, not admitted evidence. |
 | [midfreq-residual-stability-decision-20260512.md](midfreq-residual-stability-decision-20260512.md) | CPU-only decision releasing exactly one seed-stability packet for the candidate residual line. |
+| [midfreq-residual-stability-result-20260512.md](midfreq-residual-stability-result-20260512.md) | Seed-only stability result for the residual line; candidate-stable-but-bounded, no admitted promotion. |
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
 | [h2-image-to-image-contract.md](h2-image-to-image-contract.md) | CPU contract that reopens H2 portability only under image-to-image response observation. |
 | [h2-img2img-micro-result.md](h2-img2img-micro-result.md) | First frozen SD/CelebA image-to-image H2 micro-packet verdict. |
