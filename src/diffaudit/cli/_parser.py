@@ -1452,6 +1452,27 @@ def build_parser() -> argparse.ArgumentParser:
     )
     defended_shadow_manifest_parser.add_argument("--provenance-status", default="workspace-verified")
 
+    shadow_local_identity_scout_parser = subparsers.add_parser(
+        "prepare-shadow-local-identity-scout",
+        help="build a CPU-only I-B scout for target-risk-filtered shadow-local identity remaps",
+    )
+    shadow_local_identity_scout_parser.add_argument("--workspace", required=True)
+    shadow_local_identity_scout_parser.add_argument(
+        "--assets-root",
+        default="workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1",
+    )
+    shadow_local_identity_scout_parser.add_argument(
+        "--member-risk-records",
+        default="workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/member-risk-records.jsonl",
+    )
+    shadow_local_identity_scout_parser.add_argument(
+        "--nonmember-risk-records",
+        default="workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/nonmember-risk-records.jsonl",
+    )
+    shadow_local_identity_scout_parser.add_argument("--shadow-ids", default="shadow-01,shadow-02,shadow-03")
+    shadow_local_identity_scout_parser.add_argument("--top-k", type=int, default=32)
+    shadow_local_identity_scout_parser.add_argument("--provenance-status", default="workspace-verified")
+
     risk_targeted_unlearning_review_parser = subparsers.add_parser(
         "review-risk-targeted-unlearning-pilot",
         help="run one attack-side subset review for baseline vs defended 04-H1 target checkpoints",

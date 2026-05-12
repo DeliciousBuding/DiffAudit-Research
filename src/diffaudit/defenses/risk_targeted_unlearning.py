@@ -24,10 +24,17 @@ DEFENDED_SHADOW_ROLE = "defended-shadow"
 TARGET_ROLE = "target"
 TRAINING_ROLES = (TARGET_ROLE, DEFENDED_SHADOW_ROLE)
 IB_DEFENDED_SHADOW_TRAINING_MANIFEST_SCHEMA = "diffaudit.ib_defended_shadow_training_manifest.v1"
+IB_SHADOW_LOCAL_IDENTITY_SCOUT_SCHEMA = "diffaudit.ib_shadow_local_identity_scout.v1"
 IB_DEFENDED_SHADOW_TRAINING_DOCS = (
     "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
     "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
     "docs/evidence/ib-defended-shadow-training-manifest-20260512.md",
+)
+IB_SHADOW_LOCAL_IDENTITY_SCOUT_DOCS = (
+    "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
+    "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
+    "docs/evidence/ib-defended-shadow-training-manifest-20260512.md",
+    "docs/evidence/ib-shadow-local-identity-scout-20260512.md",
 )
 
 
@@ -380,22 +387,26 @@ def _extract_sample_id(path: str | Path) -> int:
     return int(match.group(1))
 
 
-def _scan_member_image_paths(member_dataset_dir: str | Path) -> dict[int, list[str]]:
-    root = Path(member_dataset_dir)
+def _scan_image_paths(dataset_dir: str | Path, *, label: str) -> dict[int, list[str]]:
+    root = Path(dataset_dir)
     if not root.exists():
-        raise FileNotFoundError(f"Member dataset dir not found: {root}")
+        raise FileNotFoundError(f"{label} dataset dir not found: {root}")
     image_paths = sorted(
         path
         for path in root.rglob("*")
         if path.is_file() and path.suffix.lower() in {".png", ".jpg", ".jpeg"}
     )
     if not image_paths:
-        raise FileNotFoundError(f"No image files found in member dataset dir: {root}")
+        raise FileNotFoundError(f"No image files found in {label} dataset dir: {root}")
     by_id: dict[int, list[str]] = {}
     for path in image_paths:
         sample_id = _extract_sample_id(path)
         by_id.setdefault(sample_id, []).append(str(path))
     return by_id
+
+
+def _scan_member_image_paths(member_dataset_dir: str | Path) -> dict[int, list[str]]:
+    return _scan_image_paths(member_dataset_dir, label="member")
 
 
 def _load_index_file(path: str | Path) -> list[int]:
@@ -834,6 +845,265 @@ def build_defended_shadow_training_manifest(
     summary_path = workspace_path / "summary.json"
     summary_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=True), encoding="utf-8")
     return manifest
+
+
+def _risk_record_sort_key(record: dict[str, Any]) -> tuple[float, float, int]:
+    rank = record.get("combined_rank")
+    if rank is None:
+        rank_key = float("inf")
+    else:
+        rank_key = float(rank)
+    risk = float(record.get("combined_risk", 0.0))
+    split_index = int(record["split_index"])
+    return (rank_key, -risk, split_index)
+
+
+def _filter_top_risk_records(
+    records: list[dict[str, Any]],
+    available_ids: set[int],
+) -> list[dict[str, Any]]:
+    filtered = [
+        dict(record)
+        for record in records
+        if int(record.get("split_index", -1)) in available_ids
+    ]
+    filtered.sort(key=_risk_record_sort_key)
+    return filtered
+
+
+def _mean_combined_risk(records: list[dict[str, Any]]) -> float | None:
+    if not records:
+        return None
+    return _round6(sum(float(record.get("combined_risk", 0.0)) for record in records) / len(records))
+
+
+def _shadow_local_identity_scout_source_command(
+    *,
+    workspace: str,
+    assets_root: str,
+    member_risk_records_path: str,
+    nonmember_risk_records_path: str,
+    shadow_ids: list[str],
+    top_k: int,
+    provenance_status: str,
+) -> str:
+    return " ".join(
+        [
+            "diffaudit",
+            "prepare-shadow-local-identity-scout",
+            "--workspace",
+            workspace,
+            "--assets-root",
+            assets_root,
+            "--member-risk-records",
+            member_risk_records_path,
+            "--nonmember-risk-records",
+            nonmember_risk_records_path,
+            "--shadow-ids",
+            ",".join(shadow_ids),
+            "--top-k",
+            str(int(top_k)),
+            "--provenance-status",
+            provenance_status,
+        ]
+    )
+
+
+def build_shadow_local_identity_scout(
+    *,
+    workspace: str | Path,
+    assets_root: str | Path,
+    member_risk_records_path: str | Path,
+    nonmember_risk_records_path: str | Path,
+    shadow_ids: list[str] | tuple[str, ...] = ("shadow-01", "shadow-02", "shadow-03"),
+    top_k: int = 32,
+    provenance_status: str = "workspace-verified",
+) -> dict[str, Any]:
+    workspace_path = Path(workspace)
+    workspace_path.mkdir(parents=True, exist_ok=True)
+    assets_root_path = Path(assets_root)
+    shadow_id_list = list(shadow_ids)
+    if int(top_k) <= 0:
+        raise ValueError("top_k must be positive")
+
+    member_records = _read_jsonl_records(member_risk_records_path)
+    nonmember_records = _read_jsonl_records(nonmember_risk_records_path)
+    top_k_int = int(top_k)
+    shadow_entries: list[dict[str, Any]] = []
+    mechanically_possible_shadows: list[str] = []
+    errors: list[str] = []
+
+    for shadow_id in shadow_id_list:
+        member_dataset_dir = assets_root_path / "datasets" / f"{shadow_id}-member"
+        nonmember_dataset_dir = assets_root_path / "datasets" / f"{shadow_id}-nonmember"
+        checkpoint_root = assets_root_path / "checkpoints" / shadow_id
+        entry_errors: list[str] = []
+        member_image_ids: set[int] = set()
+        nonmember_image_ids: set[int] = set()
+
+        if member_dataset_dir.is_dir():
+            member_image_ids = set(_scan_member_image_paths(member_dataset_dir))
+        else:
+            entry_errors.append("missing member dataset")
+        if nonmember_dataset_dir.is_dir():
+            nonmember_image_ids = set(_scan_image_paths(nonmember_dataset_dir, label="nonmember"))
+        else:
+            entry_errors.append("missing nonmember dataset")
+        if not checkpoint_root.is_dir():
+            entry_errors.append("missing checkpoint root")
+
+        available_member_records = _filter_top_risk_records(
+            member_records,
+            member_image_ids,
+        )
+        available_nonmember_records = _filter_top_risk_records(
+            nonmember_records,
+            nonmember_image_ids,
+        )
+        member_available = len(available_member_records)
+        nonmember_available = len(available_nonmember_records)
+        top_member_records = available_member_records[:top_k_int]
+        top_nonmember_records = available_nonmember_records[:top_k_int]
+        if member_available < top_k_int:
+            entry_errors.append(f"fewer than {top_k_int} target-risk member records in shadow member split")
+        if nonmember_available < top_k_int:
+            entry_errors.append(f"fewer than {top_k_int} target-risk nonmember records in shadow nonmember split")
+
+        mechanically_possible = not entry_errors
+        if mechanically_possible:
+            mechanically_possible_shadows.append(shadow_id)
+        member_indices = [int(record["split_index"]) for record in top_member_records]
+        nonmember_indices = [int(record["split_index"]) for record in top_nonmember_records]
+        shadow_entries.append(
+            {
+                "shadow_id": shadow_id,
+                "status": "candidate-contract" if mechanically_possible else "blocked",
+                "mechanically_possible": bool(mechanically_possible),
+                "member_dataset_dir": _manifest_path(member_dataset_dir),
+                "nonmember_dataset_dir": _manifest_path(nonmember_dataset_dir),
+                "checkpoint_root": _manifest_path(checkpoint_root),
+                "dataset_image_id_counts": {
+                    "member": int(len(member_image_ids)),
+                    "nonmember": int(len(nonmember_image_ids)),
+                },
+                "target_risk_record_counts": {
+                    "member_available": int(member_available),
+                    "nonmember_available": int(nonmember_available),
+                    "member_selected": int(len(top_member_records)),
+                    "nonmember_selected": int(len(top_nonmember_records)),
+                    "required_per_split": int(top_k_int),
+                },
+                "candidate_forget_member_indices": member_indices,
+                "candidate_matched_nonmember_indices": nonmember_indices,
+                "candidate_top_k_means": {
+                    "member_combined_risk": _mean_combined_risk(top_member_records),
+                    "nonmember_combined_risk": _mean_combined_risk(top_nonmember_records),
+                },
+                "record_previews": {
+                    "member": [
+                        {
+                            "split_index": int(record["split_index"]),
+                            "combined_rank": int(record.get("combined_rank", 0)),
+                            "combined_risk": _round6(float(record.get("combined_risk", 0.0))),
+                        }
+                        for record in top_member_records[:5]
+                    ],
+                    "nonmember": [
+                        {
+                            "split_index": int(record["split_index"]),
+                            "combined_rank": int(record.get("combined_rank", 0)),
+                            "combined_risk": _round6(float(record.get("combined_risk", 0.0))),
+                        }
+                        for record in top_nonmember_records[:5]
+                    ],
+                },
+                "errors": entry_errors,
+            }
+        )
+        errors.extend(f"{shadow_id}: {error}" for error in entry_errors)
+
+    if len(mechanically_possible_shadows) < 2:
+        mechanical_status = "insufficient-shadow-coverage"
+        errors.append("fewer than two mechanically possible shadow-local remaps")
+    else:
+        mechanical_status = "candidate-contract"
+    errors.append("target-risk-filtered remap is not true shadow-local risk scoring")
+
+    artifact = {
+        "schema": IB_SHADOW_LOCAL_IDENTITY_SCOUT_SCHEMA,
+        "status": "blocked",
+        "scout_status": "complete",
+        "mechanical_status": mechanical_status,
+        "admitted": False,
+        "gpu_release": "none",
+        "track": "defense",
+        "method": "risk-targeted-siss-shadow-local-identity-scout",
+        "paper": "Diffusion_Unlearning_SISS_ICLR2025",
+        "mode": "shadow-local-identity-scout",
+        "hypothesis": (
+            "Existing GSA shadow assets may support at least two target-risk-filtered "
+            "shadow-local k32 identity remaps, but this does not by itself provide "
+            "true shadow-local risk scoring."
+        ),
+        "falsifier": (
+            "If fewer than two shadows expose at least top_k target-risk member and "
+            "nonmember records in their own splits, even a remapped contract is blocked."
+        ),
+        "source_command": _shadow_local_identity_scout_source_command(
+            workspace=_manifest_path(workspace_path),
+            assets_root=_manifest_path(assets_root_path),
+            member_risk_records_path=_manifest_path(member_risk_records_path),
+            nonmember_risk_records_path=_manifest_path(nonmember_risk_records_path),
+            shadow_ids=shadow_id_list,
+            top_k=top_k_int,
+            provenance_status=provenance_status,
+        ),
+        "provenance_status": provenance_status,
+        "workspace": _manifest_path(workspace_path),
+        "workspace_name": workspace_path.name,
+        "artifact_paths": {
+            "summary": _manifest_path(workspace_path / "summary.json"),
+        },
+        "assets_root": _manifest_path(assets_root_path),
+        "contract_semantics": "target-risk-filtered-shadow-split-remap",
+        "top_k": int(top_k_int),
+        "minimum_mechanically_possible_shadows": 2,
+        "mechanically_possible_shadows": mechanically_possible_shadows,
+        "risk_record_provenance": {
+            "member_risk_records_path": _manifest_path(member_risk_records_path),
+            "nonmember_risk_records_path": _manifest_path(nonmember_risk_records_path),
+            "semantic_origin": "target-level PIA/GSA full-overlap risk records",
+            "true_shadow_local_risk_scoring": False,
+        },
+        "shadow_identity_scout": shadow_entries,
+        "blocked_claims": [
+            "true shadow-local risk scoring",
+            "defended-shadow training release",
+            "admitted defense evidence",
+            "adaptive robustness",
+            "Platform/Runtime defense row",
+            "GPU packet completed",
+        ],
+        "remaining_requirements": [
+            "produce true shadow-local PIA/GSA risk records or explicitly approve the two-shadow remap semantics",
+            "write fixed per-shadow forget and matched-nonmember identity files only after semantic approval",
+            "execute tiny defended-shadow training",
+            "export defended-shadow threshold references",
+            "run explicit defended-shadow reopen review",
+            "measure retained utility",
+            "show strict-tail improvement under defended-shadow threshold references",
+        ],
+        "evidence_docs": list(IB_SHADOW_LOCAL_IDENTITY_SCOUT_DOCS),
+        "errors": errors,
+        "notes": [
+            "This scout is CPU-only and reads existing images plus target-level risk records.",
+            "It intentionally does not write training identity files because the current semantics are a remap, not true shadow-local risk scoring.",
+            "A mechanically possible remap can support a future review decision, but it does not release GPU work by itself.",
+        ],
+    }
+    summary_path = workspace_path / "summary.json"
+    summary_path.write_text(json.dumps(artifact, indent=2, ensure_ascii=True), encoding="utf-8")
+    return artifact
 
 
 def run_risk_targeted_unlearning_pilot(

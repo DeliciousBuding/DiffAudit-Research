@@ -32,13 +32,20 @@ The future defended-shadow training set now has a coverage-aware CPU-only
 manifest, but the current target k32 identity contract is blocked because the
 three shadow member datasets cover only `2/32`, `2/32`, and `1/32` forget IDs:
 [../../docs/evidence/ib-defended-shadow-training-manifest-20260512.md](../../docs/evidence/ib-defended-shadow-training-manifest-20260512.md).
+A CPU shadow-local identity scout then checked whether target-level risk
+records can be filtered into the shadow splits. `shadow-01` and `shadow-02`
+can mechanically form a k32/k32 remap, but this remains blocked as true
+shadow-local scoring because the risk records are target-level PIA/GSA
+full-overlap records:
+[../../docs/evidence/ib-shadow-local-identity-scout-20260512.md](../../docs/evidence/ib-shadow-local-identity-scout-20260512.md).
 
 ## Next Steps
 
 The next valid I-B implementation step is not another threshold-transfer review.
-It is constructing shadow-local forget identities or remapping the
-defended-shadow contract, then executing a tiny defended-shadow training
-artifact and producing defended-shadow threshold references plus
-adaptive-attacker and retained-utility measurements under the frozen protocol.
+It is either recomputing true shadow-local risk records or explicitly approving
+the weaker two-shadow remap semantics, then constructing fixed identity files,
+executing a tiny defended-shadow training artifact, and producing
+defended-shadow threshold references plus adaptive-attacker and
+retained-utility measurements under the frozen protocol.
 Verified defense claims belong in [../../docs/evidence/](../../docs/evidence/)
 after review.

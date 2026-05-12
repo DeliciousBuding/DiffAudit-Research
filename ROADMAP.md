@@ -10,13 +10,28 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `I-B defended-shadow training manifest blocked; next-lane reselection` |
+| Active work | `Research taste reset; second-asset / second-response-contract pivot` |
 | Current GPU candidate | none selected |
-| CPU sidecar | choose the next bounded scientific question after I-B training-manifest preflight |
+| CPU sidecar | stop polishing blocked candidates; select or build a real second asset / response contract |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
-Current objective: after closing cross-box successor scoping, I-B defense-aware
+Current objective: stop turning weak or blocked lines into larger engineering
+surfaces. The next high-value Research move is not another validator, boundary
+note, same-contract repeat, or remap-training detour; it is acquiring or
+constructing a real second asset / second response contract, then testing the
+simplest signal that can decide whether the current attack evidence transfers
+outside the old DDPM/CIFAR10 loop.
+
+Taste reset: every cycle must ask whether the work is finding new signal or
+just adding "more stationery" around a dead end. If a direction is already
+blocked, weak, or candidate-only, write the shortest useful verdict and move
+on unless the next action can change a real decision. ReDiffuse 800k, I-B
+target-risk remap training, I-C translated replay, diagonal-Fisher repeats,
+GSA loss-score LR repeats, and mid-frequency same-contract repeats are not
+default next steps.
+
+After closing cross-box successor scoping, I-B defense-aware
 reopen scoping, archived gray-box paper-candidate reentry, and I-C same-spec
 feasibility as `hold`, verifying no admitted consumer drift, and freezing the
 I-B defended-shadow reopen protocol, advance only a genuinely distinct
@@ -48,7 +63,12 @@ training manifest then checked the fixed k32 forget/matched identity files
 against three shadow member datasets, but coverage-aware validation blocks the
 current contract: `shadow-01` covers `2/32` forget IDs, `shadow-02` covers
 `2/32`, and `shadow-03` covers `1/32`. It releases no GPU and does not execute
-training. Post-I-B reselection selected an I-C same-spec
+training. A follow-up CPU shadow-local identity scout shows that target-level
+risk records can be filtered into a two-shadow remap for `shadow-01` and
+`shadow-02`, while `shadow-03` remains short at `31/32` member records. The
+scout remains blocked as true shadow-local evidence because its risk records
+come from target-level PIA/GSA full-overlap prep, not per-shadow scoring.
+Post-I-B reselection selected an I-C same-spec
 evaluator feasibility scout; that scout is now closed as `hold` because the
 active PIA bridge surface remains translated-alias-only with
 `same_spec_reuse = false` and no split-level four-metric board. The admitted
@@ -57,6 +77,7 @@ confirmed the machine-readable Platform/Runtime bundle still admits only recon,
 PIA baseline, PIA defended, GSA, and DPDM W-1. See
 [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md),
 [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md),
+[docs/evidence/ib-shadow-local-identity-scout-20260512.md](docs/evidence/ib-shadow-local-identity-scout-20260512.md),
 [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md),
 [docs/evidence/admitted-consumer-drift-audit-20260512.md](docs/evidence/admitted-consumer-drift-audit-20260512.md),
 [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md),
@@ -131,14 +152,18 @@ on hold; neither releases GPU work. I-B now has a machine-checkable
 defended-shadow / adaptive-attacker reopen protocol, an explicit reopen-mode
 guard against undefended threshold references, and a coverage-aware CPU
 training manifest that blocks the current target k32 identity contract. It
-still lacks shadow-local forget identities or a remapped defended-shadow
-contract, executed defended-shadow training, defended-shadow threshold exports,
-adaptive-attacker metrics, and retained utility. See
+now also has a CPU shadow-local identity scout: a two-shadow target-risk
+remap is mechanically possible for `shadow-01` and `shadow-02`, but it is not
+true shadow-local risk scoring. It still lacks shadow-local risk records or an
+explicitly approved remapped defended-shadow contract, executed defended-shadow
+training, defended-shadow threshold exports, adaptive-attacker metrics, and
+retained utility. See
 [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md),
 [docs/evidence/ib-adaptive-defense-contract-20260511.md](docs/evidence/ib-adaptive-defense-contract-20260511.md),
 [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md),
 [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md),
 [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md),
+[docs/evidence/ib-shadow-local-identity-scout-20260512.md](docs/evidence/ib-shadow-local-identity-scout-20260512.md),
 and
 [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md).
 CLiD is now guarded as a prompt-conditioned diagnostic candidate rather than
@@ -285,9 +310,11 @@ AUC but weak strict-tail evidence and no admitted promotion. See
    protocol. Do not GPU-scale the existing threshold-transfer diagnostics; the
    explicit reopen mode now rejects undefended shadow references, and the
    coverage-aware CPU training manifest blocks the current target k32 identity
-   contract. Shadow-local forget identities or a remapped defended-shadow
-   contract, executed defended-shadow training, adaptive-attacker metrics, and
-   retained utility are still missing.
+   contract. The shadow-local identity scout found a mechanically possible
+   `shadow-01`/`shadow-02` target-risk remap, but it is not true shadow-local
+   risk scoring. Shadow-local risk records or an explicitly approved remapped
+   defended-shadow contract, executed defended-shadow training,
+   adaptive-attacker metrics, and retained utility are still missing.
 10. I-C cross-permission / translated-contract work is on hold until a same-spec
    evaluator and matched random comparator contract exist. The feasibility
    scout confirms the current executable surface is translated-alias-only,
@@ -345,7 +372,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Post-I-B training-manifest next-lane reselection | CPU-only | I-B now has a machine-checkable reopen protocol and code guard, but the coverage-aware training manifest blocks the current target k32 identity contract; choose the next bounded scientific question without GPU. |
+| I-B shadow-local identity decision | CPU-only | A two-shadow target-risk remap is mechanically possible, but true shadow-local scoring is still absent; choose whether to recompute per-shadow risk records or explicitly approve the weaker remap before any training. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -358,6 +385,7 @@ Every autonomous research cycle must follow this loop:
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
+| I-B shadow-local identity scout | blocked semantic scout; `shadow-01`/`shadow-02` remap mechanically possible, but target-level risk records are not true shadow-local scoring | [docs/evidence/ib-shadow-local-identity-scout-20260512.md](docs/evidence/ib-shadow-local-identity-scout-20260512.md) |
 | Admitted consumer drift audit | synchronized; no candidate leakage into Platform/Runtime bundle; no schema change | [docs/evidence/admitted-consumer-drift-audit-20260512.md](docs/evidence/admitted-consumer-drift-audit-20260512.md) |
 | SecMI consumer-contract review | structural-support-only; not system-consumable; no GPU release | [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md) |
 | I-C same-spec evaluator feasibility | hold; translated-alias probes are not same-spec release surfaces; no GPU release | [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md) |
