@@ -28,16 +28,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `mid-frequency same-noise residual seed-stability probe`
-- Next GPU candidate: one released `64/64` seed-only stability packet, not
-  running
+- Active work: `post-midfreq next-lane reselection`
+- Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
   reentry are closed or on hold. The mid-frequency residual scorer, collector
   functions, synthetic tiny cache writer, real-asset `4/4` preflight, and
-  frozen `64/64` sign-check are now recorded. The CPU stability decision
-  releases exactly one seed-only repeat at fixed timestep and band. Do not
-  expand this line into sweeps or larger packets.
+  frozen `64/64` sign-check, and seed-only stability repeat are now recorded.
+  The repeat retained signal, so the line stays candidate-only, but same-contract
+  residual GPU expansion is closed. The current reducible work is next-lane
+  reselection.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
