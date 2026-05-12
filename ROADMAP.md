@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `mid-frequency same-noise residual seed-stability probe` |
-| Current GPU candidate | one released `64/64` seed-only stability packet, not running |
-| CPU sidecar | after the packet, decide keep/hold/close from the frozen stability gates |
+| Active work | `post-midfreq next-lane reselection` |
+| Current GPU candidate | none selected |
+| CPU sidecar | choose the next bounded non-resting question after closing same-contract residual GPU expansion |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -26,9 +26,12 @@ same-noise residual fields. The synthetic tiny cache writer and real-asset
 `4/4` preflight proved the cache path; the frozen `64/64` sign-check then
 completed on the collaborator 750k checkpoint with `AUC = 0.733398`,
 `ASR = 0.710938`, and finite strict-tail `TPR = 4/64` at zero false positives.
-The verdict is candidate-only. The CPU stability decision now releases exactly
-one seed-only `64/64` repeat at the same timestep and band; no sweep or larger
-packet is authorized. See
+The verdict is candidate-only. The seed-only stability repeat retained the
+signal with `AUC = 0.719238`, `ASR = 0.6875`, and finite strict-tail
+`TPR = 3/64` at zero false positives. The line is now
+`candidate-stable-but-bounded`: it remains internal Research evidence, but no
+same-contract GPU expansion is authorized. See
+[docs/evidence/midfreq-residual-stability-result-20260512.md](docs/evidence/midfreq-residual-stability-result-20260512.md),
 [docs/evidence/midfreq-residual-stability-decision-20260512.md](docs/evidence/midfreq-residual-stability-decision-20260512.md),
 [docs/evidence/midfreq-residual-signcheck-20260512.md](docs/evidence/midfreq-residual-signcheck-20260512.md),
 [docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](docs/evidence/midfreq-same-noise-residual-preflight-20260512.md),
@@ -256,9 +259,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
     Existing caches did not contain `x_t`, `tilde_x_t`, noise provenance, or
     same-noise residuals, so the line first added a scorer, collector,
     synthetic cache writer, and real-asset `4/4` preflight. The frozen `64/64`
-    sign-check is now candidate-only with `AUC = 0.733398` and finite `4/64`
-    zero-FP recovery. A CPU decision releases one seed-only `64/64` stability
-    packet; do not run sweeps or larger packets.
+    sign-check is candidate-only with `AUC = 0.733398` and finite `4/64`
+    zero-FP recovery. The seed-only repeat retained signal with
+    `AUC = 0.719238` and finite `3/64` zero-FP recovery. Stop same-contract
+    GPU expansion; reopen only with a new comparator, second asset, or protocol.
 
 ## Long-Running Goal Loop
 
@@ -282,7 +286,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Mid-frequency same-noise residual seed-stability probe | GPU-candidate / one packet | `64/64` sign-check is candidate-only; one fixed seed-only repeat is released to decide keep/hold/close. |
+| Post-midfreq next-lane reselection | CPU-only | Residual line is candidate-stable-but-bounded; choose the next bounded question without same-contract GPU expansion. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -292,6 +296,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Mid-frequency residual stability result | candidate-stable-but-bounded; no admitted promotion; stop same-contract GPU | [docs/evidence/midfreq-residual-stability-result-20260512.md](docs/evidence/midfreq-residual-stability-result-20260512.md) |
 | Mid-frequency residual stability decision | release-one-stability-probe; no admitted promotion | [docs/evidence/midfreq-residual-stability-decision-20260512.md](docs/evidence/midfreq-residual-stability-decision-20260512.md) |
 | Mid-frequency residual 64/64 sign-check | candidate-only; bounded signal present; no admitted promotion | [docs/evidence/midfreq-residual-signcheck-20260512.md](docs/evidence/midfreq-residual-signcheck-20260512.md) |
 | Mid-frequency residual real-asset preflight | real-asset-tiny-cache-ready; no GPU release; no admitted evidence | [docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](docs/evidence/midfreq-residual-real-asset-preflight-20260512.md) |
