@@ -461,11 +461,119 @@ def run_midfreq_residual_real_asset_preflight(
 
     if device != "cpu":
         raise ValueError("real-asset preflight is CPU-only; use device='cpu'")
+    return _run_midfreq_residual_real_asset_packet(
+        workspace=workspace,
+        bundle_root=bundle_root,
+        checkpoint_path=checkpoint_path,
+        dataset_root=dataset_root,
+        sample_count_per_split=sample_count_per_split,
+        batch_size=batch_size,
+        timestep=timestep,
+        seed=seed,
+        cutoff=cutoff,
+        cutoff_high=cutoff_high,
+        device="cpu",
+        weights_key=weights_key,
+        provenance_status=provenance_status,
+        mode="real-asset-tiny-preflight",
+        fixed_verdict="real-asset-tiny-cache-ready",
+        packet_type="real_asset_tiny_preflight",
+        boundary="real CIFAR10/checkpoint cache-contract preflight; not a benchmark; no GPU release",
+        max_allowed_per_split=8,
+        next_action="Use this preflight only as cache readiness; review the completed sign-check before any GPU repeat.",
+    )
+
+
+def _classify_midfreq_sign_check(summary: dict[str, Any]) -> dict[str, Any]:
+    metrics = summary["metrics"]
+    auc = float(metrics["auc"])
+    tpr_1pct = float(metrics["tpr_at_1pct_fpr"])
+    if auc >= 0.6 and tpr_1pct > 0.0:
+        return {
+            "verdict": "candidate-only",
+            "reason": "AUC clears the 0.6 sign-check gate and at least one member is recovered at zero false positives.",
+            "release_gate": "positive_but_not_admitted",
+        }
+    return {
+        "verdict": "negative-but-useful",
+        "reason": "The bounded sign-check does not clear both AUC and strict-tail gates.",
+        "release_gate": "closed_or_revise_before_larger_packet",
+    }
+
+
+def run_midfreq_residual_sign_check(
+    *,
+    workspace: str | Path,
+    bundle_root: str | Path | None = None,
+    checkpoint_path: str | Path | None = None,
+    dataset_root: str | Path | None = None,
+    sample_count_per_split: int = 64,
+    batch_size: int = 8,
+    timestep: int = 80,
+    seed: int = 0,
+    cutoff: float = DEFAULT_CUTOFF,
+    cutoff_high: float = DEFAULT_CUTOFF_HIGH,
+    device: str = "cuda",
+    weights_key: str = "ema_model",
+    provenance_status: str = "collaborator-grounded-sign-check",
+) -> dict[str, Any]:
+    """Run the first bounded sign-check packet for the residual observable."""
+
+    return _run_midfreq_residual_real_asset_packet(
+        workspace=workspace,
+        bundle_root=bundle_root,
+        checkpoint_path=checkpoint_path,
+        dataset_root=dataset_root,
+        sample_count_per_split=sample_count_per_split,
+        batch_size=batch_size,
+        timestep=timestep,
+        seed=seed,
+        cutoff=cutoff,
+        cutoff_high=cutoff_high,
+        device=device,
+        weights_key=weights_key,
+        provenance_status=provenance_status,
+        mode="bounded-sign-check",
+        fixed_verdict=None,
+        packet_type="bounded_sign_check",
+        boundary="bounded 64/64 sign-check; not admitted evidence and not a Platform/Runtime handoff",
+        max_allowed_per_split=64,
+        next_action="If candidate-only, review stability before any repeat; if negative, close the observable as negative-but-useful.",
+    )
+
+
+def _run_midfreq_residual_real_asset_packet(
+    *,
+    workspace: str | Path,
+    bundle_root: str | Path | None,
+    checkpoint_path: str | Path | None,
+    dataset_root: str | Path | None,
+    sample_count_per_split: int,
+    batch_size: int,
+    timestep: int,
+    seed: int,
+    cutoff: float,
+    cutoff_high: float,
+    device: str,
+    weights_key: str,
+    provenance_status: str,
+    mode: str,
+    fixed_verdict: str | None,
+    packet_type: str,
+    boundary: str,
+    max_allowed_per_split: int,
+    next_action: str,
+) -> dict[str, Any]:
+    """Shared real-asset packet runner for tiny preflight and sign-check."""
+
+    if device != "cpu":
+        if not str(device).startswith("cuda"):
+            raise ValueError("device must be 'cpu' or a cuda device string")
     sample_count = int(sample_count_per_split)
     if sample_count <= 0:
         raise ValueError("sample_count_per_split must be positive")
-    if sample_count > 8:
-        raise ValueError("real-asset preflight is capped at 8 samples per split")
+    if sample_count > int(max_allowed_per_split):
+        raise ValueError(f"{mode} is capped at {max_allowed_per_split} samples per split")
     if int(batch_size) <= 0:
         raise ValueError("batch_size must be positive")
 
@@ -473,6 +581,25 @@ def run_midfreq_residual_real_asset_preflight(
 
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
+    summary_path = workspace_path / "summary.json"
+
+    if str(device).startswith("cuda") and not torch.cuda.is_available():
+        blocked = {
+            "status": "blocked",
+            "verdict": "blocked",
+            "method": "mid_frequency_same_noise_residual",
+            "mode": mode,
+            "paths": {
+                "workspace": str(workspace_path),
+                "cache": None,
+                "summary": str(summary_path),
+            },
+            "artifact_paths": {"summary": str(summary_path)},
+            "checks": {"cuda_available": False},
+            "next_action": "Rerun with a CUDA device or explicitly downgrade to CPU for a non-GPU dry-run.",
+        }
+        write_summary_json(summary_path, blocked)
+        return blocked
 
     from diffaudit.attacks import rediffuse as rediffuse_assets
     from diffaudit.attacks import rediffuse_adapter
@@ -483,12 +610,11 @@ def run_midfreq_residual_real_asset_preflight(
         dataset_root=dataset_root,
     )
     if asset_probe["status"] != "ready":
-        summary_path = workspace_path / "summary.json"
         blocked = {
             "status": "blocked",
             "verdict": "needs-assets",
             "method": "mid_frequency_same_noise_residual",
-            "mode": "real-asset-tiny-preflight",
+            "mode": mode,
             "paths": {
                 "workspace": str(workspace_path),
                 "cache": None,
@@ -506,7 +632,7 @@ def run_midfreq_residual_real_asset_preflight(
     model, load_info = rediffuse_adapter.load_rediffuse_model(
         paths["checkpoint"],
         modules.model_unet,
-        device="cpu",
+        device=str(device),
         weights_key=weights_key,
     )
     member_split, nonmember_split = _load_ratio_split_indices(paths["split"])
@@ -528,7 +654,7 @@ def run_midfreq_residual_real_asset_preflight(
     member_inputs, member_x_t, member_tilde = collect_midfreq_residual_states(
         model,
         member_loader,
-        device="cpu",
+        device=str(device),
         alpha_bars=alpha_bars,
         timestep=int(timestep),
         seed=int(seed),
@@ -537,7 +663,7 @@ def run_midfreq_residual_real_asset_preflight(
     nonmember_inputs, nonmember_x_t, nonmember_tilde = collect_midfreq_residual_states(
         model,
         nonmember_loader,
-        device="cpu",
+        device=str(device),
         alpha_bars=alpha_bars,
         timestep=int(timestep),
         seed=int(seed),
@@ -551,7 +677,7 @@ def run_midfreq_residual_real_asset_preflight(
         cutoff=float(cutoff),
         cutoff_high=float(cutoff_high),
         metadata={
-            "packet_type": "real_asset_tiny_preflight",
+            "packet_type": packet_type,
             "asset_family": "collaborator_rediffuse_cifar10_750k",
             "timestep": int(timestep),
             "seed": int(seed),
@@ -565,9 +691,12 @@ def run_midfreq_residual_real_asset_preflight(
             "provenance_status": provenance_status,
         },
     )
+    decision = {"verdict": fixed_verdict, "reason": None, "release_gate": None}
+    if fixed_verdict is None:
+        decision = _classify_midfreq_sign_check(summary)
     return _write_midfreq_cache(
         workspace=workspace_path,
-        verdict="real-asset-tiny-cache-ready",
+        verdict=str(decision["verdict"]),
         labels=labels,
         member_indices=np.asarray(member_indices, dtype=np.int64),
         nonmember_indices=np.asarray(nonmember_indices, dtype=np.int64),
@@ -580,15 +709,15 @@ def run_midfreq_residual_real_asset_preflight(
         cutoff_high=float(cutoff_high),
         summary=summary,
         payload_extra={
-            "mode": "real-asset-tiny-preflight",
-            "boundary": "real CIFAR10/checkpoint cache-contract preflight; not a benchmark; no GPU release",
+            "mode": mode,
+            "boundary": boundary,
             "packet": {
                 "member_count": sample_count,
                 "nonmember_count": sample_count,
                 "sample_count": sample_count * 2,
                 "batch_size": int(batch_size),
-                "device": "cpu",
-                "gpu_released": False,
+                "device": str(device),
+                "gpu_released": str(device) != "cpu",
                 "synthetic": False,
             },
             "asset_probe": asset_probe,
@@ -602,12 +731,14 @@ def run_midfreq_residual_real_asset_preflight(
                 "selected_member_indices": member_indices,
                 "selected_nonmember_indices": nonmember_indices,
             },
+            "decision": decision,
             "checks": {
                 **asset_probe["checks"],
+                "cuda_available": bool(torch.cuda.is_available()) if str(device).startswith("cuda") else None,
                 "assets_ready": True,
                 "model_loaded": True,
                 "cache_written": True,
             },
-            "next_action": "Freeze a bounded 64/64 sign-check contract before any GPU packet.",
+            "next_action": next_action,
         },
     )

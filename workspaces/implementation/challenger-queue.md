@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `mid-frequency same-noise residual bounded sign-check contract` |
+| Active work | `mid-frequency same-noise residual stability decision` |
 | Active GPU task | none running |
-| Next GPU candidate | mid-frequency residual `64/64` sign-check candidate, not running |
-| CPU sidecar | mid-frequency residual scorer, collector functions, synthetic tiny cache writer, and real-asset `4/4` cache preflight are ready |
+| Next GPU candidate | none selected; `64/64` sign-check completed as candidate-only |
+| CPU sidecar | decide whether one stability probe would change the keep/close decision |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| mid-frequency same-noise residual | black-box | CPU-first / GPU-candidate-next | distinct from H2/H3 response-cache frequency filtering; cache audit, scorer contract, collector functions, synthetic tiny runner, and real-asset `4/4` preflight completed | tiny metrics are not evidence; no frozen `64/64` sign-check contract yet | freeze a bounded `64/64` sign-check contract before any GPU run |
+| mid-frequency same-noise residual | black-box | candidate-only / CPU-decision-next | frozen `64/64` sign-check gives `AUC = 0.733398`, `ASR = 0.710938`, and finite `4/64` zero-FP recovery | single packet only; strict-tail field is finite, not calibrated sub-percent FPR | decide whether one stability probe would change keep/close; otherwise hold as candidate-only |
 | black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split`; query-source audit found no reusable local Pokemon/Kandinsky images or responses | missing member/nonmember query images and response coverage | acquire/build at least `25/25` real query images plus responses, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
@@ -40,23 +40,23 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Mid-Frequency Same-Noise Residual Cache Runner
+### Mid-Frequency Same-Noise Residual Candidate
 
-- `mode`: CPU-first
+- `mode`: candidate-only / CPU-decision-next
 - `status`: active successor after the new-observable scout found a distinct
-  gap and scorer/collector functions plus synthetic and real-asset tiny cache
-  writers were implemented.
-- `goal`: freeze a bounded DDPM/CIFAR10 `64/64` residual sign-check contract
-  that reuses the real-asset cache schema and keeps low-FPR fields primary.
+  gap and the frozen `64/64` sign-check showed bounded signal.
+- `goal`: decide whether one stability probe would change the keep/close
+  decision before spending another GPU slot.
 - `latest trigger`: H2/H3 frequency filters cover response-cache plug-ins only;
   they do not evaluate the same-noise residual observable. The CPU scorer and
   collector functions now live in `src/diffaudit/attacks/midfreq_residual.py`.
-- `GPU cap`: candidate only; no GPU task running until the sign-check contract
-  is frozen
+- `GPU cap`: none selected; do not repeat or scale without a frozen stability
+  falsifier
 - `integration`: no schema change; Research-only scout
 
 Current evidence:
 
+- [../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md)
 - [../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md)
 - [../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md)
 - [../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md)
@@ -117,10 +117,13 @@ Restart conditions:
   without a new observable or ready second response-contract package.
 - do not treat H2/H3 lowpass, highpass, or bandpass response-cache metrics as
   evidence for mid-frequency same-noise residual scoring.
-- do not release GPU for the residual line until a CPU/tiny cache stores
-  same-noise `x_t` and `tilde_x_t` states with frozen band-pass L2 scoring.
 - do not cite the residual line as evidence from the `4/4` preflight; use it
-  only to justify a separately frozen `64/64` sign-check.
+  only as the precondition that enabled the completed `64/64` sign-check.
+- do not cite the `64/64` sign-check as admitted evidence; it is candidate-only
+  and strict-tail values are finite packet counts, not calibrated sub-percent
+  FPR.
+- do not run a larger same-contract residual packet unless a stability
+  falsifier is frozen and would change the keep/close decision.
 
 ## Ready
 
