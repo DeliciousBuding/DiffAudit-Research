@@ -142,6 +142,11 @@ benchmark. Fashion-MNIST/CelebA/CIFAR-style model cards are not enough unless
 they document exact target training membership and held-out nonmembers. Do not
 download large weights or score from dataset names alone. See
 [../../docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md](../../docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md).
+A tiny overfit upperbound then deliberately trained on only `8` MNIST member
+images for `80` CPU epochs. Raw denoising MSE still reached only
+`AUC = 0.552734` with zero strict-tail recovery, so simple raw-MSE known-split
+work is closed. See
+[../../docs/evidence/tiny-overfit-mse-upperbound-20260512.md](../../docs/evidence/tiny-overfit-mse-upperbound-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
