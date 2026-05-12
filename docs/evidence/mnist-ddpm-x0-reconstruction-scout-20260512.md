@@ -28,9 +28,9 @@ nonmembers?
   - predicted-`x0` Sobel-edge L1
 - Membership rule: lower residual is more member-like
 
-The run was a one-off inline CPU scout, not a new CLI or validator. The
-machine-readable local output is
-`workspaces/black-box/artifacts/mnist-ddpm-x0-reconstruction-scout-20260512.json`.
+The run was a one-off inline CPU scout, not a new CLI or validator. The useful
+result is copied into this evidence note directly, so no ignored artifact needs
+to be force-added.
 
 ## Result
 
