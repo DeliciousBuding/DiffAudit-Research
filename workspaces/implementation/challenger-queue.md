@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `next-lane reselection after SecMI consumer review` |
+| Active work | `post-I-B protocol audit next-lane reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | choose the next bounded question after SecMI remains structural-support-only |
+| CPU sidecar | choose the next bounded question after I-B remains hold-structural |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -35,19 +35,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures | none | keep docs synchronized; no GPU |
-| I-B risk-targeted unlearning successor | defense | hold | best k32 full-split anchor has attack-side AUC delta `-0.021347` | no defended-shadow training, adaptive attacker, retained-utility metric, or executable low-FPR primary gate | keep hold; next valid work is a CPU-first protocol document, not GPU |
+| I-B risk-targeted unlearning successor | defense | hold-structural | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but the active review path borrows undefended shadow threshold transfer | no defended-shadow training, adaptive attacker, retained-utility metric, or executable low-FPR primary gate | keep hold; next valid work is a CPU-first defended-shadow/adaptive protocol design, not GPU |
 | I-C cross-permission successor | cross-permission | hold | translated-contract falsifier is negative at the support boundary | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### Next-Lane Reselection After SecMI Consumer Review
+### Post-I-B Protocol Audit Next-Lane Reselection
 
 - `mode`: CPU-only
-- `status`: SecMI consumer review closed as structural-support-only.
+- `status`: SecMI consumer review closed as structural-support-only; I-B
+  protocol audit closed as hold-structural.
 - `goal`: choose the next bounded question that can change Research direction
-  without repeating closed residual, SecMI, or diagonal-Fisher routes.
-- `latest trigger`: strong metrics alone did not make SecMI system-consumable;
-  the gap is schema/semantics/adaptive-review, not another GPU metric.
+  without repeating closed residual, SecMI, diagonal-Fisher, or I-B
+  threshold-transfer routes.
+- `latest trigger`: the active I-B review path still borrows undefended shadow
+  threshold transfer, so another same-contract packet would not answer the
+  defended-shadow/adaptive-attacker question.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only scout
 
@@ -78,6 +81,7 @@ Current evidence:
 - [../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](../../docs/evidence/ib-risk-targeted-unlearning-successor-scope.md)
 - [../../docs/evidence/ib-adaptive-defense-contract-20260511.md](../../docs/evidence/ib-adaptive-defense-contract-20260511.md)
 - [../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md](../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md)
+- [../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md)
 - [../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json](../white-box/artifacts/whitebox-influence-curvature-feasibility-20260511.json)
 
 Restart conditions:
@@ -237,6 +241,7 @@ Restart conditions:
 | I-A finite-tail / adaptive boundary audit | Synchronized; admitted strict-tail and adaptive-language boundaries remain guarded. |
 | Cross-box successor scope | Hold; no genuinely new CPU/GPU successor hypothesis is ready. |
 | I-B defense-aware reopen scout | Hold; current I-B evidence is not defense-aware and releases no GPU. |
+| I-B defense reopen protocol audit | Hold-structural; current code path borrows undefended shadow threshold transfer and cannot release defended-shadow or adaptive-attacker work. |
 | Gray-box paper-candidate reentry | Hold; archived paper candidates do not release CPU/GPU work from current artifacts. |
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
