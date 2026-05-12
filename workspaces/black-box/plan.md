@@ -17,10 +17,10 @@
 - `simple image-to-image distance`: bounded single-asset evidence on
   SD1.5/CelebA; not a product row and not portability evidence.
 - `mid-frequency same-noise residual`: distinct paper-backed observable gap;
-  scorer, collector functions, synthetic tiny cache writer, and real-asset
-  `4/4` cache preflight are implemented and tested, but existing H2/H3 caches
-  are insufficient because they lack `x_t`, `tilde_x_t`, and same-noise
-  residual provenance.
+  scorer, collector functions, synthetic tiny cache writer, real-asset `4/4`
+  preflight, and frozen `64/64` sign-check are implemented. The line is
+  candidate-only because the first sign-check has signal but no stability or
+  admission review.
 
 ## Next Action
 
@@ -86,14 +86,17 @@ is `0.21`, and fixed-prompt / prompt-text-only controls are `0.02`. Do not run
 another CLiD GPU packet unless a new CPU-first protocol can isolate image
 identity from prompt-image pairing and auxiliary-score behavior.
 
-The mid-frequency same-noise residual scout is now the active CPU-first
-black-box successor. It is not covered by the existing H2/H3 lowpass,
-highpass, or bandpass response-cache work because those caches only store final
-inputs/responses and distance summaries. The synthetic residual cache runner is
-executable and the real-asset `4/4` cache preflight now writes the same schema
-from the collaborator 750k checkpoint and CIFAR10 split. The next action is to
-freeze a bounded `64/64` sign-check contract, not to treat the tiny metrics as
-evidence. The CPU scorer is
+The mid-frequency same-noise residual scout is now the active black-box
+candidate. It is not covered by the existing H2/H3 lowpass, highpass, or
+bandpass response-cache work because those caches only store final
+inputs/responses and distance summaries. The synthetic residual cache runner
+and real-asset `4/4` preflight established the cache schema, and the frozen
+`64/64` sign-check on the collaborator 750k checkpoint produced
+`AUC = 0.733398`, `ASR = 0.710938`, and finite `4/64` zero-FP recovery. This is
+candidate-only. The next action is a CPU-only stability decision, not
+automatic scale-up. The sign-check is
+[../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md);
+the CPU scorer is
 tracked in
 [../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md);
 the collector functions are tracked in
@@ -110,5 +113,5 @@ best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
 GPU candidate is not selected; CLiD remains hold-candidate. The older
 Research-level resting-state audit remains useful historical context, but the
 current reducible CPU sidecar is the mid-frequency same-noise residual
-collector contract. See
+stability decision. See
 [../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md).

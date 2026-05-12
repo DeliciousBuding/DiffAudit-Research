@@ -28,15 +28,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `mid-frequency same-noise residual bounded sign-check contract`
-- Next GPU candidate: mid-frequency residual `64/64` sign-check candidate,
-  not running
+- Active work: `mid-frequency same-noise residual stability decision`
+- Next GPU candidate: none selected; the `64/64` sign-check completed as
+  candidate-only
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
   reentry are closed or on hold. The mid-frequency residual scorer, collector
-  functions, synthetic tiny cache writer, and real-asset `4/4` preflight are
-  now ready; the current reducible work is freezing a bounded `64/64`
-  sign-check contract for the distinct same-noise observable.
+  functions, synthetic tiny cache writer, real-asset `4/4` preflight, and
+  frozen `64/64` sign-check are now recorded. The current reducible work is a
+  CPU-only decision on whether one stability probe would change the keep/close
+  decision; do not expand this line just to fill a table.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

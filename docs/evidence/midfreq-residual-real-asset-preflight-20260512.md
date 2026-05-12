@@ -110,18 +110,20 @@ These values are not benchmark evidence. With only `4/4` samples, the metrics
 only confirm that the real-asset scorer path produces finite, oriented outputs
 and that the strict-tail fields remain computable.
 
-## GPU Gate
+## Follow-Up
 
-This preflight clears the asset/cache schema blocker for a later bounded
-`64/64` sign-check, but it does not itself release a GPU packet. A GPU run is
-only justified if the next contract states:
+This preflight cleared the asset/cache schema blocker for the bounded `64/64`
+sign-check recorded in
+[midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+The preflight itself still does not count as benchmark evidence. A future GPU
+run is only justified if a separate stability contract states:
 
 - exact checkpoint and split identity
 - fixed timestep and seed policy
 - same-noise pairing rule
 - primary metrics `AUC`, `ASR`, `TPR@1%FPR`, and `TPR@0.1%FPR`
-- stop condition: close as `negative-but-useful` if strict-tail remains zero
-  and AUC does not beat the tiny preflight direction by a meaningful margin
+- stop condition: close or hold if the stability result would not change the
+  keep/close decision
 
 ## Boundary
 

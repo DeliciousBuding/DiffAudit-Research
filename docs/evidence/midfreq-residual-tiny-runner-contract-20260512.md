@@ -109,12 +109,13 @@ The unit test covers:
 - tiny packet cap rejection
 - CLI parser support for `run-midfreq-residual-tiny-cache`
 
-## Next Action
+## Follow-Up
 
-The real-asset `4/4` preflight now exists. Do not run `64/64` from this note
-alone; the next valid action is a separately frozen sign-check contract that
-reuses the same cache schema and records the actual model, split, timestep,
-noise provenance, metrics, and stop condition.
+The real-asset `4/4` preflight and the frozen `64/64` sign-check now exist.
+See [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md)
+and [midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+Do not run a larger packet from this note alone; any further GPU use needs a
+separate stability falsifier.
 
 ## Boundary
 
