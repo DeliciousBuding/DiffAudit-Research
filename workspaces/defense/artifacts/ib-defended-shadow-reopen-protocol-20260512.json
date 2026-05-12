@@ -1,0 +1,57 @@
+{
+  "schema": "diffaudit.ib_defended_shadow_reopen_protocol.v1",
+  "status": "protocol-frozen",
+  "admitted": false,
+  "gpu_release": "none",
+  "track": "defense",
+  "method": "risk-targeted unlearning",
+  "hypothesis": "I-B can only be reopened if defended shadows and an adaptive attacker are evaluated under the same identity contract as the undefended target.",
+  "falsifier": "If defended-shadow training is unavailable, retained utility regresses, or strict-tail improvement is absent under a defended-shadow threshold reference, the line closes without a larger GPU packet.",
+  "defended_shadow_training_protocol": {
+    "entrypoint": "run-risk-targeted-unlearning-pilot",
+    "shadow_type": "defended",
+    "budget": "tiny-first",
+    "raw_asset_policy": "no-git-large-artifacts"
+  },
+  "adaptive_attacker_protocol": {
+    "entrypoint": "review-risk-targeted-unlearning-pilot",
+    "threshold_reference": "defended-shadows",
+    "baseline_reference": "matched-undefended-target",
+    "attacker_knows_defense": true
+  },
+  "identity_contract": {
+    "target_checkpoint": "fixed",
+    "member_split": "fixed",
+    "nonmember_split": "fixed",
+    "forget_set": "fixed",
+    "retain_set": "fixed"
+  },
+  "primary_metrics": [
+    "AUC",
+    "ASR",
+    "TPR@1%FPR",
+    "TPR@0.1%FPR",
+    "retained_utility"
+  ],
+  "finite_tail_contract": {
+    "report_denominators": true,
+    "continuous_subpercent_claim": false
+  },
+  "stop_conditions": {
+    "no_strict_tail_improvement": "close-line",
+    "retained_utility_regresses": "close-line",
+    "defended_shadow_training_not_available": "blocked"
+  },
+  "blocked_claims": [
+    "admitted defense evidence",
+    "adaptive robustness",
+    "Platform/Runtime defense row",
+    "old undefended threshold-transfer GPU packet",
+    "GPU packet authorized"
+  ],
+  "evidence_docs": [
+    "docs/evidence/ib-adaptive-defense-contract-20260511.md",
+    "docs/evidence/ib-defense-reopen-protocol-audit-20260512.md",
+    "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md"
+  ]
+}

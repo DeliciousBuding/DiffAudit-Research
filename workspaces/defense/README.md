@@ -19,11 +19,15 @@ best k32 full-split anchor is still attack-side threshold-transfer only:
 [../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md](../../docs/evidence/ib-defense-aware-reopen-scout-20260512.md).
 The follow-up protocol audit checks the active CLI/code path and confirms that
 `review-risk-targeted-unlearning-pilot` still borrows an undefended shadow
-reference, so the lane has no executable defended-shadow or adaptive-attacker
-protocol yet:
+reference:
 [../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](../../docs/evidence/ib-defense-reopen-protocol-audit-20260512.md).
+The current reopen protocol is now frozen as a machine-checkable CPU contract,
+but it still releases no GPU and does not train defended shadows:
+[../../docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](../../docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md).
 
 ## Next Steps
 
-Use this workspace only for active defense coordination. Verified defense claims
+The next valid implementation step is CPU plumbing that refuses old
+undefended-shadow threshold references for I-B reopen packets and accepts only
+defended-shadow references under the frozen protocol. Verified defense claims
 belong in [../../docs/evidence/](../../docs/evidence/) after review.
