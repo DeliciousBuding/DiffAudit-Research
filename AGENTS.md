@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `gradient-norm stability gate weakened; no GPU release`
+- Active work: `CopyMark provenance intake selected; no GPU release`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -44,12 +44,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   `16 / 64` stability gate weakens that result to `AUC = 0.535156`, so it is a
   mechanism hint only and does not release GPU or layer sweeps. A quick external
   diffusion benchmark scan did not find a ready target whose model card alone
-  proves exact member/nonmember provenance. The current reducible work is
-  acquisition of documented target membership or a sharper observable than
+  proves exact member/nonmember provenance. CopyMark is now the highest-value
+  external intake candidate because its paper-level protocol is explicitly about
+  diffusion membership/copyright detection, but it remains `needs asset
+  manifest check` until the dataset archive and `diffusers/` scripts prove
+  split provenance and query/response availability. The current reducible work
+  is CopyMark provenance/asset inspection or a sharper observable than
   final-layer gradient L2. Do not return to I-B remap training, Beans distance
   variants, MNIST raw/x0 residual repeats, tiny-denoiser MSE ablations,
-  external-weight downloads without provenance, gradient layer sweeps, or
-  same-contract residual repeats by default.
+  external-weight downloads without provenance, CopyMark dataset download
+  without manifest justification, gradient layer sweeps, or same-contract
+  residual repeats by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
