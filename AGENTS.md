@@ -28,11 +28,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `cross-box successor scoping`
+- Active work: `post-I-B successor reselection`
 - Next GPU candidate: none selected
-- CPU work: diagonal-Fisher self-influence is closed as
-  `negative-but-useful`; I-A admitted-boundary audit is synchronized; current
-  reducible work is a CPU-only cross-box successor hypothesis review
+- CPU work: diagonal-Fisher self-influence, cross-box successor scoping, and
+  I-B defense-aware reopen scouting are closed or on hold; current reducible
+  work is CPU-only next-lane reselection.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
@@ -44,6 +44,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 - Paper reproduction is a starting point, not the full project.
 - Every experiment needs a hypothesis, data plan, expected result, and conclusion.
+- Experiments must be hypothesis- and decision-value driven. Do not run
+  experiments just to complete a narrative, fill a table, or make an ablation
+  set look comprehensive; each run must answer a clear hypothesis or support a
+  concrete decision.
+- Stop low-marginal-information directions early. If a planned run is
+  predictably unlikely to improve performance, change the directional decision,
+  or unlock a better next step, especially when it only repeats an already
+  established no-effect or infeasible verdict, record the reason and do not
+  run an exhaustive validation.
 - Report `AUC`, `ASR`, `TPR@1%FPR`, and `TPR@0.1%FPR` for promoted attack or
   defense results when applicable.
 - DDPM/CIFAR10 results cannot be generalized to conditional-diffusion or
