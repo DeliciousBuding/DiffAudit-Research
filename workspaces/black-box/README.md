@@ -12,8 +12,9 @@
 - Active candidate: mid-frequency same-noise residual is a distinct observable
   gap. The scorer, collector functions, synthetic tiny cache writer,
   real-asset `4/4` cache preflight, and frozen `64/64` sign-check are
-  implemented. The seed-only repeat retained signal, so the line is
-  candidate-stable-but-bounded, not admitted evidence.
+  implemented. The seed-only repeat retained signal, but the comparator audit
+  shows mid-band is not uniquely strongest; keep the line as same-noise
+  residual candidate evidence, not a mid-frequency-specific claim.
 - Variation status: blocked until a real member/nonmember query-image set and
   endpoint contract exist.
 - CLiD status: hold-candidate; prompt controls block image-identity and admitted
@@ -56,6 +57,9 @@ Current mid-frequency residual stability decision:
 
 Current mid-frequency residual stability result:
 [../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md).
+
+Current mid-frequency residual comparator audit:
+[../../docs/evidence/midfreq-residual-comparator-audit-20260512.md](../../docs/evidence/midfreq-residual-comparator-audit-20260512.md).
 
 Current non-CLiD reselection:
 [../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).

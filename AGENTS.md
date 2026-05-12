@@ -34,10 +34,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
   reentry are closed or on hold. The mid-frequency residual scorer, collector
   functions, synthetic tiny cache writer, real-asset `4/4` preflight, and
-  frozen `64/64` sign-check, and seed-only stability repeat are now recorded.
-  The repeat retained signal, so the line stays candidate-only, but same-contract
-  residual GPU expansion is closed. The current reducible work is next-lane
-  reselection.
+  frozen `64/64` sign-check, seed-only stability repeat, and CPU comparator
+  audit are now recorded. The repeat retained signal, so the line stays
+  candidate-only, but the comparator audit narrows the claim away from a proven
+  mid-frequency-specific mechanism. Same-contract residual GPU expansion is
+  closed. The current reducible work is next-lane reselection.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
