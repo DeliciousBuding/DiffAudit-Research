@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `post-midfreq next-lane reselection` |
+| Active work | `SecMI consumer-contract review` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | choose the next bounded non-resting question after comparator audit narrowed residual claims |
+| CPU sidecar | decide whether SecMI can be system-consumable or must remain research-support-only |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -25,7 +25,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
-| SecMI admission contract | gray-box | CPU-only | full-split stat/NNS evidence is strong and now evidence-ready; supporting-reference and admission-hardening validators exist | not admitted; NNS product-facing contract and adaptive-review contract are still missing | keep validator active; do not promote or release GPU until a separate CPU-first consumer contract is reviewed |
+| SecMI admission contract | gray-box | CPU-only / selected | full-split stat/NNS evidence is strong and now evidence-ready; supporting-reference and admission-hardening validators exist | not admitted; NNS product-facing contract and adaptive-review contract are still missing | run CPU-only consumer-contract review; no new metrics |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -40,22 +40,25 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Midfreq Next-Lane Reselection
+### SecMI Consumer-Contract Review
 
 - `mode`: CPU-only
-- `status`: residual line is candidate-stable-but-bounded, but comparator audit
-  narrows it to same-noise residual rather than a proven mid-frequency-specific
-  mechanism; same-contract GPU expansion is closed.
-- `goal`: choose the next bounded question that can change Research direction
-  without repeating residual DDPM/CIFAR10 packets.
-- `latest trigger`: H2/H3 frequency filters cover response-cache plug-ins only;
-  they do not evaluate the same-noise residual observable. The CPU scorer and
-  collector functions now live in `src/diffaudit/attacks/midfreq_residual.py`.
+- `status`: selected by post-midfreq reselection after residual same-contract
+  expansion closed.
+- `goal`: decide whether SecMI can be represented as a system-consumable
+  gray-box evidence row under the PIA admission quality bar, or must remain
+  `research-support-only`.
+- `latest trigger`: SecMI full-split metrics are strong, but current artifacts
+  still lack admitted-row consumer semantics, NNS product-facing language,
+  adaptive-review comparability, finite-tail wording, and structured cost.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only scout
 
 Current evidence:
 
+- [../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md](../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md)
+- [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md)
+- [../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md)
 - [../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md)
 - [../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md)
 - [../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md)
