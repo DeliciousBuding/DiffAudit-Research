@@ -56,10 +56,12 @@ Recommended rules:
 
 The `unit-tests` check has a fast path for documentation-only and
 evidence-only PRs. It keeps the required status-check name stable, but skips
-Conda setup unless the change touches code, tests, scripts, configs, tools,
-root Python/environment config files, or GitHub workflow files. Pushes to
-`main` always use the full path. This keeps research-note PRs cheap while
-preserving full checks for executable changes.
+dependency installation unless the change touches code, tests, scripts,
+configs, tools, root Python/environment config files, or GitHub workflow files.
+Pushes to `main` always use the full path. The full path uses a lightweight
+pip-based CI environment; the local researcher environment can still use Conda.
+This keeps research-note PRs cheap while preserving full checks for executable
+changes.
 
 For a smaller team, a lighter version works:
 

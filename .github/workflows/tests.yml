@@ -6,6 +6,10 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   unit-tests:
     runs-on: windows-latest
@@ -82,15 +86,14 @@ jobs:
           $PSNativeCommandUseErrorActionPreference = $true
           python scripts/run_docs_checks.py
 
-      - name: Setup Conda Environment
+      - name: Install CI Dependencies
         if: steps.changes.outputs.full == 'true'
-        uses: conda-incubator/setup-miniconda@v4
-        with:
-          activate-environment: diffaudit-research
-          environment-file: environment.yml
-          auto-activate: false
-          miniforge-version: latest
-          use-mamba: true
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest pyyaml numpy scipy scikit-learn pillow tqdm absl-py
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio
 
       - name: Public Surface Guard
         if: steps.changes.outputs.full == 'true'
@@ -104,10 +107,9 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
-          python scripts/bootstrap_research_env.py
           python -m diffaudit --help
           diffaudit --help
-          python scripts/verify_env.py
+          python -m pip check
 
       - name: Render Local Config Templates
         if: steps.changes.outputs.full == 'true'
