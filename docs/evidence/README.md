@@ -12,6 +12,7 @@ This directory contains the public evidence overview.
 | [black-box-response-strength-preflight.md](black-box-response-strength-preflight.md) | H2 response-strength candidate status and latest validation verdict. |
 | [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md) | Frozen CPU contract for deciding whether H2 lowpass deserves another bounded GPU packet. |
 | [midfreq-same-noise-residual-preflight-20260512.md](midfreq-same-noise-residual-preflight-20260512.md) | CPU-only cache audit for the distinct mid-frequency same-noise residual observable; blocks GPU until a residual cache exists. |
+| [midfreq-residual-scorer-contract-20260512.md](midfreq-residual-scorer-contract-20260512.md) | CPU scorer contract for band-pass same-noise residual scoring; collector remains pending. |
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
 | [h2-image-to-image-contract.md](h2-image-to-image-contract.md) | CPU contract that reopens H2 portability only under image-to-image response observation. |
 | [h2-img2img-micro-result.md](h2-img2img-micro-result.md) | First frozen SD/CelebA image-to-image H2 micro-packet verdict. |
