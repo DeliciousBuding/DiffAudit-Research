@@ -1,0 +1,180 @@
+{
+  "schema": "diffaudit.ib_defended_shadow_training_manifest.v1",
+  "status": "ready",
+  "admitted": false,
+  "gpu_release": "none",
+  "track": "defense",
+  "method": "risk-targeted-siss-defended-shadow-training-manifest",
+  "paper": "Diffusion_Unlearning_SISS_ICLR2025",
+  "mode": "defended-shadow-training-manifest",
+  "hypothesis": "I-B can only move past protocol-only hold if defended shadow training is specified as a multi-shadow identity-preserving contract before any GPU run.",
+  "falsifier": "If fewer than two shadow entries are ready, forget/nonmember identity counts diverge, or any entry lacks role=defended-shadow, the next I-B run remains blocked.",
+  "source_command": "diffaudit prepare-defended-shadow-training-manifest --workspace workspaces/defense/artifacts/ib-defended-shadow-training-manifest-20260512 --assets-root workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1 --forget-member-index-file workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/forget-members-k32.txt --matched-nonmember-index-file workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/matched-nonmembers-k32.txt --shadow-ids shadow-01,shadow-02,shadow-03 --num-steps 100 --batch-size 4 --training-workspace-root workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512 --provenance-status workspace-verified --seed 0",
+  "provenance_status": "workspace-verified",
+  "workspace": "workspaces/defense/artifacts/ib-defended-shadow-training-manifest-20260512",
+  "workspace_name": "ib-defended-shadow-training-manifest-20260512",
+  "artifact_paths": {
+    "summary": "workspaces/defense/artifacts/ib-defended-shadow-training-manifest-20260512/summary.json"
+  },
+  "role": "defended-shadow",
+  "assets_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1",
+  "identity_contract": {
+    "forget_member_index_file": "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/forget-members-k32.txt",
+    "matched_nonmember_index_file": "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/matched-nonmembers-k32.txt",
+    "forget_count": 32,
+    "matched_nonmember_count": 32,
+    "forget_unique_count": 32,
+    "matched_nonmember_unique_count": 32,
+    "forget_preview": [
+      6112,
+      9917,
+      5928,
+      1684,
+      4348,
+      2149,
+      4617,
+      2772,
+      6565,
+      4154
+    ],
+    "matched_nonmember_preview": [
+      3738,
+      1732,
+      3511,
+      4061,
+      3423,
+      7008,
+      7487,
+      3533,
+      9078,
+      4189
+    ],
+    "shadow_ids": [
+      "shadow-01",
+      "shadow-02",
+      "shadow-03"
+    ]
+  },
+  "runtime_contract": {
+    "num_steps": 100,
+    "batch_size": 4,
+    "seed": 0,
+    "raw_asset_policy": "no-git-large-artifacts",
+    "training_workspace_root": "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512"
+  },
+  "shadow_training": [
+    {
+      "shadow_id": "shadow-01",
+      "status": "ready",
+      "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-01-member",
+      "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-01",
+      "output_workspace": "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-01",
+      "training_role": "defended-shadow",
+      "command": [
+        "run-risk-targeted-unlearning-pilot",
+        "--workspace",
+        "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-01",
+        "--member-dataset-dir",
+        "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-01-member",
+        "--forget-member-index-file",
+        "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/forget-members-k32.txt",
+        "--matched-nonmember-index-file",
+        "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/matched-nonmembers-k32.txt",
+        "--checkpoint-root",
+        "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-01",
+        "--num-steps",
+        "100",
+        "--batch-size",
+        "4",
+        "--training-role",
+        "defended-shadow",
+        "--seed",
+        "0"
+      ],
+      "errors": []
+    },
+    {
+      "shadow_id": "shadow-02",
+      "status": "ready",
+      "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-02-member",
+      "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-02",
+      "output_workspace": "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-02",
+      "training_role": "defended-shadow",
+      "command": [
+        "run-risk-targeted-unlearning-pilot",
+        "--workspace",
+        "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-02",
+        "--member-dataset-dir",
+        "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-02-member",
+        "--forget-member-index-file",
+        "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/forget-members-k32.txt",
+        "--matched-nonmember-index-file",
+        "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/matched-nonmembers-k32.txt",
+        "--checkpoint-root",
+        "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-02",
+        "--num-steps",
+        "100",
+        "--batch-size",
+        "4",
+        "--training-role",
+        "defended-shadow",
+        "--seed",
+        "0"
+      ],
+      "errors": []
+    },
+    {
+      "shadow_id": "shadow-03",
+      "status": "ready",
+      "member_dataset_dir": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-03-member",
+      "checkpoint_root": "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-03",
+      "output_workspace": "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-03",
+      "training_role": "defended-shadow",
+      "command": [
+        "run-risk-targeted-unlearning-pilot",
+        "--workspace",
+        "workspaces/defense/runs/ib-defended-shadow-training-manifest-20260512/shadow-03",
+        "--member-dataset-dir",
+        "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/shadow-03-member",
+        "--forget-member-index-file",
+        "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/forget-members-k32.txt",
+        "--matched-nonmember-index-file",
+        "workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/matched-nonmembers-k32.txt",
+        "--checkpoint-root",
+        "workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/shadow-03",
+        "--num-steps",
+        "100",
+        "--batch-size",
+        "4",
+        "--training-role",
+        "defended-shadow",
+        "--seed",
+        "0"
+      ],
+      "errors": []
+    }
+  ],
+  "blocked_claims": [
+    "admitted defense evidence",
+    "adaptive robustness",
+    "Platform/Runtime defense row",
+    "GPU packet completed"
+  ],
+  "remaining_requirements": [
+    "execute tiny defended-shadow training",
+    "export defended-shadow threshold references",
+    "run explicit defended-shadow reopen review",
+    "measure retained utility",
+    "show strict-tail improvement under defended-shadow threshold references"
+  ],
+  "evidence_docs": [
+    "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
+    "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
+    "docs/evidence/ib-defended-shadow-training-manifest-20260512.md"
+  ],
+  "errors": [],
+  "notes": [
+    "This manifest is CPU-only planning; it does not run defended-shadow training.",
+    "A ready manifest is only a precondition for a future tiny training run, not defense evidence."
+  ]
+}

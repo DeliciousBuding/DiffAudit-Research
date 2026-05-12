@@ -7,8 +7,8 @@ Date: 2026-05-12
 `protocol-frozen; no GPU release`
 
 This note turns the I-B defended-shadow/adaptive-attacker reopen requirement
-into a machine-checkable CPU contract. It does not train defended shadows, run
-an adaptive attacker, or promote I-B defense evidence.
+into a machine-checkable CPU contract. It does not execute defended-shadow
+training, run an adaptive attacker, or promote I-B defense evidence.
 
 The stable artifact is
 [`workspaces/defense/artifacts/ib-defended-shadow-reopen-protocol-20260512.json`](../../workspaces/defense/artifacts/ib-defended-shadow-reopen-protocol-20260512.json).
@@ -55,6 +55,8 @@ the line closes without a larger GPU packet.
 Do not launch GPU from this protocol alone. The first CPU plumbing step is now
 complete:
 [ib-reopen-shadow-reference-guard-20260512.md](ib-reopen-shadow-reference-guard-20260512.md).
-The remaining reopen requirements are defended-shadow training artifacts,
-adaptive-attacker measurement, retained utility, and strict-tail improvement
-under a defended-shadow threshold reference.
+A later CPU preflight also produced a ready three-shadow training manifest:
+[ib-defended-shadow-training-manifest-20260512.md](ib-defended-shadow-training-manifest-20260512.md).
+The remaining reopen requirements are executed defended-shadow training
+artifacts, adaptive-attacker measurement, retained utility, and strict-tail
+improvement under a defended-shadow threshold reference.

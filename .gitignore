@@ -144,6 +144,7 @@ workspaces/**/artifacts/**
 !workspaces/defense/artifacts/ib-adaptive-defense-contract-20260511.json
 !workspaces/defense/artifacts/ib-defended-shadow-reopen-protocol-20260512.json
 !workspaces/defense/artifacts/ib-reopen-shadow-reference-guard-20260512.json
+!workspaces/defense/artifacts/ib-defended-shadow-training-manifest-20260512.json
 !workspaces/gray-box/artifacts/graybox-triscore-consolidation-summary.json
 !workspaces/gray-box/artifacts/graybox-triscore-truth-hardening-review.json
 !workspaces/gray-box/artifacts/graybox-paper-candidate-reentry-20260512.json

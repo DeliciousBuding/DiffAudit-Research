@@ -20,6 +20,15 @@ REVIEW_MODES = (
     REVIEW_MODE_THRESHOLD_TRANSFER_DIAGNOSTIC,
     REVIEW_MODE_DEFENDED_SHADOW_REOPEN,
 )
+DEFENDED_SHADOW_ROLE = "defended-shadow"
+TARGET_ROLE = "target"
+TRAINING_ROLES = (TARGET_ROLE, DEFENDED_SHADOW_ROLE)
+IB_DEFENDED_SHADOW_TRAINING_MANIFEST_SCHEMA = "diffaudit.ib_defended_shadow_training_manifest.v1"
+IB_DEFENDED_SHADOW_TRAINING_DOCS = (
+    "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
+    "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
+    "docs/evidence/ib-defended-shadow-training-manifest-20260512.md",
+)
 
 
 def _round6(value: float) -> float:
@@ -556,6 +565,242 @@ def _set_training_seed(seed: int | None) -> None:
         torch.cuda.manual_seed_all(int(seed))
 
 
+def _manifest_path(path: str | Path) -> str:
+    return Path(path).as_posix()
+
+
+def _index_file_summary(path: str | Path) -> dict[str, Any]:
+    indices = _load_index_file(path)
+    return {
+        "path": _manifest_path(path),
+        "count": int(len(indices)),
+        "unique_count": int(len(set(indices))),
+        "preview": indices[: min(10, len(indices))],
+    }
+
+
+def _default_defended_shadow_training_workspace_root(workspace_path: Path) -> Path:
+    if workspace_path.parent.name == "artifacts":
+        return workspace_path.parent.parent / "runs" / workspace_path.name
+    return workspace_path / "training-runs"
+
+
+def _defended_shadow_manifest_source_command(
+    *,
+    workspace: str,
+    assets_root: str,
+    forget_member_index_file: str,
+    matched_nonmember_index_file: str,
+    shadow_ids: list[str],
+    num_steps: int,
+    batch_size: int,
+    seed: int | None,
+    training_workspace_root: str,
+    provenance_status: str,
+) -> str:
+    command = [
+        "diffaudit",
+        "prepare-defended-shadow-training-manifest",
+        "--workspace",
+        workspace,
+        "--assets-root",
+        assets_root,
+        "--forget-member-index-file",
+        forget_member_index_file,
+        "--matched-nonmember-index-file",
+        matched_nonmember_index_file,
+        "--shadow-ids",
+        ",".join(shadow_ids),
+        "--num-steps",
+        str(num_steps),
+        "--batch-size",
+        str(batch_size),
+        "--training-workspace-root",
+        training_workspace_root,
+        "--provenance-status",
+        provenance_status,
+    ]
+    if seed is not None:
+        command.extend(["--seed", str(seed)])
+    return " ".join(command)
+
+
+def build_defended_shadow_training_manifest(
+    *,
+    workspace: str | Path,
+    assets_root: str | Path,
+    forget_member_index_file: str | Path,
+    matched_nonmember_index_file: str | Path,
+    shadow_ids: list[str] | tuple[str, ...] = ("shadow-01", "shadow-02", "shadow-03"),
+    role: str = DEFENDED_SHADOW_ROLE,
+    num_steps: int = 100,
+    batch_size: int = 4,
+    seed: int | None = 0,
+    provenance_status: str = "workspace-verified",
+    training_workspace_root: str | Path | None = None,
+) -> dict[str, Any]:
+    workspace_path = Path(workspace)
+    workspace_path.mkdir(parents=True, exist_ok=True)
+    assets_root_path = Path(assets_root)
+    shadow_id_list = list(shadow_ids)
+    training_root = (
+        Path(training_workspace_root)
+        if training_workspace_root is not None
+        else _default_defended_shadow_training_workspace_root(workspace_path)
+    )
+    if role not in TRAINING_ROLES:
+        raise ValueError(f"role must be one of {', '.join(TRAINING_ROLES)}")
+    if role != DEFENDED_SHADOW_ROLE:
+        raise ValueError("defended-shadow training manifest requires role=defended-shadow")
+    if int(num_steps) <= 0:
+        raise ValueError("num_steps must be positive")
+    if int(batch_size) <= 0:
+        raise ValueError("batch_size must be positive")
+
+    forget_summary = _index_file_summary(forget_member_index_file)
+    matched_summary = _index_file_summary(matched_nonmember_index_file)
+    errors: list[str] = []
+    if forget_summary["count"] == 0:
+        errors.append("forget_member_index_file must not be empty")
+    if matched_summary["count"] == 0:
+        errors.append("matched_nonmember_index_file must not be empty")
+    if forget_summary["count"] != forget_summary["unique_count"]:
+        errors.append("forget_member_index_file must not contain duplicates")
+    if matched_summary["count"] != matched_summary["unique_count"]:
+        errors.append("matched_nonmember_index_file must not contain duplicates")
+    if forget_summary["count"] != matched_summary["count"]:
+        errors.append("forget and matched nonmember counts must match")
+
+    shadow_entries: list[dict[str, Any]] = []
+    for shadow_id in shadow_id_list:
+        member_dataset_dir = assets_root_path / "datasets" / f"{shadow_id}-member"
+        checkpoint_root = assets_root_path / "checkpoints" / shadow_id
+        output_workspace = training_root / shadow_id
+        entry_errors: list[str] = []
+        if not member_dataset_dir.is_dir():
+            entry_errors.append("missing member dataset")
+        if not checkpoint_root.is_dir():
+            entry_errors.append("missing checkpoint root")
+        entry_status = "ready" if not entry_errors else "blocked"
+        command = [
+            "run-risk-targeted-unlearning-pilot",
+            "--workspace",
+            _manifest_path(output_workspace),
+            "--member-dataset-dir",
+            _manifest_path(member_dataset_dir),
+            "--forget-member-index-file",
+            _manifest_path(forget_member_index_file),
+            "--matched-nonmember-index-file",
+            _manifest_path(matched_nonmember_index_file),
+            "--checkpoint-root",
+            _manifest_path(checkpoint_root),
+            "--num-steps",
+            str(int(num_steps)),
+            "--batch-size",
+            str(int(batch_size)),
+            "--training-role",
+            DEFENDED_SHADOW_ROLE,
+        ]
+        if seed is not None:
+            command.extend(["--seed", str(int(seed))])
+        shadow_entries.append(
+            {
+                "shadow_id": shadow_id,
+                "status": entry_status,
+                "member_dataset_dir": _manifest_path(member_dataset_dir),
+                "checkpoint_root": _manifest_path(checkpoint_root),
+                "output_workspace": _manifest_path(output_workspace),
+                "training_role": DEFENDED_SHADOW_ROLE,
+                "command": command,
+                "errors": entry_errors,
+            }
+        )
+        errors.extend(f"{shadow_id}: {error}" for error in entry_errors)
+
+    if len(shadow_entries) < 2:
+        errors.append("at least two defended shadow entries are required")
+
+    manifest = {
+        "schema": IB_DEFENDED_SHADOW_TRAINING_MANIFEST_SCHEMA,
+        "status": "ready" if not errors else "blocked",
+        "admitted": False,
+        "gpu_release": "none",
+        "track": "defense",
+        "method": "risk-targeted-siss-defended-shadow-training-manifest",
+        "paper": "Diffusion_Unlearning_SISS_ICLR2025",
+        "mode": "defended-shadow-training-manifest",
+        "hypothesis": (
+            "I-B can only move past protocol-only hold if defended shadow training is specified "
+            "as a multi-shadow identity-preserving contract before any GPU run."
+        ),
+        "falsifier": (
+            "If fewer than two shadow entries are ready, forget/nonmember identity counts diverge, "
+            "or any entry lacks role=defended-shadow, the next I-B run remains blocked."
+        ),
+        "source_command": _defended_shadow_manifest_source_command(
+            workspace=_manifest_path(workspace_path),
+            assets_root=_manifest_path(assets_root_path),
+            forget_member_index_file=_manifest_path(forget_member_index_file),
+            matched_nonmember_index_file=_manifest_path(matched_nonmember_index_file),
+            shadow_ids=shadow_id_list,
+            num_steps=int(num_steps),
+            batch_size=int(batch_size),
+            seed=int(seed) if seed is not None else None,
+            training_workspace_root=_manifest_path(training_root),
+            provenance_status=provenance_status,
+        ),
+        "provenance_status": provenance_status,
+        "workspace": _manifest_path(workspace_path),
+        "workspace_name": workspace_path.name,
+        "artifact_paths": {
+            "summary": _manifest_path(workspace_path / "summary.json"),
+        },
+        "role": role,
+        "assets_root": _manifest_path(assets_root_path),
+        "identity_contract": {
+            "forget_member_index_file": forget_summary["path"],
+            "matched_nonmember_index_file": matched_summary["path"],
+            "forget_count": forget_summary["count"],
+            "matched_nonmember_count": matched_summary["count"],
+            "forget_unique_count": forget_summary["unique_count"],
+            "matched_nonmember_unique_count": matched_summary["unique_count"],
+            "forget_preview": forget_summary["preview"],
+            "matched_nonmember_preview": matched_summary["preview"],
+            "shadow_ids": shadow_id_list,
+        },
+        "runtime_contract": {
+            "num_steps": int(num_steps),
+            "batch_size": int(batch_size),
+            "seed": int(seed) if seed is not None else None,
+            "raw_asset_policy": "no-git-large-artifacts",
+            "training_workspace_root": _manifest_path(training_root),
+        },
+        "shadow_training": shadow_entries,
+        "blocked_claims": [
+            "admitted defense evidence",
+            "adaptive robustness",
+            "Platform/Runtime defense row",
+            "GPU packet completed",
+        ],
+        "remaining_requirements": [
+            "execute tiny defended-shadow training",
+            "export defended-shadow threshold references",
+            "run explicit defended-shadow reopen review",
+            "measure retained utility",
+            "show strict-tail improvement under defended-shadow threshold references",
+        ],
+        "evidence_docs": list(IB_DEFENDED_SHADOW_TRAINING_DOCS),
+        "errors": errors,
+        "notes": [
+            "This manifest is CPU-only planning; it does not run defended-shadow training.",
+            "A ready manifest is only a precondition for a future tiny training run, not defense evidence.",
+        ],
+    }
+    summary_path = workspace_path / "summary.json"
+    summary_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=True), encoding="utf-8")
+    return manifest
+
+
 def run_risk_targeted_unlearning_pilot(
     *,
     workspace: str | Path,
@@ -579,6 +824,7 @@ def run_risk_targeted_unlearning_pilot(
     device: str = "cpu",
     seed: int | None = 0,
     provenance_status: str = "workspace-verified",
+    training_role: str = TARGET_ROLE,
 ) -> dict[str, Any]:
     del num_workers
     import torch
@@ -588,6 +834,8 @@ def run_risk_targeted_unlearning_pilot(
 
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
+    if training_role not in TRAINING_ROLES:
+        raise ValueError(f"training_role must be one of {', '.join(TRAINING_ROLES)}")
     if int(num_steps) <= 0:
         raise ValueError("num_steps must be positive")
     if int(batch_size) <= 0:
@@ -711,6 +959,7 @@ def run_risk_targeted_unlearning_pilot(
         "gpu_release": "none",
         "admitted_change": "none",
         "provenance_status": provenance_status,
+        "training_role": training_role,
         "workspace": str(workspace_path),
         "workspace_name": workspace_path.name,
         "artifact_paths": {
