@@ -29,7 +29,14 @@ def main() -> None:
 
     run([python_executable, "scripts/run_docs_checks.py"], repo_root)
     run([python_executable, "-m", "compileall", "-q", "src", "scripts", "tests"], repo_root)
-    run([python_executable, "-m", "diffaudit", "--help"], repo_root)
+    run(
+        [
+            python_executable,
+            "-c",
+            "from diffaudit.cli import build_parser; parser = build_parser(); assert parser.prog == 'diffaudit'",
+        ],
+        repo_root,
+    )
 
 
 if __name__ == "__main__":
