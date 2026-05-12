@@ -88,6 +88,9 @@ Current response-contract package preflight:
 Current response-contract discovery:
 [../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md).
 
+Current Beans/SD1.5 response-contract scout:
+[../../docs/evidence/beans-sd15-response-contract-scout-20260512.md](../../docs/evidence/beans-sd15-response-contract-scout-20260512.md).
+
 Current semantic-auxiliary low-FPR review:
 [../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).
 
