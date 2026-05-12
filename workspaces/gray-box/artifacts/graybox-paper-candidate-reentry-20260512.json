@@ -1,0 +1,91 @@
+{
+  "schema": "diffaudit.graybox_paper_candidate_reentry.v1",
+  "date": "2026-05-12",
+  "track": "gray-box",
+  "question": "Can any archived paper-backed gray-box candidate reenter the active Research lane after current candidate closures?",
+  "hypothesis": "At least one archived candidate has enough existing artifact evidence, distinctness, and protocol clarity to become the next CPU-active or GPU-candidate lane.",
+  "falsifier": "If every candidate is canary-only, negative, low-FPR unstable, asset/protocol blocked, or already covered by a closed fusion/support route, keep the lane on hold and release no GPU.",
+  "verdict": "hold",
+  "gpu_release": "none",
+  "active_gpu_question": "none",
+  "next_gpu_candidate": "none",
+  "admitted_change": "none",
+  "candidate_reviews": [
+    {
+      "candidate": "SIMA",
+      "status": "hold",
+      "evidence": [
+        "workspaces/gray-box/runs/sima-cifar10-runtime-rescan-20260416-cpu-32-r2/summary.json",
+        "workspaces/gray-box/runs/sima-packet-score-export-pia-full-overlap-20260421-r1/summary.json",
+        "workspaces/cross-box/runs/crossbox-pairboard-pia-sima-full-overlap-20260421-r1/summary.json"
+      ],
+      "key_metrics": {
+        "standalone_auc": 0.584961,
+        "standalone_asr": 0.609375,
+        "standalone_tpr_at_1pct_fpr": 0.03125,
+        "standalone_tpr_at_0_1pct_fpr": 0.03125,
+        "pairboard_logistic_auc_mean_delta_vs_best_single": 0.014635,
+        "pairboard_logistic_tpr_at_0_1pct_fpr_mean_delta_vs_best_single": -0.001732
+      },
+      "decision": "Do not run a larger SIMA or SIMA+PIA packet without a new low-FPR-primary scorer contract."
+    },
+    {
+      "candidate": "Noise-as-Probe",
+      "status": "hold",
+      "evidence": [
+        "workspaces/gray-box/runs/noise-as-probe-cfg-microprobe-20260417-gpu-r1-g75/summary.json",
+        "workspaces/gray-box/runs/noise-as-probe-cfg-microprobe-20260417-gpu-r1-g35/summary.json",
+        "workspaces/gray-box/runs/noise-as-probe-hidden-guidance-jitter-20260417-gpu-r2-s0/summary.json"
+      ],
+      "key_metrics": {
+        "fixed_guidance_best_accuracy": 0.875,
+        "hidden_jitter_accuracy": 0.5,
+        "hidden_jitter_fpr": 0.625
+      },
+      "decision": "Do not GPU-scale until a protocol controls guidance leakage and defines strict-tail metrics."
+    },
+    {
+      "candidate": "MoFit",
+      "status": "hold-needs-protocol",
+      "evidence": [
+        "workspaces/gray-box/runs/mofit-sd15-celeba-reviewrung-20260416-cpu-r2/summary.json",
+        "workspaces/gray-box/runs/mofit-sd15-celeba-microrung-20260416-cpu-r2/summary.json"
+      ],
+      "key_metrics": {
+        "member_count": 2,
+        "nonmember_count": 2,
+        "reported_auc": null,
+        "reported_low_fpr": null
+      },
+      "decision": "Keep as interface-canary only until a scoring and low-FPR protocol exists."
+    },
+    {
+      "candidate": "Structural Memorization",
+      "status": "closed-negative-but-useful",
+      "evidence": [
+        "workspaces/gray-box/runs/structural-memorization-smoke-20260415-r1/summary.json"
+      ],
+      "key_metrics": {
+        "auc": 0.375,
+        "asr": 0.53125,
+        "tpr_at_1pct_fpr": 0.0625,
+        "member_rows": 16,
+        "nonmember_rows": 16
+      },
+      "decision": "Do not rerun without a genuinely new structural observable."
+    }
+  ],
+  "release_gate": {
+    "passed": false,
+    "required": [
+      "clear member/nonmember and target asset identity",
+      "reproducible command or code path",
+      "AUC/ASR/TPR@1%FPR/TPR@0.1%FPR where applicable",
+      "low-FPR primary gate",
+      "adaptive or leakage-control boundary",
+      "distinct observable not already closed by ReDiffuse, tri-score, cross-box score sharing, or diagonal-Fisher"
+    ]
+  },
+  "next_cpu_sidecar": "paper-backed new-observable intake scout",
+  "platform_runtime_handoff": "No schema change. Do not expose these candidates as admitted Platform/Runtime evidence."
+}
