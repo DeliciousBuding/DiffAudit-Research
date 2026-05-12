@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `I-B defended-shadow reopen protocol frozen; next-lane reselection`
+- Active work: `I-B defended-shadow training manifest blocked; next-lane reselection`
 - Next GPU candidate: none selected
 - CPU work: diagonal-Fisher self-influence, cross-box successor scoping,
   I-B defense-aware reopen scouting, and archived gray-box paper-candidate
@@ -45,7 +45,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   protocol is now frozen, and the review entrypoint now rejects undefended
   threshold references in explicit `defended-shadow-reopen` mode. A CPU-only
   defended-shadow training manifest now checks three shadow entries and k32
-  identity files, but no defended-shadow training has run and no GPU is
+  identity files, but coverage-aware validation blocks the current target k32
+  list because the three shadow member datasets cover only `2/32`, `2/32`, and
+  `1/32` forget IDs. No defended-shadow training has run and no GPU is
   released. Post-I-B reselection selected I-C same-spec evaluator
   feasibility, and that scout is also closed as hold because the active PIA
   bridge surface is translated-alias-only with `same_spec_reuse = false`. The

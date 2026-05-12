@@ -10,7 +10,7 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `I-B defended-shadow training manifest ready; next-lane reselection` |
+| Active work | `I-B defended-shadow training manifest blocked; next-lane reselection` |
 | Current GPU candidate | none selected |
 | CPU sidecar | choose the next bounded scientific question after I-B training-manifest preflight |
 | Active GPU question | none running |
@@ -44,8 +44,10 @@ risk-targeted-unlearning review path previously borrowed an undefended shadow
 threshold-transfer reference. The defended-shadow reopen protocol is now frozen
 as a machine-checkable CPU artifact, and explicit defended-shadow reopen mode
 now rejects undefended threshold references. A CPU-only defended-shadow
-training manifest then verified three ready shadow entries and the fixed k32
-forget/matched identity files, but it releases no GPU and does not execute
+training manifest then checked the fixed k32 forget/matched identity files
+against three shadow member datasets, but coverage-aware validation blocks the
+current contract: `shadow-01` covers `2/32` forget IDs, `shadow-02` covers
+`2/32`, and `shadow-03` covers `1/32`. It releases no GPU and does not execute
 training. Post-I-B reselection selected an I-C same-spec
 evaluator feasibility scout; that scout is now closed as `hold` because the
 active PIA bridge surface remains translated-alias-only with
@@ -127,10 +129,11 @@ reviewed:
 I-B risk-targeted unlearning and I-C cross-permission successor scoping are both
 on hold; neither releases GPU work. I-B now has a machine-checkable
 defended-shadow / adaptive-attacker reopen protocol, an explicit reopen-mode
-guard against undefended threshold references, and a ready CPU training manifest
-for three shadow entries. It still lacks executed defended-shadow training,
-defended-shadow threshold exports, adaptive-attacker metrics, and retained
-utility. See
+guard against undefended threshold references, and a coverage-aware CPU
+training manifest that blocks the current target k32 identity contract. It
+still lacks shadow-local forget identities or a remapped defended-shadow
+contract, executed defended-shadow training, defended-shadow threshold exports,
+adaptive-attacker metrics, and retained utility. See
 [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md),
 [docs/evidence/ib-adaptive-defense-contract-20260511.md](docs/evidence/ib-adaptive-defense-contract-20260511.md),
 [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md),
@@ -281,8 +284,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 9. I-B risk-targeted unlearning is on hold with a frozen defended-shadow reopen
    protocol. Do not GPU-scale the existing threshold-transfer diagnostics; the
    explicit reopen mode now rejects undefended shadow references, and the
-   CPU training manifest is ready. Executed defended-shadow training,
-   adaptive-attacker metrics, and retained utility are still missing.
+   coverage-aware CPU training manifest blocks the current target k32 identity
+   contract. Shadow-local forget identities or a remapped defended-shadow
+   contract, executed defended-shadow training, adaptive-attacker metrics, and
+   retained utility are still missing.
 10. I-C cross-permission / translated-contract work is on hold until a same-spec
    evaluator and matched random comparator contract exist. The feasibility
    scout confirms the current executable surface is translated-alias-only,
@@ -340,7 +345,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Post-I-B training-manifest next-lane reselection | CPU-only | I-B now has a machine-checkable reopen protocol, code guard, and ready training manifest, but still no defended-shadow result or GPU release; choose the next bounded scientific question without GPU. |
+| Post-I-B training-manifest next-lane reselection | CPU-only | I-B now has a machine-checkable reopen protocol and code guard, but the coverage-aware training manifest blocks the current target k32 identity contract; choose the next bounded scientific question without GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -352,7 +357,7 @@ Every autonomous research cycle must follow this loop:
 | --- | --- | --- |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
-| I-B defended-shadow training manifest | ready CPU manifest; three shadow entries and k32 identity files checked; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
+| I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
 | Admitted consumer drift audit | synchronized; no candidate leakage into Platform/Runtime bundle; no schema change | [docs/evidence/admitted-consumer-drift-audit-20260512.md](docs/evidence/admitted-consumer-drift-audit-20260512.md) |
 | SecMI consumer-contract review | structural-support-only; not system-consumable; no GPU release | [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md) |
 | I-C same-spec evaluator feasibility | hold; translated-alias probes are not same-spec release surfaces; no GPU release | [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md) |
