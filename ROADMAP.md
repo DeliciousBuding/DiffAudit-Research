@@ -15,7 +15,7 @@
 ### 真正的两个抓手
 
 1. **CopyMark / CommonCanvas**:5/12 找到的 paper-level 真实第二 membership 资产候选已经完成 response-contract 验证。`50/50` query split、`text_to_image` endpoint、`commoncanvas_xl_c.safetensors` 单 checkpoint、本机 RTX 4070 CUDA smoke、`50/50` deterministic responses 和 package probe `ready` 均已落地。首个 pixel-distance scorer 弱;唯一批准的 sharper CLIP image-similarity scorer 也弱且反向。该输出相似度线默认关闭,不是 admitted evidence。
-2. **tiny-overfit gradient-norm scout**:5/12 在 `8/8` overfit 上 `AUC = 0.734`,`16/64` stability gate 跌到 `0.535`。这是 mechanism-level 唯一一次正信号,但只是 hint。
+2. **tiny known-split gradient-sensitive scout**:5/12 在 `8/8` overfit 上 gradient norm 到过 `AUC = 0.734`,但 `16/64` stability gate 跌到 `0.535`;5/13 更乐观的 `64/64` oracle gradient-prototype alignment 也只有 `AUC = 0.500977` 且低 FPR 为 0。该机制 hint 已被削弱,不释放 GPU,不再跑同家族梯度变体。
 
 ### P0 — 完成且弱
 
@@ -51,13 +51,13 @@ P0 结论:
 - CLIP image-similarity artifact `workspaces/black-box/artifacts/copymark-commoncanvas-clip-image-similarity-20260513.json` 返回 `negative_or_weak`:`AUC = 0.4588`,`ASR = 0.5300`,`TPR@1%FPR = 0.0`,`TPR@0.1%FPR = 0.0`。
 - 下一决策:不默认继续 CommonCanvas 输出相似度变体;转入 P1 已知 split 的 gradient-sensitive 机制验证,除非出现非相似度家族的新机制。
 
-### P1 — 备胎(P0 弱结果之后才考虑)
+### P1 — 已执行且弱
 
 `tiny self-trained MNIST/DDPM known-split target × gradient-sensitive scorer`。
 
 - 唯一依据:5/12 `tiny-overfit-gradient-norm-scout` 在 `8/8` overfit 上 `AUC = 0.734`,`16/64` stability gate 跌到 `0.535`。
-- 唯一合理 follow-up:在更真实的 known-split target(非 8-member overfit)上重测 gradient-sensitive observable。
-- **不**继续叠 raw-MSE / x0-residual / pixel-distance / CLIP-distance 变体。
+- 2026-05-13 follow-up:在更真实的 `64/64` known-split tiny denoiser 上测试更乐观的 oracle `final_layer_gradient_prototype_cosine`,结果 `AUC = 0.500977`,`ASR = 0.562500`,`TPR@1%FPR = 0.0`,`TPR@0.1%FPR = 0.0`。
+- 结论:不继续叠 raw-MSE / x0-residual / pixel-distance / CLIP-distance / final-layer gradient norm/cosine 变体。
 
 ### 冻结清单(违反即视为浪费 cycle)
 
@@ -81,15 +81,15 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0 complete: CommonCanvas response contract ready, pixel and CLIP similarity scorers weak |
-| Active GPU question | none selected after weak P0 follow-up |
-| Next GPU candidate | none by default; P1 must start CPU/tiny unless a bounded GPU packet is explicitly justified |
-| CPU sidecar | P1 known-split gradient-sensitive mechanism validation |
+| Active work | P0 complete and P1 gradient-prototype follow-up weak |
+| Active GPU question | none selected after weak P0/P1 results |
+| Next GPU candidate | none by default; reopen only with a genuinely new mechanism |
+| CPU sidecar | none selected; next action is mechanism reselection, not variant expansion |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
 
-"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance 与单点 CLIP image-similarity 都弱。不要把弱结果扩展成消融矩阵。下一步转向 P1 已知 split 的 gradient-sensitive 机制验证;只有出现非 response-vs-query similarity 的新机制,才允许重开 CommonCanvas。"
+"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance 与单点 CLIP image-similarity 都弱。P1 的 known-split gradient-prototype follow-up 也弱。不要把弱结果扩展成消融矩阵或梯度变体表。下一步必须重新选一个真正不同的机制问题;如果没有,就停在当前结论。"
 
 ---
 
@@ -101,17 +101,18 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CopyMark CommonCanvas response-contract scorer complete; pixel and CLIP similarity results weak` |
+| Active work | `CommonCanvas output-similarity closed by default; known-split gradient-prototype follow-up weak` |
 | Current GPU candidate | none selected |
-| CPU sidecar | P1 known-split gradient-sensitive mechanism validation |
-| Active GPU question | none after weak CommonCanvas P0 + CLIP follow-up |
+| CPU sidecar | none selected; requires mechanism reselection |
+| Active GPU question | none after weak CommonCanvas P0 + CLIP follow-up and weak P1 gradient-prototype scout |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
 surfaces. The second response contract has now been tested, and both the
 simplest pixel-distance transfer and the one sharper CLIP image-similarity
-follow-up are weak. The next high-value move is P1 known-split
-gradient-sensitive mechanism validation, not another validator, boundary note,
+follow-up are weak. A more optimistic known-split final-layer gradient prototype
+scout is also weak. The next high-value move must be a genuinely different
+mechanism, not another validator, boundary note, same-family gradient variant,
 same-contract repeat, or remap-training detour.
 
 Taste reset: every cycle must ask whether the work is finding new signal or
@@ -167,6 +168,11 @@ gradient L2 falls to `AUC = 0.535156`, with only `1 / 16` members recovered at
 zero false positives. This keeps gradient-sensitive scoring as a mechanism hint
 but blocks GPU scaling and broad layer sweeps. See
 [docs/evidence/gradient-norm-stability-gate-20260512.md](docs/evidence/gradient-norm-stability-gate-20260512.md).
+A 2026-05-13 `64 / 64` oracle-style gradient prototype alignment follow-up is
+also weak: `final_layer_gradient_prototype_cosine` gives `AUC = 0.500977`,
+`ASR = 0.562500`, and zero low-FPR recovery despite clear training-loss
+decrease. This closes same-family final-layer gradient variants by default. See
+[docs/evidence/tiny-known-split-gradient-prototype-alignment-20260513.md](docs/evidence/tiny-known-split-gradient-prototype-alignment-20260513.md).
 CopyMark is now the best external intake candidate because its paper and
 repository describe a diffusion membership/copyright benchmark rather than a
 generic model card. The follow-up manifest pass inspected `diffusers/` scripts,
@@ -533,7 +539,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| True second membership benchmark | CPU-only / needs sharper mechanism or provenance | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit and weakens at `16 / 64`; no GPU. |
+| True second membership benchmark | hold / needs genuinely different mechanism | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit, weakens at `16 / 64`, and oracle gradient-prototype alignment is random at `64 / 64`; no GPU. |
 | CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`) and the single CLIP image-similarity follow-up is also weak (`AUC = 0.4588`, zero low-FPR recovery), so close output-similarity variants by default. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
@@ -560,6 +566,7 @@ Every autonomous research cycle must follow this loop:
 | Tiny overfit MSE upperbound | raw denoising MSE remains weak even when overfitting 8 members; no GPU release | [docs/evidence/tiny-overfit-mse-upperbound-20260512.md](docs/evidence/tiny-overfit-mse-upperbound-20260512.md) |
 | Tiny overfit gradient-norm scout | positive mechanism scout on `8 / 64`; no GPU release until stability gate | [docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md) |
 | Gradient-norm stability gate | weakened at `16 / 64`; gradient norm stays mechanism hint only | [docs/evidence/gradient-norm-stability-gate-20260512.md](docs/evidence/gradient-norm-stability-gate-20260512.md) |
+| Tiny known-split gradient prototype alignment | weak oracle-style gradient direction scout on `64 / 64`; close same-family final-layer gradient variants by default | [docs/evidence/tiny-known-split-gradient-prototype-alignment-20260513.md](docs/evidence/tiny-known-split-gradient-prototype-alignment-20260513.md) |
 | True second membership benchmark scope | scope frozen; choose sharper MNIST/DDPM scorer or tiny known-split target; no GPU release | [docs/evidence/true-second-membership-benchmark-scope-20260512.md](docs/evidence/true-second-membership-benchmark-scope-20260512.md) |
 | CopyMark provenance intake | high-value external candidate; manifest inspected; CommonCanvas/CommonCatalog tiny CPU target selected | [docs/evidence/copymark-provenance-intake-20260512.md](docs/evidence/copymark-provenance-intake-20260512.md) |
 | CopyMark CommonCanvas query asset | local `50/50` query split ready; deterministic responses generated in P0 | [docs/evidence/copymark-commoncanvas-query-asset-20260512.md](docs/evidence/copymark-commoncanvas-query-asset-20260512.md) |
