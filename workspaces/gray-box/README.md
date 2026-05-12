@@ -12,6 +12,8 @@
 - Active candidate: gray-box CDI/TMIA-DM/PIA tri-score truth-hardening is
   CPU-first and internal-only. ReDiffuse 750k exact replay is candidate-only
   after modest AUC and weak strict-tail evidence; 800k remains blocked.
+  Archived paper candidates (SIMA, Noise-as-Probe, MoFit, Structural
+  Memorization) were reviewed for reentry and remain on hold.
 - GPU: none released.
 
 ## Files
@@ -25,6 +27,9 @@ Current tri-score consolidation:
 
 Current SecMI admission boundary:
 [../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md).
+
+Current archived paper-candidate reentry review:
+[../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md).
 
 ## Archive
 

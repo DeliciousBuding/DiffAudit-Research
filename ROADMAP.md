@@ -10,18 +10,19 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `post-I-B successor reselection` |
+| Active work | `paper-backed new-observable intake scout` |
 | Current GPU candidate | none selected |
-| CPU sidecar | CPU-only next-lane review after I-B hold |
+| CPU sidecar | archived gray-box paper-candidate reentry review closed as hold; next CPU work must find a genuinely new observable |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: after closing cross-box successor scoping and I-B
-defense-aware reopen scoping as `hold`, choose the next bounded scientific
-question without releasing GPU. The I-B scout confirms the current best k32
-full-split anchor is still attack-side threshold-transfer only; defended-shadow
-training, adaptive attacker, retained utility, and low-FPR primary gates are
-not executable yet. See
+defense-aware reopen scoping as `hold`, continue only with a new observable or
+ready asset contract. The archived gray-box paper-candidate reentry review
+keeps SIMA, Noise-as-Probe, MoFit, and Structural Memorization on hold because
+their current artifacts are weak, canary-only, low-FPR unstable, or already
+covered by closed support/fusion routes. See
+[docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](docs/evidence/graybox-paper-candidate-reentry-review-20260512.md),
 [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md),
 [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md),
 [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md),
@@ -138,6 +139,7 @@ path as negative-but-useful; see
 | Gray-box `SecMI` | evidence-ready supporting reference | Full-split SecMI stat and NNS are strong corroborating gray-box evidence. | Not admitted Platform/Runtime evidence until a consumer-boundary and adaptive-review contract is hardened. |
 | White-box `GSA + DPDM W-1` | admitted comparator | Strongest white-box risk upper bound plus defended comparator. | Not a final paper-level benchmark. |
 | ReDiffuse | candidate-only | Collaborator bundle and 750k checkpoint are runnable; exact replay shows modest AUC but weak strict-tail evidence. | Do not promote; do not run 800k automatically; reopen only with a new scorer hypothesis or stricter paper-faithful contract. |
+| Archived gray-box paper candidates | hold | SIMA, Noise-as-Probe, MoFit, and Structural Memorization are reviewed for reentry. | No GPU release; reopen only with a new low-FPR-primary observable or protocol. |
 | CLiD / H2 / simple-distance / variation / semantic-aux | hold or candidate-only | Useful diagnostics and bounded candidates. | No GPU task unless a new protocol/data contract clears a CPU preflight. |
 
 ## Recent ReDiffuse Gate Verdict
@@ -232,6 +234,9 @@ AUC but weak strict-tail evidence and no admitted promotion. See
     reduces attack-side AUC by `0.021347`, but the review still borrows
     undefended shadow threshold transfer and lacks defended-shadow training,
     adaptive attacker, retained utility, and executable low-FPR gates.
+13. Archived gray-box paper candidates are on hold after reentry review. Do
+    not reopen SIMA, Noise-as-Probe, MoFit, or Structural Memorization without
+    a genuinely new low-FPR-primary observable or protocol.
 
 ## Long-Running Goal Loop
 
@@ -299,6 +304,7 @@ Every autonomous research cycle must follow this loop:
 | I-A finite-tail / adaptive boundary audit | synchronized; admitted strict-tail and adaptive-language boundaries remain guarded | [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md) |
 | Cross-box successor scope | hold; no genuinely new CPU/GPU successor hypothesis is ready | [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md) |
 | I-B defense-aware reopen scout | hold; current I-B evidence is not defense-aware and releases no GPU | [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md) |
+| Gray-box paper-candidate reentry | hold; archived paper candidates do not release CPU/GPU work from current artifacts | [docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](docs/evidence/graybox-paper-candidate-reentry-review-20260512.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold; no GPU release until defended-shadow/adaptive review contract exists | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |
