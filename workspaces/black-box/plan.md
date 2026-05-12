@@ -176,10 +176,15 @@ A local query-only package now exists under `<DIFFAUDIT_ROOT>/Download` with
 `needs_responses`, so the next real step is deterministic CommonCanvas response
 generation, not scoring or GPU. See
 [../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md](../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md).
-The immediate response-generation preflight is blocked locally: current Python
-has CPU-only Torch, the GPU is visible only through `nvidia-smi`, and no local
-CommonCanvas weights are cached. Do not start a scorer until responses are
-generated or attached and the package probe returns `ready`. See
+The immediate response-generation preflight corrected the blocker: the default
+PATH Python has CPU-only Torch, but the `diffaudit-research` conda environment
+has CUDA Torch and sees the local RTX 4070. CommonCanvas is a text-to-image
+SDXL pipeline, so the package contract is now `text_to_image`, not
+`image_to_image`. No local CommonCanvas weights are cached yet. Do not start a
+scorer until deterministic responses are generated or attached and the package
+probe returns `ready`. A minimal fp16 snapshot download was attempted with Xet
+disabled, but it did not complete the required weights in this session and no
+response image was generated. See
 [../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic

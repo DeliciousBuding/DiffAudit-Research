@@ -15,7 +15,15 @@ from diffaudit.attacks.response_contract import (
 
 
 class ResponseContractPackageTests(unittest.TestCase):
-    def _make_ready_package(self, root: Path, asset_id: str, *, count: int = 2, repeats: int = 3) -> tuple[Path, Path]:
+    def _make_ready_package(
+        self,
+        root: Path,
+        asset_id: str,
+        *,
+        count: int = 2,
+        repeats: int = 3,
+        endpoint_mode: str = "image_to_image",
+    ) -> tuple[Path, Path]:
         dataset = root / "black-box" / "datasets" / asset_id
         supplementary = root / "black-box" / "supplementary" / asset_id
         for split in ("member", "nonmember"):
@@ -42,7 +50,7 @@ class ResponseContractPackageTests(unittest.TestCase):
         (supplementary / "endpoint_contract.json").write_text(
             json.dumps(
                 {
-                    "endpoint_mode": "image_to_image",
+                    "endpoint_mode": endpoint_mode,
                     "model_identity": "synthetic-model",
                     "repeat_count": repeats,
                     "response_observability": "image",
@@ -70,6 +78,24 @@ class ResponseContractPackageTests(unittest.TestCase):
         self.assertEqual(payload["counts"]["query"]["member"], 2)
         self.assertEqual(payload["counts"]["responses"]["nonmember"], 6)
         self.assertTrue(payload["checks"]["controlled_repeats_or_seed_policy"])
+
+    def test_text_to_image_package_passes_generic_cpu_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            dataset, supplementary = self._make_ready_package(
+                Path(tmpdir),
+                "response-contract-text-to-image",
+                endpoint_mode="text_to_image",
+            )
+            payload = inspect_response_contract_package(
+                asset_id="response-contract-text-to-image",
+                dataset_root=dataset,
+                supplementary_root=supplementary,
+                min_split_count=2,
+            )
+
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["contract"]["endpoint_mode"], "text_to_image")
+        self.assertTrue(payload["checks"]["endpoint_mode_supported"])
 
     def test_missing_responses_is_blocked_after_query_and_protocol_are_ready(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
