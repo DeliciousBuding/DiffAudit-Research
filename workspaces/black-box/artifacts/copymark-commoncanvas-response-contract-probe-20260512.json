@@ -149,10 +149,10 @@
     "response_manifest": null
   },
   "contract": {
-    "endpoint_mode": "image_to_image",
+    "endpoint_mode": "text_to_image",
     "repeat_count": 1,
     "controlled_repeats_or_seed_policy": true,
-    "response_observability": "image; not yet generated",
+    "response_observability": "image generated from source_caption under fixed seed; not yet generated",
     "dataset_name": "CopyMark CommonCanvas/CommonCatalog tiny query subset",
     "model_identity": "common-canvas/CommonCanvas-XL-C"
   },
