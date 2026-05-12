@@ -57,6 +57,7 @@ This directory contains the public evidence overview.
 | [research-boundary-consumability-sync-20260510.md](research-boundary-consumability-sync-20260510.md) | Downstream-consumer boundary sync after ReDiffuse, tri-score, GSA LR, and response-contract closures. |
 | [ib-risk-targeted-unlearning-successor-scope.md](ib-risk-targeted-unlearning-successor-scope.md) | CPU scoping review that keeps I-B risk-targeted unlearning on hold until defended-shadow/adaptive review is specified. |
 | [ib-defense-aware-reopen-scout-20260512.md](ib-defense-aware-reopen-scout-20260512.md) | CPU scout showing I-B still lacks an executable defended-shadow/adaptive-attacker reopen contract. |
+| [ib-defense-reopen-protocol-audit-20260512.md](ib-defense-reopen-protocol-audit-20260512.md) | Code-aware audit confirming the current I-B review path borrows undefended shadow threshold transfer and cannot release GPU work. |
 | [ic-cross-permission-successor-scope.md](ic-cross-permission-successor-scope.md) | CPU scoping review that keeps I-C cross-permission / translated-contract work on hold until a same-spec evaluator exists. |
 | [research-resting-state-audit-20260510.md](research-resting-state-audit-20260510.md) | Current audit showing Research has no active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | [gsa-loss-score-shadow-stability-review.md](gsa-loss-score-shadow-stability-review.md) | CPU-only leave-one-shadow-out review falsifying the immediate GSA loss-score LR distinct-scorer rescue path. |

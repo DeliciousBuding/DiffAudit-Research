@@ -10,9 +10,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `next-lane reselection after SecMI consumer review` |
+| Active work | `post-I-B protocol audit next-lane reselection` |
 | Current GPU candidate | none selected |
-| CPU sidecar | choose the next bounded question after SecMI remains structural-support-only |
+| CPU sidecar | choose the next bounded question after I-B protocol audit remains hold-structural |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -36,7 +36,12 @@ least as strong as the frozen mid-band score on AUC, so do not phrase the line
 as proven mid-frequency-specific. Post-midfreq reselection selected a CPU-only
 SecMI consumer-contract review; that review keeps SecMI as
 `structural-support-only` because NNS product semantics, adaptive comparability,
-provenance language, and bundle schema fit remain blocked. See
+provenance language, and bundle schema fit remain blocked. The follow-up I-B
+protocol audit is also closed as `hold-structural`: the active
+risk-targeted-unlearning review path still borrows an undefended shadow
+threshold-transfer reference and cannot serve as a defended-shadow or
+adaptive-attacker protocol. See
+[docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](docs/evidence/ib-defense-reopen-protocol-audit-20260512.md),
 [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md),
 [docs/evidence/post-midfreq-next-lane-reselection-20260512.md](docs/evidence/post-midfreq-next-lane-reselection-20260512.md),
 [docs/evidence/midfreq-residual-comparator-audit-20260512.md](docs/evidence/midfreq-residual-comparator-audit-20260512.md),
@@ -259,7 +264,10 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 12. I-B defense-aware reopen scout is on hold. The best k32 full-split anchor
     reduces attack-side AUC by `0.021347`, but the review still borrows
     undefended shadow threshold transfer and lacks defended-shadow training,
-    adaptive attacker, retained utility, and executable low-FPR gates.
+    adaptive attacker, retained utility, and executable low-FPR gates. The
+    protocol audit confirms this is a code-level boundary, not just a missing
+    narrative section:
+    [docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](docs/evidence/ib-defense-reopen-protocol-audit-20260512.md).
 13. Archived gray-box paper candidates are on hold after reentry review. Do
     not reopen SIMA, Noise-as-Probe, MoFit, or Structural Memorization without
     a genuinely new low-FPR-primary observable or protocol.
@@ -298,7 +306,7 @@ Every autonomous research cycle must follow this loop:
 
 | Sidecar | Mode | Why |
 | --- | --- | --- |
-| Next-lane reselection after SecMI consumer review | CPU-only | SecMI remains research-support-only for structural reasons; choose the next bounded question without GPU. |
+| Post-I-B protocol audit next-lane reselection | CPU-only | I-B remains hold-structural because the executable review path borrows undefended shadow threshold transfer; choose the next bounded question without GPU. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
@@ -309,6 +317,7 @@ Every autonomous research cycle must follow this loop:
 | Item | Verdict | Evidence |
 | --- | --- | --- |
 | SecMI consumer-contract review | structural-support-only; not system-consumable; no GPU release | [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md) |
+| I-B defense reopen protocol audit | hold-structural; active code path borrows undefended shadow threshold transfer; no GPU release | [docs/evidence/ib-defense-reopen-protocol-audit-20260512.md](docs/evidence/ib-defense-reopen-protocol-audit-20260512.md) |
 | Post-midfreq next-lane reselection | select-secmi-consumer-contract-review; no GPU release | [docs/evidence/post-midfreq-next-lane-reselection-20260512.md](docs/evidence/post-midfreq-next-lane-reselection-20260512.md) |
 | Mid-frequency residual comparator audit | candidate-boundary-narrowed; mid-frequency-specific claim not supported | [docs/evidence/midfreq-residual-comparator-audit-20260512.md](docs/evidence/midfreq-residual-comparator-audit-20260512.md) |
 | Mid-frequency residual stability result | candidate-stable-but-bounded; no admitted promotion; stop same-contract GPU | [docs/evidence/midfreq-residual-stability-result-20260512.md](docs/evidence/midfreq-residual-stability-result-20260512.md) |
