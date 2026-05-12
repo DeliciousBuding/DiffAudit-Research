@@ -12,7 +12,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Active work | `post-midfreq next-lane reselection` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | choose the next bounded non-resting question after closing residual same-contract GPU expansion |
+| CPU sidecar | choose the next bounded non-resting question after comparator audit narrowed residual claims |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
 | Non-gray-box GPU | none selected |
 
@@ -20,7 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
-| mid-frequency same-noise residual | black-box | candidate-only / hold | seed-12 and seed-23 `64/64` packets retain signal: `AUC = 0.733398` with `4/64` zero-FP recovery, then `AUC = 0.719238` with `3/64` zero-FP recovery | single DDPM/CIFAR10 asset, finite tails, no product boundary | stop same-contract GPU expansion; reopen only with new comparator, second asset, or protocol |
+| same-noise residual comparator family | black-box | candidate-only / hold | seed-12 and seed-23 `64/64` packets retain signal, but low/full residual comparators match or beat mid-band on AUC | single DDPM/CIFAR10 asset, finite tails, no product boundary, mid-frequency specificity not supported | stop same-contract GPU expansion; reopen only with new comparator, second asset, or protocol |
 | black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split`; query-source audit found no reusable local Pokemon/Kandinsky images or responses | missing member/nonmember query images and response coverage | acquire/build at least `25/25` real query images plus responses, then rerun package probe |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
@@ -43,8 +43,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 ### Post-Midfreq Next-Lane Reselection
 
 - `mode`: CPU-only
-- `status`: residual line is candidate-stable-but-bounded and same-contract GPU
-  expansion is closed.
+- `status`: residual line is candidate-stable-but-bounded, but comparator audit
+  narrows it to same-noise residual rather than a proven mid-frequency-specific
+  mechanism; same-contract GPU expansion is closed.
 - `goal`: choose the next bounded question that can change Research direction
   without repeating residual DDPM/CIFAR10 packets.
 - `latest trigger`: H2/H3 frequency filters cover response-cache plug-ins only;
@@ -58,6 +59,7 @@ Current evidence:
 - [../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md)
 - [../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md)
 - [../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md)
+- [../../docs/evidence/midfreq-residual-comparator-audit-20260512.md](../../docs/evidence/midfreq-residual-comparator-audit-20260512.md)
 - [../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md)
 - [../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md)
 - [../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md)
@@ -125,6 +127,9 @@ Restart conditions:
   FPR.
 - do not run another same-contract residual packet; the seed-23 stability
   result is reviewed and synced.
+- do not claim mid-frequency specificity from the current residual packets;
+  low-frequency and full-band residual comparators are at least as strong on
+  AUC.
 
 ## Ready
 
