@@ -12,7 +12,7 @@ run narratives live in `legacy/`; current workspace state lives in
 | --- | --- |
 | Active work | `Research taste reset; second-asset / second-response-contract pivot` |
 | Current GPU candidate | none selected |
-| CPU sidecar | stop polishing blocked candidates; select or build a real second asset / response contract |
+| CPU sidecar | second-scene portability scouting; real response-contract package still needs assets |
 | Active GPU question | none running |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -376,12 +376,14 @@ Every autonomous research cycle must follow this loop:
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | needs assets | Reopen only with a second valid image-to-image or repeated-response contract. |
+| MNIST/DDPM PIA-style portability | CPU-only / weak | Tiny 16/16 CPU smoke on a second public DDPM dataset gave near-random raw loss AUC; reopen only with a sharper scorer hypothesis. |
 | Response-contract package construction | CPU-only / needs assets | Use the 2026-05-11 scaffold as the portable handoff target; no GPU until preflight is ready. |
 
 ## Recent Verdicts
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| MNIST DDPM PIA portability smoke | weak direct raw-loss transfer; no GPU release | [docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
