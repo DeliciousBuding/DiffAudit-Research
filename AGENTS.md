@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss scout weak; Quantile Regression is mechanism-reference but artifact-incomplete`
+- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss and parameter-delta sensitivity scouts weak; Quantile Regression is mechanism-reference but artifact-incomplete`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -123,8 +123,10 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   old pseudo-membership semantics by creating an exact target
   (`SD1.5 + Beans-member UNet LoRA`) and holding out `25` nonmembers, but
   conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`,
-  `TPR@1%FPR = 0.080000`). Do not expand Beans LoRA train-step, rank,
-  resolution, prompt, scheduler, loss-weight, or timestep matrices by default.
+  `TPR@1%FPR = 0.080000`) and parameter-delta sensitivity is also weak
+  (`AUC = 0.512000`, `TPR@1%FPR = 0.040000`). Do not expand Beans LoRA
+  train-step, rank, resolution, prompt, scheduler, loss-weight, timestep,
+  layer, or block matrices by default.
   Quantile Regression is a useful sample-conditioned reconstruction-loss
   mechanism reference, but it is not a runnable packet: no paper-specific
   public code, exact target artifact bundle, per-sample split manifest, or
