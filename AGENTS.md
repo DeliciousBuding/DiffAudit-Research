@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `White-box GSA Zenodo archive is admitted-family provenance, not a new second asset; MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss and parameter-delta sensitivity scouts weak; Quantile Regression is mechanism-reference but artifact-incomplete`
+- Active work: `Daily review complete after White-box GSA Zenodo, MIA_SD, paperization, and Beans LoRA verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
