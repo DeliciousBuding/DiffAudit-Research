@@ -156,8 +156,12 @@ The next black-box portability gate is now a membership-semantics gate, not a
 package-format gate. A true second membership benchmark must identify the
 target model, its real training or fine-tuning members, held-out nonmembers, and
 a reproducible query/response contract. Beans/SD1.5 fails that gate but remains
-useful for contract debugging. MNIST/DDPM passes the cleaner split test, but raw
-loss is weak, so only a different scorer hypothesis should reopen it. See
+useful for contract debugging. MNIST/Fashion-MNIST public-checkpoint splits
+are cleaner than pseudo-membership assets, but raw loss, `x0` residual, and
+the fresh SimA score-norm scout are weak, so do not reopen them through
+timestep, seed, `p`-norm, or packet-size variants. See
+[../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
+and
 [../../docs/evidence/true-second-membership-benchmark-scope-20260512.md](../../docs/evidence/true-second-membership-benchmark-scope-20260512.md).
 
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested

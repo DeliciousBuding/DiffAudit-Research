@@ -1,6 +1,6 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-13
+> Last updated: 2026-05-14
 
 ## 2026-05-13 Leader Steering
 
@@ -37,6 +37,19 @@ loss 结果仍弱:`AUC = 0.535889`,`ASR = 0.570312`,`TPR@1%FPR = 0.03125`,
 `TPR@0.1%FPR = 0.03125`。该 HF repo 没有 README/model card,所以 provenance
 只够做 scout;结果也不支持继续 seed/timestep/size 扩展。见
 [docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md](docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md)。
+
+### 2026-05-14 Fashion-MNIST SimA score-norm scout
+
+为继续推进模型主线而不是继续写资产卡片,本轮选择 Lane B 的 genuinely different
+observable:`SimA` single-query denoiser prediction-norm。它复用同一个
+`ynwag9/fashion_mnist_ddpm_32` + torchvision Fashion-MNIST train/test `64/64`
+split,但固定为 gray-box `negative_l4_unet_epsilon_prediction_norm_t100`,
+不是 PIA-style epsilon-MSE、`x0` residual 或 final-layer gradient 变体。CUDA
+结果仍弱:`AUC = 0.515137`,`ASR = 0.562500`,`TPR@1%FPR = 0.000000`,
+`TPR@0.1%FPR = 0.000000`。该结果关闭 Fashion-MNIST SimA score-norm 方向;
+不得扩 timestep、`p`-norm、seed、scheduler 或 packet-size matrix。当前
+`active_gpu_question = none`,`next_gpu_candidate = none`,`CPU sidecar = none selected`。
+见 [docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)。
 
 ### 2026-05-13 CommonCanvas multi-seed stability scout
 
@@ -388,7 +401,7 @@ response contract。
   parameter-delta sensitivity train/rank/timestep/layer variants。
 - CommonCanvas 同 packet 的 pixel / CLIP / prompt / stability / denoising-loss
   variants。
-- Fashion-MNIST / MNIST public-checkpoint raw-loss or x0 repeat。
+- Fashion-MNIST / MNIST public-checkpoint raw-loss、x0 或 SimA score-norm repeat。
 - MIDST nearest-neighbor、shadow marginal classifier、TabSyn / white-box MIDST
   expansion。
 
@@ -634,8 +647,8 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete; Quantile Regression is mechanism-reference but artifact-incomplete |
-| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, MIDST TabDDPM, Beans LoRA denoising-loss/delta-sensitivity, and LAION-mi URL-probe verdicts |
+| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss and SimA score-norm scouts weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete; Quantile Regression is mechanism-reference but artifact-incomplete |
+| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST PIA-loss/SimA score-norm, MIDST TabDDPM, Beans LoRA denoising-loss/delta-sensitivity, and LAION-mi URL-probe verdicts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
 | CPU sidecar | none selected; Quantile Regression lacks paper-specific code, exact target artifacts, and per-sample split manifests; MIAGM lacks target checkpoint/split/generated-distribution artifacts; Noise as a Probe lacks public code/split/checkpoint artifacts; Zenodo full download and further same-line audits are blocked on a public split manifest; and LAION-mi live URLs remain closed |
 | Platform/Runtime impact | none; no admitted promotion |
@@ -654,10 +667,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `White-box GSA Zenodo archive is admitted-family and not a new second asset; MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
+| Active work | `Fashion-MNIST SimA score-norm scout weak and closed; White-box GSA Zenodo archive is admitted-family and not a new second asset; MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
 | Current GPU candidate | none selected |
 | CPU sidecar | none selected; White-box GSA Zenodo is already admitted-family provenance and not a new second asset; MIA_SD lacks published images, target checkpoint, exact split manifest, and reusable query/response packet; paperization can cite recent weak/watch lines only as limitations or future-work hooks; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo fine-tuned diffusion needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
-| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA denoising-loss/delta-sensitivity scouts, and failed LAION-mi URL probe |
+| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss and SimA score-norm scouts, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA denoising-loss/delta-sensitivity scouts, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
@@ -665,7 +678,9 @@ surfaces. The second response contract has now been tested, and pixel-distance,
 CLIP image-similarity, prompt-response consistency, multi-seed response
 stability, and conditional denoising-loss are all weak. A more optimistic known-split final-layer gradient
 prototype scout is also weak. A small Fashion-MNIST DDPM PIA-style loss scout
-on a real train/test split is also weak. MIDST TabDDPM is a cleaner external
+on a real train/test split is also weak, and the genuinely different SimA
+single-query score-norm scout on the same split is also weak with zero low-FPR
+recovery. MIDST TabDDPM is a cleaner external
 membership benchmark and is locally scoreable, but both the minimal
 nearest-synthetic-row scorer and a shadow-trained marginal distributional
 classifier are weak on dev/final. CommonCanvas PIA-style denoising-loss also
@@ -1109,7 +1124,7 @@ Every autonomous research cycle must follow this loop:
 | CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), the single CLIP image-similarity follow-up is weak (`AUC = 0.4588`, zero low-FPR recovery), prompt-response consistency is weak (`AUC = 0.4408`), and multi-seed response stability is weak (`4/4`, `AUC = 0.5625`). Close this packet by default. |
 | MIDST TabDDPM external benchmark | hold / weak tabular mechanisms | MIDST black-box single-table is locally scoreable with exact labels, but nearest-synthetic-row distance gives only `dev+final AUC = 0.566263`; shadow-trained marginal distributional learning overfits train and collapses to `dev+final AUC = 0.499846`; no TabSyn, white-box MIDST, classifier sweep, or feature-matrix expansion. |
 | Kohaku/Danbooru external asset | hold / membership-semantics blocked | Model cards identify broad HakuBooru/Danbooru2023 training sources, but no exact target member list or fixed selection manifest is available; do not download `38-40 GB` weights or TB-scale image assets for pseudo-membership scoring. |
-| Fashion-MNIST DDPM PIA-loss scout | hold / weak scout only | `ynwag9/fashion_mnist_ddpm_32` runs on CUDA with real Fashion-MNIST train/test split, but fixed-timestep epsilon-MSE gives only `AUC = 0.535889` and weak low-FPR recovery; no seed/timestep expansion. |
+| Fashion-MNIST DDPM PIA-loss and SimA score-norm scouts | hold / weak scout family closed | `ynwag9/fashion_mnist_ddpm_32` runs on CUDA with real Fashion-MNIST train/test split, but fixed-timestep epsilon-MSE gives only `AUC = 0.535889` and SimA single-query score-norm gives only `AUC = 0.515137` with zero low-FPR recovery; no seed/timestep/`p`-norm/packet-size expansion. |
 | Beans member-LoRA mechanism scouts | hold / weak known-split family closed | Creating a precise `SD1.5 + Beans-member LoRA` target fixes the old pseudo-membership semantics, but conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`) and parameter-delta sensitivity is also near-random (`AUC = 0.512000`, `TPR@1%FPR = 0.040000`); no train-step/rank/resolution/prompt/timestep/layer expansion. |
 | Noise as a Probe | watch / reproduction-incomplete | Semantic-initial-noise reconstruction is a genuinely different mechanism family, but there is no public code, exact split manifest, released checkpoint, or query/response package; do not implement DDIM inversion or fine-tune SD-v1-4 from scratch. |
 | Zenodo fine-tuned diffusion asset | watch / split-manifest blocked | Public paper/code references confirm a reconstruction-based attack workflow, but exact target member/nonmember sample identities are still not exposed; no full archive download, same-line audit, LoRA scoring, or GPU release. |
@@ -1126,6 +1141,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Fashion-MNIST DDPM SimA score-norm scout | weak `64/64` CUDA gray-box scout on a real train/test split; `AUC = 0.515137` and zero low-FPR recovery; no timestep, `p`-norm, seed, or packet-size expansion | [docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md) |
 | MoFit artifact verdict | mechanism-relevant caption-free gray-box route but public code is TBW and target/split artifacts are missing; no from-scratch implementation or GPU release | [docs/evidence/mofit-artifact-verdict-20260513.md](docs/evidence/mofit-artifact-verdict-20260513.md) |
 | Daily Research review | no active GPU candidate or CPU sidecar after Beans LoRA, paperization, MIA_SD, and White-box GSA Zenodo verdicts; next cycle must pass Lane A/B/C gates or stop | [docs/evidence/daily-research-review-20260513.md](docs/evidence/daily-research-review-20260513.md) |
 | White-box GSA Zenodo archive verdict | admitted-family archive for the already admitted GSA line; not a new second asset; no full download or GPU release | [docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md](docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md) |

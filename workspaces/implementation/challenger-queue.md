@@ -1,6 +1,6 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-12
+> Last refreshed: 2026-05-14
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
@@ -9,11 +9,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-B shadow-local identity scout closed; next I-B semantic decision` |
+| Active work | `Fashion-MNIST SimA score-norm scout weak and closed; long-horizon lanes reset to no active GPU/CPU sidecar` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | decide between true shadow-local risk scoring and explicit two-shadow remap approval |
-| Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only |
+| CPU sidecar | none selected |
+| Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm weak |
 | Non-gray-box GPU | none selected |
 
 ## Decision Inbox
@@ -32,6 +32,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | Cross-box successor hypothesis | cross-box | hold | CPU-only scope review closed without a new release-ready hypothesis | current executable routes are existing score-sharing/fusion/support/tail-gated variants or asset-blocked response-contract transfer | reopen only with a genuinely new observable or ready second response-contract package |
 | gray-box archived paper candidates | gray-box / intake | hold | reentry review covers SIMA, Noise-as-Probe, MoFit, and Structural Memorization | current artifacts are weak, canary-only, low-FPR unstable, or covered by closed fusion/support routes | reopen only with a new low-FPR-primary observable or protocol |
+| Fashion-MNIST DDPM SimA score-norm | gray-box | closed / weak metric verdict | clean train/test split and denoiser access produced a real `64/64` CUDA scout | `AUC = 0.515137` and both low-FPR metrics are zero | do not expand timestep, `p`-norm, seed, scheduler, or packet-size matrices |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
@@ -40,31 +41,27 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### I-B Shadow-Local Identity Decision
+### Post-SimA Long-Horizon Idle State
 
 - `mode`: CPU-only
-- `status`: SecMI consumer review closed as structural-support-only; I-B
-  protocol audit closed as hold-structural; I-C same-spec evaluator feasibility
-  scout closed as hold; admitted consumer drift audit found no candidate leakage
-  into Platform/Runtime bundle rows; I-B defended-shadow reopen protocol is now
-  frozen as a machine-checkable CPU artifact, explicit reopen mode now rejects
-  undefended threshold references, and a coverage-aware CPU training manifest
-  now blocks the current target k32 identity contract because the three shadow
-  member datasets cover only `2/32`, `2/32`, and `1/32` forget IDs. The
-  shadow-local identity scout found that `shadow-01` and `shadow-02` can
-  mechanically form a target-risk-filtered k32/k32 remap, but `shadow-03` is
-  short at `31/32` member records and the remap remains blocked as true
-  shadow-local scoring.
-- `goal`: choose the next I-B semantic path: recompute true shadow-local
-  risk records, or explicitly approve the weaker two-shadow remap and label all
-  downstream results accordingly before any tiny training.
-- `latest trigger`: the scout reduces the identity-count uncertainty but leaves
-  the semantic blocker intact.
+- `status`: The latest active metric verdict is Fashion-MNIST DDPM SimA
+  score-norm. It is weak (`AUC = 0.515137`, zero low-FPR recovery) and closes
+  the Fashion-MNIST SimA branch after the prior weak PIA-loss scout. I-B, I-C,
+  ReDiffuse, CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM,
+  Quantile Regression, and Noise as a Probe remain governed by `ROADMAP.md`
+  lane gates and do not release automatic CPU/GPU work.
+- `goal`: next cycle must select exactly one Lane A/B/C task from
+  `ROADMAP.md`; if no candidate passes target identity, exact split,
+  query/response coverage, provenance, and non-adjacent mechanism gates, stop
+  rather than writing another scope/audit/reselection chain.
+- `latest trigger`: SimA provided a real model-mainline metric verdict, but the
+  result closes the current Fashion-MNIST mechanism route.
 - `GPU cap`: none selected
-- `integration`: no schema change; Research-only scout
+- `integration`: no schema change; Research-only weak gray-box scout
 
 Current evidence:
 
+- [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
 - [../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md](../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md)
 - [../../docs/evidence/secmi-consumer-contract-review-20260512.md](../../docs/evidence/secmi-consumer-contract-review-20260512.md)
 - [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md)
