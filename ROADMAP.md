@@ -187,6 +187,24 @@ manifest or repository file exposes exact split semantics. The next autonomous
 cycle should switch away from Zenodo if no new external evidence appears. See
 [docs/evidence/zenodo-code-reference-audit-20260513.md](docs/evidence/zenodo-code-reference-audit-20260513.md)。
 
+### 2026-05-13 Noise as a Probe asset verdict
+
+Research switched away from the blocked Zenodo line and inspected `Noise as a
+Probe: Membership Inference Attacks on Diffusion Models Leveraging Initial
+Noise` through arXiv source. This is a genuinely different mechanism family:
+the paper obtains semantic initial noise through DDIM inversion, then feeds the
+noise and prompt into the target model and scores reconstruction distance. It
+uses Stable Diffusion-v1-4 fine-tuning and reports Pokémon `416/417`, T-to-I
+`500/500`, MS-COCO `2500/2500`, and Flickr `1000/1000` member/hold-out counts.
+
+Decision: `mechanism-relevant / reproduction-incomplete / no download / no GPU
+release`. It is worth retaining as a Lane B mechanism hook, but it is not
+`next_gpu_candidate`: no public code repository, per-sample split manifest,
+released checkpoint, inversion cache, or query/response package was found.
+Do not implement DDIM inversion or fine-tune SD-v1-4 from scratch for this
+paper alone; reopen only if code plus exact split/checkpoint artifacts appear.
+See [docs/evidence/noise-as-probe-asset-verdict-20260513.md](docs/evidence/noise-as-probe-asset-verdict-20260513.md)。
+
 Minimal reopen contract: 只有同时满足以下条件,下一轮才允许从 `none` 升为
 新的 bounded GPU packet:目标模型身份固定,逐样本 member/nonmember split 可复核,
 query 与 response coverage 已存在或可在一次确定性小包内生成,且假设不是
@@ -417,9 +435,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected; Zenodo is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
-| Highest-value next action | Switch away from Zenodo unless a new public split manifest appears; continue Lane A discovery with a non-duplicate candidate or switch to Lane B new observable design |
-| Stop condition | Do not download the full Zenodo archive, write another Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
+| CPU sidecar | none selected; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
+| Highest-value next action | Continue Lane A discovery with a non-duplicate candidate that exposes exact split artifacts, or switch to Lane B only if a new observable has a runnable target contract |
+| Stop condition | Do not implement Noise-as-Probe from scratch, download the full Zenodo archive, write another Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
 
 ### P0 — 完成且弱
 
@@ -491,10 +509,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete |
+| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete |
 | Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, MIDST TabDDPM, Beans LoRA, and LAION-mi URL-probe verdicts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected; Zenodo full download and further same-line audits are blocked on a public split manifest, and LAION-mi live URLs remain closed |
+| CPU sidecar | none selected; Noise as a Probe lacks public code/split/checkpoint artifacts, Zenodo full download and further same-line audits are blocked on a public split manifest, and LAION-mi live URLs remain closed |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -511,9 +529,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
+| CPU sidecar | none selected; Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
 | Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA scout, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -965,6 +983,7 @@ Every autonomous research cycle must follow this loop:
 | Kohaku/Danbooru external asset | hold / membership-semantics blocked | Model cards identify broad HakuBooru/Danbooru2023 training sources, but no exact target member list or fixed selection manifest is available; do not download `38-40 GB` weights or TB-scale image assets for pseudo-membership scoring. |
 | Fashion-MNIST DDPM PIA-loss scout | hold / weak scout only | `ynwag9/fashion_mnist_ddpm_32` runs on CUDA with real Fashion-MNIST train/test split, but fixed-timestep epsilon-MSE gives only `AUC = 0.535889` and weak low-FPR recovery; no seed/timestep expansion. |
 | Beans member-LoRA denoising-loss scout | hold / weak known-split scout | Creating a precise `SD1.5 + Beans-member LoRA` target fixes the old pseudo-membership semantics, but conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`); no train-step/rank/resolution/prompt/timestep expansion. |
+| Noise as a Probe | watch / reproduction-incomplete | Semantic-initial-noise reconstruction is a genuinely different mechanism family, but there is no public code, exact split manifest, released checkpoint, or query/response package; do not implement DDIM inversion or fine-tune SD-v1-4 from scratch. |
 | Zenodo fine-tuned diffusion asset | watch / split-manifest blocked | Public paper/code references confirm a reconstruction-based attack workflow, but exact target member/nonmember sample identities are still not exposed; no full archive download, same-line audit, LoRA scoring, or GPU release. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
@@ -979,6 +998,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Noise as a Probe asset verdict | mechanism-relevant but reproduction-incomplete; no code/split/checkpoint artifacts and no GPU release | [docs/evidence/noise-as-probe-asset-verdict-20260513.md](docs/evidence/noise-as-probe-asset-verdict-20260513.md) |
 | Zenodo fine-tuned diffusion code reference audit | paper-and-code-backed watch, but split manifest still missing; no full download or GPU release | [docs/evidence/zenodo-code-reference-audit-20260513.md](docs/evidence/zenodo-code-reference-audit-20260513.md) |
 | Zenodo fine-tuned diffusion asset verdict | archive-structured but manifest-incomplete; no full download or GPU release | [docs/evidence/zenodo-finetuned-diffusion-asset-verdict-20260513.md](docs/evidence/zenodo-finetuned-diffusion-asset-verdict-20260513.md) |
 | LAION-mi URL availability probe | fixed `25/25` probe failed; metadata-only watch; no response generation or GPU release | [docs/evidence/laion-mi-url-availability-probe-20260513.md](docs/evidence/laion-mi-url-availability-probe-20260513.md) |
