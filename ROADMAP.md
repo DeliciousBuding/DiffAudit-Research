@@ -540,10 +540,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete |
+| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete |
 | Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, MIDST TabDDPM, Beans LoRA, and LAION-mi URL-probe verdicts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected; Noise as a Probe lacks public code/split/checkpoint artifacts, Zenodo full download and further same-line audits are blocked on a public split manifest, and LAION-mi live URLs remain closed |
+| CPU sidecar | none selected; MIAGM lacks target checkpoint/split/generated-distribution artifacts, Noise as a Probe lacks public code/split/checkpoint artifacts, Zenodo full download and further same-line audits are blocked on a public split manifest, and LAION-mi live URLs remain closed |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -560,9 +560,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
+| CPU sidecar | none selected; MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
 | Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA scout, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
