@@ -26,6 +26,12 @@
   membership context, but it does not expose exact target checkpoints,
   generated-distribution payloads, or per-sample member/nonmember split
   manifests.
+- `Membership Inference Attacks on Diffusion Models via Quantile Regression`
+  is a mechanism-reference watch candidate. It gives a distinct
+  sample-conditioned reconstruction-loss quantile-regression attack and cites
+  the SecMI/Duan et al. DDPM codebase, but no paper-specific public code,
+  per-sample member/public/holdout split manifest, exact target artifact
+  bundle, or ready t-error packet was found.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -75,3 +81,11 @@ Current MIAGM follow-up:
 - Reopen only if target checkpoints or generated-distribution payloads plus
   exact split semantics are released.
 - Do not train DDPM/DDIM/FastDPM or regenerate distributions from scratch.
+
+Current Quantile Regression follow-up:
+
+- Keep it as Lane B mechanism reference and Lane A watch.
+- Reopen only if paper-specific code or artifacts expose target checkpoints or
+  deterministic target recreation plus exact member/public/holdout splits.
+- Do not train STL10/Tiny-ImageNet DDPMs, reconstruct SecMI splits, or build a
+  quantile-regression implementation from scratch before those artifacts exist.
