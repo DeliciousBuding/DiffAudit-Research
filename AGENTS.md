@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss scout weak`
+- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss scout weak; Quantile Regression is mechanism-reference but artifact-incomplete`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -125,6 +125,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`,
   `TPR@1%FPR = 0.080000`). Do not expand Beans LoRA train-step, rank,
   resolution, prompt, scheduler, loss-weight, or timestep matrices by default.
+  Quantile Regression is a useful sample-conditioned reconstruction-loss
+  mechanism reference, but it is not a runnable packet: no paper-specific
+  public code, exact target artifact bundle, per-sample split manifest, or
+  ready t-error packet was found. Do not train STL10/Tiny-ImageNet DDPMs,
+  reconstruct SecMI splits, or build a quantile-regression implementation from
+  scratch before those artifacts exist.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

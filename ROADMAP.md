@@ -236,6 +236,26 @@ train DDPM/DDIM/FastDPM or regenerate distributions from scratch without
 released target artifacts and split semantics. See
 [docs/evidence/miagm-asset-verdict-20260513.md](docs/evidence/miagm-asset-verdict-20260513.md)。
 
+### 2026-05-13 Quantile Regression asset verdict
+
+Research continued Lane A with `Membership Inference Attacks on Diffusion
+Models via Quantile Regression`. The paper is a useful mechanism reference:
+it learns sample-conditioned quantile thresholds over reconstruction t-errors
+and aggregates small attackers, which is distinct from response similarity,
+denoising-loss, final-layer-gradient, MIDST marginal, and MIAGM generated-
+distribution routes. The artifact gate still fails. The paper cites the
+SecMI/Duan et al. codebase and released CIFAR10/CIFAR100 targets, and describes
+training STL10/Tiny-ImageNet targets, but no paper-specific public code,
+per-sample member/public/holdout split manifest, exact target artifact bundle,
+or ready t-error packet was found.
+
+Decision: `mechanism-reference / artifact-incomplete / no download / no GPU
+release`. Keep it as a Lane B mechanism reference and Lane A watch candidate;
+do not train STL10/Tiny-ImageNet DDPMs, reconstruct SecMI splits, or implement
+quantile-regression scoring from scratch without released target artifacts and
+split semantics. See
+[docs/evidence/quantile-regression-asset-verdict-20260513.md](docs/evidence/quantile-regression-asset-verdict-20260513.md)。
+
 Minimal reopen contract: 只有同时满足以下条件,下一轮才允许从 `none` 升为
 新的 bounded GPU packet:目标模型身份固定,逐样本 member/nonmember split 可复核,
 query 与 response coverage 已存在或可在一次确定性小包内生成,且假设不是
@@ -466,9 +486,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected; MIAGM is code-reference-only and artifact-incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
+| CPU sidecar | none selected; Quantile Regression is mechanism-reference but artifact-incomplete; MIAGM is code-reference-only and artifact-incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
 | Highest-value next action | Continue Lane A discovery with a non-duplicate candidate that exposes exact split artifacts, or switch to Lane B only with a runnable target contract |
-| Stop condition | Do not train MIAGM targets or regenerate distributions from scratch, implement Noise-as-Probe from scratch, download the full Zenodo archive, write another Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
+| Stop condition | Do not train Quantile Regression STL10/Tiny-ImageNet targets or reconstruct SecMI splits from scratch, train MIAGM targets or regenerate distributions from scratch, implement Noise-as-Probe from scratch, download the full Zenodo archive, write another Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
 
 ### P0 — 完成且弱
 
@@ -540,10 +560,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete |
+| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete; Quantile Regression is mechanism-reference but artifact-incomplete |
 | Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, MIDST TabDDPM, Beans LoRA, and LAION-mi URL-probe verdicts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected; MIAGM lacks target checkpoint/split/generated-distribution artifacts, Noise as a Probe lacks public code/split/checkpoint artifacts, Zenodo full download and further same-line audits are blocked on a public split manifest, and LAION-mi live URLs remain closed |
+| CPU sidecar | none selected; Quantile Regression lacks paper-specific code, exact target artifacts, and per-sample split manifests; MIAGM lacks target checkpoint/split/generated-distribution artifacts; Noise as a Probe lacks public code/split/checkpoint artifacts; Zenodo full download and further same-line audits are blocked on a public split manifest; and LAION-mi live URLs remain closed |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -560,9 +580,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
+| CPU sidecar | none selected; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
 | Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA scout, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -1029,6 +1049,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Quantile Regression asset verdict | mechanism-reference but artifact-incomplete; no paper-specific code, target artifacts, split manifest, download, or GPU release | [docs/evidence/quantile-regression-asset-verdict-20260513.md](docs/evidence/quantile-regression-asset-verdict-20260513.md) |
 | MIAGM asset verdict | code-reference-only but artifact-incomplete; no target checkpoints, splits, generated distributions, download, or GPU release | [docs/evidence/miagm-asset-verdict-20260513.md](docs/evidence/miagm-asset-verdict-20260513.md) |
 | Watch-candidate consumer boundary | admitted-only Platform/Runtime boundary intact after LAION-mi, Zenodo, and Noise as a Probe watch verdicts; no schema change | [docs/evidence/watch-candidate-consumer-boundary-20260513.md](docs/evidence/watch-candidate-consumer-boundary-20260513.md) |
 | Noise as a Probe asset verdict | mechanism-relevant but reproduction-incomplete; no code/split/checkpoint artifacts and no GPU release | [docs/evidence/noise-as-probe-asset-verdict-20260513.md](docs/evidence/noise-as-probe-asset-verdict-20260513.md) |
