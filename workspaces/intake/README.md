@@ -41,6 +41,11 @@
 - `MoFit` / caption-free model-fitted embeddings is mechanism-relevant, but the
   public repository still marks code instructions as `TBW` and no released
   target checkpoint or exact split manifest was found.
+- `Cardio-AI/memorization-ldm` is a non-duplicate medical LDM memorization
+  watch candidate. The public repo and Zenodo release provide code and a small
+  software snapshot, but synthesized samples are request-gated and no target
+  LDM checkpoint, exact per-sample member/nonmember manifest, or generated
+  response package is published. No download or GPU work is released.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -121,3 +126,12 @@ Current MoFit follow-up:
   checkpoint or deterministic recreation and per-sample split manifests.
 - Do not implement surrogate/embedding optimization from scratch or launch
   GPU jobs before those artifacts exist.
+
+Current memorization-LDM follow-up:
+
+- Keep it as Lane A medical-LDM watch only.
+- Reopen only if a public-safe artifact exposes a target LDM checkpoint or
+  deterministic target recreation, exact member/nonmember manifests, and a
+  generated sample or query/response package.
+- Do not download medical datasets, request controlled synthesized samples, or
+  train/reconstruct the paper pipeline inside the current roadmap cycle.
