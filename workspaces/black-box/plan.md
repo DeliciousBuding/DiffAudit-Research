@@ -27,6 +27,11 @@
   pixel-distance, CLIP image-similarity, prompt-response consistency,
   multi-seed response stability, and conditional denoising-loss are all weak;
   do not expand same-packet metric or denoising-loss matrices.
+- `Beans member-LoRA`: known-split internal target construction fixes the old
+  pseudo-membership problem, but conditional denoising-loss is weak
+  (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`); do not expand
+  train-step, rank, resolution, prompt, scheduler, loss-weight, or timestep
+  matrices.
 
 ## Next Action
 
@@ -113,6 +118,16 @@ under the lower-distance member convention it gives `AUC = 0.4224`, and the
 reverse direction is only `0.5776`. Do not expand simple distance scoring
 without a different mechanism or true membership split. See
 [../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md).
+
+The 2026-05-13 known-split repair created a precise target model by fine-tuning
+an SD1.5 UNet LoRA on the first `25` Beans member query images and holding out
+the first `25` Beans nonmember query images. That fixes the membership
+semantics for this local target, but the internal conditional denoising-loss
+score is weak: `AUC = 0.414400`, reverse `AUC = 0.585600`, `ASR = 0.540000`,
+and `TPR@1%FPR = 0.080000`. This is not black-box evidence and not a product
+row. Do not expand it into train-step, rank, resolution, prompt, scheduler,
+loss-weight, or timestep matrices. See
+[../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md).
 
 The next black-box portability gate is now a membership-semantics gate, not a
 package-format gate. A true second membership benchmark must identify the
