@@ -117,6 +117,22 @@ conditional denoising-loss 后继;不扩 train-step、rank、resolution、prompt
 scheduler、loss-weight 或 timestep matrix。见
 [docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md)。
 
+### 2026-05-13 LAION-mi asset verdict
+
+Lane A inspected `antoniaaa/laion_mi` as a non-duplicate second membership
+asset candidate. It is stronger than Kohaku/Danbooru-style broad provenance:
+the paper names `Stable Diffusion-v1.4`, the public HF metadata has
+`13,396` `members` and `26,874` `nonmembers`, and each row has `url` plus
+`caption`. The gate still fails `query/response coverage`: the release is
+metadata-only and does not provide image bytes or generated responses.
+
+Decision: `metadata-ready / response-not-ready / no GPU release`. LAION-mi is
+now the highest-value Lane A watch candidate, but it is not
+`next_gpu_candidate` until a fixed `25/25` URL availability probe recovers a
+balanced tiny query set and a deterministic response/scoring contract is
+frozen. See
+[docs/evidence/laion-mi-asset-verdict-20260513.md](docs/evidence/laion-mi-asset-verdict-20260513.md)。
+
 Minimal reopen contract: 只有同时满足以下条件,下一轮才允许从 `none` 升为
 新的 bounded GPU packet:目标模型身份固定,逐样本 member/nonmember split 可复核,
 query 与 response coverage 已存在或可在一次确定性小包内生成,且假设不是
@@ -259,9 +275,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | Lane A external asset acquisition watch; no docs-only sidecar selected |
-| Highest-value next action | Find a genuinely clean second membership asset or a mechanism family not covered by the closed variants above |
-| Stop condition | If no candidate passes target/split/query-response/mechanism gates, update only this board and stop rather than writing another scope/audit chain |
+| CPU sidecar | Lane A LAION-mi fixed `25/25` URL availability probe; no GPU |
+| Highest-value next action | Probe whether LAION-mi URL/caption metadata can yield a recoverable balanced tiny query set before any response generation |
+| Stop condition | If the fixed `25/25` URL probe cannot recover enough images from both splits, keep LAION-mi as metadata-only watch and return to Lane A discovery |
 
 ### P0 — 完成且弱
 
