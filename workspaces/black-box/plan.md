@@ -29,9 +29,10 @@
   do not expand same-packet metric or denoising-loss matrices.
 - `Beans member-LoRA`: known-split internal target construction fixes the old
   pseudo-membership problem, but conditional denoising-loss is weak
-  (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`); do not expand
-  train-step, rank, resolution, prompt, scheduler, loss-weight, or timestep
-  matrices.
+  (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`) and
+  parameter-delta sensitivity is also weak (`AUC = 0.512000`,
+  `TPR@1%FPR = 0.040000`); do not expand train-step, rank, resolution, prompt,
+  scheduler, loss-weight, timestep, layer, or block matrices.
 
 ## Next Action
 
@@ -128,6 +129,18 @@ and `TPR@1%FPR = 0.080000`. This is not black-box evidence and not a product
 row. Do not expand it into train-step, rank, resolution, prompt, scheduler,
 loss-weight, or timestep matrices. See
 [../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md).
+
+The follow-up architecture-local parameter-delta scout asks whether the
+member-only LoRA changes base SD1.5 UNet noise predictions more strongly on
+its own training members. It does not: mean relative UNet prediction delta is
+near-random (`AUC = 0.512000`, `ASR = 0.600000`, `TPR@1%FPR = 0.040000`), and
+the secondary base-minus-LoRA loss delta is weaker (`AUC = 0.468800`,
+zero low-FPR recovery). Beans LoRA has now failed both conditional
+denoising-loss and parameter-delta sensitivity under repaired known-split
+membership semantics. Do not reopen it through train-step, rank, resolution,
+prompt, scheduler, loss-weight, timestep, layer/block, or loss-delta matrices.
+See
+[../../docs/evidence/beans-lora-delta-sensitivity-20260513.md](../../docs/evidence/beans-lora-delta-sensitivity-20260513.md).
 
 The next black-box portability gate is now a membership-semantics gate, not a
 package-format gate. A true second membership benchmark must identify the
