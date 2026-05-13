@@ -160,6 +160,21 @@ images、训练 400 epoch SD1.5、重建私有 folders 或从 plots/result trace
 scorer。见
 [docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](docs/evidence/miasd-face-ldm-asset-verdict-20260513.md)。
 
+### 2026-05-13 White-box GSA Zenodo archive verdict
+
+Lane A 又检查了 Zenodo `10.5281/zenodo.14928092`。该记录公开
+`White-box Membership Inference Attacks against Diffusion Models` / GSA 的
+PoPETs 2025 artifact,包含 `6.7 GB` 的 `DDPM.zip`、`README.md`、
+`new_environment.yml` 和 `LICENSE`。公开 GSA README 说明它是 DDPM / Imagen
+白盒 gradient attack 代码与 target/shadow member/nonmember 数据构造流程。
+DiffAudit 已经有 admitted white-box `GSA 1k-3shadow` 与 `DPDM W-1`
+consumer rows,所以该 Zenodo 记录是 admitted-family archive,不是新的 Lane A
+second asset。结论为 `admitted-family archive / not a new second asset /
+no full download / no GPU release`;不得下载 `DDPM.zip`、重跑 GSA GPU、扩
+loss-score / gradient ablation 或把它包装成黑盒/条件扩散 response-contract。
+见
+[docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md](docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md)。
+
 ### 2026-05-13 LAION-mi asset verdict
 
 Lane A inspected `antoniaaa/laion_mi` as a non-duplicate second membership
@@ -623,9 +638,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
+| Active work | `White-box GSA Zenodo archive is admitted-family and not a new second asset; MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; MIA_SD lacks published images, target checkpoint, exact split manifest, and reusable query/response packet; paperization can cite recent weak/watch lines only as limitations or future-work hooks; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
+| CPU sidecar | none selected; White-box GSA Zenodo is already admitted-family provenance and not a new second asset; MIA_SD lacks published images, target checkpoint, exact split manifest, and reusable query/response packet; paperization can cite recent weak/watch lines only as limitations or future-work hooks; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo fine-tuned diffusion needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
 | Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA denoising-loss/delta-sensitivity scouts, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -1095,6 +1110,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| White-box GSA Zenodo archive verdict | admitted-family archive for the already admitted GSA line; not a new second asset; no full download or GPU release | [docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md](docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md) |
 | MIA_SD face-LDM asset verdict | code-and-result-artifacts but private images/checkpoint/split/query-response missing; no download or GPU release | [docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](docs/evidence/miasd-face-ldm-asset-verdict-20260513.md) |
 | Paperization consumer boundary | synchronized; recent weak/watch lines remain limitations/future-work only and do not change Platform/Runtime admitted rows | [docs/evidence/paperization-consumer-boundary-20260513.md](docs/evidence/paperization-consumer-boundary-20260513.md) |
 | Quantile Regression asset verdict | mechanism-reference but artifact-incomplete; no paper-specific code, target artifacts, split manifest, download, or GPU release | [docs/evidence/quantile-regression-asset-verdict-20260513.md](docs/evidence/quantile-regression-asset-verdict-20260513.md) |
