@@ -8,6 +8,9 @@
 - Active CPU task: none in this lane; diagonal-Fisher self-influence is closed
   as negative-but-useful after the stability board.
 - GPU: no active white-box GPU task.
+- Zenodo `10.5281/zenodo.14928092` is admitted-family GSA provenance only. It
+  is not a new second asset and does not release a `DDPM.zip` download, GSA GPU
+  replay, or adjacent loss-score/gradient ablation.
 
 ## Files
 
@@ -30,6 +33,9 @@ Current layer-scope review:
 
 Current stability board:
 [../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md).
+
+Current GSA Zenodo archive identity:
+[../../docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md](../../docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md).
 
 ## Archive
 

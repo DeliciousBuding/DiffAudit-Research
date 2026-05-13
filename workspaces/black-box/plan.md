@@ -33,6 +33,9 @@
   parameter-delta sensitivity is also weak (`AUC = 0.512000`,
   `TPR@1%FPR = 0.040000`); do not expand train-step, rank, resolution, prompt,
   scheduler, loss-weight, timestep, layer, or block matrices.
+- `MIA_SD`: related face-LDM reference only. It lacks released images, target
+  checkpoint, exact split manifest, and query/response package, so it does not
+  release download, GPU, scraper, or SD1.5 training work.
 
 ## Next Action
 
@@ -141,6 +144,13 @@ membership semantics. Do not reopen it through train-step, rank, resolution,
 prompt, scheduler, loss-weight, timestep, layer/block, or loss-delta matrices.
 See
 [../../docs/evidence/beans-lora-delta-sensitivity-20260513.md](../../docs/evidence/beans-lora-delta-sensitivity-20260513.md).
+
+The MIA_SD face-LDM candidate is closed as a clean second asset. The public repo
+contains code and result traces, but no public experiment images, target
+checkpoint, exact member/nonmember split manifest, or reusable query/response
+packet. Do not scrape DTU/AAU/LFW images, reconstruct private folders, or train
+SD1.5 for 400 epochs from this repo. See
+[../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md).
 
 The next black-box portability gate is now a membership-semantics gate, not a
 package-format gate. A true second membership benchmark must identify the
