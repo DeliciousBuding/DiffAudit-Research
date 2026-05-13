@@ -453,10 +453,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak |
-| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, and MIDST TabDDPM scouts |
+| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed and remains metadata-only watch |
+| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, MIDST TabDDPM, Beans LoRA, and LAION-mi URL-probe verdicts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after local inventory and MIDST; next action is external new-asset watch only, not docs/tooling; do not turn Kohaku/Danbooru, Fashion-MNIST, MIDST nearest-neighbor or shadow-classifier variants, MNIST raw data, or I-B into pseudo-progress lanes |
+| CPU sidecar | none selected; LAION-mi live URLs are closed after the fixed `25/25` probe, and the next action is Lane A discovery for a cleaner asset or Lane B/C only if the entry gates are met |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -473,10 +473,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; local package inventory and MIDST nearest-neighbor plus shadow-distributional scouts are exhausted unless a genuinely new mechanism or cleaner asset appears; only external new-asset watch remains |
-| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, and weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts |
+| CPU sidecar | none selected; LAION-mi remains metadata-only watch unless a public-safe cached image subset or frozen deterministic scan policy appears |
+| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA scout, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
