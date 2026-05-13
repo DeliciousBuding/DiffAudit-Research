@@ -11,6 +11,9 @@
   `DDIMrediffuse` bundle and 750k checkpoint.
 - `SIMA / Noise-as-Probe / MoFit / Structural Memorization`: archived
   paper-backed candidates; reentry review keeps them on hold.
+- `Fashion-MNIST SimA score-norm`: weak fresh mechanism scout on a real
+  train/test split (`AUC = 0.515137`, `TPR@1%FPR = 0.0`); no timestep, `p`-norm,
+  seed, scheduler, or packet-size expansion.
 - `PIA vs TMIA-DM confidence-gated switching`: closed as negative but useful.
 - `CDI/TMIA-DM/PIA tri-score`: positive-but-bounded internal evidence
   aggregation; not admitted and not product-facing.
@@ -60,7 +63,9 @@ Current evidence:
   `research-support-only` rows. NNS still needs an explicit product-facing
   auxiliary-head contract before any admission discussion.
 - Archived gray-box paper candidates were re-reviewed after I-B hold. SIMA has
-  weak standalone metrics and unstable strict-tail pairboard gains;
+  weak standalone metrics and unstable strict-tail pairboard gains. The
+  2026-05-14 Fashion-MNIST DDPM score-norm scout also failed as a fresh SimA
+  mechanism check, with `AUC = 0.515137` and zero low-FPR recovery.
   Noise-as-Probe is sensitive to guidance leakage; MoFit remains canary-only;
   Structural Memorization is negative on the local smoke. None releases GPU.
 
@@ -74,7 +79,9 @@ hypothesis and CPU preflight. CDI/TMIA-DM/PIA tri-score is closed as
 positive-but-bounded internal evidence; do not run a larger same-contract
 tri-score packet.
 Do not reopen SIMA, Noise-as-Probe, MoFit, or Structural Memorization without
-a genuinely new low-FPR-primary observable or protocol.
+a genuinely new low-FPR-primary observable or protocol. Do not expand the
+Fashion-MNIST SimA check into timestep, `p`-norm, seed, scheduler, or
+packet-size matrices.
 
 Canonical consolidation:
 [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md).
@@ -88,6 +95,9 @@ No ReDiffuse GPU task is released.
 
 No tri-score GPU task is released. The next gray-box task must introduce a new
 scorer, surface, or falsifier before it can become CPU-active again.
+
+Fashion-MNIST SimA score-norm closure is tracked by
+[../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md).
 
 Do not run 800k metrics, 128/128, 256/256, or 512/512 without a new CPU
 contract. The 800k checkpoint is runtime-compatible, but metrics remain blocked
