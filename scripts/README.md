@@ -35,3 +35,4 @@
 | `launch_dpdm_shadow_sequence.ps1` | 按顺序启动 shadow 训练 |
 | `run_x90_larger_surface_triscore.py` | X-90 larger-surface 复算辅助 |
 | `run_x90_tmiadm512_assets.py` | X-90 TMIA-DM 512-surface 数据辅助 |
+| `run_beans_lora_member_scout.py` | Beans known-split LoRA target 训练与 conditional denoising-loss scout |

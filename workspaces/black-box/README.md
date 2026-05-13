@@ -26,6 +26,11 @@
   pixel distance, CLIP image-similarity, prompt-response consistency,
   multi-seed response stability, and conditional denoising-loss. Do not reopen
   it through adjacent metric or denoising-loss matrices.
+- Beans member-LoRA status: exact known-split target construction fixes the
+  old Beans/SD1.5 pseudo-membership issue, but internal conditional
+  denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`); do not expand
+  train-step, rank, resolution, prompt, scheduler, loss-weight, or timestep
+  matrices.
 
 ## Files
 
@@ -109,6 +114,9 @@ Current Beans/SD1.5 CLIP-distance scout:
 
 Current Beans/SD1.5 membership semantics correction:
 [../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md).
+
+Current Beans member-LoRA denoising-loss closure:
+[../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md).
 
 Current semantic-auxiliary low-FPR review:
 [../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).

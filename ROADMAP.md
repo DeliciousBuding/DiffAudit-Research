@@ -102,6 +102,21 @@ staged GPU 路径,避免 SDXL 全组件同时常驻 8GB 显存。结果仍弱:
 不扩 timestep、resolution、scheduler、seed、loss-weight 或 subset matrix。见
 [docs/evidence/commoncanvas-denoising-loss-20260513.md](docs/evidence/commoncanvas-denoising-loss-20260513.md)。
 
+### 2026-05-13 Beans member-LoRA denoising-loss scout
+
+为修正 Beans/SD1.5 的 membership 语义问题,本轮没有继续把 Beans
+train/validation 当成 base SD1.5 membership,而是在本机 RTX 4070 上创建一个
+精确 target identity:`stable-diffusion-v1-5` + 只用 Beans `25` 个 member
+query images 微调的 UNet LoRA,再用 held-out Beans `25` 个 nonmember query
+images 做条件 denoising-loss scout。该实验是 internal known-split scout,不是
+black-box response-contract 或 Platform/Runtime product row。结果仍弱:
+`AUC = 0.414400`,`reverse AUC = 0.585600`,`ASR = 0.540000`,
+`TPR@1%FPR = 0.080000`,`TPR@0.1%FPR = 0.080000`;member mean loss 反而高于
+nonmember (`0.322735` vs `0.317327`)。这关闭 Beans member-LoRA
+conditional denoising-loss 后继;不扩 train-step、rank、resolution、prompt、
+scheduler、loss-weight 或 timestep matrix。见
+[docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md)。
+
 Minimal reopen contract: 只有同时满足以下条件,下一轮才允许从 `none` 升为
 新的 bounded GPU packet:目标模型身份固定,逐样本 member/nonmember split 可复核,
 query 与 response coverage 已存在或可在一次确定性小包内生成,且假设不是
@@ -653,6 +668,7 @@ Every autonomous research cycle must follow this loop:
 | MIDST TabDDPM external benchmark | hold / weak tabular mechanisms | MIDST black-box single-table is locally scoreable with exact labels, but nearest-synthetic-row distance gives only `dev+final AUC = 0.566263`; shadow-trained marginal distributional learning overfits train and collapses to `dev+final AUC = 0.499846`; no TabSyn, white-box MIDST, classifier sweep, or feature-matrix expansion. |
 | Kohaku/Danbooru external asset | hold / membership-semantics blocked | Model cards identify broad HakuBooru/Danbooru2023 training sources, but no exact target member list or fixed selection manifest is available; do not download `38-40 GB` weights or TB-scale image assets for pseudo-membership scoring. |
 | Fashion-MNIST DDPM PIA-loss scout | hold / weak scout only | `ynwag9/fashion_mnist_ddpm_32` runs on CUDA with real Fashion-MNIST train/test split, but fixed-timestep epsilon-MSE gives only `AUC = 0.535889` and weak low-FPR recovery; no seed/timestep expansion. |
+| Beans member-LoRA denoising-loss scout | hold / weak known-split scout | Creating a precise `SD1.5 + Beans-member LoRA` target fixes the old pseudo-membership semantics, but conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`); no train-step/rank/resolution/prompt/timestep expansion. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
 | Variation query-contract watch | CPU-only / blocked | Reopen only when real member/nonmember query images and endpoint contract exist. |
 | Simple-distance second-asset portability | weak on CommonCanvas | First valid second response contract is ready, but pixel, CLIP image-similarity, prompt-response consistency, and response-stability scorers are weak; do not treat this as transfer evidence. |
@@ -666,6 +682,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Beans member-LoRA denoising-loss scout | weak known-split internal scout; membership semantics repaired but denoising-loss signal closes | [docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md) |
 | Beans SD1.5 response-contract scout | feasible second-query-dataset package candidate; no GPU release | [docs/evidence/beans-sd15-response-contract-scout-20260512.md](docs/evidence/beans-sd15-response-contract-scout-20260512.md) |
 | Beans SD1.5 response-contract package | ready local `25/25` query/response package; no GPU release | [docs/evidence/beans-sd15-response-contract-ready-20260512.md](docs/evidence/beans-sd15-response-contract-ready-20260512.md) |
 | Beans SD1.5 simple-distance scout | weak naive pixel-distance signal; no GPU release | [docs/evidence/beans-sd15-simple-distance-scout-20260512.md](docs/evidence/beans-sd15-simple-distance-scout-20260512.md) |
