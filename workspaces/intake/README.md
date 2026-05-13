@@ -9,11 +9,13 @@
   member/nonmember metadata splits, but the fixed `25/25` URL availability
   probe recovered only `11 / 25` member images and `16 / 25` nonmember images.
   No response generation or GPU work is released for LAION-mi.
-- Zenodo `10.5281/zenodo.13371475` is an archive-structured watch candidate:
-  target/shadow LoRA checkpoint and dataset payload names are visible from the
-  ZIP central directory, but no manifest-backed exact target split or
-  query/response contract is exposed. Do not download the full `736 MB` archive
-  until a public manifest, appendix, or code reference resolves that gate.
+- Zenodo `10.5281/zenodo.13371475` is a paper-and-code-backed archive watch
+  candidate: target/shadow LoRA checkpoint and dataset payload names are
+  visible from the ZIP central directory, and public paper/code references
+  confirm a reconstruction-based attack workflow. The exact target
+  member/nonmember split manifest is still missing. Do not download the full
+  `736 MB` archive until a public manifest or repository file resolves that
+  split-semantics gate.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -44,6 +46,8 @@ Current LAION-mi follow-up:
 Current Zenodo fine-tuned diffusion follow-up:
 
 - Keep it as archive-structured watch.
-- Reopen only with a public manifest or code reference proving base model,
+- Reopen only with a public manifest or repository file proving base model,
   target member/nonmember semantics, and query/response or scoring contract.
 - Do not download the full archive or run LoRA scoring before that proof exists.
+- Do not write another Zenodo audit/scope note unless new external evidence
+  supplies the missing split manifest.
