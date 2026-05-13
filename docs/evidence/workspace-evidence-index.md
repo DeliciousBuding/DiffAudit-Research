@@ -4,13 +4,11 @@ This index separates current track state from archived research history.
 
 ## Current Track State
 
-Latest black-box update: [noise-as-probe-asset-verdict-20260513.md](noise-as-probe-asset-verdict-20260513.md)
-records a Lane A / Lane B bridge verdict for `Noise as a Probe`. The paper
-source defines a genuinely different semantic-initial-noise reconstruction
-observable, but no public code repository, per-sample split manifest, released
-checkpoint, or query/response package was found, so it remains
-`mechanism-relevant / reproduction-incomplete` with no full reproduction and no
-GPU release.
+Latest cross-track update: [watch-candidate-consumer-boundary-20260513.md](watch-candidate-consumer-boundary-20260513.md)
+records a Lane C consumer verdict after LAION-mi, Zenodo, and Noise as a Probe
+all stayed in watch states. The admitted Platform/Runtime bundle remains
+`admitted-only` with exactly five rows, and the watch candidates did not enter
+product-facing evidence, schemas, or copy.
 
 | Track | Active docs | Role |
 | --- | --- | --- |
@@ -21,6 +19,7 @@ GPU release.
 | Defense | [workspaces/defense/README.md](../../workspaces/defense/README.md), [ib-risk-targeted-unlearning-successor-scope.md](ib-risk-targeted-unlearning-successor-scope.md), [ib-adaptive-defense-contract-20260511.md](ib-adaptive-defense-contract-20260511.md), [ib-defense-aware-reopen-scout-20260512.md](ib-defense-aware-reopen-scout-20260512.md), [ib-defense-reopen-protocol-audit-20260512.md](ib-defense-reopen-protocol-audit-20260512.md), [ib-defended-shadow-reopen-protocol-20260512.md](ib-defended-shadow-reopen-protocol-20260512.md), [ib-reopen-shadow-reference-guard-20260512.md](ib-reopen-shadow-reference-guard-20260512.md), [ib-defended-shadow-training-manifest-20260512.md](ib-defended-shadow-training-manifest-20260512.md), [ib-shadow-local-identity-scout-20260512.md](ib-shadow-local-identity-scout-20260512.md) | Risk-targeted unlearning boundary and defended-shadow/adaptive reopen conditions. |
 | Implementation | [workspaces/implementation/README.md](../../workspaces/implementation/README.md), [challenger-queue.md](../../workspaces/implementation/challenger-queue.md) | Shared CLI, schemas, queue state, and research operations. |
 | I-A / consumer boundary | [admitted-consumer-drift-audit-20260512.md](admitted-consumer-drift-audit-20260512.md), [ia-finite-tail-adaptive-boundary-audit-20260511.md](ia-finite-tail-adaptive-boundary-audit-20260511.md), [admitted-results-summary.md](admitted-results-summary.md), [../product-bridge/README.md](../product-bridge/README.md) | Finite-tail, adaptive-language, and admitted/candidate boundary status. |
+| Watch candidates / consumer boundary | [watch-candidate-consumer-boundary-20260513.md](watch-candidate-consumer-boundary-20260513.md), [noise-as-probe-asset-verdict-20260513.md](noise-as-probe-asset-verdict-20260513.md), [zenodo-code-reference-audit-20260513.md](zenodo-code-reference-audit-20260513.md), [laion-mi-url-availability-probe-20260513.md](laion-mi-url-availability-probe-20260513.md) | LAION-mi, Zenodo, and Noise as a Probe are Research-only watch states and did not enter admitted Platform/Runtime artifacts. |
 | Intake | [workspaces/intake/README.md](../../workspaces/intake/README.md) | Candidate intake and archived paper-backed scouting. |
 | Runtime | [workspaces/runtime/README.md](../../workspaces/runtime/README.md) | Research-side runtime contract notes. |
 

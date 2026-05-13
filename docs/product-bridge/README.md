@@ -22,6 +22,10 @@ and `DPDM W-1`) unless a future reviewed promotion explicitly changes this.
 ReDiffuse, SecMI stat/NNS, tri-score, cross-box fusion, GSA LR,
 H2/simple-distance, CLiD, black-box response-contract acquisition, I-B, and I-C
 are candidate, supporting-reference, negative, hold, or needs-assets states.
+LAION-mi, Zenodo fine-tuned diffusion, and Noise as a Probe are also
+Research-only watch states; they do not change admitted rows, Runtime schemas,
+or Platform product copy. See
+[../evidence/watch-candidate-consumer-boundary-20260513.md](../evidence/watch-candidate-consumer-boundary-20260513.md).
 See
 [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md)
 and
