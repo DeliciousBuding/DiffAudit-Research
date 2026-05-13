@@ -544,9 +544,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected; Quantile Regression is mechanism-reference but artifact-incomplete; MIAGM is code-reference-only and artifact-incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
-| Highest-value next action | Continue Lane A discovery with a non-duplicate candidate that exposes exact split artifacts, or switch to Lane B only with a runnable target contract |
-| Stop condition | Do not train Quantile Regression STL10/Tiny-ImageNet targets or reconstruct SecMI splits from scratch, train MIAGM targets or regenerate distributions from scratch, implement Noise-as-Probe from scratch, download the full Zenodo archive, write another Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
+| CPU sidecar | none selected; White-box GSA Zenodo is admitted-family provenance only; MIA_SD lacks public images/checkpoint/split/query-response; Quantile Regression is mechanism-reference but artifact-incomplete; MIAGM is code-reference-only and artifact-incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
+| Highest-value next action | Continue Lane A only with a non-duplicate candidate that exposes exact split artifacts, or switch to Lane B only with a genuinely different runnable target contract; otherwise stop instead of writing another scope/audit chain |
+| Stop condition | Do not download GSA `DDPM.zip` or replay admitted-family GSA as a new asset; do not scrape MIA_SD images or train SD1.5; do not train Quantile Regression STL10/Tiny-ImageNet targets or reconstruct SecMI splits from scratch; do not train MIAGM targets or regenerate distributions from scratch; do not implement Noise-as-Probe from scratch; do not download the full Zenodo fine-tuned diffusion archive, write another same-line Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
 
 ### P0 — 完成且弱
 
@@ -1110,6 +1110,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Daily Research review | no active GPU candidate or CPU sidecar after Beans LoRA, paperization, MIA_SD, and White-box GSA Zenodo verdicts; next cycle must pass Lane A/B/C gates or stop | [docs/evidence/daily-research-review-20260513.md](docs/evidence/daily-research-review-20260513.md) |
 | White-box GSA Zenodo archive verdict | admitted-family archive for the already admitted GSA line; not a new second asset; no full download or GPU release | [docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md](docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md) |
 | MIA_SD face-LDM asset verdict | code-and-result-artifacts but private images/checkpoint/split/query-response missing; no download or GPU release | [docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](docs/evidence/miasd-face-ldm-asset-verdict-20260513.md) |
 | Paperization consumer boundary | synchronized; recent weak/watch lines remain limitations/future-work only and do not change Platform/Runtime admitted rows | [docs/evidence/paperization-consumer-boundary-20260513.md](docs/evidence/paperization-consumer-boundary-20260513.md) |
