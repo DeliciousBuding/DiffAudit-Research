@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Paperization consumer boundary synchronized; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss and parameter-delta sensitivity scouts weak; Quantile Regression is mechanism-reference but artifact-incomplete`
+- Active work: `MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss and parameter-delta sensitivity scouts weak; Quantile Regression is mechanism-reference but artifact-incomplete`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -139,6 +139,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   limitations or future-work hooks only. Platform/Runtime and paperization
   admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
   `GSA`, and `DPDM W-1`.
+- MIA_SD / face-LDM is a related code reference only: the public repo says the
+  experiment images are not published, gives fine-tuning scripts with local
+  `TRAIN_PATH` / `OUT_PATH` placeholders, and does not release a target
+  checkpoint, exact member/nonmember split manifest, or query/response packet.
+  Do not scrape staff images, train SD1.5 for 400 epochs, or reconstruct private
+  folders from result traces.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
