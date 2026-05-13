@@ -38,6 +38,9 @@
 - Zenodo `10.5281/zenodo.14928092` is admitted-family white-box GSA provenance,
   not a new Lane A second asset. It does not release a fresh download/GPU task
   for asset acquisition.
+- `MoFit` / caption-free model-fitted embeddings is mechanism-relevant, but the
+  public repository still marks code instructions as `TBW` and no released
+  target checkpoint or exact split manifest was found.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -110,3 +113,11 @@ Current White-box GSA Zenodo follow-up:
 - Reopen only for bounded reproducibility maintenance of admitted GSA.
 - Do not download `DDPM.zip`, replay GSA GPU, or promote it as a new second
   asset.
+
+Current MoFit follow-up:
+
+- Keep it as Lane B gray-box mechanism watch.
+- Reopen only if upstream publishes runnable code/configs plus exact target
+  checkpoint or deterministic recreation and per-sample split manifests.
+- Do not implement surrogate/embedding optimization from scratch or launch
+  GPU jobs before those artifacts exist.
