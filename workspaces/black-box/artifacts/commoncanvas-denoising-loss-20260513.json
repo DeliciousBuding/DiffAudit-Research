@@ -1,0 +1,1763 @@
+{
+  "asset_id": "response-contract-copymark-commoncanvas-20260512",
+  "model_identity": "common-canvas/CommonCanvas-XL-C",
+  "method": "commoncanvas_conditional_denoising_loss",
+  "hypothesis": "If CommonCanvas memorizes its CommonCatalog training images in the diffusion training objective, member query images should have lower caption-conditioned noise-prediction MSE than COCO holdout images.",
+  "boundary": "Single bounded PIA-style internal-score scout on the existing CopyMark/CommonCanvas 50/50 packet. This is not a pixel/CLIP/prompt-response/seed-stability variant and is not admitted evidence.",
+  "config": {
+    "samples_per_split": 50,
+    "timesteps": [
+      200,
+      500,
+      800
+    ],
+    "resolution": 256,
+    "batch_size": 2,
+    "noise_seed_base": 20260513,
+    "checkpoint_name": "commoncanvas_xl_c.safetensors",
+    "checkpoint_bytes": 6938040286,
+    "device": "cuda",
+    "torch": "2.5.1+cu121",
+    "cuda_device": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "scheduler": "DDPMScheduler(beta_start=0.00085,beta_end=0.012,beta_schedule=scaled_linear)"
+  },
+  "metric": {
+    "score_name": "negative_conditional_denoising_mse_mean_t200_500_800",
+    "score_direction": "higher_is_more_member",
+    "auc": 0.5148,
+    "reverse_auc": 0.48519999999999996,
+    "asr": 0.57,
+    "best_threshold": {
+      "asr": 0.57,
+      "threshold": -0.16644503362476826,
+      "tp": 24,
+      "fp": 17,
+      "tn": 33,
+      "fn": 26
+    },
+    "tpr_at_1pct_fpr": 0.02,
+    "tpr_at_1pct_fpr_detail": {
+      "tpr": 0.02,
+      "threshold": -0.11326566431671381,
+      "tp": 1,
+      "fp": 0,
+      "allowed_fp": 0
+    },
+    "tpr_at_0_1pct_fpr": 0.02,
+    "tpr_at_0_1pct_fpr_detail": {
+      "tpr": 0.02,
+      "threshold": -0.11326566431671381,
+      "tp": 1,
+      "fp": 0,
+      "allowed_fp": 0
+    },
+    "member_score_mean": -0.174176631718874,
+    "nonmember_score_mean": -0.17578482804819942,
+    "member_loss_mean": 0.174176631718874,
+    "nonmember_loss_mean": 0.17578482804819942
+  },
+  "verdict": "negative_or_weak",
+  "stop_condition": "If AUC is below 0.60 or TPR@1%FPR is near zero, close CommonCanvas PIA-style denoising-loss as a successor mechanism and do not expand timestep, subset, scheduler, or loss-weight matrices.",
+  "records": [
+    {
+      "id": "member_000.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a green lizard sitting on a branch in an enclosure",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_000.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/10003384.jpg",
+      "sha256": "3091062f7f3523a693707b76da03fca817c19ee92a8bc3a6040d713e8c58f0be",
+      "loss_by_timestep": {
+        "200": 0.4133119583129883,
+        "500": 0.16243061423301697,
+        "800": 0.019212694838643074
+      },
+      "mean_loss": 0.19831842246154943,
+      "score": -0.19831842246154943
+    },
+    {
+      "id": "member_001.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a group of young men sitting on a couch",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_001.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/100188320.jpg",
+      "sha256": "db84b351fcbb7e59780cba9f0fa7da4c3a575fb5b24ee73c1cd943eac056e6cf",
+      "loss_by_timestep": {
+        "200": 0.39221251010894775,
+        "500": 0.19840937852859497,
+        "800": 0.02988743595778942
+      },
+      "mean_loss": 0.20683644153177738,
+      "score": -0.20683644153177738
+    },
+    {
+      "id": "member_002.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a baseball game is in progress",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_002.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/100622554.jpg",
+      "sha256": "4e6792338440165831d96d94ebf9c28ced7fe3e80ef096ca35df1035a92defd1",
+      "loss_by_timestep": {
+        "200": 0.32080602645874023,
+        "500": 0.10630997270345688,
+        "800": 0.019366532564163208
+      },
+      "mean_loss": 0.14882751057545343,
+      "score": -0.14882751057545343
+    },
+    {
+      "id": "member_003.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a calico cat sitting on a rock",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_003.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/101116193.jpg",
+      "sha256": "bb81a27b7e3c0ee1334479f93cc0f73c2f39b34abff1fdbb6c665f7e576e2eb4",
+      "loss_by_timestep": {
+        "200": 0.3922111988067627,
+        "500": 0.1280314028263092,
+        "800": 0.020419258624315262
+      },
+      "mean_loss": 0.18022062008579573,
+      "score": -0.18022062008579573
+    },
+    {
+      "id": "member_004.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a baseball game in progress",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_004.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/101149549.jpg",
+      "sha256": "47a9e42bc957a04fb01d849974da0d2c4a3b83a85e61b544f5eb92040572c3dd",
+      "loss_by_timestep": {
+        "200": 0.3292158246040344,
+        "500": 0.12861447036266327,
+        "800": 0.0234038345515728
+      },
+      "mean_loss": 0.16041137650609016,
+      "score": -0.16041137650609016
+    },
+    {
+      "id": "member_005.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a dirt road",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_005.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/101290446.jpg",
+      "sha256": "69417bad03fbf4183897655b5c1bfebeb5652d39cd048a2ee586c8ba9c267751",
+      "loss_by_timestep": {
+        "200": 0.380281925201416,
+        "500": 0.11375533044338226,
+        "800": 0.033216215670108795
+      },
+      "mean_loss": 0.17575115710496902,
+      "score": -0.17575115710496902
+    },
+    {
+      "id": "member_006.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a skier is flying through the air above a mountain",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_006.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/101576380.jpg",
+      "sha256": "4e02ddaee9f6cf7585a95209109dd468e8f828509ee6f286aad5e9bae9a3a43d",
+      "loss_by_timestep": {
+        "200": 0.34691402316093445,
+        "500": 0.10331204533576965,
+        "800": 0.014908954501152039
+      },
+      "mean_loss": 0.15504500766595206,
+      "score": -0.15504500766595206
+    },
+    {
+      "id": "member_007.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a baseball game is in progress",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_007.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/101608953.jpg",
+      "sha256": "6029a9dcd75298b2edfb87c0b22b17d8b2bdbfe119ca33a154671beb5c8f4044",
+      "loss_by_timestep": {
+        "200": 0.31251299381256104,
+        "500": 0.1266946941614151,
+        "800": 0.025503236800432205
+      },
+      "mean_loss": 0.15490364159146944,
+      "score": -0.15490364159146944
+    },
+    {
+      "id": "member_008.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a white van with people on it",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_008.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/101678310.jpg",
+      "sha256": "84d9bb0f23878d713fdd336c8a623e95e89d50d3f440f6000ecd80d266e8a718",
+      "loss_by_timestep": {
+        "200": 0.3329682946205139,
+        "500": 0.12506285309791565,
+        "800": 0.024769408628344536
+      },
+      "mean_loss": 0.16093351878225803,
+      "score": -0.16093351878225803
+    },
+    {
+      "id": "member_009.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a large building with many cars parked in front of it",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_009.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/101721548.jpg",
+      "sha256": "65b5060e475bd0d829d1f6ad8715ce974987a83addddbbb5aeef6dcfa277e0e5",
+      "loss_by_timestep": {
+        "200": 0.3381776809692383,
+        "500": 0.12985047698020935,
+        "800": 0.019682470709085464
+      },
+      "mean_loss": 0.16257020955284437,
+      "score": -0.16257020955284437
+    },
+    {
+      "id": "member_010.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a large bear dressed in a red uniform",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_010.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/102236467.jpg",
+      "sha256": "07c8e714cf5c7ad4bf321d3dad3489c5f34d6854478d8962b1a9c16a67235018",
+      "loss_by_timestep": {
+        "200": 0.4285215437412262,
+        "500": 0.18081286549568176,
+        "800": 0.028315279632806778
+      },
+      "mean_loss": 0.21254989628990492,
+      "score": -0.21254989628990492
+    },
+    {
+      "id": "member_011.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a chocolate bar with a piece of chocolate on it",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_011.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/102320463.jpg",
+      "sha256": "af7233e53b9e3d2bc0799785f70a3a535db0cfb3691159cc1490ec1e44da94e7",
+      "loss_by_timestep": {
+        "200": 0.35547226667404175,
+        "500": 0.14575546979904175,
+        "800": 0.029798857867717743
+      },
+      "mean_loss": 0.1770088647802671,
+      "score": -0.1770088647802671
+    },
+    {
+      "id": "member_012.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a beach with snow and clouds at sunset",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_012.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/102354313.jpg",
+      "sha256": "a8d16429214dde62e7c3a06925945e5bf402d291162b01dc5c3990a314a16cfa",
+      "loss_by_timestep": {
+        "200": 0.35921186208724976,
+        "500": 0.12498967349529266,
+        "800": 0.015133565291762352
+      },
+      "mean_loss": 0.16644503362476826,
+      "score": -0.16644503362476826
+    },
+    {
+      "id": "member_013.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "four men in ski gear posing for a picture",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_013.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/102584603.jpg",
+      "sha256": "b8b14af67e01fcf965345d0f8f816b156df3324176bb921530499a1b6810b7b5",
+      "loss_by_timestep": {
+        "200": 0.4012368321418762,
+        "500": 0.15042893588542938,
+        "800": 0.03239435702562332
+      },
+      "mean_loss": 0.19468670835097632,
+      "score": -0.19468670835097632
+    },
+    {
+      "id": "member_014.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a man eating a meal at a restaurant",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_014.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/102765108.jpg",
+      "sha256": "c8dbec57816dd95a88d20844692ec7889e7d36b0377995594079040fe40b1538",
+      "loss_by_timestep": {
+        "200": 0.4066542387008667,
+        "500": 0.18676814436912537,
+        "800": 0.030540237203240395
+      },
+      "mean_loss": 0.20798754009107748,
+      "score": -0.20798754009107748
+    },
+    {
+      "id": "member_015.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "people walking on the sidewalk",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_015.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/102765738.jpg",
+      "sha256": "a2dbaada598b7726b945d40f59934b2f0ad114740120324ad0b814039e07a89b",
+      "loss_by_timestep": {
+        "200": 0.3785228133201599,
+        "500": 0.12718506157398224,
+        "800": 0.02355961501598358
+      },
+      "mean_loss": 0.1764224966367086,
+      "score": -0.1764224966367086
+    },
+    {
+      "id": "member_016.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a man on stage with his hands up in the air",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_016.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/103009275.jpg",
+      "sha256": "d80c92525c29addeefcdd826638b7300e482bc2f5789d81ec9e3ffc4203f6fbf",
+      "loss_by_timestep": {
+        "200": 0.3417237401008606,
+        "500": 0.11802844703197479,
+        "800": 0.020333614200353622
+      },
+      "mean_loss": 0.16002860044439635,
+      "score": -0.16002860044439635
+    },
+    {
+      "id": "member_017.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a sign on a stone wall that reads \"el alcantara\"",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_017.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/103488284.jpg",
+      "sha256": "5ff8505f23d450bebca4e0cdc32f81d6b58f9e78220f696c5152ef0330c5be2d",
+      "loss_by_timestep": {
+        "200": 0.427787721157074,
+        "500": 0.12278426438570023,
+        "800": 0.025225559249520302
+      },
+      "mean_loss": 0.19193251493076482,
+      "score": -0.19193251493076482
+    },
+    {
+      "id": "member_018.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "the ruins of the fort of san juan de la barca",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_018.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/10355954.jpg",
+      "sha256": "5ddce97bffdb9fa875053c268593c04a3f3aafd78c953ea846e58fbd2133c6bb",
+      "loss_by_timestep": {
+        "200": 0.404166042804718,
+        "500": 0.1248382031917572,
+        "800": 0.0213005430996418
+      },
+      "mean_loss": 0.18343492969870567,
+      "score": -0.18343492969870567
+    },
+    {
+      "id": "member_019.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a view of a clock tower in the snow",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_019.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/103915218.jpg",
+      "sha256": "851636e67f90e54735c2b9cb229096434cf58654802ba3953c683d55ed968c92",
+      "loss_by_timestep": {
+        "200": 0.3248189091682434,
+        "500": 0.09252143651247025,
+        "800": 0.01945454068481922
+      },
+      "mean_loss": 0.14559829545517763,
+      "score": -0.14559829545517763
+    },
+    {
+      "id": "member_020.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a close up of a sign that says the paul down date 3",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_020.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/10407581.jpg",
+      "sha256": "7a65b739bf3c63be345e22bb1ad7e6a3d9a2cffaf4db287f5d4f7387ecc29294",
+      "loss_by_timestep": {
+        "200": 0.3468885123729706,
+        "500": 0.1452787220478058,
+        "800": 0.019837044179439545
+      },
+      "mean_loss": 0.17066809286673865,
+      "score": -0.17066809286673865
+    },
+    {
+      "id": "member_021.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a large crowd of people standing outside a building",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_021.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/104321783.jpg",
+      "sha256": "4ce0318dc8d4bb9695d2116ab7573ac0d16a65a9e952e96fedf6ab7c23f0797c",
+      "loss_by_timestep": {
+        "200": 0.44322842359542847,
+        "500": 0.16910502314567566,
+        "800": 0.02082112990319729
+      },
+      "mean_loss": 0.21105152554810047,
+      "score": -0.21105152554810047
+    },
+    {
+      "id": "member_022.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a group of lacrosse players playing on a field",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_022.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/104514491.jpg",
+      "sha256": "0e4a2ead536bcf4ca34e8a8f50889bd4da2c501c491646ad3ec594f64a484224",
+      "loss_by_timestep": {
+        "200": 0.3598414659500122,
+        "500": 0.1197827011346817,
+        "800": 0.015683066099882126
+      },
+      "mean_loss": 0.16510241106152534,
+      "score": -0.16510241106152534
+    },
+    {
+      "id": "member_023.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a view of the windows of a building with broken glass",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_023.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/104706668.jpg",
+      "sha256": "b3af953929a608f27ef0bee852d1637cfe36f02035c539af038917b93940f2ac",
+      "loss_by_timestep": {
+        "200": 0.30177628993988037,
+        "500": 0.12562966346740723,
+        "800": 0.028501704335212708
+      },
+      "mean_loss": 0.1519692192475001,
+      "score": -0.1519692192475001
+    },
+    {
+      "id": "member_024.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a young boy holding a life ring",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_024.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-eval",
+      "source_image_path": "commoncatalog-2-5k-eval/images/1047121.jpg",
+      "sha256": "d9c0db93729422fddc55b568f4fdbaf09a379179418c32e268008389fb976a90",
+      "loss_by_timestep": {
+        "200": 0.4461668133735657,
+        "500": 0.20227280259132385,
+        "800": 0.031676240265369415
+      },
+      "mean_loss": 0.2267052854100863,
+      "score": -0.2267052854100863
+    },
+    {
+      "id": "member_025.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "an old photo of a large building with a fountain in front",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_025.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/10007098.jpg",
+      "sha256": "f3b191d91e2788e867ee2f96d0d866638268d54fcdf54439f7a90bb37b18c24e",
+      "loss_by_timestep": {
+        "200": 0.36023738980293274,
+        "500": 0.1366058588027954,
+        "800": 0.01910199224948883
+      },
+      "mean_loss": 0.17198174695173898,
+      "score": -0.17198174695173898
+    },
+    {
+      "id": "member_026.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a woman wearing sunglasses and a hat in front of a palm tree",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_026.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/100314644.jpg",
+      "sha256": "d813c624d1929f3b9e90ae231282bc929baa440d685ed09bb70345cf139349f1",
+      "loss_by_timestep": {
+        "200": 0.3426554501056671,
+        "500": 0.12300792336463928,
+        "800": 0.02926085889339447
+      },
+      "mean_loss": 0.1649747441212336,
+      "score": -0.1649747441212336
+    },
+    {
+      "id": "member_027.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a person kneeling down next to a tree",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_027.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/100488583.jpg",
+      "sha256": "c110ce7073b55f8f17adee0a69634d9f3da00efab125cb21e39adf675b1c6bbc",
+      "loss_by_timestep": {
+        "200": 0.4157278537750244,
+        "500": 0.1263856589794159,
+        "800": 0.027430204674601555
+      },
+      "mean_loss": 0.1898479058096806,
+      "score": -0.1898479058096806
+    },
+    {
+      "id": "member_028.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "people walking down a street with cherry blossoms in the background",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_028.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/100570240.jpg",
+      "sha256": "3a5d82af5bdff1e21c5997dbc3233d2153e77b36e63a26ca77c11110451483a2",
+      "loss_by_timestep": {
+        "200": 0.39336341619491577,
+        "500": 0.14915543794631958,
+        "800": 0.021899286657571793
+      },
+      "mean_loss": 0.18813938026626906,
+      "score": -0.18813938026626906
+    },
+    {
+      "id": "member_029.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a large wave is crashing into the rocks",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_029.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/10067115.jpg",
+      "sha256": "a1bf9d879f5f1b40b870e8b66be666c13e24e2b895381c3e240774faf3594a03",
+      "loss_by_timestep": {
+        "200": 0.3625985383987427,
+        "500": 0.1141522154211998,
+        "800": 0.01715044490993023
+      },
+      "mean_loss": 0.16463373290995756,
+      "score": -0.16463373290995756
+    },
+    {
+      "id": "member_030.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a baseball game is in progress",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_030.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/100979957.jpg",
+      "sha256": "21eb88c7386a1005f11357c6313cc0a31ffdac069da9380df7776cb18aa6355e",
+      "loss_by_timestep": {
+        "200": 0.30828410387039185,
+        "500": 0.14604556560516357,
+        "800": 0.0205698199570179
+      },
+      "mean_loss": 0.15829982981085777,
+      "score": -0.15829982981085777
+    },
+    {
+      "id": "member_031.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "the sun sets over the ocean and a hill",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_031.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/101555252.jpg",
+      "sha256": "60647d7745eecb0d2b155e1ca4cc2350ea921e0db2e02c6be8804bfea3c8f6dc",
+      "loss_by_timestep": {
+        "200": 0.30928340554237366,
+        "500": 0.10282344371080399,
+        "800": 0.016345690935850143
+      },
+      "mean_loss": 0.1428175133963426,
+      "score": -0.1428175133963426
+    },
+    {
+      "id": "member_032.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a baseball game is in progress",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_032.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/101599511.jpg",
+      "sha256": "ed413ce71fc737c814b9aac06d2fcfe26ced6a0d17aed623998b2e753cdf2513",
+      "loss_by_timestep": {
+        "200": 0.3298614025115967,
+        "500": 0.11266888678073883,
+        "800": 0.01650480553507805
+      },
+      "mean_loss": 0.15301169827580452,
+      "score": -0.15301169827580452
+    },
+    {
+      "id": "member_033.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a large church with two towers",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_033.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/101735861.jpg",
+      "sha256": "61999b2cbd9774d977bc39d3a975bfb876aeddfe06f0f0a382a97a45776a4795",
+      "loss_by_timestep": {
+        "200": 0.32582664489746094,
+        "500": 0.11867646872997284,
+        "800": 0.020536597818136215
+      },
+      "mean_loss": 0.15501323714852333,
+      "score": -0.15501323714852333
+    },
+    {
+      "id": "member_034.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "madam victoria, claremont, scotland",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_034.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/102206476.jpg",
+      "sha256": "7c495dab8c3df4efad9d9d02394593733362a9b8df25fe2a1850550bbbd27637",
+      "loss_by_timestep": {
+        "200": 0.30098724365234375,
+        "500": 0.15131625533103943,
+        "800": 0.022192642092704773
+      },
+      "mean_loss": 0.15816538035869598,
+      "score": -0.15816538035869598
+    },
+    {
+      "id": "member_035.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a woman in a black jacket standing on the beach",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_035.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/102354651.jpg",
+      "sha256": "0f37a6d41d1508cfb68bb0d48aa68e77546c8c4318bbf3630350bd54422749a1",
+      "loss_by_timestep": {
+        "200": 0.41148295998573303,
+        "500": 0.13088569045066833,
+        "800": 0.018164323642849922
+      },
+      "mean_loss": 0.18684432469308376,
+      "score": -0.18684432469308376
+    },
+    {
+      "id": "member_036.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a group of bikes parked in front of a building",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_036.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/102763977.jpg",
+      "sha256": "d3b98ec5f2fff030b3c4c09dc51756cd3f464d14652df5815cd5192832f16418",
+      "loss_by_timestep": {
+        "200": 0.339400053024292,
+        "500": 0.10061612725257874,
+        "800": 0.01800154335796833
+      },
+      "mean_loss": 0.15267257454494634,
+      "score": -0.15267257454494634
+    },
+    {
+      "id": "member_037.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a beach with a restaurant on the sand",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_037.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/102993880.jpg",
+      "sha256": "87f7c8c51f283bcaf9b1b74bc30826b8f20b1d61665737ab0f9a87fc164815c4",
+      "loss_by_timestep": {
+        "200": 0.3885036110877991,
+        "500": 0.11670930683612823,
+        "800": 0.01742120273411274
+      },
+      "mean_loss": 0.17421137355268002,
+      "score": -0.17421137355268002
+    },
+    {
+      "id": "member_038.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a group of people sitting at a table with food",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_038.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/103247783.jpg",
+      "sha256": "a7fbd30754d845a6aa397ddd6d7cc64b9027b44b28e63fc776d681915d405b33",
+      "loss_by_timestep": {
+        "200": 0.5163732171058655,
+        "500": 0.19139721989631653,
+        "800": 0.02671010047197342
+      },
+      "mean_loss": 0.24482684582471848,
+      "score": -0.24482684582471848
+    },
+    {
+      "id": "member_039.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a white building with stairs and a balcony",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_039.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/103333680.jpg",
+      "sha256": "d7d803e81b8c1a21c1174a5a83a6239db0f2a254ae1d231e480274b23a45aba9",
+      "loss_by_timestep": {
+        "200": 0.34982728958129883,
+        "500": 0.12270914018154144,
+        "800": 0.024992849677801132
+      },
+      "mean_loss": 0.16584309314688048,
+      "score": -0.16584309314688048
+    },
+    {
+      "id": "member_040.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a courtyard with a building in the background",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_040.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/103491903.jpg",
+      "sha256": "0ea932d7af6aacb91bbd5d497c680cee1a0fcd913bd6fbcda5bf956ea4cd6027",
+      "loss_by_timestep": {
+        "200": 0.33774763345718384,
+        "500": 0.13330450654029846,
+        "800": 0.015595809556543827
+      },
+      "mean_loss": 0.16221598318467537,
+      "score": -0.16221598318467537
+    },
+    {
+      "id": "member_041.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a man is making a cake",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_041.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/103847934.jpg",
+      "sha256": "067e40978c2e4a035353c67446204038c1b0bcf39297edb68ee0983b1d467154",
+      "loss_by_timestep": {
+        "200": 0.3942870497703552,
+        "500": 0.1453806608915329,
+        "800": 0.02006847970187664
+      },
+      "mean_loss": 0.18657873012125492,
+      "score": -0.18657873012125492
+    },
+    {
+      "id": "member_042.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a view of a mountain with a church in the background",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_042.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/103914816.jpg",
+      "sha256": "cd2807ce4eda009147af40c044b550b4397a6d4415cf4e2a5f1aeafff677d28f",
+      "loss_by_timestep": {
+        "200": 0.26553744077682495,
+        "500": 0.06506019830703735,
+        "800": 0.009199353866279125
+      },
+      "mean_loss": 0.11326566431671381,
+      "score": -0.11326566431671381
+    },
+    {
+      "id": "member_043.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a white truck with a sign on it",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_043.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/104288875.jpg",
+      "sha256": "9063c7c5132d6769eb5916e68f80948c2061a77c468b44549854433e100cdfcf",
+      "loss_by_timestep": {
+        "200": 0.36301693320274353,
+        "500": 0.1440325528383255,
+        "800": 0.02247801050543785
+      },
+      "mean_loss": 0.1765091655155023,
+      "score": -0.1765091655155023
+    },
+    {
+      "id": "member_044.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "people are standing in a subway station with a lot of people",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_044.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/104645761.jpg",
+      "sha256": "9f43560109a05eee55dd6c5b86940c94db3008b06c5f6ece72b92d84e1c0d840",
+      "loss_by_timestep": {
+        "200": 0.3648524880409241,
+        "500": 0.13477037847042084,
+        "800": 0.01878519542515278
+      },
+      "mean_loss": 0.1728026873121659,
+      "score": -0.1728026873121659
+    },
+    {
+      "id": "member_045.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a night view of a city at night",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_045.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/104919311.jpg",
+      "sha256": "4be834e0da0483323568bd33f9c5f788b509bcb1b69d234c5e7fcd155423ceea",
+      "loss_by_timestep": {
+        "200": 0.3877180218696594,
+        "500": 0.13106346130371094,
+        "800": 0.018410736694931984
+      },
+      "mean_loss": 0.1790640732894341,
+      "score": -0.1790640732894341
+    },
+    {
+      "id": "member_046.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "people walking across a bridge with an orange arch",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_046.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/105274334.jpg",
+      "sha256": "e4618021a8e0e28f216d5c51c7ee4d7e35ce1812c332023584a874405c1cc208",
+      "loss_by_timestep": {
+        "200": 0.2752305269241333,
+        "500": 0.11712045967578888,
+        "800": 0.027821134775877
+      },
+      "mean_loss": 0.14005737379193306,
+      "score": -0.14005737379193306
+    },
+    {
+      "id": "member_047.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a woman with a white shirt",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_047.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/105274607.jpg",
+      "sha256": "36e8b988ae9df38740172b0d025135256a599728003df92338133c83ad65f57b",
+      "loss_by_timestep": {
+        "200": 0.378756582736969,
+        "500": 0.10033706575632095,
+        "800": 0.015159957110881805
+      },
+      "mean_loss": 0.16475120186805725,
+      "score": -0.16475120186805725
+    },
+    {
+      "id": "member_048.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "people standing in front of a large clock tower",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_048.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/105323214.jpg",
+      "sha256": "c5d8c43ea3c75af194a70261e25c8923ef2f959c72c4c8d803103f86db937e6f",
+      "loss_by_timestep": {
+        "200": 0.39213648438453674,
+        "500": 0.16284823417663574,
+        "800": 0.021823115646839142
+      },
+      "mean_loss": 0.19226927806933722,
+      "score": -0.19226927806933722
+    },
+    {
+      "id": "member_049.jpg",
+      "split": "member",
+      "label": 1,
+      "prompt": "a woman sitting at a table with flowers",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/member/member_049.jpg",
+      "source_dataset_dir": "commoncatalog-2-5k-test",
+      "source_image_path": "commoncatalog-2-5k-test/images/105361637.jpg",
+      "sha256": "4b1a673eea748bc942491b8d80732942971d2eb02b67ca8edec3afe0f34b804e",
+      "loss_by_timestep": {
+        "200": 0.393555611371994,
+        "500": 0.18851672112941742,
+        "800": 0.031801849603652954
+      },
+      "mean_loss": 0.2046247273683548,
+      "score": -0.2046247273683548
+    },
+    {
+      "id": "nonmember_000.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A stop sign is mounted upside-down on it's post. ",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_000.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000000724.jpg",
+      "sha256": "5c0e559c75d3969c8e3e297b61f61063f78045c9d4802b526ba616361f3823fd",
+      "loss_by_timestep": {
+        "200": 0.4141097664833069,
+        "500": 0.1335768699645996,
+        "800": 0.02120807208120823
+      },
+      "mean_loss": 0.18963156950970492,
+      "score": -0.18963156950970492
+    },
+    {
+      "id": "nonmember_001.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "Three teddy bears, each a different color, snuggling together.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_001.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000000776.jpg",
+      "sha256": "1dd31e9059c491992be2f562624eb4093e17aee08b4f7baf5ff9ea24543b0a33",
+      "loss_by_timestep": {
+        "200": 0.39353570342063904,
+        "500": 0.12947435677051544,
+        "800": 0.019153999164700508
+      },
+      "mean_loss": 0.18072135311861834,
+      "score": -0.18072135311861834
+    },
+    {
+      "id": "nonmember_002.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A woman posing for the camera standing on skis.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_002.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000000785.jpg",
+      "sha256": "83981537a7baeafbeb9c8cb67b3484dc26433f574b3685d021fa537e277e4726",
+      "loss_by_timestep": {
+        "200": 0.33040568232536316,
+        "500": 0.11231134086847305,
+        "800": 0.020843857899308205
+      },
+      "mean_loss": 0.1545202936977148,
+      "score": -0.1545202936977148
+    },
+    {
+      "id": "nonmember_003.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A kitchen with a refrigerator, stove and oven with cabinets.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_003.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000000802.jpg",
+      "sha256": "d5b79e7fa716f85ca86f46e5f518da9b6c5e26414925624d76e6476861aec495",
+      "loss_by_timestep": {
+        "200": 0.30025815963745117,
+        "500": 0.13160714507102966,
+        "800": 0.023150205612182617
+      },
+      "mean_loss": 0.15167183677355447,
+      "score": -0.15167183677355447
+    },
+    {
+      "id": "nonmember_004.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A couple of baseball player standing on a field.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_004.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000000872.jpg",
+      "sha256": "c2aa138ee3a59b057a7ba6fc5a6a18e62af531aa7dab78a7bfd33c1cd7e55eb6",
+      "loss_by_timestep": {
+        "200": 0.4120475649833679,
+        "500": 0.15566577017307281,
+        "800": 0.024088935926556587
+      },
+      "mean_loss": 0.19726742369433245,
+      "score": -0.19726742369433245
+    },
+    {
+      "id": "nonmember_005.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "a male tennis player in white shorts is playing tennis",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_005.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000000885.jpg",
+      "sha256": "1c67b783f78b18ddb5dd20aaba4d4aacaf98e5277051688a96da096afa9cdf1f",
+      "loss_by_timestep": {
+        "200": 0.3071550726890564,
+        "500": 0.11248341202735901,
+        "800": 0.019201910123229027
+      },
+      "mean_loss": 0.14628013161321482,
+      "score": -0.14628013161321482
+    },
+    {
+      "id": "nonmember_006.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "The people are posing for a group photo.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_006.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000001000.jpg",
+      "sha256": "24bb77a31928404e45a0454b06f6a0bd54a8db103590c9d7917288a1e0269f05",
+      "loss_by_timestep": {
+        "200": 0.47711825370788574,
+        "500": 0.19626815617084503,
+        "800": 0.026595957577228546
+      },
+      "mean_loss": 0.2333274558186531,
+      "score": -0.2333274558186531
+    },
+    {
+      "id": "nonmember_007.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "some children are riding on a mini orange train",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_007.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000001353.jpg",
+      "sha256": "1cccef217a1e5eec2acc74d7c08a105da3ef6fdb8514e221cdea9b0b373b60ea",
+      "loss_by_timestep": {
+        "200": 0.3801984190940857,
+        "500": 0.127888023853302,
+        "800": 0.021074241027235985
+      },
+      "mean_loss": 0.1763868946582079,
+      "score": -0.1763868946582079
+    },
+    {
+      "id": "nonmember_008.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A meal is lying on a plate on a table.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_008.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000001425.jpg",
+      "sha256": "71a37c25cdf944cf0a88b66d00a66cf899a88bd55c7ac80fcf1c76329d617e6c",
+      "loss_by_timestep": {
+        "200": 0.3638246953487396,
+        "500": 0.12921908497810364,
+        "800": 0.02030225098133087
+      },
+      "mean_loss": 0.1711153437693914,
+      "score": -0.1711153437693914
+    },
+    {
+      "id": "nonmember_009.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A man in a wet suit stands on a surfboard and rows with a paddle.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_009.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000001490.jpg",
+      "sha256": "a044804a0b0186a1267acae34975932f14ede96c4a2b78fcee74e6c2fbd8414d",
+      "loss_by_timestep": {
+        "200": 0.28284570574760437,
+        "500": 0.06410921365022659,
+        "800": 0.009255454875528812
+      },
+      "mean_loss": 0.11873679142445326,
+      "score": -0.11873679142445326
+    },
+    {
+      "id": "nonmember_010.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A computer on a desk next to a laptop.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_010.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000001503.jpg",
+      "sha256": "06c721f0a62bcb9fcb2d2d0cc0b9edd63092084a8773a18c4b5a7bd6fb4f095d",
+      "loss_by_timestep": {
+        "200": 0.34263700246810913,
+        "500": 0.14797033369541168,
+        "800": 0.02958047203719616
+      },
+      "mean_loss": 0.17339593606690565,
+      "score": -0.17339593606690565
+    },
+    {
+      "id": "nonmember_011.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A zebra in the grass who is cleaning himself. ",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_011.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000001818.jpg",
+      "sha256": "e638b349929d13bb27e148f4303a576e0a964ef81c0907d36748e0adb822a8e6",
+      "loss_by_timestep": {
+        "200": 0.40616995096206665,
+        "500": 0.17692703008651733,
+        "800": 0.03644803166389465
+      },
+      "mean_loss": 0.2065150042374929,
+      "score": -0.2065150042374929
+    },
+    {
+      "id": "nonmember_012.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A bedroom with a bed and small table near by.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_012.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000001993.jpg",
+      "sha256": "039f3bfb862023bde7f835a36c32d8f59a3e66488863c2a47b7b746e78c44186",
+      "loss_by_timestep": {
+        "200": 0.35886234045028687,
+        "500": 0.12400660663843155,
+        "800": 0.018018072471022606
+      },
+      "mean_loss": 0.16696233985324702,
+      "score": -0.16696233985324702
+    },
+    {
+      "id": "nonmember_013.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "Batter preparing to swing at pitch during major game.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_013.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000002153.jpg",
+      "sha256": "8795ff243cf20405bd442631d5d1cb7e60665dd459c8d57f5764333808dd49fd",
+      "loss_by_timestep": {
+        "200": 0.32522469758987427,
+        "500": 0.12247860431671143,
+        "800": 0.019735684618353844
+      },
+      "mean_loss": 0.15581299550831318,
+      "score": -0.15581299550831318
+    },
+    {
+      "id": "nonmember_014.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A plate of finger foods next to a blue and raspberry topped cake.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_014.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000002157.jpg",
+      "sha256": "1a038609e5ceb0719105b1438d257c3d588e45384cb7ffe77b137e4d7e3ed477",
+      "loss_by_timestep": {
+        "200": 0.45105767250061035,
+        "500": 0.16756215691566467,
+        "800": 0.028683429583907127
+      },
+      "mean_loss": 0.2157677530000607,
+      "score": -0.2157677530000607
+    },
+    {
+      "id": "nonmember_015.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A man on a blue raft attempting to catch a ride on a large wave.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_015.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000002261.jpg",
+      "sha256": "1a0ad595a5675bdc7a5e95c04def56109c00d61168fd826158322fd538d70279",
+      "loss_by_timestep": {
+        "200": 0.4087343215942383,
+        "500": 0.12766820192337036,
+        "800": 0.018355514854192734
+      },
+      "mean_loss": 0.1849193461239338,
+      "score": -0.1849193461239338
+    },
+    {
+      "id": "nonmember_016.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "Many small children are posing together in the black and white photo. ",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_016.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000002299.jpg",
+      "sha256": "d53d17dd8ecded4ae25555a0b8e193445846c7db7a6199c3ea35b09b3021f99e",
+      "loss_by_timestep": {
+        "200": 0.4873403310775757,
+        "500": 0.19132179021835327,
+        "800": 0.027683375403285027
+      },
+      "mean_loss": 0.23544849889973798,
+      "score": -0.23544849889973798
+    },
+    {
+      "id": "nonmember_017.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A plate on a wooden table full of bread.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_017.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000002431.jpg",
+      "sha256": "fa0ce7b066c2fe7bd0892aa2c6361943148db9766de60241e69d8026a18e05ad",
+      "loss_by_timestep": {
+        "200": 0.34577345848083496,
+        "500": 0.15664812922477722,
+        "800": 0.02446339651942253
+      },
+      "mean_loss": 0.17562832807501158,
+      "score": -0.17562832807501158
+    },
+    {
+      "id": "nonmember_018.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A bowl with rice, broccoli and a purple relish.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_018.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000003501.jpg",
+      "sha256": "9615e4dc9099e860748ce3f839ed077fa6a1fa39a10b909c00600bf4e2b3f392",
+      "loss_by_timestep": {
+        "200": 0.36824697256088257,
+        "500": 0.12311030924320221,
+        "800": 0.01835084706544876
+      },
+      "mean_loss": 0.16990270962317786,
+      "score": -0.16990270962317786
+    },
+    {
+      "id": "nonmember_019.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "a person skating on some pieces of wood ",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_019.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000003553.jpg",
+      "sha256": "4286197d2b6fc18809a37a4ef3035109509fcf52782fb83894835faaa5743bea",
+      "loss_by_timestep": {
+        "200": 0.3968431353569031,
+        "500": 0.15757620334625244,
+        "800": 0.02829786203801632
+      },
+      "mean_loss": 0.19423906691372395,
+      "score": -0.19423906691372395
+    },
+    {
+      "id": "nonmember_020.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "a chicken meal with carrots broccoli and rice",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_020.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000003845.jpg",
+      "sha256": "d5c4394c712e5c24586f2531e2adf25d14e398993cc12af561ca760f20881df0",
+      "loss_by_timestep": {
+        "200": 0.4574832618236542,
+        "500": 0.15083062648773193,
+        "800": 0.027899987995624542
+      },
+      "mean_loss": 0.21207129210233688,
+      "score": -0.21207129210233688
+    },
+    {
+      "id": "nonmember_021.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A young girl in the foreground and a woman in a bridal dress and other adults in the background. ",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_021.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000003934.jpg",
+      "sha256": "c7b1180c75a332e8768a4ca76b1fe8b3e3e073e2b925d94f43fa5439535d5dcf",
+      "loss_by_timestep": {
+        "200": 0.42711061239242554,
+        "500": 0.15590058267116547,
+        "800": 0.022746464237570763
+      },
+      "mean_loss": 0.20191921976705393,
+      "score": -0.20191921976705393
+    },
+    {
+      "id": "nonmember_022.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A man is shaking hands with another man.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_022.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000004134.jpg",
+      "sha256": "2c922f6ec30f9c4eca2b373c8808f63979c26f4d89242754b3576bf78db1108b",
+      "loss_by_timestep": {
+        "200": 0.36720010638237,
+        "500": 0.1684131920337677,
+        "800": 0.03827648609876633
+      },
+      "mean_loss": 0.19129659483830133,
+      "score": -0.19129659483830133
+    },
+    {
+      "id": "nonmember_023.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A living room with a couch and chair.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_023.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000004495.jpg",
+      "sha256": "cf670ca35fb16e59ecce82eecf9bf1f60d2ee333be81b61c4ea390be2c7e7b2b",
+      "loss_by_timestep": {
+        "200": 0.3119698464870453,
+        "500": 0.11996547877788544,
+        "800": 0.017748428508639336
+      },
+      "mean_loss": 0.14989458459119,
+      "score": -0.14989458459119
+    },
+    {
+      "id": "nonmember_024.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A group of people cutting a ribbon on a street.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_024.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-eval",
+      "source_image_path": "coco2017-val-2-5k-eval/images/000000005001.jpg",
+      "sha256": "99600c56dc25c72dc1cc1d1f2b09aa33b97142560b54d034fa83a38fcf3c5b0f",
+      "loss_by_timestep": {
+        "200": 0.47681277990341187,
+        "500": 0.2220739871263504,
+        "800": 0.030359206721186638
+      },
+      "mean_loss": 0.2430819912503163,
+      "score": -0.2430819912503163
+    },
+    {
+      "id": "nonmember_025.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A woman stands in the dining area at the table.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_025.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000000139.jpg",
+      "sha256": "ffe0f0cec3b2e27aab1967229cdf0a0d7751dcdd5800322f0b8ac0dffb3b8a8d",
+      "loss_by_timestep": {
+        "200": 0.3394240140914917,
+        "500": 0.1557236909866333,
+        "800": 0.02061641216278076
+      },
+      "mean_loss": 0.17192137241363525,
+      "score": -0.17192137241363525
+    },
+    {
+      "id": "nonmember_026.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A big burly grizzly bear is show with grass in the background.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_026.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000000285.jpg",
+      "sha256": "f3a2974ce3686332609124c70e3e6a2e3aca43fccf1cd1bd7c5c03820977f57d",
+      "loss_by_timestep": {
+        "200": 0.4061877131462097,
+        "500": 0.14308631420135498,
+        "800": 0.024309366941452026
+      },
+      "mean_loss": 0.19119446476300558,
+      "score": -0.19119446476300558
+    },
+    {
+      "id": "nonmember_027.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "Bedroom scene with a bookcase, blue comforter and window.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_027.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000000632.jpg",
+      "sha256": "a4cd7f45ac1ce27eaafb254b23af7c0b18a064be08870ceaaf03b2147f2ce550",
+      "loss_by_timestep": {
+        "200": 0.3870253562927246,
+        "500": 0.1468650847673416,
+        "800": 0.02431735396385193
+      },
+      "mean_loss": 0.18606926500797272,
+      "score": -0.18606926500797272
+    },
+    {
+      "id": "nonmember_028.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A beautiful woman taking a picture with her smart phone.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_028.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000001268.jpg",
+      "sha256": "8e85a2e71ee512fe748a3a3be9bb40b8591e8c501c0f3896efcb5be5999ec236",
+      "loss_by_timestep": {
+        "200": 0.3331491947174072,
+        "500": 0.12395386397838593,
+        "800": 0.02227652817964554
+      },
+      "mean_loss": 0.15979319562514624,
+      "score": -0.15979319562514624
+    },
+    {
+      "id": "nonmember_029.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A woman holding a Hello Kitty phone on her hands.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_029.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000001296.jpg",
+      "sha256": "34a98da7c11bc8811e6eec445145bb16f3d5f4338945ba116edcc1fe554d181b",
+      "loss_by_timestep": {
+        "200": 0.43238696455955505,
+        "500": 0.15471643209457397,
+        "800": 0.027985379099845886
+      },
+      "mean_loss": 0.20502959191799164,
+      "score": -0.20502959191799164
+    },
+    {
+      "id": "nonmember_030.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A street scene with focus on the street signs on an overpass.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_030.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000001532.jpg",
+      "sha256": "974f2af6d81f65627a680ea9f42bdee1067a0ddcdb9f8e7a945bacd21d4dc2ce",
+      "loss_by_timestep": {
+        "200": 0.3275300860404968,
+        "500": 0.10688674449920654,
+        "800": 0.014384159818291664
+      },
+      "mean_loss": 0.1496003301193317,
+      "score": -0.1496003301193317
+    },
+    {
+      "id": "nonmember_031.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "The red, double decker bus is driving past other buses. ",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_031.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000001584.jpg",
+      "sha256": "77131e2f74aa7e374f951a69157cf7f51e00201f81bacfa8a9ab7309b245553f",
+      "loss_by_timestep": {
+        "200": 0.36757799983024597,
+        "500": 0.13228046894073486,
+        "800": 0.021473392844200134
+      },
+      "mean_loss": 0.17377728720506033,
+      "score": -0.17377728720506033
+    },
+    {
+      "id": "nonmember_032.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A cat resting on an open laptop computer.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_032.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000001675.jpg",
+      "sha256": "6ba641627c08ef424b7dc3e6cee069aa0dd49615a31c54ae0de1ecd1fabd9dea",
+      "loss_by_timestep": {
+        "200": 0.3106870949268341,
+        "500": 0.10906475782394409,
+        "800": 0.018838373944163322
+      },
+      "mean_loss": 0.14619674223164716,
+      "score": -0.14619674223164716
+    },
+    {
+      "id": "nonmember_033.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "Two planes flying in the sky over a bridge.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_033.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000001761.jpg",
+      "sha256": "c06b1845c54bb886a8fb9f8a6e908b29ceb661ffda1ca8df9a27f123806de648",
+      "loss_by_timestep": {
+        "200": 0.2786513864994049,
+        "500": 0.10790055990219116,
+        "800": 0.017122581601142883
+      },
+      "mean_loss": 0.134558176000913,
+      "score": -0.134558176000913
+    },
+    {
+      "id": "nonmember_034.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "a big purple bus parked in a parking spot",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_034.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000002006.jpg",
+      "sha256": "eda4af13818b566f8fa4f479e76286ad90cd5da2e8dfd530be0ab3637e1482ed",
+      "loss_by_timestep": {
+        "200": 0.39182066917419434,
+        "500": 0.14244882762432098,
+        "800": 0.02566554769873619
+      },
+      "mean_loss": 0.18664501483241716,
+      "score": -0.18664501483241716
+    },
+    {
+      "id": "nonmember_035.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A large white bowl of many green apples. ",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_035.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000002149.jpg",
+      "sha256": "3ef0da375244c3fdbb45bcfe5689e8e46fb616c00250f9dce6aa34d301801ac5",
+      "loss_by_timestep": {
+        "200": 0.3168063759803772,
+        "500": 0.09854327142238617,
+        "800": 0.016595780849456787
+      },
+      "mean_loss": 0.1439818094174067,
+      "score": -0.1439818094174067
+    },
+    {
+      "id": "nonmember_036.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A man flying through the air while riding skis.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_036.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000002473.jpg",
+      "sha256": "2f1bfa7634a64f7999ba5488ec904ad1f85bbc63d0fe4b9fe35f52abbf8c5f4f",
+      "loss_by_timestep": {
+        "200": 0.2684381604194641,
+        "500": 0.11950378119945526,
+        "800": 0.015321379527449608
+      },
+      "mean_loss": 0.13442110704878965,
+      "score": -0.13442110704878965
+    },
+    {
+      "id": "nonmember_037.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A person standing on top of a ski covered slope.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_037.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000002532.jpg",
+      "sha256": "fc017f5308d348bdb6011f2312b10853ccd780a4a7369f48774ef67f499f2e77",
+      "loss_by_timestep": {
+        "200": 0.36665332317352295,
+        "500": 0.14492729306221008,
+        "800": 0.024880006909370422
+      },
+      "mean_loss": 0.17882020771503448,
+      "score": -0.17882020771503448
+    },
+    {
+      "id": "nonmember_038.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "a close up of a banana and a doughnut in a plastic bag",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_038.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000002587.jpg",
+      "sha256": "bc37072a4f32bc99d6b02a684dd9bc69bd63567382315e5f497c9bb4a44c7208",
+      "loss_by_timestep": {
+        "200": 0.3813992738723755,
+        "500": 0.1266200691461563,
+        "800": 0.01698264852166176
+      },
+      "mean_loss": 0.17500066384673119,
+      "score": -0.17500066384673119
+    },
+    {
+      "id": "nonmember_039.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "Decorated coffee cup and knife sitting on a patterned surface.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_039.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000002592.jpg",
+      "sha256": "ffa3d472d44184b1f48878f7b097189723e57a24f36c44c29e4bc561110fbf41",
+      "loss_by_timestep": {
+        "200": 0.2854999303817749,
+        "500": 0.12975482642650604,
+        "800": 0.020792856812477112
+      },
+      "mean_loss": 0.14534920454025269,
+      "score": -0.14534920454025269
+    },
+    {
+      "id": "nonmember_040.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A group of people standing around each other.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_040.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000002685.jpg",
+      "sha256": "2430b9bffb5ff52dfbaf7b922ac8018547e233a5996a6b017bd1a206a46c5bdb",
+      "loss_by_timestep": {
+        "200": 0.4248371124267578,
+        "500": 0.18542681634426117,
+        "800": 0.033844828605651855
+      },
+      "mean_loss": 0.21470291912555695,
+      "score": -0.21470291912555695
+    },
+    {
+      "id": "nonmember_041.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A marsh area with egrets and shrimp boats",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_041.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000002923.jpg",
+      "sha256": "46d2a5feb3f953b59316daee47b45332f07ebde1f88eb361f29b35c1fbbb62e0",
+      "loss_by_timestep": {
+        "200": 0.28732526302337646,
+        "500": 0.07853607088327408,
+        "800": 0.009927371516823769
+      },
+      "mean_loss": 0.12526290180782476,
+      "score": -0.12526290180782476
+    },
+    {
+      "id": "nonmember_042.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A young man bending next to a toilet.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_042.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000003156.jpg",
+      "sha256": "3c929365d99581f03b70a810819df4781ac024d88dec7e592229cbea7489a779",
+      "loss_by_timestep": {
+        "200": 0.37693852186203003,
+        "500": 0.15300840139389038,
+        "800": 0.03501326963305473
+      },
+      "mean_loss": 0.18832006429632506,
+      "score": -0.18832006429632506
+    },
+    {
+      "id": "nonmember_043.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "a group of people riding skis on a snowy surface",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_043.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000003255.jpg",
+      "sha256": "c075f51a798e65d23e1c65a3fcc7736aeae4e03fbdd126f6d6b82cb07957d28b",
+      "loss_by_timestep": {
+        "200": 0.3578079044818878,
+        "500": 0.148894265294075,
+        "800": 0.02212655171751976
+      },
+      "mean_loss": 0.17627624049782753,
+      "score": -0.17627624049782753
+    },
+    {
+      "id": "nonmember_044.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A bunch of bananas sitting on top of a wooden table.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_044.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000003661.jpg",
+      "sha256": "8746b068c166782f4b4fb7e6be9d16e5311e9c15bc867e21409b7f5d2eddefb4",
+      "loss_by_timestep": {
+        "200": 0.3407006859779358,
+        "500": 0.1230078935623169,
+        "800": 0.01826152205467224
+      },
+      "mean_loss": 0.16065670053164163,
+      "score": -0.16065670053164163
+    },
+    {
+      "id": "nonmember_045.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A man in a shirt and tie motioning with his hand.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_045.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000004395.jpg",
+      "sha256": "14ffbd7ab7a01e0dd7fc9676a688bd2c916766e2edb6e1d12ac9ae0ed07b122a",
+      "loss_by_timestep": {
+        "200": 0.33370962738990784,
+        "500": 0.14880159497261047,
+        "800": 0.029634280130267143
+      },
+      "mean_loss": 0.17071516749759516,
+      "score": -0.17071516749759516
+    },
+    {
+      "id": "nonmember_046.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A man riding a surfboard on a wave in the ocean.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_046.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000004765.jpg",
+      "sha256": "90fab997d1351b1c2ae1a437689245f962dbfa58e577911c9c83991490aadc5e",
+      "loss_by_timestep": {
+        "200": 0.3513800799846649,
+        "500": 0.10283337533473969,
+        "800": 0.016849901527166367
+      },
+      "mean_loss": 0.15702111894885698,
+      "score": -0.15702111894885698
+    },
+    {
+      "id": "nonmember_047.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A cat observing a computer screen next to a laptop and a cordless phone.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_047.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000004795.jpg",
+      "sha256": "6f8994bac6aef0602d4aa4397ecd4b7d579f5b18f66058a2df021352dd22bdc6",
+      "loss_by_timestep": {
+        "200": 0.3661118447780609,
+        "500": 0.1306818723678589,
+        "800": 0.022230878472328186
+      },
+      "mean_loss": 0.17300819853941599,
+      "score": -0.17300819853941599
+    },
+    {
+      "id": "nonmember_048.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "A passenger bus pulling up to the side of a street.",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_048.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000005037.jpg",
+      "sha256": "b47318f2a6f652027f6435c462fae0567d925f67ab3279d08d5da2f322322dda",
+      "loss_by_timestep": {
+        "200": 0.3757033348083496,
+        "500": 0.1624317169189453,
+        "800": 0.024578621610999107
+      },
+      "mean_loss": 0.187571224446098,
+      "score": -0.187571224446098
+    },
+    {
+      "id": "nonmember_049.jpg",
+      "split": "nonmember",
+      "label": 0,
+      "prompt": "a man standing in front of a toilet taking a piss",
+      "query_path": "<DOWNLOAD_ROOT>/black-box/datasets/response-contract-copymark-commoncanvas-20260512/query/nonmember/nonmember_049.jpg",
+      "source_dataset_dir": "coco2017-val-2-5k-test",
+      "source_image_path": "coco2017-val-2-5k-test/images/000000005503.jpg",
+      "sha256": "ff95bf5ddb4bdbd7f4f0f96d963cd941a0a2b38cfcf7832f25113e8441a443c6",
+      "loss_by_timestep": {
+        "200": 0.32753607630729675,
+        "500": 0.11758303642272949,
+        "800": 0.025381924584507942
+      },
+      "mean_loss": 0.15683367910484472,
+      "score": -0.15683367910484472
+    }
+  ]
+}
