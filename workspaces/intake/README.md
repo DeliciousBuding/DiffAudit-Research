@@ -21,6 +21,11 @@
   attack on Stable Diffusion-v1-4 fine-tuning and reports Pokémon, T-to-I,
   MS-COCO, and Flickr member/hold-out counts. It does not provide public code,
   per-sample split manifests, released checkpoints, or query/response packages.
+- `MIAGM` / `Generated Distributions Are All You Need` is a code-reference-only
+  watch candidate. The public repository is useful for generated-distribution
+  membership context, but it does not expose exact target checkpoints,
+  generated-distribution payloads, or per-sample member/nonmember split
+  manifests.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -63,3 +68,10 @@ Current Noise as a Probe follow-up:
 - Reopen only if public code plus exact split/checkpoint artifacts appear.
 - Do not implement DDIM inversion or fine-tune SD-v1-4 from scratch just to
   reproduce the paper.
+
+Current MIAGM follow-up:
+
+- Keep it as related-method watch.
+- Reopen only if target checkpoints or generated-distribution payloads plus
+  exact split semantics are released.
+- Do not train DDPM/DDIM/FastDPM or regenerate distributions from scratch.
