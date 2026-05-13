@@ -155,6 +155,7 @@ workspaces/**/artifacts/**
 !workspaces/gray-box/artifacts/graybox-triscore-consolidation-summary.json
 !workspaces/gray-box/artifacts/graybox-triscore-truth-hardening-review.json
 !workspaces/gray-box/artifacts/graybox-paper-candidate-reentry-20260512.json
+!workspaces/gray-box/artifacts/fashion-mnist-ddpm-sima-score-norm-20260514.json
 !workspaces/gray-box/artifacts/secmi-admission-contract-hardening-20260511.json
 !workspaces/gray-box/artifacts/secmi-full-split-admission-boundary-20260511.json
 !workspaces/white-box/artifacts/whitebox-attack-defense-table.json
