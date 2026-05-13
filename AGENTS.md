@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak`
+- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss scout weak`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -101,7 +101,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   (`AUC = 0.499846`, `TPR@1%FPR = 0.013000`). Do not expand MIDST into TabSyn,
   white-box MIDST, nearest-neighbor preprocessing matrices, classifier sweeps,
   or marginal feature matrices unless a genuinely different tabular-diffusion
-  membership mechanism appears.
+  membership mechanism appears. A bounded Beans member-LoRA scout repaired the
+  old pseudo-membership semantics by creating an exact target
+  (`SD1.5 + Beans-member UNet LoRA`) and holding out `25` nonmembers, but
+  conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`,
+  `TPR@1%FPR = 0.080000`). Do not expand Beans LoRA train-step, rank,
+  resolution, prompt, scheduler, loss-weight, or timestep matrices by default.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
