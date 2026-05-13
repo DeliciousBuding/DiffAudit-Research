@@ -30,6 +30,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 - Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss scout weak`
 - Next GPU candidate: none selected
+- Long-horizon control: follow `ROADMAP.md` section
+  `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
+  Research lane. The selected forward path is Lane A external asset acquisition
+  watch unless a genuinely new mechanism family satisfies the same gates; do
+  not create another scope/audit/reselection chain when no candidate passes
+  target identity, exact member/nonmember split, query/response coverage, and
+  non-adjacent mechanism checks.
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
   membership. MNIST/DDPM via `1aurent/ddpm-mnist` has cleaner train/test
