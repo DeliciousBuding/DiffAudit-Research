@@ -117,6 +117,22 @@ conditional denoising-loss 后继;不扩 train-step、rank、resolution、prompt
 scheduler、loss-weight 或 timestep matrix。见
 [docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md)。
 
+### 2026-05-13 Beans LoRA delta-sensitivity scout
+
+为避免把 Beans LoRA 只按 denoising-loss 关闭,本轮切到真正不同的
+architecture-local observable:在相同 noisy latents、prompt、timesteps 和 noise
+seeds 下,测量 member-only LoRA 对 base SD1.5 UNet noise prediction 的相对 L2
+扰动。结果仍弱:`mean_relative_unet_prediction_delta_l2_after_member_lora`
+只有 `AUC = 0.512000`,`ASR = 0.600000`,`TPR@1%FPR = 0.040000`;
+secondary `mean_base_minus_lora_denoising_loss_delta` 更弱
+(`AUC = 0.468800`,`TPR@1%FPR = 0.000000`)。member/nonmember mean relative
+delta 几乎重叠(`0.199573` vs `0.199563`)。这关闭 Beans LoRA
+parameter-delta sensitivity 后继;Beans LoRA 已在修正 membership 语义后同时
+失败 conditional denoising-loss 和 parameter-delta sensitivity,不得扩 layer/block、
+timestep、prompt、rank、train-step、resolution、scheduler 或 loss-delta matrix。
+见
+[docs/evidence/beans-lora-delta-sensitivity-20260513.md](docs/evidence/beans-lora-delta-sensitivity-20260513.md)。
+
 ### 2026-05-13 LAION-mi asset verdict
 
 Lane A inspected `antoniaaa/laion_mi` as a non-duplicate second membership
@@ -310,8 +326,8 @@ response contract。
 
 - Kohaku / Danbooru,除非拿到 exact target-member manifest 或小型 verified
   split。
-- Beans base SD1.5 pseudo-membership、Beans LoRA denoising-loss train/rank/
-  timestep variants。
+- Beans base SD1.5 pseudo-membership、Beans LoRA denoising-loss /
+  parameter-delta sensitivity train/rank/timestep/layer variants。
 - CommonCanvas 同 packet 的 pixel / CLIP / prompt / stability / denoising-loss
   variants。
 - Fashion-MNIST / MNIST public-checkpoint raw-loss or x0 repeat。
@@ -560,15 +576,15 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete; Quantile Regression is mechanism-reference but artifact-incomplete |
-| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, MIDST TabDDPM, Beans LoRA, and LAION-mi URL-probe verdicts |
+| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete; Quantile Regression is mechanism-reference but artifact-incomplete |
+| Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, MIDST TabDDPM, Beans LoRA denoising-loss/delta-sensitivity, and LAION-mi URL-probe verdicts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
 | CPU sidecar | none selected; Quantile Regression lacks paper-specific code, exact target artifacts, and per-sample split manifests; MIAGM lacks target checkpoint/split/generated-distribution artifacts; Noise as a Probe lacks public code/split/checkpoint artifacts; Zenodo full download and further same-line audits are blocked on a public split manifest; and LAION-mi live URLs remain closed |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
 
-"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance、CLIP image-similarity、prompt-response consistency、multi-seed response stability、conditional denoising-loss 都弱。P1 的 known-split gradient-prototype follow-up 也弱。不要把弱结果扩展成消融矩阵、seed/subset 矩阵、denoising-loss 矩阵或梯度变体表。下一步必须重新选一个真正不同的机制或新资产;如果没有,就停在当前结论。"
+"CommonCanvas 已经在第二个真实 membership 资产上跑过,且 pixel-distance、CLIP image-similarity、prompt-response consistency、multi-seed response stability、conditional denoising-loss 都弱。P1 的 known-split gradient-prototype follow-up 也弱。Beans LoRA 在修正 membership 语义后,conditional denoising-loss 和 parameter-delta sensitivity 都弱。不要把弱结果扩展成消融矩阵、seed/subset 矩阵、denoising-loss 矩阵、delta/layer 矩阵或梯度变体表。下一步必须重新选一个真正不同的机制或新资产;如果没有,就停在当前结论。"
 
 ---
 
@@ -580,10 +596,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
 | Current GPU candidate | none selected |
 | CPU sidecar | none selected; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
-| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA scout, and failed LAION-mi URL probe |
+| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA denoising-loss/delta-sensitivity scouts, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
@@ -596,7 +612,10 @@ membership benchmark and is locally scoreable, but both the minimal
 nearest-synthetic-row scorer and a shadow-trained marginal distributional
 classifier are weak on dev/final. CommonCanvas PIA-style denoising-loss also
 failed on the true `50/50` packet, so do not reopen it via timestep or scheduler
-matrices. The next high-value move must be a
+matrices. Beans LoRA also failed both conditional denoising-loss and
+parameter-delta sensitivity after the known-split repair, so do not reopen it
+through train-step, rank, layer/block, timestep, prompt, scheduler, or
+resolution matrices. The next high-value move must be a
 genuinely different mechanism or cleaner asset, not another validator,
 boundary note, adjacent CLIP score, stability repeat, same-family gradient
 variant, same-contract repeat, or remap-training detour.
@@ -1033,7 +1052,7 @@ Every autonomous research cycle must follow this loop:
 | MIDST TabDDPM external benchmark | hold / weak tabular mechanisms | MIDST black-box single-table is locally scoreable with exact labels, but nearest-synthetic-row distance gives only `dev+final AUC = 0.566263`; shadow-trained marginal distributional learning overfits train and collapses to `dev+final AUC = 0.499846`; no TabSyn, white-box MIDST, classifier sweep, or feature-matrix expansion. |
 | Kohaku/Danbooru external asset | hold / membership-semantics blocked | Model cards identify broad HakuBooru/Danbooru2023 training sources, but no exact target member list or fixed selection manifest is available; do not download `38-40 GB` weights or TB-scale image assets for pseudo-membership scoring. |
 | Fashion-MNIST DDPM PIA-loss scout | hold / weak scout only | `ynwag9/fashion_mnist_ddpm_32` runs on CUDA with real Fashion-MNIST train/test split, but fixed-timestep epsilon-MSE gives only `AUC = 0.535889` and weak low-FPR recovery; no seed/timestep expansion. |
-| Beans member-LoRA denoising-loss scout | hold / weak known-split scout | Creating a precise `SD1.5 + Beans-member LoRA` target fixes the old pseudo-membership semantics, but conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`); no train-step/rank/resolution/prompt/timestep expansion. |
+| Beans member-LoRA mechanism scouts | hold / weak known-split family closed | Creating a precise `SD1.5 + Beans-member LoRA` target fixes the old pseudo-membership semantics, but conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`) and parameter-delta sensitivity is also near-random (`AUC = 0.512000`, `TPR@1%FPR = 0.040000`); no train-step/rank/resolution/prompt/timestep/layer expansion. |
 | Noise as a Probe | watch / reproduction-incomplete | Semantic-initial-noise reconstruction is a genuinely different mechanism family, but there is no public code, exact split manifest, released checkpoint, or query/response package; do not implement DDIM inversion or fine-tune SD-v1-4 from scratch. |
 | Zenodo fine-tuned diffusion asset | watch / split-manifest blocked | Public paper/code references confirm a reconstruction-based attack workflow, but exact target member/nonmember sample identities are still not exposed; no full archive download, same-line audit, LoRA scoring, or GPU release. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
@@ -1057,6 +1076,7 @@ Every autonomous research cycle must follow this loop:
 | Zenodo fine-tuned diffusion asset verdict | archive-structured but manifest-incomplete; no full download or GPU release | [docs/evidence/zenodo-finetuned-diffusion-asset-verdict-20260513.md](docs/evidence/zenodo-finetuned-diffusion-asset-verdict-20260513.md) |
 | LAION-mi URL availability probe | fixed `25/25` probe failed; metadata-only watch; no response generation or GPU release | [docs/evidence/laion-mi-url-availability-probe-20260513.md](docs/evidence/laion-mi-url-availability-probe-20260513.md) |
 | LAION-mi asset verdict | metadata-ready but response-not-ready; no GPU release | [docs/evidence/laion-mi-asset-verdict-20260513.md](docs/evidence/laion-mi-asset-verdict-20260513.md) |
+| Beans LoRA delta-sensitivity scout | weak known-split internal mechanism verdict; parameter-delta sensitivity closes and Beans LoRA family is no longer expandable | [docs/evidence/beans-lora-delta-sensitivity-20260513.md](docs/evidence/beans-lora-delta-sensitivity-20260513.md) |
 | Beans member-LoRA denoising-loss scout | weak known-split internal scout; membership semantics repaired but denoising-loss signal closes | [docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md) |
 | Beans SD1.5 response-contract scout | feasible second-query-dataset package candidate; no GPU release | [docs/evidence/beans-sd15-response-contract-scout-20260512.md](docs/evidence/beans-sd15-response-contract-scout-20260512.md) |
 | Beans SD1.5 response-contract package | ready local `25/25` query/response package; no GPU release | [docs/evidence/beans-sd15-response-contract-ready-20260512.md](docs/evidence/beans-sd15-response-contract-ready-20260512.md) |
