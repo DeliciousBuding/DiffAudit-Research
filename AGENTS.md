@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss and parameter-delta sensitivity scouts weak; Quantile Regression is mechanism-reference but artifact-incomplete`
+- Active work: `White-box GSA Zenodo archive is admitted-family provenance, not a new second asset; MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss and parameter-delta sensitivity scouts weak; Quantile Regression is mechanism-reference but artifact-incomplete`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -145,6 +145,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   checkpoint, exact member/nonmember split manifest, or query/response packet.
   Do not scrape staff images, train SD1.5 for 400 epochs, or reconstruct private
   folders from result traces.
+- Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
+  artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
+  `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
+  package it as a black-box/conditional response-contract candidate unless a
+  separate reproducibility-maintenance task explicitly reopens admitted GSA
+  provenance.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
