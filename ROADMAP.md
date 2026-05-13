@@ -125,6 +125,144 @@ query 与 response coverage 已存在或可在一次确定性小包内生成,且
 PIA-style score 单点;失败条件是 `AUC < 0.60` 或 `TPR@1%FPR` 近零时立即关闭,
 不补矩阵消融。
 
+## Long-Horizon Research Task Board（2026-05-13 起）
+
+本节是当前长程任务板,用于替代继续追加短期 reselection / scope / preflight
+文档。直到有新的 admitted row 或真正新资产出现前,下一位 Researcher 必须按
+本节执行,不得把已关闭弱线改名重开。
+
+### 总目标
+
+在不牺牲严谨性的前提下,把 DiffAudit Research 从单资产强结果推进到
+`可迁移 / 可解释 / 可系统消费` 的长期研究面。当前 admitted 基线已经足够支撑
+演示和系统消费;下一阶段的价值只来自三类事情:
+
+1. 找到第二个可复核 target membership 合同并跑出非弱信号。
+2. 找到一个真正不同的 membership observable,不是旧 response similarity、
+   denoising loss、final-layer gradient、nearest-neighbor 或 shadow marginal
+   的相邻变体。
+3. 把现有 admitted rows 的消费边界转成更稳定的论文/国创叙事,但不把
+   candidate / weak / support-only 结果升格。
+
+### Lane A: External Asset Acquisition Mainline
+
+目标:获取一个比 CommonCanvas / MIDST / Beans 更干净的第二 membership 资产或
+response contract。
+
+必备合同:
+
+- target model identity 固定到 checkpoint / endpoint / training recipe。
+- target-member 列表逐样本可复核,不是 dataset split 名字、模型卡泛称或
+  broad training-source provenance。
+- nonmember / holdout 逐样本可复核,且不与 target training source 混淆。
+- query/response coverage 已存在,或能在一次 deterministic `25/25` or `50/50`
+  小包内生成。
+- license / redistribution 边界能写入公开文档;私有路径、token、真实账号不写入。
+
+执行顺序:
+
+1. 每次只审一个候选 asset,先做 card / repo / manifest / file-tree
+   membership-semantics check。
+2. 只有合同满足上面五条,才允许下载权重或生成 responses。
+3. 首包只跑一个最有判断力的 scorer;不得先建 scorer matrix。
+4. 若 `AUC < 0.60` 或 `TPR@1%FPR` 近零,立即关闭该 asset 的当前 observable。
+
+当前禁止重开:
+
+- Kohaku / Danbooru,除非拿到 exact target-member manifest 或小型 verified
+  split。
+- Beans base SD1.5 pseudo-membership、Beans LoRA denoising-loss train/rank/
+  timestep variants。
+- CommonCanvas 同 packet 的 pixel / CLIP / prompt / stability / denoising-loss
+  variants。
+- Fashion-MNIST / MNIST public-checkpoint raw-loss or x0 repeat。
+- MIDST nearest-neighbor、shadow marginal classifier、TabSyn / white-box MIDST
+  expansion。
+
+### Lane B: Mechanism Discovery Mainline
+
+目标:找到一个能解释或超越现有 admitted rows 的新 observable。当前允许的是
+concept-level 机制设计,不是围绕弱结果补矩阵。
+
+可考虑的问题形态:
+
+- training-dynamics observable:不同 checkpoint / training phase 的信号轨迹,
+  前提是 target membership 和 checkpoint cadence 可复核。
+- architecture-local observable:不仅是 final-layer norm/cosine,而是有明确
+  diffusion block / attention / normalization 假设,且能先在 tiny target 上证明
+  非随机。
+- response-contract observable:不是 query-response 距离,而是利用可复核生成
+  过程中的中间状态、uncertainty 或 edit trajectory;必须有 fixed query contract。
+- defense-aware observable:必须同时定义 defended target、adaptive attacker、
+  retained utility 和 member/nonmember identity,否则仍属于 I-B hold。
+
+机制 release gate:
+
+- 先写一句 falsifiable hypothesis:如果成功,会改变哪一条 project decision。
+- tiny smoke 只验证可运行;不得用 `2/2` 或 `4/4` 结果做结论。
+- 正式最小包优先 `25/25` or `50/50`;低于该规模只能叫 smoke。
+- 弱结果不得进入 second variant,除非变体改变 observable family。
+
+当前禁止重开:
+
+- final-layer gradient norm/cosine/prototype variants。
+- raw denoising MSE / x0 residual / pixel or CLIP distance variants。
+- midfreq same-contract repeat or frequency cutoff sweep。
+- CLiD prompt / prompt-text / image-prompt shuffle variants。
+
+### Lane C: Consumer Boundary And Paperization Mainline
+
+目标:让已有强结果更容易被 Platform / Runtime / 国创材料消费,但不制造新研究
+claim。
+
+允许动作:
+
+- 同步 admitted consumer rows:recon、PIA baseline、PIA defended、GSA、DPDM W-1。
+- 把 finite-tail / adaptive boundary 写成可引用的限制条件。
+- 将 weak/candidate/support-only rows 编入 negative evidence 或 limitations,
+  但不改变 status。
+- 给 Platform / Runtime 提供 machine-readable bundle,前提是 bundle 只含
+  admitted rows 或明确的 candidate label。
+
+禁止动作:
+
+- 为了让系统看起来丰富,把 ReDiffuse、SecMI NNS/stat、tri-score、H2、
+  CLiD、CommonCanvas、Beans LoRA、MIDST、I-B、I-C 写成 product row。
+- 因为某个候选有高 AUC 就绕过 low-FPR、adaptive、consumer-boundary review。
+- 在公共文档里写本机路径、SSH alias、真实域名、token 或 agent 私聊指令。
+
+### Execution Cadence
+
+每个长程循环最多只能落一个主产物:
+
+- `asset verdict`:一个新资产合同通过/失败,并更新 task board。
+- `metric verdict`:一个 bounded scorer packet 通过/失败,并写 evidence note。
+- `consumer verdict`:一个 admitted/candidate boundary 同步,并跑 public checks。
+
+每轮都必须更新:
+
+- `<DIFFAUDIT_ROOT>/ROADMAP.md`
+- `<DIFFAUDIT_ROOT>/Research/ROADMAP.md`
+- 相关 `workspaces/<direction>/README.md` 或 `plan.md`
+
+每轮都必须结束于:
+
+- `active_gpu_question` 明确为具体 bounded packet 或 `none`。
+- `next_gpu_candidate` 明确为具体候选或 `none`。
+- `CPU sidecar` 明确为一个小任务或 `none selected`。
+- 如果 Research repo 有改动,走 branch -> checks -> PR -> squash merge ->
+  clean `main`。
+
+### Current Long-Horizon State
+
+| Field | Value |
+| --- | --- |
+| Active GPU question | none |
+| Next GPU candidate | none |
+| CPU sidecar | Lane A external asset acquisition watch; no docs-only sidecar selected |
+| Highest-value next action | Find a genuinely clean second membership asset or a mechanism family not covered by the closed variants above |
+| Stop condition | If no candidate passes target/split/query-response/mechanism gates, update only this board and stop rather than writing another scope/audit chain |
+
 ### P0 — 完成且弱
 
 CopyMark / CommonCanvas 已跑出第一个真实 `50/50` scorer 结果:
