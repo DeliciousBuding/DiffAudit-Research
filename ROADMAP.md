@@ -74,6 +74,21 @@ MIDST 或 tabular preprocessing matrix,除非出现真正不同的 tabular-diffu
 membership 机制。见
 [docs/evidence/midst-tabddpm-nearest-neighbor-scout-20260513.md](docs/evidence/midst-tabddpm-nearest-neighbor-scout-20260513.md)。
 
+### 2026-05-13 MIDST TabDDPM shadow-distributional scout
+
+为确认 MIDST 是否只是最近邻 scorer 太弱,本轮只放行一个真正不同的 tabular
+机制:用 `train` phase 的 `30` 个 shadow model folders 训练
+`HistGradientBoostingClassifier`,输入 challenge row 相对于同 folder
+`trans_synthetic.csv` 的 marginal z-score、robust z-score、empirical CDF、
+tail-CDF、90% interval indicator 和 row-level outlierness summaries,再只在
+dev/final 上评估。结果是典型 shadow overfit:train `AUC = 0.881991`、
+`TPR@1%FPR = 0.302333`,但 dev+final 只有 `AUC = 0.499846`、
+`ASR = 0.504250`,`TPR@1%FPR = 0.013000`,`TPR@0.1%FPR = 0.001500`。
+该结果关闭 MIDST marginal-distributional shadow learning;不扩 classifier sweep、
+feature matrix、TabSyn 或 white-box MIDST,除非出现真正不同的
+tabular-diffusion membership observable。见
+[docs/evidence/midst-tabddpm-shadow-distributional-scout-20260513.md](docs/evidence/midst-tabddpm-shadow-distributional-scout-20260513.md)。
+
 Minimal reopen contract: 只有同时满足以下条件,下一轮才允许从 `none` 升为
 新的 bounded GPU packet:目标模型身份固定,逐样本 member/nonmember split 可复核,
 query 与 response coverage 已存在或可在一次确定性小包内生成,且假设不是
@@ -150,10 +165,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas stability weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor scout weak |
+| Active work | P0/P1 weak; CommonCanvas stability weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak |
 | Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability, gradient-prototype, Fashion-MNIST, and MIDST TabDDPM scouts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after local inventory and MIDST; next action is external new-asset watch only, not docs/tooling; do not turn Kohaku/Danbooru, Fashion-MNIST, MIDST nearest-neighbor variants, MNIST raw data, or I-B into pseudo-progress lanes |
+| CPU sidecar | none selected after local inventory and MIDST; next action is external new-asset watch only, not docs/tooling; do not turn Kohaku/Danbooru, Fashion-MNIST, MIDST nearest-neighbor or shadow-classifier variants, MNIST raw data, or I-B into pseudo-progress lanes |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -170,10 +185,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor scout weak` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; local package inventory and MIDST nearest-neighbor scout are exhausted unless a genuinely new mechanism or cleaner asset appears; only external new-asset watch remains |
-| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, and weak MIDST TabDDPM nearest-neighbor scout |
+| CPU sidecar | none selected; local package inventory and MIDST nearest-neighbor plus shadow-distributional scouts are exhausted unless a genuinely new mechanism or cleaner asset appears; only external new-asset watch remains |
+| Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, and weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
@@ -182,8 +197,9 @@ CLIP image-similarity, prompt-response consistency, and multi-seed response
 stability are all weak. A more optimistic known-split final-layer gradient
 prototype scout is also weak. A small Fashion-MNIST DDPM PIA-style loss scout
 on a real train/test split is also weak. MIDST TabDDPM is a cleaner external
-membership benchmark and is locally scoreable, but the minimal nearest-synthetic
-row scorer is also weak. The next high-value move must be a
+membership benchmark and is locally scoreable, but both the minimal
+nearest-synthetic-row scorer and a shadow-trained marginal distributional
+classifier are weak on dev/final. The next high-value move must be a
 genuinely different mechanism or cleaner asset, not another validator,
 boundary note, adjacent CLIP score, stability repeat, same-family gradient
 variant, same-contract repeat, or remap-training detour.
@@ -617,7 +633,7 @@ Every autonomous research cycle must follow this loop:
 | --- | --- | --- |
 | True second membership benchmark | hold / needs genuinely different mechanism | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit, weakens at `16 / 64`, and oracle gradient-prototype alignment is random at `64 / 64`; no GPU. |
 | CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), the single CLIP image-similarity follow-up is weak (`AUC = 0.4588`, zero low-FPR recovery), prompt-response consistency is weak (`AUC = 0.4408`), and multi-seed response stability is weak (`4/4`, `AUC = 0.5625`). Close this packet by default. |
-| MIDST TabDDPM external benchmark | hold / weak nearest-neighbor only | MIDST black-box single-table is locally scoreable with exact labels, but nearest-synthetic-row distance gives only `dev+final AUC = 0.566263` and near-zero strict-tail recovery; no TabSyn, white-box MIDST, or nearest-neighbor matrix expansion. |
+| MIDST TabDDPM external benchmark | hold / weak tabular mechanisms | MIDST black-box single-table is locally scoreable with exact labels, but nearest-synthetic-row distance gives only `dev+final AUC = 0.566263`; shadow-trained marginal distributional learning overfits train and collapses to `dev+final AUC = 0.499846`; no TabSyn, white-box MIDST, classifier sweep, or feature-matrix expansion. |
 | Kohaku/Danbooru external asset | hold / membership-semantics blocked | Model cards identify broad HakuBooru/Danbooru2023 training sources, but no exact target member list or fixed selection manifest is available; do not download `38-40 GB` weights or TB-scale image assets for pseudo-membership scoring. |
 | Fashion-MNIST DDPM PIA-loss scout | hold / weak scout only | `ynwag9/fashion_mnist_ddpm_32` runs on CUDA with real Fashion-MNIST train/test split, but fixed-timestep epsilon-MSE gives only `AUC = 0.535889` and weak low-FPR recovery; no seed/timestep expansion. |
 | CLiD prompt-conditioned boundary | CPU-only | Preserve diagnostic claim boundary; no GPU unless a new image-identity protocol exists. |
@@ -654,6 +670,7 @@ Every autonomous research cycle must follow this loop:
 | Kohaku/Danbooru asset decision | hold; broad training-source provenance is not enough for a clean target member/nonmember split | [docs/evidence/kohaku-danbooru-asset-decision-20260513.md](docs/evidence/kohaku-danbooru-asset-decision-20260513.md) |
 | Fashion-MNIST DDPM PIA-loss scout | weak `64/64` CUDA scout on a real train/test split; no admitted promotion and no expansion | [docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md](docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md) |
 | MIDST TabDDPM nearest-neighbor scout | weak external benchmark scout; `dev+final AUC = 0.566263` and near-zero strict-tail recovery; no admitted promotion and no expansion | [docs/evidence/midst-tabddpm-nearest-neighbor-scout-20260513.md](docs/evidence/midst-tabddpm-nearest-neighbor-scout-20260513.md) |
+| MIDST TabDDPM shadow-distributional scout | weak transfer; train shadow `AUC = 0.881991` but dev+final `AUC = 0.499846`; no classifier/feature expansion | [docs/evidence/midst-tabddpm-shadow-distributional-scout-20260513.md](docs/evidence/midst-tabddpm-shadow-distributional-scout-20260513.md) |
 | I-B defended-shadow reopen protocol | protocol-frozen; no GPU release; no admitted defense claim | [docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md](docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md) |
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
