@@ -133,6 +133,19 @@ timestep、prompt、rank、train-step、resolution、scheduler 或 loss-delta ma
 见
 [docs/evidence/beans-lora-delta-sensitivity-20260513.md](docs/evidence/beans-lora-delta-sensitivity-20260513.md)。
 
+### 2026-05-13 paperization consumer boundary review
+
+按长程 task board 的 Lane C,本轮检查 admitted summary、admitted bundle、unified
+attack-defense table、product bridge 和 innovation map。admitted artifacts 中
+没有 CommonCanvas、MIDST、Beans、Quantile、MIAGM、LAION、Zenodo、Noise as a
+Probe 或 Kohaku 条目;它们只出现在 boundary、candidate、watch 或 limitation
+文档里。结论是 `synchronized / paperization boundary updated / no schema
+change`:Platform/Runtime 与国创/论文材料仍只消费 `recon`、`PIA baseline`、
+`PIA defended`、`GSA`、`DPDM W-1` 五条 admitted rows;最近的 weak/watch
+结果只能作为 limitations 或 future-work hooks,不能写成 product evidence、
+admitted bundle entry 或 headline claim。见
+[docs/evidence/paperization-consumer-boundary-20260513.md](docs/evidence/paperization-consumer-boundary-20260513.md)。
+
 ### 2026-05-13 LAION-mi asset verdict
 
 Lane A inspected `antoniaaa/laion_mi` as a non-duplicate second membership
@@ -596,9 +609,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
+| Active work | `Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
+| CPU sidecar | none selected; paperization can cite recent weak/watch lines only as limitations or future-work hooks; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
 | Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA denoising-loss/delta-sensitivity scouts, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -1068,6 +1081,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Paperization consumer boundary | synchronized; recent weak/watch lines remain limitations/future-work only and do not change Platform/Runtime admitted rows | [docs/evidence/paperization-consumer-boundary-20260513.md](docs/evidence/paperization-consumer-boundary-20260513.md) |
 | Quantile Regression asset verdict | mechanism-reference but artifact-incomplete; no paper-specific code, target artifacts, split manifest, download, or GPU release | [docs/evidence/quantile-regression-asset-verdict-20260513.md](docs/evidence/quantile-regression-asset-verdict-20260513.md) |
 | MIAGM asset verdict | code-reference-only but artifact-incomplete; no target checkpoints, splits, generated distributions, download, or GPU release | [docs/evidence/miagm-asset-verdict-20260513.md](docs/evidence/miagm-asset-verdict-20260513.md) |
 | Watch-candidate consumer boundary | admitted-only Platform/Runtime boundary intact after LAION-mi, Zenodo, and Noise as a Probe watch verdicts; no schema change | [docs/evidence/watch-candidate-consumer-boundary-20260513.md](docs/evidence/watch-candidate-consumer-boundary-20260513.md) |
