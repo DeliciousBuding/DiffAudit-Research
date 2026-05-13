@@ -220,6 +220,22 @@ No Platform row, Runtime schema, admitted bundle, recommendation logic, or
 product copy change is released. See
 [docs/evidence/watch-candidate-consumer-boundary-20260513.md](docs/evidence/watch-candidate-consumer-boundary-20260513.md)。
 
+### 2026-05-13 MIAGM asset verdict
+
+Research returned to Lane A after the consumer-boundary sync and inspected
+`Generated Distributions Are All You Need for Membership Inference Attacks
+Against Generative Models` / `MIAGM`. The public repository is a useful
+generated-distribution membership reference covering DDPM, DDIM, FastDPM,
+CIFAR-10, and CelebA, but it does not expose exact target checkpoints,
+per-sample member/nonmember split manifests, or ready generated-distribution
+payloads.
+
+Decision: `code-reference-only / artifact-incomplete / no download / no GPU
+release`. MIAGM remains related-method watch, not `next_gpu_candidate`; do not
+train DDPM/DDIM/FastDPM or regenerate distributions from scratch without
+released target artifacts and split semantics. See
+[docs/evidence/miagm-asset-verdict-20260513.md](docs/evidence/miagm-asset-verdict-20260513.md)。
+
 Minimal reopen contract: 只有同时满足以下条件,下一轮才允许从 `none` 升为
 新的 bounded GPU packet:目标模型身份固定,逐样本 member/nonmember split 可复核,
 query 与 response coverage 已存在或可在一次确定性小包内生成,且假设不是
@@ -450,9 +466,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
+| CPU sidecar | none selected; MIAGM is code-reference-only and artifact-incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
 | Highest-value next action | Continue Lane A discovery with a non-duplicate candidate that exposes exact split artifacts, or switch to Lane B only with a runnable target contract |
-| Stop condition | Do not implement Noise-as-Probe from scratch, download the full Zenodo archive, write another Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
+| Stop condition | Do not train MIAGM targets or regenerate distributions from scratch, implement Noise-as-Probe from scratch, download the full Zenodo archive, write another Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
 
 ### P0 — 完成且弱
 
@@ -1013,6 +1029,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| MIAGM asset verdict | code-reference-only but artifact-incomplete; no target checkpoints, splits, generated distributions, download, or GPU release | [docs/evidence/miagm-asset-verdict-20260513.md](docs/evidence/miagm-asset-verdict-20260513.md) |
 | Watch-candidate consumer boundary | admitted-only Platform/Runtime boundary intact after LAION-mi, Zenodo, and Noise as a Probe watch verdicts; no schema change | [docs/evidence/watch-candidate-consumer-boundary-20260513.md](docs/evidence/watch-candidate-consumer-boundary-20260513.md) |
 | Noise as a Probe asset verdict | mechanism-relevant but reproduction-incomplete; no code/split/checkpoint artifacts and no GPU release | [docs/evidence/noise-as-probe-asset-verdict-20260513.md](docs/evidence/noise-as-probe-asset-verdict-20260513.md) |
 | Zenodo fine-tuned diffusion code reference audit | paper-and-code-backed watch, but split manifest still missing; no full download or GPU release | [docs/evidence/zenodo-code-reference-audit-20260513.md](docs/evidence/zenodo-code-reference-audit-20260513.md) |
