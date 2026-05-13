@@ -14,9 +14,10 @@
   after modest AUC and weak strict-tail evidence; 800k remains blocked.
   Archived paper candidates (SIMA, Noise-as-Probe, MoFit, Structural
   Memorization) were reviewed for reentry and remain on hold.
-- SimA status: a fresh Fashion-MNIST DDPM `64/64` score-norm scout is weak
-  (`AUC = 0.515137`, zero low-FPR recovery); do not expand timestep, `p`-norm,
-  seed, scheduler, or packet-size variants.
+- Fashion-MNIST DDPM status: score-norm and score-Jacobian sensitivity scouts
+  are both weak (`AUC = 0.515137` and `0.511719`, zero low-FPR recovery); do
+  not expand timestep, `p`-norm, perturbation-scale, seed, scheduler, norm, or
+  packet-size variants.
 - MoFit status: mechanism-relevant caption-free gray-box route, but public code
   instructions are still `TBW` and target/split artifacts are missing. Do not
   implement surrogate/embedding optimization from scratch or release GPU.
@@ -42,6 +43,9 @@ Current MoFit artifact verdict:
 
 Current Fashion-MNIST SimA score-norm closure:
 [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md).
+
+Current Fashion-MNIST score-Jacobian sensitivity closure:
+[../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md).
 
 ## Archive
 

@@ -9,11 +9,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Cardio-AI/memorization-ldm asset gate is request-gated and artifact-incomplete; Fashion-MNIST SimA score-norm remains weak and closed` |
+| Active work | `Fashion-MNIST score-Jacobian sensitivity scout weak and closed; memorization-LDM asset gate remains request-gated and artifact-incomplete` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected |
-| Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm weak |
+| Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
 ## Decision Inbox
@@ -33,6 +33,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Cross-box successor hypothesis | cross-box | hold | CPU-only scope review closed without a new release-ready hypothesis | current executable routes are existing score-sharing/fusion/support/tail-gated variants or asset-blocked response-contract transfer | reopen only with a genuinely new observable or ready second response-contract package |
 | gray-box archived paper candidates | gray-box / intake | hold | reentry review covers SIMA, Noise-as-Probe, MoFit, and Structural Memorization | current artifacts are weak, canary-only, low-FPR unstable, or covered by closed fusion/support routes | reopen only with a new low-FPR-primary observable or protocol |
 | Fashion-MNIST DDPM SimA score-norm | gray-box | closed / weak metric verdict | clean train/test split and denoiser access produced a real `64/64` CUDA scout | `AUC = 0.515137` and both low-FPR metrics are zero | do not expand timestep, `p`-norm, seed, scheduler, or packet-size matrices |
+| Fashion-MNIST DDPM score-Jacobian sensitivity | gray-box | closed / weak metric verdict | clean train/test split and denoiser local input-sensitivity access produced a real `64/64` CUDA scout | `AUC = 0.511719` and both low-FPR metrics are zero | do not expand timestep, perturbation-scale, seed, scheduler, norm, or packet-size matrices |
 | memorization-LDM medical asset | intake / Lane A | watch / artifact-incomplete | public code and Zenodo software snapshot exist for patient-imaging LDM memorization detection | synthesized samples are request-gated; no target LDM checkpoint, exact member/nonmember manifests, or generated response package is public | do not download medical datasets, request controlled samples, train target LDMs, or release GPU until public-safe target/split/response artifacts exist |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
@@ -42,31 +43,32 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Memorization-LDM Long-Horizon Idle State
+### Post-Score-Jacobian Long-Horizon Idle State
 
 - `mode`: CPU-only
-- `status`: The latest Lane A asset gate is Cardio-AI `memorization-ldm`. It
-  is non-duplicate and medically relevant, but it is request-gated and
-  artifact-incomplete: no public target LDM checkpoint, exact member/nonmember
-  manifests, or generated response package. The latest active metric verdict,
-  Fashion-MNIST DDPM SimA score-norm, remains weak (`AUC = 0.515137`, zero
-  low-FPR recovery) and closes the Fashion-MNIST SimA branch after the prior
-  weak PIA-loss scout. I-B, I-C, ReDiffuse, CommonCanvas, MIDST, Beans LoRA,
-  LAION-mi, Zenodo, MoFit, MIAGM, Quantile Regression, and Noise as a Probe
-  remain governed by `ROADMAP.md` lane gates and do not release automatic
-  CPU/GPU work.
+- `status`: The latest active metric verdict is Fashion-MNIST DDPM
+  score-Jacobian sensitivity. It is weak (`AUC = 0.511719`, zero low-FPR
+  recovery) and closes the local score-field sensitivity branch after prior
+  weak Fashion-MNIST PIA-loss and SimA score-norm scouts. The latest Lane A
+  asset gate, Cardio-AI `memorization-ldm`, remains non-duplicate and medically
+  relevant but request-gated and artifact-incomplete. I-B, I-C, ReDiffuse,
+  CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
+  Regression, and Noise as a Probe remain governed by `ROADMAP.md` lane gates
+  and do not release automatic CPU/GPU work.
 - `goal`: next cycle must select exactly one Lane A/B/C task from
   `ROADMAP.md`; if no candidate passes target identity, exact split,
   query/response coverage, provenance, and non-adjacent mechanism gates, stop
   rather than writing another scope/audit/reselection chain.
-- `latest trigger`: Memorization-LDM tested a non-duplicate external asset
-  candidate, but the public artifact gate fails before download or GPU.
+- `latest trigger`: score-Jacobian sensitivity tested a genuinely different
+  local denoiser response surface, but the CUDA result is weak and closes the
+  route before any matrix expansion.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only weak gray-box scout
 
 Current evidence:
 
 - [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
+- [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md)
 - [../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md](../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md)
 - [../../docs/evidence/secmi-consumer-contract-review-20260512.md](../../docs/evidence/secmi-consumer-contract-review-20260512.md)
 - [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md)
@@ -271,6 +273,7 @@ Restart conditions:
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
 | Memorization-LDM asset gate | Request-gated and artifact-incomplete; public code/Zenodo software snapshot lack target LDM checkpoint, exact split manifests, and generated response package. |
+| Fashion-MNIST score-Jacobian sensitivity | Weak clean-split metric verdict; `AUC = 0.511719` with zero low-FPR recovery, no perturbation/timestep/seed/norm expansion. |
 | Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |
 | Black-box response-contract discovery | needs-assets; discovery found no paired second response-contract package under black-box dataset/supplementary roots. |
 | Black-box response-contract second-asset intake | needs-assets; post-tri-score refresh found no ready paired package. |

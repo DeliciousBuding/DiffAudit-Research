@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Cardio-AI/memorization-ldm asset gate is request-gated and artifact-incomplete after Fashion-MNIST SimA score-norm closed weak; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Fashion-MNIST score-Jacobian sensitivity scout is weak and closed after memorization-LDM asset gate and SimA score-norm; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -111,9 +111,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   on `ynwag9/fashion_mnist_ddpm_32` used a real Fashion-MNIST train/test split
   and CUDA, but remained weak (`AUC = 0.535889`, `TPR@1%FPR = 0.03125`).
   A genuinely different SimA single-query denoiser score-norm scout on the
-  same split is also weak (`AUC = 0.515137`, `TPR@1%FPR = 0.0`);
-  do not expand either Fashion-MNIST route into seed, timestep, `p`-norm,
-  scheduler, or packet-size sweeps. MIDST TabDDPM
+  same split is also weak (`AUC = 0.515137`, `TPR@1%FPR = 0.0`).
+  A local score-Jacobian sensitivity scout on the same split is also weak
+  (`AUC = 0.511719`, `TPR@1%FPR = 0.0`); do not expand Fashion-MNIST into
+  seed, timestep, `p`-norm, perturbation-scale, scheduler, norm, or
+  packet-size sweeps. MIDST TabDDPM
   black-box single-table is locally scoreable and has exact member/nonmember
   labels, but the minimal nearest-synthetic-row scorer is weak
   (`dev+final AUC = 0.566263`, `TPR@1%FPR = 0.016750`). A genuinely different
