@@ -32,6 +32,12 @@
   the SecMI/Duan et al. DDPM codebase, but no paper-specific public code,
   per-sample member/public/holdout split manifest, exact target artifact
   bundle, or ready t-error packet was found.
+- `MIA_SD` is a face-LDM related code/result reference, not a runnable asset:
+  experiment images, target checkpoint, exact member/nonmember split manifest,
+  and reusable query/response package are not released.
+- Zenodo `10.5281/zenodo.14928092` is admitted-family white-box GSA provenance,
+  not a new Lane A second asset. It does not release a fresh download/GPU task
+  for asset acquisition.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -89,3 +95,18 @@ Current Quantile Regression follow-up:
   deterministic target recreation plus exact member/public/holdout splits.
 - Do not train STL10/Tiny-ImageNet DDPMs, reconstruct SecMI splits, or build a
   quantile-regression implementation from scratch before those artifacts exist.
+
+Current MIA_SD follow-up:
+
+- Keep it as related-method watch only.
+- Reopen only if authors publish a target checkpoint plus exact split manifest
+  or a public-safe query/response packet.
+- Do not scrape DTU/AAU/LFW images, reconstruct private folders, or train SD1.5
+  for 400 epochs from this repo.
+
+Current White-box GSA Zenodo follow-up:
+
+- Treat it as admitted-family provenance for existing GSA rows.
+- Reopen only for bounded reproducibility maintenance of admitted GSA.
+- Do not download `DDPM.zip`, replay GSA GPU, or promote it as a new second
+  asset.

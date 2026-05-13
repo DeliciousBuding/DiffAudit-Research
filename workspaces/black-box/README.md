@@ -32,6 +32,10 @@
   parameter-delta sensitivity is also weak (`AUC = 0.512000`,
   `TPR@1%FPR = 0.040000`); do not expand train-step, rank, resolution, prompt,
   scheduler, loss-weight, timestep, layer, or block matrices.
+- MIA_SD status: related face-LDM code/result reference only. Public artifacts
+  do not release images, target checkpoint, exact member/nonmember split
+  manifest, or reusable query/response package; do not scrape staff images or
+  train SD1.5 from this repo.
 
 ## Files
 
@@ -118,6 +122,9 @@ Current Beans/SD1.5 membership semantics correction:
 
 Current Beans member-LoRA denoising-loss closure:
 [../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md).
+
+Current MIA_SD asset verdict:
+[../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md).
 
 Current Beans member-LoRA delta-sensitivity closure:
 [../../docs/evidence/beans-lora-delta-sensitivity-20260513.md](../../docs/evidence/beans-lora-delta-sensitivity-20260513.md).
