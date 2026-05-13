@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Daily review complete after White-box GSA Zenodo, MIA_SD, paperization, and Beans LoRA verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `MoFit artifact verdict is mechanism-relevant but code-TBW/artifact-incomplete; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -145,6 +145,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   checkpoint, exact member/nonmember split manifest, or query/response packet.
   Do not scrape staff images, train SD1.5 for 400 epochs, or reconstruct private
   folders from result traces.
+- MoFit / caption-free gray-box MIA is mechanism-relevant, but the public
+  repository still marks code instructions as `TBW` and this workspace has no
+  released target checkpoint, exact split manifest, or ready cache contract.
+  Do not implement the surrogate/embedding optimization from scratch or release
+  GPU until upstream code and exact assets exist.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or

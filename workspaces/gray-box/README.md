@@ -14,6 +14,9 @@
   after modest AUC and weak strict-tail evidence; 800k remains blocked.
   Archived paper candidates (SIMA, Noise-as-Probe, MoFit, Structural
   Memorization) were reviewed for reentry and remain on hold.
+- MoFit status: mechanism-relevant caption-free gray-box route, but public code
+  instructions are still `TBW` and target/split artifacts are missing. Do not
+  implement surrogate/embedding optimization from scratch or release GPU.
 - GPU: none released.
 
 ## Files
@@ -30,6 +33,9 @@ Current SecMI admission boundary:
 
 Current archived paper-candidate reentry review:
 [../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md).
+
+Current MoFit artifact verdict:
+[../../docs/evidence/mofit-artifact-verdict-20260513.md](../../docs/evidence/mofit-artifact-verdict-20260513.md).
 
 ## Archive
 
