@@ -28,9 +28,10 @@
   it through adjacent metric or denoising-loss matrices.
 - Beans member-LoRA status: exact known-split target construction fixes the
   old Beans/SD1.5 pseudo-membership issue, but internal conditional
-  denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`); do not expand
-  train-step, rank, resolution, prompt, scheduler, loss-weight, or timestep
-  matrices.
+  denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`) and
+  parameter-delta sensitivity is also weak (`AUC = 0.512000`,
+  `TPR@1%FPR = 0.040000`); do not expand train-step, rank, resolution, prompt,
+  scheduler, loss-weight, timestep, layer, or block matrices.
 
 ## Files
 
@@ -117,6 +118,9 @@ Current Beans/SD1.5 membership semantics correction:
 
 Current Beans member-LoRA denoising-loss closure:
 [../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md).
+
+Current Beans member-LoRA delta-sensitivity closure:
+[../../docs/evidence/beans-lora-delta-sensitivity-20260513.md](../../docs/evidence/beans-lora-delta-sensitivity-20260513.md).
 
 Current semantic-auxiliary low-FPR review:
 [../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).
