@@ -1,0 +1,85 @@
+{
+  "artifact_type": "scout_result",
+  "created_at": "2026-05-13",
+  "lane": "midst-tabddpm-black-box-single-table",
+  "question": "Can a shadow-trained marginal distributional attack recover MIDST TabDDPM membership after nearest-neighbor distance was weak?",
+  "asset": {
+    "source": "MIDST SaTML 2025 black-box single-table starter-kit data",
+    "local_extract_root": "<DOWNLOAD_ROOT>/shared/midst-data/tabddpm_black_box",
+    "label_source": {
+      "train": "downloaded challenge_label.csv files",
+      "dev_final": "local Codabench bundle challenge_label.csv files from the cloned MIDST repository"
+    },
+    "model_family": "TabDDPM",
+    "task": "black-box membership inference over diffusion-model-based synthetic tabular data"
+  },
+  "scorer": {
+    "name": "shadow_hist_gradient_boosting_marginal_distributional_features",
+    "direction": "higher_is_more_member",
+    "train_phase": "train only",
+    "evaluation_phase": "dev and final labels used only for evaluation",
+    "feature_count": 63,
+    "features": "per-row marginal z, absolute z, robust z, empirical CDF, tail-CDF, 90pct interval indicators, and row-level outlierness summaries relative to each model synthetic table",
+    "classifier": "sklearn HistGradientBoostingClassifier with fixed seed 20260513",
+    "implementation_note": "Executed as a one-off bounded scorer; no reusable tool was added because the result is weak and overfits shadow models."
+  },
+  "metrics": {
+    "train": {
+      "n": 6000,
+      "members": 3000,
+      "nonmembers": 3000,
+      "auc": 0.8819905555555556,
+      "asr": 0.7953333333333333,
+      "tpr_at_10pct_fpr": 0.6473333333333333,
+      "tpr_at_1pct_fpr": 0.30233333333333334,
+      "tpr_at_0_1pct_fpr": 0.13033333333333333
+    },
+    "dev": {
+      "n": 4000,
+      "members": 2000,
+      "nonmembers": 2000,
+      "auc": 0.5046035,
+      "asr": 0.5085,
+      "tpr_at_10pct_fpr": 0.106,
+      "tpr_at_1pct_fpr": 0.012,
+      "tpr_at_0_1pct_fpr": 0.004
+    },
+    "final": {
+      "n": 4000,
+      "members": 2000,
+      "nonmembers": 2000,
+      "auc": 0.495282125,
+      "asr": 0.5065,
+      "tpr_at_10pct_fpr": 0.0915,
+      "tpr_at_1pct_fpr": 0.0125,
+      "tpr_at_0_1pct_fpr": 0.001
+    },
+    "dev_final": {
+      "n": 8000,
+      "members": 4000,
+      "nonmembers": 4000,
+      "auc": 0.4998455625,
+      "asr": 0.50425,
+      "tpr_at_10pct_fpr": 0.099,
+      "tpr_at_1pct_fpr": 0.013,
+      "tpr_at_0_1pct_fpr": 0.0015
+    },
+    "all": {
+      "n": 14000,
+      "members": 7000,
+      "nonmembers": 7000,
+      "auc": 0.6736695918367347,
+      "asr": 0.6263571428571428,
+      "tpr_at_10pct_fpr": 0.2582857142857143,
+      "tpr_at_1pct_fpr": 0.03671428571428571,
+      "tpr_at_0_1pct_fpr": 0.0064285714285714285
+    }
+  },
+  "verdict": "negative_or_weak",
+  "decision": {
+    "admitted_promotion": false,
+    "platform_runtime_impact": "none",
+    "next_gpu_candidate": "none",
+    "stop_reason": "The scorer learns train shadow models strongly but does not transfer to dev/final. This closes MIDST marginal-distributional shadow learning as a next mainline mechanism; do not expand with classifier or feature-matrix sweeps."
+  }
+}
