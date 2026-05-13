@@ -22,6 +22,10 @@
 - Semantic-auxiliary status: negative-but-useful after low-FPR review; no GPU
   packet selected.
 - GPU: no active black-box GPU task running now.
+- CommonCanvas status: true second response contract is ready but weak across
+  pixel distance, CLIP image-similarity, prompt-response consistency,
+  multi-seed response stability, and conditional denoising-loss. Do not reopen
+  it through adjacent metric or denoising-loss matrices.
 
 ## Files
 
@@ -60,6 +64,9 @@ Current mid-frequency residual stability result:
 
 Current mid-frequency residual comparator audit:
 [../../docs/evidence/midfreq-residual-comparator-audit-20260512.md](../../docs/evidence/midfreq-residual-comparator-audit-20260512.md).
+
+Current CommonCanvas conditional denoising-loss closure:
+[../../docs/evidence/commoncanvas-denoising-loss-20260513.md](../../docs/evidence/commoncanvas-denoising-loss-20260513.md).
 
 Current non-CLiD reselection:
 [../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).

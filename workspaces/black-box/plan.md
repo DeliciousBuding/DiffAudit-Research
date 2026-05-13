@@ -23,6 +23,10 @@
   the comparator audit narrows the claim to same-noise residual rather than
   proven mid-frequency specificity. It is not admitted evidence and
   same-contract GPU expansion is closed.
+- `CommonCanvas / CopyMark`: ready true second response contract, but
+  pixel-distance, CLIP image-similarity, prompt-response consistency,
+  multi-seed response stability, and conditional denoising-loss are all weak;
+  do not expand same-packet metric or denoising-loss matrices.
 
 ## Next Action
 
@@ -184,8 +188,12 @@ deterministic `50/50` responses are generated, and the package probe returns
 `ready`. Four bounded scorer/mechanism checks are weak: pixel distance
 (`AUC = 0.5736`), CLIP image-similarity (`AUC = 0.4588`), prompt-response
 consistency (`AUC = 0.4408`), and multi-seed response stability (`4/4`,
-`AUC = 0.5625`). Close CommonCanvas by default; do not expand this into
-metric, seed, subset, or embedding sweeps. See
+`AUC = 0.5625`). A fifth genuinely different PIA-style internal-score check,
+conditional denoising-loss over timesteps `[200,500,800]`, is also weak on the
+same `50/50` packet (`AUC = 0.5148`, `TPR@1%FPR = 0.02`). Close CommonCanvas by
+default; do not expand this into metric, seed, subset, embedding, timestep,
+resolution, scheduler, or loss-weight sweeps. See
+[../../docs/evidence/commoncanvas-denoising-loss-20260513.md](../../docs/evidence/commoncanvas-denoising-loss-20260513.md),
 [../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md)
 and
 [../../docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](../../docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md).

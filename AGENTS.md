@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak`
+- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -71,9 +71,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   multi-seed response-distribution stability scout on `4 / 4` prompts and two
   fixed seeds is also weak (`AUC = 0.5625`, `ASR = 0.625`, `1 / 4` zero-FP
   recovery), so do not expand it into seed, subset, or embedding-metric sweeps.
+  A genuinely different CommonCanvas conditional denoising-loss scout on the
+  existing `50/50` packet is also weak (`AUC = 0.5148`, `ASR = 0.5700`,
+  `TPR@1%FPR = 0.02`), so do not expand it into timestep, resolution,
+  scheduler, seed, loss-weight, or subset matrices.
   This is not admitted and does not trigger Platform/Runtime consumption. Do
   not expand this into a CLIP/pixel/LPIPS/prompt-adherence/stability metric
-  matrix by default; close the current CommonCanvas packet unless a genuinely
+  or denoising-loss matrix by default; close the current CommonCanvas packet unless a genuinely
   new mechanism or new asset is proposed. Do not return to I-B remap training,
   Beans distance variants,
   MNIST raw/x0 residual repeats, tiny-denoiser MSE ablations, final-layer
