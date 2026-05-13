@@ -4,11 +4,11 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
-- Current long-horizon intake posture: LAION-mi is the active Lane A watch
+- Current long-horizon intake posture: LAION-mi is a Lane A metadata-only watch
   candidate. It has a named `Stable Diffusion-v1.4` target and public
-  member/nonmember metadata splits, but remains response-not-ready until a
-  fixed `25/25` URL availability probe recovers a balanced tiny query set.
-  No GPU is released for LAION-mi yet.
+  member/nonmember metadata splits, but the fixed `25/25` URL availability
+  probe recovered only `11 / 25` member images and `16 / 25` nonmember images.
+  No response generation or GPU work is released for LAION-mi.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -31,7 +31,7 @@ write a new scope/audit chain.
 
 Current LAION-mi follow-up:
 
-- Run a CPU-only fixed `25/25` URL availability probe.
-- Record only availability counts and failure classes.
-- Do not download a large image set or generate responses until the tiny query
-  set is recoverable from both splits.
+- Keep LAION-mi as metadata-only watch.
+- Reopen only if a public-safe cached image subset appears, or if a later
+  deterministic URL scan policy is frozen before scoring.
+- Do not build response-generation tooling around live LAION-mi URLs.
