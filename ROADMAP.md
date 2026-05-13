@@ -133,6 +133,22 @@ balanced tiny query set and a deterministic response/scoring contract is
 frozen. See
 [docs/evidence/laion-mi-asset-verdict-20260513.md](docs/evidence/laion-mi-asset-verdict-20260513.md)。
 
+### 2026-05-13 LAION-mi URL availability probe
+
+Research executed the promised CPU-only fixed `25/25` URL availability probe:
+`HEAD` with fallback ranged `GET`, no image payloads stored, and image success
+defined as `2xx/3xx` plus `Content-Type: image/*`. Results were too weak for a
+balanced tiny query set: members recovered `11 / 25` images and nonmembers
+recovered `16 / 25`, with mixed `403`, `404`, `401`, `410`, `503`, HTML, TLS,
+and timeout failures.
+
+Decision: `fixed 25/25 probe failed / metadata-only watch / no GPU release`.
+LAION-mi does not move to response generation, scorer design, or GPU execution.
+Do not build tooling around live LAION-mi URLs unless a cached or mirrored
+public-safe image subset appears, or a later deterministic scan policy is
+explicitly frozen before scoring. See
+[docs/evidence/laion-mi-url-availability-probe-20260513.md](docs/evidence/laion-mi-url-availability-probe-20260513.md)。
+
 Minimal reopen contract: 只有同时满足以下条件,下一轮才允许从 `none` 升为
 新的 bounded GPU packet:目标模型身份固定,逐样本 member/nonmember split 可复核,
 query 与 response coverage 已存在或可在一次确定性小包内生成,且假设不是
@@ -275,9 +291,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | Lane A LAION-mi fixed `25/25` URL availability probe; no GPU |
-| Highest-value next action | Probe whether LAION-mi URL/caption metadata can yield a recoverable balanced tiny query set before any response generation |
-| Stop condition | If the fixed `25/25` URL probe cannot recover enough images from both splits, keep LAION-mi as metadata-only watch and return to Lane A discovery |
+| CPU sidecar | none selected; LAION-mi fixed `25/25` URL probe failed and remains metadata-only watch |
+| Highest-value next action | Return to Lane A discovery for a cleaner asset or find a public-safe cached LAION-mi image subset before reopening |
+| Stop condition | Do not build response-generation tooling around live LAION-mi URLs; require recoverable query images before any scorer or GPU work |
 
 ### P0 — 完成且弱
 
