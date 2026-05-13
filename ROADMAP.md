@@ -270,6 +270,8 @@ claim。
 - `asset verdict`:一个新资产合同通过/失败,并更新 task board。
 - `metric verdict`:一个 bounded scorer packet 通过/失败,并写 evidence note。
 - `consumer verdict`:一个 admitted/candidate boundary 同步,并跑 public checks。
+- `roadmap operating-system update`:当路线图本身缺少连续运行、纠错、复盘或归档
+  机制时,只允许更新权威入口,不得伪装成实验进展。
 
 每轮都必须更新:
 
@@ -284,6 +286,92 @@ claim。
 - `CPU sidecar` 明确为一个小任务或 `none selected`。
 - 如果 Research repo 有改动,走 branch -> checks -> PR -> squash merge ->
   clean `main`。
+
+### Continuous Run Loop
+
+每个 Research 长程循环按以下顺序执行,不得跳步:
+
+1. `Anchor`
+   - 读 `<DIFFAUDIT_ROOT>/ROADMAP.md`
+   - 读 `Research/ROADMAP.md`
+   - 读 `Research/AGENTS.md`
+   - 读 `docs/evidence/workspace-evidence-index.md`
+   - 读相关 `workspaces/<lane>/README.md` 或 `plan.md`
+2. `Select`
+   - 从 Lane A/B/C 只选一条
+   - 写明本轮唯一主产物类型:`asset verdict`、`metric verdict`、
+     `consumer verdict` 或 `roadmap operating-system update`
+   - 写明如果失败会关闭什么,而不是还想再补什么
+3. `Execute`
+   - Lane A:只做一个候选的 target/split/query-response/provenance gate
+   - Lane B:只做一个新 observable family 的 falsifiable hypothesis 或 tiny smoke
+   - Lane C:只做一个 admitted/candidate/support-only boundary sync
+   - GPU release 前必须有 frozen command、metric contract、evidence-note target 和
+     stop condition
+4. `Reflect`
+   - 回答:`本轮是否发现新信号、测试迁移或改变决策?`
+   - 若答案是否,必须停止扩展,只做最短同步
+   - 若同一 family 连续两个 verdict 是 weak / blocked / metadata-only,下一轮默认
+     切 lane
+5. `Archive`
+   - 新 verdict 写入 `docs/evidence/`
+   - `workspace-evidence-index.md` 的 latest update 指向最新 verdict
+   - 当前三槽位写回本节 `Current Long-Horizon State`
+   - 相关 workspace README/plan 写最短 next gate
+6. `Merge`
+   - 本地检查:`check_public_surface.py`,`check_markdown_links.py`,`git diff --check`
+   - 远端检查:GitHub `unit-tests` success;`full-checks` skipped 只能按 workflow
+     规则记录,不能当成功代理
+   - squash merge 后回到 clean `main`
+
+### Reflection And Correction Gates
+
+| Gate | Rule | Correction |
+| --- | --- | --- |
+| No-stationery | 新 CLI、validator、manifest、长文档不能单独算研究推进 | 改成 asset/metric/consumer verdict,或停止 |
+| Two-weak-runs | 同一 asset/observable 连续两个 weak/block verdict | 默认关闭 family,下一轮切 lane |
+| Membership semantics | 没有逐样本 target member/nonmember 语义 | 不下载大权重,不跑 scorer |
+| Response contract | 黑盒路线没有 query/response coverage | 不生成 responses,不释放 GPU |
+| Consumer honesty | 非 admitted row 想进 Platform/Runtime | 退回 limitations/evidence index |
+| Stale-doc conflict | ROADMAP/AGENTS/index 出现旧 next action | 直接替换权威条目,不追加旁注 |
+
+### Progress Review And Archive Cadence
+
+短复盘触发条件:
+
+- 每个自然日结束前;
+- 或每完成两个 Research PR;
+- 或每次 `active_gpu_question` / `next_gpu_candidate` / `CPU sidecar` 变化。
+
+短复盘必须检查:
+
+- 最新 verdict 是否在 `docs/evidence/` 有独立 note;
+- `workspace-evidence-index.md` latest update 是否指向最新 note;
+- 本节 `Current Long-Horizon State` 是否与根级 ROADMAP 一致;
+- 相关 workspace README/plan 是否只保留当前 next gate;
+- Research 是否 clean `main...origin/main`。
+
+归档复盘触发条件:
+
+- 同一 family 被关闭;
+- 同一 workspace README/plan 累积多个过期 next action;
+- 准备同步到 Platform / Runtime / Docs;
+- 进入国创材料整理。
+
+归档复盘动作:
+
+- 将已关闭路线压缩成 negative evidence 或 limitation;
+- 保留 evidence note,删除或迁移过期活跃 workspace 待办;
+- 不把 agent 操作流水写进公共 docs;
+- 只把 admitted 或明确标注 candidate/support-only 的结果交给 consumer 层。
+
+### Autonomous Next Task Queue
+
+| Priority | Task | Entry Gate | Stop Gate |
+| --- | --- | --- | --- |
+| 1 | Lane A clean asset search | 非 LAION-mi live URL、非 CommonCanvas/MIDST/Beans/MNIST/Fashion-MNIST/Kohaku;有 target identity 与 split 线索 | 任一 target/split/query-response/provenance gate 失败则写 asset verdict 并关闭 |
+| 2 | Lane B new observable sketch | 一句话 falsifiable hypothesis 能改变 project decision | 如果只是 final-layer gradient、raw denoising MSE、pixel/CLIP distance、midfreq cutoff 或 same-contract repeat,停止 |
+| 3 | Lane C consumer/paperization review | 只处理 admitted rows 与 limitations 口径 | 需要新增 product row 或 schema 时先写 product-bridge handoff,不直接跨仓 |
 
 ### Current Long-Horizon State
 
