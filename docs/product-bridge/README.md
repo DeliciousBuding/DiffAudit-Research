@@ -22,9 +22,14 @@ and `DPDM W-1`) unless a future reviewed promotion explicitly changes this.
 ReDiffuse, SecMI stat/NNS, tri-score, cross-box fusion, GSA LR,
 H2/simple-distance, CLiD, black-box response-contract acquisition, I-B, and I-C
 are candidate, supporting-reference, negative, hold, or needs-assets states.
-LAION-mi, Zenodo fine-tuned diffusion, and Noise as a Probe are also
-Research-only watch states; they do not change admitted rows, Runtime schemas,
-or Platform product copy. See
+Recent second-asset and mechanism checks are also Research-only: CommonCanvas /
+CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
+Zenodo fine-tuned diffusion, Noise as a Probe, and Kohaku / Danbooru are weak,
+watch, metadata-only, or artifact-incomplete lines. They do not change
+admitted rows, Runtime schemas, recommendation logic, or Platform product copy.
+See
+[../evidence/paperization-consumer-boundary-20260513.md](../evidence/paperization-consumer-boundary-20260513.md)
+and
 [../evidence/watch-candidate-consumer-boundary-20260513.md](../evidence/watch-candidate-consumer-boundary-20260513.md).
 See
 [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md)
