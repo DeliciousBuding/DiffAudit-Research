@@ -37,6 +37,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   not create another scope/audit/reselection chain when no candidate passes
   target identity, exact member/nonmember split, query/response coverage, and
   non-adjacent mechanism checks.
+- Continuous-run discipline: use the roadmap loop
+  `Anchor -> Select -> Execute -> Reflect -> Archive -> Merge` for every
+  autonomous cycle. Each cycle must name exactly one primary artifact type
+  (`asset verdict`, `metric verdict`, `consumer verdict`, or
+  `roadmap operating-system update`), update the three slots
+  `active_gpu_question` / `next_gpu_candidate` / `CPU sidecar`, and close with
+  a clean `main` after PR/merge when repository files change.
+- Reflection/correction discipline: enforce the No-stationery, Two-weak-runs,
+  Membership semantics, Response contract, Consumer honesty, and stale-doc
+  conflict gates from `ROADMAP.md`. If a step only adds process around a weak
+  lane, stop or switch lanes instead of adding another scope/audit chain.
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
   membership. MNIST/DDPM via `1aurent/ddpm-mnist` has cleaner train/test
