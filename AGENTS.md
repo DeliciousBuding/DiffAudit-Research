@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Fashion-MNIST SimA score-norm scout is weak and closed; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Cardio-AI/memorization-ldm asset gate is request-gated and artifact-incomplete after Fashion-MNIST SimA score-norm closed weak; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -153,6 +153,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   released target checkpoint, exact split manifest, or ready cache contract.
   Do not implement the surrogate/embedding optimization from scratch or release
   GPU until upstream code and exact assets exist.
+- Cardio-AI `memorization-ldm` is a non-duplicate medical LDM memorization
+  watch candidate, but the public release is code plus request-gated synthetic
+  samples and detector checkpoints. It does not expose a target LDM checkpoint,
+  exact per-sample member/nonmember manifests, or generated response package.
+  Do not download medical datasets, request controlled samples, train the
+  target LDM, or reconstruct the paper pipeline unless public-safe target,
+  split, and response artifacts appear.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
