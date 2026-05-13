@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss and parameter-delta sensitivity scouts weak; Quantile Regression is mechanism-reference but artifact-incomplete`
+- Active work: `Paperization consumer boundary synchronized; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans member-LoRA denoising-loss and parameter-delta sensitivity scouts weak; Quantile Regression is mechanism-reference but artifact-incomplete`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -133,6 +133,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   ready t-error packet was found. Do not train STL10/Tiny-ImageNet DDPMs,
   reconstruct SecMI splits, or build a quantile-regression implementation from
   scratch before those artifacts exist.
+- Paperization/consumer boundary: recent weak/watch lines, including
+  CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
+  Zenodo fine-tuned diffusion, Noise as a Probe, and Kohaku/Danbooru, are
+  limitations or future-work hooks only. Platform/Runtime and paperization
+  admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
+  `GSA`, and `DPDM W-1`.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.
