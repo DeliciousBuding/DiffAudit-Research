@@ -5,10 +5,11 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
-[fashion-mnist-ddpm-sima-score-norm-20260514.md](fashion-mnist-ddpm-sima-score-norm-20260514.md)
-records a weak `64/64` CUDA SimA score-norm scout on
-`ynwag9/fashion_mnist_ddpm_32`; `AUC = 0.515137` and both low-FPR metrics are
-zero, so Fashion-MNIST SimA score-norm is closed with no Platform/Runtime row.
+[memorization-ldm-asset-verdict-20260514.md](memorization-ldm-asset-verdict-20260514.md)
+records a non-duplicate Lane A gate on `Cardio-AI/memorization-ldm`: useful
+medical LDM memorization code, but request-gated synthesized samples and no
+released target LDM checkpoint, exact split manifest, or generated response
+package. It remains Research-only watch evidence with no Platform/Runtime row.
 
 | Track | Active docs | Role |
 | --- | --- | --- |
@@ -19,7 +20,7 @@ zero, so Fashion-MNIST SimA score-norm is closed with no Platform/Runtime row.
 | Defense | [workspaces/defense/README.md](../../workspaces/defense/README.md), [ib-risk-targeted-unlearning-successor-scope.md](ib-risk-targeted-unlearning-successor-scope.md), [ib-adaptive-defense-contract-20260511.md](ib-adaptive-defense-contract-20260511.md), [ib-defense-aware-reopen-scout-20260512.md](ib-defense-aware-reopen-scout-20260512.md), [ib-defense-reopen-protocol-audit-20260512.md](ib-defense-reopen-protocol-audit-20260512.md), [ib-defended-shadow-reopen-protocol-20260512.md](ib-defended-shadow-reopen-protocol-20260512.md), [ib-reopen-shadow-reference-guard-20260512.md](ib-reopen-shadow-reference-guard-20260512.md), [ib-defended-shadow-training-manifest-20260512.md](ib-defended-shadow-training-manifest-20260512.md), [ib-shadow-local-identity-scout-20260512.md](ib-shadow-local-identity-scout-20260512.md) | Risk-targeted unlearning boundary and defended-shadow/adaptive reopen conditions. |
 | Implementation | [workspaces/implementation/README.md](../../workspaces/implementation/README.md), [challenger-queue.md](../../workspaces/implementation/challenger-queue.md), [daily-research-review-20260513.md](daily-research-review-20260513.md) | Shared CLI, schemas, queue state, daily slot review, and research operations. |
 | I-A / consumer boundary | [paperization-consumer-boundary-20260513.md](paperization-consumer-boundary-20260513.md), [admitted-consumer-drift-audit-20260512.md](admitted-consumer-drift-audit-20260512.md), [ia-finite-tail-adaptive-boundary-audit-20260511.md](ia-finite-tail-adaptive-boundary-audit-20260511.md), [admitted-results-summary.md](admitted-results-summary.md), [../product-bridge/README.md](../product-bridge/README.md) | Finite-tail, adaptive-language, paperization limitation, and admitted/candidate boundary status. |
-| Watch candidates / consumer boundary | [miasd-face-ldm-asset-verdict-20260513.md](miasd-face-ldm-asset-verdict-20260513.md), [watch-candidate-consumer-boundary-20260513.md](watch-candidate-consumer-boundary-20260513.md), [quantile-regression-asset-verdict-20260513.md](quantile-regression-asset-verdict-20260513.md), [noise-as-probe-asset-verdict-20260513.md](noise-as-probe-asset-verdict-20260513.md), [zenodo-code-reference-audit-20260513.md](zenodo-code-reference-audit-20260513.md), [laion-mi-url-availability-probe-20260513.md](laion-mi-url-availability-probe-20260513.md) | MIA_SD, Quantile Regression, LAION-mi, Zenodo, and Noise as a Probe are Research-only watch or artifact-incomplete states and did not enter admitted Platform/Runtime artifacts. |
+| Watch candidates / consumer boundary | [memorization-ldm-asset-verdict-20260514.md](memorization-ldm-asset-verdict-20260514.md), [miasd-face-ldm-asset-verdict-20260513.md](miasd-face-ldm-asset-verdict-20260513.md), [watch-candidate-consumer-boundary-20260513.md](watch-candidate-consumer-boundary-20260513.md), [quantile-regression-asset-verdict-20260513.md](quantile-regression-asset-verdict-20260513.md), [noise-as-probe-asset-verdict-20260513.md](noise-as-probe-asset-verdict-20260513.md), [zenodo-code-reference-audit-20260513.md](zenodo-code-reference-audit-20260513.md), [laion-mi-url-availability-probe-20260513.md](laion-mi-url-availability-probe-20260513.md) | Memorization-LDM, MIA_SD, Quantile Regression, LAION-mi, Zenodo, and Noise as a Probe are Research-only watch or artifact-incomplete states and did not enter admitted Platform/Runtime artifacts. |
 | Intake | [workspaces/intake/README.md](../../workspaces/intake/README.md) | Candidate intake and archived paper-backed scouting. |
 | Runtime | [workspaces/runtime/README.md](../../workspaces/runtime/README.md) | Research-side runtime contract notes. |
 

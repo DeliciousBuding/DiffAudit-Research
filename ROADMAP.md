@@ -51,6 +51,19 @@ split,但固定为 gray-box `negative_l4_unet_epsilon_prediction_norm_t100`,
 `active_gpu_question = none`,`next_gpu_candidate = none`,`CPU sidecar = none selected`。
 见 [docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)。
 
+### 2026-05-14 memorization-LDM asset verdict
+
+Lane A 继续检查非重复外部资产 `Cardio-AI/memorization-ldm`。该候选比
+模型卡 broad provenance 更有研究价值:它直接研究 medical latent diffusion 的
+patient-data memorization,公开 GitHub 代码与 Zenodo software release。但是公开
+surface 只够做 watch:Zenodo 只有 `3,686,212` byte software snapshot,
+README 说明 synthesized samples 需要 request + dataset-access proof,公开材料
+没有 target LDM checkpoint、逐样本 member/nonmember manifest 或 generated
+response package。结论为 `code-and-request-gated-data / artifact-incomplete /
+no download / no GPU release`。当前 `active_gpu_question = none`,
+`next_gpu_candidate = none`,`CPU sidecar = none selected`。见
+[docs/evidence/memorization-ldm-asset-verdict-20260514.md](docs/evidence/memorization-ldm-asset-verdict-20260514.md)。
+
 ### 2026-05-13 CommonCanvas multi-seed stability scout
 
 为避免只从 query-response 或 prompt-response 相似度角度关停 CommonCanvas,本轮
@@ -573,9 +586,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected; MoFit is mechanism-relevant but code-TBW/artifact-incomplete; White-box GSA Zenodo is admitted-family provenance only; MIA_SD lacks public images/checkpoint/split/query-response; Quantile Regression is mechanism-reference but artifact-incomplete; MIAGM is code-reference-only and artifact-incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
+| CPU sidecar | none selected; Memorization-LDM is medical-LDM-relevant but request-gated and artifact-incomplete; MoFit is mechanism-relevant but code-TBW/artifact-incomplete; White-box GSA Zenodo is admitted-family provenance only; MIA_SD lacks public images/checkpoint/split/query-response; Quantile Regression is mechanism-reference but artifact-incomplete; MIAGM is code-reference-only and artifact-incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; LAION-mi remains metadata-only watch |
 | Highest-value next action | Continue Lane A only with a non-duplicate candidate that exposes exact split artifacts, or switch to Lane B only with a genuinely different runnable target contract; otherwise stop instead of writing another scope/audit chain |
-| Stop condition | Do not implement MoFit surrogate/embedding optimization from scratch; do not download GSA `DDPM.zip` or replay admitted-family GSA as a new asset; do not scrape MIA_SD images or train SD1.5; do not train Quantile Regression STL10/Tiny-ImageNet targets or reconstruct SecMI splits from scratch; do not train MIAGM targets or regenerate distributions from scratch; do not implement Noise-as-Probe from scratch; do not download the full Zenodo fine-tuned diffusion archive, write another same-line Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
+| Stop condition | Do not request controlled memorization-LDM synthesized samples, download medical datasets, train target medical LDMs, or reconstruct that paper pipeline from scratch; do not implement MoFit surrogate/embedding optimization from scratch; do not download GSA `DDPM.zip` or replay admitted-family GSA as a new asset; do not scrape MIA_SD images or train SD1.5; do not train Quantile Regression STL10/Tiny-ImageNet targets or reconstruct SecMI splits from scratch; do not train MIAGM targets or regenerate distributions from scratch; do not implement Noise-as-Probe from scratch; do not download the full Zenodo fine-tuned diffusion archive, write another same-line Zenodo audit/scope note, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
 
 ### P0 — 完成且弱
 
@@ -647,10 +660,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss and SimA score-norm scouts weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete; Quantile Regression is mechanism-reference but artifact-incomplete |
+| Active work | Memorization-LDM asset gate is request-gated and artifact-incomplete; P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss and SimA score-norm scouts weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion is paper-and-code-backed but split-manifest incomplete; Noise as a Probe is mechanism-relevant but reproduction-incomplete; MIAGM is code-reference-only and artifact-incomplete; Quantile Regression is mechanism-reference but artifact-incomplete |
 | Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST PIA-loss/SimA score-norm, MIDST TabDDPM, Beans LoRA denoising-loss/delta-sensitivity, and LAION-mi URL-probe verdicts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected; Quantile Regression lacks paper-specific code, exact target artifacts, and per-sample split manifests; MIAGM lacks target checkpoint/split/generated-distribution artifacts; Noise as a Probe lacks public code/split/checkpoint artifacts; Zenodo full download and further same-line audits are blocked on a public split manifest; and LAION-mi live URLs remain closed |
+| CPU sidecar | none selected; Memorization-LDM lacks public target LDM checkpoint, exact split manifests, and generated response package; Quantile Regression lacks paper-specific code, exact target artifacts, and per-sample split manifests; MIAGM lacks target checkpoint/split/generated-distribution artifacts; Noise as a Probe lacks public code/split/checkpoint artifacts; Zenodo full download and further same-line audits are blocked on a public split manifest; and LAION-mi live URLs remain closed |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -667,9 +680,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `Fashion-MNIST SimA score-norm scout weak and closed; White-box GSA Zenodo archive is admitted-family and not a new second asset; MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
+| Active work | `Memorization-LDM asset gate is request-gated and artifact-incomplete; Fashion-MNIST SimA score-norm scout weak and closed; White-box GSA Zenodo archive is admitted-family and not a new second asset; MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; White-box GSA Zenodo is already admitted-family provenance and not a new second asset; MIA_SD lacks published images, target checkpoint, exact split manifest, and reusable query/response packet; paperization can cite recent weak/watch lines only as limitations or future-work hooks; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo fine-tuned diffusion needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
+| CPU sidecar | none selected; Memorization-LDM lacks public target LDM checkpoint, exact split manifest, and generated response package; White-box GSA Zenodo is already admitted-family provenance and not a new second asset; MIA_SD lacks published images, target checkpoint, exact split manifest, and reusable query/response packet; paperization can cite recent weak/watch lines only as limitations or future-work hooks; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo fine-tuned diffusion needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
 | Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss and SimA score-norm scouts, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA denoising-loss/delta-sensitivity scouts, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -1141,6 +1154,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Memorization-LDM asset verdict | non-duplicate medical-LDM watch candidate, but public release is code plus request-gated synthesized samples and lacks target LDM checkpoint, exact split manifests, and generated response package; no download or GPU release | [docs/evidence/memorization-ldm-asset-verdict-20260514.md](docs/evidence/memorization-ldm-asset-verdict-20260514.md) |
 | Fashion-MNIST DDPM SimA score-norm scout | weak `64/64` CUDA gray-box scout on a real train/test split; `AUC = 0.515137` and zero low-FPR recovery; no timestep, `p`-norm, seed, or packet-size expansion | [docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md) |
 | MoFit artifact verdict | mechanism-relevant caption-free gray-box route but public code is TBW and target/split artifacts are missing; no from-scratch implementation or GPU release | [docs/evidence/mofit-artifact-verdict-20260513.md](docs/evidence/mofit-artifact-verdict-20260513.md) |
 | Daily Research review | no active GPU candidate or CPU sidecar after Beans LoRA, paperization, MIA_SD, and White-box GSA Zenodo verdicts; next cycle must pass Lane A/B/C gates or stop | [docs/evidence/daily-research-review-20260513.md](docs/evidence/daily-research-review-20260513.md) |
