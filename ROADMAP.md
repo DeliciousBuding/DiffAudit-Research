@@ -146,6 +146,20 @@ change`:Platform/Runtime 与国创/论文材料仍只消费 `recon`、`PIA basel
 admitted bundle entry 或 headline claim。见
 [docs/evidence/paperization-consumer-boundary-20260513.md](docs/evidence/paperization-consumer-boundary-20260513.md)。
 
+### 2026-05-13 MIA_SD face-LDM asset verdict
+
+Lane A 继续检查非重复候选 `osquera/MIA_SD`。该 repo 是 face-image
+membership against fine-tuned Stable Diffusion 的有用 code reference,但 root
+README 明确说明实验图片未发布,`target_model/README.md` 只描述如何用本地图像
+fine-tune SD1.5 并生成输出,`fine_tune.sh` 使用 `TRAIN_PATH` / `OUT_PATH`
+占位符,没有 released target checkpoint、per-sample member/nonmember split
+manifest 或 reusable query/response package。`dtu-400-target-loss.csv` 是
+loss trace,不是逐样本 score packet。结论是 `code-and-result-artifacts /
+private-images-missing / no download / no GPU release`;不得 scrape DTU/AAU/LFW
+images、训练 400 epoch SD1.5、重建私有 folders 或从 plots/result traces 硬做
+scorer。见
+[docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](docs/evidence/miasd-face-ldm-asset-verdict-20260513.md)。
+
 ### 2026-05-13 LAION-mi asset verdict
 
 Lane A inspected `antoniaaa/laion_mi` as a non-duplicate second membership
@@ -609,9 +623,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
+| Active work | `MIA_SD face-LDM asset verdict is code-and-result-artifacts but private-images-missing; Paperization consumer boundary synchronized after weak/watch second-asset and mechanism checks; CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; Beans LoRA denoising-loss and parameter-delta sensitivity weak under repaired known-split semantics; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion paper/code-backed but split-manifest incomplete; Noise as a Probe mechanism-relevant but reproduction-incomplete; MIAGM code-reference-only and artifact-incomplete; Quantile Regression mechanism-reference but artifact-incomplete` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; paperization can cite recent weak/watch lines only as limitations or future-work hooks; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
+| CPU sidecar | none selected; MIA_SD lacks published images, target checkpoint, exact split manifest, and reusable query/response packet; paperization can cite recent weak/watch lines only as limitations or future-work hooks; Quantile Regression needs paper-specific code plus exact target/split artifacts, MIAGM needs target checkpoint/split/generated-distribution artifacts, Noise as a Probe needs public code/split/checkpoint artifacts, Zenodo needs a public split manifest before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
 | Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA denoising-loss/delta-sensitivity scouts, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -1081,6 +1095,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| MIA_SD face-LDM asset verdict | code-and-result-artifacts but private images/checkpoint/split/query-response missing; no download or GPU release | [docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](docs/evidence/miasd-face-ldm-asset-verdict-20260513.md) |
 | Paperization consumer boundary | synchronized; recent weak/watch lines remain limitations/future-work only and do not change Platform/Runtime admitted rows | [docs/evidence/paperization-consumer-boundary-20260513.md](docs/evidence/paperization-consumer-boundary-20260513.md) |
 | Quantile Regression asset verdict | mechanism-reference but artifact-incomplete; no paper-specific code, target artifacts, split manifest, download, or GPU release | [docs/evidence/quantile-regression-asset-verdict-20260513.md](docs/evidence/quantile-regression-asset-verdict-20260513.md) |
 | MIAGM asset verdict | code-reference-only but artifact-incomplete; no target checkpoints, splits, generated distributions, download, or GPU release | [docs/evidence/miagm-asset-verdict-20260513.md](docs/evidence/miagm-asset-verdict-20260513.md) |
