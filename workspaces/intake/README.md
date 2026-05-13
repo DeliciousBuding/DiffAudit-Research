@@ -16,6 +16,11 @@
   member/nonmember split manifest is still missing. Do not download the full
   `736 MB` archive until a public manifest or repository file resolves that
   split-semantics gate.
+- `Noise as a Probe` is a mechanism-relevant watch candidate, not a runnable
+  asset. The arXiv source defines a semantic-initial-noise reconstruction
+  attack on Stable Diffusion-v1-4 fine-tuning and reports Pokémon, T-to-I,
+  MS-COCO, and Flickr member/hold-out counts. It does not provide public code,
+  per-sample split manifests, released checkpoints, or query/response packages.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -51,3 +56,10 @@ Current Zenodo fine-tuned diffusion follow-up:
 - Do not download the full archive or run LoRA scoring before that proof exists.
 - Do not write another Zenodo audit/scope note unless new external evidence
   supplies the missing split manifest.
+
+Current Noise as a Probe follow-up:
+
+- Keep it as a Lane B mechanism hook and Lane A watch candidate.
+- Reopen only if public code plus exact split/checkpoint artifacts appear.
+- Do not implement DDIM inversion or fine-tune SD-v1-4 from scratch just to
+  reproduce the paper.
