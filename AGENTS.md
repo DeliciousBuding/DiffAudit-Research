@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak`
+- Active work: `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor scout weak`
 - Next GPU candidate: none selected
 - CPU work: stop expanding blocked or pseudo-membership routes. Beans/SD1.5 is
   contract/debug only because beans train/validation is not proven SD1.5
@@ -79,7 +79,8 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   MNIST raw/x0 residual repeats, tiny-denoiser MSE ablations, final-layer
   gradient norm/cosine variants, external-weight downloads without provenance,
   full CopyMark dataset download, CommonCanvas multi-seed stability repeats,
-  gradient layer sweeps, or same-contract residual repeats by default. Kohaku
+  MIDST nearest-neighbor variants, gradient layer sweeps, or same-contract
+  residual repeats by default. Kohaku
   XL / Danbooru is also not a selected
   next asset: model cards give broad HakuBooru/Danbooru2023 training-source
   provenance, but no exact target member list or fixed selection manifest. Do
@@ -87,7 +88,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   pseudo-membership scoring. A small Fashion-MNIST DDPM PIA-style loss scout
   on `ynwag9/fashion_mnist_ddpm_32` used a real Fashion-MNIST train/test split
   and CUDA, but remained weak (`AUC = 0.535889`, `TPR@1%FPR = 0.03125`);
-  do not expand it into seed, timestep, or packet-size sweeps.
+  do not expand it into seed, timestep, or packet-size sweeps. MIDST TabDDPM
+  black-box single-table is locally scoreable and has exact member/nonmember
+  labels, but the minimal nearest-synthetic-row scorer is weak
+  (`dev+final AUC = 0.566263`, `TPR@1%FPR = 0.016750`); do not expand it into
+  TabSyn, white-box MIDST, or nearest-neighbor preprocessing matrices unless a
+  genuinely different tabular-diffusion membership mechanism appears.
 - ReDiffuse is closed as candidate-only / hold unless a new scorer or
   checkpoint-portability hypothesis appears.
 - No GPU task should start from documentation or governance cleanup alone.

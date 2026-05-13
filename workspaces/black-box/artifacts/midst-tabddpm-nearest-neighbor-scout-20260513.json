@@ -1,0 +1,129 @@
+{
+  "artifact_type": "scout_result",
+  "created_at": "2026-05-13",
+  "lane": "midst-tabddpm-black-box-single-table",
+  "question": "Does the MIDST TabDDPM black-box single-table benchmark yield a useful membership signal under a minimal nearest-synthetic-record distance scorer?",
+  "asset": {
+    "source": "MIDST SaTML 2025 black-box single-table starter-kit data",
+    "local_zip": "<DOWNLOAD_ROOT>/shared/midst-data/tabddpm_black_box.zip",
+    "zip_size_bytes": 566673892,
+    "drive_file_id": "15-CY91tLyQ7mz1ghA9-1M_0khvu3DIX9",
+    "local_extract_root": "<DOWNLOAD_ROOT>/shared/midst-data/tabddpm_black_box",
+    "label_source": {
+      "train": "downloaded challenge_label.csv files",
+      "dev_final": "local Codabench bundle challenge_label.csv files from the cloned MIDST repository"
+    },
+    "model_family": "TabDDPM",
+    "task": "black-box membership inference over diffusion-model-based synthetic tabular data"
+  },
+  "data_contract": {
+    "phases": {
+      "train": {
+        "models": 30,
+        "challenge_rows_per_model": 200,
+        "synthetic_rows_per_model": 20000,
+        "labels_per_model": {
+          "member": 100,
+          "nonmember": 100
+        }
+      },
+      "dev": {
+        "models": 20,
+        "challenge_rows_per_model": 200,
+        "synthetic_rows_per_model": 20000,
+        "labels_per_model": {
+          "member": 100,
+          "nonmember": 100
+        }
+      },
+      "final": {
+        "models": 20,
+        "challenge_rows_per_model": 200,
+        "synthetic_rows_per_model": 20000,
+        "labels_per_model": {
+          "member": 100,
+          "nonmember": 100
+        }
+      }
+    },
+    "score_features": [
+      "trans_date",
+      "trans_type",
+      "operation",
+      "amount",
+      "balance",
+      "k_symbol",
+      "bank",
+      "account"
+    ],
+    "excluded_challenge_only_fields": [
+      "trans_id",
+      "account_id"
+    ]
+  },
+  "scorer": {
+    "name": "negative_standardized_nearest_synthetic_l2",
+    "direction": "higher_is_more_member",
+    "description": "For each model folder, standardize challenge and synthetic rows using synthetic-table mean and standard deviation over shared generated columns, then score each challenge row by negative nearest-neighbor L2 distance to any synthetic row.",
+    "implementation_note": "Executed as a one-off bounded scorer; no reusable tool was added because the result is weak and does not justify a new pipeline."
+  },
+  "metrics": {
+    "train": {
+      "n": 6000,
+      "members": 3000,
+      "nonmembers": 3000,
+      "auc": 0.5538607777777778,
+      "asr": 0.5558333333333333,
+      "tpr_at_10pct_fpr": 0.113,
+      "tpr_at_1pct_fpr": 0.008333333333333333,
+      "tpr_at_0_1pct_fpr": 0.002
+    },
+    "dev": {
+      "n": 4000,
+      "members": 2000,
+      "nonmembers": 2000,
+      "auc": 0.5643055,
+      "asr": 0.558,
+      "tpr_at_10pct_fpr": 0.123,
+      "tpr_at_1pct_fpr": 0.0195,
+      "tpr_at_0_1pct_fpr": 0.002
+    },
+    "final": {
+      "n": 4000,
+      "members": 2000,
+      "nonmembers": 2000,
+      "auc": 0.5681085,
+      "asr": 0.5675,
+      "tpr_at_10pct_fpr": 0.1085,
+      "tpr_at_1pct_fpr": 0.014,
+      "tpr_at_0_1pct_fpr": 0.0005
+    },
+    "dev_final": {
+      "n": 8000,
+      "members": 4000,
+      "nonmembers": 4000,
+      "auc": 0.5662626875,
+      "asr": 0.5605,
+      "tpr_at_10pct_fpr": 0.11575,
+      "tpr_at_1pct_fpr": 0.01675,
+      "tpr_at_0_1pct_fpr": 0.001
+    },
+    "all": {
+      "n": 14000,
+      "members": 7000,
+      "nonmembers": 7000,
+      "auc": 0.560818306122449,
+      "asr": 0.5582142857142857,
+      "tpr_at_10pct_fpr": 0.11457142857142857,
+      "tpr_at_1pct_fpr": 0.013428571428571429,
+      "tpr_at_0_1pct_fpr": 0.0012857142857142856
+    }
+  },
+  "verdict": "negative_or_weak",
+  "decision": {
+    "admitted_promotion": false,
+    "platform_runtime_impact": "none",
+    "next_gpu_candidate": "none",
+    "stop_reason": "The minimal scorer stays below the reopen gate on dev+final AUC and has near-zero strict-tail recovery. Do not expand into TabSyn, white-box MIDST, or scorer matrices without a genuinely different tabular-diffusion membership mechanism."
+  }
+}
