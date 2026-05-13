@@ -149,6 +149,26 @@ public-safe image subset appears, or a later deterministic scan policy is
 explicitly frozen before scoring. See
 [docs/evidence/laion-mi-url-availability-probe-20260513.md](docs/evidence/laion-mi-url-availability-probe-20260513.md)。
 
+### 2026-05-13 Zenodo fine-tuned diffusion asset verdict
+
+Lane A clean-asset search inspected Zenodo `10.5281/zenodo.13371475`
+(`Black-box Membership Inference Attacks against Fine-tuned Diffusion Models`).
+The record is CC-BY-4.0 and exposes a `736,366,195` byte zip. Only API metadata
+and the ZIP central directory were inspected. The archive is structured:
+`celeba_target`, `celeba_partial_target`, `celeba_shadow`, and
+`celeba_partial_shadow` LoRA checkpoints are visible, plus several
+`dataset.pkl` payloads under target/shadow member or non-member directories.
+However, the central directory does not expose a top-level experiment manifest,
+does not prove the base model / training recipe, and does not show a complete
+readable target member/nonmember split or query/response contract.
+
+Decision: `archive-structured / manifest-incomplete / no download / no GPU
+release`. This candidate stays on Lane A watch, but a full `736 MB` download,
+LoRA scorer, or GPU run is blocked until a public README, appendix, code
+reference, or tiny manifest proves target identity and exact split semantics.
+See
+[docs/evidence/zenodo-finetuned-diffusion-asset-verdict-20260513.md](docs/evidence/zenodo-finetuned-diffusion-asset-verdict-20260513.md)。
+
 Minimal reopen contract: 只有同时满足以下条件,下一轮才允许从 `none` 升为
 新的 bounded GPU packet:目标模型身份固定,逐样本 member/nonmember split 可复核,
 query 与 response coverage 已存在或可在一次确定性小包内生成,且假设不是
@@ -379,9 +399,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected; LAION-mi fixed `25/25` URL probe failed and remains metadata-only watch |
-| Highest-value next action | Return to Lane A discovery for a cleaner asset or find a public-safe cached LAION-mi image subset before reopening |
-| Stop condition | Do not build response-generation tooling around live LAION-mi URLs; require recoverable query images before any scorer or GPU work |
+| CPU sidecar | none selected; Zenodo fine-tuned diffusion is archive-structured but manifest-incomplete; LAION-mi remains metadata-only watch |
+| Highest-value next action | Continue Lane A discovery, or find a public manifest for Zenodo `10.5281/zenodo.13371475` before any full download |
+| Stop condition | Do not download the full Zenodo archive, build LoRA scoring, or reopen LAION-mi live URLs without manifest-backed split/query evidence |
 
 ### P0 — 完成且弱
 
@@ -453,10 +473,10 @@ P0 结论:
 
 | Field | 2026-05-13 value |
 | --- | --- |
-| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed and remains metadata-only watch |
+| Active work | P0/P1 weak; CommonCanvas pixel/CLIP/prompt/stability/denoising-loss weak; Kohaku blocked; Fashion-MNIST PIA-loss scout weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed `25/25` URL probe failed; Zenodo fine-tuned diffusion archive is structured but manifest-incomplete |
 | Active GPU question | none selected after weak CommonCanvas pixel/CLIP/prompt/stability/denoising-loss, gradient-prototype, Fashion-MNIST, MIDST TabDDPM, Beans LoRA, and LAION-mi URL-probe verdicts |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected; LAION-mi live URLs are closed after the fixed `25/25` probe, and the next action is Lane A discovery for a cleaner asset or Lane B/C only if the entry gates are met |
+| CPU sidecar | none selected; Zenodo full download is blocked on manifest-backed target/split semantics, and LAION-mi live URLs remain closed |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -473,9 +493,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed` |
+| Active work | `CommonCanvas packet closed by default after weak pixel/CLIP/prompt/stability/denoising-loss scouts; known-split gradient-prototype follow-up weak; MIDST TabDDPM nearest-neighbor and shadow-distributional scouts weak; LAION-mi fixed 25/25 URL probe failed; Zenodo fine-tuned diffusion manifest incomplete` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected; LAION-mi remains metadata-only watch unless a public-safe cached image subset or frozen deterministic scan policy appears |
+| CPU sidecar | none selected; Zenodo needs a public manifest or code reference before full download, and LAION-mi needs cached images or a frozen deterministic scan policy |
 | Active GPU question | none after weak CommonCanvas P0/CLIP/prompt/stability/denoising-loss follow-ups, weak P1 gradient-prototype scout, weak Fashion-MNIST PIA-loss scout, weak MIDST TabDDPM nearest-neighbor/shadow-distributional scouts, weak Beans LoRA scout, and failed LAION-mi URL probe |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
