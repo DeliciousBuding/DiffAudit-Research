@@ -62,6 +62,12 @@
   preparation, DLM training, and SAMA/baseline attack code, but no released
   target DLM checkpoint, exact member/nonmember manifest, response packet, or
   score metadata bundle. No download or GPU work is released.
+- VidLeaks / `wangli-codes/T2V_MIA` is a text-to-video membership code
+  snapshot, not a current runnable asset. Zenodo publishes a small software
+  archive and ROC images, while the live GitHub repo is unavailable and the
+  archive lacks target T2V weights, exact member/nonmember video manifests,
+  generated videos, feature CSVs, and score packets. No model/video download or
+  GPU work is released.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -179,3 +185,14 @@ Current SAMA / diffusion-language-model follow-up:
 - Do not download gated language models, prepare MIMIR/NLP subsets, train DLM
   targets, or launch SAMA GPU jobs inside the current image-diffusion roadmap
   cycle.
+
+Current VidLeaks / text-to-video follow-up:
+
+- Keep it as a related-method watch item only.
+- Reopen only if DiffAudit explicitly adds a text-to-video membership lane, or
+  if authors publish a public-safe target T2V checkpoint or endpoint, exact
+  per-video member/nonmember manifests, and generated video or feature/score
+  packets.
+- Do not download WebVid-10M, MiraData, Panda-70M, AnimateDiff/InstructVideo/Mira
+  weights, generated videos, Gemini captions, or VBench outputs inside the
+  current image-diffusion roadmap cycle.
