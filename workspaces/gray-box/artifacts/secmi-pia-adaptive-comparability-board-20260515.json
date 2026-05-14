@@ -1,0 +1,286 @@
+{
+  "schema": "diffaudit.secmi_pia_adaptive_comparability_board.v1",
+  "date": "2026-05-15",
+  "status": "supporting-reference-comparison-ready",
+  "admitted": false,
+  "gpu_release": "none",
+  "question": "Do existing SecMI score heads have enough adaptive/cost comparability with admitted PIA surfaces to become a Platform/Runtime admitted gray-box row without new GPU work?",
+  "source_artifacts": {
+    "pia_1024_summary": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260415-gpu-1024-adaptive/summary.json",
+    "pia_2048_summary": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1/summary.json",
+    "secmi_full_summary": "workspaces/gray-box/runs/secmi-cifar10-gpu-full-stat-20260415-r2/summary.json",
+    "secmi_4096_summary": "workspaces/gray-box/runs/secmi-cifar10-gpu-4096-20260415-r1/summary.json",
+    "secmi_pia_disagreement_1024": "workspaces/gray-box/runs/secmi-pia-disagreement-20260415-r1/summary.json",
+    "secmi_pia_disagreement_2048": "workspaces/gray-box/runs/secmi-pia-disagreement-20260416-r3/summary.json"
+  },
+  "comparison_rows": [
+    {
+      "row_id": "pia-1024-runtime-adaptive",
+      "method": "pia",
+      "head": "runtime-mainline",
+      "summary": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260415-gpu-1024-adaptive/summary.json",
+      "samples_per_split": 1024,
+      "metrics": {
+        "auc": 0.83863,
+        "asr": 0.782715,
+        "tpr_at_1pct_fpr": 0.048828,
+        "tpr_at_0_1pct_fpr": 0.013672,
+        "threshold": -19.268509,
+        "member_score_mean": -12.985704,
+        "nonmember_score_mean": -32.689796
+      },
+      "adaptive_review": {
+        "score_file": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260415-gpu-1024-adaptive/adaptive-scores.json",
+        "available": true,
+        "query_repeats": 3,
+        "aggregation": "mean",
+        "member_score_std_mean": 0.0,
+        "nonmember_score_std_mean": 0.0,
+        "score_std_max": 0.0
+      },
+      "cost": {
+        "available": true,
+        "model_queries_per_sample": 31,
+        "adaptive_query_repeats": 3,
+        "wall_clock_seconds": 494.968358
+      },
+      "consumer_boundary": "admitted-compatible PIA baseline surface already used by downstream consumers"
+    },
+    {
+      "row_id": "pia-2048-runtime-adaptive",
+      "method": "pia",
+      "head": "runtime-mainline",
+      "summary": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1/summary.json",
+      "samples_per_split": 2048,
+      "metrics": {
+        "auc": 0.833109,
+        "asr": 0.769043,
+        "tpr_at_1pct_fpr": 0.050293,
+        "tpr_at_0_1pct_fpr": 0.011719,
+        "threshold": -19.268509,
+        "member_score_mean": -12.958884,
+        "nonmember_score_mean": -32.214287
+      },
+      "adaptive_review": {
+        "score_file": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1/adaptive-scores.json",
+        "available": true,
+        "query_repeats": 3,
+        "aggregation": "mean",
+        "member_score_std_mean": 0.0,
+        "nonmember_score_std_mean": 0.0,
+        "score_std_max": 0.0
+      },
+      "cost": {
+        "available": true,
+        "model_queries_per_sample": 31,
+        "adaptive_query_repeats": 3,
+        "wall_clock_seconds": 1723.22116
+      },
+      "consumer_boundary": "larger PIA comparison surface; not a new admitted row"
+    },
+    {
+      "row_id": "secmi-full-stat",
+      "method": "secmi",
+      "head": "stat",
+      "summary": "workspaces/gray-box/runs/secmi-cifar10-gpu-full-stat-20260415-r2/summary.json",
+      "samples_per_split": 25000,
+      "metrics": {
+        "auc": 0.885833,
+        "asr": 0.8154,
+        "tpr_at_1pct_fpr": 0.09396,
+        "tpr_at_0_1pct_fpr": 0.00772,
+        "threshold": 0.000424,
+        "member_score_mean": 0.000285,
+        "nonmember_score_mean": 0.00066
+      },
+      "adaptive_review": {
+        "available": false,
+        "query_repeats": null,
+        "aggregation": null,
+        "reason": "no bounded repeated-query adaptive review is present for this SecMI score head"
+      },
+      "cost": {
+        "available": false,
+        "reason": "SecMI summaries record runtime but not the admitted PIA cost schema"
+      },
+      "consumer_boundary": "research-support-only; missing admitted adaptive/cost contract"
+    },
+    {
+      "row_id": "secmi-full-nns-auxiliary",
+      "method": "secmi",
+      "head": "nns",
+      "summary": "workspaces/gray-box/runs/secmi-cifar10-gpu-full-stat-20260415-r2/summary.json",
+      "samples_per_split": 25000,
+      "metrics": {
+        "auc": 0.946286,
+        "asr": 0.879275,
+        "tpr_at_1pct_fpr": 0.40045,
+        "tpr_at_0_1pct_fpr": 0.114,
+        "threshold": -0.594836,
+        "member_score_mean": -0.862561,
+        "nonmember_score_mean": -0.264735
+      },
+      "adaptive_review": {
+        "available": false,
+        "query_repeats": null,
+        "aggregation": null,
+        "reason": "no bounded repeated-query adaptive review is present for this SecMI score head"
+      },
+      "cost": {
+        "available": false,
+        "reason": "SecMI summaries record runtime but not the admitted PIA cost schema"
+      },
+      "consumer_boundary": "research-support-only auxiliary head; no product-facing scorer contract"
+    },
+    {
+      "row_id": "secmi-4096-stat",
+      "method": "secmi",
+      "head": "stat",
+      "summary": "workspaces/gray-box/runs/secmi-cifar10-gpu-4096-20260415-r1/summary.json",
+      "samples_per_split": 4096,
+      "metrics": {
+        "auc": 0.888575,
+        "asr": 0.829224,
+        "tpr_at_1pct_fpr": 0.073486,
+        "tpr_at_0_1pct_fpr": 0.015381,
+        "threshold": 0.000386,
+        "member_score_mean": 0.000236,
+        "nonmember_score_mean": 0.00064
+      },
+      "adaptive_review": {
+        "available": false,
+        "query_repeats": null,
+        "aggregation": null,
+        "reason": "no bounded repeated-query adaptive review is present for this SecMI score head"
+      },
+      "cost": {
+        "available": false,
+        "reason": "SecMI summaries record runtime but not the admitted PIA cost schema"
+      },
+      "consumer_boundary": "research-support-only subset scale check"
+    }
+  ],
+  "aligned_score_checks": [
+    {
+      "row_id": "aligned-1024-secmi-stat-vs-pia",
+      "samples_per_split": 1024,
+      "score_sources": {
+        "pia_scores": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260415-gpu-1024-adaptive/scores.json",
+        "secmi_summary": "workspaces/gray-box/runs/secmi-pia-disagreement-20260415-r1/summary.json",
+        "secmi_detail": "workspaces/gray-box/runs/secmi-pia-disagreement-20260415-r1/outputs/disagreement_analysis.json"
+      },
+      "pia_recomputed": {
+        "orientation": "identity",
+        "metrics": {
+          "asr": 0.782715,
+          "threshold": -19.268509,
+          "tpr_at_1pct_fpr": 0.048828,
+          "tpr_at_0_1pct_fpr": 0.013672,
+          "auc": 0.83863,
+          "member_score_mean": -12.985705,
+          "nonmember_score_mean": -32.689796
+        }
+      },
+      "secmi_stat_recomputed": {
+        "orientation": "negated",
+        "metrics": {
+          "asr": 0.817383,
+          "threshold": -0.000314,
+          "tpr_at_1pct_fpr": 0.06543,
+          "tpr_at_0_1pct_fpr": 0.025391,
+          "auc": 0.884247,
+          "member_score_mean": 0.000205,
+          "nonmember_score_mean": 0.000554
+        }
+      },
+      "secmi_minus_pia": {
+        "auc": 0.045617,
+        "asr": 0.034668,
+        "tpr_at_1pct_fpr": 0.016602,
+        "tpr_at_0_1pct_fpr": 0.011719
+      },
+      "rank_alignment": {
+        "pearson": 0.867412,
+        "spearman": 0.907581,
+        "topk": 102,
+        "topk_overlap": 0.666667,
+        "binary_disagreement_rate": 0.122559
+      },
+      "interpretation": "SecMI stat is stronger on AUC/ASR but closely rank-aligned with PIA; this supports research corroboration, not a separate admitted consumer row."
+    },
+    {
+      "row_id": "aligned-2048-secmi-stat-vs-pia",
+      "samples_per_split": 2048,
+      "score_sources": {
+        "pia_scores": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260416-gpu-2048-cdi-r1/scores.json",
+        "secmi_summary": "workspaces/gray-box/runs/secmi-pia-disagreement-20260416-r3/summary.json"
+      },
+      "pia_recomputed": {
+        "orientation": "identity",
+        "metrics": {
+          "asr": 0.769043,
+          "threshold": -19.268509,
+          "tpr_at_1pct_fpr": 0.050293,
+          "tpr_at_0_1pct_fpr": 0.011719,
+          "auc": 0.833109,
+          "member_score_mean": -12.958884,
+          "nonmember_score_mean": -32.214283
+        }
+      },
+      "secmi_stat_recomputed": {
+        "orientation": "negated",
+        "metrics": {
+          "asr": 0.808594,
+          "threshold": -0.000315,
+          "tpr_at_1pct_fpr": 0.07666,
+          "tpr_at_0_1pct_fpr": 0.023926,
+          "auc": 0.877456,
+          "member_score_mean": 0.000208,
+          "nonmember_score_mean": 0.000556
+        }
+      },
+      "secmi_minus_pia": {
+        "auc": 0.044347,
+        "asr": 0.039551,
+        "tpr_at_1pct_fpr": 0.026367,
+        "tpr_at_0_1pct_fpr": 0.012207
+      },
+      "rank_alignment": {
+        "pearson": 0.86014,
+        "spearman": 0.906879,
+        "topk": 204,
+        "topk_overlap": 0.617647,
+        "binary_disagreement_rate": 0.121582
+      },
+      "interpretation": "SecMI stat is stronger on AUC/ASR but closely rank-aligned with PIA; this supports research corroboration, not a separate admitted consumer row."
+    }
+  ],
+  "decision": {
+    "verdict": "keep_secmi_as_supporting_reference",
+    "changed_by_board": "The board closes the comparability question for the current artifacts: SecMI is quantitatively strong and aligned with PIA on the same samples, but it still lacks the admitted PIA adaptive review and cost contract. No Platform/Runtime admission or GPU release follows.",
+    "primary_evidence": [
+      "SecMI stat exceeds PIA AUC on aligned 1024/1024 and 2048/2048 score surfaces.",
+      "Aligned rank correlations stay high, so SecMI mostly corroborates the same membership signal rather than opening a distinct consumer surface.",
+      "PIA rows carry explicit repeated-query adaptive_check and cost fields; SecMI stat/NNS rows do not.",
+      "SecMI NNS is stronger but remains an auxiliary head without a product-facing scorer contract."
+    ],
+    "promotion_blockers": [
+      "no bounded repeated-query adaptive review for SecMI stat or NNS",
+      "no admitted-row cost schema for SecMI summaries",
+      "NNS auxiliary head lacks product-facing scorer contract",
+      "aligned SecMI stat is highly correlated with PIA and does not justify a separate admitted consumer row"
+    ],
+    "blocked_expansions": [
+      "no larger SecMI full-split rerun",
+      "no NNS product promotion",
+      "no Platform/Runtime admitted-bundle change",
+      "no SecMI GPU release",
+      "no learned fusion or gating matrix"
+    ]
+  },
+  "current_slots": {
+    "active_gpu_question": "none",
+    "next_gpu_candidate": "none",
+    "CPU sidecar": "none selected after SecMI/PIA adaptive comparability board"
+  }
+}
