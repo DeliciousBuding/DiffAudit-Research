@@ -2,6 +2,25 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Tracing Roots Product Boundary Sync
+
+Consumer-boundary sync checked whether the positive Tracing the Roots feature
+packet should change downstream consumption. It should not. The OpenReview
+supplementary feature packet remains a real Research-side metric result
+(`AUC = 0.815826`, `accuracy = 0.737500`, `TPR@1%FPR = 0.134000`,
+`TPR@0.1%FPR = 0.038000`), but it lacks raw target checkpoint identity, raw
+member/external sample IDs, and image query/response artifacts. The product
+bridge now explicitly lists it as `Research-only positive feature-packet
+evidence / positive-but-provenance-limited / no admitted row`.
+
+Decision: `consumer verdict / positive feature-packet evidence stays
+Research-only / no Runtime schema change / no Platform row / no GPU release`.
+Current slots remain `active_gpu_question = none`, `next_gpu_candidate =
+none`, and `CPU sidecar = none selected after Tracing Roots product boundary
+sync`. See
+[docs/product-bridge/README.md](docs/product-bridge/README.md) and
+[docs/evidence/tracing-roots-feature-packet-mia-20260515.md](docs/evidence/tracing-roots-feature-packet-mia-20260515.md).
+
 ## 2026-05-15 DMin Data Attribution Gate
 
 Data-attribution intake checked `huawei-lin/DMin` because the external artifact

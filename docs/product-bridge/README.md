@@ -26,14 +26,15 @@ Recent second-asset and mechanism checks are also Research-only: CommonCanvas /
 CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
 Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM,
 StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
-diffusion MIA, GenAI Confessions black-box image-to-image MIA, DurMI
+diffusion MIA, Tracing the Roots diffusion-trajectory feature-packet MIA,
+GenAI Confessions black-box image-to-image MIA, DurMI
 TTS duration-loss MIA, FERMI multi-relational tabular MIA, SAMA
 diffusion-language-model membership, VidLeaks
 text-to-video membership, and GGDM graph generative diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
-score-packet-missing, or artifact-incomplete lines. They do not change admitted
-rows, Runtime schemas, recommendation logic, defense claims, or Platform
-product copy.
+score-packet-missing, positive-but-provenance-limited, or artifact-incomplete
+lines. They do not change admitted rows, Runtime schemas, recommendation logic,
+defense claims, or Platform product copy.
 See
 [../evidence/paperization-consumer-boundary-20260513.md](../evidence/paperization-consumer-boundary-20260513.md)
 and
@@ -67,6 +68,16 @@ protocol. See
 [../evidence/clid-official-inter-output-replay-20260515.md](../evidence/clid-official-inter-output-replay-20260515.md)
 and
 [../evidence/clid-prompt-conditioning-boundary.md](../evidence/clid-prompt-conditioning-boundary.md).
+
+Current Tracing the Roots status: Research-only positive feature-packet
+evidence. The OpenReview supplementary material ships fixed CIFAR10
+diffusion-trajectory feature tensors and replay code, and the bounded local
+linear replay reaches `AUC = 0.815826`, `accuracy = 0.737500`,
+`TPR@1%FPR = 0.134000`, and `TPR@0.1%FPR = 0.038000`. It must not appear as an
+admitted Platform evidence row or Runtime schema input because the public
+packet lacks raw target checkpoint identity, raw member/external sample IDs,
+and image query/response artifacts. See
+[../evidence/tracing-roots-feature-packet-mia-20260515.md](../evidence/tracing-roots-feature-packet-mia-20260515.md).
 
 Current FMIA status: Research-only watch-plus. The OpenReview supplement ships
 frequency-filter DDIM/Stable Diffusion attack code and exact split manifests,
