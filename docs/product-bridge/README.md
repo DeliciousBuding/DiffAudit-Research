@@ -25,16 +25,16 @@ are candidate, supporting-reference, negative, hold, or needs-assets states.
 Recent second-asset and mechanism checks are also Research-only: CommonCanvas /
 CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
 Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, SAMA
-diffusion-language-model membership, and VidLeaks text-to-video membership are
-weak, watch, metadata-only, related-method, out-of-scope, or artifact-incomplete
-lines. They do not change admitted rows, Runtime schemas, recommendation logic,
-or Platform product copy.
+diffusion-language-model membership, VidLeaks text-to-video membership, and
+GGDM graph generative diffusion membership are weak, watch, metadata-only,
+related-method, out-of-scope, or artifact-incomplete lines. They do not change
+admitted rows, Runtime schemas, recommendation logic, or Platform product copy.
 See
 [../evidence/paperization-consumer-boundary-20260513.md](../evidence/paperization-consumer-boundary-20260513.md)
 and
 [../evidence/watch-candidate-consumer-boundary-20260513.md](../evidence/watch-candidate-consumer-boundary-20260513.md).
 See also
-[../evidence/cross-modal-watch-consumer-boundary-20260514.md](../evidence/cross-modal-watch-consumer-boundary-20260514.md).
+[../evidence/cross-modal-watch-consumer-boundary-20260515.md](../evidence/cross-modal-watch-consumer-boundary-20260515.md).
 See
 [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md)
 and
