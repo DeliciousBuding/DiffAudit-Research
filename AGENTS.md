@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `FERMI tabular artifact gate completed after DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; FERMI reports strong multi-relational tabular diffusion MIA paper metrics, but has no public code, target/split manifests, synthetic-table cache, score/feature packet, or replay command, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Memorization Anisotropy artifact gate completed after FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; the ICLR 2026 official release has code and prompt-level memorized/nonmemorized splits, but no released score tensors, ROC/metric artifacts, generated image packet, model snapshot hashes, or image-identity MIA manifest, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -145,8 +145,8 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   scratch before those artifacts exist.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
-  Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, MIDM, and
-  StablePrivateLoRA, are
+  Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, MIDM,
+  Memorization Anisotropy, and StablePrivateLoRA, are
   limitations or future-work hooks only. Platform/Runtime and paperization
   admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
   `GSA`, and `DPDM W-1`.
@@ -205,6 +205,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Google Drive TextGrid files, train or run TTS attacks, launch DurMI GPU jobs,
   or promote TTS/audio claims into Platform/Runtime rows unless DiffAudit
   explicitly opens a TTS/audio membership lane or ready score artifacts appear.
+- Memorization Anisotropy / `Detecting and Mitigating Memorization in
+  Diffusion Models through Anisotropy of the Log-Probability` is a
+  prompt-level memorization watch-plus item, not a current per-sample
+  image/latent-image MIA execution target. The official ICLR 2026 release has
+  code and public SD v1.4, SD v2, and Realistic Vision prompt splits, but no
+  released score tensors, ROC/metric artifacts, generated image packet, model
+  snapshot hashes, or image-identity MIA manifest. Do not download SD v1.4,
+  SD v2, Realistic Vision, generated images, or MemBench-style assets; do not
+  run prompt-memorization CUDA forward passes, seed/generation/mode/gamma
+  sweeps, or mitigation notebooks unless ready score artifacts appear or
+  DiffAudit explicitly opens a prompt-memorization lane.
 - FERMI / `FERMI: Exploiting Relations for Membership Inference Against
   Tabular Diffusion Models` is a multi-relational tabular watch item, not a
   current execution target. The 2026-05-12 arXiv source reports strong
