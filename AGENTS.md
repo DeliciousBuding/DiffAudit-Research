@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `GGDM Zenodo artifact gate closed as graph-diffusion cross-modal code-only watch after MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `MIDM artifact gate closed as split-and-metric-code-present but score-packet-missing after cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -145,10 +145,20 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   scratch before those artifacts exist.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
-  Zenodo fine-tuned diffusion, Noise as a Probe, and Kohaku/Danbooru, are
+  Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, and MIDM, are
   limitations or future-work hooks only. Platform/Runtime and paperization
   admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
   `GSA`, and `DPDM W-1`.
+- `HailongHuPri/MIDM` is an image-diffusion watch-plus candidate with concrete
+  FFHQ DDPM loss/likelihood attack code, `ffhq_1000_idx.npy` member-index
+  semantics, `1000/1000` labels in `Example.ipynb`, and fixed-FPR TPR metric
+  code. It is not an execution target because the repo does not commit fixed
+  member/nonmember manifests, HDF5 score packets, ROC/metric artifacts, or
+  notebook outputs, and the advertised Google Drive checkpoint was not
+  fetchable for metadata here. Do not download FFHQ, request or scrape
+  checkpoint access, train MIDM DDPM, or run loss/likelihood scoring from
+  scratch unless public fixed manifests, checkpoint hash/size/training binding,
+  and ready scores appear.
 - MIA_SD / face-LDM is a related code reference only: the public repo says the
   experiment images are not published, gives fine-tuning scripts with local
   `TRAIN_PATH` / `OUT_PATH` placeholders, and does not release a target
