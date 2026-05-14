@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `SAMA diffusion-language-model asset gate is out-of-scope/code-only after R125 DreamBooth, SecMI-LDM, Fashion-MNIST score-Jacobian sensitivity, and request-gated memorization-LDM verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `VidLeaks text-to-video asset gate is code-snapshot-only/live-repo-unavailable after SAMA diffusion-language-model out-of-scope verdict; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -186,6 +186,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   prepare MIMIR/NLP subsets, train DLM targets, or launch SAMA GPU jobs unless
   DiffAudit explicitly opens a text/DLM membership lane or a public target/split
   artifact appears.
+- VidLeaks / `wangli-codes/T2V_MIA` is a text-to-video membership code
+  snapshot, not a clean image/latent-image Lane A second asset. The Zenodo
+  archive has code and ROC plot images, but the live GitHub repo is unavailable
+  and no target T2V weights, exact member/nonmember video manifests, generated
+  videos, feature CSVs, or score packets are released. Do not download
+  WebVid-10M, MiraData, Panda-70M, AnimateDiff/InstructVideo/Mira weights,
+  generated videos, Gemini captions, or VBench outputs unless DiffAudit
+  explicitly opens a text-to-video membership lane or public target/split/score
+  artifacts appear.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
