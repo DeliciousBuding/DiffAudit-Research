@@ -17,8 +17,10 @@
   residual candidate evidence, not a mid-frequency-specific claim.
 - Variation status: blocked until a real member/nonmember query-image set and
   endpoint contract exist.
-- CLiD status: hold-candidate; prompt controls block image-identity and admitted
-  black-box claims.
+- CLiD status: official public `inter_output/*` replay is strong on CPU
+  (`AUC = 0.961277`, `TPR@1%FPR = 0.675470`, `ASR = 0.891957`) but remains
+  prompt-conditioned candidate-only; image-identity and admitted black-box
+  claims stay blocked.
 - Semantic-auxiliary status: negative-but-useful after low-FPR review; no GPU
   packet selected.
 - GPU: no active black-box GPU task running now.
@@ -104,6 +106,9 @@ Current variation query contract audit:
 
 Current CLiD image-identity boundary:
 [../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md).
+
+Current CLiD official inter-output replay:
+[../../docs/evidence/clid-official-inter-output-replay-20260515.md](../../docs/evidence/clid-official-inter-output-replay-20260515.md).
 
 Current response-contract package preflight:
 [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).

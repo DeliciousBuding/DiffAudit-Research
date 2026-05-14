@@ -2,6 +2,26 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 CLiD Official Inter-Output Replay
+
+Lane A/B checked the official `zhaisf/CLiD` repository because it publishes
+small `inter_output/*` score files for CLiD, PIA, SecMI, and PFAMI under the
+MS-COCO real-world fine-tuning setting. This is a real CPU replay packet, not a
+paper-only scout.
+
+Decision: `official-score-packet-replayed / positive-but-prompt-conditioned /
+candidate-only / no GPU release / no admitted row`. Replaying the official
+threshold path from `cal_clid_th.py` selected `alpha = 0.9` by shadow AUC and
+gave target `AUC = 0.961277`, `TPR@1%FPR = 0.675470`, and `ASR = 0.891957`.
+Baselines on the same public intermediate outputs were much weaker: PIA target
+`AUC = 0.555077`, SecMI target `AUC = 0.654664`, and PFAMI target `AUC =
+0.603953`. This upgrades CLiD as official candidate evidence, but does not
+change Platform/Runtime admitted rows because the packet remains
+prompt-conditioned and the image-identity boundary is still unresolved. Current
+slots remain `active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected`. See
+[docs/evidence/clid-official-inter-output-replay-20260515.md](docs/evidence/clid-official-inter-output-replay-20260515.md).
+
 ## 2026-05-15 StablePrivateLoRA Defense Artifact Gate
 
 Lane A/B checked `WilliamLUO0/StablePrivateLoRA` because it is not paper-only:
@@ -879,9 +899,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing the Roots feature-packet replay. StablePrivateLoRA has public split payloads and defense code but no released LoRA/checkpoints or score packets; MIDM has split/metric code but no public fixed manifest, score packet, or accessible checkpoint metadata; SAMA/VidLeaks/GGDM are related-method watch items only and do not change Platform/Runtime consumers; MIDST Blending++ is the strongest MIDST score export so far (`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`) but remains below the `0.60` reopen floor. |
-| Highest-value next action | Continue Lane A/B only with a non-duplicate candidate that exposes exact target identity, member/nonmember split artifacts, and response/score coverage; reopen StablePrivateLoRA only with public checkpoint size/hash/training binding plus raw attack scores or metric artifacts that do not require training MP-LoRA/SMP-LoRA from scratch; reopen MIDM only with public fixed FFHQ member/nonmember manifests, accessible checkpoint size/hash/training binding, and ready loss/likelihood score artifacts or a bounded command that does not require acquiring FFHQ from scratch. Otherwise switch to a genuinely different runnable target contract or stop instead of writing another scope/audit chain. |
-| Stop condition | Do not clone or download StablePrivateLoRA dataset payloads, SD-v1.5, LoRA checkpoints, generated images, or logs; do not train MP-LoRA/SMP-LoRA or OCR table PNGs into admitted metrics; do not download FFHQ thumbnails, request or scrape MIDM checkpoint access, train MIDM DDPM, or run MIDM loss/likelihood scoring from scratch; do not request the withheld GGDM AWE module, download graph datasets, train EDP-GNN/GDSS/DiGress targets, or regenerate graph sample caches; do not download Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not train ReDiffuse DDPM/DiT/Stable Diffusion targets or rerun same-family attacks from scratch; do not reopen known weak CommonCanvas, Beans, MIDST, Fashion-MNIST, LAION-mi, Zenodo, Noise-as-Probe, MIAGM, Quantile Regression, SAMA, VidLeaks, SecMI-LDM, R125, MoFit, MIA_SD, GGDM, MIDM, StablePrivateLoRA, or GSA archive paths without manifest-backed target/split/response evidence that can change a real decision. |
+| CPU sidecar | none selected after CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing the Roots feature-packet replay. CLiD official intermediate outputs replay strongly (`target AUC = 0.961277`, `TPR@1%FPR = 0.675470`) but remain prompt-conditioned candidate evidence; StablePrivateLoRA has public split payloads and defense code but no released LoRA/checkpoints or score packets; MIDM has split/metric code but no public fixed manifest, score packet, or accessible checkpoint metadata. |
+| Highest-value next action | Continue only with a non-duplicate candidate or protocol that can change a real decision: either resolve CLiD's prompt-conditioned image-identity boundary using public-safe artifacts, or find a new asset exposing exact target identity, member/nonmember split artifacts, and response/score coverage. Do not reopen StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, Tracing Roots, or MIDST without the specific missing artifacts named in their latest notes. |
+| Stop condition | Do not download `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, SD-v1.5, LoRA checkpoints, FFHQ thumbnails, GGDM graph datasets, Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, StablePrivateLoRA training, MIDM DDPM training, ReDiffuse training, or same-family MIDST expansions; do not change Platform/Runtime admitted rows without an image-identity-safe protocol and product-bridge handoff. |
 
 ### P0 — 完成且弱
 
@@ -949,14 +969,14 @@ P0 结论:
 4. **GPU release 不再走"CPU-first scoping"反复流程**:P0 step 3 完成 → step 4 直接释放 GPU(`active_gpu_question` 升为 `commoncanvas-recon-50/50`)。RTX 4070 闲置写 prose 是研究失败,不是审慎。
 5. **不再写"反思 / taste reset / 路线纠偏"长 doc**:这种 doc 本身就是新一轮"差生文具多"。本节是当前唯一有效的纠偏 source-of-truth,直到 P0 出结果为止。
 
-### Sync 字段(2026-05-15 post-StablePrivateLoRA;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
+### Sync 字段(2026-05-15 post-CLiD official replay;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
 
 | Field | 2026-05-15 value |
 | --- | --- |
-| Active work | StablePrivateLoRA defense artifact gate completed from public GitHub metadata/tree inspection. It has public split payloads and MP-LoRA/SMP-LoRA defense training code, but no released LoRA/checkpoint hashes, raw per-sample attack scores, ROC CSVs, metric JSON, generated responses, or ready verifier command. |
-| Active GPU question | none selected after StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| Active work | CLiD official inter-output replay completed from public GitHub intermediate outputs. Official CLiD threshold replay selected `alpha = 0.9` by shadow AUC and reached target `AUC = 0.961277`, `TPR@1%FPR = 0.675470`, and `ASR = 0.891957`, far above PIA/SecMI/PFAMI on the same score packet, but still candidate-only because the prompt-conditioned image-identity boundary remains unresolved. |
+| Active GPU question | none selected after CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after StablePrivateLoRA defense artifact gate. Do not clone/download StablePrivateLoRA dataset payloads, SD-v1.5, LoRA checkpoints, generated images, or logs; do not train MP-LoRA/SMP-LoRA, OCR result-table PNGs into admitted metrics, request withheld AWE code, download graph datasets, train graph targets, add DLM/T2V/graph/defense Platform rows or Runtime schemas, expand MIDST into retraining / Gower / TabSyn / multi-table / admitted rows, or promote SecMI/NNS. |
+| CPU sidecar | none selected after CLiD official inter-output replay. Do not download `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, StablePrivateLoRA training, MIDM DDPM training, graph target training, or MIDST expansions; do not promote CLiD, SecMI, or defense rows without a product-bridge handoff and image-identity-safe protocol. |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -973,10 +993,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `StablePrivateLoRA defense artifact gate completed from public GitHub metadata/tree inspection. It has public split payloads and MP-LoRA/SMP-LoRA defense training code, but no released LoRA/checkpoint hashes, raw per-sample attack scores, ROC CSVs, metric JSON, generated responses, or ready verifier command.` |
+| Active work | `CLiD official inter-output replay completed from public GitHub intermediate outputs. Official CLiD threshold replay selected alpha = 0.9 by shadow AUC and reached target AUC = 0.961277, TPR@1%FPR = 0.675470, and ASR = 0.891957, far above PIA/SecMI/PFAMI on the same score packet, but still candidate-only because the prompt-conditioned image-identity boundary remains unresolved.` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected after StablePrivateLoRA defense artifact gate. Do not clone/download StablePrivateLoRA dataset payloads, SD-v1.5, LoRA checkpoints, generated images, or logs; do not train MP-LoRA/SMP-LoRA, OCR result-table PNGs into admitted metrics, request withheld AWE code, download graph datasets, train graph targets, add DLM/T2V/graph/defense Platform rows or Runtime schemas, or expand MIDST Blending++ into retraining / Gower / TabSyn / multi-table / admitted rows. |
-| Active GPU question | none after StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| CPU sidecar | none selected after CLiD official inter-output replay. Do not download `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, StablePrivateLoRA training, MIDM DDPM training, graph target training, or MIDST expansions. |
+| Active GPU question | none after CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
@@ -1502,6 +1522,7 @@ Every autonomous research cycle must follow this loop:
 | CopyMark CommonCanvas multi-seed stability | weak bounded scout (`4/4`, `AUC = 0.5625`, `ASR = 0.625`); no seed/subset/embedding expansion | [docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md) |
 | Kohaku/Danbooru asset decision | hold; broad training-source provenance is not enough for a clean target member/nonmember split | [docs/evidence/kohaku-danbooru-asset-decision-20260513.md](docs/evidence/kohaku-danbooru-asset-decision-20260513.md) |
 | Fashion-MNIST DDPM PIA-loss scout | weak `64/64` CUDA scout on a real train/test split; no admitted promotion and no expansion | [docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md](docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md) |
+| CLiD official inter-output replay | official CPU score packet replay is strong (`target AUC = 0.961277`, `TPR@1%FPR = 0.675470`) but remains prompt-conditioned candidate-only; no GPU release or admitted row | [docs/evidence/clid-official-inter-output-replay-20260515.md](docs/evidence/clid-official-inter-output-replay-20260515.md) |
 | StablePrivateLoRA defense artifact gate | defense watch-plus with public split payloads and MP-LoRA/SMP-LoRA training code, but no released LoRA/checkpoints, raw attack scores, ROC/metric artifacts, or ready verifier; no download or GPU release | [docs/evidence/stableprivatelora-defense-artifact-gate-20260515.md](docs/evidence/stableprivatelora-defense-artifact-gate-20260515.md) |
 | MIDM artifact gate | image-diffusion watch-plus with FFHQ DDPM split/metric code, but no fixed public manifests, score packets, notebook outputs, or accessible checkpoint metadata; no download or GPU release | [docs/evidence/midm-artifact-gate-20260515.md](docs/evidence/midm-artifact-gate-20260515.md) |
 | GGDM Zenodo artifact gate | graph-diffusion cross-modal watch; small Zenodo code artifact, but no graph target checkpoint, exact member/nonmember manifest, generated graph cache, or score packet | [docs/evidence/ggdm-zenodo-artifact-gate-20260515.md](docs/evidence/ggdm-zenodo-artifact-gate-20260515.md) |
