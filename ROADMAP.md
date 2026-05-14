@@ -2,6 +2,32 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Memorization Anisotropy Artifact Gate
+
+Prompt-memorization intake checked OpenReview `HTPGy5ydAY` / arXiv
+`2601.20642` / `rohanasthana/memorization-anisotropy` because it is an ICLR
+2026 official code release with a distinct denoising-free memorization
+mechanism based on score-difference norm plus low-noise anisotropic alignment.
+The official GitHub tree is small (`25` blobs, `6,993,565` total blob bytes,
+MIT license, no releases), and the OpenReview supplement is `1,651,129` bytes
+with SHA256
+`3c68d1e66c619d7f4a88194ac9fa4d390758903bccb3f113ada307e65027a696` and `28`
+entries. The release includes code plus prompt lists: SD v1.4 `500/500`
+memorized/nonmemorized prompts, SD v2 `219/500`, and Realistic Vision `90/90`.
+Paper Table 1 reports strong prompt-memorization metrics, including SD v1.4
+`n = 1` `AUC = 0.994 +/- 0.001` and `TPR@1%FPR = 0.935 +/- 0.002`.
+
+Decision: `prompt-memorization watch-plus /
+code-and-prompt-splits-public / no ready score packet / no model download / no
+GPU release`. The supplement has an empty `det_outputs/` directory and no
+released `.pt`, `.npy`, `.npz`, score CSV, ROC array, metric JSON, generated
+image packet, or model checkpoint. Running the release would download SD v1.4,
+SD v2, or Realistic Vision weights and create local tensors from scratch.
+Current slots remain `active_gpu_question = none`, `next_gpu_candidate = none`,
+and `CPU sidecar = none selected after Memorization Anisotropy artifact gate`.
+See
+[docs/evidence/memorization-anisotropy-artifact-gate-20260515.md](docs/evidence/memorization-anisotropy-artifact-gate-20260515.md).
+
 ## 2026-05-15 FERMI Tabular Artifact Gate
 
 Tabular intake checked arXiv `2605.11527` / `FERMI: Exploiting Relations for
@@ -1023,9 +1049,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing the Roots feature-packet replay. FERMI is paper-source only; DurMI has cross-modal TTS code/split/checkpoint metadata but no ready score packet; FMIA has official frequency-filter code and exact split manifests but no target checkpoints or score packets; CLiD official intermediate outputs replay strongly but remain prompt-conditioned candidate evidence because public metadata does not bind score rows to immutable COCO image identities. |
-| Highest-value next action | Continue non-duplicate asset search only for candidates with public target identity, member/nonmember split artifacts, and response/score coverage. Reopen FERMI only with public code plus target/split/score artifacts or an explicit multi-relational tabular lane; reopen DurMI only with ready duration-loss score artifacts or an explicit TTS/audio lane; reopen FMIA only with public trained checkpoints or ready score arrays; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. Do not reopen StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, Tracing Roots, or MIDST without the specific missing artifacts named in their latest notes. |
-| Stop condition | Do not implement FERMI from scratch, train TabDDPM/TabDiff/TabSyn/surrogate models, download relational tabular datasets for FERMI, download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, GGDM graph datasets, Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, MIDM DDPM training, ReDiffuse training, or same-family MIDST expansions; do not change Platform/Runtime admitted rows without a product-bridge handoff. |
+| CPU sidecar | none selected after Memorization Anisotropy artifact gate, FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing the Roots feature-packet replay. Memorization Anisotropy has official code and prompt splits but no ready score tensors or image-identity MIA packet; FERMI is paper-source only; DurMI has cross-modal TTS code/split/checkpoint metadata but no ready score packet; FMIA has official frequency-filter code and exact split manifests but no target checkpoints or score packets; CLiD official intermediate outputs replay strongly but remain prompt-conditioned candidate evidence because public metadata does not bind score rows to immutable COCO image identities. |
+| Highest-value next action | Continue non-duplicate asset search only for candidates with public target identity, member/nonmember split artifacts, and response/score coverage. Reopen Memorization Anisotropy only with released score tensors/metric artifacts or an explicit prompt-memorization lane; reopen FERMI only with public code plus target/split/score artifacts or an explicit multi-relational tabular lane; reopen DurMI only with ready duration-loss score artifacts or an explicit TTS/audio lane; reopen FMIA only with public trained checkpoints or ready score arrays; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. Do not reopen StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, Tracing Roots, or MIDST without the specific missing artifacts named in their latest notes. |
+| Stop condition | Do not download SD v1.4, SD v2, Realistic Vision, or generated images for Memorization Anisotropy; do not run prompt-memorization CUDA forward passes, seed/generation/mode/gamma/normalization sweeps, or mitigation notebooks by default. Do not implement FERMI from scratch, train TabDDPM/TabDiff/TabSyn/surrogate models, download relational tabular datasets for FERMI, download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, GGDM graph datasets, Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, MIDM DDPM training, ReDiffuse training, or same-family MIDST expansions; do not change Platform/Runtime admitted rows without a product-bridge handoff. |
 
 ### P0 — 完成且弱
 
@@ -1093,14 +1119,14 @@ P0 结论:
 4. **GPU release 不再走"CPU-first scoping"反复流程**:P0 step 3 完成 → step 4 直接释放 GPU(`active_gpu_question` 升为 `commoncanvas-recon-50/50`)。RTX 4070 闲置写 prose 是研究失败,不是审慎。
 5. **不再写"反思 / taste reset / 路线纠偏"长 doc**:这种 doc 本身就是新一轮"差生文具多"。本节是当前唯一有效的纠偏 source-of-truth,直到 P0 出结果为止。
 
-### Sync 字段(2026-05-15 post-FERMI tabular artifact gate;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
+### Sync 字段(2026-05-15 post-Memorization Anisotropy artifact gate;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
 
 | Field | 2026-05-15 value |
 | --- | --- |
-| Active work | FERMI tabular artifact gate completed. The arXiv source reports strong multi-relational tabular diffusion MIA metrics for TabDDPM/TabDiff/TabSyn, but the public surface is paper-source only: no code tree, target/split manifests, generated synthetic tables, feature/score rows, ROC arrays, metric JSON, or replay command. |
-| Active GPU question | none selected after FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| Active work | Memorization Anisotropy artifact gate completed. The official ICLR 2026 release has code and prompt-level memorized/nonmemorized splits, but no released score tensors, ROC/metric artifacts, generated image packet, model snapshot hashes, or image-identity MIA manifest. FERMI remains a paper-source-only tabular watch item. |
+| Active GPU question | none selected after Memorization Anisotropy artifact gate, FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after FERMI tabular artifact gate. Do not implement FERMI from scratch, train TabDDPM/TabDiff/TabSyn/surrogate models, download relational tabular datasets for FERMI, download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not promote FERMI, DurMI, FMIA, CLiD, SecMI, or defense rows without ready score artifacts and product-bridge handoff. |
+| CPU sidecar | none selected after Memorization Anisotropy artifact gate. Do not download SD v1.4, SD v2, Realistic Vision, or generated images for this prompt-memorization line; do not run CUDA forward passes, seed/generation/mode/gamma/normalization sweeps, or mitigation notebooks. Do not implement FERMI from scratch, train TabDDPM/TabDiff/TabSyn/surrogate models, download relational tabular datasets for FERMI, download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not promote Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, SecMI, or defense rows without ready score artifacts and product-bridge handoff. |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -1117,10 +1143,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `FERMI tabular artifact gate completed. The arXiv source reports strong multi-relational tabular diffusion MIA metrics for TabDDPM/TabDiff/TabSyn, but the public surface is paper-source only: no code tree, target/split manifests, generated synthetic tables, feature/score rows, ROC arrays, metric JSON, or replay command.` |
+| Active work | `Memorization Anisotropy artifact gate completed. The official ICLR 2026 release has code and prompt-level memorized/nonmemorized splits, but no released score tensors, ROC/metric artifacts, generated image packet, model snapshot hashes, or image-identity MIA manifest. FERMI remains paper-source-only tabular watch.` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected after FERMI tabular artifact gate. Do not implement FERMI from scratch, train TabDDPM/TabDiff/TabSyn/surrogate models, download relational tabular datasets for FERMI, download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets. |
-| Active GPU question | none after FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| CPU sidecar | none selected after Memorization Anisotropy artifact gate. Do not download SD v1.4, SD v2, Realistic Vision, generated images, or MemBench-style assets for this line; do not run CUDA prompt-memorization scoring, seed/generation/mode/gamma/normalization sweeps, or mitigation notebooks. |
+| Active GPU question | none after Memorization Anisotropy artifact gate, FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
