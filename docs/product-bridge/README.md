@@ -26,7 +26,7 @@ Recent second-asset and mechanism checks are also Research-only: CommonCanvas /
 CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
 Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM,
 StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
-diffusion MIA, SAMA
+diffusion MIA, GenAI Confessions black-box image-to-image MIA, SAMA
 diffusion-language-model membership, VidLeaks
 text-to-video membership, and GGDM graph generative diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
@@ -81,6 +81,14 @@ manifests, no target checkpoints, no score arrays, no ROC/metric JSON, and no
 ready verifier packet. It must not appear as admitted Platform evidence or a
 Runtime row. See
 [../evidence/sima-scorebased-artifact-gate-20260515.md](../evidence/sima-scorebased-artifact-gate-20260515.md).
+
+Current GenAI Confessions status: Research-only boundary watch. The public
+release has raw in-training/out-of-training image inputs for STROLL, Carlini,
+and Midjourney settings, but it does not ship the fine-tuned STROLL checkpoint,
+generated image-to-image responses, DreamSim distance vectors, ROC/metric
+artifacts, Midjourney query logs, or a ready verifier packet. It must not appear
+as admitted Platform evidence or a Runtime row. See
+[../evidence/genai-confessions-blackbox-artifact-gate-20260515.md](../evidence/genai-confessions-blackbox-artifact-gate-20260515.md).
 
 Current recon status: recon is the admitted black-box product row. The active
 row uses a unified upstream-threshold metric source and reports all four
