@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Tracing the Roots feature-packet MIA replay completed as positive-but-provenance-limited Research evidence; no active GPU question, no next GPU candidate, and no CPU sidecar selected after the bounded replay`
+- Active work: `ReDiffuse OpenReview split-manifest audit closed as split-manifest-only / checkpoint-and-score missing after the positive-but-provenance-limited Tracing the Roots feature-packet replay; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -217,8 +217,12 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   package it as a black-box/conditional response-contract candidate unless a
   separate reproducibility-maintenance task explicitly reopens admitted GSA
   provenance.
-- ReDiffuse is closed as candidate-only / hold unless a new scorer or
-  checkpoint-portability hypothesis appears.
+- ReDiffuse is closed as hold / split-manifest-only. The official OpenReview
+  supplement now gives DDPM CIFAR10/CIFAR100/STL10/Tiny-IN train/eval index
+  manifests, but no target checkpoint, generated response/feature cache, score
+  packet, ROC CSV, or metric artifact. Do not train DDPM/DiT/Stable Diffusion
+  targets or rerun same-family attack scripts unless exact checkpoints or score
+  packets appear for those manifests.
 - No GPU task should start from documentation or governance cleanup alone.
 - Only one GPU task may run at a time; every GPU task needs a frozen command,
   metric contract, stop condition, and evidence-note target.
@@ -298,7 +302,8 @@ Default behavior after a blocked or candidate-only verdict:
 
 Current strategic correction:
 
-- ReDiffuse 800k, I-B target-risk remap training, I-C translated replay,
+- ReDiffuse target training/checkpoint-portability repeats, I-B target-risk
+  remap training, I-C translated replay,
   diagonal-Fisher repeats, GSA loss-score LR repeats, and mid-frequency
   same-contract repeats are not default next steps.
 - The next high-value Research direction is a real second-asset or
