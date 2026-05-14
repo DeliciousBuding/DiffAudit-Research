@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `ELSA Health Privacy Challenge gate completed after Memorization Anisotropy, FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; the public starter package has a real biomedical synthetic-data MIA label/prediction/metric example and names Noisy Diffusion among challenge targets, but actual challenge data requires platform registration and a data download agreement, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `DMin data attribution gate completed after ELSA, Memorization Anisotropy, FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; DMin has public LoRA, mixed dataset, compressed-gradient cache, and retrieval index artifacts, but its claim is training-data attribution rather than membership inference and it has no member/nonmember labels or MIA ROC packet, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -145,7 +145,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   scratch before those artifacts exist.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
-  Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, MIDM,
+  Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, MIDM, DMin,
   ELSA Health Privacy, Memorization Anisotropy, and StablePrivateLoRA, are
   limitations or future-work hooks only. Platform/Runtime and paperization
   admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
@@ -215,6 +215,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   starter example AUC as a Noisy Diffusion research result unless DiffAudit
   explicitly opens a biomedical synthetic-data MIA lane or public-safe
   Noisy Diffusion target/split/score artifacts appear.
+- DMin / `DMin: Scalable Training Data Influence Estimation for Diffusion
+  Models` is a diffusion data-attribution watch-plus item, not a membership
+  inference execution target. The public release has an SD3 LoRA, mixed
+  dataset, compressed-gradient cache, and retrieval index artifacts, but it has
+  no member/nonmember labels, MIA score rows, ROC arrays, or AUC/ASR/TPR-at-FPR
+  metric packet. Do not download the mixed dataset, SD3 base assets, LoRA
+  payloads, cached gradients, or retrieval index by default; do not reframe
+  data-attribution retrieval as membership inference unless DiffAudit
+  explicitly opens a training-data attribution lane or DMin releases a bounded
+  MIA score/metric packet.
 - Memorization Anisotropy / `Detecting and Mitigating Memorization in
   Diffusion Models through Anisotropy of the Log-Probability` is a
   prompt-level memorization watch-plus item, not a current per-sample
