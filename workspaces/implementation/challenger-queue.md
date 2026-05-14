@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Diffusion Memorization asset gate closed as semantic-shift / no MIA release after ReDiffuse split-manifest and Tracing Roots feature-packet verdicts` |
+| Active work | `MIDST TabDDPM EPT scout closed as weak transfer after Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after completed Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet replay |
+| CPU sidecar | none selected after completed MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet replay |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -36,6 +36,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | ReDiffuse OpenReview supplement | black-box / ReDiffuse | hold / split-manifest-only | official OpenReview supplement ships DDPM code and exact CIFAR10/CIFAR100/STL10/Tiny-IN train/eval split index manifests | no target checkpoint, generated response/feature cache, score packet, ROC CSV, or metric artifact; running it would require training or acquiring targets from scratch | keep as provenance improvement only; reopen only if checkpoints or score packets appear for the exact manifests |
 | Tracing the Roots feature-packet MIA | gray-box / trajectory features | positive-but-provenance-limited | OpenReview supplement ships fixed CIFAR10 train/eval member/external diffusion-trajectory feature tensors and replay code; bounded local replay gives `AUC = 0.815826`, `TPR@1%FPR = 0.134000` | feature packet lacks raw target checkpoint/sample IDs and image query-response assets, so it is not an admitted product row or GPU release target | keep as Research-side mechanism evidence; reopen only with raw provenance/regeneration assets or an explicit feature-packet consumer-boundary decision |
 | CDI official dataset-inference artifact | gray-box / dataset inference | hold-semantic-shift | official `sprintml/copyrighted_data_identification` repo is code-public and exposes model configs, attack feature extraction, scoring, and evaluation surfaces | no ready small score packet; requires Google Drive model checkpoints, ImageNet/COCO assets, COCO text embeddings, submodules, and a consumer-boundary decision because the claim is dataset-level rather than per-sample membership | do not download assets or release GPU by default; reopen only if a dataset-inference lane is explicitly opened with frozen checkpoint hashes, bounded ID manifests, `P` size, p-value/low-FPR metric, and consumer boundary |
+| MIDST TabDDPM EPT profile | black-box / tabular diffusion | closed / weak metric verdict | MIA-EPT-style error-prediction profile is a genuinely different tabular mechanism and learns train shadow folders (`AUC = 0.851961`) | dev+final transfer remains weak (`AUC = 0.530089`, `ASR = 0.524625`), so the slight strict-tail improvement (`TPR@1%FPR = 0.029500`) does not reopen MIDST | do not expand account toggles, target-column subsets, random-forest grids, classifier sweeps, TabSyn, multi-table, or white-box MIDST |
 | Fashion-MNIST DDPM SimA score-norm | gray-box | closed / weak metric verdict | clean train/test split and denoiser access produced a real `64/64` CUDA scout | `AUC = 0.515137` and both low-FPR metrics are zero | do not expand timestep, `p`-norm, seed, scheduler, or packet-size matrices |
 | Fashion-MNIST DDPM score-Jacobian sensitivity | gray-box | closed / weak metric verdict | clean train/test split and denoiser local input-sensitivity access produced a real `64/64` CUDA scout | `AUC = 0.511719` and both low-FPR metrics are zero | do not expand timestep, perturbation-scale, seed, scheduler, norm, or packet-size matrices |
 | memorization-LDM medical asset | intake / Lane A | watch / artifact-incomplete | public code and Zenodo software snapshot exist for patient-imaging LDM memorization detection | synthesized samples are request-gated; no target LDM checkpoint, exact member/nonmember manifests, or generated response package is public | do not download medical datasets, request controlled samples, train target LDMs, or release GPU until public-safe target/split/response artifacts exist |
@@ -53,11 +54,18 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Diffusion-Memorization Long-Horizon Idle State
+### Post-MIDST-EPT Long-Horizon Idle State
 
 - `mode`: memorization semantic-shift asset gate after split-manifest and
-  trajectory-feature verdicts
-- `status`: The latest asset gate is `YuxinWenRick/diffusion_memorization`.
+  trajectory-feature verdicts, followed by a bounded MIDST EPT metric scout
+- `status`: The latest metric verdict is MIDST TabDDPM EPT. It adapted the
+  MIA-EPT error-prediction profile to local single-table TabDDPM assets and
+  used all `30` train, `20` dev, and `20` final model folders. The train shadow
+  folders are learnable (`AUC = 0.851961`), but dev+final transfer remains weak
+  (`AUC = 0.530089`, `ASR = 0.524625`, `TPR@1%FPR = 0.029500`), so MIDST stays
+  closed without account toggles, target-column subsets, random-forest grids,
+  classifier sweeps, TabSyn, multi-table, or white-box expansion. The previous
+  asset gate is `YuxinWenRick/diffusion_memorization`.
   It has a real `500`-row `sdv1_500_memorized.jsonl` prompt manifest, but it is
   a memorization detection/mitigation reference rather than a released
   per-sample MIA packet. `CompVis/stable-diffusion-v1-4` is not cached locally,
@@ -105,10 +113,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   SAMA/DLM and VidLeaks/T2V out of Platform/Runtime rows and releases no
   CPU/GPU work.
 - `GPU cap`: none selected
-- `integration`: no schema change; Research-only feature-packet metric verdict
+- `integration`: no schema change; Research-only weak metric verdict
 
 Current evidence:
 
+- [../../docs/evidence/midst-tabddpm-ept-scout-20260515.md](../../docs/evidence/midst-tabddpm-ept-scout-20260515.md)
 - [../../docs/evidence/diffusion-memorization-asset-gate-20260515.md](../../docs/evidence/diffusion-memorization-asset-gate-20260515.md)
 - [../../docs/evidence/rediffuse-openreview-split-manifest-audit-20260515.md](../../docs/evidence/rediffuse-openreview-split-manifest-audit-20260515.md)
 - [../../docs/evidence/tracing-roots-feature-packet-mia-20260515.md](../../docs/evidence/tracing-roots-feature-packet-mia-20260515.md)
