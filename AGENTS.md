@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `GenAI Confessions black-box artifact gate completed after SimA, FMIA, and CLiD gates; GenAI Confessions has public raw member/nonmember-style image inputs but no fine-tuned checkpoint, generated responses, DreamSim distance vectors, ROC/metric artifacts, or ready verifier packet, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `DurMI TTS artifact gate completed after GenAI Confessions, SimA, FMIA, and CLiD gates; DurMI has public attack code, a GradTTS LJSpeech 5,977/5,977 exact split, and Zenodo checkpoint/data metadata, but no ready duration-loss score packet or image-lane fit, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -193,6 +193,18 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   rebuild DreamSim/logistic-regression replay from scratch, or promote it into
   Platform/Runtime rows without a consumer-boundary decision and ready
   response/metric artifacts.
+- DurMI / `DurMI: Duration Loss as a Membership Signal in TTS Models` is a
+  TTS/audio cross-modal watch-plus item, not an image/latent-image execution
+  target. The OpenReview supplement ships GradTTS, WaveGrad2, and VoiceFlow
+  attack code plus an exact GradTTS LJSpeech `5,977 / 5,977`
+  member/nonmember split; Zenodo publishes open metadata for three dataset
+  archives and nine model checkpoints. It is not runnable in the current cycle
+  because the public packet does not ship ready duration-loss score arrays,
+  ROC arrays, metric JSON, generated result graphs, or a TTS consumer-boundary
+  decision. Do not download the Zenodo audio datasets/checkpoints, fetch
+  Google Drive TextGrid files, train or run TTS attacks, launch DurMI GPU jobs,
+  or promote TTS/audio claims into Platform/Runtime rows unless DiffAudit
+  explicitly opens a TTS/audio membership lane or ready score artifacts appear.
 - `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus candidate with public
   dataset split payloads and MP-LoRA/SMP-LoRA training code. It is not an
   execution target because the repo does not ship trained LoRA/checkpoint
