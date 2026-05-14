@@ -5,12 +5,11 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
-[ggdm-zenodo-artifact-gate-20260515.md](ggdm-zenodo-artifact-gate-20260515.md)
-records a small-code-archive gate for `Inference Attacks Against Graph
-Generative Diffusion Models`. It is a legitimate graph-diffusion related-method
-artifact, but it ships no fixed graph target checkpoint, exact member/nonmember
-manifest, generated graph cache, or score packet, so it remains cross-modal
-watch with no GPU release.
+[cross-modal-watch-consumer-boundary-20260515.md](cross-modal-watch-consumer-boundary-20260515.md)
+synchronizes the consumer boundary after the GGDM graph-diffusion artifact gate.
+SAMA/DLM, VidLeaks/T2V, and GGDM/graph-diffusion remain related-method watch
+items only; Platform and Runtime still consume only the admitted
+`recon / PIA baseline / PIA defended / GSA / DPDM W-1` set.
 
 | Track | Active docs | Role |
 | --- | --- | --- |
