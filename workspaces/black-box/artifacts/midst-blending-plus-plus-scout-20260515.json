@@ -1,0 +1,335 @@
+{
+  "schema": "diffaudit.midst_blending_plus_plus_scout.v1",
+  "date": "2026-05-15",
+  "status": "bounded_external_score_export_scout",
+  "source": {
+    "repo": "https://github.com/CRCHUM-CITADEL/ensemble-mia",
+    "local_checkout": "<DIFFAUDIT_ROOT>/Download/shared/midst-ensemble-mia",
+    "head": "a27d3653708596acbdf54b03ad446e81779a5e70",
+    "method": "Blending++ MIDST black-box single-table score exports"
+  },
+  "inputs": {
+    "label_root": "<DIFFAUDIT_ROOT>/Download/shared/midst-challenge/codabench_bundles/midst_blackbox_single_table/data/tabddpm_black_box",
+    "score_exports": [
+      "input/tabddpm_black_box/*/tabddpm_*/rmia_scores_k_5.csv",
+      "output/eval/tabddpm_black_box/blending_plus_plus/tabddpm_*/prediction.csv",
+      "output/infer/blending_plus_plus/tabddpm_black_box/{dev,final}/tabddpm_*/prediction.csv"
+    ]
+  },
+  "aggregates": [
+    {
+      "kind": "rmia_scores_k_5",
+      "phases": [
+        "train"
+      ],
+      "model_count": 30,
+      "rows": 6000,
+      "members": 3000,
+      "nonmembers": 3000,
+      "metrics": {
+        "auc": 0.507048,
+        "asr": 0.519,
+        "tpr_at_1pct_fpr": 0.006667,
+        "tpr_at_0_1pct_fpr": 0.001333,
+        "threshold": -0.266687,
+        "member_score_mean_raw": 0.075743,
+        "nonmember_score_mean_raw": 0.076856,
+        "orientation": "negated"
+      }
+    },
+    {
+      "kind": "rmia_scores_k_5",
+      "phases": [
+        "dev",
+        "final"
+      ],
+      "model_count": 40,
+      "rows": 8000,
+      "members": 4000,
+      "nonmembers": 4000,
+      "metrics": {
+        "auc": 0.513076,
+        "asr": 0.52375,
+        "tpr_at_1pct_fpr": 0.00725,
+        "tpr_at_0_1pct_fpr": 0.00175,
+        "threshold": -0.262671,
+        "member_score_mean_raw": 0.075052,
+        "nonmember_score_mean_raw": 0.078447,
+        "orientation": "negated"
+      }
+    },
+    {
+      "kind": "blending_plus_plus_prediction",
+      "phases": [
+        "train"
+      ],
+      "model_count": 30,
+      "rows": 6000,
+      "members": 3000,
+      "nonmembers": 3000,
+      "metrics": {
+        "auc": 0.619608,
+        "asr": 0.578167,
+        "tpr_at_1pct_fpr": 0.086667,
+        "tpr_at_0_1pct_fpr": 0.039,
+        "threshold": 0.684391,
+        "member_score_mean_raw": 0.643053,
+        "nonmember_score_mean_raw": 0.574885,
+        "orientation": "identity"
+      }
+    },
+    {
+      "kind": "blending_plus_plus_prediction",
+      "phases": [
+        "dev",
+        "final"
+      ],
+      "model_count": 40,
+      "rows": 8000,
+      "members": 4000,
+      "nonmembers": 4000,
+      "metrics": {
+        "auc": 0.598079,
+        "asr": 0.5635,
+        "tpr_at_1pct_fpr": 0.09575,
+        "tpr_at_0_1pct_fpr": 0.04825,
+        "threshold": 0.708586,
+        "member_score_mean_raw": 0.638047,
+        "nonmember_score_mean_raw": 0.579721,
+        "orientation": "identity"
+      }
+    }
+  ],
+  "per_phase": [
+    {
+      "kind": "rmia_scores_k_5",
+      "phase": "train",
+      "model_count": 30,
+      "rows": 6000,
+      "metrics": {
+        "auc": 0.507048,
+        "asr": 0.519,
+        "tpr_at_1pct_fpr": 0.006667,
+        "tpr_at_0_1pct_fpr": 0.001333,
+        "threshold": -0.266687,
+        "member_score_mean_raw": 0.075743,
+        "nonmember_score_mean_raw": 0.076856,
+        "orientation": "negated"
+      }
+    },
+    {
+      "kind": "rmia_scores_k_5",
+      "phase": "dev",
+      "model_count": 20,
+      "rows": 4000,
+      "metrics": {
+        "auc": 0.513136,
+        "asr": 0.52175,
+        "tpr_at_1pct_fpr": 0.008,
+        "tpr_at_0_1pct_fpr": 0.002,
+        "threshold": -0.2623,
+        "member_score_mean_raw": 0.076016,
+        "nonmember_score_mean_raw": 0.07714,
+        "orientation": "negated"
+      }
+    },
+    {
+      "kind": "rmia_scores_k_5",
+      "phase": "final",
+      "model_count": 20,
+      "rows": 4000,
+      "metrics": {
+        "auc": 0.513035,
+        "asr": 0.52675,
+        "tpr_at_1pct_fpr": 0.0065,
+        "tpr_at_0_1pct_fpr": 0.0015,
+        "threshold": -0.260869,
+        "member_score_mean_raw": 0.074089,
+        "nonmember_score_mean_raw": 0.079753,
+        "orientation": "negated"
+      }
+    },
+    {
+      "kind": "blending_plus_plus_prediction",
+      "phase": "train",
+      "model_count": 30,
+      "rows": 6000,
+      "metrics": {
+        "auc": 0.619608,
+        "asr": 0.578167,
+        "tpr_at_1pct_fpr": 0.086667,
+        "tpr_at_0_1pct_fpr": 0.039,
+        "threshold": 0.684391,
+        "member_score_mean_raw": 0.643053,
+        "nonmember_score_mean_raw": 0.574885,
+        "orientation": "identity"
+      }
+    },
+    {
+      "kind": "blending_plus_plus_prediction",
+      "phase": "dev",
+      "model_count": 20,
+      "rows": 4000,
+      "metrics": {
+        "auc": 0.589837,
+        "asr": 0.56025,
+        "tpr_at_1pct_fpr": 0.0885,
+        "tpr_at_0_1pct_fpr": 0.0505,
+        "threshold": 0.706613,
+        "member_score_mean_raw": 0.639166,
+        "nonmember_score_mean_raw": 0.585134,
+        "orientation": "identity"
+      }
+    },
+    {
+      "kind": "blending_plus_plus_prediction",
+      "phase": "final",
+      "model_count": 20,
+      "rows": 4000,
+      "metrics": {
+        "auc": 0.605766,
+        "asr": 0.5695,
+        "tpr_at_1pct_fpr": 0.1065,
+        "tpr_at_0_1pct_fpr": 0.049,
+        "threshold": 0.609042,
+        "member_score_mean_raw": 0.636928,
+        "nonmember_score_mean_raw": 0.574309,
+        "orientation": "identity"
+      }
+    }
+  ],
+  "best_dev_final": {
+    "kind": "blending_plus_plus_prediction",
+    "phases": [
+      "dev",
+      "final"
+    ],
+    "model_count": 40,
+    "rows": 8000,
+    "members": 4000,
+    "nonmembers": 4000,
+    "metrics": {
+      "auc": 0.598079,
+      "asr": 0.5635,
+      "tpr_at_1pct_fpr": 0.09575,
+      "tpr_at_0_1pct_fpr": 0.04825,
+      "threshold": 0.708586,
+      "member_score_mean_raw": 0.638047,
+      "nonmember_score_mean_raw": 0.579721,
+      "orientation": "identity"
+    }
+  },
+  "decision": {
+    "verdict": "borderline_best_midst_so_far_but_below_auc_reopen_gate",
+    "summary": "Official CITADEL/UQAM Blending++ score exports are materially stronger than prior MIDST nearest, shadow-distributional, and EPT scouts, especially in the low-FPR tail. The dev+final AUC remains below the 0.60 reopen floor, so MIDST is not promoted and no expansion is released.",
+    "blocked_expansions": [
+      "no XGBoost/Optuna retraining grid",
+      "no Gower feature-matrix expansion",
+      "no TabSyn or multi-table MIDST",
+      "no Platform/Runtime admitted row"
+    ],
+    "current_slots": {
+      "active_gpu_question": "none",
+      "next_gpu_candidate": "none",
+      "CPU sidecar": "none selected after MIDST Blending++ official score-export scout"
+    }
+  },
+  "sample_records": [
+    {
+      "phase": "train",
+      "model": "tabddpm_1",
+      "kind": "rmia_scores_k_5",
+      "n": 200,
+      "metrics": {
+        "auc": 0.5304,
+        "asr": 0.565,
+        "tpr_at_1pct_fpr": 0.0,
+        "tpr_at_0_1pct_fpr": 0.0,
+        "threshold": 0.009145,
+        "member_score_mean_raw": 0.079398,
+        "nonmember_score_mean_raw": 0.069718,
+        "orientation": "identity"
+      }
+    },
+    {
+      "phase": "train",
+      "model": "tabddpm_1",
+      "kind": "blending_plus_plus_prediction",
+      "n": 200,
+      "metrics": {
+        "auc": 0.5497,
+        "asr": 0.575,
+        "tpr_at_1pct_fpr": 0.03,
+        "tpr_at_0_1pct_fpr": 0.01,
+        "threshold": 0.728729,
+        "member_score_mean_raw": 0.650337,
+        "nonmember_score_mean_raw": 0.620436,
+        "orientation": "identity"
+      }
+    },
+    {
+      "phase": "train",
+      "model": "tabddpm_2",
+      "kind": "rmia_scores_k_5",
+      "n": 200,
+      "metrics": {
+        "auc": 0.5124,
+        "asr": 0.545,
+        "tpr_at_1pct_fpr": 0.03,
+        "tpr_at_0_1pct_fpr": 0.0,
+        "threshold": -0.008477,
+        "member_score_mean_raw": 0.078607,
+        "nonmember_score_mean_raw": 0.072016,
+        "orientation": "negated"
+      }
+    },
+    {
+      "phase": "train",
+      "model": "tabddpm_2",
+      "kind": "blending_plus_plus_prediction",
+      "n": 200,
+      "metrics": {
+        "auc": 0.633,
+        "asr": 0.625,
+        "tpr_at_1pct_fpr": 0.11,
+        "tpr_at_0_1pct_fpr": 0.11,
+        "threshold": 0.630418,
+        "member_score_mean_raw": 0.651633,
+        "nonmember_score_mean_raw": 0.590724,
+        "orientation": "identity"
+      }
+    },
+    {
+      "phase": "train",
+      "model": "tabddpm_3",
+      "kind": "rmia_scores_k_5",
+      "n": 200,
+      "metrics": {
+        "auc": 0.5477,
+        "asr": 0.59,
+        "tpr_at_1pct_fpr": 0.01,
+        "tpr_at_0_1pct_fpr": 0.01,
+        "threshold": 0.0261,
+        "member_score_mean_raw": 0.107113,
+        "nonmember_score_mean_raw": 0.07994,
+        "orientation": "identity"
+      }
+    },
+    {
+      "phase": "train",
+      "model": "tabddpm_3",
+      "kind": "blending_plus_plus_prediction",
+      "n": 200,
+      "metrics": {
+        "auc": 0.6999,
+        "asr": 0.695,
+        "tpr_at_1pct_fpr": 0.21,
+        "tpr_at_0_1pct_fpr": 0.2,
+        "threshold": 0.450324,
+        "member_score_mean_raw": 0.515227,
+        "nonmember_score_mean_raw": 0.396125,
+        "orientation": "identity"
+      }
+    }
+  ]
+}
