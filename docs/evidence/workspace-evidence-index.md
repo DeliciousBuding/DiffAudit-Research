@@ -5,12 +5,12 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
-[clid-official-inter-output-replay-20260515.md](clid-official-inter-output-replay-20260515.md)
-records the official CLiD intermediate-output replay. It replays the public
-GitHub `inter_output/*` score packet on CPU and reaches target
-`AUC = 0.961277`, `TPR@1%FPR = 0.675470`, and `ASR = 0.891957`, but remains
-prompt-conditioned candidate-only; no GPU job, large download, or
-Platform/Runtime admitted row is released.
+[clid-identity-manifest-gate-20260515.md](clid-identity-manifest-gate-20260515.md)
+records the CLiD identity-manifest gate after the strong official replay. The
+public score rows are numeric-only, the GitHub tree has no committed row
+manifest or COCO image-id binding, and authenticated HF ZIP HEAD/Range probes
+returned `403`, so CLiD remains prompt-conditioned candidate-only with no large
+download, GPU job, or Platform/Runtime admitted row.
 
 | Track | Active docs | Role |
 | --- | --- | --- |

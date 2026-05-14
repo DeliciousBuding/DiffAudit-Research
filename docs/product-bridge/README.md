@@ -54,9 +54,13 @@ Current CLiD status: CLiD is candidate-only. The official GitHub
 `inter_output/*` packet now replays cleanly on CPU and is strong
 (`AUC = 0.961277`, `TPR@1%FPR = 0.675470`, `ASR = 0.891957`) under the
 official threshold path, but the evidence is still prompt-conditioned and does
-not resolve the image-identity boundary. It can guide research planning, but it
-must not appear as admitted Platform evidence or a Runtime row until a
-product-bridge handoff defines an image-identity-safe protocol. See
+not resolve the image-identity boundary. The follow-up identity-manifest gate
+found numeric-only score rows, no public row manifest or COCO image-id binding,
+and authenticated `mia_COCO.zip` HEAD/Range access returned `403`. It can guide
+research planning, but it must not appear as admitted Platform evidence or a
+Runtime row until a product-bridge handoff defines an image-identity-safe
+protocol. See
+[../evidence/clid-identity-manifest-gate-20260515.md](../evidence/clid-identity-manifest-gate-20260515.md),
 [../evidence/clid-official-inter-output-replay-20260515.md](../evidence/clid-official-inter-output-replay-20260515.md)
 and
 [../evidence/clid-prompt-conditioning-boundary.md](../evidence/clid-prompt-conditioning-boundary.md).
