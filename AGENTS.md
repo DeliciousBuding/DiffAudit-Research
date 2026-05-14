@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `SimA score-based artifact gate completed after FMIA and CLiD gates; SimA has official score-based MIA code and scripts but no public split manifests, checkpoints, score arrays, ROC/metric artifacts, or ready verifier packet, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `GenAI Confessions black-box artifact gate completed after SimA, FMIA, and CLiD gates; GenAI Confessions has public raw member/nonmember-style image inputs but no fine-tuned checkpoint, generated responses, DreamSim distance vectors, ROC/metric artifacts, or ready verifier packet, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -183,6 +183,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   SD1.4, request checkpoints by email, run SimA GPU jobs, expand
   Fashion-MNIST SimA variants, or promote SimA into Platform/Runtime admitted
   rows unless public split/checkpoint/score artifacts appear.
+- GenAI Confessions / `hanyfarid/MembershipInference` is a black-box
+  related-method watch item, not an execution target. The public release has
+  STROLL, Carlini, and Midjourney raw member/nonmember-style image inputs, but
+  it does not ship the STROLL fine-tuned SD2.1 checkpoint, generated
+  image-to-image response grids, DreamSim distance vectors, ROC/metric
+  artifacts, Midjourney query logs, or a ready verifier. Do not download the
+  Zenodo/HF image payloads, fine-tune STROLL SD2.1, query Midjourney manually,
+  rebuild DreamSim/logistic-regression replay from scratch, or promote it into
+  Platform/Runtime rows without a consumer-boundary decision and ready
+  response/metric artifacts.
 - `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus candidate with public
   dataset split payloads and MP-LoRA/SMP-LoRA training code. It is not an
   execution target because the repo does not ship trained LoRA/checkpoint
