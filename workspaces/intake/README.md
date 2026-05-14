@@ -57,6 +57,11 @@
   reconstruction-MSE threshold and embeds six MSE scores, but the target LoRA
   checkpoint and forensics query images live under private Colab/GDrive paths.
   No download or GPU work is released.
+- `Stry233/SAMA` is a diffusion-language-model membership codebase, not a
+  current image/latent-image Lane A asset. The repo provides dataset
+  preparation, DLM training, and SAMA/baseline attack code, but no released
+  target DLM checkpoint, exact member/nonmember manifest, response packet, or
+  score metadata bundle. No download or GPU work is released.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -164,3 +169,13 @@ Current R125 DreamBooth forensics follow-up:
 - Do not recreate the private Colab/GDrive DreamBooth run, scrape report images
   into a pseudo-split, or treat six embedded notebook MSE values as a score
   packet.
+
+Current SAMA / diffusion-language-model follow-up:
+
+- Keep it as a related-method reference only.
+- Reopen only if DiffAudit explicitly adds a text/DLM membership lane, or if
+  authors publish a public-safe target DLM checkpoint, exact member/nonmember
+  manifests, and reusable attack metadata or deterministic scoring command.
+- Do not download gated language models, prepare MIMIR/NLP subsets, train DLM
+  targets, or launch SAMA GPU jobs inside the current image-diffusion roadmap
+  cycle.
