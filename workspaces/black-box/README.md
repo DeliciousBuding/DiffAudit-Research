@@ -52,6 +52,11 @@
   but the public release has empty split/checkpoint links, no release assets,
   no split manifests, no target checkpoints, no score arrays, and no ready
   verifier packet; no download, GPU release, or admitted row.
+- GenAI Confessions status: public raw image/caption inputs exist for STROLL,
+  Carlini, and Midjourney settings, but the fine-tuned STROLL checkpoint,
+  generated image-to-image responses, DreamSim distance vectors, ROC/metric
+  artifacts, Midjourney query logs, and ready verifier are missing; no dataset
+  download, GPU release, or admitted row.
 
 ## Files
 
@@ -126,6 +131,9 @@ Current FMIA OpenReview frequency artifact gate:
 
 Current SimA score-based artifact gate:
 [../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md).
+
+Current GenAI Confessions black-box artifact gate:
+[../../docs/evidence/genai-confessions-blackbox-artifact-gate-20260515.md](../../docs/evidence/genai-confessions-blackbox-artifact-gate-20260515.md).
 
 Current response-contract package preflight:
 [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).
