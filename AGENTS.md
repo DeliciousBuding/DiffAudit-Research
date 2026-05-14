@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CDI official artifact gate closed as code-public / dataset-inference semantic shift / large-assets-required after StyleMI paper-only asset gate; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Tracing the Roots feature-packet MIA replay completed as positive-but-provenance-limited Research evidence; no active GPU question, no next GPU candidate, and no CPU sidecar selected after the bounded replay`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
