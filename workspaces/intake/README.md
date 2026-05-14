@@ -4,6 +4,15 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
+  candidate than generic paper-only items because it exposes FFHQ DDPM
+  loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
+  `1000/1000` labels in `Example.ipynb`, and fixed-FPR TPR metric code. It is
+  still not executable in the current cycle: the repo does not commit fixed
+  member/nonmember manifests, HDF5 score packets, ROC/metric artifacts, or
+  notebook outputs, and the advertised Google Drive DDPM checkpoint returned
+  HTTP `401` in this environment. No FFHQ/model download or GPU work is
+  released.
 - Current long-horizon intake posture: LAION-mi is a Lane A metadata-only watch
   candidate. It has a named `Stable Diffusion-v1.4` target and public
   member/nonmember metadata splits, but the fixed `25/25` URL availability
@@ -107,6 +116,16 @@ Current LAION-mi follow-up:
 - Reopen only if a public-safe cached image subset appears, or if a later
   deterministic URL scan policy is frozen before scoring.
 - Do not build response-generation tooling around live LAION-mi URLs.
+
+Current MIDM follow-up:
+
+- Keep it as image-diffusion watch-plus, not an execution target.
+- Reopen only if public artifacts fix exact FFHQ member/nonmember identities,
+  checkpoint size/hash/training binding, and ready loss/likelihood scores or a
+  bounded command that does not require acquiring FFHQ from scratch.
+- Do not download FFHQ thumbnails, request or scrape checkpoint access, train
+  MIDM DDPM, run loss/likelihood scoring from scratch, or promote MIDM into
+  Platform/Runtime rows inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 
