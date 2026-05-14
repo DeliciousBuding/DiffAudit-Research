@@ -50,10 +50,15 @@ The multi-row machine-readable admitted evidence bundle is
 and its contract is documented in
 [admitted-evidence-bundle.md](admitted-evidence-bundle.md).
 
-Current CLiD status: CLiD is candidate-only. The prompt-conditioned packet is
-strong and repeat-stable, but prompt-neutral perturbation collapses the signal.
-It can guide research planning, but it should not appear as admitted Platform
-evidence. See
+Current CLiD status: CLiD is candidate-only. The official GitHub
+`inter_output/*` packet now replays cleanly on CPU and is strong
+(`AUC = 0.961277`, `TPR@1%FPR = 0.675470`, `ASR = 0.891957`) under the
+official threshold path, but the evidence is still prompt-conditioned and does
+not resolve the image-identity boundary. It can guide research planning, but it
+must not appear as admitted Platform evidence or a Runtime row until a
+product-bridge handoff defines an image-identity-safe protocol. See
+[../evidence/clid-official-inter-output-replay-20260515.md](../evidence/clid-official-inter-output-replay-20260515.md)
+and
 [../evidence/clid-prompt-conditioning-boundary.md](../evidence/clid-prompt-conditioning-boundary.md).
 
 Current recon status: recon is the admitted black-box product row. The active
