@@ -27,11 +27,13 @@
   pixel-distance, CLIP image-similarity, prompt-response consistency,
   multi-seed response stability, and conditional denoising-loss are all weak;
   do not expand same-packet metric or denoising-loss matrices.
-- `MIDST TabDDPM`: exact local single-table labels exist, but
-  nearest-neighbor, shadow-distributional, and MIA-EPT-style
-  error-prediction-profile mechanisms are all weak on dev/final transfer. Do
-  not expand into account toggles, feature/column grids, TabSyn, multi-table,
-  or white-box MIDST.
+- `MIDST TabDDPM`: exact local single-table labels exist, and official
+  CITADEL/UQAM Blending++ score exports are the strongest MIDST result so far
+  (`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`), but still below the
+  `0.60` reopen floor. Earlier nearest-neighbor, shadow-distributional, and
+  MIA-EPT-style mechanisms are weaker. Do not expand into Blending++
+  retraining, Gower feature matrices, account toggles, feature/column grids,
+  TabSyn, multi-table, or white-box MIDST.
 - `Beans member-LoRA`: known-split internal target construction fixes the old
   pseudo-membership problem, but conditional denoising-loss is weak
   (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`) and
@@ -44,15 +46,12 @@
 
 ## Next Action
 
-Recon product-row promotion is complete. The bounded public-100 step30 rerun
-and artifact re-summarization now produce the admitted coherent
-upstream-threshold packet (`AUC = 0.837`, `ASR = 0.74`, `TPR@1%FPR = 0.22`,
-`TPR@0.1%FPR = 0.11`). The finite-tail confidence review keeps this row
-admitted, but blocks wording that treats public-100 zero-FP evidence as
-continuous sub-percent FPR calibration. Keep status synchronized with
-[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md)
-and
-[../../docs/evidence/recon-tail-confidence-review.md](../../docs/evidence/recon-tail-confidence-review.md).
+No black-box GPU or CPU sidecar is selected. The next action belongs to the
+root long-horizon queue: continue Lane A only with a non-duplicate asset that
+has exact target identity, member/nonmember split artifacts, and response or
+score coverage. Do not reopen CommonCanvas, Beans, Fashion-MNIST, MIDST, or
+same-contract mid-frequency residual variants unless a genuinely new artifact
+or observable changes the decision gate.
 
 ## Current Status
 
@@ -86,9 +85,8 @@ machine-readable discovery output under
 see
 [../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md).
 Do not release a black-box response-contract GPU task until a candidate package
-passes that CPU preflight. The current active CPU sidecar is the
-Kandinsky/Pokemon package scaffold dry-run for
-`response-contract-pokemon-kandinsky-20260511`, recorded in
+passes that CPU preflight. The Kandinsky/Pokemon package scaffold dry-run for
+`response-contract-pokemon-kandinsky-20260511` is recorded in
 [../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md).
 It freezes a handoff layout only. The local skeleton has now been created and
 the follow-up probe returns `needs_query_split`; real query images, splits,
@@ -254,8 +252,8 @@ is `0.21`, and fixed-prompt / prompt-text-only controls are `0.02`. Do not run
 another CLiD GPU packet unless a new CPU-first protocol can isolate image
 identity from prompt-image pairing and auxiliary-score behavior.
 
-The mid-frequency same-noise residual scout is now the active black-box
-candidate. It is not covered by the existing H2/H3 lowpass, highpass, or
+The mid-frequency same-noise residual scout is closed as candidate-only
+evidence. It is not covered by the existing H2/H3 lowpass, highpass, or
 bandpass response-cache work because those caches only store final
 inputs/responses and distance summaries. The synthetic residual cache runner
 and real-asset `4/4` preflight established the cache schema, and the frozen
