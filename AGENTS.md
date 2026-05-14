@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `MIDST Blending++ official score-export scout closed as borderline-below-gate after SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `GGDM Zenodo artifact gate closed as graph-diffusion cross-modal code-only watch after MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -199,6 +199,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   WebVid-10M, MiraData, Panda-70M, AnimateDiff/InstructVideo/Mira weights,
   generated videos, Gemini captions, or VBench outputs unless DiffAudit
   explicitly opens a text-to-video membership lane or public target/split/score
+  artifacts appear.
+- GGDM / `Inference Attacks Against Graph Generative Diffusion Models` is a
+  graph-diffusion cross-modal related-method watch item, not a clean
+  image/latent-image Lane A second asset. Zenodo `17946102` publishes a small
+  code archive, but no fixed graph diffusion target checkpoint, exact
+  member/nonmember graph manifest, generated graph cache, score/ROC artifact, or
+  metrics packet is released, and the public MIA README withholds the Anonymous
+  Walk Embeddings module. Do not request AWE code, download graph datasets,
+  train EDP-GNN/GDSS/DiGress targets, regenerate graph sample caches, add graph
+  Platform rows, or change Runtime schemas unless DiffAudit explicitly opens a
+  graph generative diffusion membership lane or public target/split/score
   artifacts appear.
 - StyleMI is a 2025 IEEE Access style-mimicry / fine-tuned diffusion
   membership-relevant paper-only watch item. The public gate found DOI metadata
