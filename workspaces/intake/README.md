@@ -68,6 +68,13 @@
   archive lacks target T2V weights, exact member/nonmember video manifests,
   generated videos, feature CSVs, and score packets. No model/video download or
   GPU work is released.
+- GGDM / `Inference Attacks Against Graph Generative Diffusion Models` is a
+  graph-diffusion cross-modal related-method watch item. Zenodo `17946102`
+  publishes a small code archive, but it lacks a fixed graph diffusion target
+  checkpoint, exact member/nonmember graph manifests, generated graph caches,
+  score/ROC artifacts, and the public `MIA/README.md` says the Anonymous Walk
+  Embeddings module is withheld. No graph dataset download, target training,
+  AWE request, or GPU work is released.
 - StyleMI is a style-mimicry / fine-tuned diffusion membership-relevant
   paper-only watch item. Public DOI metadata confirms the 2025 IEEE Access
   paper, but no public code repository, target LoRA/checkpoint, exact
@@ -202,6 +209,18 @@ Current VidLeaks / text-to-video follow-up:
 - Do not download WebVid-10M, MiraData, Panda-70M, AnimateDiff/InstructVideo/Mira
   weights, generated videos, Gemini captions, or VBench outputs inside the
   current image-diffusion roadmap cycle.
+
+Current GGDM / graph generative diffusion follow-up:
+
+- Keep it as a graph-diffusion cross-modal watch item only.
+- Reopen only if authors publish public-safe target checkpoints or deterministic
+  target recreation, exact member/nonmember graph manifests, generated graph
+  sample caches, and score/ROC artifacts, or if DiffAudit explicitly opens a
+  graph generative diffusion membership lane.
+- Do not request the withheld AWE module, download graph datasets, train
+  EDP-GNN/GDSS/DiGress targets, regenerate graph sample caches, add graph
+  Platform rows, or change Runtime schemas inside the current image/latent-image
+  roadmap cycle.
 
 Current StyleMI / style-mimicry follow-up:
 
