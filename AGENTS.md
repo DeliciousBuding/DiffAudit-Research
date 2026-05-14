@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Memorization Anisotropy artifact gate completed after FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; the ICLR 2026 official release has code and prompt-level memorized/nonmemorized splits, but no released score tensors, ROC/metric artifacts, generated image packet, model snapshot hashes, or image-identity MIA manifest, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `ELSA Health Privacy Challenge gate completed after Memorization Anisotropy, FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; the public starter package has a real biomedical synthetic-data MIA label/prediction/metric example and names Noisy Diffusion among challenge targets, but actual challenge data requires platform registration and a data download agreement, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -146,7 +146,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
   Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, MIDM,
-  Memorization Anisotropy, and StablePrivateLoRA, are
+  ELSA Health Privacy, Memorization Anisotropy, and StablePrivateLoRA, are
   limitations or future-work hooks only. Platform/Runtime and paperization
   admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
   `GSA`, and `DPDM W-1`.
@@ -205,6 +205,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Google Drive TextGrid files, train or run TTS attacks, launch DurMI GPU jobs,
   or promote TTS/audio claims into Platform/Runtime rows unless DiffAudit
   explicitly opens a TTS/audio membership lane or ready score artifacts appear.
+- ELSA Health Privacy Challenge / `PMBio/Health-Privacy-Challenge` is a
+  biomedical synthetic-data MIA benchmark watch-plus item, not a current
+  image/latent-image execution target. The public starter package has baseline
+  MIA code, a label/prediction/metric example packet, and names Noisy Diffusion
+  among challenge targets, but the actual challenge datasets and metadata
+  require ELSA platform registration and a data download agreement. Do not
+  register, accept agreements, download challenge data, or treat the public
+  starter example AUC as a Noisy Diffusion research result unless DiffAudit
+  explicitly opens a biomedical synthetic-data MIA lane or public-safe
+  Noisy Diffusion target/split/score artifacts appear.
 - Memorization Anisotropy / `Detecting and Mitigating Memorization in
   Diffusion Models through Anisotropy of the Log-Probability` is a
   prompt-level memorization watch-plus item, not a current per-sample
