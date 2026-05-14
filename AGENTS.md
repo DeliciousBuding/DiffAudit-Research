@@ -163,12 +163,14 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   target LDM, or reconstruct the paper pipeline unless public-safe target,
   split, and response artifacts appear.
 - `jinhaoduan/SecMI-LDM` is a support-family SecMI LDM Diffusers fork, not a
-  clean Lane A second asset. The public surface assumes local
-  `./checkpoints/sd-pokemon-checkpoint`, local Pokémon/COCO/LAION assets, and
-  local split files, and the root README is the stock Diffusers README. Do not
-  download or reconstruct the Pokémon checkpoint, scrape LAION/COCO assets, or
-  package it as a new second response-contract candidate unless public
-  target/split/query-response artifacts appear.
+  clean Lane A second asset. The default-branch README provides SharePoint
+  download links for a dataset bundle and Pokémon fine-tuned SD checkpoint,
+  but this remains same-author SecMI reproduction/support material rather than
+  an independent second asset or black-box response contract. Do not download
+  those zips, scrape LAION/COCO assets, or package it as a new second
+  response-contract candidate unless the task is explicitly SecMI-LDM
+  reproducibility maintenance or new independent target/split/query-response
+  artifacts appear.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
