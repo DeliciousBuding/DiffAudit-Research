@@ -25,7 +25,8 @@ are candidate, supporting-reference, negative, hold, or needs-assets states.
 Recent second-asset and mechanism checks are also Research-only: CommonCanvas /
 CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
 Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM,
-StablePrivateLoRA, FMIA frequency-component diffusion MIA, SAMA
+StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
+diffusion MIA, SAMA
 diffusion-language-model membership, VidLeaks
 text-to-video membership, and GGDM graph generative diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
@@ -72,6 +73,14 @@ but no trained checkpoints, score arrays, ROC/metric artifacts, generated
 samples, or ready verifier packet. It must not appear as admitted Platform
 evidence or a Runtime row. See
 [../evidence/fmia-openreview-frequency-artifact-gate-20260515.md](../evidence/fmia-openreview-frequency-artifact-gate-20260515.md).
+
+Current SimA status: Research-only watch-plus. The official GitHub repository
+ships score-based MIA code and scripts, but the public release has empty split
+and checkpoint links, no release assets, no committed non-vendor split
+manifests, no target checkpoints, no score arrays, no ROC/metric JSON, and no
+ready verifier packet. It must not appear as admitted Platform evidence or a
+Runtime row. See
+[../evidence/sima-scorebased-artifact-gate-20260515.md](../evidence/sima-scorebased-artifact-gate-20260515.md).
 
 Current recon status: recon is the admitted black-box product row. The active
 row uses a unified upstream-threshold metric source and reports all four

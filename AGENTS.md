@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `FMIA OpenReview frequency artifact gate completed after CLiD identity-manifest gate; FMIA has official frequency-filter attack code and exact split manifests but no trained checkpoints, score arrays, ROC/metric artifacts, or ready verifier packet, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `SimA score-based artifact gate completed after FMIA and CLiD gates; SimA has official score-based MIA code and scripts but no public split manifests, checkpoints, score arrays, ROC/metric artifacts, or ready verifier packet, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -173,6 +173,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   DDIM targets, fine-tune Stable Diffusion, run filter/timestep matrices, or
   promote FMIA into Platform/Runtime admitted rows without ready score artifacts
   and a product-bridge handoff.
+- SimA / `Score-based Membership Inference on Diffusion Models` is watch-plus
+  only. The official `mx-ethan-rao/SimA` repo is code-public and implements a
+  distinct denoiser-output score-norm attack across DDPM, Guided Diffusion,
+  LDM, SD1.4, and SD1.5 scripts, but its public surface has empty split and
+  checkpoint links, no GitHub release assets, no non-vendor split manifests,
+  no checkpoints, no score arrays, no ROC/metric artifacts, and no ready
+  verifier. Do not download large datasets, train DDPM targets, fine-tune
+  SD1.4, request checkpoints by email, run SimA GPU jobs, expand
+  Fashion-MNIST SimA variants, or promote SimA into Platform/Runtime admitted
+  rows unless public split/checkpoint/score artifacts appear.
 - `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus candidate with public
   dataset split payloads and MP-LoRA/SMP-LoRA training code. It is not an
   execution target because the repo does not ship trained LoRA/checkpoint

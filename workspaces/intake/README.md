@@ -27,6 +27,13 @@
   checkpoints, Stable Diffusion weights, generated samples, score arrays, ROC
   CSVs, metric JSON, or ready verifier packet. No dataset/model download or GPU
   work is released.
+- SimA / `Score-based Membership Inference on Diffusion Models` is a
+  watch-plus mechanism candidate. The official `mx-ethan-rao/SimA` repo ships
+  score-based MIA code and scripts across DDPM, Guided Diffusion, LDM, SD1.4,
+  and SD1.5 examples, but the README split/checkpoint links are empty or
+  require emailing authors, and the public tree has no non-vendor split
+  manifests, checkpoints, score arrays, ROC/metric artifacts, or ready verifier
+  packet. No dataset/model download or GPU work is released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -182,6 +189,16 @@ Current FMIA follow-up:
 - Do not download datasets, train FMIA DDIM targets, fine-tune Stable Diffusion,
   or run filter-threshold/filter-scale/timestep matrices inside the current
   roadmap cycle.
+
+Current SimA follow-up:
+
+- Keep it as score-based mechanism watch-plus, not an execution target.
+- Reopen only if public split manifests, checkpoint size/hash/training binding,
+  and ready score arrays/ROC/metric artifacts appear, or if a bounded verifier
+  can read public artifacts without training a target from scratch.
+- Do not download large datasets, train DDPM targets, fine-tune SD1.4, request
+  checkpoints by email, run SimA GPU jobs, or expand Fashion-MNIST SimA
+  timestep/norm/seed/scheduler matrices inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 
