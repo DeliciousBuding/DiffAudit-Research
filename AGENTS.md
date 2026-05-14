@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `cross-modal watch consumer boundary synchronized after SAMA diffusion-language-model and VidLeaks text-to-video verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `StyleMI asset gate closed as paper-only / artifact-incomplete after cross-modal watch consumer boundary sync; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -195,6 +195,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   generated videos, Gemini captions, or VBench outputs unless DiffAudit
   explicitly opens a text-to-video membership lane or public target/split/score
   artifacts appear.
+- StyleMI is a 2025 IEEE Access style-mimicry / fine-tuned diffusion
+  membership-relevant paper-only watch item. The public gate found DOI metadata
+  but no public code repository, target LoRA/checkpoint, exact artist/image
+  member/nonmember manifests, generated images, image-processing feature
+  packets, or score files. Do not train style LoRAs, scrape artist images, or
+  invent style/member splits unless public-safe target/split/response artifacts
+  appear.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
