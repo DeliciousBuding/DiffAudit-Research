@@ -41,6 +41,15 @@
   does not ship the STROLL fine-tuned SD2.1 checkpoint, generated image-to-image
   response grids, DreamSim distance vectors, ROC/metric artifacts, Midjourney
   query logs, or a ready verifier. No dataset download or GPU work is released.
+- DurMI / `DurMI: Duration Loss as a Membership Signal in TTS Models` is a
+  TTS/audio cross-modal watch-plus item. The OpenReview supplement ships
+  GradTTS, WaveGrad2, and VoiceFlow attack code plus an exact GradTTS LJSpeech
+  `5,977 / 5,977` member/nonmember split; Zenodo publishes open metadata for
+  the audio datasets and checkpoints. It is not an execution target in the
+  current image/latent-image cycle because the public release does not ship
+  ready duration-loss score arrays, ROC arrays, metric JSON, generated result
+  graphs, or a TTS/audio consumer-boundary decision. No dataset/checkpoint
+  download or GPU work is released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -217,6 +226,18 @@ Current GenAI Confessions follow-up:
 - Do not download the Zenodo ZIP or HF image payload, fine-tune STROLL SD2.1,
   query Midjourney manually, or rebuild DreamSim/logistic-regression replay
   from scratch inside the current roadmap cycle.
+
+Current DurMI follow-up:
+
+- Keep it as TTS/audio cross-modal watch-plus, not an image/latent-image
+  execution target.
+- Reopen only if DiffAudit explicitly opens a TTS/audio membership lane with a
+  consumer-boundary decision, or if the authors publish ready duration-loss
+  score arrays, ROC arrays, metric JSON, or generated result graphs that can be
+  replayed without acquiring multi-GB audio datasets and checkpoints.
+- Do not download the Zenodo audio datasets/checkpoints, fetch Google Drive
+  TextGrid files, run GradTTS/WaveGrad2/VoiceFlow attacks, train TTS targets,
+  or launch DurMI GPU jobs inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 
