@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `R125 DreamBooth forensics asset gate is GDrive-private/artifact-incomplete after SecMI-LDM support-family verdict` |
+| Active work | `SAMA DLM asset gate is out-of-scope/code-only after R125 DreamBooth and SecMI-LDM blocked Lane A verdicts` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected |
@@ -37,6 +37,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | memorization-LDM medical asset | intake / Lane A | watch / artifact-incomplete | public code and Zenodo software snapshot exist for patient-imaging LDM memorization detection | synthesized samples are request-gated; no target LDM checkpoint, exact member/nonmember manifests, or generated response package is public | do not download medical datasets, request controlled samples, train target LDMs, or release GPU until public-safe target/split/response artifacts exist |
 | SecMI-LDM LDM fork | intake / Lane A | support-family / no independent second asset | public repo exposes a Diffusers fork, SecMI-style LDM scripts, and README SharePoint links for datasets plus Pokémon fine-tuned SD checkpoint | this repeats the existing same-author SecMI support family and does not create an independent second asset or black-box response contract | do not download the SharePoint zips, scrape LAION/COCO assets, or treat it as an independent second asset unless explicit SecMI-LDM reproducibility maintenance is selected |
 | R125 DreamBooth forensics notebook | intake / Lane A | watch / artifact-incomplete | public repo exposes DreamBooth/LoRA notebook code, report media, and six embedded reconstruction-MSE scores | target LoRA checkpoint and six-image forensics query set are private Colab/GDrive artifacts; no manifest or score JSON is released | do not recreate the private run, scrape report images, or treat embedded scalar scores as a DiffAudit packet |
+| SAMA diffusion-language-model asset | intake / Lane A | related-method / out-of-scope code-only | public repo exposes DLM training, dataset-prep, and SAMA/baseline attack code for NLP diffusion language models | no released target DLM checkpoint, exact member/nonmember manifest, reusable response/score packet, or image/latent-image response contract | keep as related-method reference only; do not train DLM targets or download gated language models unless a text/DLM lane is explicitly opened |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
@@ -52,8 +53,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   score-Jacobian sensitivity. It is weak (`AUC = 0.511719`, zero low-FPR
   recovery) and closes the local score-field sensitivity branch after prior
   weak Fashion-MNIST PIA-loss and SimA score-norm scouts. The latest Lane A
-  asset gate, Cardio-AI `memorization-ldm`, remains non-duplicate and medically
-  relevant but request-gated and artifact-incomplete. I-B, I-C, ReDiffuse,
+  asset gate, `Stry233/SAMA`, is a diffusion-language-model codebase, not a
+  current image/latent-image asset, and lacks a released target checkpoint,
+  exact split manifest, or response/score packet. I-B, I-C, ReDiffuse,
   CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
   Regression, and Noise as a Probe remain governed by `ROADMAP.md` lane gates
   and do not release automatic CPU/GPU work.
@@ -64,9 +66,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 - `latest trigger`: score-Jacobian sensitivity tested a genuinely different
   local denoiser response surface, but the CUDA result is weak and closes the
   route before any matrix expansion. The latest Lane A asset gate,
-  `ronketer/diffusion-membership-inference`, is a course-notebook forensics
-  example with private GDrive target/query artifacts and does not release
-  download or GPU work.
+  `Stry233/SAMA`, is out-of-scope/code-only for the current image-diffusion
+  roadmap and does not release download or GPU work.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only weak gray-box scout
 
@@ -74,6 +75,7 @@ Current evidence:
 
 - [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
 - [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md)
+- [../../docs/evidence/sama-dlm-asset-verdict-20260514.md](../../docs/evidence/sama-dlm-asset-verdict-20260514.md)
 - [../../docs/evidence/ronketer-dreambooth-asset-verdict-20260514.md](../../docs/evidence/ronketer-dreambooth-asset-verdict-20260514.md)
 - [../../docs/evidence/secmi-ldm-asset-verdict-20260514.md](../../docs/evidence/secmi-ldm-asset-verdict-20260514.md)
 - [../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md](../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md)
@@ -279,6 +281,7 @@ Restart conditions:
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
+| SAMA DLM asset gate | Related-method/out-of-scope for current image-diffusion Lane A; public code lacks a released target DLM checkpoint, exact split manifests, and response/score packet. |
 | Memorization-LDM asset gate | Request-gated and artifact-incomplete; public code/Zenodo software snapshot lack target LDM checkpoint, exact split manifests, and generated response package. |
 | Fashion-MNIST score-Jacobian sensitivity | Weak clean-split metric verdict; `AUC = 0.511719` with zero low-FPR recovery, no perturbation/timestep/seed/norm expansion. |
 | Black-box response-contract asset-acquisition spec | needs-assets; minimum second-asset package defined; no GPU release. |
