@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `MIDST TabDDPM EPT scout closed as weak dev/final transfer after Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `MIDST Blending++ official score-export scout closed as borderline-below-gate after SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -117,14 +117,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   seed, timestep, `p`-norm, perturbation-scale, scheduler, norm, or
   packet-size sweeps. MIDST TabDDPM
   black-box single-table is locally scoreable and has exact member/nonmember
-  labels, but the minimal nearest-synthetic-row scorer is weak
-  (`dev+final AUC = 0.566263`, `TPR@1%FPR = 0.016750`). A genuinely different
-  shadow-trained marginal-distributional classifier overfits the `train`
-  shadow folders (`AUC = 0.881991`) but collapses on dev+final
-  (`AUC = 0.499846`, `TPR@1%FPR = 0.013000`). A MIA-EPT-style
-  error-prediction profile is a genuinely different tabular mechanism and
-  learns `train` (`AUC = 0.851961`), but still transfers weakly on dev+final
-  (`AUC = 0.530089`, `TPR@1%FPR = 0.029500`). Do not expand MIDST into TabSyn,
+  labels. Nearest-synthetic-row distance is weak (`dev+final AUC = 0.566263`,
+  `TPR@1%FPR = 0.016750`); shadow-trained marginal-distributional learning
+  overfits `train` but collapses on dev+final (`AUC = 0.499846`,
+  `TPR@1%FPR = 0.013000`); and a MIA-EPT-style error-prediction profile also
+  transfers weakly (`AUC = 0.530089`, `TPR@1%FPR = 0.029500`). The official
+  CITADEL/UQAM Blending++ score exports are the strongest MIDST signal so far
+  (`dev+final AUC = 0.598079`, `ASR = 0.563500`,
+  `TPR@1%FPR = 0.095750`), but remain below the `0.60` AUC reopen floor. Do not
+  expand MIDST into XGBoost/Optuna retraining, Gower feature matrices, TabSyn,
   white-box MIDST, multi-table MIDST, nearest-neighbor preprocessing matrices,
   classifier sweeps, EPT account/column/config grids, or marginal feature
   matrices unless a genuinely different tabular-diffusion membership mechanism
