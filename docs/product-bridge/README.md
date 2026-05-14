@@ -26,7 +26,8 @@ Recent second-asset and mechanism checks are also Research-only: CommonCanvas /
 CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
 Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM,
 StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
-diffusion MIA, GenAI Confessions black-box image-to-image MIA, SAMA
+diffusion MIA, GenAI Confessions black-box image-to-image MIA, DurMI
+TTS duration-loss MIA, SAMA
 diffusion-language-model membership, VidLeaks
 text-to-video membership, and GGDM graph generative diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
@@ -89,6 +90,15 @@ generated image-to-image responses, DreamSim distance vectors, ROC/metric
 artifacts, Midjourney query logs, or a ready verifier packet. It must not appear
 as admitted Platform evidence or a Runtime row. See
 [../evidence/genai-confessions-blackbox-artifact-gate-20260515.md](../evidence/genai-confessions-blackbox-artifact-gate-20260515.md).
+
+Current DurMI status: Research-only TTS/audio cross-modal watch-plus. The
+OpenReview supplement ships GradTTS/WaveGrad2/VoiceFlow attack code and an
+exact GradTTS LJSpeech `5,977 / 5,977` member/nonmember split; Zenodo publishes
+open metadata for the required audio datasets and checkpoints. It still must
+not appear as admitted Platform evidence or a Runtime row because it does not
+ship ready duration-loss score arrays, ROC arrays, metric JSON, or generated
+result graphs, and DiffAudit has not opened a TTS/audio consumer lane. See
+[../evidence/durmi-tts-artifact-gate-20260515.md](../evidence/durmi-tts-artifact-gate-20260515.md).
 
 Current recon status: recon is the admitted black-box product row. The active
 row uses a unified upstream-threshold metric source and reports all four
