@@ -5,11 +5,12 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
-[midst-blending-plus-plus-scout-20260515.md](midst-blending-plus-plus-scout-20260515.md)
-records a CPU-only readout of official CITADEL/UQAM Blending++ score exports
-against local MIDST labels. Blending++ is the strongest MIDST signal so far
-(`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`) but remains below the
-`0.60` reopen floor, so MIDST stays closed by default.
+[ggdm-zenodo-artifact-gate-20260515.md](ggdm-zenodo-artifact-gate-20260515.md)
+records a small-code-archive gate for `Inference Attacks Against Graph
+Generative Diffusion Models`. It is a legitimate graph-diffusion related-method
+artifact, but it ships no fixed graph target checkpoint, exact member/nonmember
+manifest, generated graph cache, or score packet, so it remains cross-modal
+watch with no GPU release.
 
 | Track | Active docs | Role |
 | --- | --- | --- |

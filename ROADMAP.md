@@ -2,6 +2,23 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 GGDM Zenodo Artifact Gate
+
+Lane A checked Zenodo `10.5281/zenodo.17946102` for `Inference Attacks Against
+Graph Generative Diffusion Models`, a non-duplicate cross-modal graph
+generative diffusion membership candidate. The record is small (`56,162`
+bytes, `cc-by-4.0`) and code-public, so it was safe to inspect without model or
+dataset download.
+
+Decision: `graph-diffusion cross-modal watch / code-only artifact / no score
+packet / no GPU release`. The archive contains GRA/MIA/PIA/defense scripts, but
+no fixed graph diffusion target checkpoint, exact member/nonmember graph
+manifest, generated graph sample cache, score CSV, ROC artifact, or metrics
+JSON. The `MIA/README.md` also says the Anonymous Walk Embeddings module is not
+publicly released. Keep this as Research-only related-method watch. Current
+slots remain `active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected`.
+
 ## 2026-05-15 MIDST Blending++ Official Score-Export Scout
 
 The public CITADEL/UQAM `ensemble-mia` repository was checked as a genuinely
@@ -813,9 +830,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing the Roots feature-packet replay. MIDST Blending++ is the strongest MIDST score export so far (`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`) but remains below the `0.60` reopen floor; SecMI remains supporting reference; Diffusion Memorization has a public `500`-row prompt manifest but no MIA split/response/score packet and a `2.60G` ground-truth archive; ReDiffuse has exact DDPM split manifests but no checkpoint/score packet; Tracing Roots has a positive feature-packet metric but no raw target/sample/query-response provenance. |
-| Highest-value next action | Continue Lane A only with a non-duplicate candidate that exposes exact target identity, member/nonmember split artifacts, and response/score coverage; reopen Diffusion Memorization only with an actual MIA package, ReDiffuse only with matching checkpoints or score packets, Tracing Roots only with raw provenance/regeneration assets, and MIDST only with a new public artifact or genuinely new tabular-diffusion observable beyond the closed Blending++ score-export scout. Otherwise switch to a genuinely different runnable target contract or stop instead of writing another scope/audit chain. |
-| Stop condition | Do not download Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not train ReDiffuse DDPM/DiT/Stable Diffusion targets or rerun same-family attacks from scratch; do not expand Tracing Roots into timestep/feature/seed/classifier matrices; do not expand MIDST Blending++ into retraining, Gower feature matrices, XGBoost/Optuna grids, admitted rows, or GPU release; do not expand MIDST EPT into account toggles, target-column subsets, random-forest grids, classifier sweeps, TabSyn, multi-table, or white-box MIDST; do not download CDI/ImageNet/COCO assets without an explicit dataset-inference lane; do not reopen known weak CommonCanvas, Beans, MIDST, Fashion-MNIST, LAION-mi, Zenodo, Noise-as-Probe, MIAGM, Quantile Regression, SAMA, VidLeaks, SecMI-LDM, R125, MoFit, MIA_SD, or GSA archive paths without manifest-backed target/split/response evidence that can change a real decision. |
+| CPU sidecar | none selected after GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing the Roots feature-packet replay. GGDM is cross-modal graph-diffusion code-only watch with no target/split/score packet; MIDST Blending++ is the strongest MIDST score export so far (`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`) but remains below the `0.60` reopen floor; SecMI remains supporting reference; Diffusion Memorization has a public `500`-row prompt manifest but no MIA split/response/score packet and a `2.60G` ground-truth archive; ReDiffuse has exact DDPM split manifests but no checkpoint/score packet; Tracing Roots has a positive feature-packet metric but no raw target/sample/query-response provenance. |
+| Highest-value next action | Continue Lane A only with a non-duplicate candidate that exposes exact target identity, member/nonmember split artifacts, and response/score coverage; reopen GGDM only with public-safe graph target/split/generated-sample/score artifacts or an explicit graph generative diffusion membership lane; reopen Diffusion Memorization only with an actual MIA package, ReDiffuse only with matching checkpoints or score packets, Tracing Roots only with raw provenance/regeneration assets, and MIDST only with a new public artifact or genuinely new tabular-diffusion observable beyond the closed Blending++ score-export scout. Otherwise switch to a genuinely different runnable target contract or stop instead of writing another scope/audit chain. |
+| Stop condition | Do not request the withheld GGDM AWE module, download graph datasets, train EDP-GNN/GDSS/DiGress targets, or regenerate graph sample caches; do not download Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not train ReDiffuse DDPM/DiT/Stable Diffusion targets or rerun same-family attacks from scratch; do not expand Tracing Roots into timestep/feature/seed/classifier matrices; do not expand MIDST Blending++ into retraining, Gower feature matrices, XGBoost/Optuna grids, admitted rows, or GPU release; do not expand MIDST EPT into account toggles, target-column subsets, random-forest grids, classifier sweeps, TabSyn, multi-table, or white-box MIDST; do not download CDI/ImageNet/COCO assets without an explicit dataset-inference lane; do not reopen known weak CommonCanvas, Beans, MIDST, Fashion-MNIST, LAION-mi, Zenodo, Noise-as-Probe, MIAGM, Quantile Regression, SAMA, VidLeaks, SecMI-LDM, R125, MoFit, MIA_SD, GGDM, or GSA archive paths without manifest-backed target/split/response evidence that can change a real decision. |
 
 ### P0 — 完成且弱
 
@@ -1435,6 +1452,7 @@ Every autonomous research cycle must follow this loop:
 | CopyMark CommonCanvas multi-seed stability | weak bounded scout (`4/4`, `AUC = 0.5625`, `ASR = 0.625`); no seed/subset/embedding expansion | [docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md) |
 | Kohaku/Danbooru asset decision | hold; broad training-source provenance is not enough for a clean target member/nonmember split | [docs/evidence/kohaku-danbooru-asset-decision-20260513.md](docs/evidence/kohaku-danbooru-asset-decision-20260513.md) |
 | Fashion-MNIST DDPM PIA-loss scout | weak `64/64` CUDA scout on a real train/test split; no admitted promotion and no expansion | [docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md](docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md) |
+| GGDM Zenodo artifact gate | graph-diffusion cross-modal watch; small Zenodo code artifact, but no graph target checkpoint, exact member/nonmember manifest, generated graph cache, or score packet | [docs/evidence/ggdm-zenodo-artifact-gate-20260515.md](docs/evidence/ggdm-zenodo-artifact-gate-20260515.md) |
 | MIDST Blending++ official score-export scout | strongest MIDST score so far but still below gate; `dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`, no XGBoost/Gower/TabSyn/multi-table expansion | [docs/evidence/midst-blending-plus-plus-scout-20260515.md](docs/evidence/midst-blending-plus-plus-scout-20260515.md) |
 | MIDST TabDDPM EPT scout | weak different tabular mechanism; train shadow `AUC = 0.851961` but dev+final `AUC = 0.530089`, so no EPT/config/TabSyn/multi-table expansion | [docs/evidence/midst-tabddpm-ept-scout-20260515.md](docs/evidence/midst-tabddpm-ept-scout-20260515.md) |
 | MIDST TabDDPM nearest-neighbor scout | weak external benchmark scout; `dev+final AUC = 0.566263` and near-zero strict-tail recovery; no admitted promotion and no expansion | [docs/evidence/midst-tabddpm-nearest-neighbor-scout-20260513.md](docs/evidence/midst-tabddpm-nearest-neighbor-scout-20260513.md) |
