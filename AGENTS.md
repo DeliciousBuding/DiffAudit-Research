@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD official inter-output replay completed from public GitHub intermediate outputs after StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; CLiD replay is strong but prompt-conditioned candidate-only, with no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `CLiD identity-manifest gate completed after official inter-output replay and StablePrivateLoRA defense artifact gate; CLiD replay is strong, but public GitHub/HF metadata does not bind numeric score rows to immutable COCO image identities, authenticated HF ZIP HEAD/Range returned 403, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -155,11 +155,14 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   `alpha = 0.9` and reaches target `AUC = 0.961277`,
   `TPR@1%FPR = 0.675470`, and `ASR = 0.891957`, much stronger than PIA,
   SecMI, and PFAMI on the same packet. It remains candidate-only because the
-  packet is prompt-conditioned and the image-identity boundary is unresolved.
-  Do not download `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow
-  checkpoints, or generated images; do not run CLiD GPU jobs, XGBoost sweeps,
-  prompt-shuffle matrices, or promote CLiD into Platform/Runtime admitted rows
-  without an image-identity-safe protocol and product-bridge handoff.
+  packet is prompt-conditioned and the public metadata does not bind numeric
+  score rows to immutable COCO image identities. The HF dataset exposes only
+  gated `mia_COCO.zip`, and authenticated HEAD/Range probes returned `403`.
+  Do not download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD
+  target/shadow checkpoints, or generated images; do not run CLiD GPU jobs,
+  XGBoost sweeps, prompt-shuffle matrices, or promote CLiD into
+  Platform/Runtime admitted rows without an image-identity-safe protocol and
+  product-bridge handoff.
 - `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus candidate with public
   dataset split payloads and MP-LoRA/SMP-LoRA training code. It is not an
   execution target because the repo does not ship trained LoRA/checkpoint
