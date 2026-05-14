@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `VidLeaks text-to-video asset gate is code-snapshot-only/live-repo-unavailable after SAMA diffusion-language-model out-of-scope verdict; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `cross-modal watch consumer boundary synchronized after SAMA diffusion-language-model and VidLeaks text-to-video verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
