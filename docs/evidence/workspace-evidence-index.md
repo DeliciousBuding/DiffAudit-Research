@@ -5,11 +5,11 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
-[midst-tabddpm-ept-scout-20260515.md](midst-tabddpm-ept-scout-20260515.md)
-records a bounded MIA-EPT-style error-prediction profile scout on the local
-MIDST TabDDPM single-table benchmark. It is a genuinely different tabular
-mechanism, but dev+final transfer remains weak (`AUC = 0.530089`), so MIDST
-stays closed by default.
+[midst-blending-plus-plus-scout-20260515.md](midst-blending-plus-plus-scout-20260515.md)
+records a CPU-only readout of official CITADEL/UQAM Blending++ score exports
+against local MIDST labels. Blending++ is the strongest MIDST signal so far
+(`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`) but remains below the
+`0.60` reopen floor, so MIDST stays closed by default.
 
 | Track | Active docs | Role |
 | --- | --- | --- |
