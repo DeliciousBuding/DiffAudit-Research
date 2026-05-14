@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `DurMI TTS artifact gate completed after GenAI Confessions, SimA, FMIA, and CLiD gates; DurMI has public attack code, a GradTTS LJSpeech 5,977/5,977 exact split, and Zenodo checkpoint/data metadata, but no ready duration-loss score packet or image-lane fit, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `FERMI tabular artifact gate completed after DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; FERMI reports strong multi-relational tabular diffusion MIA paper metrics, but has no public code, target/split manifests, synthetic-table cache, score/feature packet, or replay command, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -205,6 +205,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Google Drive TextGrid files, train or run TTS attacks, launch DurMI GPU jobs,
   or promote TTS/audio claims into Platform/Runtime rows unless DiffAudit
   explicitly opens a TTS/audio membership lane or ready score artifacts appear.
+- FERMI / `FERMI: Exploiting Relations for Membership Inference Against
+  Tabular Diffusion Models` is a multi-relational tabular watch item, not a
+  current execution target. The 2026-05-12 arXiv source reports strong
+  TabDDPM/TabDiff/TabSyn relational MIA metrics, but the public surface is
+  paper-source only: no code tree, target/split manifests, generated synthetic
+  tables, feature/score rows, ROC arrays, metric JSON, or replay command. Do
+  not implement FERMI from scratch, download California/Instacart/Berka
+  relational datasets, train TabDDPM/TabDiff/TabSyn or surrogate models, or
+  reopen MIDST/tabular execution unless public artifacts appear or DiffAudit
+  explicitly opens a multi-relational tabular membership lane.
 - `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus candidate with public
   dataset split payloads and MP-LoRA/SMP-LoRA training code. It is not an
   execution target because the repo does not ship trained LoRA/checkpoint
