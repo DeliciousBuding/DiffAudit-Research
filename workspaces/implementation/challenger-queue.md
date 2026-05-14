@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `VidLeaks T2V asset gate is code-snapshot-only/live-repo-unavailable after SAMA DLM out-of-scope verdict` |
+| Active work | `cross-modal watch consumer boundary synchronized after SAMA DLM and VidLeaks T2V verdicts` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected |
@@ -42,6 +42,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
+| Cross-modal watch consumer boundary | system / Lane C | synchronized | SAMA/DLM and VidLeaks/T2V are related-method watch items only | no admitted row, no Runtime schema input, and no product copy change | keep out of Platform/Runtime unless a future reviewed scope expansion and promotion occurs |
 | I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but it remains attack-side threshold transfer; the defended-shadow reopen protocol is machine-checkable, explicit reopen mode rejects undefended threshold references, and the coverage-aware training manifest blocks the current target k32 identity contract; the shadow-local scout found a mechanically possible `shadow-01`/`shadow-02` target-risk remap | target k32 forget IDs are not covered by the shadow member datasets; target-risk remap is not true shadow-local scoring; no executed defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is true shadow-local risk scoring or explicit approval of weaker two-shadow remap semantics before any tiny defended-shadow training execution |
 | I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
@@ -49,15 +50,14 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ### Post-Score-Jacobian Long-Horizon Idle State
 
-- `mode`: CPU-only
+- `mode`: consumer-boundary sync
 - `status`: The latest active metric verdict is Fashion-MNIST DDPM
   score-Jacobian sensitivity. It is weak (`AUC = 0.511719`, zero low-FPR
   recovery) and closes the local score-field sensitivity branch after prior
   weak Fashion-MNIST PIA-loss and SimA score-norm scouts. The latest Lane A
-  asset gate, VidLeaks / `wangli-codes/T2V_MIA`, is a text-to-video code
-  snapshot whose live GitHub repo is unavailable and whose Zenodo archive lacks
-  target T2V weights, exact split manifests, generated videos, feature CSVs, or
-  score packets. I-B, I-C, ReDiffuse,
+  consumer-boundary sync confirms that SAMA/DLM and VidLeaks/T2V are
+  related-method watch items only. They do not change admitted rows, Runtime
+  schemas, recommendation logic, or product copy. I-B, I-C, ReDiffuse,
   CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
   Regression, and Noise as a Probe remain governed by `ROADMAP.md` lane gates
   and do not release automatic CPU/GPU work.
@@ -68,8 +68,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 - `latest trigger`: score-Jacobian sensitivity tested a genuinely different
   local denoiser response surface, but the CUDA result is weak and closes the
   route before any matrix expansion. The latest Lane A asset gate,
-  VidLeaks / `wangli-codes/T2V_MIA`, is code-snapshot-only and live-repo
-  unavailable; it does not release model/video downloads or GPU work.
+  cross-modal watch consumer boundary keeps SAMA/DLM and VidLeaks/T2V out of
+  Platform/Runtime rows and releases no CPU/GPU work.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only weak gray-box scout
 
@@ -77,6 +77,7 @@ Current evidence:
 
 - [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
 - [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md)
+- [../../docs/evidence/cross-modal-watch-consumer-boundary-20260514.md](../../docs/evidence/cross-modal-watch-consumer-boundary-20260514.md)
 - [../../docs/evidence/vidleaks-t2v-asset-verdict-20260514.md](../../docs/evidence/vidleaks-t2v-asset-verdict-20260514.md)
 - [../../docs/evidence/sama-dlm-asset-verdict-20260514.md](../../docs/evidence/sama-dlm-asset-verdict-20260514.md)
 - [../../docs/evidence/ronketer-dreambooth-asset-verdict-20260514.md](../../docs/evidence/ronketer-dreambooth-asset-verdict-20260514.md)
@@ -284,6 +285,7 @@ Restart conditions:
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
+| Cross-modal watch consumer boundary | Synchronized; SAMA/DLM and VidLeaks/T2V are related-method watch items only and do not change admitted Platform/Runtime rows or schemas. |
 | VidLeaks T2V asset gate | Related-method/code-snapshot-only; live GitHub repo unavailable and Zenodo snapshot lacks target T2V weights, exact video split manifests, generated videos, feature CSVs, and score packets. |
 | SAMA DLM asset gate | Related-method/out-of-scope for current image-diffusion Lane A; public code lacks a released target DLM checkpoint, exact split manifests, and response/score packet. |
 | Memorization-LDM asset gate | Request-gated and artifact-incomplete; public code/Zenodo software snapshot lack target LDM checkpoint, exact split manifests, and generated response package. |
