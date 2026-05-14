@@ -11,6 +11,13 @@
   does not commit trained LoRA/checkpoints, raw attack scores, ROC CSVs, metric
   JSON, generated responses, or a ready verifier command. No dataset/model
   download or GPU work is released.
+- CLiD / `zhaisf/CLiD` has a real official score packet in public GitHub
+  `inter_output/*` files. The CPU replay is strong (`AUC = 0.961277`,
+  `TPR@1%FPR = 0.675470`, `ASR = 0.891957`) and materially better than PIA,
+  SecMI, and PFAMI on the same packet, but it remains prompt-conditioned
+  candidate evidence. No `COCO_MIA_ori_split1`, SD weights, target/shadow
+  checkpoints, generated images, GPU jobs, XGBoost sweeps, prompt-shuffle
+  matrices, or Platform/Runtime admitted rows are released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -144,6 +151,17 @@ Current StablePrivateLoRA follow-up:
   model, LoRA checkpoints, generated images, or logs; do not train
   MP-LoRA/SMP-LoRA, OCR table PNGs into admitted metrics, or promote it into
   Platform/Runtime defense rows inside the current roadmap cycle.
+
+Current CLiD follow-up:
+
+- Keep it as strong official CPU replay evidence, not a Platform/Runtime
+  admitted row.
+- Reopen only with a public-safe target/shadow identity binding and a
+  prompt-neutral or image-identity-safe protocol that preserves the official
+  strict-tail signal.
+- Do not download `COCO_MIA_ori_split1`, SD weights, target/shadow checkpoints,
+  or generated images; do not run CLiD GPU jobs, XGBoost sweeps, or
+  prompt-shuffle matrices inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 
