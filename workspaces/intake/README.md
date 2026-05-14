@@ -47,10 +47,11 @@
   LDM checkpoint, exact per-sample member/nonmember manifest, or generated
   response package is published. No download or GPU work is released.
 - `jinhaoduan/SecMI-LDM` is a SecMI support-family Diffusers fork, not a clean
-  Lane A second asset. Its public scripts assume local Pokémon/COCO/LAION
-  datasets, local split files, and a local `sd-pokemon-checkpoint`; no
-  checkpoint, exact member/nonmember manifest, or query/response package is
-  published. No download or GPU work is released.
+  Lane A second asset. Its default-branch README provides SharePoint download
+  links for datasets and the Pokémon fine-tuned SD checkpoint, but this remains
+  same-author SecMI reproduction/support material rather than an independent
+  second asset or black-box response contract. No download or GPU work is
+  released.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -144,8 +145,8 @@ Current memorization-LDM follow-up:
 Current SecMI-LDM follow-up:
 
 - Keep it as related SecMI support-family reference only.
-- Reopen only if a public-safe artifact exposes a hashable LDM checkpoint or
-  deterministic recreation recipe, exact member/nonmember manifests, and a
-  generated response or query/response package.
-- Do not download or reconstruct the Pokémon checkpoint, scrape LAION/COCO
+- Reopen only for explicit SecMI-LDM reproducibility maintenance, or if a
+  genuinely independent public-safe target/split/query-response artifact
+  appears.
+- Do not download the SharePoint dataset/checkpoint zips, scrape LAION/COCO
   assets, or package this fork as an independent second asset.
