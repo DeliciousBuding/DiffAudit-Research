@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `cross-modal watch consumer boundary synchronized after SAMA DLM and VidLeaks T2V verdicts` |
+| Active work | `StyleMI asset gate closed as paper-only / artifact-incomplete after cross-modal watch consumer boundary sync` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected |
@@ -39,6 +39,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | R125 DreamBooth forensics notebook | intake / Lane A | watch / artifact-incomplete | public repo exposes DreamBooth/LoRA notebook code, report media, and six embedded reconstruction-MSE scores | target LoRA checkpoint and six-image forensics query set are private Colab/GDrive artifacts; no manifest or score JSON is released | do not recreate the private run, scrape report images, or treat embedded scalar scores as a DiffAudit packet |
 | SAMA diffusion-language-model asset | intake / Lane A | related-method / out-of-scope code-only | public repo exposes DLM training, dataset-prep, and SAMA/baseline attack code for NLP diffusion language models | no released target DLM checkpoint, exact member/nonmember manifest, reusable response/score packet, or image/latent-image response contract | keep as related-method reference only; do not train DLM targets or download gated language models unless a text/DLM lane is explicitly opened |
 | VidLeaks text-to-video asset | intake / Lane A | related-method / code-snapshot-only | Zenodo exposes a small T2V_MIA code snapshot, README, attack scripts, and ROC plot PNGs | live GitHub repo is unavailable; no target T2V weights, exact video split manifest, generated videos, feature CSVs, or score packets are published | keep as related-method watch only; do not download T2V datasets/models or generate videos unless a T2V lane is explicitly opened |
+| StyleMI style-mimicry asset | intake / Lane A | watch / paper-only artifact-incomplete | DOI metadata confirms a 2025 IEEE Access fine-tuned diffusion style-mimicry membership-relevant paper | no public code repository, target LoRA/checkpoint, exact artist/image split manifest, generated image package, image-processing feature packet, or score file was found | keep as paper-only watch; do not scrape artist images, train style LoRAs, invent splits, or release GPU unless public target/split/response artifacts appear |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
@@ -48,16 +49,19 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Score-Jacobian Long-Horizon Idle State
+### Post-StyleMI Long-Horizon Idle State
 
-- `mode`: consumer-boundary sync
+- `mode`: Lane A asset gate
 - `status`: The latest active metric verdict is Fashion-MNIST DDPM
   score-Jacobian sensitivity. It is weak (`AUC = 0.511719`, zero low-FPR
   recovery) and closes the local score-field sensitivity branch after prior
   weak Fashion-MNIST PIA-loss and SimA score-norm scouts. The latest Lane A
-  consumer-boundary sync confirms that SAMA/DLM and VidLeaks/T2V are
-  related-method watch items only. They do not change admitted rows, Runtime
-  schemas, recommendation logic, or product copy. I-B, I-C, ReDiffuse,
+  asset gate keeps StyleMI as paper-only / artifact-incomplete: no code,
+  target checkpoint, exact artist/image split, generated image package, feature
+  packet, or score file was found. The latest consumer-boundary sync also
+  confirms that SAMA/DLM and VidLeaks/T2V are related-method watch items only.
+  They do not change admitted rows, Runtime schemas, recommendation logic, or
+  product copy. I-B, I-C, ReDiffuse,
   CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
   Regression, and Noise as a Probe remain governed by `ROADMAP.md` lane gates
   and do not release automatic CPU/GPU work.
@@ -65,18 +69,19 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   `ROADMAP.md`; if no candidate passes target identity, exact split,
   query/response coverage, provenance, and non-adjacent mechanism gates, stop
   rather than writing another scope/audit/reselection chain.
-- `latest trigger`: score-Jacobian sensitivity tested a genuinely different
-  local denoiser response surface, but the CUDA result is weak and closes the
-  route before any matrix expansion. The latest Lane A asset gate,
-  cross-modal watch consumer boundary keeps SAMA/DLM and VidLeaks/T2V out of
-  Platform/Runtime rows and releases no CPU/GPU work.
+- `latest trigger`: StyleMI tested a non-duplicate style-mimicry paper-only
+  candidate, but the public gate found no executable target/split/response or
+  score artifacts. The latest cross-modal watch consumer boundary keeps
+  SAMA/DLM and VidLeaks/T2V out of Platform/Runtime rows and releases no
+  CPU/GPU work.
 - `GPU cap`: none selected
-- `integration`: no schema change; Research-only weak gray-box scout
+- `integration`: no schema change; Research-only paper-only asset gate
 
 Current evidence:
 
 - [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
 - [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md)
+- [../../docs/evidence/stylemi-asset-verdict-20260514.md](../../docs/evidence/stylemi-asset-verdict-20260514.md)
 - [../../docs/evidence/cross-modal-watch-consumer-boundary-20260514.md](../../docs/evidence/cross-modal-watch-consumer-boundary-20260514.md)
 - [../../docs/evidence/vidleaks-t2v-asset-verdict-20260514.md](../../docs/evidence/vidleaks-t2v-asset-verdict-20260514.md)
 - [../../docs/evidence/sama-dlm-asset-verdict-20260514.md](../../docs/evidence/sama-dlm-asset-verdict-20260514.md)

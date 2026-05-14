@@ -68,6 +68,12 @@
   archive lacks target T2V weights, exact member/nonmember video manifests,
   generated videos, feature CSVs, and score packets. No model/video download or
   GPU work is released.
+- StyleMI is a style-mimicry / fine-tuned diffusion membership-relevant
+  paper-only watch item. Public DOI metadata confirms the 2025 IEEE Access
+  paper, but no public code repository, target LoRA/checkpoint, exact
+  artist/image member/nonmember manifests, generated images, feature packets,
+  or score files were found. No artist-image scraping, style-LoRA training,
+  download, or GPU work is released.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -196,3 +202,13 @@ Current VidLeaks / text-to-video follow-up:
 - Do not download WebVid-10M, MiraData, Panda-70M, AnimateDiff/InstructVideo/Mira
   weights, generated videos, Gemini captions, or VBench outputs inside the
   current image-diffusion roadmap cycle.
+
+Current StyleMI / style-mimicry follow-up:
+
+- Keep it as a paper-only style-mimicry watch item.
+- Reopen only if authors publish a public-safe target checkpoint or
+  deterministic style fine-tuning recipe, exact artist/image member and
+  nonmember manifests, and generated image, image-processing feature, or score
+  packets.
+- Do not scrape artist images, train style LoRAs, invent style/member splits,
+  or build feature packets from scratch inside the current roadmap cycle.
