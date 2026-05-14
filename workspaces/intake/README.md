@@ -34,6 +34,13 @@
   require emailing authors, and the public tree has no non-vendor split
   manifests, checkpoints, score arrays, ROC/metric artifacts, or ready verifier
   packet. No dataset/model download or GPU work is released.
+- GenAI Confessions / `hanyfarid/MembershipInference` is a black-box
+  related-method watch item. It has public raw member/nonmember-style image
+  inputs for STROLL, Carlini, and Midjourney, including public/non-gated HF
+  `faridlab/stroll` metadata and a Zenodo `133,599,324` byte data ZIP, but it
+  does not ship the STROLL fine-tuned SD2.1 checkpoint, generated image-to-image
+  response grids, DreamSim distance vectors, ROC/metric artifacts, Midjourney
+  query logs, or a ready verifier. No dataset download or GPU work is released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -199,6 +206,17 @@ Current SimA follow-up:
 - Do not download large datasets, train DDPM targets, fine-tune SD1.4, request
   checkpoints by email, run SimA GPU jobs, or expand Fashion-MNIST SimA
   timestep/norm/seed/scheduler matrices inside the current roadmap cycle.
+
+Current GenAI Confessions follow-up:
+
+- Keep it as black-box image-to-image boundary watch, not an execution target.
+- Reopen only if a public STROLL fine-tuned SD2.1 checkpoint, generated
+  response grid, DreamSim distance vector packet, ROC/metric artifact, or ready
+  verifier appears, plus a consumer-boundary decision for image-to-image service
+  membership.
+- Do not download the Zenodo ZIP or HF image payload, fine-tune STROLL SD2.1,
+  query Midjourney manually, or rebuild DreamSim/logistic-regression replay
+  from scratch inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 

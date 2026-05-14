@@ -2,6 +2,26 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 GenAI Confessions Black-Box Artifact Gate
+
+Lane A checked `hanyfarid/MembershipInference` / `GenAI Confessions` because
+the public data release is small enough to inspect by metadata and is a
+non-duplicate black-box generated-image membership method. The release has real
+raw member/nonmember-style image inputs: STROLL `100` paired
+in-training/out-of-training images on HF, Carlini `74` Stable Diffusion v1.4
+memorization-derived rows, and Midjourney `10` memorization-derived rows. The
+Zenodo data ZIP is `133,599,324` bytes, but it was not downloaded because the
+missing pieces are model responses and verifier artifacts, not raw images.
+
+Decision: `data-public / response-and-checkpoint-missing / semantic-boundary /
+no dataset download / no GPU release / no admitted row`. The public release
+does not ship the STROLL fine-tuned SD2.1 checkpoint, generated image-to-image
+response grids, DreamSim distance vectors, ROC/metric artifacts, or a ready
+verifier. Current slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and `CPU sidecar = none selected after GenAI
+Confessions black-box artifact gate`. See
+[docs/evidence/genai-confessions-blackbox-artifact-gate-20260515.md](docs/evidence/genai-confessions-blackbox-artifact-gate-20260515.md).
+
 ## 2026-05-15 SimA Score-Based Artifact Gate
 
 Lane A/B checked the official `mx-ethan-rao/SimA` release for `Score-based
