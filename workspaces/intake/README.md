@@ -15,9 +15,11 @@
   `inter_output/*` files. The CPU replay is strong (`AUC = 0.961277`,
   `TPR@1%FPR = 0.675470`, `ASR = 0.891957`) and materially better than PIA,
   SecMI, and PFAMI on the same packet, but it remains prompt-conditioned
-  candidate evidence. No `COCO_MIA_ori_split1`, SD weights, target/shadow
-  checkpoints, generated images, GPU jobs, XGBoost sweeps, prompt-shuffle
-  matrices, or Platform/Runtime admitted rows are released.
+  candidate evidence. The public tree and HF metadata do not bind score rows to
+  immutable COCO image identities, and authenticated `mia_COCO.zip` HEAD/Range
+  access returned `403`. No `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights,
+  target/shadow checkpoints, generated images, GPU jobs, XGBoost sweeps,
+  prompt-shuffle matrices, or Platform/Runtime admitted rows are released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -156,12 +158,13 @@ Current CLiD follow-up:
 
 - Keep it as strong official CPU replay evidence, not a Platform/Runtime
   admitted row.
-- Reopen only with a public-safe target/shadow identity binding and a
-  prompt-neutral or image-identity-safe protocol that preserves the official
-  strict-tail signal.
-- Do not download `COCO_MIA_ori_split1`, SD weights, target/shadow checkpoints,
-  or generated images; do not run CLiD GPU jobs, XGBoost sweeps, or
-  prompt-shuffle matrices inside the current roadmap cycle.
+- Reopen only if authors publish a row-level manifest, or if HF gated access
+  enables metadata-only ZIP central-directory/manifest inspection without image
+  payloads, plus a prompt-neutral or image-identity-safe protocol that preserves
+  the official strict-tail signal.
+- Do not download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights,
+  target/shadow checkpoints, or generated images; do not run CLiD GPU jobs,
+  XGBoost sweeps, or prompt-shuffle matrices inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 
