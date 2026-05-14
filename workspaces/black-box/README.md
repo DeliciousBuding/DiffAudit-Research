@@ -26,6 +26,12 @@
   pixel distance, CLIP image-similarity, prompt-response consistency,
   multi-seed response stability, and conditional denoising-loss. Do not reopen
   it through adjacent metric or denoising-loss matrices.
+- MIDST TabDDPM status: exact local single-table labels are available, but
+  three bounded tabular mechanisms are weak. Nearest-synthetic-row distance
+  reaches only `dev+final AUC = 0.566263`, shadow-distributional learning
+  collapses to `0.499846`, and the MIA-EPT-style error-prediction profile
+  transfers at only `0.530089`; do not expand EPT configs, TabSyn, multi-table,
+  or white-box MIDST.
 - Beans member-LoRA status: exact known-split target construction fixes the
   old Beans/SD1.5 pseudo-membership issue, but internal conditional
   denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`) and

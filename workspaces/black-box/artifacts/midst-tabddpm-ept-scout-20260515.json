@@ -1,0 +1,218 @@
+{
+  "artifact_type": "scout_result",
+  "created_at": "2026-05-15",
+  "lane": "midst-tabddpm-black-box-single-table",
+  "question": "Can a MIA-EPT-style error-prediction profile recover MIDST TabDDPM membership after nearest-neighbor and marginal-distributional scouts were weak?",
+  "upstream_method": {
+    "name": "MIA-EPT",
+    "repo": "https://github.com/eyalgerman/MIA-EPT",
+    "observed_head": "6890ee833ad90b9fd8b3b3b06abd41613a4b316d",
+    "adaptation": "For each target TabDDPM synthetic table, train bounded random-forest attribute predictors on trans_synthetic.csv, extract per-row actual, prediction, accuracy/error/error-ratio profiles on challenge rows, then train one fixed HistGradientBoosting attack classifier on train shadow labels and evaluate dev/final transfer."
+  },
+  "asset": {
+    "source": "MIDST SaTML 2025 black-box single-table starter-kit data",
+    "local_extract_root": "<DOWNLOAD_ROOT>/shared/midst-data/tabddpm_black_box",
+    "label_source": {
+      "train": "downloaded challenge_label.csv files",
+      "dev_final": "local Codabench bundle challenge_label.csv files from the cloned MIDST repository"
+    },
+    "model_family": "TabDDPM",
+    "task": "black-box membership inference over diffusion-model-based synthetic tabular data"
+  },
+  "data_contract": {
+    "phases": {
+      "train": {
+        "models": 30,
+        "model_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ],
+        "challenge_rows": 6000,
+        "members": 3000,
+        "nonmembers": 3000
+      },
+      "dev": {
+        "models": 20,
+        "model_indices": [
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "challenge_rows": 4000,
+        "members": 2000,
+        "nonmembers": 2000
+      },
+      "final": {
+        "models": 20,
+        "model_indices": [
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110
+        ],
+        "challenge_rows": 4000,
+        "members": 2000,
+        "nonmembers": 2000
+      }
+    },
+    "synthetic_rows_per_model_used": 20000,
+    "target_columns": [
+      "trans_date",
+      "trans_type",
+      "operation",
+      "amount",
+      "balance",
+      "k_symbol",
+      "bank"
+    ],
+    "excluded_challenge_only_fields": [
+      "trans_id",
+      "account_id"
+    ],
+    "excluded_target_columns": [
+      "account"
+    ]
+  },
+  "scorer": {
+    "name": "mia_ept_error_prediction_profile_shadow_attack",
+    "direction": "higher_is_more_member",
+    "attribute_predictor": {
+      "classification_or_regression": "nunique <= 20 uses classification",
+      "model": "RandomForestClassifier/RandomForestRegressor",
+      "n_estimators": 48,
+      "max_depth": 14,
+      "min_samples_leaf": 5,
+      "include_account_feature": false
+    },
+    "attack_classifier": "sklearn HistGradientBoostingClassifier fixed seed 20260515",
+    "feature_count": 25,
+    "train_phase": "train only",
+    "evaluation_phase": "dev and final labels used only for evaluation",
+    "implementation_note": "Single bounded mechanism scout; no classifier sweep, feature sweep, TabSyn expansion, white-box MIDST expansion, or new long-lived pipeline."
+  },
+  "metrics": {
+    "train": {
+      "n": 6000,
+      "members": 3000,
+      "nonmembers": 3000,
+      "auc": 0.8519611666666667,
+      "asr": 0.7708333333333334,
+      "tpr_at_10pct_fpr": 0.5713333333333334,
+      "tpr_at_1pct_fpr": 0.19466666666666665,
+      "tpr_at_0_1pct_fpr": 0.07166666666666667
+    },
+    "dev": {
+      "n": 4000,
+      "members": 2000,
+      "nonmembers": 2000,
+      "auc": 0.536730375,
+      "asr": 0.53225,
+      "tpr_at_10pct_fpr": 0.151,
+      "tpr_at_1pct_fpr": 0.0275,
+      "tpr_at_0_1pct_fpr": 0.006
+    },
+    "final": {
+      "n": 4000,
+      "members": 2000,
+      "nonmembers": 2000,
+      "auc": 0.523351625,
+      "asr": 0.521,
+      "tpr_at_10pct_fpr": 0.131,
+      "tpr_at_1pct_fpr": 0.031,
+      "tpr_at_0_1pct_fpr": 0.009
+    },
+    "dev_final": {
+      "n": 8000,
+      "members": 4000,
+      "nonmembers": 4000,
+      "auc": 0.53008853125,
+      "asr": 0.524625,
+      "tpr_at_10pct_fpr": 0.1395,
+      "tpr_at_1pct_fpr": 0.0295,
+      "tpr_at_0_1pct_fpr": 0.00925
+    },
+    "all": {
+      "n": 14000,
+      "members": 7000,
+      "nonmembers": 7000,
+      "auc": 0.6708909795918367,
+      "asr": 0.6256428571428572,
+      "tpr_at_10pct_fpr": 0.2795714285714286,
+      "tpr_at_1pct_fpr": 0.056285714285714286,
+      "tpr_at_0_1pct_fpr": 0.013428571428571429
+    }
+  },
+  "verdict": "negative_or_weak",
+  "decision": {
+    "admitted_promotion": false,
+    "platform_runtime_impact": "none",
+    "next_gpu_candidate": "none",
+    "passes_reopen_gate": false,
+    "reopen_gate": {
+      "dev_final_auc_floor": 0.6,
+      "dev_final_tpr_at_1pct_fpr_floor": 0.02
+    },
+    "stop_reason": "The EPT profile does not beat the bounded MIDST reopen gate on dev+final transfer; close without sweeps."
+  }
+}
