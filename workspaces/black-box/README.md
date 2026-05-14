@@ -19,8 +19,9 @@
   endpoint contract exist.
 - CLiD status: official public `inter_output/*` replay is strong on CPU
   (`AUC = 0.961277`, `TPR@1%FPR = 0.675470`, `ASR = 0.891957`) but remains
-  prompt-conditioned candidate-only; image-identity and admitted black-box
-  claims stay blocked.
+  prompt-conditioned candidate-only. The identity-manifest gate found no public
+  row manifest, COCO image-id binding, or accessible HF ZIP metadata, so
+  admitted black-box claims stay blocked.
 - Semantic-auxiliary status: negative-but-useful after low-FPR review; no GPU
   packet selected.
 - GPU: no active black-box GPU task running now.
@@ -109,6 +110,9 @@ Current CLiD image-identity boundary:
 
 Current CLiD official inter-output replay:
 [../../docs/evidence/clid-official-inter-output-replay-20260515.md](../../docs/evidence/clid-official-inter-output-replay-20260515.md).
+
+Current CLiD identity-manifest gate:
+[../../docs/evidence/clid-identity-manifest-gate-20260515.md](../../docs/evidence/clid-identity-manifest-gate-20260515.md).
 
 Current response-contract package preflight:
 [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).
