@@ -27,7 +27,7 @@ CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
 Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM,
 StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
 diffusion MIA, GenAI Confessions black-box image-to-image MIA, DurMI
-TTS duration-loss MIA, SAMA
+TTS duration-loss MIA, FERMI multi-relational tabular MIA, SAMA
 diffusion-language-model membership, VidLeaks
 text-to-video membership, and GGDM graph generative diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
@@ -99,6 +99,14 @@ not appear as admitted Platform evidence or a Runtime row because it does not
 ship ready duration-loss score arrays, ROC arrays, metric JSON, or generated
 result graphs, and DiffAudit has not opened a TTS/audio consumer lane. See
 [../evidence/durmi-tts-artifact-gate-20260515.md](../evidence/durmi-tts-artifact-gate-20260515.md).
+
+Current FERMI status: Research-only tabular watch. The arXiv source reports
+strong multi-relational TabDDPM/TabDiff/TabSyn membership metrics, but the
+public surface has no code tree, target/split manifests, generated synthetic
+tables, feature/score rows, ROC arrays, metric JSON, or replay command. It must
+not appear as admitted Platform evidence or a Runtime row, and it does not
+reopen MIDST/tabular execution from scratch. See
+[../evidence/fermi-tabular-artifact-gate-20260515.md](../evidence/fermi-tabular-artifact-gate-20260515.md).
 
 Current recon status: recon is the admitted black-box product row. The active
 row uses a unified upstream-threshold metric source and reports all four
