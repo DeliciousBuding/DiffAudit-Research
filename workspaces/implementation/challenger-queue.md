@@ -1,6 +1,6 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-14
+> Last refreshed: 2026-05-15
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `StyleMI asset gate closed as paper-only / artifact-incomplete after cross-modal watch consumer boundary sync` |
+| Active work | `CDI official artifact gate closed as code-public / dataset-inference semantic shift / large-assets-required after StyleMI paper-only asset gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected |
@@ -32,6 +32,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | Cross-box successor hypothesis | cross-box | hold | CPU-only scope review closed without a new release-ready hypothesis | current executable routes are existing score-sharing/fusion/support/tail-gated variants or asset-blocked response-contract transfer | reopen only with a genuinely new observable or ready second response-contract package |
 | gray-box archived paper candidates | gray-box / intake | hold | reentry review covers SIMA, Noise-as-Probe, MoFit, and Structural Memorization | current artifacts are weak, canary-only, low-FPR unstable, or covered by closed fusion/support routes | reopen only with a new low-FPR-primary observable or protocol |
+| CDI official dataset-inference artifact | gray-box / dataset inference | hold-semantic-shift | official `sprintml/copyrighted_data_identification` repo is code-public and exposes model configs, attack feature extraction, scoring, and evaluation surfaces | no ready small score packet; requires Google Drive model checkpoints, ImageNet/COCO assets, COCO text embeddings, submodules, and a consumer-boundary decision because the claim is dataset-level rather than per-sample membership | do not download assets or release GPU by default; reopen only if a dataset-inference lane is explicitly opened with frozen checkpoint hashes, bounded ID manifests, `P` size, p-value/low-FPR metric, and consumer boundary |
 | Fashion-MNIST DDPM SimA score-norm | gray-box | closed / weak metric verdict | clean train/test split and denoiser access produced a real `64/64` CUDA scout | `AUC = 0.515137` and both low-FPR metrics are zero | do not expand timestep, `p`-norm, seed, scheduler, or packet-size matrices |
 | Fashion-MNIST DDPM score-Jacobian sensitivity | gray-box | closed / weak metric verdict | clean train/test split and denoiser local input-sensitivity access produced a real `64/64` CUDA scout | `AUC = 0.511719` and both low-FPR metrics are zero | do not expand timestep, perturbation-scale, seed, scheduler, norm, or packet-size matrices |
 | memorization-LDM medical asset | intake / Lane A | watch / artifact-incomplete | public code and Zenodo software snapshot exist for patient-imaging LDM memorization detection | synthesized samples are request-gated; no target LDM checkpoint, exact member/nonmember manifests, or generated response package is public | do not download medical datasets, request controlled samples, train target LDMs, or release GPU until public-safe target/split/response artifacts exist |
@@ -51,14 +52,16 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ### Post-StyleMI Long-Horizon Idle State
 
-- `mode`: Lane A asset gate
+- `mode`: dataset-inference artifact gate
 - `status`: The latest active metric verdict is Fashion-MNIST DDPM
   score-Jacobian sensitivity. It is weak (`AUC = 0.511719`, zero low-FPR
   recovery) and closes the local score-field sensitivity branch after prior
   weak Fashion-MNIST PIA-loss and SimA score-norm scouts. The latest Lane A
   asset gate keeps StyleMI as paper-only / artifact-incomplete: no code,
   target checkpoint, exact artist/image split, generated image package, feature
-  packet, or score file was found. The latest consumer-boundary sync also
+  packet, or score file was found. The latest CDI official gate is code-public
+  but held as a dataset-inference semantic shift with large model/data
+  requirements and no ready small score packet. The latest consumer-boundary sync also
   confirms that SAMA/DLM and VidLeaks/T2V are related-method watch items only.
   They do not change admitted rows, Runtime schemas, recommendation logic, or
   product copy. I-B, I-C, ReDiffuse,
@@ -69,9 +72,13 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   `ROADMAP.md`; if no candidate passes target identity, exact split,
   query/response coverage, provenance, and non-adjacent mechanism gates, stop
   rather than writing another scope/audit/reselection chain.
-- `latest trigger`: StyleMI tested a non-duplicate style-mimicry paper-only
-  candidate, but the public gate found no executable target/split/response or
-  score artifacts. The latest cross-modal watch consumer boundary keeps
+- `latest trigger`: CDI tested a non-adjacent scientific pivot from weak
+  pointwise MIAs to dataset inference. The public gate found official code, but
+  not a bounded DiffAudit-ready score packet; assets remain too large and the
+  consumer claim semantics would change. The latest StyleMI gate tested a
+  non-duplicate style-mimicry paper-only candidate, but found no executable
+  target/split/response or score artifacts. The latest cross-modal watch
+  consumer boundary keeps
   SAMA/DLM and VidLeaks/T2V out of Platform/Runtime rows and releases no
   CPU/GPU work.
 - `GPU cap`: none selected
@@ -81,6 +88,7 @@ Current evidence:
 
 - [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
 - [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md)
+- [../../docs/evidence/cdi-official-artifact-gate-20260515.md](../../docs/evidence/cdi-official-artifact-gate-20260515.md)
 - [../../docs/evidence/stylemi-asset-verdict-20260514.md](../../docs/evidence/stylemi-asset-verdict-20260514.md)
 - [../../docs/evidence/cross-modal-watch-consumer-boundary-20260514.md](../../docs/evidence/cross-modal-watch-consumer-boundary-20260514.md)
 - [../../docs/evidence/vidleaks-t2v-asset-verdict-20260514.md](../../docs/evidence/vidleaks-t2v-asset-verdict-20260514.md)
