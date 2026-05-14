@@ -1,0 +1,100 @@
+{
+  "candidate": "Tracing the Roots supplementary CIFAR10 MIA feature packet",
+  "contract": {
+    "batch_size": 50,
+    "end": 1000,
+    "epochs": 100,
+    "eval_split": "data/cifar10/eval/{member,external}.pt",
+    "feature_shape_source": "[loss trajectory, grad_x trajectory, grad_theta trajectory]",
+    "grad_theta": true,
+    "grad_x": true,
+    "loss": true,
+    "positive_class": "member",
+    "seed": 0,
+    "start": 0,
+    "step": 3,
+    "train_split": "data/cifar10/train/{member,external}.pt"
+  },
+  "data_root": "tmp\\tracing-roots-supp-20260515\\data\\cifar10",
+  "date": "2026-05-15",
+  "device": "cuda",
+  "eval": {
+    "accuracy": 0.7375,
+    "auc": 0.8158259999999998,
+    "n_samples": 2000,
+    "tpr_at_0_1pct_fpr": 0.038,
+    "tpr_at_1pct_fpr": 0.134
+  },
+  "tensor_summary": {
+    "eval/external": {
+      "dtype": "torch.float32",
+      "has_nan": false,
+      "mean": 2.031139612197876,
+      "path": "tmp\\tracing-roots-supp-20260515\\data\\cifar10\\eval\\external.pt",
+      "raw_shape": [
+        1000,
+        3000
+      ],
+      "selected_shape": [
+        1000,
+        1002
+      ],
+      "sha256": "ee9829eaa32d6a54c73b0851513cd5edeea7da2b810d61fb99b330429909616e",
+      "std": 44.684303283691406
+    },
+    "eval/member": {
+      "dtype": "torch.float32",
+      "has_nan": false,
+      "mean": 2.068788766860962,
+      "path": "tmp\\tracing-roots-supp-20260515\\data\\cifar10\\eval\\member.pt",
+      "raw_shape": [
+        1000,
+        3000
+      ],
+      "selected_shape": [
+        1000,
+        1002
+      ],
+      "sha256": "93b9e5eefbab1a820a4945bce79dfa95f5799df2b77ba771d8bfe159e9fcdaa9",
+      "std": 45.8073616027832
+    },
+    "train/external": {
+      "dtype": "torch.float32",
+      "has_nan": false,
+      "mean": 2.065403938293457,
+      "path": "tmp\\tracing-roots-supp-20260515\\data\\cifar10\\train\\external.pt",
+      "raw_shape": [
+        1000,
+        3000
+      ],
+      "selected_shape": [
+        1000,
+        1002
+      ],
+      "sha256": "4f5a54efb8683237691c79f71f72fccc787db4e32fe9352faa6f528f111bc7bd",
+      "std": 45.535545349121094
+    },
+    "train/member": {
+      "dtype": "torch.float32",
+      "has_nan": false,
+      "mean": 2.0723798274993896,
+      "path": "tmp\\tracing-roots-supp-20260515\\data\\cifar10\\train\\member.pt",
+      "raw_shape": [
+        1000,
+        3000
+      ],
+      "selected_shape": [
+        1000,
+        1002
+      ],
+      "sha256": "f02f16a02d80c067865d7902d653eed65676c73f1472fb7f04b090d3afb89ebe",
+      "std": 46.1059684753418
+    }
+  },
+  "train": {
+    "final_accuracy": 0.7759999781847,
+    "final_loss": 0.48203338682651525,
+    "n_features": 1002,
+    "n_samples": 2000
+  }
+}
