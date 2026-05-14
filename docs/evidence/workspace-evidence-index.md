@@ -7,9 +7,9 @@ This index separates current track state from archived research history.
 Latest Research update:
 [secmi-ldm-asset-verdict-20260514.md](secmi-ldm-asset-verdict-20260514.md)
 records that `jinhaoduan/SecMI-LDM` is a SecMI support-family Diffusers fork
-with local-only checkpoint, dataset, and split assumptions. It is not a clean
-Lane A second asset, releases no download or GPU task, and adds no
-Platform/Runtime row.
+with public SharePoint dataset/checkpoint links, but not an independent Lane A
+second asset. It releases no download or GPU task and adds no Platform/Runtime
+row.
 
 | Track | Active docs | Role |
 | --- | --- | --- |
