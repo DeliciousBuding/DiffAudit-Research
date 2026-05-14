@@ -46,6 +46,11 @@
   software snapshot, but synthesized samples are request-gated and no target
   LDM checkpoint, exact per-sample member/nonmember manifest, or generated
   response package is published. No download or GPU work is released.
+- `jinhaoduan/SecMI-LDM` is a SecMI support-family Diffusers fork, not a clean
+  Lane A second asset. Its public scripts assume local Pokémon/COCO/LAION
+  datasets, local split files, and a local `sd-pokemon-checkpoint`; no
+  checkpoint, exact member/nonmember manifest, or query/response package is
+  published. No download or GPU work is released.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -135,3 +140,12 @@ Current memorization-LDM follow-up:
   generated sample or query/response package.
 - Do not download medical datasets, request controlled synthesized samples, or
   train/reconstruct the paper pipeline inside the current roadmap cycle.
+
+Current SecMI-LDM follow-up:
+
+- Keep it as related SecMI support-family reference only.
+- Reopen only if a public-safe artifact exposes a hashable LDM checkpoint or
+  deterministic recreation recipe, exact member/nonmember manifests, and a
+  generated response or query/response package.
+- Do not download or reconstruct the Pokémon checkpoint, scrape LAION/COCO
+  assets, or package this fork as an independent second asset.
