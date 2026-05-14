@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `SecMI-LDM asset gate is a support-family Diffusers fork with local-only checkpoint/split assumptions after weak Fashion-MNIST score-Jacobian sensitivity and request-gated memorization-LDM; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `R125 DreamBooth forensics asset gate is GDrive-private and artifact-incomplete after SecMI-LDM same-author support-family verdict, weak Fashion-MNIST score-Jacobian sensitivity, and request-gated memorization-LDM; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -171,6 +171,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   response-contract candidate unless the task is explicitly SecMI-LDM
   reproducibility maintenance or new independent target/split/query-response
   artifacts appear.
+- `ronketer/diffusion-membership-inference` is a public DreamBooth/LoRA
+  course-notebook forensics example, not a clean Lane A second asset. It embeds
+  a six-image reconstruction-MSE demonstration, but the target LoRA checkpoint
+  and forensics images live under private Colab/GDrive paths. Do not recreate
+  the DreamBooth run, scrape report images into a pseudo-split, or treat the
+  six scalar MSE values as a DiffAudit score packet unless public target,
+  split, and query artifacts appear.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
