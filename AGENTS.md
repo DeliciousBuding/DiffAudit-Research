@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Fashion-MNIST score-Jacobian sensitivity scout is weak and closed after memorization-LDM asset gate and SimA score-norm; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `SecMI-LDM asset gate is a support-family Diffusers fork with local-only checkpoint/split assumptions after weak Fashion-MNIST score-Jacobian sensitivity and request-gated memorization-LDM; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -162,6 +162,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Do not download medical datasets, request controlled samples, train the
   target LDM, or reconstruct the paper pipeline unless public-safe target,
   split, and response artifacts appear.
+- `jinhaoduan/SecMI-LDM` is a support-family SecMI LDM Diffusers fork, not a
+  clean Lane A second asset. The public surface assumes local
+  `./checkpoints/sd-pokemon-checkpoint`, local Pokémon/COCO/LAION assets, and
+  local split files, and the root README is the stock Diffusers README. Do not
+  download or reconstruct the Pokémon checkpoint, scrape LAION/COCO assets, or
+  package it as a new second response-contract candidate unless public
+  target/split/query-response artifacts appear.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
