@@ -18,6 +18,10 @@
   are both weak (`AUC = 0.515137` and `0.511719`, zero low-FPR recovery); do
   not expand timestep, `p`-norm, perturbation-scale, seed, scheduler, norm, or
   packet-size variants.
+- Official SimA status: code-public watch-plus. The upstream release defines a
+  distinct denoiser-output score-norm attack, but public split manifests,
+  checkpoints, score arrays, ROC/metric artifacts, and a ready verifier are
+  missing; no GPU job is released.
 - MoFit status: mechanism-relevant caption-free gray-box route, but public code
   instructions are still `TBW` and target/split artifacts are missing. Do not
   implement surrogate/embedding optimization from scratch or release GPU.
@@ -37,6 +41,9 @@ Current SecMI admission boundary:
 
 Current archived paper-candidate reentry review:
 [../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md).
+
+Current official SimA artifact gate:
+[../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md).
 
 Current MoFit artifact verdict:
 [../../docs/evidence/mofit-artifact-verdict-20260513.md](../../docs/evidence/mofit-artifact-verdict-20260513.md).

@@ -11,6 +11,9 @@
   `DDIMrediffuse` bundle and 750k checkpoint.
 - `SIMA / Noise-as-Probe / MoFit / Structural Memorization`: archived
   paper-backed candidates; reentry review keeps them on hold.
+- `Official SimA`: code-public watch-plus after the 2026-05-15 artifact gate;
+  still not executable because public split manifests, checkpoints, score
+  arrays, ROC/metric artifacts, and a ready verifier are missing.
 - `Fashion-MNIST SimA score-norm`: weak fresh mechanism scout on a real
   train/test split (`AUC = 0.515137`, `TPR@1%FPR = 0.0`); no timestep, `p`-norm,
   seed, scheduler, or packet-size expansion.
@@ -70,7 +73,8 @@ Current evidence:
   weak standalone metrics and unstable strict-tail pairboard gains. The
   2026-05-14 Fashion-MNIST DDPM score-norm scout and local score-Jacobian
   sensitivity scout also failed, with `AUC = 0.515137` and `0.511719` plus zero
-  low-FPR recovery.
+  low-FPR recovery. The 2026-05-15 official SimA release gate found useful
+  score-based code but no public split/checkpoint/score packet.
   Noise-as-Probe is sensitive to guidance leakage; MoFit remains canary-only;
   Structural Memorization is negative on the local smoke. None releases GPU.
 
@@ -87,6 +91,9 @@ Do not reopen SIMA, Noise-as-Probe, MoFit, or Structural Memorization without
 a genuinely new low-FPR-primary observable or protocol. Do not expand the
 Fashion-MNIST SimA or score-Jacobian checks into timestep, `p`-norm,
 perturbation-scale, seed, scheduler, norm, or packet-size matrices.
+Do not run official SimA GPU jobs, request checkpoints by email, or rebuild its
+DDPM/SD targets from scratch unless public split/checkpoint/score artifacts
+appear.
 
 Canonical consolidation:
 [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md).
@@ -103,6 +110,9 @@ scorer, surface, or falsifier before it can become CPU-active again.
 
 Fashion-MNIST SimA score-norm closure is tracked by
 [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md).
+
+Official SimA artifact gate is tracked by
+[../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md).
 
 Fashion-MNIST score-Jacobian sensitivity closure is tracked by
 [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md).
