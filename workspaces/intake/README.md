@@ -4,6 +4,13 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- StablePrivateLoRA / `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus
+  candidate because it exposes MP-LoRA/SMP-LoRA code and public dataset split
+  payloads. It still is not executable in the current cycle: scripts expect a
+  local SD-v1.5 base model, train LoRA variants for `400` epochs, and the repo
+  does not commit trained LoRA/checkpoints, raw attack scores, ROC CSVs, metric
+  JSON, generated responses, or a ready verifier command. No dataset/model
+  download or GPU work is released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -126,6 +133,17 @@ Current MIDM follow-up:
 - Do not download FFHQ thumbnails, request or scrape checkpoint access, train
   MIDM DDPM, run loss/likelihood scoring from scratch, or promote MIDM into
   Platform/Runtime rows inside the current roadmap cycle.
+
+Current StablePrivateLoRA follow-up:
+
+- Keep it as defense watch-plus, not an execution target.
+- Reopen only if public artifacts bind MP-LoRA/SMP-LoRA/LoRA checkpoints to
+  fixed splits and include raw attack scores, ROC/metric artifacts, or a
+  verifier command that does not require training SD-v1.5 LoRAs from scratch.
+- Do not clone or download the large dataset image payloads, SD-v1.5 base
+  model, LoRA checkpoints, generated images, or logs; do not train
+  MP-LoRA/SMP-LoRA, OCR table PNGs into admitted metrics, or promote it into
+  Platform/Runtime defense rows inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 

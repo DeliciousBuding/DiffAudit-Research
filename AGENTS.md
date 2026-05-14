@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `MIDM artifact gate closed as split-and-metric-code-present but score-packet-missing after cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `StablePrivateLoRA defense artifact gate closed as split-payload-present but score-artifacts-missing after MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -145,10 +145,19 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   scratch before those artifacts exist.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
-  Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, and MIDM, are
+  Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, MIDM, and
+  StablePrivateLoRA, are
   limitations or future-work hooks only. Platform/Runtime and paperization
   admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
   `GSA`, and `DPDM W-1`.
+- `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus candidate with public
+  dataset split payloads and MP-LoRA/SMP-LoRA training code. It is not an
+  execution target because the repo does not ship trained LoRA/checkpoint
+  hashes, raw per-sample attack scores, ROC CSVs, metric JSON, generated
+  responses, or a ready verifier command. Do not clone or download the large
+  dataset payloads, SD-v1.5 base model, LoRA checkpoints, generated images, or
+  logs; do not train MP-LoRA/SMP-LoRA or promote it into Platform/Runtime
+  defense rows unless public checkpoint-bound score artifacts appear.
 - `HailongHuPri/MIDM` is an image-diffusion watch-plus candidate with concrete
   FFHQ DDPM loss/likelihood attack code, `ffhq_1000_idx.npy` member-index
   semantics, `1000/1000` labels in `Example.ipynb`, and fixed-FPR TPR metric

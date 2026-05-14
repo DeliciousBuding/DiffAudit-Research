@@ -8,6 +8,15 @@ notes should stay archived unless needed for active work.
 Defense results must report low-FPR behavior and adaptive-attacker limitations
 before being promoted to public evidence.
 
+StablePrivateLoRA is defense watch-plus only. Its public repo exposes
+MP-LoRA/SMP-LoRA code and dataset split payloads, but no released
+LoRA/checkpoint hashes, raw attack scores, ROC/metric artifacts, generated
+responses, or ready verifier command. Do not clone/download the large dataset
+payloads, SD-v1.5, LoRA checkpoints, generated images, or logs; do not train
+MP-LoRA/SMP-LoRA or promote defense rows until checkpoint-bound score artifacts
+exist. See
+[../../docs/evidence/stableprivatelora-defense-artifact-gate-20260515.md](../../docs/evidence/stableprivatelora-defense-artifact-gate-20260515.md).
+
 The current I-B risk-targeted unlearning successor scope is on hold. Existing
 full-split attack-side reviews show small metric reductions, but they are not
 defense-aware because defended shadows were not retrained. See
