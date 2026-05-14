@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `SecMI-LDM asset gate is support-family/artifact-incomplete after weak Fashion-MNIST score-Jacobian sensitivity and request-gated memorization-LDM` |
+| Active work | `R125 DreamBooth forensics asset gate is GDrive-private/artifact-incomplete after SecMI-LDM support-family verdict` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected |
@@ -36,6 +36,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Fashion-MNIST DDPM score-Jacobian sensitivity | gray-box | closed / weak metric verdict | clean train/test split and denoiser local input-sensitivity access produced a real `64/64` CUDA scout | `AUC = 0.511719` and both low-FPR metrics are zero | do not expand timestep, perturbation-scale, seed, scheduler, norm, or packet-size matrices |
 | memorization-LDM medical asset | intake / Lane A | watch / artifact-incomplete | public code and Zenodo software snapshot exist for patient-imaging LDM memorization detection | synthesized samples are request-gated; no target LDM checkpoint, exact member/nonmember manifests, or generated response package is public | do not download medical datasets, request controlled samples, train target LDMs, or release GPU until public-safe target/split/response artifacts exist |
 | SecMI-LDM LDM fork | intake / Lane A | support-family / no independent second asset | public repo exposes a Diffusers fork, SecMI-style LDM scripts, and README SharePoint links for datasets plus Pokémon fine-tuned SD checkpoint | this repeats the existing same-author SecMI support family and does not create an independent second asset or black-box response contract | do not download the SharePoint zips, scrape LAION/COCO assets, or treat it as an independent second asset unless explicit SecMI-LDM reproducibility maintenance is selected |
+| R125 DreamBooth forensics notebook | intake / Lane A | watch / artifact-incomplete | public repo exposes DreamBooth/LoRA notebook code, report media, and six embedded reconstruction-MSE scores | target LoRA checkpoint and six-image forensics query set are private Colab/GDrive artifacts; no manifest or score JSON is released | do not recreate the private run, scrape report images, or treat embedded scalar scores as a DiffAudit packet |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
@@ -63,8 +64,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 - `latest trigger`: score-Jacobian sensitivity tested a genuinely different
   local denoiser response surface, but the CUDA result is weak and closes the
   route before any matrix expansion. The latest Lane A asset gate,
-  `jinhaoduan/SecMI-LDM`, is same-author SecMI support material with public
-  dataset/checkpoint links but does not release independent second-asset
+  `ronketer/diffusion-membership-inference`, is a course-notebook forensics
+  example with private GDrive target/query artifacts and does not release
   download or GPU work.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only weak gray-box scout
@@ -73,6 +74,7 @@ Current evidence:
 
 - [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
 - [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md)
+- [../../docs/evidence/ronketer-dreambooth-asset-verdict-20260514.md](../../docs/evidence/ronketer-dreambooth-asset-verdict-20260514.md)
 - [../../docs/evidence/secmi-ldm-asset-verdict-20260514.md](../../docs/evidence/secmi-ldm-asset-verdict-20260514.md)
 - [../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md](../../docs/evidence/post-midfreq-next-lane-reselection-20260512.md)
 - [../../docs/evidence/secmi-consumer-contract-review-20260512.md](../../docs/evidence/secmi-consumer-contract-review-20260512.md)
