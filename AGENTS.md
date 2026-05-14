@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `StyleMI asset gate closed as paper-only / artifact-incomplete after cross-modal watch consumer boundary sync; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `CDI official artifact gate closed as code-public / dataset-inference semantic shift / large-assets-required after StyleMI paper-only asset gate; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -202,6 +202,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   packets, or score files. Do not train style LoRAs, scrape artist images, or
   invent style/member splits unless public-safe target/split/response artifacts
   appear.
+- Official CDI / `sprintml/copyrighted_data_identification` is code-public and
+  scientifically relevant as a dataset-inference pivot, but it is not an
+  automatic execution target. The public tree has no ready small score packet,
+  and the intended setup requires Google Drive model checkpoints, ImageNet,
+  MS-COCO 2014, COCO text embeddings, and submodule payloads. Do not download
+  these assets or release GPU unless DiffAudit explicitly opens a
+  dataset-inference lane with frozen checkpoint hashes, bounded member/nonmember
+  ID manifests, `P` size, p-value/low-FPR metric, and a consumer-boundary note
+  separating dataset-level evidence from per-sample membership rows.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
