@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD identity-manifest gate completed after official inter-output replay and StablePrivateLoRA defense artifact gate; CLiD replay is strong, but public GitHub/HF metadata does not bind numeric score rows to immutable COCO image identities, authenticated HF ZIP HEAD/Range returned 403, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `FMIA OpenReview frequency artifact gate completed after CLiD identity-manifest gate; FMIA has official frequency-filter attack code and exact split manifests but no trained checkpoints, score arrays, ROC/metric artifacts, or ready verifier packet, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -163,6 +163,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   XGBoost sweeps, prompt-shuffle matrices, or promote CLiD into
   Platform/Runtime admitted rows without an image-identity-safe protocol and
   product-bridge handoff.
+- FMIA / `Unveiling the Impact of Frequency Components on Membership Inference
+  Attacks for Diffusion Models` is watch-plus only. The OpenReview supplement
+  is small and ships frequency-filter DDIM/Stable Diffusion attack code plus
+  exact `CIFAR10`, `CIFAR100`, `STL10-Unlabeled`, and `TINY-IN` split
+  manifests, but it does not ship trained checkpoints, Stable Diffusion
+  weights, generated samples, `pos_result.npy` / `neg_result.npy`, ROC CSVs,
+  metric JSON, or ready score packets. Do not download datasets, train FMIA
+  DDIM targets, fine-tune Stable Diffusion, run filter/timestep matrices, or
+  promote FMIA into Platform/Runtime admitted rows without ready score artifacts
+  and a product-bridge handoff.
 - `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus candidate with public
   dataset split payloads and MP-LoRA/SMP-LoRA training code. It is not an
   execution target because the repo does not ship trained LoRA/checkpoint
