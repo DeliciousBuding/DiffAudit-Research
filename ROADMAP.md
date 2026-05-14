@@ -2,6 +2,28 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 MIDST Blending++ Official Score-Export Scout
+
+The public CITADEL/UQAM `ensemble-mia` repository was checked as a genuinely
+different MIDST TabDDPM black-box scorer, not as another local feature sweep. It
+ships official `rmia_scores_k_5.csv` and Blending++ prediction exports, so
+`scripts/probe_midst_blending_plus_plus_scout.py` only reads CSVs and local
+labels from the MIDST challenge bundle.
+
+Decision: `borderline_best_midst_so_far_but_below_auc_reopen_gate`. Blending++
+is the strongest MIDST score observed so far: dev+final `40` model folders,
+`8000` challenge rows, `AUC = 0.598079`, `ASR = 0.563500`,
+`TPR@1%FPR = 0.095750`, and `TPR@0.1%FPR = 0.048250`. The separate RMIA export
+is weak (`dev+final AUC = 0.513076`), so the lift comes from the ensemble.
+
+This updates the MIDST boundary from "all mechanisms weak" to "one official
+runner-up ensemble is borderline and has meaningful tail recovery, but still
+misses the `0.60` AUC reopen floor." No XGBoost / Optuna retraining, Gower
+feature-matrix variants, TabSyn, multi-table MIDST, Platform/Runtime admitted
+row, or GPU release is allowed. Current slots: `active_gpu_question = none`,
+`next_gpu_candidate = none`, `CPU sidecar = none selected after MIDST Blending++
+official score-export scout`.
+
 ## 2026-05-15 SecMI / PIA Adaptive Comparability Board
 
 SecMI admission was reopened only for a CPU-only comparability board, not a new
@@ -861,14 +883,14 @@ P0 结论:
 4. **GPU release 不再走"CPU-first scoping"反复流程**:P0 step 3 完成 → step 4 直接释放 GPU(`active_gpu_question` 升为 `commoncanvas-recon-50/50`)。RTX 4070 闲置写 prose 是研究失败,不是审慎。
 5. **不再写"反思 / taste reset / 路线纠偏"长 doc**:这种 doc 本身就是新一轮"差生文具多"。本节是当前唯一有效的纠偏 source-of-truth,直到 P0 出结果为止。
 
-### Sync 字段(2026-05-15 post-SecMI-PIA-board;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
+### Sync 字段(2026-05-15 post-MIDST-Blending++;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
 
 | Field | 2026-05-15 value |
 | --- | --- |
-| Active work | SecMI/PIA adaptive comparability board completed from existing summaries and aligned score exports. SecMI stat beats PIA by `+0.045617` / `+0.044347` AUC on aligned `1024/1024` and `2048/2048` checks, but rank correlation remains high (`0.907581` / `0.906879` Spearman) and binary disagreement is about `12%`; verdict is `keep_secmi_as_supporting_reference`. Prior MIDST TabDDPM EPT, Diffusion Memorization, ReDiffuse, Tracing Roots, CDI, CommonCanvas, Fashion-MNIST, Beans, LAION-mi, Zenodo, Noise as a Probe, MIAGM, and Quantile Regression lines remain closed/hold unless a new manifest-backed target/split/response or score packet appears. |
-| Active GPU question | none selected after SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT weak transfer, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/MIDST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| Active work | MIDST Blending++ official score-export scout completed from public CITADEL/UQAM `ensemble-mia` CSVs and local challenge labels. Blending++ is the strongest MIDST result so far (`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`, `TPR@0.1%FPR = 0.048250`) but remains just below the `0.60` AUC reopen floor; verdict is `borderline_best_midst_so_far_but_below_auc_reopen_gate`. SecMI/PIA adaptive comparability board remains support-only; prior Diffusion Memorization, ReDiffuse, Tracing Roots, CDI, CommonCanvas, Fashion-MNIST, Beans, LAION-mi, Zenodo, Noise as a Probe, MIAGM, and Quantile Regression lines remain closed/hold unless a new manifest-backed target/split/response or score packet appears. |
+| Active GPU question | none selected after MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after SecMI/PIA adaptive comparability board. SecMI remains support-only because current artifacts lack bounded repeated-query adaptive review, admitted-row cost schema, and an NNS product-facing scorer contract. Do not release SecMI GPU, promote NNS, change Platform/Runtime admitted bundle, or run learned fusion/gating. |
+| CPU sidecar | none selected after MIDST Blending++ official score-export scout. Do not expand into XGBoost / Optuna retraining, Gower feature-matrix variants, TabSyn, multi-table MIDST, Platform/Runtime admitted rows, SecMI GPU, NNS promotion, or learned fusion/gating. |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -885,10 +907,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `SecMI/PIA adaptive comparability board completed from existing summaries and aligned score exports. SecMI stat beats PIA by +0.045617 / +0.044347 AUC on aligned 1024/1024 and 2048/2048 checks, but rank correlation remains high (0.907581 / 0.906879 Spearman) and binary disagreement is about 12%; verdict is keep_secmi_as_supporting_reference. Prior MIDST TabDDPM EPT, Diffusion Memorization, ReDiffuse, Tracing Roots, CDI, CommonCanvas, Fashion-MNIST, Beans, LAION-mi, Zenodo, Noise as a Probe, MIAGM, and Quantile Regression lines remain closed/hold unless a new manifest-backed target/split/response or score packet appears.` |
+| Active work | `MIDST Blending++ official score-export scout completed from public CITADEL/UQAM ensemble-mia CSVs and local challenge labels. Blending++ is the strongest MIDST result so far (dev+final AUC = 0.598079, TPR@1%FPR = 0.095750, TPR@0.1%FPR = 0.048250) but remains just below the 0.60 AUC reopen floor; verdict is borderline_best_midst_so_far_but_below_auc_reopen_gate. SecMI/PIA adaptive comparability board remains support-only; prior Diffusion Memorization, ReDiffuse, Tracing Roots, CDI, CommonCanvas, Fashion-MNIST, Beans, LAION-mi, Zenodo, Noise as a Probe, MIAGM, and Quantile Regression lines remain closed/hold unless a new manifest-backed target/split/response or score packet appears.` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected after SecMI/PIA adaptive comparability board; SecMI remains support-only because current artifacts lack bounded repeated-query adaptive review, admitted-row cost schema, and an NNS product-facing scorer contract. Do not release SecMI GPU, promote NNS, change Platform/Runtime admitted bundle, or run learned fusion/gating. |
-| Active GPU question | none after SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT weak transfer, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/MIDST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| CPU sidecar | none selected after MIDST Blending++ official score-export scout. Do not expand into XGBoost / Optuna retraining, Gower feature-matrix variants, TabSyn, multi-table MIDST, Platform/Runtime admitted rows, SecMI GPU, NNS promotion, or learned fusion/gating. |
+| Active GPU question | none after MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
@@ -1347,7 +1369,7 @@ Every autonomous research cycle must follow this loop:
 | StyleMI asset verdict | watch / paper-only | IEEE Access 2025 DOI metadata confirms a style-mimicry / fine-tuned diffusion membership-relevant paper, but no public code, target checkpoint, artist/image split manifest, generated images, feature packets, or score files were found; no style LoRA training, artist scraping, feature-packet construction, download, or GPU release. |
 | True second membership benchmark | hold / needs genuinely different mechanism | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit, weakens at `16 / 64`, and oracle gradient-prototype alignment is random at `64 / 64`; no GPU. |
 | CopyMark external benchmark intake | ready-but-weak / no admitted promotion | Local CommonCanvas/CommonCatalog query split and deterministic `50/50` text-to-image responses are ready. Pixel distance is weak (`AUC = 0.5736`, `TPR@1%FPR = 0.04`), the single CLIP image-similarity follow-up is weak (`AUC = 0.4588`, zero low-FPR recovery), prompt-response consistency is weak (`AUC = 0.4408`), and multi-seed response stability is weak (`4/4`, `AUC = 0.5625`). Close this packet by default. |
-| MIDST TabDDPM external benchmark | hold / weak tabular mechanisms | MIDST black-box single-table is locally scoreable with exact labels, but nearest-synthetic-row distance gives only `dev+final AUC = 0.566263`; shadow-trained marginal distributional learning overfits train and collapses to `dev+final AUC = 0.499846`; and MIA-EPT-style error-prediction profile learns train but transfers weakly (`dev+final AUC = 0.530089`). No TabSyn, white-box MIDST, multi-table MIDST, classifier sweep, EPT config grid, or feature-matrix expansion. |
+| MIDST TabDDPM external benchmark | hold / borderline official ensemble below gate | MIDST black-box single-table is locally scoreable with exact labels. Official CITADEL/UQAM Blending++ score exports are strongest so far (`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`) but remain just below the `0.60` AUC reopen floor; prior nearest-synthetic-row, shadow-distributional, and EPT-style mechanisms are weaker. No XGBoost / Optuna retraining, Gower feature-matrix variants, TabSyn, white-box MIDST, multi-table MIDST, classifier sweep, EPT config grid, or admitted promotion. |
 | Kohaku/Danbooru external asset | hold / membership-semantics blocked | Model cards identify broad HakuBooru/Danbooru2023 training sources, but no exact target member list or fixed selection manifest is available; do not download `38-40 GB` weights or TB-scale image assets for pseudo-membership scoring. |
 | Fashion-MNIST DDPM PIA-loss, SimA score-norm, and score-Jacobian sensitivity scouts | hold / weak scout family closed | `ynwag9/fashion_mnist_ddpm_32` runs on CUDA with real Fashion-MNIST train/test split, but fixed-timestep epsilon-MSE gives only `AUC = 0.535889`, SimA single-query score-norm gives only `AUC = 0.515137`, and local score-Jacobian sensitivity gives only `AUC = 0.511719` with zero low-FPR recovery; no seed/timestep/`p`-norm/perturbation/norm/packet-size expansion. |
 | Beans member-LoRA mechanism scouts | hold / weak known-split family closed | Creating a precise `SD1.5 + Beans-member LoRA` target fixes the old pseudo-membership semantics, but conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`) and parameter-delta sensitivity is also near-random (`AUC = 0.512000`, `TPR@1%FPR = 0.040000`); no train-step/rank/resolution/prompt/timestep/layer expansion. |
@@ -1413,6 +1435,7 @@ Every autonomous research cycle must follow this loop:
 | CopyMark CommonCanvas multi-seed stability | weak bounded scout (`4/4`, `AUC = 0.5625`, `ASR = 0.625`); no seed/subset/embedding expansion | [docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md) |
 | Kohaku/Danbooru asset decision | hold; broad training-source provenance is not enough for a clean target member/nonmember split | [docs/evidence/kohaku-danbooru-asset-decision-20260513.md](docs/evidence/kohaku-danbooru-asset-decision-20260513.md) |
 | Fashion-MNIST DDPM PIA-loss scout | weak `64/64` CUDA scout on a real train/test split; no admitted promotion and no expansion | [docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md](docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md) |
+| MIDST Blending++ official score-export scout | strongest MIDST score so far but still below gate; `dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`, no XGBoost/Gower/TabSyn/multi-table expansion | [docs/evidence/midst-blending-plus-plus-scout-20260515.md](docs/evidence/midst-blending-plus-plus-scout-20260515.md) |
 | MIDST TabDDPM EPT scout | weak different tabular mechanism; train shadow `AUC = 0.851961` but dev+final `AUC = 0.530089`, so no EPT/config/TabSyn/multi-table expansion | [docs/evidence/midst-tabddpm-ept-scout-20260515.md](docs/evidence/midst-tabddpm-ept-scout-20260515.md) |
 | MIDST TabDDPM nearest-neighbor scout | weak external benchmark scout; `dev+final AUC = 0.566263` and near-zero strict-tail recovery; no admitted promotion and no expansion | [docs/evidence/midst-tabddpm-nearest-neighbor-scout-20260513.md](docs/evidence/midst-tabddpm-nearest-neighbor-scout-20260513.md) |
 | MIDST TabDDPM shadow-distributional scout | weak transfer; train shadow `AUC = 0.881991` but dev+final `AUC = 0.499846`; no classifier/feature expansion | [docs/evidence/midst-tabddpm-shadow-distributional-scout-20260513.md](docs/evidence/midst-tabddpm-shadow-distributional-scout-20260513.md) |
