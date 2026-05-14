@@ -2,6 +2,25 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 SimA Score-Based Artifact Gate
+
+Lane A/B checked the official `mx-ethan-rao/SimA` release for `Score-based
+Membership Inference on Diffusion Models` because it is a non-duplicate
+score-based MIA mechanism and the public repo claims a complete codebase. The
+repo is code-public (`MIT`, default branch `master`, latest observed push
+`2026-03-25T18:20:29Z`) and implements SimA, PIA, SecMI, PFAMI, and loss
+baselines across DDPM, Guided Diffusion, LDM, SD1.4, and SD1.5 examples.
+
+Decision: `code-public / split-and-checkpoint-links-empty /
+score-artifacts-missing / no download / no GPU release / no admitted row`.
+The README's DDPM split/checkpoint link is empty, the SD1.4 split link is
+empty and asks users to email for checkpoints, GitHub releases are empty, and
+the non-vendor tree has no `.npz`, `.npy`, checkpoint, score, ROC, metric JSON,
+or manifest artifact beyond code/notebooks/figures. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and `CPU sidecar =
+none selected after SimA score-based artifact gate`. See
+[docs/evidence/sima-scorebased-artifact-gate-20260515.md](docs/evidence/sima-scorebased-artifact-gate-20260515.md).
+
 ## 2026-05-15 FMIA OpenReview Frequency Artifact Gate
 
 Lane A/B checked the OpenReview supplement for `Unveiling the Impact of

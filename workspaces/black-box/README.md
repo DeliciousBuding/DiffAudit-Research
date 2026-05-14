@@ -48,6 +48,10 @@
 - FMIA status: OpenReview supplement has frequency-filter attack code and exact
   split manifests, but no target checkpoints, score arrays, generated samples,
   ROC CSVs, or metric artifacts; no GPU release and no admitted row.
+- SimA status: official score-based code exists, including SD1.4/SD1.5 scripts,
+  but the public release has empty split/checkpoint links, no release assets,
+  no split manifests, no target checkpoints, no score arrays, and no ready
+  verifier packet; no download, GPU release, or admitted row.
 
 ## Files
 
@@ -119,6 +123,9 @@ Current CLiD identity-manifest gate:
 
 Current FMIA OpenReview frequency artifact gate:
 [../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md](../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md).
+
+Current SimA score-based artifact gate:
+[../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md).
 
 Current response-contract package preflight:
 [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).
