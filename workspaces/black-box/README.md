@@ -45,6 +45,9 @@
   do not release images, target checkpoint, exact member/nonmember split
   manifest, or reusable query/response package; do not scrape staff images or
   train SD1.5 from this repo.
+- FMIA status: OpenReview supplement has frequency-filter attack code and exact
+  split manifests, but no target checkpoints, score arrays, generated samples,
+  ROC CSVs, or metric artifacts; no GPU release and no admitted row.
 
 ## Files
 
@@ -113,6 +116,9 @@ Current CLiD official inter-output replay:
 
 Current CLiD identity-manifest gate:
 [../../docs/evidence/clid-identity-manifest-gate-20260515.md](../../docs/evidence/clid-identity-manifest-gate-20260515.md).
+
+Current FMIA OpenReview frequency artifact gate:
+[../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md](../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md).
 
 Current response-contract package preflight:
 [../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).

@@ -20,6 +20,13 @@
   access returned `403`. No `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights,
   target/shadow checkpoints, generated images, GPU jobs, XGBoost sweeps,
   prompt-shuffle matrices, or Platform/Runtime admitted rows are released.
+- FMIA / `Unveiling the Impact of Frequency Components on Membership Inference
+  Attacks for Diffusion Models` is a watch-plus mechanism candidate. Its
+  OpenReview supplement ships frequency-filter DDIM/Stable Diffusion attack code
+  and exact CIFAR10/CIFAR100/STL10/TINY-IN split manifests, but no trained
+  checkpoints, Stable Diffusion weights, generated samples, score arrays, ROC
+  CSVs, metric JSON, or ready verifier packet. No dataset/model download or GPU
+  work is released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -165,6 +172,16 @@ Current CLiD follow-up:
 - Do not download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights,
   target/shadow checkpoints, or generated images; do not run CLiD GPU jobs,
   XGBoost sweeps, or prompt-shuffle matrices inside the current roadmap cycle.
+
+Current FMIA follow-up:
+
+- Keep it as frequency-component mechanism watch-plus, not an execution target.
+- Reopen only if public trained checkpoints or ready score arrays/ROC/metric
+  artifacts appear, or if a bounded command can use a locally admitted
+  checkpoint without training a new target from scratch.
+- Do not download datasets, train FMIA DDIM targets, fine-tune Stable Diffusion,
+  or run filter-threshold/filter-scale/timestep matrices inside the current
+  roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 
