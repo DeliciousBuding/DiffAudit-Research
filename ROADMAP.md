@@ -2,6 +2,24 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 FMIA OpenReview Frequency Artifact Gate
+
+Lane A/B checked the OpenReview supplement for `Unveiling the Impact of
+Frequency Components on Membership Inference Attacks for Diffusion Models`
+because it is a non-duplicate frequency-component mechanism and the official
+supplement is only `1,783,018` bytes. The ZIP ships FMIA DDIM/Stable Diffusion
+attack code plus exact split manifests for CIFAR10, CIFAR100, STL10-Unlabeled,
+and Tiny-ImageNet (`25k/25k` or `50k/50k` member/eval splits), but no target
+checkpoints, Stable Diffusion weights, generated samples, `pos_result.npy` /
+`neg_result.npy`, ROC CSVs, metric JSON, or ready score packet.
+
+Decision: `code-and-split-manifests-present /
+checkpoint-and-score-packets-missing / no large download / no GPU release / no
+admitted row`. FMIA becomes watch-plus mechanism evidence, not a current
+execution target. Current slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and `CPU sidecar = none selected`. See
+[docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md](docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md).
+
 ## 2026-05-15 CLiD Identity Manifest Gate
 
 Lane A/B checked whether the strong official CLiD replay could be promoted by
@@ -918,9 +936,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing the Roots feature-packet replay. CLiD official intermediate outputs replay strongly (`target AUC = 0.961277`, `TPR@1%FPR = 0.675470`) but remain prompt-conditioned candidate evidence because public metadata does not bind score rows to immutable COCO image identities. |
-| Highest-value next action | Switch back to non-duplicate asset search unless new CLiD public row-identity evidence appears. Reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only ZIP central-directory/manifest inspection without image payloads. Otherwise find a new asset exposing exact target identity, member/nonmember split artifacts, and response/score coverage. Do not reopen StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, Tracing Roots, or MIDST without the specific missing artifacts named in their latest notes. |
-| Stop condition | Do not download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, SD-v1.5, LoRA checkpoints, FFHQ thumbnails, GGDM graph datasets, Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, StablePrivateLoRA training, MIDM DDPM training, ReDiffuse training, or same-family MIDST expansions; do not change Platform/Runtime admitted rows without an image-identity-safe protocol and product-bridge handoff. |
+| CPU sidecar | none selected after FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing the Roots feature-packet replay. FMIA has official frequency-filter code and exact split manifests but no target checkpoints or score packets; CLiD official intermediate outputs replay strongly but remain prompt-conditioned candidate evidence because public metadata does not bind score rows to immutable COCO image identities. |
+| Highest-value next action | Continue non-duplicate asset search only for candidates with public target identity, member/nonmember split artifacts, and response/score coverage. Reopen FMIA only with public trained checkpoints or ready score arrays; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. Do not reopen StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, Tracing Roots, or MIDST without the specific missing artifacts named in their latest notes. |
+| Stop condition | Do not download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, GGDM graph datasets, Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, MIDM DDPM training, ReDiffuse training, or same-family MIDST expansions; do not change Platform/Runtime admitted rows without a product-bridge handoff. |
 
 ### P0 — 完成且弱
 
@@ -988,14 +1006,14 @@ P0 结论:
 4. **GPU release 不再走"CPU-first scoping"反复流程**:P0 step 3 完成 → step 4 直接释放 GPU(`active_gpu_question` 升为 `commoncanvas-recon-50/50`)。RTX 4070 闲置写 prose 是研究失败,不是审慎。
 5. **不再写"反思 / taste reset / 路线纠偏"长 doc**:这种 doc 本身就是新一轮"差生文具多"。本节是当前唯一有效的纠偏 source-of-truth,直到 P0 出结果为止。
 
-### Sync 字段(2026-05-15 post-CLiD identity-manifest gate;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
+### Sync 字段(2026-05-15 post-FMIA OpenReview artifact gate;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
 
 | Field | 2026-05-15 value |
 | --- | --- |
-| Active work | CLiD identity-manifest gate completed after the official inter-output replay. The public GitHub tree has numeric-only score rows and no committed row manifest, COCO image IDs, caption list, or `data/impt_metadata`; HF exposes only gated `mia_COCO.zip`, and authenticated HEAD/Range probes returned `403 Forbidden`. CLiD stays strong but prompt-conditioned candidate-only. |
-| Active GPU question | none selected after CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| Active work | FMIA OpenReview frequency artifact gate completed. The official supplement ships frequency-filter DDIM/Stable Diffusion attack code and exact CIFAR10/CIFAR100/STL10/TINY-IN member split manifests, but no trained checkpoints, Stable Diffusion weights, generated samples, precomputed score arrays, ROC CSVs, metric JSON, or ready verifier packet. |
+| Active GPU question | none selected after FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after CLiD identity-manifest gate. Do not download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, StablePrivateLoRA training, MIDM DDPM training, graph target training, or MIDST expansions; do not promote CLiD, SecMI, or defense rows without a product-bridge handoff and image-identity-safe protocol. |
+| CPU sidecar | none selected after FMIA OpenReview frequency artifact gate. Do not download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not promote FMIA, CLiD, SecMI, or defense rows without ready score artifacts and product-bridge handoff. |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -1012,10 +1030,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `CLiD identity-manifest gate completed after the official inter-output replay. The public GitHub tree has numeric-only score rows and no committed row manifest, COCO image IDs, caption list, or data/impt_metadata; HF exposes only gated mia_COCO.zip, and authenticated HEAD/Range probes returned 403 Forbidden. CLiD stays strong but prompt-conditioned candidate-only.` |
+| Active work | `FMIA OpenReview frequency artifact gate completed. The official supplement ships frequency-filter DDIM/Stable Diffusion attack code and exact CIFAR10/CIFAR100/STL10/TINY-IN member split manifests, but no trained checkpoints, Stable Diffusion weights, generated samples, precomputed score arrays, ROC CSVs, metric JSON, or ready verifier packet.` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected after CLiD identity-manifest gate. Do not download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, StablePrivateLoRA training, MIDM DDPM training, graph target training, or MIDST expansions. |
-| Active GPU question | none after CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| CPU sidecar | none selected after FMIA OpenReview frequency artifact gate. Do not download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets. |
+| Active GPU question | none after FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
@@ -1541,6 +1559,7 @@ Every autonomous research cycle must follow this loop:
 | CopyMark CommonCanvas multi-seed stability | weak bounded scout (`4/4`, `AUC = 0.5625`, `ASR = 0.625`); no seed/subset/embedding expansion | [docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md) |
 | Kohaku/Danbooru asset decision | hold; broad training-source provenance is not enough for a clean target member/nonmember split | [docs/evidence/kohaku-danbooru-asset-decision-20260513.md](docs/evidence/kohaku-danbooru-asset-decision-20260513.md) |
 | Fashion-MNIST DDPM PIA-loss scout | weak `64/64` CUDA scout on a real train/test split; no admitted promotion and no expansion | [docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md](docs/evidence/fashion-mnist-ddpm-pia-loss-scout-20260513.md) |
+| FMIA OpenReview frequency artifact gate | official supplement has frequency-filter attack code and exact split manifests, but no checkpoints, generated samples, score arrays, ROC CSVs, or metric artifacts; no GPU release | [docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md](docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md) |
 | CLiD identity-manifest gate | official score replay cannot be promoted because public metadata does not bind numeric score rows to immutable COCO image identities; authenticated HF ZIP HEAD/Range returned `403` | [docs/evidence/clid-identity-manifest-gate-20260515.md](docs/evidence/clid-identity-manifest-gate-20260515.md) |
 | CLiD official inter-output replay | official CPU score packet replay is strong (`target AUC = 0.961277`, `TPR@1%FPR = 0.675470`) but remains prompt-conditioned candidate-only; no GPU release or admitted row | [docs/evidence/clid-official-inter-output-replay-20260515.md](docs/evidence/clid-official-inter-output-replay-20260515.md) |
 | StablePrivateLoRA defense artifact gate | defense watch-plus with public split payloads and MP-LoRA/SMP-LoRA training code, but no released LoRA/checkpoints, raw attack scores, ROC/metric artifacts, or ready verifier; no download or GPU release | [docs/evidence/stableprivatelora-defense-artifact-gate-20260515.md](docs/evidence/stableprivatelora-defense-artifact-gate-20260515.md) |

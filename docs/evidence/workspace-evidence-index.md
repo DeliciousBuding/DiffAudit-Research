@@ -5,12 +5,12 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
-[clid-identity-manifest-gate-20260515.md](clid-identity-manifest-gate-20260515.md)
-records the CLiD identity-manifest gate after the strong official replay. The
-public score rows are numeric-only, the GitHub tree has no committed row
-manifest or COCO image-id binding, and authenticated HF ZIP HEAD/Range probes
-returned `403`, so CLiD remains prompt-conditioned candidate-only with no large
-download, GPU job, or Platform/Runtime admitted row.
+[fmia-openreview-frequency-artifact-gate-20260515.md](fmia-openreview-frequency-artifact-gate-20260515.md)
+records the FMIA OpenReview frequency artifact gate. The official supplement
+has frequency-filter attack code and exact split manifests, but no trained
+checkpoints, Stable Diffusion weights, generated samples, score arrays, ROC
+CSVs, metric JSON, or ready verifier packet, so it does not release GPU work or
+Platform/Runtime admitted rows.
 
 | Track | Active docs | Role |
 | --- | --- | --- |
