@@ -24,12 +24,13 @@ H2/simple-distance, CLiD, black-box response-contract acquisition, I-B, and I-C
 are candidate, supporting-reference, negative, hold, or needs-assets states.
 Recent second-asset and mechanism checks are also Research-only: CommonCanvas /
 CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
-Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM, SAMA
-diffusion-language-model membership, VidLeaks text-to-video membership, and
-GGDM graph generative diffusion membership are weak, watch, metadata-only,
-related-method, out-of-scope, score-packet-missing, or artifact-incomplete
-lines. They do not change admitted rows, Runtime schemas, recommendation logic,
-or Platform product copy.
+Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM,
+StablePrivateLoRA, SAMA diffusion-language-model membership, VidLeaks
+text-to-video membership, and GGDM graph generative diffusion membership are
+weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
+score-packet-missing, or artifact-incomplete lines. They do not change admitted
+rows, Runtime schemas, recommendation logic, defense claims, or Platform
+product copy.
 See
 [../evidence/paperization-consumer-boundary-20260513.md](../evidence/paperization-consumer-boundary-20260513.md)
 and
