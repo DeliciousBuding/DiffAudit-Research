@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `R125 DreamBooth forensics asset gate is GDrive-private and artifact-incomplete after SecMI-LDM same-author support-family verdict, weak Fashion-MNIST score-Jacobian sensitivity, and request-gated memorization-LDM; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `SAMA diffusion-language-model asset gate is out-of-scope/code-only after R125 DreamBooth, SecMI-LDM, Fashion-MNIST score-Jacobian sensitivity, and request-gated memorization-LDM verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -178,6 +178,14 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   the DreamBooth run, scrape report images into a pseudo-split, or treat the
   six scalar MSE values as a DiffAudit score packet unless public target,
   split, and query artifacts appear.
+- `Stry233/SAMA` is a diffusion-language-model membership attack codebase, not
+  a clean image/latent-image Lane A second asset. It exposes dataset
+  preparation, target DLM training, and SAMA/baseline attack code, but no
+  released target DLM checkpoint, exact member/nonmember manifest, response
+  packet, or score metadata bundle. Do not download gated language models,
+  prepare MIMIR/NLP subsets, train DLM targets, or launch SAMA GPU jobs unless
+  DiffAudit explicitly opens a text/DLM membership lane or a public target/split
+  artifact appears.
 - Zenodo `10.5281/zenodo.14928092` is the admitted-family white-box GSA
   artifact archive, not a new Lane A second asset. Do not download the `6.7 GB`
   `DDPM.zip`, rerun GSA GPU, expand GSA loss-score/gradient ablations, or
