@@ -2,6 +2,28 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 FERMI Tabular Artifact Gate
+
+Tabular intake checked arXiv `2605.11527` / `FERMI: Exploiting Relations for
+Membership Inference Against Tabular Diffusion Models` because it is a fresh
+multi-relational tabular diffusion MIA paper and could otherwise look like a
+reason to reopen the MIDST/tabular lane. The arXiv source is `7,181,010` bytes,
+SHA256 `2951549e2b1fb0b1ecfbac8085e73b1a7df7f6345a04b52d8a6f859e39d8c034`,
+and has `17` TeX/figure entries. It reports strong paper metrics across
+TabDDPM, TabDiff, and TabSyn on Berka, Instacart 05, and California; for
+example, black-box California TabDDPM FERMI reports `AUC = .725`,
+`TPR@0.1 = .424`, and `TPR@0.01 = .250`.
+
+Decision: `multi-relational tabular watch / arXiv-source-only / no public
+code-score artifact / no download / no GPU release`. The source bundle contains
+no GitHub/Zenodo/Hugging Face URL, no code tree, no configs, no target/split
+manifests, no generated synthetic tables, no feature/score rows, no ROC arrays,
+and no metric JSON. FERMI is a real mechanism watch item, but it does not
+release a DiffAudit execution task and does not reopen MIDST from scratch.
+Current slots remain `active_gpu_question = none`, `next_gpu_candidate = none`,
+and `CPU sidecar = none selected after FERMI tabular artifact gate`. See
+[docs/evidence/fermi-tabular-artifact-gate-20260515.md](docs/evidence/fermi-tabular-artifact-gate-20260515.md).
+
 ## 2026-05-15 DurMI TTS Artifact Gate
 
 Cross-modal intake checked OpenReview `NvHFk2D2g3` / Zenodo
@@ -1071,14 +1093,14 @@ P0 结论:
 4. **GPU release 不再走"CPU-first scoping"反复流程**:P0 step 3 完成 → step 4 直接释放 GPU(`active_gpu_question` 升为 `commoncanvas-recon-50/50`)。RTX 4070 闲置写 prose 是研究失败,不是审慎。
 5. **不再写"反思 / taste reset / 路线纠偏"长 doc**:这种 doc 本身就是新一轮"差生文具多"。本节是当前唯一有效的纠偏 source-of-truth,直到 P0 出结果为止。
 
-### Sync 字段(2026-05-15 post-DurMI TTS artifact gate;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
+### Sync 字段(2026-05-15 post-FERMI tabular artifact gate;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
 
 | Field | 2026-05-15 value |
 | --- | --- |
-| Active work | DurMI TTS artifact gate completed. The OpenReview supplement ships GradTTS/WaveGrad2/VoiceFlow attack code and an exact GradTTS LJSpeech `5,977 / 5,977` member/nonmember split, while Zenodo publishes open dataset/checkpoint metadata; it remains TTS/audio cross-modal watch-plus because no ready duration-loss score arrays, ROC arrays, metric JSON, or generated result graphs are released. |
-| Active GPU question | none selected after DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| Active work | FERMI tabular artifact gate completed. The arXiv source reports strong multi-relational tabular diffusion MIA metrics for TabDDPM/TabDiff/TabSyn, but the public surface is paper-source only: no code tree, target/split manifests, generated synthetic tables, feature/score rows, ROC arrays, metric JSON, or replay command. |
+| Active GPU question | none selected after FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after DurMI TTS artifact gate. Do not download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not promote DurMI, FMIA, CLiD, SecMI, or defense rows without ready score artifacts and product-bridge handoff. |
+| CPU sidecar | none selected after FERMI tabular artifact gate. Do not implement FERMI from scratch, train TabDDPM/TabDiff/TabSyn/surrogate models, download relational tabular datasets for FERMI, download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets; do not promote FERMI, DurMI, FMIA, CLiD, SecMI, or defense rows without ready score artifacts and product-bridge handoff. |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -1095,10 +1117,10 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `DurMI TTS artifact gate completed. The OpenReview supplement ships GradTTS/WaveGrad2/VoiceFlow attack code and an exact GradTTS LJSpeech 5,977/5,977 member/nonmember split, while Zenodo publishes open dataset/checkpoint metadata; it remains TTS/audio cross-modal watch-plus because no ready duration-loss score arrays, ROC arrays, metric JSON, or generated result graphs are released.` |
+| Active work | `FERMI tabular artifact gate completed. The arXiv source reports strong multi-relational tabular diffusion MIA metrics for TabDDPM/TabDiff/TabSyn, but the public surface is paper-source only: no code tree, target/split manifests, generated synthetic tables, feature/score rows, ROC arrays, metric JSON, or replay command.` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected after DurMI TTS artifact gate. Do not download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets. |
-| Active GPU question | none after DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
+| CPU sidecar | none selected after FERMI tabular artifact gate. Do not implement FERMI from scratch, train TabDDPM/TabDiff/TabSyn/surrogate models, download relational tabular datasets for FERMI, download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, or graph datasets. |
+| Active GPU question | none after FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
 Current objective: stop turning weak or blocked lines into larger engineering
@@ -1554,6 +1576,7 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse OpenReview split manifests | hold / checkpoint-and-score missing | Official OpenReview supplement ships DDPM split index manifests for CIFAR10/CIFAR100/STL10/Tiny-IN, but no target checkpoint, response/feature cache, or score packet; do not train targets or rerun same-family attack scripts from scratch. |
 | Tracing the Roots feature-packet MIA | positive-but-provenance-limited / no admitted promotion | OpenReview supplement ships fixed CIFAR10 train/eval member/external diffusion-trajectory feature tensors and replay code; bounded linear replay gives `AUC = 0.815826` and `TPR@1%FPR = 0.134000`, but raw target checkpoint/sample IDs and image query-response assets are missing, so do not expand matrices or promote to Platform/Runtime. |
 | CDI official artifact gate | hold / dataset-inference semantic shift | Official `sprintml/copyrighted_data_identification` code exists, but the public tree has no ready small score packet and the intended setup needs Google Drive model checkpoints, ImageNet, MS-COCO 2014, COCO text embeddings, and submodules; do not download or release GPU unless a dataset-inference lane is explicitly opened with a consumer-boundary decision. |
+| FERMI multi-relational tabular artifact gate | watch / arXiv-source-only | arXiv `2605.11527` reports strong TabDDPM/TabDiff/TabSyn relational MIA metrics, but the public source bundle has no code tree, target/split manifests, generated synthetic tables, feature/score rows, ROC arrays, metric JSON, or replay command; no FERMI implementation, tabular dataset download, model training, GPU job, Platform row, or Runtime schema change. |
 | DurMI TTS artifact gate | TTS/audio cross-modal watch-plus / no execution release | OpenReview supplement ships GradTTS/WaveGrad2/VoiceFlow attack code and an exact GradTTS LJSpeech `5,977 / 5,977` member/nonmember split; Zenodo publishes open dataset/checkpoint metadata, but no ready duration-loss score arrays, ROC arrays, metric JSON, generated result graphs, or TTS/audio consumer lane exists. No dataset/checkpoint download, TextGrid fetch, TTS attack run, GPU job, Platform row, or Runtime schema change. |
 | StyleMI asset verdict | watch / paper-only | IEEE Access 2025 DOI metadata confirms a style-mimicry / fine-tuned diffusion membership-relevant paper, but no public code, target checkpoint, artist/image split manifest, generated images, feature packets, or score files were found; no style LoRA training, artist scraping, feature-packet construction, download, or GPU release. |
 | True second membership benchmark | hold / needs genuinely different mechanism | MNIST public-checkpoint raw/x0 and raw-MSE known-split scouts are weak; gradient norm is positive only under extreme overfit, weakens at `16 / 64`, and oracle gradient-prototype alignment is random at `64 / 64`; no GPU. |
@@ -1577,6 +1600,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| FERMI tabular artifact gate | latest multi-relational tabular diffusion MIA paper-source candidate with strong reported metrics, but no public code, target/split manifests, synthetic-table cache, score/feature packet, ROC arrays, metric JSON, or replay command; no download, GPU release, or MIDST/tabular reopen | [docs/evidence/fermi-tabular-artifact-gate-20260515.md](docs/evidence/fermi-tabular-artifact-gate-20260515.md) |
 | DurMI TTS artifact gate | TTS/audio cross-modal watch-plus with GradTTS/WaveGrad2/VoiceFlow attack code, exact GradTTS LJSpeech `5,977 / 5,977` split, and Zenodo checkpoint/data metadata, but no ready duration-loss scores, ROC arrays, metric JSON, or generated result graphs; no dataset/checkpoint download, GPU release, or admitted promotion | [docs/evidence/durmi-tts-artifact-gate-20260515.md](docs/evidence/durmi-tts-artifact-gate-20260515.md) |
 | Diffusion Memorization asset gate | official ICLR 2024 repo has a `500`-row memorized-prompt manifest, but the route is memorization-detection semantic shift with `2.60G` GDrive ground-truth assets and no released member/nonmember MIA split, response/noise-track packet, score JSON, ROC CSV, or low-FPR metric artifact; no download or GPU release | [docs/evidence/diffusion-memorization-asset-gate-20260515.md](docs/evidence/diffusion-memorization-asset-gate-20260515.md) |
 | ReDiffuse OpenReview split-manifest audit | official supplement contains DDPM split manifests for CIFAR10/CIFAR100/STL10/Tiny-IN, but no target checkpoint, generated response/feature cache, score packet, or ROC/metric artifact; no GPU release | [docs/evidence/rediffuse-openreview-split-manifest-audit-20260515.md](docs/evidence/rediffuse-openreview-split-manifest-audit-20260515.md) |

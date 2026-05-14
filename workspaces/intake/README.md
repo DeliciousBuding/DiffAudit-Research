@@ -50,6 +50,13 @@
   ready duration-loss score arrays, ROC arrays, metric JSON, generated result
   graphs, or a TTS/audio consumer-boundary decision. No dataset/checkpoint
   download or GPU work is released.
+- FERMI / `FERMI: Exploiting Relations for Membership Inference Against
+  Tabular Diffusion Models` is a multi-relational tabular watch item. The
+  2026-05-12 arXiv source reports strong TabDDPM/TabDiff/TabSyn relational MIA
+  metrics, but the public surface has no code tree, target/split manifests,
+  generated synthetic tables, feature/score rows, ROC arrays, metric JSON, or
+  replay command. No tabular dataset download, model training, implementation
+  work, or GPU work is released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -238,6 +245,18 @@ Current DurMI follow-up:
 - Do not download the Zenodo audio datasets/checkpoints, fetch Google Drive
   TextGrid files, run GradTTS/WaveGrad2/VoiceFlow attacks, train TTS targets,
   or launch DurMI GPU jobs inside the current roadmap cycle.
+
+Current FERMI follow-up:
+
+- Keep it as multi-relational tabular watch, not a MIDST/tabular execution
+  target.
+- Reopen only if public code plus target/split manifests, generated synthetic
+  tables, feature/score packets, ROC arrays, metric JSON, or a replay command
+  appears, or if DiffAudit explicitly opens a multi-relational tabular
+  membership lane with a consumer-boundary decision.
+- Do not implement FERMI from scratch, download California/Instacart/Berka
+  relational datasets, train TabDDPM/TabDiff/TabSyn or surrogate models, or
+  build a FERMI mapper/attack MLP inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 
