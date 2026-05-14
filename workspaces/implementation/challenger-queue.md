@@ -35,7 +35,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Fashion-MNIST DDPM SimA score-norm | gray-box | closed / weak metric verdict | clean train/test split and denoiser access produced a real `64/64` CUDA scout | `AUC = 0.515137` and both low-FPR metrics are zero | do not expand timestep, `p`-norm, seed, scheduler, or packet-size matrices |
 | Fashion-MNIST DDPM score-Jacobian sensitivity | gray-box | closed / weak metric verdict | clean train/test split and denoiser local input-sensitivity access produced a real `64/64` CUDA scout | `AUC = 0.511719` and both low-FPR metrics are zero | do not expand timestep, perturbation-scale, seed, scheduler, norm, or packet-size matrices |
 | memorization-LDM medical asset | intake / Lane A | watch / artifact-incomplete | public code and Zenodo software snapshot exist for patient-imaging LDM memorization detection | synthesized samples are request-gated; no target LDM checkpoint, exact member/nonmember manifests, or generated response package is public | do not download medical datasets, request controlled samples, train target LDMs, or release GPU until public-safe target/split/response artifacts exist |
-| SecMI-LDM LDM fork | intake / Lane A | support-family / artifact-incomplete | public repo exposes a Diffusers fork plus SecMI-style LDM scripts | Pokémon checkpoint, datasets, and split files are local-only assumptions; root README is stock Diffusers; this repeats the existing SecMI support family | do not download/reconstruct the checkpoint, scrape LAION/COCO assets, or treat it as an independent second asset until public target/split/response artifacts exist |
+| SecMI-LDM LDM fork | intake / Lane A | support-family / no independent second asset | public repo exposes a Diffusers fork, SecMI-style LDM scripts, and README SharePoint links for datasets plus Pokémon fine-tuned SD checkpoint | this repeats the existing same-author SecMI support family and does not create an independent second asset or black-box response contract | do not download the SharePoint zips, scrape LAION/COCO assets, or treat it as an independent second asset unless explicit SecMI-LDM reproducibility maintenance is selected |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
@@ -63,8 +63,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 - `latest trigger`: score-Jacobian sensitivity tested a genuinely different
   local denoiser response surface, but the CUDA result is weak and closes the
   route before any matrix expansion. The latest Lane A asset gate,
-  `jinhaoduan/SecMI-LDM`, is a support-family Diffusers fork with local-only
-  checkpoint/split assumptions and does not release download or GPU work.
+  `jinhaoduan/SecMI-LDM`, is same-author SecMI support material with public
+  dataset/checkpoint links but does not release independent second-asset
+  download or GPU work.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only weak gray-box scout
 
