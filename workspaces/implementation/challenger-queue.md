@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Tracing the Roots feature-packet MIA replay completed as positive-but-provenance-limited Research evidence after CDI/StyleMI gates` |
+| Active work | `ReDiffuse OpenReview split-manifest audit closed as checkpoint-and-score missing after Tracing Roots feature-packet verdict` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after completed Tracing the Roots feature-packet replay |
+| CPU sidecar | none selected after completed ReDiffuse split-manifest audit and Tracing Roots feature-packet replay |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -32,6 +32,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | Cross-box successor hypothesis | cross-box | hold | CPU-only scope review closed without a new release-ready hypothesis | current executable routes are existing score-sharing/fusion/support/tail-gated variants or asset-blocked response-contract transfer | reopen only with a genuinely new observable or ready second response-contract package |
 | gray-box archived paper candidates | gray-box / intake | hold | reentry review covers SIMA, Noise-as-Probe, MoFit, and Structural Memorization | current artifacts are weak, canary-only, low-FPR unstable, or covered by closed fusion/support routes | reopen only with a new low-FPR-primary observable or protocol |
+| ReDiffuse OpenReview supplement | black-box / ReDiffuse | hold / split-manifest-only | official OpenReview supplement ships DDPM code and exact CIFAR10/CIFAR100/STL10/Tiny-IN train/eval split index manifests | no target checkpoint, generated response/feature cache, score packet, ROC CSV, or metric artifact; running it would require training or acquiring targets from scratch | keep as provenance improvement only; reopen only if checkpoints or score packets appear for the exact manifests |
 | Tracing the Roots feature-packet MIA | gray-box / trajectory features | positive-but-provenance-limited | OpenReview supplement ships fixed CIFAR10 train/eval member/external diffusion-trajectory feature tensors and replay code; bounded local replay gives `AUC = 0.815826`, `TPR@1%FPR = 0.134000` | feature packet lacks raw target checkpoint/sample IDs and image query-response assets, so it is not an admitted product row or GPU release target | keep as Research-side mechanism evidence; reopen only with raw provenance/regeneration assets or an explicit feature-packet consumer-boundary decision |
 | CDI official dataset-inference artifact | gray-box / dataset inference | hold-semantic-shift | official `sprintml/copyrighted_data_identification` repo is code-public and exposes model configs, attack feature extraction, scoring, and evaluation surfaces | no ready small score packet; requires Google Drive model checkpoints, ImageNet/COCO assets, COCO text embeddings, submodules, and a consumer-boundary decision because the claim is dataset-level rather than per-sample membership | do not download assets or release GPU by default; reopen only if a dataset-inference lane is explicitly opened with frozen checkpoint hashes, bounded ID manifests, `P` size, p-value/low-FPR metric, and consumer boundary |
 | Fashion-MNIST DDPM SimA score-norm | gray-box | closed / weak metric verdict | clean train/test split and denoiser access produced a real `64/64` CUDA scout | `AUC = 0.515137` and both low-FPR metrics are zero | do not expand timestep, `p`-norm, seed, scheduler, or packet-size matrices |
@@ -51,17 +52,21 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-StyleMI Long-Horizon Idle State
+### Post-Tracing-Roots Long-Horizon Idle State
 
-- `mode`: trajectory-feature packet metric verdict
-- `status`: The latest active metric verdict is Tracing the Roots feature-packet
-  MIA. The OpenReview supplement ships fixed CIFAR10 train/eval
-  member/external diffusion-trajectory feature tensors plus replay code; a
-  bounded local linear replay gives `AUC = 0.815826` and `TPR@1%FPR =
-  0.134000`. It is positive Research-side evidence, but provenance-limited:
-  raw target checkpoint, raw sample IDs, and image query-response assets are
-  not released, so there is no admitted promotion and no GPU release. The
-  previous Fashion-MNIST DDPM score-Jacobian sensitivity verdict is weak
+- `mode`: split-manifest asset audit after trajectory-feature metric verdict
+- `status`: The latest asset audit is ReDiffuse OpenReview split-manifest
+  provenance. The official supplement ships DDPM code and exact
+  CIFAR10/CIFAR100/STL10/Tiny-IN train/eval split index manifests, but no target
+  checkpoint, generated response/feature cache, score packet, ROC CSV, or
+  metric artifact, so it remains hold and releases no CPU/GPU work. The latest
+  active metric verdict is Tracing the Roots feature-packet MIA. The OpenReview
+  supplement ships fixed CIFAR10 train/eval member/external diffusion-trajectory
+  feature tensors plus replay code; a bounded local linear replay gives `AUC =
+  0.815826` and `TPR@1%FPR = 0.134000`. It is positive Research-side evidence,
+  but provenance-limited: raw target checkpoint, raw sample IDs, and image
+  query-response assets are not released, so there is no admitted promotion and
+  no GPU release. The previous Fashion-MNIST DDPM score-Jacobian sensitivity verdict is weak
   (`AUC = 0.511719`, zero low-FPR recovery) and closes the local score-field
   sensitivity branch after prior weak Fashion-MNIST PIA-loss and SimA
   score-norm scouts. The latest Lane A asset gate keeps StyleMI as paper-only /
@@ -82,7 +87,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 - `latest trigger`: Tracing the Roots tested a non-adjacent trajectory-feature
   mechanism using a released small supplementary packet. It produced a real
   positive metric but also exposed the current boundary: feature-packet evidence
-  is not raw image/query-response evidence. CDI tested a non-adjacent scientific pivot from weak
+  is not raw image/query-response evidence. The ReDiffuse supplement then
+  improved split provenance but did not add checkpoints or score artifacts. CDI tested a non-adjacent scientific pivot from weak
   pointwise MIAs to dataset inference. The public gate found official code, but
   not a bounded DiffAudit-ready score packet; assets remain too large and the
   consumer claim semantics would change. The latest StyleMI gate tested a
@@ -96,6 +102,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 Current evidence:
 
+- [../../docs/evidence/rediffuse-openreview-split-manifest-audit-20260515.md](../../docs/evidence/rediffuse-openreview-split-manifest-audit-20260515.md)
 - [../../docs/evidence/tracing-roots-feature-packet-mia-20260515.md](../../docs/evidence/tracing-roots-feature-packet-mia-20260515.md)
 - [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
 - [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md)
