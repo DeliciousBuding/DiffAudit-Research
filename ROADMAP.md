@@ -2,6 +2,32 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 DurMI TTS Artifact Gate
+
+Cross-modal intake checked OpenReview `NvHFk2D2g3` / Zenodo
+`10.5281/zenodo.15474571` for `DurMI: Duration Loss as a Membership Signal in
+TTS Models` because it is a non-duplicate membership signal with unusually
+complete public artifact metadata for a related modality. The OpenReview
+submission was rejected, but the public supplement is real: `56,140,177` bytes,
+SHA256 `65845e9fa81d88d15a0f54ab01507842554ccfab017c3ffec0c23d8a731753d1`,
+with `890` ZIP entries including GradTTS, WaveGrad2, and VoiceFlow attack code.
+The GradTTS LJSpeech split contains `5,977` member and `5,977` nonmember WAV
+rows with `0` WAV-id overlap. Zenodo exposes open dataset/checkpoint metadata
+for three datasets and three TTS model families, including named GradTTS,
+WaveGrad2, and VoiceFlow checkpoints with public size/checksum values.
+
+Decision: `TTS cross-modal watch-plus /
+code-and-splits-and-checkpoints-public / no ready score packet / no
+dataset-checkpoint download / no GPU release`. The supplement scripts compute
+AUROC and `TPR@1%FPR` and write JSON/PNG outputs after execution, but the
+release does not ship reusable duration-loss score arrays, ROC arrays, metric
+JSON, or generated result graphs. This is stronger than paper-only watch, but
+it requires an explicit TTS/audio membership lane before downloading multi-GB
+audio datasets/checkpoints or running GPU jobs. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and `CPU sidecar =
+none selected after DurMI TTS artifact gate`. See
+[docs/evidence/durmi-tts-artifact-gate-20260515.md](docs/evidence/durmi-tts-artifact-gate-20260515.md).
+
 ## 2026-05-15 GenAI Confessions Black-Box Artifact Gate
 
 Lane A checked `hanyfarid/MembershipInference` / `GenAI Confessions` because
