@@ -52,6 +52,11 @@
   same-author SecMI reproduction/support material rather than an independent
   second asset or black-box response contract. No download or GPU work is
   released.
+- `ronketer/diffusion-membership-inference` is a public DreamBooth/LoRA
+  course-notebook forensics example, not a runnable asset. It reports a
+  reconstruction-MSE threshold and embeds six MSE scores, but the target LoRA
+  checkpoint and forensics query images live under private Colab/GDrive paths.
+  No download or GPU work is released.
 
 Archived reviews are in
 [../../legacy/workspaces/intake/2026-04/](../../legacy/workspaces/intake/2026-04/).
@@ -150,3 +155,12 @@ Current SecMI-LDM follow-up:
   appears.
 - Do not download the SharePoint dataset/checkpoint zips, scrape LAION/COCO
   assets, or package this fork as an independent second asset.
+
+Current R125 DreamBooth forensics follow-up:
+
+- Keep it as related-method watch only.
+- Reopen only if the author publishes the LoRA/checkpoint, exact member and
+  nonmember manifests, and the query images or generated response package.
+- Do not recreate the private Colab/GDrive DreamBooth run, scrape report images
+  into a pseudo-split, or treat six embedded notebook MSE values as a score
+  packet.
