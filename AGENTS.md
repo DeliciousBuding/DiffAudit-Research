@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Diffusion Memorization asset gate closed as memorization semantic-shift / large GDrive assets / no MIA release after ReDiffuse split-manifest and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `MIDST TabDDPM EPT scout closed as weak dev/final transfer after Diffusion Memorization asset gate, ReDiffuse split-manifest audit, and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -121,10 +121,14 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   (`dev+final AUC = 0.566263`, `TPR@1%FPR = 0.016750`). A genuinely different
   shadow-trained marginal-distributional classifier overfits the `train`
   shadow folders (`AUC = 0.881991`) but collapses on dev+final
-  (`AUC = 0.499846`, `TPR@1%FPR = 0.013000`). Do not expand MIDST into TabSyn,
-  white-box MIDST, nearest-neighbor preprocessing matrices, classifier sweeps,
-  or marginal feature matrices unless a genuinely different tabular-diffusion
-  membership mechanism appears. A bounded Beans member-LoRA scout repaired the
+  (`AUC = 0.499846`, `TPR@1%FPR = 0.013000`). A MIA-EPT-style
+  error-prediction profile is a genuinely different tabular mechanism and
+  learns `train` (`AUC = 0.851961`), but still transfers weakly on dev+final
+  (`AUC = 0.530089`, `TPR@1%FPR = 0.029500`). Do not expand MIDST into TabSyn,
+  white-box MIDST, multi-table MIDST, nearest-neighbor preprocessing matrices,
+  classifier sweeps, EPT account/column/config grids, or marginal feature
+  matrices unless a genuinely different tabular-diffusion membership mechanism
+  or new public artifact appears. A bounded Beans member-LoRA scout repaired the
   old pseudo-membership semantics by creating an exact target
   (`SD1.5 + Beans-member UNet LoRA`) and holding out `25` nonmembers, but
   conditional denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`,

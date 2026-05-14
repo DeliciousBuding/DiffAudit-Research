@@ -27,6 +27,11 @@
   pixel-distance, CLIP image-similarity, prompt-response consistency,
   multi-seed response stability, and conditional denoising-loss are all weak;
   do not expand same-packet metric or denoising-loss matrices.
+- `MIDST TabDDPM`: exact local single-table labels exist, but
+  nearest-neighbor, shadow-distributional, and MIA-EPT-style
+  error-prediction-profile mechanisms are all weak on dev/final transfer. Do
+  not expand into account toggles, feature/column grids, TabSyn, multi-table,
+  or white-box MIDST.
 - `Beans member-LoRA`: known-split internal target construction fixes the old
   pseudo-membership problem, but conditional denoising-loss is weak
   (`AUC = 0.414400`, reverse `0.585600`, `TPR@1%FPR = 0.080000`) and
