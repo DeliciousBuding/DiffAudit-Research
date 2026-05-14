@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `ReDiffuse OpenReview split-manifest audit closed as split-manifest-only / checkpoint-and-score missing after the positive-but-provenance-limited Tracing the Roots feature-packet replay; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Diffusion Memorization asset gate closed as memorization semantic-shift / large GDrive assets / no MIA release after ReDiffuse split-manifest and Tracing Roots feature-packet verdicts; no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -223,6 +223,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   packet, ROC CSV, or metric artifact. Do not train DDPM/DiT/Stable Diffusion
   targets or rerun same-family attack scripts unless exact checkpoints or score
   packets appear for those manifests.
+- `YuxinWenRick/diffusion_memorization` is closed as memorization semantic-shift
+  watch. It has a real `500`-row `sdv1_500_memorized.jsonl` prompt manifest, but
+  the ground-truth image package is `2.60G`, `CompVis/stable-diffusion-v1-4` is
+  not locally cached, and the repo does not ship member/nonmember MIA splits,
+  generated response/noise-track packets, score JSON, ROC CSVs, or low-FPR MIA
+  metrics. Do not download the GDrive assets or run `detect_mem.py` as a
+  membership-inference substitute.
 - No GPU task should start from documentation or governance cleanup alone.
 - Only one GPU task may run at a time; every GPU task needs a frozen command,
   metric contract, stop condition, and evidence-note target.
