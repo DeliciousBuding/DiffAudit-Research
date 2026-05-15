@@ -5,13 +5,13 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
-[dmin-data-attribution-gate-20260515.md](dmin-data-attribution-gate-20260515.md)
-records the DMin data-attribution gate. DMin has public LoRA, mixed dataset,
-compressed-gradient cache, and retrieval index artifacts, but its claim is
-training-data attribution rather than membership inference and it has no
-member/nonmember labels or MIA ROC packet. It stays Research-only
-data-attribution watch-plus and releases no large download, GPU work, or
-Platform/Runtime admitted rows.
+[../product-bridge/README.md](../product-bridge/README.md) now records the
+Tracing the Roots product-boundary sync. The public CIFAR10
+diffusion-trajectory feature-packet replay is positive (`AUC = 0.815826`,
+`TPR@1%FPR = 0.134000`), but it lacks raw target checkpoint identity, raw
+member/external sample IDs, and image query/response artifacts. It stays
+Research-only positive feature-packet evidence and releases no GPU work,
+Runtime schema change, or Platform admitted row.
 
 | Track | Active docs | Role |
 | --- | --- | --- |
