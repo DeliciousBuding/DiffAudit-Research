@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Shake-to-Leak code artifact gate completed after the FSECLab MIA-Diffusion code artifact gate. Status: code-public generative-privacy watch-plus / runtime synthetic-private-set construction / checkpoint-data-score artifacts missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after Shake-to-Leak code artifact gate`
+- Active work: `TMIA-DM temporal artifact gate completed after the Shake-to-Leak and FSECLab MIA-Diffusion code artifact gates. Status: TMIA-DM is paper-only temporal-noise gradient MIA / reported metrics only / no code-score artifact / no download / no GPU release / no admitted row; Shake-to-Leak is code-public generative-privacy watch-plus with checkpoint/data/score artifacts missing and no download/execution release. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after TMIA-DM temporal artifact gate, with Shake-to-Leak Stable Diffusion weights, LAION/person images, synthetic private sets, checkpoints, fine-tuning scripts, SecMI scripts, and data extraction still blocked.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -163,6 +163,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   payloads; do not run `sp_gen.py`, LoRA/DB/End2End fine-tuning, SecMI scripts,
   or data extraction; and do not promote it into Platform/Runtime rows without
   public checkpoint-bound score artifacts and immutable membership semantics.
+- TMIA-DM / `Temporal Membership Inference Attack Method for Diffusion Models`
+  is a previously known gray-box mechanism whose current public surface is
+  paper-only, not a replay target. The CRAD article reports
+  CIFAR/Tiny-ImageNet-style experiments and a Pokemon/LAION/COCO-style
+  setting, but the public page lists `资源附件(0)` and no official code, target
+  checkpoint, immutable split manifest, per-sample score rows, ROC arrays,
+  metric JSON, or verifier output is public. Do not download
+  CIFAR/Tiny-ImageNet/Pokemon/LAION/COCO assets, train or fine-tune diffusion
+  targets, reconstruct temporal-noise trajectory pipelines, launch GPU work,
+  or promote TMIA-DM without official code plus immutable target/split
+  artifacts and reusable score packets.
 - DualMD / DistillMD remains defense watch-plus only. The OpenReview `DDMD/`
   supplementary archive exposes DDPM/LDM training, disjoint teacher,
   distillation, PIA/SecMIA, black-box attack code, DDPM split-index files, and
@@ -199,8 +210,8 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
   Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
   Memorization Anisotropy, StablePrivateLoRA, DualMD/DistillMD,
-  MIAHOLD/HOLD++, DIFFENCE, LSA-Probe, MT-MIA, FSECLab MIA-Diffusion, and
-  Shake-to-Leak,
+  MIAHOLD/HOLD++, DIFFENCE, LSA-Probe, MT-MIA, FSECLab MIA-Diffusion,
+  Shake-to-Leak, and TMIA-DM,
   remain limitations or future-work hooks only. Platform/Runtime and
   paperization admitted claims still use only `recon`, `PIA baseline`,
   `PIA defended`, `GSA`, and `DPDM W-1`.
