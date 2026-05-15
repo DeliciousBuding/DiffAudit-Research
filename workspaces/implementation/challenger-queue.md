@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `MIAHOLD higher-order Langevin artifact gate completed after Quantile Diffusion MIA SecMI t_error replay` |
+| Active work | `DIFFENCE classifier-defense artifact gate completed after MIAHOLD higher-order Langevin artifact gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after MIAHOLD higher-order Langevin artifact gate |
+| CPU sidecar | none selected after DIFFENCE classifier-defense artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -27,6 +27,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | SecMI admission contract | gray-box | structural-support-only | full-split stat/NNS evidence is strong and evidence-ready; consumer review completed | not admitted; NNS product semantics, adaptive comparability, provenance language, and bundle schema fit remain blocked | keep validators active; no new metrics or promotion until a new schema/adaptive protocol exists |
 | Quantile Diffusion MIA SecMI `t_error` replay | gray-box / Lane A-B | candidate-support-only | third-party public CIFAR10/CIFAR100 SecMI-style score rows and split manifests replay from committed files with positive AUC | not official Quantile Regression paper output; same-family SecMI support only; no admitted-row consumer contract | keep as support evidence only; do not clone full repo, download DDPM/CIFAR/SharePoint assets, train, fit quantile models, or release GPU |
+| DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo exposes code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
 | MIAHOLD / HOLD++ higher-order Langevin defense | defense / Lane A-B | defense watch-plus | official MIAHOLD repos expose higher-order Langevin defense code, audio split filelists, a CIFAR HOLD config, and PIA-style attack code | no checkpoint-bound target artifact, reusable score rows, ROC arrays, metric JSON, generated responses, or ready verifier | keep as defense watch-plus only; do not download Google Drive checkpoints/datasets, scrape W&B, train HOLD++ models, or release GPU |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
@@ -56,11 +57,20 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-MIAHOLD-HOLD++ Long-Horizon Idle State
+### Post-DIFFENCE Long-Horizon Idle State
 
-- `mode`: defense-code artifact gate after support-only public score-packet
-  replay, defense CPU preflight, and candidate-card product-boundary sync
-- `status`: The latest asset verdict is the MIAHOLD / HOLD++ higher-order
+- `mode`: classifier-defense artifact gate after defense-code artifact gate,
+  support-only public score-packet replay, defense CPU preflight, and
+  candidate-card product-boundary sync
+- `status`: The latest asset verdict is the DIFFENCE classifier-defense gate.
+  `SPIN-UMass/Diffence` exposes code, configs, and split-index files, but the
+  protected target is an image classifier, diffusion is a pre-inference defense
+  component, and the repo ships no checkpoint-bound defended/undefended logits,
+  score rows, ROC arrays, metric JSON, or ready verifier outputs. The result is
+  classifier-defense watch-plus only: no Google Drive checkpoint/data download,
+  no classifier or diffusion training, no MIA script execution, no CPU sidecar,
+  no GPU release, and no admitted defense row. The previous asset verdict is
+  the MIAHOLD / HOLD++ higher-order
   Langevin artifact gate. `bensterl15/MIAHOLD` and
   `bensterl15/MIAHOLDCIFAR` expose defense code, audio split filelists, a
   CIFAR HOLD config, and PIA-style attack code, but they do not ship
@@ -125,7 +135,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   They do not change admitted rows, Runtime schemas, recommendation logic, or
   product copy. I-B, I-C, ReDiffuse,
   CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
-  Regression, MIAHOLD/HOLD++, and Noise as a Probe remain governed by
+  Regression, DIFFENCE, MIAHOLD/HOLD++, and Noise as a Probe remain governed by
   `ROADMAP.md` lane gates
   and do not release automatic CPU/GPU work.
 - `goal`: next cycle must select exactly one Lane A/B/C task from
@@ -153,6 +163,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 Current evidence:
 
+- [../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md](../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md)
 - [../../docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md](../../docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md)
 - [../../docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md](../../docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md)
 - [../../docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md](../../docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md)

@@ -4,6 +4,14 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- DIFFENCE / `SPIN-UMass/Diffence` is classifier-defense watch-plus only. The
+  public repo exposes code, configs, and small split-index files, but the
+  protected target is an image classifier and diffusion is an input-side
+  purification/pre-inference defense component. The repo requires Google Drive
+  classifier/diffusion checkpoints and local result generation, and it commits
+  no defended/undefended logits, score rows, ROC arrays, metric JSON, or ready
+  verifier. No dataset/model download, classifier training, diffusion training,
+  MIA script run, or GPU work is released.
 - StablePrivateLoRA / `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus
   candidate because it exposes MP-LoRA/SMP-LoRA code and public dataset split
   payloads. It still is not executable in the current cycle: scripts expect a
@@ -190,6 +198,18 @@ Current StablePrivateLoRA follow-up:
   model, LoRA checkpoints, generated images, or logs; do not train
   MP-LoRA/SMP-LoRA, OCR table PNGs into admitted metrics, or promote it into
   Platform/Runtime defense rows inside the current roadmap cycle.
+
+Current DIFFENCE follow-up:
+
+- Keep it as classifier-defense related-method watch-plus, not a DiffAudit
+  diffusion-generator membership row.
+- Reopen only if public checkpoint-bound defended/undefended logits, score
+  rows, ROC arrays, metric JSON, or a bounded verifier appear, and a
+  consumer-boundary decision explicitly admits classifier-defense evidence.
+- Do not download Google Drive diffusion/classifier checkpoints, CIFAR/SVHN
+  datasets, train classifiers or diffusion models, generate DIFFENCE
+  reconstructions, run MIA scripts, or promote it into Platform/Runtime rows
+  inside the current roadmap cycle.
 
 Current CLiD follow-up:
 
