@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Tracing Roots candidate-only card completed after positive feature-packet verdict and raw-provenance recheck` |
+| Active work | `I-B shadow-local GSA risk preflight completed after Tracing Roots candidate-only card` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Tracing Roots candidate evidence card |
+| CPU sidecar | none selected after I-B shadow-local GSA risk preflight |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -49,16 +49,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
 | Cross-modal watch consumer boundary | system / Lane C | synchronized | SAMA/DLM and VidLeaks/T2V are related-method watch items only | no admitted row, no Runtime schema input, and no product copy change | keep out of Platform/Runtime unless a future reviewed scope expansion and promotion occurs |
-| I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but it remains attack-side threshold transfer; the defended-shadow reopen protocol is machine-checkable, explicit reopen mode rejects undefended threshold references, and the coverage-aware training manifest blocks the current target k32 identity contract; the shadow-local scout found a mechanically possible `shadow-01`/`shadow-02` target-risk remap | target k32 forget IDs are not covered by the shadow member datasets; target-risk remap is not true shadow-local scoring; no executed defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is true shadow-local risk scoring or explicit approval of weaker two-shadow remap semantics before any tiny defended-shadow training execution |
+| I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but it remains attack-side threshold transfer; the defended-shadow reopen protocol is machine-checkable, explicit reopen mode rejects undefended threshold references, and the coverage-aware training manifest blocks the current target k32 identity contract; the shadow-local scout found a mechanically possible `shadow-01`/`shadow-02` target-risk remap; the 2026-05-15 GSA-only preflight now produces true shadow-local k32 GSA risk records for `shadow-01`, `shadow-02`, and `shadow-03` | target-risk remap is not true shadow-local scoring; GSA-only risk does not satisfy the frozen PIA+GSA contract; no shadow-local PIA records, no executed defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is shadow-local PIA risk scoring or explicit approval of weaker GSA-only semantics before any tiny defended-shadow training execution |
 | I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### Post-Tracing-Roots-Card Long-Horizon Idle State
+### Post-I-B-GSA-Preflight Long-Horizon Idle State
 
-- `mode`: candidate-card product-boundary sync after a positive
-  trajectory-feature verdict and raw-provenance recheck
-- `status`: The latest product-boundary verdict is the Tracing Roots
+- `mode`: defense CPU preflight after a candidate-card product-boundary sync
+- `status`: The latest defense verdict is the I-B shadow-local GSA risk
+  preflight. Existing GSA shadow loss-score exports now produce true
+  shadow-local GSA-only k32 risk records for `shadow-01`, `shadow-02`, and
+  `shadow-03`; duplicate suffix IDs are de-duplicated before identity-file
+  selection. The artifact stays blocked because shadow-local PIA risk records
+  remain missing from the frozen PIA+GSA defended-shadow contract. It releases
+  no training, GPU work, admitted defense row, Platform/Runtime schema, or CPU
+  sidecar. The previous product-boundary verdict is the Tracing Roots
   candidate evidence card. The OpenReview supplementary feature packet remains
   positive (`AUC = 0.815826`, `TPR@1%FPR = 0.134000`,
   `TPR@0.1%FPR = 0.038000`) and now has a machine-readable candidate card for
@@ -127,6 +133,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 Current evidence:
 
+- [../../docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md](../../docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md)
 - [../../docs/product-bridge/tracing-roots-candidate-evidence-card.md](../../docs/product-bridge/tracing-roots-candidate-evidence-card.md)
 - [../../docs/evidence/midst-tabddpm-ept-scout-20260515.md](../../docs/evidence/midst-tabddpm-ept-scout-20260515.md)
 - [../../docs/evidence/diffusion-memorization-asset-gate-20260515.md](../../docs/evidence/diffusion-memorization-asset-gate-20260515.md)

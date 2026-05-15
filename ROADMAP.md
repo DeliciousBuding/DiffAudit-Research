@@ -2,6 +2,26 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 I-B Shadow-Local GSA Risk Preflight
+
+Defense-lane execution reduced the I-B defended-shadow blocker with a CPU-only
+GSA preflight. Existing GSA loss-score exports were replayed per shadow using
+each shadow checkpoint's own member/nonmember split, producing true
+shadow-local GSA-only k32 risk records for `shadow-01`, `shadow-02`, and
+`shadow-03`. The preflight de-duplicates repeated suffix IDs before writing
+identity files. Result: `gsa_risk_status = complete`,
+`true_shadow_local_gsa_risk_scoring = true`, and
+`true_shadow_local_pia_gsa_risk_scoring = false`.
+
+Decision: `blocked preflight / true shadow-local GSA-only risk records exist /
+shadow-local PIA risk still missing / no defended-shadow training / no GPU
+release / no admitted row`. Current slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and `CPU sidecar = none selected after I-B
+shadow-local GSA risk preflight`. See
+[docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md](docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md)
+and
+[workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515.json](workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515.json).
+
 ## 2026-05-15 Tracing Roots Candidate Evidence Card
 
 Product-boundary execution converted the positive Tracing the Roots
