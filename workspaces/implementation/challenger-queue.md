@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `CPSample defense artifact gate completed after DSiRe / LoRA-WiSE gate` |
+| Active work | `progress review completed after CPSample defense artifact gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected after CPSample defense artifact gate |
