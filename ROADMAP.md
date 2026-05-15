@@ -2,6 +2,31 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 GitHub Lightweight Diffusion MIA Triage
+
+Lane A external asset search checked four direct GitHub search hits that looked
+like possible diffusion-MIA assets by title or description:
+`acha1934/Black-box-Membership-Inference-Attacks-against-Fine-tuned-Diffusion-Models`,
+`KarinMalka1/Stable-Diffusion-Personalization-Forensics`,
+`abramwit/ECE-CS-782-Research-Project`, and
+`josephho9/score_function_diffusion`. The checked surfaces were small
+README/code/notebook/toy-output repositories, not reusable asset packets.
+
+Decision: `lightweight / course-style reproduction triage / no score artifact /
+no download / no GPU release`. The repositories are useful as false-positive
+search evidence only. They lack immutable target checkpoint hashes, exact
+target-bound member/nonmember manifests, row-bound generated response packets,
+per-sample score rows, ROC arrays, metric JSON, trained attack weights, or
+ready verifiers. Some scripts depend on Colab/Google Drive/local folders or
+train/evaluate an attack model on the same small feature matrix. Do not
+download their datasets, notebooks, generated images, Stable Diffusion weights,
+LoRA weights, Google Drive payloads, or local Colab artifacts; do not run their
+scripts, fine-tune DreamBooth/LoRA targets, train attack MLPs, release CPU/GPU
+work, or promote Platform/Runtime rows. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after GitHub lightweight diffusion MIA triage`. See
+[docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md](docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md).
+
 ## 2026-05-15 DEB Medical Diffusion Artifact Gate
 
 Lane B mechanism discovery checked `Assessing Membership Inference Privacy
