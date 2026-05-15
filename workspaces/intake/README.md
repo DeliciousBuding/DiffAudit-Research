@@ -4,6 +4,15 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- VAE2Diffusion / `mx-ethan-rao/VAE2Diffusion` is a code-public latent-space
+  MIA watch-plus item. The paper/source claims public splits and checkpoints,
+  and the repo exposes decoder-geometry / latent-dimension filtering code for
+  LDM membership inference, but the README split/checkpoint link is empty,
+  GitHub releases are absent, the recursive tree contains no split, checkpoint,
+  score, ROC, metric, response, or verifier artifacts, and scripts depend on
+  author-local paths plus from-scratch training/fine-tuning/cache generation.
+  No dataset/model/checkpoint/cache download, SimA/PFAMI/PIA execution, GPU
+  work, or admitted row is released.
 - DualMD / DistillMD / OpenReview `DDMD` is defense watch-plus only. The
   public supplement exposes code, DDPM split-index files, and FID stats, but
   the embedded GitHub origin is not public, and no frozen checkpoints,
