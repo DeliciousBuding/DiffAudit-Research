@@ -4,6 +4,16 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- Rectified Flow MIA / arXiv `2603.13421` is a paper-source-only mechanism
+  watch. It is non-duplicate because it targets Rectified Flow / Flow Matching
+  vector fields with `T_naive`, `T_mc`, and complexity-calibrated `T_mc_cal`,
+  and reports strong low-FPR gains on CIFAR-10, SVHN, and TinyImageNet. The
+  paper source claims splits, checkpoints, training code, and testing code are
+  released at `mx-ethan-rao/MIA_Rectified_Flow`, but the live GitHub repository
+  is empty and exposes no refs, code, split manifest, checkpoint, score row,
+  ROC array, metric JSON, or verifier. No dataset/model/checkpoint/image
+  download, implementation from paper, CPU sidecar, GPU work, or admitted
+  Platform/Runtime row is released.
 - Public metadata asset sweep after the DIFFENCE Zenodo sync found no new
   non-duplicate image/latent-image replay packet. Authenticated HF metadata
   still exposes only known `zsf/COCO_MIA_ori_split1` and `chumengl/copymark`
