@@ -88,6 +88,16 @@
   does not change Platform/Runtime admitted rows. No raw figshare data,
   synthetic CSV payload, full repo, model/training asset, GPU work, or active
   CPU sidecar is released.
+- Shake-to-Leak / `VITA-Group/Shake-to-Leak` is a code-public
+  generative-privacy watch-plus item. The official repository publishes
+  fine-tuning-amplified leakage code, a vendored SecMI/diffusers tree,
+  fine-tuning scripts, SecMI scripts, data extraction code, and a `40`-domain
+  celebrity/person list. It does not publish frozen target checkpoints,
+  immutable member/nonmember manifests, generated synthetic private sets,
+  generated attack responses, score arrays, ROC arrays, metric JSON, or a
+  ready verifier. No Stable Diffusion weight download, LAION/person image
+  download, synthetic-private-set generation, fine-tuning, SecMI run, data
+  extraction, GPU work, or active CPU sidecar is released.
 - FSECLab MIA-Diffusion / `fseclab-osaka/mia-diffusion` is a direct
   diffusion-MIA code-public watch-plus item. The official repository publishes
   DDIM/DCGAN training, sampling, white-box attack, black-box attack,
@@ -346,6 +356,19 @@ Current MT-MIA follow-up:
   ClavaDDPM/RelDiff training assets, or the full repository; do not regenerate
   RelDiff or promote MT-MIA into Platform/Runtime rows inside the current
   roadmap cycle.
+
+Current Shake-to-Leak follow-up:
+
+- Keep it as fine-tuning-amplified generative privacy watch-plus, not an
+  execution target.
+- Reopen only if public artifacts bind SD-v1-1 fine-tuned checkpoints to fixed
+  member/nonmember identities and include score arrays, ROC/metric artifacts,
+  generated attack responses, or a bounded verifier that does not require
+  training and extraction from scratch.
+- Do not download Stable Diffusion weights, LAION/person image folders,
+  generated synthetic private sets, checkpoints, or full repo payloads; do not
+  run `sp_gen.py`, LoRA/DB/End2End fine-tuning, SecMI scripts, or data
+  extraction inside the current roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 

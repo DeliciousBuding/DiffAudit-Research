@@ -2,6 +2,44 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Shake-to-Leak Code Artifact Gate
+
+Lane A intake checked `VITA-Group/Shake-to-Leak` / `Shake to Leak:
+Fine-tuning Diffusion Models Can Amplify the Generative Privacy Risk` because
+it is a direct diffusion privacy repository not yet represented in the active
+watch queue. The public repository at commit
+`e4690b8f63769ef2f4e20bb8ec6ca76f508c7628` contains the paper code, a vendored
+SecMI/diffusers tree, fine-tuning scripts, SecMI MIA scripts, data-extraction
+code, and a `40`-domain celebrity/person list. The checked tree has `165`
+blobs totaling `2,447,056` bytes; the only large committed blob is the README
+`teaser_img` (`465,124` bytes), and no tags or GitHub release rows were found.
+The public tree commits no `.pt`, `.pth`, `.ckpt`, `.safetensors`, `.npy`,
+`.npz`, `.jsonl`, `.csv`, `.zip`, or `.tar` artifact.
+
+The README and scripts require local construction: `sp_gen.py` generates
+`2,000` synthetic private images per domain from `CompVis/stable-diffusion-v1-1`,
+LoRA/DB scripts fine-tune local checkpoints under `./ckpts/<domain>/`, SecMI
+expects local `data/laion-2b/<domain>` and `data/celeb_and_web/<domain>`
+folders, and data extraction generates `5,000` candidate images before local
+CLIP/pixel matching. No frozen target checkpoint, immutable sample membership
+manifest, generated private-set packet, generated attack response, score array,
+ROC array, metric JSON, or ready verifier output is published.
+
+Decision: `code-public generative-privacy watch-plus /
+runtime synthetic-private-set construction / checkpoint-data-score artifacts
+missing / no download / no GPU release / no admitted row`. This is a useful
+fine-tuning-amplified leakage mechanism hook, but executing it would require
+downloading SD weights and person/LAION data, generating synthetic private
+sets, fine-tuning targets, and running attacks from scratch. Do not download
+Stable Diffusion weights, LAION/person images, synthetic private sets,
+checkpoints, or full repo payloads; do not run `sp_gen.py`, LoRA/DB/End2End
+fine-tuning, SecMI scripts, or data extraction; and do not promote this line
+into Platform/Runtime rows without public checkpoint-bound score artifacts and
+immutable membership semantics. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and `CPU sidecar =
+none selected after Shake-to-Leak code artifact gate`. See
+[docs/evidence/shake-to-leak-code-artifact-gate-20260515.md](docs/evidence/shake-to-leak-code-artifact-gate-20260515.md).
+
 ## 2026-05-15 FSECLab MIA-Diffusion Code Artifact Gate
 
 Lane A intake checked `fseclab-osaka/mia-diffusion` /

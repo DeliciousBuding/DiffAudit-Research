@@ -31,6 +31,7 @@ ReproMIA withdrawn proactive MIA, Noise Aggregation small-noise diffusion MIA,
 GenAI Confessions black-box image-to-image MIA, DurMI TTS duration-loss MIA,
 LSA-Probe music diffusion MIA, FERMI multi-relational tabular MIA,
 MT-MIA relational tabular diffusion MIA score packets,
+Shake-to-Leak fine-tuning-amplified generative privacy code release,
 FSECLab MIA-Diffusion DDIM/DCGAN code release,
 DualMD/DistillMD disjoint-split defense, SAMA diffusion-language-model
 membership, VidLeaks text-to-video membership, and GGDM graph generative
@@ -152,6 +153,18 @@ appear as admitted Platform evidence, Runtime schema input, or active GPU/CPU
 work unless real public artifacts and a music/audio consumer-boundary decision
 exist. See
 [../evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md](../evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md).
+
+Current Shake-to-Leak status: Research-only code-public watch-plus. The
+official `VITA-Group/Shake-to-Leak` repository ships fine-tuning-amplified
+generative privacy code, vendored SecMI/diffusers code, fine-tuning scripts,
+SecMI scripts, data extraction code, and a `40`-domain person list. It does
+not ship frozen target checkpoints, immutable member/nonmember manifests,
+generated private-set images, generated attack responses, score arrays, ROC
+arrays, metric JSON, or ready verifier output. It must not appear as admitted
+Platform evidence, Runtime schema input, or active GPU/CPU work unless public
+checkpoint-bound score artifacts and immutable membership semantics appear.
+See
+[../evidence/shake-to-leak-code-artifact-gate-20260515.md](../evidence/shake-to-leak-code-artifact-gate-20260515.md).
 
 Current FSECLab MIA-Diffusion status: Research-only code-public watch-plus.
 The official `fseclab-osaka/mia-diffusion` repository ships DDIM/DCGAN

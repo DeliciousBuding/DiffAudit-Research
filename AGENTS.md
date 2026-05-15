@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `FSECLab MIA-Diffusion code artifact gate completed after the MT-MIA relational diffusion score-packet gate. Status: official-code-public / runtime-split-construction / checkpoint-and-score-artifacts-missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after FSECLab MIA-Diffusion code artifact gate`
+- Active work: `Shake-to-Leak code artifact gate completed after the FSECLab MIA-Diffusion code artifact gate. Status: code-public generative-privacy watch-plus / runtime synthetic-private-set construction / checkpoint-data-score artifacts missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after Shake-to-Leak code artifact gate`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -147,6 +147,22 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   DDPMs, fit quantile models, recover W&B artifacts, reconstruct SecMI splits,
   or build a quantile-regression implementation from scratch before official
   quantile artifacts or a bounded verifier exist.
+- Shake-to-Leak / `VITA-Group/Shake-to-Leak` is a code-public
+  generative-privacy watch-plus item, not a replay target. The public repo
+  exposes the SatML 2024 paper code, vendored SecMI/diffusers code,
+  fine-tuning scripts, SecMI scripts, data extraction code, and a `40`-domain
+  celebrity/person list. Its execution path locally generates `2,000`
+  synthetic private images per domain from `CompVis/stable-diffusion-v1-1`,
+  fine-tunes checkpoints under `./ckpts/<domain>/`, expects local
+  `data/laion-2b` and `data/celeb_and_web` member/nonmember folders, and then
+  prints SecMI AUROC or generates extraction candidates at runtime. It commits
+  no frozen target checkpoint, immutable sample membership manifest, generated
+  private-set packet, generated attack response, per-sample score array, ROC
+  array, metric JSON, or ready verifier. Do not download SD weights,
+  LAION/person images, synthetic private sets, checkpoints, or full repo
+  payloads; do not run `sp_gen.py`, LoRA/DB/End2End fine-tuning, SecMI scripts,
+  or data extraction; and do not promote it into Platform/Runtime rows without
+  public checkpoint-bound score artifacts and immutable membership semantics.
 - DualMD / DistillMD remains defense watch-plus only. The OpenReview `DDMD/`
   supplementary archive exposes DDPM/LDM training, disjoint teacher,
   distillation, PIA/SecMIA, black-box attack code, DDPM split-index files, and
@@ -183,7 +199,8 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
   Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
   Memorization Anisotropy, StablePrivateLoRA, DualMD/DistillMD,
-  MIAHOLD/HOLD++, DIFFENCE, LSA-Probe, MT-MIA, and FSECLab MIA-Diffusion,
+  MIAHOLD/HOLD++, DIFFENCE, LSA-Probe, MT-MIA, FSECLab MIA-Diffusion, and
+  Shake-to-Leak,
   remain limitations or future-work hooks only. Platform/Runtime and
   paperization admitted claims still use only `recon`, `PIA baseline`,
   `PIA defended`, `GSA`, and `DPDM W-1`.
