@@ -1,0 +1,130 @@
+{
+  "date": "2026-05-15",
+  "status": "relational tabular diffusion score-packet public / cross-modal support-only / no dataset-model download / no GPU release / no admitted row",
+  "repository": {
+    "url": "https://github.com/joshward96/MT-MIA",
+    "checked_commit": "d02aebb9241b383f08a4f89cc32054cf283c2ec6",
+    "default_branch": "master",
+    "paper_title": "Finding Connections: Membership Inference Attacks for the Multi-Table Synthetic Data Setting",
+    "license_file_observed": false
+  },
+  "public_surface": {
+    "split_dirs": [
+      "data/airbnb/split/{mem,non_mem,ref}/",
+      "data/airlines/split/{mem,non_mem,ref}/",
+      "data/california/split/{mem,non_mem,ref}/"
+    ],
+    "diffusion_synth_dirs": [
+      "synth_data/clava_synth/{airbnb,airlines,california}/seed_{42,43,44}/",
+      "synth_data/reldiff_synth/{airbnb,airlines,california}/seed_{42,43,44}/"
+    ],
+    "diffusion_result_dirs": [
+      "results/clava_ddpm/{airbnb,airlines,california}/",
+      "results/reldiff/{airbnb,airlines,california}/"
+    ],
+    "result_packet_bytes_total": 68314507,
+    "result_packet_count": 18,
+    "notes": "Only official result JSONL packets were downloaded to temporary storage for metric extraction. Raw original data, synthetic CSV payloads, model checkpoints, and the full repository were not downloaded."
+  },
+  "metric_semantics": {
+    "score_count_per_packet": 2000,
+    "auc_field": "full.results.auc_roc",
+    "tpr_at_0_1_percent_fpr_field": "full.results.tpr_at_fpr_0.001",
+    "tpr_at_1_percent_fpr_field": "full.results.tpr_at_fpr_0.01",
+    "tpr_at_10_percent_fpr_field": "full.results.tpr_at_fpr_0.1",
+    "caveat": "The JSONL packets contain official metrics and score arrays, but not row-level IDs attached to each score. This is enough for Research-side support evidence, not for Platform/Runtime admission."
+  },
+  "group_summary": [
+    {
+      "generator": "clava_ddpm",
+      "dataset": "airbnb",
+      "files": 3,
+      "max_best_auc": 0.813183,
+      "mean_best_auc": 0.801208,
+      "min_best_auc": 0.794686,
+      "max_tpr_at_0_1_percent_fpr": 0.015,
+      "max_tpr_at_1_percent_fpr": 0.097
+    },
+    {
+      "generator": "clava_ddpm",
+      "dataset": "airlines",
+      "files": 3,
+      "max_best_auc": 0.766168,
+      "mean_best_auc": 0.759413,
+      "min_best_auc": 0.752103,
+      "max_tpr_at_0_1_percent_fpr": 0.205,
+      "max_tpr_at_1_percent_fpr": 0.348
+    },
+    {
+      "generator": "clava_ddpm",
+      "dataset": "california",
+      "files": 3,
+      "max_best_auc": 0.746011,
+      "mean_best_auc": 0.703928,
+      "min_best_auc": 0.644946,
+      "max_tpr_at_0_1_percent_fpr": 0.192,
+      "max_tpr_at_1_percent_fpr": 0.260
+    },
+    {
+      "generator": "reldiff",
+      "dataset": "airbnb",
+      "files": 3,
+      "max_best_auc": 0.631966,
+      "mean_best_auc": 0.623403,
+      "min_best_auc": 0.608931,
+      "max_tpr_at_0_1_percent_fpr": 0.044,
+      "max_tpr_at_1_percent_fpr": 0.065
+    },
+    {
+      "generator": "reldiff",
+      "dataset": "airlines",
+      "files": 3,
+      "max_best_auc": 0.526468,
+      "mean_best_auc": 0.523063,
+      "min_best_auc": 0.520509,
+      "max_tpr_at_0_1_percent_fpr": 0.001,
+      "max_tpr_at_1_percent_fpr": 0.014
+    },
+    {
+      "generator": "reldiff",
+      "dataset": "california",
+      "files": 3,
+      "max_best_auc": 0.651050,
+      "mean_best_auc": 0.648407,
+      "min_best_auc": 0.645424,
+      "max_tpr_at_0_1_percent_fpr": 0.211,
+      "max_tpr_at_1_percent_fpr": 0.253
+    }
+  ],
+  "per_file_metrics": [
+    {"generator": "clava_ddpm", "dataset": "airbnb", "seed": 42, "bytes": 5094022, "sha256": "a3f8887566079c626be0d7ed26e641a0eeec9b413942c140894731ce437bf246", "epochs": 40, "best_epoch": 200, "best_auc": 0.794686, "best_tpr_at_0_1_percent_fpr": 0.009, "best_tpr_at_1_percent_fpr": 0.094, "last_epoch": 200, "last_auc": 0.794686},
+    {"generator": "clava_ddpm", "dataset": "airbnb", "seed": 43, "bytes": 3834940, "sha256": "5950301cb4bbf66c16998917e00c57f1f6a045e5d48e167b24454b25543ea241", "epochs": 30, "best_epoch": 145, "best_auc": 0.795756, "best_tpr_at_0_1_percent_fpr": 0.015, "best_tpr_at_1_percent_fpr": 0.097, "last_epoch": 150, "last_auc": 0.795743},
+    {"generator": "clava_ddpm", "dataset": "airbnb", "seed": 44, "bytes": 5075629, "sha256": "c0405090295fbea26e6a903c19b4df548c3a0db802e39595a7f1b12726a7c3dd", "epochs": 40, "best_epoch": 145, "best_auc": 0.813183, "best_tpr_at_0_1_percent_fpr": 0.008, "best_tpr_at_1_percent_fpr": 0.072, "last_epoch": 200, "last_auc": 0.811882},
+    {"generator": "clava_ddpm", "dataset": "airlines", "seed": 42, "bytes": 7033498, "sha256": "d3e0f688899f3a6933fd3027813e298ef2c0c3b0ddc69925ab2196784615d8db", "epochs": 50, "best_epoch": 70, "best_auc": 0.766168, "best_tpr_at_0_1_percent_fpr": 0.191, "best_tpr_at_1_percent_fpr": 0.328, "last_epoch": 250, "last_auc": 0.659946},
+    {"generator": "clava_ddpm", "dataset": "airlines", "seed": 43, "bytes": 7031751, "sha256": "7dbe446d6a4f34c0e0b287d86f660cfb6710a02ca3a419e05c6ec05e6db62d36", "epochs": 50, "best_epoch": 60, "best_auc": 0.752103, "best_tpr_at_0_1_percent_fpr": 0.101, "best_tpr_at_1_percent_fpr": 0.294, "last_epoch": 250, "last_auc": 0.646674},
+    {"generator": "clava_ddpm", "dataset": "airlines", "seed": 44, "bytes": 7034294, "sha256": "103053746a76538f6e38b4a39f7cc4059a4e9a1d4f17966c0d4bf4cce6e7956c", "epochs": 50, "best_epoch": 60, "best_auc": 0.759967, "best_tpr_at_0_1_percent_fpr": 0.205, "best_tpr_at_1_percent_fpr": 0.348, "last_epoch": 250, "last_auc": 0.664326},
+    {"generator": "clava_ddpm", "dataset": "california", "seed": 42, "bytes": 1115404, "sha256": "b960429a831d4ab504595545124af4754e649b84cbee11a3f98efe69216e161d", "epochs": 9, "best_epoch": 5, "best_auc": 0.644946, "best_tpr_at_0_1_percent_fpr": 0.192, "best_tpr_at_1_percent_fpr": 0.260, "last_epoch": 45, "last_auc": 0.644037},
+    {"generator": "clava_ddpm", "dataset": "california", "seed": 43, "bytes": 1137751, "sha256": "b352c780333a050f2c4e5c4c83359c9e427e9d3e9a25d0b574608802e78b0f40", "epochs": 9, "best_epoch": 45, "best_auc": 0.746011, "best_tpr_at_0_1_percent_fpr": 0.051, "best_tpr_at_1_percent_fpr": 0.150, "last_epoch": 45, "last_auc": 0.746011},
+    {"generator": "clava_ddpm", "dataset": "california", "seed": 44, "bytes": 1133455, "sha256": "55acc5d1194ae6bb80372f00604947ce7d40278931d508bbe8f2c238d3769f7d", "epochs": 9, "best_epoch": 5, "best_auc": 0.720828, "best_tpr_at_0_1_percent_fpr": 0.078, "best_tpr_at_1_percent_fpr": 0.174, "last_epoch": 45, "last_auc": 0.683967},
+    {"generator": "reldiff", "dataset": "airbnb", "seed": 42, "bytes": 370748, "sha256": "143b33ee3ddca0c41d913b6aa719a3e7cf129d9f1594777324ed01a5c77811c5", "epochs": 3, "best_epoch": 15, "best_auc": 0.608931, "best_tpr_at_0_1_percent_fpr": 0.044, "best_tpr_at_1_percent_fpr": 0.056, "last_epoch": 15, "last_auc": 0.608931},
+    {"generator": "reldiff", "dataset": "airbnb", "seed": 43, "bytes": 370942, "sha256": "cf8425c04caeea538b8553a2e98c1bc68c87f389f6f65feefff024179f903a4b", "epochs": 3, "best_epoch": 15, "best_auc": 0.629312, "best_tpr_at_0_1_percent_fpr": 0.012, "best_tpr_at_1_percent_fpr": 0.065, "last_epoch": 15, "last_auc": 0.629312},
+    {"generator": "reldiff", "dataset": "airbnb", "seed": 44, "bytes": 370892, "sha256": "cea47c454768aef51c416d664244920a0e9ef1443a94a38daa2e96b9c3a774fb", "epochs": 3, "best_epoch": 15, "best_auc": 0.631966, "best_tpr_at_0_1_percent_fpr": 0.030, "best_tpr_at_1_percent_fpr": 0.055, "last_epoch": 15, "last_auc": 0.631966},
+    {"generator": "reldiff", "dataset": "airlines", "seed": 42, "bytes": 9605267, "sha256": "1b8c75904c6e995870f690fbe5f4ce970fae9f9d014ffbea50dea98b0aaf6e43", "epochs": 73, "best_epoch": 5, "best_auc": 0.520509, "best_tpr_at_0_1_percent_fpr": 0.001, "best_tpr_at_1_percent_fpr": 0.009, "last_epoch": 300, "last_auc": 0.493804},
+    {"generator": "reldiff", "dataset": "airlines", "seed": 43, "bytes": 7887157, "sha256": "054e25fd43bf5b8c2f912d5a09346cb858348aeecc79efd3a076c41744e0cdca", "epochs": 60, "best_epoch": 125, "best_auc": 0.526468, "best_tpr_at_0_1_percent_fpr": 0.001, "best_tpr_at_1_percent_fpr": 0.011, "last_epoch": 300, "last_auc": 0.483546},
+    {"generator": "reldiff", "dataset": "airlines", "seed": 44, "bytes": 7883117, "sha256": "8e4eb0b66feacf360ae3233bebf26bbee3d06c65fdbb551ad462f8d2c3393e1c", "epochs": 60, "best_epoch": 155, "best_auc": 0.522211, "best_tpr_at_0_1_percent_fpr": 0.000, "best_tpr_at_1_percent_fpr": 0.014, "last_epoch": 300, "last_auc": 0.485099},
+    {"generator": "reldiff", "dataset": "california", "seed": 42, "bytes": 1114404, "sha256": "83ea6ba798fe96af3f32b387b1543179c41541b33ae9eda14fe929264e5824f1", "epochs": 9, "best_epoch": 45, "best_auc": 0.648746, "best_tpr_at_0_1_percent_fpr": 0.168, "best_tpr_at_1_percent_fpr": 0.226, "last_epoch": 45, "last_auc": 0.648746},
+    {"generator": "reldiff", "dataset": "california", "seed": 43, "bytes": 1111353, "sha256": "5bfd23c55cf3e16f163097687fef47914c524b7e905e74f034bc3d1f7bd0e705", "epochs": 9, "best_epoch": 5, "best_auc": 0.645424, "best_tpr_at_0_1_percent_fpr": 0.206, "best_tpr_at_1_percent_fpr": 0.251, "last_epoch": 45, "last_auc": 0.638095},
+    {"generator": "reldiff", "dataset": "california", "seed": 44, "bytes": 1109883, "sha256": "a28d2f484eff01e5630d3d266c9a3bbf92a782155b42f6a5710c9d9765cdbec2", "epochs": 9, "best_epoch": 5, "best_auc": 0.651050, "best_tpr_at_0_1_percent_fpr": 0.211, "best_tpr_at_1_percent_fpr": 0.253, "last_epoch": 45, "last_auc": 0.643539}
+  ],
+  "decision": {
+    "artifact_verdict": "public official score/metric packets exist for ClavaDDPM and RelDiff multi-table synthetic-data membership runs",
+    "consumer_verdict": "Research-only cross-modal relational-tabular support evidence; no Platform/Runtime admitted row",
+    "gpu_release": false,
+    "dataset_or_model_download": false,
+    "reopen_conditions": [
+      "DiffAudit explicitly opens a relational tabular synthetic-data membership lane with consumer-boundary semantics",
+      "authors publish row-level score IDs or verifier artifacts that bind each score to the public member/nonmember split rows",
+      "a paperization task needs a clearly labeled cross-domain support example outside Platform/Runtime admitted rows"
+    ]
+  }
+}
