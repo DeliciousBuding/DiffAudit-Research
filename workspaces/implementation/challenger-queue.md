@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `I-B shadow-local GSA risk preflight completed after Tracing Roots candidate-only card` |
+| Active work | `Quantile Diffusion MIA SecMI-style t_error replay completed after I-B shadow-local GSA risk preflight` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after I-B shadow-local GSA risk preflight |
+| CPU sidecar | none selected after Quantile Diffusion MIA SecMI T-Error replay |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -26,6 +26,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | SecMI admission contract | gray-box | structural-support-only | full-split stat/NNS evidence is strong and evidence-ready; consumer review completed | not admitted; NNS product semantics, adaptive comparability, provenance language, and bundle schema fit remain blocked | keep validators active; no new metrics or promotion until a new schema/adaptive protocol exists |
+| Quantile Diffusion MIA SecMI `t_error` replay | gray-box / Lane A-B | candidate-support-only | third-party public CIFAR10/CIFAR100 SecMI-style score rows and split manifests replay from committed files with positive AUC | not official Quantile Regression paper output; same-family SecMI support only; no admitted-row consumer contract | keep as support evidence only; do not clone full repo, download DDPM/CIFAR/SharePoint assets, train, fit quantile models, or release GPU |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -54,10 +55,19 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-I-B-GSA-Preflight Long-Horizon Idle State
+### Post-Quantile-SecMI-T-Error Long-Horizon Idle State
 
-- `mode`: defense CPU preflight after a candidate-card product-boundary sync
-- `status`: The latest defense verdict is the I-B shadow-local GSA risk
+- `mode`: support-only public score-packet replay after defense CPU preflight
+  and candidate-card product-boundary sync
+- `status`: The latest metric verdict is the Quantile Diffusion MIA SecMI
+  `t_error` replay. `neilkale/quantile-diffusion-mia` publishes committed
+  CIFAR10/CIFAR100 SecMI-style score rows plus split manifests. Replaying
+  `score = -t_error` gives CIFAR10 `AUC = 0.843853` and CIFAR100
+  `AUC = 0.782126`, with positive ASR but weak strict-tail recovery. The
+  result is support-only: it is not the official Quantile Regression paper
+  output, not an admitted Platform/Runtime row, and it releases no full repo
+  clone, asset download, training, quantile fitting, CPU sidecar, or GPU work.
+  The previous defense verdict is the I-B shadow-local GSA risk
   preflight. Existing GSA shadow loss-score exports now produce true
   shadow-local GSA-only k32 risk records for `shadow-01`, `shadow-02`, and
   `shadow-03`; duplicate suffix IDs are de-duplicated before identity-file
@@ -133,6 +143,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 Current evidence:
 
+- [../../docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md](../../docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md)
 - [../../docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md](../../docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md)
 - [../../docs/product-bridge/tracing-roots-candidate-evidence-card.md](../../docs/product-bridge/tracing-roots-candidate-evidence-card.md)
 - [../../docs/evidence/midst-tabddpm-ept-scout-20260515.md](../../docs/evidence/midst-tabddpm-ept-scout-20260515.md)

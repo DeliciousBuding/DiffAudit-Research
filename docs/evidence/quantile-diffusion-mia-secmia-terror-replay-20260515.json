@@ -1,0 +1,86 @@
+{
+  "schema": "diffaudit.quantile_diffusion_mia_secmia_terror_replay.v1",
+  "status": "candidate_support_only",
+  "track": "gray-box",
+  "method": "secmia_t_error_replay",
+  "repository": "https://github.com/neilkale/quantile-diffusion-mia",
+  "checked_commit": "2274da4413f358ef4876b5737c50e1a9d4fb08b8",
+  "repo_pushed_at": "2025-03-27T01:13:33Z",
+  "gpu_release": "none",
+  "admitted": false,
+  "platform_runtime_change": "none",
+  "contract_semantics": "third-party SecMI-style t_error score packet, not official Quantile Regression paper output",
+  "source_artifacts": {
+    "cifar10_member_results": {
+      "path": "SecMI/t_errors/cifar10/member_results.json",
+      "bytes": 2012012,
+      "sha256": "aafd7376b36f6f5e0ff39b1fe43af5e2850c832cb5421df05654236cc6557476"
+    },
+    "cifar10_nonmember_results": {
+      "path": "SecMI/t_errors/cifar10/nonmember_results.json",
+      "bytes": 2005781,
+      "sha256": "3f2125fce05b76b2eccd7d42bbbb299183f240543144423fbbe09c876b8ebea6"
+    },
+    "cifar100_member_results": {
+      "path": "SecMI/t_errors/cifar100/member_results.json",
+      "bytes": 2032015,
+      "sha256": "bcbd9312f05c4adaacee7388d06bfd1bb446fac235bab76eac3ea89ab62a9849"
+    },
+    "cifar100_nonmember_results": {
+      "path": "SecMI/t_errors/cifar100/nonmember_results.json",
+      "bytes": 2028687,
+      "sha256": "13fad04b4042049251fc84ff981081c200755721188f1f2e1561425bf9ac2c16"
+    },
+    "cifar10_split": {
+      "path": "SecMI/mia_evals/member_splits/CIFAR10_train_ratio0.5.npz",
+      "bytes": 400790,
+      "sha256": "aca922ecee25ef00dc6b6377ebaf7875dfcc77c2cdfe27c873b26a65134aa0c0"
+    },
+    "cifar100_split": {
+      "path": "SecMI/mia_evals/member_splits/CIFAR100_train_ratio0.5.npz",
+      "bytes": 400790,
+      "sha256": "4b73cc9869bc414f2a87321fd0768f668da346e599ca8cffeea610755c76dae4"
+    }
+  },
+  "score_direction": "score = -t_error; lower t_error is more member-like",
+  "results": {
+    "cifar10": {
+      "member_count": 25000,
+      "nonmember_count": 25000,
+      "member_image_id_unique": 25000,
+      "nonmember_image_id_unique": 25000,
+      "overlap_image_ids": 0,
+      "member_t_error_mean": 0.001729187,
+      "nonmember_t_error_mean": 0.003145694,
+      "metrics": {
+        "auc": 0.843853,
+        "asr": 0.77104,
+        "tpr_at_1pct_fpr": 0.09088,
+        "tpr_at_0_1pct_fpr": 0.006
+      }
+    },
+    "cifar100": {
+      "member_count": 25000,
+      "nonmember_count": 25000,
+      "member_image_id_unique": 25000,
+      "nonmember_image_id_unique": 25000,
+      "overlap_image_ids": 0,
+      "member_t_error_mean": 0.000000222,
+      "nonmember_t_error_mean": 0.000000358,
+      "metrics": {
+        "auc": 0.782126,
+        "asr": 0.71164,
+        "tpr_at_1pct_fpr": 0.08736,
+        "tpr_at_0_1pct_fpr": 0.0078
+      }
+    }
+  },
+  "blocked_claims": [
+    "official Quantile Regression paper replay",
+    "new admitted gray-box row",
+    "Platform/Runtime evidence promotion",
+    "GPU release",
+    "from-scratch DDPM or quantile-regression training"
+  ],
+  "evidence_doc": "docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md"
+}
