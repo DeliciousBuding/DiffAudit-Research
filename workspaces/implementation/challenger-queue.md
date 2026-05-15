@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `DCR copying manifest gate completed after FCRE medical frequency artifact gate` |
+| Active work | `VAE2Diffusion latent-space inversion gate completed after DCR copying manifest gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after DCR copying manifest gate |
+| CPU sidecar | none selected after VAE2Diffusion latent-space inversion gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -31,6 +31,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo exposes code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
 | MIAHOLD / HOLD++ higher-order Langevin defense | defense / Lane A-B | defense watch-plus | official MIAHOLD repos expose higher-order Langevin defense code, audio split filelists, a CIFAR HOLD config, and PIA-style attack code | no checkpoint-bound target artifact, reusable score rows, ROC arrays, metric JSON, generated responses, or ready verifier | keep as defense watch-plus only; do not download Google Drive checkpoints/datasets, scrape W&B, train HOLD++ models, or release GPU |
 | MT-MIA relational diffusion score packet | intake / Lane A | relational-tabular support-only | official `joshward96/MT-MIA` repo exposes multi-table member/nonmember/reference splits, pre-generated ClavaDDPM and RelDiff synthetic outputs, and `18` MT-MIA score/metric JSONL packets | outside current image/latent Platform/Runtime boundary; packets lack row-ID-bound score manifests and no relational-tabular consumer schema exists | keep as Research-only support evidence; do not download raw/synthetic data, full repo, or training assets, regenerate RelDiff, release GPU, or promote Platform/Runtime rows |
+| VAE2Diffusion latent-space inversion | gray-box / Lane A | code-public latent-space MIA watch-plus | official `mx-ethan-rao/VAE2Diffusion` repo exposes decoder-geometry / latent-dimension filtering code and LDM/SD scripts; arXiv source claims public splits/checkpoints | README split/checkpoint link is empty; no GitHub releases; recursive tree has no split/checkpoint/score/ROC/metric/response/verifier artifacts; scripts require author-local paths and from-scratch training/fine-tuning/cache generation | keep as latent-space mechanism watch; do not download datasets/models/checkpoints/caches, train/fine-tune, run SimA/PFAMI/PIA variants, release GPU, or promote Platform/Runtime rows |
 | DCR copying / replication | intake / Lane A | copying/memorization semantic-shift watch-plus | official `somepago/DCR` repo exposes diffusion replication/copying code, retrieval/similarity scripts, metric helpers, and a committed LAION caption manifest | README LAION-10k Drive split link returns `404`; claim is copying rather than per-sample MIA; no immutable member/nonmember MIA split, target checkpoint, generated response package, score rows, ROC arrays, metric JSON, or ready verifier | keep as copying/privacy watch only; do not download LAION/Drive/model assets, fine-tune, infer, run retrieval, release GPU, or promote Platform/Runtime rows |
 | FCRE medical frequency MIA | gray-box / Lane A-B | paper-source-only / cross-domain watch | arXiv `2506.14919` reports frequency-calibrated reconstruction-error MIA metrics on FeTS 2022, ChestX-ray8, and CIFAR-10 | no official code, immutable split manifests, target checkpoints, generated reconstruction packets, score rows, ROC arrays, metric JSON, or ready verifier | keep as method context only; do not download FeTS/ChestX-ray8/CIFAR, train targets, run DDIM reconstruction, sweep frequency bands, release GPU, or promote Platform/Runtime rows |
 | Tabular Privacy Leakage TDM | intake / Lane A | single-table tabular watch-plus | arXiv `2605.06835` links official `VectorInstitute/midst-toolkit`; the toolkit exposes ClavaDDPM training/synthesis, Tartan Federer/Ensemble/EPT attacks, privacy/quality metrics, examples, and small integration-test TabDDPM fixtures | no paper-bound Berka/Diabetes target checkpoints, immutable split manifests, generated synthetic tables, score rows, ROC arrays, metric JSON, or ready verifier; current scope lacks a tabular consumer boundary | keep as Research-only watch-plus; do not download Berka/Diabetes/MIDST resources, train targets/shadows, run attacks, release GPU, or promote Platform/Runtime rows |
@@ -65,13 +66,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-DCR Long-Horizon Idle State
+### Post-VAE2Diffusion Long-Horizon Idle State
 
-- `mode`: post-DCR copying manifest gate after FCRE medical frequency, Tabular
-  Privacy Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA
-  relational diffusion score-packet, and the 2026-05-15 admitted
-  consumer-boundary sync
-- `status`: The latest asset verdict is the DCR copying manifest gate.
+- `mode`: post-VAE2Diffusion latent-space inversion gate after DCR copying,
+  FCRE medical frequency, Tabular Privacy Leakage TDM, TMIA-DM, Shake-to-Leak,
+  FSECLab MIA-Diffusion, MT-MIA relational diffusion score-packet, and the
+  2026-05-15 admitted consumer-boundary sync
+- `status`: The latest asset verdict is the VAE2Diffusion latent-space
+  inversion gate. `mx-ethan-rao/VAE2Diffusion` exposes code for decoder-geometry
+  / latent-dimension filtering membership inference on LDMs, but the README
+  split/checkpoint link is empty, the repo has no release assets, the recursive
+  tree has no split, checkpoint, score, ROC, metric, response, or verifier
+  artifacts, and scripts require author-local paths plus local training /
+  fine-tuning and pullback/per-dim cache generation. The result is code-public
+  latent-space MIA watch-plus only: no dataset/model/checkpoint/cache download,
+  CPU sidecar, GPU release, Platform row, or Runtime schema is selected. The
+  previous asset verdict is the DCR copying manifest gate.
   `somepago/DCR` publishes official replication/copying code, retrieval scripts,
   metric helpers, and LAION caption metadata, but the README LAION-10k Drive
   split link returned `404`, and no immutable member/nonmember MIA split, target
