@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Reconstruction-Based Attack artifact gate completed after TMIA-DM, Shake-to-Leak, and FSECLab MIA-Diffusion gates. Status: Reconstruction-Based Attack is checkpoint-and-dataset-public black-box fine-tuned diffusion MIA watch-plus, but the checked Zenodo central directory has an incomplete score-input split and no generated responses, reconstruction-distance feature packets, score rows, ROC arrays, metric JSON, or ready verifier; no full download, GPU release, or admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after Reconstruction-Based Attack artifact gate.`
+- Active work: `TMIA-DM temporal artifact gate completed after the Shake-to-Leak and FSECLab MIA-Diffusion code artifact gates. Status: TMIA-DM is paper-only temporal-noise gradient MIA / reported metrics only / no code-score artifact / no download / no GPU release / no admitted row; Shake-to-Leak is code-public generative-privacy watch-plus with checkpoint/data/score artifacts missing and no download/execution release. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after TMIA-DM temporal artifact gate, with Shake-to-Leak Stable Diffusion weights, LAION/person images, synthetic private sets, checkpoints, fine-tuning scripts, SecMI scripts, and data extraction still blocked.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -174,21 +174,6 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   targets, reconstruct temporal-noise trajectory pipelines, launch GPU work,
   or promote TMIA-DM without official code plus immutable target/split
   artifacts and reusable score packets.
-- Reconstruction-Based Attack / `py85252876/Reconstruction-based-Attack` is a
-  code-and-Zenodo black-box fine-tuned diffusion MIA watch-plus item, not a
-  current execution target. The public repo exposes a LoRA-fine-tuned Stable
-  Diffusion v1-5 reconstruction-distance pipeline, and Zenodo
-  `10.5281/zenodo.13371475` exposes a `736,366,195` byte ZIP with CelebA
-  LoRA checkpoint folders and several dataset pickle files. Range inspection
-  of the ZIP central directory found no generated responses,
-  reconstruction-distance feature packets, score rows, ROC arrays, metric
-  JSON, or ready verifier, and did not expose the complete
-  `target_member`/`target_non_member`/`shadow_member`/`shadow_non_member`
-  score-input set required by `test_accuracy.py`. Do not download the ZIP, SD
-  v1-5 weights, or CelebA assets; do not run LoRA inference, feature
-  extraction, classifier replay, or a tiny GPU packet unless a complete public
-  score-input/response-feature packet appears or a separate reviewed
-  checkpoint/data-starter lane is opened.
 - DualMD / DistillMD remains defense watch-plus only. The OpenReview `DDMD/`
   supplementary archive exposes DDPM/LDM training, disjoint teacher,
   distillation, PIA/SecMIA, black-box attack code, DDPM split-index files, and
@@ -226,7 +211,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
   Memorization Anisotropy, StablePrivateLoRA, DualMD/DistillMD,
   MIAHOLD/HOLD++, DIFFENCE, LSA-Probe, MT-MIA, FSECLab MIA-Diffusion,
-  Shake-to-Leak, TMIA-DM, and Reconstruction-Based Attack,
+  Shake-to-Leak, and TMIA-DM,
   remain limitations or future-work hooks only. Platform/Runtime and
   paperization admitted claims still use only `recon`, `PIA baseline`,
   `PIA defended`, `GSA`, and `DPDM W-1`.
