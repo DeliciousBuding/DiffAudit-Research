@@ -32,6 +32,7 @@ GenAI Confessions black-box image-to-image MIA, DurMI TTS duration-loss MIA,
 LSA-Probe music diffusion MIA, FERMI multi-relational tabular MIA,
 MT-MIA relational tabular diffusion MIA score packets,
 Shake-to-Leak fine-tuning-amplified generative privacy code release,
+TMIA-DM temporal-noise / noise-gradient diffusion MIA,
 FSECLab MIA-Diffusion DDIM/DCGAN code release,
 DualMD/DistillMD disjoint-split defense, SAMA diffusion-language-model
 membership, VidLeaks text-to-video membership, and GGDM graph generative
@@ -165,6 +166,16 @@ Platform evidence, Runtime schema input, or active GPU/CPU work unless public
 checkpoint-bound score artifacts and immutable membership semantics appear.
 See
 [../evidence/shake-to-leak-code-artifact-gate-20260515.md](../evidence/shake-to-leak-code-artifact-gate-20260515.md).
+
+Current TMIA-DM status: Research-only paper-source watch. The CRAD article for
+`Temporal Membership Inference Attack Method for Diffusion Models` reports a
+temporal-noise / noise-gradient diffusion MIA mechanism and paper-table
+metrics, but the article page lists `资源附件(0)` and no official code, target
+checkpoint, immutable split manifest, score arrays, ROC arrays, metric JSON, or
+verifier output is public. It must not appear as admitted Platform evidence,
+Runtime schema input, or active GPU/CPU work unless official public code plus
+checkpoint-bound target/split artifacts and reusable score packets appear. See
+[../evidence/tmia-dm-temporal-artifact-gate-20260515.md](../evidence/tmia-dm-temporal-artifact-gate-20260515.md).
 
 Current FSECLab MIA-Diffusion status: Research-only code-public watch-plus.
 The official `fseclab-osaka/mia-diffusion` repository ships DDIM/DCGAN

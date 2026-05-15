@@ -22,6 +22,11 @@
   distinct denoiser-output score-norm attack, but public split manifests,
   checkpoints, score arrays, ROC/metric artifacts, and a ready verifier are
   missing; no GPU job is released.
+- TMIA-DM public-surface recheck: CRAD paper/PDF only. The 2026-05-15 gate
+  found no official code, target checkpoint, immutable split manifest,
+  per-sample scores, ROC arrays, metric JSON, or verifier output; do not reopen
+  internal TMIA-DM / tri-score work or implement temporal-noise trajectories
+  from scratch.
 - MoFit status: mechanism-relevant caption-free gray-box route, but public code
   instructions are still `TBW` and target/split artifacts are missing. Do not
   implement surrogate/embedding optimization from scratch or release GPU.
@@ -44,6 +49,9 @@ Current archived paper-candidate reentry review:
 
 Current official SimA artifact gate:
 [../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md).
+
+Current TMIA-DM public-surface recheck:
+[../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md).
 
 Current MoFit artifact verdict:
 [../../docs/evidence/mofit-artifact-verdict-20260513.md](../../docs/evidence/mofit-artifact-verdict-20260513.md).
