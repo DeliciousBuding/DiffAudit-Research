@@ -88,6 +88,15 @@
   does not change Platform/Runtime admitted rows. No raw figshare data,
   synthetic CSV payload, full repo, model/training asset, GPU work, or active
   CPU sidecar is released.
+- FSECLab MIA-Diffusion / `fseclab-osaka/mia-diffusion` is a direct
+  diffusion-MIA code-public watch-plus item. The official repository publishes
+  DDIM/DCGAN training, sampling, white-box attack, black-box attack,
+  dataset-loader, ROC-evaluator code, and two FID-stat `.npz` files, but no
+  frozen target checkpoint, immutable member/nonmember split manifest,
+  generated sample packet, score array, ROC array, metric JSON, or ready
+  verifier output. No CIFAR-10/CelebA download, checkpoint/model acquisition,
+  full repo clone, training, sampling, attack-script run, GPU work, or active
+  CPU sidecar is released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
