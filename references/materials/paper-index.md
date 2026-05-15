@@ -19,7 +19,12 @@
 - 内容简介：这篇论文研究扩散模型的黑盒成员推断问题，目标是在看不到 U-Net、DiT 或中间 timestep 输出的情况下，仅凭图像变体 API 判断某张图像是否出现在训练集中。论文将该问题定位为版权审计和训练数据使用取证的现实需求，尤其面向商业化闭源扩散服务。
 - 核心方法 / 结论：作者提出 `REDIFFUSE`，核心做法是在固定扩散步下多次调用 variation API，对返回图像求平均后再与原图比较；若平均重构更接近原图，则更可能是训练成员。论文同时给出平均化误差收缩的理论解释，并在 DDIM、Stable Diffusion、Diffusion Transformer 上报告了优于 Loss、SecMI、PIA、PIAN 等基线的结果。
 - 和 DiffAudit 的关系：它对 DiffAudit 的价值在于明确提供了一条独立的黑盒路线：当目标系统只暴露公开生成接口而不暴露内部噪声估计时，仍然可以围绕 query budget、差异函数和代理分类器设计成员审计流程。相较当前仓库已覆盖的 `SecMI`、`PIA` 灰盒链路，这篇论文更适合作为未来黑盒实验与产品叙事的基础文献。
-- 开源仓库：暂未找到
+- 开源仓库：OpenReview supplementary material includes a `DDMD/` code tree
+  with DDPM/LDM training, disjoint teacher, distillation, PIA/SecMIA,
+  black-box attack code, DDPM split-index files, and FID stats. The embedded
+  GitHub origin `https://github.com/btr13010/DDMD.git` was not publicly
+  resolvable during the 2026-05-15 artifact gate, and no checkpoint-bound
+  score/ROC/metric artifacts were released.
 - 阅读报告：[Towards Black-Box Membership Inference Attack for Diffusion Models](https://www.feishu.cn/docx/C8qcdxXjpoK3VyxMCzGcxUaOnXg)
 
 ### Membership Inference on Text-to-Image Diffusion Models via Conditional Likelihood Discrepancy

@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `DIFFENCE classifier-defense artifact gate completed after MIAHOLD higher-order Langevin artifact gate; SPIN-UMass/Diffence exposes code, configs, and split-index files, but the protected target is an image classifier, diffusion is only a pre-inference defense component, and checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, and a ready verifier are missing. Status: classifier-defense-code-public / split-index-files-present / diffusion-as-preprocessor-not-target / score-artifacts-missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after DIFFENCE classifier-defense artifact gate`
+- Active work: `DualMD / DistillMD defense artifact gate completed after DIFFENCE classifier-defense artifact gate; OpenReview DDMD supplement exposes code, DDPM split-index files, and FID stats, but the embedded GitHub origin is not public and checkpoint-bound defended/undefended scores, ROC arrays, metric JSON, generated response packets, and a ready verifier are missing. Status: supplement-code-public / split-index-files-present / checkpoint-and-score-artifacts-missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after DualMD / DistillMD defense artifact gate`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -147,6 +147,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   DDPMs, fit quantile models, recover W&B artifacts, reconstruct SecMI splits,
   or build a quantile-regression implementation from scratch before official
   quantile artifacts or a bounded verifier exist.
+- DualMD / DistillMD remains defense watch-plus only. The OpenReview `DDMD/`
+  supplementary archive exposes DDPM/LDM training, disjoint teacher,
+  distillation, PIA/SecMIA, black-box attack code, DDPM split-index files, and
+  FID stats, but the embedded `btr13010/DDMD` GitHub origin is not public and
+  the supplement ships no checkpoint-bound defended/undefended scores, ROC
+  arrays, metric JSON, generated response packet, or ready verifier. Do not
+  download the SharePoint Pokemon payload, Stable Diffusion weights,
+  CIFAR/CIFAR100/STL10/Tiny-ImageNet datasets, run DDPM/LDM training,
+  distillation, SecMIA/PIA, black-box attack scripts, launch GPU work, or
+  promote disjoint-split defense rows until checkpoint-bound score artifacts
+  and a consumer-boundary decision exist.
 - MIAHOLD / HOLD++ higher-order Langevin remains defense watch-plus only. The
   official `bensterl15/MIAHOLD` and
   `bensterl15/MIAHOLDCIFAR` repos expose defense code, audio split filelists, a
@@ -171,7 +182,8 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
   Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
   Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
-  Memorization Anisotropy, StablePrivateLoRA, MIAHOLD/HOLD++, and DIFFENCE,
+  Memorization Anisotropy, StablePrivateLoRA, DualMD/DistillMD,
+  MIAHOLD/HOLD++, and DIFFENCE,
   remain limitations or future-work hooks only. Platform/Runtime and
   paperization admitted claims still use only `recon`, `PIA baseline`,
   `PIA defended`, `GSA`, and `DPDM W-1`.
