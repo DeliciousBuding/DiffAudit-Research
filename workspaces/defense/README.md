@@ -8,6 +8,17 @@ notes should stay archived unless needed for active work.
 Defense results must report low-FPR behavior and adaptive-attacker limitations
 before being promoted to public evidence.
 
+DualMD / DistillMD is defense watch-plus only. The OpenReview DDMD supplement
+exposes DDPM/LDM training, disjoint teacher, distillation, PIA/SecMIA,
+black-box attack, DDPM split-index files, and FID stats, but it ships no frozen
+checkpoints, defended/undefended score rows, ROC arrays, metric JSON,
+generated responses, or ready verifier outputs. Its embedded GitHub origin
+`btr13010/DDMD` is not public. Do not download the SharePoint Pokemon payload,
+Stable Diffusion weights, CIFAR/STL/Tiny-ImageNet datasets, run training or
+attack scripts, launch GPU work, or promote disjoint-split defense rows until
+checkpoint-bound score artifacts and a consumer-boundary decision exist. See
+[../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md](../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md).
+
 DIFFENCE is classifier-defense watch-plus only. The official repo exposes code,
 configs, and split-index files, but the protected target is an image classifier
 and diffusion is only a pre-inference defense component. It requires Google

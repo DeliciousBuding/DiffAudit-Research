@@ -29,8 +29,9 @@ StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
 diffusion MIA, Tracing the Roots diffusion-trajectory feature-packet MIA,
 ReproMIA withdrawn proactive MIA, Noise Aggregation small-noise diffusion MIA,
 GenAI Confessions black-box image-to-image MIA, DurMI TTS duration-loss MIA,
-FERMI multi-relational tabular MIA, SAMA diffusion-language-model membership, VidLeaks
-text-to-video membership, and GGDM graph generative diffusion membership are
+FERMI multi-relational tabular MIA, DualMD/DistillMD disjoint-split defense,
+SAMA diffusion-language-model membership, VidLeaks text-to-video membership,
+and GGDM graph generative diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
 score-packet-missing, positive-but-provenance-limited, withdrawn,
 paper-source-only, or artifact-incomplete lines. They do not change admitted
@@ -136,6 +137,15 @@ not appear as admitted Platform evidence or a Runtime row because it does not
 ship ready duration-loss score arrays, ROC arrays, metric JSON, or generated
 result graphs, and DiffAudit has not opened a TTS/audio consumer lane. See
 [../evidence/durmi-tts-artifact-gate-20260515.md](../evidence/durmi-tts-artifact-gate-20260515.md).
+
+Current DualMD/DistillMD status: Research-only defense watch-plus. The
+OpenReview DDMD supplement ships DDPM/LDM training, disjoint teacher,
+distillation, PIA/SecMIA, black-box attack code, DDPM split-index files, and
+FID stats, but the embedded GitHub origin is not public and it does not ship
+frozen checkpoints, defended/undefended score rows, ROC arrays, metric JSON,
+generated response packets, or a ready verifier. It must not appear as admitted
+Platform evidence or a Runtime row. See
+[../evidence/dualmd-distillmd-defense-artifact-gate-20260515.md](../evidence/dualmd-distillmd-defense-artifact-gate-20260515.md).
 
 Current FERMI status: Research-only tabular watch. The arXiv source reports
 strong multi-relational TabDDPM/TabDiff/TabSyn membership metrics, but the

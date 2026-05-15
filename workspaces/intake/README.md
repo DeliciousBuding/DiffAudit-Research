@@ -4,6 +4,13 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- DualMD / DistillMD / OpenReview `DDMD` is defense watch-plus only. The
+  public supplement exposes code, DDPM split-index files, and FID stats, but
+  the embedded GitHub origin is not public, and no frozen checkpoints,
+  defended/undefended score rows, ROC arrays, metric JSON, generated response
+  packet, or ready verifier are released. No SharePoint Pokemon payload,
+  Stable Diffusion weights, CIFAR/STL/Tiny-ImageNet datasets, training,
+  attack-script run, GPU work, or admitted defense row is released.
 - DIFFENCE / `SPIN-UMass/Diffence` is classifier-defense watch-plus only. The
   public repo exposes code, configs, and small split-index files, but the
   protected target is an image classifier and diffusion is an input-side
@@ -210,6 +217,18 @@ Current DIFFENCE follow-up:
   datasets, train classifiers or diffusion models, generate DIFFENCE
   reconstructions, run MIA scripts, or promote it into Platform/Runtime rows
   inside the current roadmap cycle.
+
+Current DualMD / DistillMD follow-up:
+
+- Keep it as disjoint-split defense watch-plus, not an execution target.
+- Reopen only if public artifacts bind DualMD/DistillMD DDPM or LDM
+  checkpoints to fixed member/nonmember manifests and include raw defended and
+  undefended scores, ROC arrays, metric JSON, generated response packets, or a
+  bounded verifier that avoids retraining and dataset acquisition from scratch.
+- Do not download the SharePoint Pokemon payload, Stable Diffusion weights,
+  CIFAR/CIFAR100/STL10/Tiny-ImageNet datasets, run DDPM/LDM training,
+  distillation, SecMIA/PIA, black-box attack scripts, or promote
+  disjoint-training defense rows inside the current roadmap cycle.
 
 Current CLiD follow-up:
 
