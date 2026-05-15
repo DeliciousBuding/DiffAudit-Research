@@ -4,6 +4,14 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- CPSample / OpenReview `LIBLIlk5M9` is defense watch-plus only. The ICLR 2025
+  supplement provides diffusion/classifier code and four small
+  `inference_attacks/*.txt` loss fragments, but no immutable denoiser/classifier
+  checkpoint hashes, exact subset-index manifests, row-bound protected and
+  unprotected score packets, ROC arrays, metric JSON, retained-utility metrics,
+  or ready verifier. No CIFAR-10/CelebA/LSUN/Stable Diffusion/checkpoint/image
+  download, `python main.py` execution, active CPU sidecar, GPU work, or
+  admitted Platform/Runtime defense row is released.
 - DSiRe / LoRA-WiSE dataset-size recovery is a future weight-only privacy lane
   candidate, not a current per-sample MIA asset. `MoSalama98/DSiRe` provides
   official code, and public non-gated HF `MoSalama98/LoRA-WiSE` exposes `7`
@@ -497,6 +505,20 @@ Current DSiRe / LoRA-WiSE follow-up:
   weights, LoRA tensor shards, run `python dsire.py`, launch FAISS/SVD sweeps,
   or promote it into Platform/Runtime rows inside the current image/latent-image
   roadmap cycle.
+
+Current CPSample follow-up:
+
+- Keep it as a Research-only defense watch-plus item, not an execution target.
+- Reopen only if public artifacts bind denoiser/classifier checkpoints to exact
+  train/test/subset identities and include protected plus unprotected row-bound
+  score packets, ROC/metric JSON, retained-utility metrics, and a ready
+  verifier.
+- Do not download CIFAR-10, CelebA, LSUN, Stable Diffusion weights,
+  denoiser/classifier checkpoints, generated images, or missing Google Drive
+  placeholders; do not run `python main.py`, train classifiers, fine-tune
+  denoisers, generate samples, run `--inference_attack`, launch CPU/GPU
+  sidecars, or promote it into Platform/Runtime rows inside the current roadmap
+  cycle.
 
 Current MIA_SD follow-up:
 
