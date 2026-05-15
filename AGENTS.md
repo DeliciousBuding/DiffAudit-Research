@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD candidate evidence card completed after Noise Aggregation and prior artifact gates; CLiD has a strong official CPU score-packet replay, but row identity remains blocked because score rows are numeric-only and authenticated HF HEAD/Range access to mia_COCO.zip still returns 403, so it remains candidate-only and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Tracing Roots candidate evidence card completed after CLiD and Noise Aggregation candidate/watch gates; Tracing Roots has a positive official OpenReview CIFAR10 feature-packet replay, but raw provenance remains blocked because the packet lacks raw target checkpoint identity, raw sample IDs, and image query-response assets, and arXiv v3 source is TeX/figures-only, so it remains candidate-only Research evidence and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -169,6 +169,20 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   XGBoost sweeps, prompt-shuffle matrices, or promote CLiD into
   Platform/Runtime admitted rows without an image-identity-safe protocol and
   product-bridge handoff.
+- Tracing the Roots now has a machine-readable candidate-only product bridge
+  card at `docs/product-bridge/tracing-roots-candidate-evidence-card.json`.
+  The OpenReview supplementary CIFAR10 diffusion-trajectory feature packet
+  remains positive (`AUC = 0.815826`, `accuracy = 0.737500`,
+  `TPR@1%FPR = 0.134000`, `TPR@0.1%FPR = 0.038000`), but it is
+  Research-only feature-packet evidence. The 2026-05-15 primary-source recheck
+  found the OpenReview attachment still reachable and arXiv `2411.07449v3`
+  source still TeX/figures-only, with no raw target checkpoint identity,
+  member/external sample manifest, image query-response packet, or
+  feature-regeneration script. Do not download raw CIFAR/CelebA-HQ/FFHQ assets,
+  target checkpoints, or generated images; do not expand timestep,
+  feature-family, seed, classifier, optimizer, or regularization sweeps; do not
+  promote Tracing the Roots into Platform/Runtime admitted rows unless
+  DiffAudit explicitly opens a non-black-box feature-packet consumer lane.
 - FMIA / `Unveiling the Impact of Frequency Components on Membership Inference
   Attacks for Diffusion Models` is watch-plus only. The OpenReview supplement
   is small and ships frequency-filter DDIM/Stable Diffusion attack code plus

@@ -2,6 +2,29 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Tracing Roots Candidate Evidence Card
+
+Product-boundary execution converted the positive Tracing the Roots
+feature-packet replay into a machine-readable candidate-only card without
+changing admitted rows. The card records the OpenReview supplementary CIFAR10
+feature-packet replay (`AUC = 0.815826`, `accuracy = 0.737500`,
+`TPR@1%FPR = 0.134000`, `TPR@0.1%FPR = 0.038000`), the fixed feature tensor
+hashes, blocked claims, raw-provenance blockers, and a fresh primary-source
+recheck. The 2026-05-15 live recheck found the current OpenReview attachment
+still returns `200` with `45,499,156` bytes, while arXiv `2411.07449v3` source
+is only TeX, bibliography, style, and figures (`3,614,846` bytes, SHA256
+`f8662fcc4281ca2139fc93eed9819741b65335ee8d7f060abb61d2ad1fda9756`). It does
+not add a raw target checkpoint identity, raw member/external sample manifest,
+or feature-regeneration script.
+
+Decision: `candidate evidence card / positive Research feature packet /
+raw-provenance still blocked / no admitted row / no GPU release`. Current
+slots remain `active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after Tracing Roots candidate evidence card`. See
+[docs/product-bridge/tracing-roots-candidate-evidence-card.md](docs/product-bridge/tracing-roots-candidate-evidence-card.md)
+and
+[docs/product-bridge/tracing-roots-candidate-evidence-card.json](docs/product-bridge/tracing-roots-candidate-evidence-card.json).
+
 ## 2026-05-15 CLiD Candidate Evidence Card
 
 Product-boundary execution converted the official CLiD CPU replay into a
