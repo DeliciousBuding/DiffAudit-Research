@@ -42,6 +42,13 @@
   checkpoints, Stable Diffusion weights, generated samples, score arrays, ROC
   CSVs, metric JSON, or ready verifier packet. No dataset/model download or GPU
   work is released.
+- FCRE / `Frequency-Calibrated Reconstruction Error` is a medical-image
+  frequency MIA paper-source-only watch item. arXiv `2506.14919` reports
+  FeTS 2022, ChestX-ray8, and CIFAR-10 metrics, but no official code, immutable
+  split manifests, target checkpoints, generated reconstruction packets, score
+  rows, ROC arrays, metric JSON, or ready verifier are public. No
+  FeTS/ChestX-ray8/CIFAR download, target training, DDIM reconstruction,
+  frequency sweep, or GPU work is released.
 - SimA / `Score-based Membership Inference on Diffusion Models` is a
   watch-plus mechanism candidate. The official `mx-ethan-rao/SimA` repo ships
   score-based MIA code and scripts across DDPM, Guided Diffusion, LDM, SD1.4,
