@@ -8,6 +8,18 @@ notes should stay archived unless needed for active work.
 Defense results must report low-FPR behavior and adaptive-attacker limitations
 before being promoted to public evidence.
 
+CPSample is defense watch-plus only. The OpenReview ICLR 2025 supplement ships
+diffusion/classifier code and small `inference_attacks/*.txt` loss fragments,
+but no immutable denoiser/classifier checkpoint hashes, exact subset-index
+manifests, row-bound protected/unprotected score packets, ROC arrays, metric
+JSON, retained-utility metrics, or ready verifier. Do not download CIFAR-10,
+CelebA, LSUN, Stable Diffusion weights, model checkpoints, generated images, or
+missing Google Drive placeholders; do not run `python main.py`, train
+classifiers, fine-tune denoisers, run `--inference_attack`, launch GPU work, or
+promote a defense row until checkpoint-bound score artifacts and an adaptive
+defense consumer contract exist. See
+[../../docs/evidence/cpsample-defense-artifact-gate-20260515.md](../../docs/evidence/cpsample-defense-artifact-gate-20260515.md).
+
 DualMD / DistillMD is defense watch-plus only. The OpenReview DDMD supplement
 exposes DDPM/LDM training, disjoint teacher, distillation, PIA/SecMIA,
 black-box attack, DDPM split-index files, and FID stats, but it ships no frozen
