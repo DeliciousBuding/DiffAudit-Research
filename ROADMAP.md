@@ -2,6 +2,26 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 ReproMIA Withdrawn Artifact Gate
+
+Artifact intake checked arXiv `2603.28942` / `ReproMIA` because it explicitly
+claims proactive membership inference across DDPM and Stable Diffusion with
+strong historical paper-table metrics. It does not release a current execution
+lane. The current arXiv record is withdrawn and canonical current PDF/source
+endpoints return `404`. Historical `v1` remains accessible, but the source
+package is only TeX, bibliography/class files, and figure PDFs
+(`1,609,282` bytes, SHA256
+`45f2b92456a9a5e136c54f3daef9e7850ba15567c1b3624ac20c6aa4f76157bd`).
+No official public GitHub repo, Python code, configs, target checkpoints,
+member/nonmember manifests, response/feature packets, score arrays, ROC CSVs,
+or metric JSON were found.
+
+Decision: `withdrawn arXiv / historical source-only diffusion MIA claim / no
+code-score packet / no download / no GPU release`. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and `CPU sidecar =
+none selected after ReproMIA withdrawn artifact gate`. See
+[docs/evidence/repromia-withdrawn-artifact-gate-20260515.md](docs/evidence/repromia-withdrawn-artifact-gate-20260515.md).
+
 ## 2026-05-15 Tracing Roots Product Boundary Sync
 
 Consumer-boundary sync checked whether the positive Tracing the Roots feature
