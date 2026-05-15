@@ -578,28 +578,32 @@ none selected after DualMD / DistillMD defense artifact gate`. See
 
 ## 2026-05-15 DIFFENCE Classifier-Defense Artifact Gate
 
-Lane A/B defense intake checked the official `SPIN-UMass/Diffence` repo for
+Lane A/B defense intake checked the official `SPIN-UMass/Diffence` repo and
+the immutable Zenodo `10.5281/zenodo.13706131` code snapshot for
 `DIFFENCE: Fencing Membership Privacy With Diffusion Models` because it could
 look like a diffusion-model defense execution lane. The checked commit
 `2f7bb87dee863538f902098c84d0fe04ddfdcc3f` exposes code, configs, and small
 split-index files, including CIFAR `25,000 / 25,000` `mia_train_idxs` /
-`mia_eval_idxs` arrays. The protected target, however, is an image classifier;
-diffusion is an input-side purification/pre-inference defense component. The
-repo points to Google Drive classifier and diffusion checkpoints and generates
-results locally, but it does not commit target checkpoints, defended/undefended
-logits, reusable member/nonmember score rows, ROC arrays, metric JSON, or a
-ready verifier.
+`mia_eval_idxs` arrays. The Zenodo file `Diffence-master.zip` is a `2,133,861`
+byte open code snapshot with MD5 `3535eb087cba81de655767510d4c2506`; central
+directory inspection found `604` entries and no checkpoint-bound result packet.
+The protected target, however, is an image classifier; diffusion is an
+input-side purification/pre-inference defense component. The repo and snapshot
+point to Google Drive classifier and diffusion checkpoints and generate results
+locally, but they do not commit target checkpoints, defended/undefended logits,
+reusable member/nonmember score rows, ROC arrays, metric JSON, or a ready
+verifier.
 
-Decision: `classifier-defense-code-public / split-index-files-present /
-diffusion-as-preprocessor-not-target / score-artifacts-missing / no download /
-no GPU release / no admitted row`. Retain DIFFENCE as classifier-defense
-related-method watch-plus only. Do not download its Google Drive checkpoint
-folders or CIFAR/SVHN datasets, train classifiers or diffusion models, generate
-DIFFENCE reconstructions, run its MIA scripts, or promote classifier-defense
-rows without checkpoint-bound score artifacts and an explicit consumer-boundary
-decision. Current slots remain `active_gpu_question = none`,
-`next_gpu_candidate = none`, and `CPU sidecar = none selected after DIFFENCE
-classifier-defense artifact gate`. See
+Decision: `classifier-defense-code-public / immutable Zenodo snapshot checked /
+split-index-files-present / diffusion-as-preprocessor-not-target /
+score-artifacts-missing / no model-data download / no GPU release / no admitted
+row`. Retain DIFFENCE as classifier-defense related-method watch-plus only. Do
+not download its Google Drive checkpoint folders or CIFAR/SVHN datasets, train
+classifiers or diffusion models, generate DIFFENCE reconstructions, run its MIA
+scripts, or promote classifier-defense rows without checkpoint-bound score
+artifacts and an explicit consumer-boundary decision. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after DIFFENCE Zenodo snapshot sync`. See
 [docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md](docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md).
 
 ## 2026-05-15 MIAHOLD Higher-Order Langevin Artifact Gate
