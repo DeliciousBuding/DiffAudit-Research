@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `TMIA-DM temporal artifact gate completed after the Shake-to-Leak and FSECLab MIA-Diffusion code artifact gates. Status: paper-only temporal-noise gradient MIA / reported metrics only / no code-score artifact / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after TMIA-DM temporal artifact gate`
+- Active work: `TMIA-DM temporal artifact gate completed after the Shake-to-Leak and FSECLab MIA-Diffusion code artifact gates. Status: TMIA-DM is paper-only temporal-noise gradient MIA / reported metrics only / no code-score artifact / no download / no GPU release / no admitted row; Shake-to-Leak is code-public generative-privacy watch-plus with checkpoint/data/score artifacts missing and no download/execution release. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after TMIA-DM temporal artifact gate, with Shake-to-Leak Stable Diffusion weights, LAION/person images, synthetic private sets, checkpoints, fine-tuning scripts, SecMI scripts, and data extraction still blocked.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
