@@ -2,6 +2,40 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 DSiRe / LoRA-WiSE Dataset-Size Boundary Gate
+
+Lane A / consumer-boundary search checked `MoSalama98/DSiRe` and the public
+`MoSalama98/LoRA-WiSE` Hugging Face dataset because they are a distinct
+LoRA-weight privacy surface rather than another SecMI/FreMIA/CopyMark-style
+per-sample MIA variant. The official code repository was inspected at `main`
+`7047f5d9a19c1c3a813c2cff603b1004a4250968`
+(`2024-06-30T19:29:53Z`); GitHub metadata lists a research-only Software
+Research License, `0` releases, `0` tags, and a `2,723` KB repo size field.
+The tree contains `LICENCE`, `README.md`, `dsire.py`, `requirements.txt`, and
+`imgs/diagrama.gif`. The Hugging Face dataset was inspected at SHA
+`50551b9e9cc48d04e996ad036a13ab6d1d55cdd4`
+(`2024-07-05T09:33:48Z`), is public and non-gated, and reports
+`102,848,183,091` bytes of used storage, `7` configs, `2,050` dataset rows,
+`101` parquet shards, and `7,993` image files in the metadata listing.
+
+Decision: `public LoRA weight benchmark / dataset-size recovery semantic shift
+/ no dataset download / no GPU release / no admitted row`. DSiRe is a real
+future weight-only privacy lane candidate: the paper/README report dataset-size
+recovery from LoRA weights with best-classifier `MAE = 0.36` images, and
+`dsire.py` computes SVD features over LoRA A/B matrices then evaluates
+accuracy, MAPE, and MAE. It is not a current DiffAudit per-sample MIA asset:
+the label is aggregate fine-tuning dataset size, not member/nonmember identity,
+and there are no per-sample score rows, ROC arrays, AUC/ASR/TPR-at-FPR metrics,
+query/response packets, or admitted consumer semantics. Do not download the
+full LoRA-WiSE dataset, image folders, Stable Diffusion weights, or LoRA tensor
+shards; do not run `python dsire.py *`; do not launch GPU/CPU sidecars or
+promote Platform/Runtime rows unless DiffAudit explicitly opens a weight-only
+LoRA dataset-size recovery lane with MAE/MAPE/accuracy as primary metrics.
+Current slots remain `active_gpu_question = none`, `next_gpu_candidate = none`,
+and `CPU sidecar = none selected after DSiRe / LoRA-WiSE dataset-size boundary
+gate`. See
+[docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md](docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md).
+
 ## 2026-05-15 Hyperparameter-Free SecMI Reproduction Gate
 
 Lane A external scout checked
