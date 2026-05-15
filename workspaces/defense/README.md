@@ -47,14 +47,20 @@ can mechanically form a k32/k32 remap, but this remains blocked as true
 shadow-local scoring because the risk records are target-level PIA/GSA
 full-overlap records:
 [../../docs/evidence/ib-shadow-local-identity-scout-20260512.md](../../docs/evidence/ib-shadow-local-identity-scout-20260512.md).
+A CPU GSA-only preflight now uses the existing per-shadow GSA loss-score
+exports to produce true shadow-local risk records for `shadow-01`,
+`shadow-02`, and `shadow-03`. It de-duplicates repeated suffix IDs before
+writing k32 identity files, but keeps I-B blocked because shadow-local PIA
+risk records are still missing from the frozen PIA+GSA contract:
+[../../docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md](../../docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md).
 
 ## Next Steps
 
-The next valid I-B implementation step is not another threshold-transfer review.
-It is either recomputing true shadow-local risk records or explicitly approving
-the weaker two-shadow remap semantics, then constructing fixed identity files,
-executing a tiny defended-shadow training artifact, and producing
-defended-shadow threshold references plus adaptive-attacker and
+The next valid I-B implementation step is not another threshold-transfer review
+or another target-risk remap. It is either producing shadow-local PIA records
+against the same identity contract or explicitly approving weaker GSA-only
+semantics, then executing a tiny defended-shadow training artifact and
+producing defended-shadow threshold references plus adaptive-attacker and
 retained-utility measurements under the frozen protocol.
 Verified defense claims belong in [../../docs/evidence/](../../docs/evidence/)
 after review.
