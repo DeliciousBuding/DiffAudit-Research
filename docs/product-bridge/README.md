@@ -29,9 +29,10 @@ StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
 diffusion MIA, Tracing the Roots diffusion-trajectory feature-packet MIA,
 ReproMIA withdrawn proactive MIA, Noise Aggregation small-noise diffusion MIA,
 GenAI Confessions black-box image-to-image MIA, DurMI TTS duration-loss MIA,
-FERMI multi-relational tabular MIA, DualMD/DistillMD disjoint-split defense,
-SAMA diffusion-language-model membership, VidLeaks text-to-video membership,
-and GGDM graph generative diffusion membership are
+LSA-Probe music diffusion MIA, FERMI multi-relational tabular MIA,
+DualMD/DistillMD disjoint-split defense, SAMA diffusion-language-model
+membership, VidLeaks text-to-video membership, and GGDM graph generative
+diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
 score-packet-missing, positive-but-provenance-limited, withdrawn,
 paper-source-only, or artifact-incomplete lines. They do not change admitted
@@ -138,6 +139,16 @@ not appear as admitted Platform evidence or a Runtime row because it does not
 ship ready duration-loss score arrays, ROC arrays, metric JSON, or generated
 result graphs, and DiffAudit has not opened a TTS/audio consumer lane. See
 [../evidence/durmi-tts-artifact-gate-20260515.md](../evidence/durmi-tts-artifact-gate-20260515.md).
+
+Current LSA-Probe status: Research-only music/audio cross-modal watch-plus.
+The paper and demo are public, but the project repo has no implementation,
+target identities, exact split manifests, real adversarial-cost score arrays,
+ROC artifacts, metric JSON, or ready verifier. The visible demo
+`data/*.json` files are generated mock data, not paper evidence. It must not
+appear as admitted Platform evidence, Runtime schema input, or active GPU/CPU
+work unless real public artifacts and a music/audio consumer-boundary decision
+exist. See
+[../evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md](../evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md).
 
 Current DualMD/DistillMD status: Research-only defense watch-plus. The
 OpenReview DDMD supplement ships DDPM/LDM training, disjoint teacher,
