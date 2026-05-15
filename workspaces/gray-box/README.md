@@ -30,6 +30,10 @@
 - MoFit status: mechanism-relevant caption-free gray-box route, but public code
   instructions are still `TBW` and target/split artifacts are missing. Do not
   implement surrogate/embedding optimization from scratch or release GPU.
+- DSiRe / LoRA-WiSE status: strong future weight-only privacy lane candidate,
+  but the claim is aggregate LoRA fine-tuning dataset-size recovery, not
+  per-sample membership inference. Do not download LoRA-WiSE or run `dsire.py`
+  unless a separate weight-only consumer contract is opened.
 - GPU: none released.
 
 ## Files
@@ -55,6 +59,9 @@ Current TMIA-DM public-surface recheck:
 
 Current MoFit artifact verdict:
 [../../docs/evidence/mofit-artifact-verdict-20260513.md](../../docs/evidence/mofit-artifact-verdict-20260513.md).
+
+Current DSiRe / LoRA-WiSE boundary gate:
+[../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md](../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md).
 
 Current Fashion-MNIST SimA score-norm closure:
 [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md).
