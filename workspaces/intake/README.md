@@ -4,6 +4,15 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- DSiRe / LoRA-WiSE dataset-size recovery is a future weight-only privacy lane
+  candidate, not a current per-sample MIA asset. `MoSalama98/DSiRe` provides
+  official code, and public non-gated HF `MoSalama98/LoRA-WiSE` exposes `7`
+  configs, `2,050` LoRA fine-tuned model rows, `101` parquet shards, and
+  reported dataset-size recovery `MAE = 0.36` images. The claim is aggregate
+  fine-tuning dataset-size recovery from LoRA weights, not member/nonmember
+  image inference. No LoRA-WiSE dataset/image/model/tensor download, `dsire.py`
+  run, GPU work, active CPU sidecar, or admitted Platform/Runtime row is
+  released.
 - Hyperparameter-free SecMI /
   `mohammadKazzazi/Membership-Inference-Attack-against-Diffusion-Models` is a
   third-party SecMI-family code/report support surface. The repo provides
@@ -476,6 +485,18 @@ Current hyperparameter-free SecMI follow-up:
 - Do not clone the repo, download CIFAR/SecMI SharePoint checkpoints, run
   `python run.py`, execute the notebook, train attackers, or promote it into
   Platform/Runtime rows inside the current roadmap cycle.
+
+Current DSiRe / LoRA-WiSE follow-up:
+
+- Keep it as a Research-only future weight-only privacy lane candidate.
+- Reopen only if DiffAudit explicitly adds a `weight-only LoRA dataset-size
+  recovery` lane with MAE/MAPE/accuracy as primary metrics and a
+  consumer-boundary note separating aggregate dataset-size recovery from
+  per-sample membership inference.
+- Do not download the full LoRA-WiSE dataset, image folders, Stable Diffusion
+  weights, LoRA tensor shards, run `python dsire.py`, launch FAISS/SVD sweeps,
+  or promote it into Platform/Runtime rows inside the current image/latent-image
+  roadmap cycle.
 
 Current MIA_SD follow-up:
 
