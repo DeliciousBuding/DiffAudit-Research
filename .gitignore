@@ -154,6 +154,7 @@ workspaces/**/artifacts/**
 !workspaces/defense/artifacts/ib-reopen-shadow-reference-guard-20260512.json
 !workspaces/defense/artifacts/ib-defended-shadow-training-manifest-20260512.json
 !workspaces/defense/artifacts/ib-shadow-local-identity-scout-20260512.json
+!workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515.json
 !workspaces/gray-box/artifacts/graybox-triscore-consolidation-summary.json
 !workspaces/gray-box/artifacts/graybox-triscore-truth-hardening-review.json
 !workspaces/gray-box/artifacts/graybox-paper-candidate-reentry-20260512.json
