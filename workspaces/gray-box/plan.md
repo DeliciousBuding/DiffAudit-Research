@@ -6,7 +6,9 @@
   provisional defended comparator.
 - `SecMI`: evidence-ready supporting reference and corroboration line, not the
   admitted primary headline.
-- `TMIA-DM`: strong gray-box alternative, secondary to PIA.
+- `TMIA-DM`: known gray-box internal/protocol line, secondary to PIA; the
+  2026-05-15 public-surface recheck is paper-only and does not release replay
+  work.
 - `ReDiffuse`: candidate baseline-alignment line opened by the collaborator
   `DDIMrediffuse` bundle and 750k checkpoint.
 - `SIMA / Noise-as-Probe / MoFit / Structural Memorization`: archived
@@ -14,6 +16,9 @@
 - `Official SimA`: code-public watch-plus after the 2026-05-15 artifact gate;
   still not executable because public split manifests, checkpoints, score
   arrays, ROC/metric artifacts, and a ready verifier are missing.
+- `TMIA-DM public-surface recheck`: paper-only after the 2026-05-15 temporal
+  artifact gate; no official code, checkpoint-bound target, immutable split,
+  score arrays, ROC/metric artifacts, or verifier output is public.
 - `Fashion-MNIST SimA score-norm`: weak fresh mechanism scout on a real
   train/test split (`AUC = 0.515137`, `TPR@1%FPR = 0.0`); no timestep, `p`-norm,
   seed, scheduler, or packet-size expansion.
@@ -76,7 +81,9 @@ Current evidence:
   low-FPR recovery. The 2026-05-15 official SimA release gate found useful
   score-based code but no public split/checkpoint/score packet.
   Noise-as-Probe is sensitive to guidance leakage; MoFit remains canary-only;
-  Structural Memorization is negative on the local smoke. None releases GPU.
+  Structural Memorization is negative on the local smoke. The 2026-05-15
+  TMIA-DM public-surface recheck found no new external artifact and does not
+  reopen internal TMIA-DM / tri-score work. None releases GPU.
 
 ## Next Action
 
@@ -93,7 +100,8 @@ Fashion-MNIST SimA or score-Jacobian checks into timestep, `p`-norm,
 perturbation-scale, seed, scheduler, norm, or packet-size matrices.
 Do not run official SimA GPU jobs, request checkpoints by email, or rebuild its
 DDPM/SD targets from scratch unless public split/checkpoint/score artifacts
-appear.
+appear. Do not implement TMIA-DM temporal-noise trajectories from the paper
+unless official code plus immutable target/split and score artifacts appear.
 
 Canonical consolidation:
 [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md).
@@ -113,6 +121,9 @@ Fashion-MNIST SimA score-norm closure is tracked by
 
 Official SimA artifact gate is tracked by
 [../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md).
+
+TMIA-DM public-surface recheck is tracked by
+[../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md).
 
 Fashion-MNIST score-Jacobian sensitivity closure is tracked by
 [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md).
