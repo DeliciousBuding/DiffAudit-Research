@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Quantile Diffusion MIA SecMI-style t_error replay completed after I-B shadow-local GSA risk preflight; neilkale/quantile-diffusion-mia exposes public CIFAR10/CIFAR100 SecMI-style score rows and split manifests with positive replay metrics, but it is support-only, not the official Quantile Regression paper output, not an admitted Platform/Runtime row, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `MIAHOLD higher-order Langevin artifact gate completed after Quantile Diffusion MIA SecMI-style t_error replay; bensterl15/MIAHOLD and bensterl15/MIAHOLDCIFAR expose defense code, split evidence, a CIFAR HOLD config, and PIA-style attack code, but checkpoint-bound targets, reusable score rows, ROC arrays, metric JSON, generated responses, and a ready verifier are missing. Status: defense-code-public / split-and-attack-code-present / score-artifacts-missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after MIAHOLD higher-order Langevin artifact gate`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -147,11 +147,20 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   DDPMs, fit quantile models, recover W&B artifacts, reconstruct SecMI splits,
   or build a quantile-regression implementation from scratch before official
   quantile artifacts or a bounded verifier exist.
+- MIAHOLD / HOLD++ higher-order Langevin is the latest asset verdict and is
+  defense watch-plus only. The official `bensterl15/MIAHOLD` and
+  `bensterl15/MIAHOLDCIFAR` repos expose defense code, audio split filelists, a
+  CIFAR HOLD config, and PIA-style attack code, but no checkpoint-bound target
+  artifacts, reusable member/nonmember scores, ROC arrays, metric JSON,
+  generated responses, or ready verifier outputs. Do not download
+  Grad-TTS/HiFi-GAN/CLD-SGM checkpoints, CIFAR/CelebA/audio datasets, scrape
+  W&B artifacts, train HOLD++ models, launch GPU work, or promote defense rows
+  until checkpoint-bound score artifacts exist.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
   Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
   Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
-  Memorization Anisotropy, and StablePrivateLoRA, are
+  Memorization Anisotropy, StablePrivateLoRA, and MIAHOLD/HOLD++, remain
   limitations or future-work hooks only. Platform/Runtime and paperization
   admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
   `GSA`, and `DPDM W-1`.
