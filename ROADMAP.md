@@ -26,7 +26,7 @@ contract. Current slots remain `active_gpu_question = none`,
 Diffusion MIA SecMI T-Error replay`. See
 [docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md](docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md)
 and
-[workspaces/gray-box/artifacts/quantile-diffusion-mia-secmia-terror-replay-20260515.json](workspaces/gray-box/artifacts/quantile-diffusion-mia-secmia-terror-replay-20260515.json).
+[docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.json](docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.json).
 
 ## 2026-05-15 I-B Shadow-Local GSA Risk Preflight
 

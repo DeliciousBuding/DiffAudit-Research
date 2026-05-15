@@ -54,7 +54,7 @@ Each JSON row has `image_id` and `t_error`. The replay treats lower
 | `cifar100` | `25,000 / 25,000` | `25,000 / 25,000` | `0` | `0.782126` | `0.711640` | `0.087360` | `0.007800` |
 
 Machine-readable artifact:
-[`workspaces/gray-box/artifacts/quantile-diffusion-mia-secmia-terror-replay-20260515.json`](../../workspaces/gray-box/artifacts/quantile-diffusion-mia-secmia-terror-replay-20260515.json).
+[`quantile-diffusion-mia-secmia-terror-replay-20260515.json`](quantile-diffusion-mia-secmia-terror-replay-20260515.json).
 
 ## Decision
 
