@@ -1,0 +1,595 @@
+{
+  "schema": "diffaudit.ib_shadow_local_gsa_risk_preflight.v1",
+  "status": "blocked",
+  "preflight_status": "complete",
+  "gsa_risk_status": "complete",
+  "admitted": false,
+  "gpu_release": "none",
+  "track": "defense",
+  "method": "risk-targeted-siss-shadow-local-gsa-risk-preflight",
+  "paper": "Diffusion_Unlearning_SISS_ICLR2025",
+  "mode": "shadow-local-gsa-risk-preflight",
+  "hypothesis": "Existing GSA loss-score exports can produce true shadow-local GSA-only risk records for defended-shadow identity selection without running training.",
+  "falsifier": "If fewer than two shadows have member and nonmember GSA loss-score records with sample IDs, even the GSA-only shadow-local preflight remains blocked.",
+  "source_command": "diffaudit prepare-shadow-local-gsa-risk-preflight --workspace workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515 --gsa-loss-score-summary workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/summary.json --shadow-ids shadow-01,shadow-02,shadow-03 --top-k 32 --provenance-status workspace-verified",
+  "provenance_status": "workspace-verified",
+  "workspace": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515",
+  "workspace_name": "ib-shadow-local-gsa-risk-preflight-20260515",
+  "artifact_paths": {
+    "summary": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/summary.json"
+  },
+  "gsa_loss_score_summary": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/summary.json",
+  "contract_semantics": "true-shadow-local-gsa-only-risk-scoring",
+  "top_k": 32,
+  "minimum_gsa_ready_shadows": 2,
+  "gsa_ready_shadows": [
+    "shadow-01",
+    "shadow-02",
+    "shadow-03"
+  ],
+  "risk_record_provenance": {
+    "gsa_loss_score_summary": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/summary.json",
+    "semantic_origin": "shadow checkpoint scored against its own shadow member/nonmember split",
+    "true_shadow_local_gsa_risk_scoring": true,
+    "true_shadow_local_pia_gsa_risk_scoring": false
+  },
+  "shadow_risk_preflight": [
+    {
+      "shadow_id": "shadow-01",
+      "status": "gsa-risk-ready",
+      "gsa_member_orientation": "negated",
+      "gsa_nonmember_orientation": "negated",
+      "score_exports": {
+        "member": {
+          "export_key": "shadow_01_member",
+          "output_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_01_member-loss-scores.pt",
+          "records_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_01_member-loss-scores.jsonl",
+          "sample_count": 83
+        },
+        "nonmember": {
+          "export_key": "shadow_01_non_member",
+          "output_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_01_non_member-loss-scores.pt",
+          "records_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_01_non_member-loss-scores.jsonl",
+          "sample_count": 80
+        }
+      },
+      "risk_record_counts": {
+        "member": 83,
+        "nonmember": 80,
+        "unique_member": 80,
+        "unique_nonmember": 78,
+        "unique_nonmember_disjoint_from_forget": 76,
+        "duplicate_member_split_indices": 3,
+        "duplicate_nonmember_split_indices": 2,
+        "required_per_split": 32
+      },
+      "artifact_paths": {
+        "member_risk_records": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-01/member-gsa-risk-records.jsonl",
+        "nonmember_risk_records": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-01/nonmember-gsa-risk-records.jsonl",
+        "forget_member_index_file": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-01/forget-members-k32.txt",
+        "matched_nonmember_index_file": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-01/matched-nonmembers-k32.txt"
+      },
+      "candidate_forget_member_indices": [
+        1387,
+        180,
+        5824,
+        8992,
+        7022,
+        4184,
+        4147,
+        2483,
+        9194,
+        4559,
+        4774,
+        6674,
+        3824,
+        6539,
+        4519,
+        8239,
+        1439,
+        1756,
+        7562,
+        8497,
+        1346,
+        9897,
+        6581,
+        2629,
+        8488,
+        5939,
+        1802,
+        1749,
+        7008,
+        6429,
+        7015,
+        8553
+      ],
+      "candidate_matched_nonmember_indices": [
+        1309,
+        2044,
+        5995,
+        2160,
+        6900,
+        9741,
+        6239,
+        4257,
+        8237,
+        1168,
+        242,
+        6554,
+        3532,
+        2719,
+        6686,
+        7046,
+        5339,
+        8576,
+        4173,
+        9343,
+        6111,
+        6256,
+        856,
+        5528,
+        3622,
+        9076,
+        4518,
+        6221,
+        5962,
+        3581,
+        6303,
+        451
+      ],
+      "candidate_top_k_means": {
+        "member_gsa_risk": 0.810994,
+        "matched_nonmember_gsa_risk": 0.805078
+      },
+      "record_previews": {
+        "member": [
+          {
+            "split_index": 1387,
+            "combined_rank": 1,
+            "combined_risk": 1.0,
+            "gsa_loss_score": 0.450184
+          },
+          {
+            "split_index": 180,
+            "combined_rank": 2,
+            "combined_risk": 0.987952,
+            "gsa_loss_score": 0.460045
+          },
+          {
+            "split_index": 5824,
+            "combined_rank": 3,
+            "combined_risk": 0.975904,
+            "gsa_loss_score": 0.463338
+          },
+          {
+            "split_index": 8992,
+            "combined_rank": 4,
+            "combined_risk": 0.963855,
+            "gsa_loss_score": 0.464527
+          },
+          {
+            "split_index": 7022,
+            "combined_rank": 5,
+            "combined_risk": 0.951807,
+            "gsa_loss_score": 0.464629
+          }
+        ],
+        "nonmember": [
+          {
+            "split_index": 1309,
+            "combined_rank": 1,
+            "combined_risk": 1.0,
+            "gsa_loss_score": 0.455439
+          },
+          {
+            "split_index": 2044,
+            "combined_rank": 2,
+            "combined_risk": 0.9875,
+            "gsa_loss_score": 0.466429
+          },
+          {
+            "split_index": 5995,
+            "combined_rank": 3,
+            "combined_risk": 0.975,
+            "gsa_loss_score": 0.469817
+          },
+          {
+            "split_index": 2160,
+            "combined_rank": 4,
+            "combined_risk": 0.9625,
+            "gsa_loss_score": 0.473586
+          },
+          {
+            "split_index": 6900,
+            "combined_rank": 5,
+            "combined_risk": 0.95,
+            "gsa_loss_score": 0.47522
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "shadow_id": "shadow-02",
+      "status": "gsa-risk-ready",
+      "gsa_member_orientation": "negated",
+      "gsa_nonmember_orientation": "negated",
+      "score_exports": {
+        "member": {
+          "export_key": "shadow_02_member",
+          "output_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_02_member-loss-scores.pt",
+          "records_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_02_member-loss-scores.jsonl",
+          "sample_count": 81
+        },
+        "nonmember": {
+          "export_key": "shadow_02_non_member",
+          "output_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_02_non_member-loss-scores.pt",
+          "records_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_02_non_member-loss-scores.jsonl",
+          "sample_count": 77
+        }
+      },
+      "risk_record_counts": {
+        "member": 81,
+        "nonmember": 77,
+        "unique_member": 80,
+        "unique_nonmember": 75,
+        "unique_nonmember_disjoint_from_forget": 75,
+        "duplicate_member_split_indices": 1,
+        "duplicate_nonmember_split_indices": 2,
+        "required_per_split": 32
+      },
+      "artifact_paths": {
+        "member_risk_records": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-02/member-gsa-risk-records.jsonl",
+        "nonmember_risk_records": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-02/nonmember-gsa-risk-records.jsonl",
+        "forget_member_index_file": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-02/forget-members-k32.txt",
+        "matched_nonmember_index_file": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-02/matched-nonmembers-k32.txt"
+      },
+      "candidate_forget_member_indices": [
+        6593,
+        8882,
+        4747,
+        4426,
+        9027,
+        8210,
+        2517,
+        207,
+        942,
+        8366,
+        5777,
+        2700,
+        9162,
+        9530,
+        6560,
+        6554,
+        6651,
+        9665,
+        3989,
+        7088,
+        5078,
+        7408,
+        6722,
+        9725,
+        6990,
+        4459,
+        1091,
+        2916,
+        9358,
+        6539,
+        6676,
+        2296
+      ],
+      "candidate_matched_nonmember_indices": [
+        8554,
+        1563,
+        1261,
+        3875,
+        4257,
+        4089,
+        1407,
+        6362,
+        8324,
+        2021,
+        2747,
+        5939,
+        5000,
+        6804,
+        6988,
+        1216,
+        6685,
+        5897,
+        920,
+        2779,
+        6305,
+        4351,
+        8990,
+        7104,
+        3089,
+        6799,
+        9858,
+        9222,
+        2290,
+        8493,
+        1592,
+        6706
+      ],
+      "candidate_top_k_means": {
+        "member_gsa_risk": 0.808642,
+        "matched_nonmember_gsa_risk": 0.798702
+      },
+      "record_previews": {
+        "member": [
+          {
+            "split_index": 6593,
+            "combined_rank": 1,
+            "combined_risk": 1.0,
+            "gsa_loss_score": 0.428552
+          },
+          {
+            "split_index": 8882,
+            "combined_rank": 2,
+            "combined_risk": 0.987654,
+            "gsa_loss_score": 0.442768
+          },
+          {
+            "split_index": 4747,
+            "combined_rank": 3,
+            "combined_risk": 0.975309,
+            "gsa_loss_score": 0.446998
+          },
+          {
+            "split_index": 4426,
+            "combined_rank": 4,
+            "combined_risk": 0.962963,
+            "gsa_loss_score": 0.44781
+          },
+          {
+            "split_index": 9027,
+            "combined_rank": 5,
+            "combined_risk": 0.950617,
+            "gsa_loss_score": 0.448351
+          }
+        ],
+        "nonmember": [
+          {
+            "split_index": 8554,
+            "combined_rank": 1,
+            "combined_risk": 1.0,
+            "gsa_loss_score": 0.447816
+          },
+          {
+            "split_index": 1563,
+            "combined_rank": 2,
+            "combined_risk": 0.987013,
+            "gsa_loss_score": 0.453939
+          },
+          {
+            "split_index": 1261,
+            "combined_rank": 3,
+            "combined_risk": 0.974026,
+            "gsa_loss_score": 0.455937
+          },
+          {
+            "split_index": 3875,
+            "combined_rank": 4,
+            "combined_risk": 0.961039,
+            "gsa_loss_score": 0.460286
+          },
+          {
+            "split_index": 4257,
+            "combined_rank": 5,
+            "combined_risk": 0.948052,
+            "gsa_loss_score": 0.460392
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "shadow_id": "shadow-03",
+      "status": "gsa-risk-ready",
+      "gsa_member_orientation": "negated",
+      "gsa_nonmember_orientation": "negated",
+      "score_exports": {
+        "member": {
+          "export_key": "shadow_03_member",
+          "output_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_03_member-loss-scores.pt",
+          "records_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_03_member-loss-scores.jsonl",
+          "sample_count": 70
+        },
+        "nonmember": {
+          "export_key": "shadow_03_non_member",
+          "output_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_03_non_member-loss-scores.pt",
+          "records_path": "workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/loss-scores/shadow_03_non_member-loss-scores.jsonl",
+          "sample_count": 76
+        }
+      },
+      "risk_record_counts": {
+        "member": 70,
+        "nonmember": 76,
+        "unique_member": 69,
+        "unique_nonmember": 74,
+        "unique_nonmember_disjoint_from_forget": 71,
+        "duplicate_member_split_indices": 1,
+        "duplicate_nonmember_split_indices": 2,
+        "required_per_split": 32
+      },
+      "artifact_paths": {
+        "member_risk_records": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-03/member-gsa-risk-records.jsonl",
+        "nonmember_risk_records": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-03/nonmember-gsa-risk-records.jsonl",
+        "forget_member_index_file": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-03/forget-members-k32.txt",
+        "matched_nonmember_index_file": "workspaces/defense/artifacts/ib-shadow-local-gsa-risk-preflight-20260515/shadow-03/matched-nonmembers-k32.txt"
+      },
+      "candidate_forget_member_indices": [
+        2580,
+        4467,
+        217,
+        9450,
+        4298,
+        110,
+        7532,
+        6674,
+        3184,
+        4089,
+        6134,
+        9468,
+        3498,
+        1732,
+        1227,
+        5162,
+        1817,
+        245,
+        8835,
+        920,
+        6127,
+        5945,
+        4962,
+        6765,
+        6819,
+        28,
+        5176,
+        1427,
+        2420,
+        6005,
+        4587,
+        7901
+      ],
+      "candidate_matched_nonmember_indices": [
+        9177,
+        5622,
+        2714,
+        1231,
+        3738,
+        7800,
+        1189,
+        2288,
+        1015,
+        4682,
+        3386,
+        238,
+        7616,
+        121,
+        1443,
+        5573,
+        7192,
+        8648,
+        6898,
+        1407,
+        3217,
+        2832,
+        1163,
+        9423,
+        7048,
+        7008,
+        5995,
+        7104,
+        1577,
+        8814,
+        1562,
+        6922
+      ],
+      "candidate_top_k_means": {
+        "member_gsa_risk": 0.771875,
+        "matched_nonmember_gsa_risk": 0.766036
+      },
+      "record_previews": {
+        "member": [
+          {
+            "split_index": 2580,
+            "combined_rank": 1,
+            "combined_risk": 1.0,
+            "gsa_loss_score": 0.428481
+          },
+          {
+            "split_index": 4467,
+            "combined_rank": 2,
+            "combined_risk": 0.985714,
+            "gsa_loss_score": 0.442503
+          },
+          {
+            "split_index": 217,
+            "combined_rank": 3,
+            "combined_risk": 0.971429,
+            "gsa_loss_score": 0.442743
+          },
+          {
+            "split_index": 9450,
+            "combined_rank": 4,
+            "combined_risk": 0.957143,
+            "gsa_loss_score": 0.443899
+          },
+          {
+            "split_index": 4298,
+            "combined_rank": 5,
+            "combined_risk": 0.942857,
+            "gsa_loss_score": 0.450628
+          }
+        ],
+        "nonmember": [
+          {
+            "split_index": 9177,
+            "combined_rank": 1,
+            "combined_risk": 1.0,
+            "gsa_loss_score": 0.44617
+          },
+          {
+            "split_index": 5622,
+            "combined_rank": 2,
+            "combined_risk": 0.986842,
+            "gsa_loss_score": 0.446729
+          },
+          {
+            "split_index": 2714,
+            "combined_rank": 3,
+            "combined_risk": 0.973684,
+            "gsa_loss_score": 0.451136
+          },
+          {
+            "split_index": 1231,
+            "combined_rank": 4,
+            "combined_risk": 0.960526,
+            "gsa_loss_score": 0.451515
+          },
+          {
+            "split_index": 1231,
+            "combined_rank": 5,
+            "combined_risk": 0.947368,
+            "gsa_loss_score": 0.451591
+          }
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "blocked_claims": [
+    "true shadow-local PIA/GSA risk scoring",
+    "defended-shadow training release",
+    "admitted defense evidence",
+    "adaptive robustness",
+    "Platform/Runtime defense row",
+    "GPU packet completed"
+  ],
+  "remaining_requirements": [
+    "produce shadow-local PIA risk records or explicitly approve GSA-only defended-shadow semantics",
+    "write fixed per-shadow forget and matched-nonmember identity files only after semantic approval",
+    "execute tiny defended-shadow training",
+    "export defended-shadow threshold references",
+    "run explicit defended-shadow reopen review",
+    "measure retained utility",
+    "show strict-tail improvement under defended-shadow threshold references"
+  ],
+  "evidence_docs": [
+    "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
+    "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
+    "docs/evidence/ib-defended-shadow-training-manifest-20260512.md",
+    "docs/evidence/ib-shadow-local-identity-scout-20260512.md",
+    "docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md"
+  ],
+  "errors": [
+    "shadow-local PIA risk records are still missing from the defended-shadow contract"
+  ],
+  "notes": [
+    "This preflight is CPU-only and reads existing GSA loss-score tensors plus JSONL record IDs.",
+    "It reduces the blocker from no true shadow-local risk records to GSA-only records available; PIA shadow-local risk remains missing.",
+    "It intentionally does not execute defended-shadow training or promote I-B defense evidence."
+  ]
+}

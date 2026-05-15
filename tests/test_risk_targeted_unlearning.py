@@ -478,6 +478,140 @@ class RiskTargetedUnlearningPilotTests(unittest.TestCase):
         self.assertEqual(payload["scout_status"], "complete")
         self.assertTrue(summary_exists)
 
+    def test_shadow_local_gsa_risk_preflight_builds_true_gsa_only_records(self) -> None:
+        import torch
+
+        from diffaudit.defenses.risk_targeted_unlearning import build_shadow_local_gsa_risk_preflight
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            scores_root = root / "loss-scores"
+            scores_root.mkdir(parents=True, exist_ok=True)
+            exports: dict[str, dict[str, str]] = {}
+
+            def write_export(name: str, scores: list[float], sample_ids: list[int]) -> None:
+                score_path = scores_root / f"{name}-loss-scores.pt"
+                records_path = scores_root / f"{name}-loss-scores.jsonl"
+                torch.save(torch.tensor(scores, dtype=torch.float32), score_path)
+                records_path.write_text(
+                    "\n".join(
+                        json.dumps(
+                            {
+                                "sample_index": position,
+                                "sample_path": f"00-data_batch_1-{sample_id:05d}.png",
+                                "loss_score": score,
+                            }
+                        )
+                        for position, (sample_id, score) in enumerate(zip(sample_ids, scores))
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+                exports[name] = {
+                    "status": "ready",
+                    "output_path": str(score_path),
+                    "records_path": str(records_path),
+                    "sample_count": len(scores),
+                }
+
+            write_export("shadow_01_member", [0.10, 0.05, 0.20], [10, 10, 11])
+            write_export("shadow_01_non_member", [0.40, 0.35, 0.50], [20, 20, 21])
+            write_export("shadow_02_member", [0.95, 0.80, 0.70], [30, 31, 32])
+            write_export("shadow_02_non_member", [0.90, 0.30, 0.40], [30, 40, 41])
+            summary_path = root / "summary.json"
+            _write_json(summary_path, {"status": "ready", "mode": "loss-score-export", "exports": exports})
+
+            preflight = build_shadow_local_gsa_risk_preflight(
+                workspace=root / "preflight",
+                gsa_loss_score_summary=summary_path,
+                shadow_ids=["shadow-01", "shadow-02"],
+                top_k=2,
+            )
+
+            first_shadow = preflight["shadow_risk_preflight"][0]
+            self.assertEqual(preflight["schema"], "diffaudit.ib_shadow_local_gsa_risk_preflight.v1")
+            self.assertEqual(preflight["status"], "blocked")
+            self.assertEqual(preflight["preflight_status"], "complete")
+            self.assertTrue(preflight["risk_record_provenance"]["true_shadow_local_gsa_risk_scoring"])
+            self.assertFalse(preflight["risk_record_provenance"]["true_shadow_local_pia_gsa_risk_scoring"])
+            self.assertEqual(first_shadow["shadow_id"], "shadow-01")
+            self.assertEqual(first_shadow["status"], "gsa-risk-ready")
+            self.assertEqual(first_shadow["gsa_member_orientation"], "negated")
+            self.assertEqual(first_shadow["candidate_forget_member_indices"], [10, 11])
+            self.assertEqual(first_shadow["candidate_matched_nonmember_indices"], [20, 21])
+            for entry in preflight["shadow_risk_preflight"]:
+                self.assertFalse(
+                    set(entry["candidate_forget_member_indices"])
+                    & set(entry["candidate_matched_nonmember_indices"])
+                )
+            self.assertTrue(Path(first_shadow["artifact_paths"]["member_risk_records"]).exists())
+            member_record = json.loads(
+                Path(first_shadow["artifact_paths"]["member_risk_records"]).read_text(encoding="utf-8").splitlines()[0]
+            )
+            self.assertEqual(member_record["split_index"], 10)
+            self.assertEqual(member_record["combined_rank"], 1)
+            self.assertIn("gsa_loss_score", member_record)
+            self.assertIn("gsa_percentile", member_record)
+
+    def test_shadow_local_gsa_risk_preflight_cli_writes_summary(self) -> None:
+        import torch
+
+        from diffaudit.cli import main
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            scores_root = root / "loss-scores"
+            scores_root.mkdir(parents=True, exist_ok=True)
+            exports: dict[str, dict[str, str]] = {}
+            for split_name, score, sample_id in (
+                ("shadow_01_member", 0.10, 10),
+                ("shadow_01_non_member", 0.40, 20),
+            ):
+                score_path = scores_root / f"{split_name}-loss-scores.pt"
+                records_path = scores_root / f"{split_name}-loss-scores.jsonl"
+                torch.save(torch.tensor([score], dtype=torch.float32), score_path)
+                records_path.write_text(
+                    json.dumps(
+                        {
+                            "sample_index": 0,
+                            "sample_path": f"00-data_batch_1-{sample_id:05d}.png",
+                            "loss_score": score,
+                        }
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+                exports[split_name] = {
+                    "status": "ready",
+                    "output_path": str(score_path),
+                    "records_path": str(records_path),
+                    "sample_count": 1,
+                }
+            summary_path = root / "summary.json"
+            _write_json(summary_path, {"status": "ready", "mode": "loss-score-export", "exports": exports})
+
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "prepare-shadow-local-gsa-risk-preflight",
+                        "--workspace",
+                        str(root / "preflight"),
+                        "--gsa-loss-score-summary",
+                        str(summary_path),
+                        "--shadow-ids",
+                        "shadow-01",
+                        "--top-k",
+                        "1",
+                    ]
+                )
+            payload = json.loads(stdout.getvalue())
+            summary_exists = Path(payload["artifact_paths"]["summary"]).exists()
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["preflight_status"], "complete")
+        self.assertTrue(summary_exists)
+
 
 class RiskTargetedUnlearningReviewTests(unittest.TestCase):
     def test_export_retained_highrisk_subset_excludes_forget_and_used_nonmembers(self) -> None:

@@ -11,8 +11,10 @@ from typing import Any
 
 import numpy as np
 
-from diffaudit.attacks.crossbox_pairboard import _align_surfaces, load_pairboard_surface
+from diffaudit.attacks.crossbox_pairboard import _align_surfaces, _load_record_ids, load_pairboard_surface
 from diffaudit.attacks.gsa import _extract_gsa_loss_scores, evaluate_gsa_loss_score_packet
+from diffaudit.utils.io import read_json as _read_json
+from diffaudit.utils.io import torch_load_safe
 
 REVIEW_MODE_THRESHOLD_TRANSFER_DIAGNOSTIC = "threshold-transfer-diagnostic"
 REVIEW_MODE_DEFENDED_SHADOW_REOPEN = "defended-shadow-reopen"
@@ -25,6 +27,7 @@ TARGET_ROLE = "target"
 TRAINING_ROLES = (TARGET_ROLE, DEFENDED_SHADOW_ROLE)
 IB_DEFENDED_SHADOW_TRAINING_MANIFEST_SCHEMA = "diffaudit.ib_defended_shadow_training_manifest.v1"
 IB_SHADOW_LOCAL_IDENTITY_SCOUT_SCHEMA = "diffaudit.ib_shadow_local_identity_scout.v1"
+IB_SHADOW_LOCAL_GSA_RISK_PREFLIGHT_SCHEMA = "diffaudit.ib_shadow_local_gsa_risk_preflight.v1"
 IB_DEFENDED_SHADOW_TRAINING_DOCS = (
     "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
     "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
@@ -35,6 +38,13 @@ IB_SHADOW_LOCAL_IDENTITY_SCOUT_DOCS = (
     "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
     "docs/evidence/ib-defended-shadow-training-manifest-20260512.md",
     "docs/evidence/ib-shadow-local-identity-scout-20260512.md",
+)
+IB_SHADOW_LOCAL_GSA_RISK_PREFLIGHT_DOCS = (
+    "docs/evidence/ib-defended-shadow-reopen-protocol-20260512.md",
+    "docs/evidence/ib-reopen-shadow-reference-guard-20260512.md",
+    "docs/evidence/ib-defended-shadow-training-manifest-20260512.md",
+    "docs/evidence/ib-shadow-local-identity-scout-20260512.md",
+    "docs/evidence/ib-shadow-local-gsa-risk-preflight-20260515.md",
 )
 
 
@@ -1103,6 +1113,382 @@ def build_shadow_local_identity_scout(
     }
     summary_path = workspace_path / "summary.json"
     summary_path.write_text(json.dumps(artifact, indent=2, ensure_ascii=True), encoding="utf-8")
+    return artifact
+
+
+def _repo_relative_manifest_path(path: str | Path) -> str:
+    raw = str(path)
+    repo_root = Path(__file__).resolve().parents[3]
+    try:
+        relative = Path(raw).resolve().relative_to(repo_root.resolve())
+        return relative.as_posix()
+    except (OSError, ValueError):
+        return Path(raw).as_posix()
+
+
+def _resolve_research_manifest_path(value: str | Path, *, base_dir: Path | None = None) -> Path:
+    raw = str(value)
+    repo_root = Path(__file__).resolve().parents[3]
+    if raw.startswith("<DIFFAUDIT_RESEARCH>"):
+        suffix = raw[len("<DIFFAUDIT_RESEARCH>") :].lstrip("\\/")
+        return repo_root / Path(suffix)
+    resolved = Path(raw)
+    if resolved.is_absolute():
+        return resolved
+    if base_dir is not None:
+        candidate = base_dir / resolved
+        if candidate.exists():
+            return candidate
+    return repo_root / resolved
+
+
+def _load_score_vector(path: str | Path) -> np.ndarray:
+    import torch
+
+    payload = torch_load_safe(path, map_location="cpu", weights_only=False)
+    if not isinstance(payload, torch.Tensor):
+        raise TypeError(f"Expected a torch.Tensor score artifact: {path}")
+    return np.asarray(payload.detach().cpu().reshape(-1).tolist(), dtype=float)
+
+
+def _load_shadow_gsa_export(
+    *,
+    summary: dict[str, Any],
+    summary_path: Path,
+    export_key: str,
+) -> dict[str, Any]:
+    exports = summary.get("exports")
+    if not isinstance(exports, dict):
+        raise ValueError("GSA loss-score summary is missing exports")
+    export = exports.get(export_key)
+    if not isinstance(export, dict):
+        raise ValueError(f"GSA loss-score summary is missing export: {export_key}")
+    if export.get("status", "ready") != "ready":
+        raise ValueError(f"GSA export is not ready: {export_key}")
+    output_path = export.get("output_path")
+    records_path = export.get("records_path")
+    if not output_path or not records_path:
+        raise ValueError(f"GSA export {export_key} requires output_path and records_path")
+
+    resolved_output = _resolve_research_manifest_path(output_path, base_dir=summary_path.parent)
+    resolved_records = _resolve_research_manifest_path(records_path, base_dir=summary_path.parent)
+    scores = _load_score_vector(resolved_output)
+    sample_ids = _load_record_ids(resolved_records)
+    if sample_ids is None:
+        raise ValueError(f"GSA export {export_key} records do not expose sample IDs")
+    if len(sample_ids) != int(scores.shape[0]):
+        raise ValueError(
+            f"GSA export {export_key} score count {int(scores.shape[0])} "
+            f"does not match record count {len(sample_ids)}"
+        )
+    return {
+        "key": export_key,
+        "scores": scores,
+        "sample_ids": [int(value) for value in sample_ids],
+        "output_path": _repo_relative_manifest_path(resolved_output),
+        "records_path": _repo_relative_manifest_path(resolved_records),
+        "sample_count": int(scores.shape[0]),
+    }
+
+
+def _prepare_gsa_only_risk_records(
+    *,
+    indices: list[int],
+    loss_scores: np.ndarray,
+    oriented_scores: np.ndarray,
+    percentile_ranks: np.ndarray,
+) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for position, split_index in enumerate(indices):
+        record = {
+            "split_index": int(split_index),
+            "position": int(position),
+            "gsa_loss_score": _round6(loss_scores[position]),
+            "gsa_oriented_score": _round6(oriented_scores[position]),
+            "gsa_percentile": _round6(percentile_ranks[position]),
+            "combined_risk": _round6(percentile_ranks[position]),
+        }
+        records.append(record)
+    records.sort(
+        key=lambda row: (
+            -float(row["combined_risk"]),
+            -float(row["gsa_oriented_score"]),
+            int(row["split_index"]),
+        )
+    )
+    for rank, row in enumerate(records, start=1):
+        row["combined_rank"] = int(rank)
+    return records
+
+
+def _unique_split_index_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen: set[int] = set()
+    unique_records: list[dict[str, Any]] = []
+    for record in records:
+        split_index = int(record["split_index"])
+        if split_index in seen:
+            continue
+        seen.add(split_index)
+        unique_records.append(record)
+    return unique_records
+
+
+def _shadow_gsa_source_command(
+    *,
+    workspace: str,
+    gsa_loss_score_summary: str,
+    shadow_ids: list[str],
+    top_k: int,
+    provenance_status: str,
+) -> str:
+    return " ".join(
+        [
+            "diffaudit",
+            "prepare-shadow-local-gsa-risk-preflight",
+            "--workspace",
+            workspace,
+            "--gsa-loss-score-summary",
+            gsa_loss_score_summary,
+            "--shadow-ids",
+            ",".join(shadow_ids),
+            "--top-k",
+            str(int(top_k)),
+            "--provenance-status",
+            provenance_status,
+        ]
+    )
+
+
+def build_shadow_local_gsa_risk_preflight(
+    *,
+    workspace: str | Path,
+    gsa_loss_score_summary: str | Path,
+    shadow_ids: list[str] | tuple[str, ...] = ("shadow-01", "shadow-02", "shadow-03"),
+    top_k: int = 32,
+    provenance_status: str = "workspace-verified",
+) -> dict[str, Any]:
+    workspace_path = Path(workspace)
+    workspace_path.mkdir(parents=True, exist_ok=True)
+    summary_path = _resolve_research_manifest_path(gsa_loss_score_summary)
+    summary = _read_json(summary_path)
+    if summary.get("status") != "ready" or summary.get("mode") != "loss-score-export":
+        raise ValueError("Expected a ready GSA loss-score export summary")
+    top_k_int = int(top_k)
+    if top_k_int <= 0:
+        raise ValueError("top_k must be positive")
+
+    shadow_id_list = list(shadow_ids)
+    shadow_entries: list[dict[str, Any]] = []
+    gsa_ready_shadows: list[str] = []
+    errors: list[str] = []
+
+    for shadow_id in shadow_id_list:
+        normalized_shadow = shadow_id.replace("-", "_")
+        member_key = f"{normalized_shadow}_member"
+        nonmember_key = f"{normalized_shadow}_non_member"
+        member_export = _load_shadow_gsa_export(summary=summary, summary_path=summary_path, export_key=member_key)
+        nonmember_export = _load_shadow_gsa_export(summary=summary, summary_path=summary_path, export_key=nonmember_key)
+
+        member_scores, nonmember_scores, member_orientation = _orient_memberness(
+            member_export["scores"],
+            nonmember_export["scores"],
+        )
+        # The same orientation is applied to both splits; this field records the member-like direction.
+        nonmember_orientation = member_orientation
+        member_ranks = _percentile_ranks(member_scores)
+        nonmember_ranks = _percentile_ranks(nonmember_scores)
+        member_records = _prepare_gsa_only_risk_records(
+            indices=member_export["sample_ids"],
+            loss_scores=member_export["scores"],
+            oriented_scores=member_scores,
+            percentile_ranks=member_ranks,
+        )
+        nonmember_records = _prepare_gsa_only_risk_records(
+            indices=nonmember_export["sample_ids"],
+            loss_scores=nonmember_export["scores"],
+            oriented_scores=nonmember_scores,
+            percentile_ranks=nonmember_ranks,
+        )
+
+        shadow_workspace = workspace_path / shadow_id
+        shadow_workspace.mkdir(parents=True, exist_ok=True)
+        member_records_path = shadow_workspace / "member-gsa-risk-records.jsonl"
+        nonmember_records_path = shadow_workspace / "nonmember-gsa-risk-records.jsonl"
+        _write_jsonl(member_records_path, member_records)
+        _write_jsonl(nonmember_records_path, nonmember_records)
+
+        entry_errors: list[str] = []
+        unique_member_records = _unique_split_index_records(member_records)
+        unique_nonmember_records = _unique_split_index_records(nonmember_records)
+        if len(unique_member_records) < top_k_int:
+            entry_errors.append(f"fewer than {top_k_int} shadow-local GSA member records")
+        if len(unique_nonmember_records) < top_k_int:
+            entry_errors.append(f"fewer than {top_k_int} shadow-local GSA nonmember records")
+
+        selected_member_records = unique_member_records[:top_k_int]
+        selected_member_ids = {int(row["split_index"]) for row in selected_member_records}
+        disjoint_nonmember_records = [
+            row
+            for row in unique_nonmember_records
+            if int(row["split_index"]) not in selected_member_ids
+        ]
+        if len(disjoint_nonmember_records) < top_k_int:
+            entry_errors.append(f"fewer than {top_k_int} disjoint shadow-local GSA nonmember records")
+        matchable_member_records = selected_member_records[: len(disjoint_nonmember_records)]
+        matched_nonmember_records = _match_nonmembers(matchable_member_records, disjoint_nonmember_records)
+        forget_member_indices = [int(row["split_index"]) for row in selected_member_records]
+        matched_nonmember_indices = [int(row["split_index"]) for row in matched_nonmember_records]
+        forget_member_index_file = shadow_workspace / f"forget-members-k{top_k_int}.txt"
+        matched_nonmember_index_file = shadow_workspace / f"matched-nonmembers-k{top_k_int}.txt"
+        _write_index_file(forget_member_index_file, forget_member_indices)
+        _write_index_file(matched_nonmember_index_file, matched_nonmember_indices)
+
+        entry_status = "gsa-risk-ready" if not entry_errors else "blocked"
+        if entry_status == "gsa-risk-ready":
+            gsa_ready_shadows.append(shadow_id)
+        errors.extend(f"{shadow_id}: {error}" for error in entry_errors)
+
+        shadow_entries.append(
+            {
+                "shadow_id": shadow_id,
+                "status": entry_status,
+                "gsa_member_orientation": member_orientation,
+                "gsa_nonmember_orientation": nonmember_orientation,
+                "score_exports": {
+                    "member": {
+                        "export_key": member_key,
+                        "output_path": member_export["output_path"],
+                        "records_path": member_export["records_path"],
+                        "sample_count": member_export["sample_count"],
+                    },
+                    "nonmember": {
+                        "export_key": nonmember_key,
+                        "output_path": nonmember_export["output_path"],
+                        "records_path": nonmember_export["records_path"],
+                        "sample_count": nonmember_export["sample_count"],
+                    },
+                },
+                "risk_record_counts": {
+                    "member": int(len(member_records)),
+                    "nonmember": int(len(nonmember_records)),
+                    "unique_member": int(len(unique_member_records)),
+                    "unique_nonmember": int(len(unique_nonmember_records)),
+                    "unique_nonmember_disjoint_from_forget": int(len(disjoint_nonmember_records)),
+                    "duplicate_member_split_indices": int(len(member_records) - len(unique_member_records)),
+                    "duplicate_nonmember_split_indices": int(len(nonmember_records) - len(unique_nonmember_records)),
+                    "required_per_split": int(top_k_int),
+                },
+                "artifact_paths": {
+                    "member_risk_records": _manifest_path(member_records_path),
+                    "nonmember_risk_records": _manifest_path(nonmember_records_path),
+                    "forget_member_index_file": _manifest_path(forget_member_index_file),
+                    "matched_nonmember_index_file": _manifest_path(matched_nonmember_index_file),
+                },
+                "candidate_forget_member_indices": forget_member_indices,
+                "candidate_matched_nonmember_indices": matched_nonmember_indices,
+                "candidate_top_k_means": {
+                    "member_gsa_risk": _mean_combined_risk(selected_member_records),
+                    "matched_nonmember_gsa_risk": _mean_combined_risk(matched_nonmember_records),
+                },
+                "record_previews": {
+                    "member": [
+                        {
+                            "split_index": int(record["split_index"]),
+                            "combined_rank": int(record["combined_rank"]),
+                            "combined_risk": _round6(float(record["combined_risk"])),
+                            "gsa_loss_score": _round6(float(record["gsa_loss_score"])),
+                        }
+                        for record in member_records[:5]
+                    ],
+                    "nonmember": [
+                        {
+                            "split_index": int(record["split_index"]),
+                            "combined_rank": int(record["combined_rank"]),
+                            "combined_risk": _round6(float(record["combined_risk"])),
+                            "gsa_loss_score": _round6(float(record["gsa_loss_score"])),
+                        }
+                        for record in nonmember_records[:5]
+                    ],
+                },
+                "errors": entry_errors,
+            }
+        )
+
+    if len(gsa_ready_shadows) < 2:
+        errors.append("fewer than two shadows have complete GSA-only shadow-local risk records")
+    errors.append("shadow-local PIA risk records are still missing from the defended-shadow contract")
+
+    artifact = {
+        "schema": IB_SHADOW_LOCAL_GSA_RISK_PREFLIGHT_SCHEMA,
+        "status": "blocked",
+        "preflight_status": "complete",
+        "gsa_risk_status": "complete" if len(gsa_ready_shadows) >= 2 else "insufficient-shadow-coverage",
+        "admitted": False,
+        "gpu_release": "none",
+        "track": "defense",
+        "method": "risk-targeted-siss-shadow-local-gsa-risk-preflight",
+        "paper": "Diffusion_Unlearning_SISS_ICLR2025",
+        "mode": "shadow-local-gsa-risk-preflight",
+        "hypothesis": (
+            "Existing GSA loss-score exports can produce true shadow-local GSA-only risk records "
+            "for defended-shadow identity selection without running training."
+        ),
+        "falsifier": (
+            "If fewer than two shadows have member and nonmember GSA loss-score records with sample IDs, "
+            "even the GSA-only shadow-local preflight remains blocked."
+        ),
+        "source_command": _shadow_gsa_source_command(
+            workspace=_manifest_path(workspace_path),
+            gsa_loss_score_summary=_manifest_path(gsa_loss_score_summary),
+            shadow_ids=shadow_id_list,
+            top_k=top_k_int,
+            provenance_status=provenance_status,
+        ),
+        "provenance_status": provenance_status,
+        "workspace": _manifest_path(workspace_path),
+        "workspace_name": workspace_path.name,
+        "artifact_paths": {
+            "summary": _manifest_path(workspace_path / "summary.json"),
+        },
+        "gsa_loss_score_summary": _repo_relative_manifest_path(summary_path),
+        "contract_semantics": "true-shadow-local-gsa-only-risk-scoring",
+        "top_k": int(top_k_int),
+        "minimum_gsa_ready_shadows": 2,
+        "gsa_ready_shadows": gsa_ready_shadows,
+        "risk_record_provenance": {
+            "gsa_loss_score_summary": _repo_relative_manifest_path(summary_path),
+            "semantic_origin": "shadow checkpoint scored against its own shadow member/nonmember split",
+            "true_shadow_local_gsa_risk_scoring": True,
+            "true_shadow_local_pia_gsa_risk_scoring": False,
+        },
+        "shadow_risk_preflight": shadow_entries,
+        "blocked_claims": [
+            "true shadow-local PIA/GSA risk scoring",
+            "defended-shadow training release",
+            "admitted defense evidence",
+            "adaptive robustness",
+            "Platform/Runtime defense row",
+            "GPU packet completed",
+        ],
+        "remaining_requirements": [
+            "produce shadow-local PIA risk records or explicitly approve GSA-only defended-shadow semantics",
+            "write fixed per-shadow forget and matched-nonmember identity files only after semantic approval",
+            "execute tiny defended-shadow training",
+            "export defended-shadow threshold references",
+            "run explicit defended-shadow reopen review",
+            "measure retained utility",
+            "show strict-tail improvement under defended-shadow threshold references",
+        ],
+        "evidence_docs": list(IB_SHADOW_LOCAL_GSA_RISK_PREFLIGHT_DOCS),
+        "errors": errors,
+        "notes": [
+            "This preflight is CPU-only and reads existing GSA loss-score tensors plus JSONL record IDs.",
+            "It reduces the blocker from no true shadow-local risk records to GSA-only records available; PIA shadow-local risk remains missing.",
+            "It intentionally does not execute defended-shadow training or promote I-B defense evidence.",
+        ],
+    }
+    summary_output = workspace_path / "summary.json"
+    summary_output.write_text(json.dumps(artifact, indent=2, ensure_ascii=True), encoding="utf-8")
     return artifact
 
 
