@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `DSiRe / LoRA-WiSE dataset-size boundary gate completed after hyperparameter-free SecMI gate` |
+| Active work | `CPSample defense artifact gate completed after DSiRe / LoRA-WiSE gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after DSiRe / LoRA-WiSE dataset-size boundary gate |
+| CPU sidecar | none selected after CPSample defense artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -26,6 +26,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Kandinsky/Pokemon response-contract package | black-box | hold / stale skeleton | package preflight is executable but only proves the old skeleton shape | missing query split, endpoint contract, response manifest, and responses; superseded by later weak second-response-contract evidence | do not use this as the default next action; reopen only if real `25/25` or larger member/nonmember query images and responses appear for a clean non-CommonCanvas asset |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | SecMI admission contract | gray-box | structural-support-only | full-split stat/NNS evidence is strong and evidence-ready; consumer review completed | not admitted; NNS product semantics, adaptive comparability, provenance language, and bundle schema fit remain blocked | keep validators active; no new metrics or promotion until a new schema/adaptive protocol exists |
+| CPSample defense artifact | defense / Lane A-B | defense watch-plus | OpenReview ICLR 2025 supplement exposes diffusion/classifier code, configs, training/sampling/inference-attack runners, and four small attack-loss text fragments | no immutable denoiser/classifier checkpoint hashes, exact subset-index manifests, row-bound protected/unprotected score packet, ROC arrays, AUC/ASR/TPR-at-FPR metrics, retained-utility metric contract, or ready verifier | keep as defense watch-plus only; do not download CIFAR-10/CelebA/LSUN/Stable Diffusion/checkpoint/image assets, run `python main.py`, launch CPU/GPU sidecars, or promote defense rows |
 | DSiRe / LoRA-WiSE dataset-size recovery | gray-box / Lane A-B | weight-only semantic-shift watch | official `MoSalama98/DSiRe` code and public non-gated HF `MoSalama98/LoRA-WiSE` benchmark expose `7` configs, `2,050` LoRA fine-tuned model rows, `101` parquet shards, and reported dataset-size recovery `MAE = 0.36` images | aggregate LoRA fine-tuning dataset-size recovery, not per-sample membership; no member/nonmember query rows, generated response packet, AUC/ASR/TPR-at-FPR metrics, or current Platform/Runtime consumer semantics | keep as future weight-only privacy lane candidate only; do not download LoRA-WiSE data/images/model/tensors, run `dsire.py`, release GPU/CPU sidecar, or promote Platform/Runtime rows |
 | Hyperparameter-free SecMI reproduction | gray-box / Lane A | third-party SecMI-family support-only | `mohammadKazzazi/Membership-Inference-Attack-against-Diffusion-Models` exposes code, notebook/report surface, and claimed CIFAR-100 seed-0 improvements over baseline SecMINNs | same-family SecMI support; no reusable score rows, ROC arrays, metric JSON, trained attacker weights, verifier packet, independent target checkpoint, or immutable split manifest | keep as anti-duplication support gate only; do not clone, download CIFAR/SecMI checkpoints, run `python run.py`, train attackers, release GPU, or promote Platform/Runtime rows |
 | DME dual-model entropy | gray-box / Lane A | stub-repo-only watch | official `F-YaNG1/DME` repo claims complexity-induced bias debiasing for diffusion-model MIA | repo is README-only with no linked paper, implementation code, split manifests, checkpoints, score rows, ROC arrays, metric JSON, figures, or verifier | keep as Research-only watch; do not infer missing method details, implement DME, train dual models, release GPU, or promote Platform/Runtime rows |
@@ -71,21 +72,34 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-CopyMark Long-Horizon Idle State
+### Post-CPSample Long-Horizon Idle State
 
-- `mode`: post-CopyMark official score artifact gate after VAE2Diffusion,
-  DCR copying, FCRE medical frequency, Tabular Privacy Leakage TDM, TMIA-DM,
-  Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational diffusion
-  score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest asset verdict is the CopyMark official score artifact
-  gate. `caradryanl/CopyMark` exposes official member/nonmember image logs,
-  aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step score
+- `mode`: post-CPSample defense artifact gate after DSiRe / LoRA-WiSE,
+  hyperparameter-free SecMI, DME, FreMIA, CopyMark, VAE2Diffusion, DCR copying,
+  FCRE medical frequency, Tabular Privacy Leakage TDM, TMIA-DM, Shake-to-Leak,
+  FSECLab MIA-Diffusion, MT-MIA relational diffusion score-packet, and the
+  2026-05-15 admitted consumer-boundary sync
+- `status`: The latest defense verdict is the CPSample artifact gate.
+  OpenReview `LIBLIlk5M9` exposes an official ICLR 2025 code supplement with
+  diffusion/classifier code and small attack-loss text fragments, but it lacks
+  immutable denoiser/classifier checkpoint hashes, exact subset-index
+  manifests, row-bound protected/unprotected score packets, ROC arrays, metric
+  JSON, retained-utility metrics, and a ready verifier. The result is defense
+  watch-plus only: no CIFAR-10/CelebA/LSUN/Stable Diffusion/checkpoint/image
+  download, no `python main.py` or `--inference_attack` run, no CPU sidecar, no
+  GPU release, no Platform row, and no Runtime schema. The previous boundary
+  verdict is the DSiRe / LoRA-WiSE dataset-size gate: strong future weight-only
+  privacy evidence, but aggregate dataset-size recovery rather than per-sample
+  MIA. The previous score-artifact verdict is the CopyMark official score
+  artifact gate. `caradryanl/CopyMark` exposes official member/nonmember image
+  logs, aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step score
   tensors, GSA feature/XGBoost files, and LAION-RiDAR/mixing results. It
   remains support-only because it lacks checkpoint hashes, a compact
   row-ID-bound score manifest, small immutable data/checkpoint packet, and
   ready verifier output. No HF dataset zip, image payload, model folder, full
   repo clone, script execution, CPU sidecar, GPU release, Platform row, or
-  Runtime schema is selected. The previous asset verdict is the VAE2Diffusion
+  Runtime schema is selected. The previous asset verdict before CopyMark is the
+  VAE2Diffusion
   latent-space inversion gate. `mx-ethan-rao/VAE2Diffusion` exposes code for decoder-geometry
   / latent-dimension filtering membership inference on LDMs, but the README
   split/checkpoint link is empty, the repo has no release assets, the recursive
