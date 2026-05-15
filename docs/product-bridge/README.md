@@ -27,14 +27,15 @@ CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
 Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM,
 StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
 diffusion MIA, Tracing the Roots diffusion-trajectory feature-packet MIA,
-GenAI Confessions black-box image-to-image MIA, DurMI
-TTS duration-loss MIA, FERMI multi-relational tabular MIA, SAMA
+ReproMIA withdrawn proactive MIA, GenAI Confessions black-box image-to-image
+MIA, DurMI TTS duration-loss MIA, FERMI multi-relational tabular MIA, SAMA
 diffusion-language-model membership, VidLeaks
 text-to-video membership, and GGDM graph generative diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
-score-packet-missing, positive-but-provenance-limited, or artifact-incomplete
-lines. They do not change admitted rows, Runtime schemas, recommendation logic,
-defense claims, or Platform product copy.
+score-packet-missing, positive-but-provenance-limited, withdrawn,
+paper-source-only, or artifact-incomplete lines. They do not change admitted
+rows, Runtime schemas, recommendation logic, defense claims, or Platform
+product copy.
 See
 [../evidence/paperization-consumer-boundary-20260513.md](../evidence/paperization-consumer-boundary-20260513.md)
 and
@@ -78,6 +79,14 @@ admitted Platform evidence row or Runtime schema input because the public
 packet lacks raw target checkpoint identity, raw member/external sample IDs,
 and image query/response artifacts. See
 [../evidence/tracing-roots-feature-packet-mia-20260515.md](../evidence/tracing-roots-feature-packet-mia-20260515.md).
+
+Current ReproMIA status: Research-only withdrawn paper-source watch. The
+current arXiv record is withdrawn, and the historical v1 source is TeX plus
+figures only despite reporting DDPM and Stable Diffusion table metrics. It has
+no official public code, target checkpoints, exact split manifests, score
+arrays, ROC CSVs, or metric JSON. It must not appear as admitted Platform
+evidence, Runtime schema input, or active GPU/CPU work. See
+[../evidence/repromia-withdrawn-artifact-gate-20260515.md](../evidence/repromia-withdrawn-artifact-gate-20260515.md).
 
 Current FMIA status: Research-only watch-plus. The OpenReview supplement ships
 frequency-filter DDIM/Stable Diffusion attack code and exact split manifests,
