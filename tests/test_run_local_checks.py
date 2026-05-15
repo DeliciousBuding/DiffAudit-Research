@@ -24,6 +24,7 @@ class RunLocalChecksTests(unittest.TestCase):
         self.assertIn(["/portable/python", "scripts/validate_secmi_supporting_contract.py"], commands)
         self.assertIn(["/portable/python", "scripts/validate_clid_identity_boundary.py"], commands)
         self.assertIn(["/portable/python", "scripts/validate_ib_adaptive_defense_contract.py"], commands)
+        self.assertIn(["/portable/python", "scripts/validate_ib_shadow_local_gsa_risk_preflight.py"], commands)
         self.assertIn(["/portable/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
         self.assertIn(["/portable/python", "scripts/export_admitted_evidence_bundle.py", "--check"], commands)
         self.assertTrue(
@@ -51,6 +52,7 @@ class RunLocalChecksTests(unittest.TestCase):
         self.assertIn(["/env/python", "scripts/validate_secmi_supporting_contract.py"], commands)
         self.assertIn(["/env/python", "scripts/validate_clid_identity_boundary.py"], commands)
         self.assertIn(["/env/python", "scripts/validate_ib_adaptive_defense_contract.py"], commands)
+        self.assertIn(["/env/python", "scripts/validate_ib_shadow_local_gsa_risk_preflight.py"], commands)
         self.assertIn(["/env/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
         self.assertIn(["/env/python", "scripts/export_admitted_evidence_bundle.py", "--check"], commands)
         self.assertTrue(

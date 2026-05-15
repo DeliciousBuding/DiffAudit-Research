@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Tracing Roots candidate evidence card completed after CLiD and Noise Aggregation candidate/watch gates; Tracing Roots has a positive official OpenReview CIFAR10 feature-packet replay, but raw provenance remains blocked because the packet lacks raw target checkpoint identity, raw sample IDs, and image query-response assets, and arXiv v3 source is TeX/figures-only, so it remains candidate-only Research evidence and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `I-B shadow-local GSA risk preflight completed after Tracing Roots candidate evidence card; existing GSA shadow loss-score exports now produce true shadow-local GSA-only k32 risk records for shadow-01, shadow-02, and shadow-03, but PIA shadow-local risk records are still missing, so I-B remains blocked with no defended-shadow training, no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -472,7 +472,8 @@ Default behavior after a blocked or candidate-only verdict:
 Current strategic correction:
 
 - ReDiffuse target training/checkpoint-portability repeats, I-B target-risk
-  remap training, I-C translated replay,
+  remap training, I-B GSA-only preflight expansion without PIA/contract
+  approval, I-C translated replay,
   diagonal-Fisher repeats, GSA loss-score LR repeats, and mid-frequency
   same-contract repeats are not default next steps.
 - The next high-value Research direction is a real second-asset or

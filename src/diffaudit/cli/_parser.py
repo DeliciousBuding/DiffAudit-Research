@@ -1473,6 +1473,19 @@ def build_parser() -> argparse.ArgumentParser:
     shadow_local_identity_scout_parser.add_argument("--top-k", type=int, default=32)
     shadow_local_identity_scout_parser.add_argument("--provenance-status", default="workspace-verified")
 
+    shadow_local_gsa_risk_parser = subparsers.add_parser(
+        "prepare-shadow-local-gsa-risk-preflight",
+        help="build CPU-only true shadow-local GSA risk records from existing GSA loss-score exports",
+    )
+    shadow_local_gsa_risk_parser.add_argument("--workspace", required=True)
+    shadow_local_gsa_risk_parser.add_argument(
+        "--gsa-loss-score-summary",
+        default="workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/summary.json",
+    )
+    shadow_local_gsa_risk_parser.add_argument("--shadow-ids", default="shadow-01,shadow-02,shadow-03")
+    shadow_local_gsa_risk_parser.add_argument("--top-k", type=int, default=32)
+    shadow_local_gsa_risk_parser.add_argument("--provenance-status", default="workspace-verified")
+
     risk_targeted_unlearning_review_parser = subparsers.add_parser(
         "review-risk-targeted-unlearning-pilot",
         help="run one attack-side subset review for baseline vs defended 04-H1 target checkpoints",
