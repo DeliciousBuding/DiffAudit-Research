@@ -4,6 +4,14 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- CopyMark / `caradryanl/CopyMark` is official Research-side score-artifact
+  support evidence. The public repo commits member/nonmember image logs,
+  aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step score
+  tensors, GSA feature/XGBoost files, and LAION-RiDAR/mixing results. It still
+  lacks checkpoint hashes, a compact row-ID-bound score manifest, small
+  immutable data/checkpoint packet, and ready verifier output, so no HF dataset
+  zip, image payload, model folder, full repo clone, script execution, GPU
+  work, or admitted Platform/Runtime row is released.
 - VAE2Diffusion / `mx-ethan-rao/VAE2Diffusion` is a code-public latent-space
   MIA watch-plus item. The paper/source claims public splits and checkpoints,
   and the repo exposes decoder-geometry / latent-dimension filtering code for
