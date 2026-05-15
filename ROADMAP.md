@@ -2,6 +2,27 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Noise Aggregation Small-Noise Artifact Gate
+
+Artifact intake checked arXiv `2510.21783` / `Noise Aggregation Analysis
+Driven by Small-Noise Injection` because it reports a distinct small-noise
+predicted-noise aggregation MIA with strong DDPM paper-table metrics. The
+current arXiv record is `v2` from `2026-04-17`, and the source package is only
+TeX, bibliography, and figure PDFs (`1,433,015` bytes, SHA256
+`C6091EF4F664D28E8128778C42BC194C04DF169154A9C304E3CFBC6005BA3D25`). No
+official public GitHub repo, Python code, configs, target checkpoints,
+member/nonmember manifests, response/feature packets, score arrays, ROC CSVs,
+or metric JSON were found. Paper tables report DDPM CIFAR-10 `AUC = 0.957` and
+`TPR@1%FPR = 28.7`, but the Stable Diffusion table is weaker on strict tail
+than NaiveLoss (`Ours` SD1.4/SD1.5 `TPR@1%FPR = 8.0 / 8.3`, NaiveLoss
+`23.7 / 23.7`).
+
+Decision: `arXiv-source-only diffusion MIA claim / strong paper metrics / no
+code-score packet / no download / no GPU release`. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and `CPU sidecar =
+none selected after Noise Aggregation small-noise artifact gate`. See
+[docs/evidence/noise-aggregation-small-noise-artifact-gate-20260515.md](docs/evidence/noise-aggregation-small-noise-artifact-gate-20260515.md).
+
 ## 2026-05-15 ReproMIA Withdrawn Artifact Gate
 
 Artifact intake checked arXiv `2603.28942` / `ReproMIA` because it explicitly

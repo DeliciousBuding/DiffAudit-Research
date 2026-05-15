@@ -27,9 +27,9 @@ CopyMark, MIDST TabDDPM, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
 Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku / Danbooru, MIDM,
 StablePrivateLoRA, FMIA frequency-component diffusion MIA, SimA score-based
 diffusion MIA, Tracing the Roots diffusion-trajectory feature-packet MIA,
-ReproMIA withdrawn proactive MIA, GenAI Confessions black-box image-to-image
-MIA, DurMI TTS duration-loss MIA, FERMI multi-relational tabular MIA, SAMA
-diffusion-language-model membership, VidLeaks
+ReproMIA withdrawn proactive MIA, Noise Aggregation small-noise diffusion MIA,
+GenAI Confessions black-box image-to-image MIA, DurMI TTS duration-loss MIA,
+FERMI multi-relational tabular MIA, SAMA diffusion-language-model membership, VidLeaks
 text-to-video membership, and GGDM graph generative diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
 score-packet-missing, positive-but-provenance-limited, withdrawn,
@@ -87,6 +87,15 @@ no official public code, target checkpoints, exact split manifests, score
 arrays, ROC CSVs, or metric JSON. It must not appear as admitted Platform
 evidence, Runtime schema input, or active GPU/CPU work. See
 [../evidence/repromia-withdrawn-artifact-gate-20260515.md](../evidence/repromia-withdrawn-artifact-gate-20260515.md).
+
+Current Noise Aggregation status: Research-only paper-source watch. arXiv
+`2510.21783` v2 reports strong DDPM paper metrics and a distinct small-noise
+predicted-noise aggregation mechanism, but the public source is TeX,
+bibliography, and figures only. It has no official public code, target
+checkpoints, exact split manifests, score arrays, ROC CSVs, metric JSON, or
+query/response packet. It must not appear as admitted Platform evidence,
+Runtime schema input, or active GPU/CPU work. See
+[../evidence/noise-aggregation-small-noise-artifact-gate-20260515.md](../evidence/noise-aggregation-small-noise-artifact-gate-20260515.md).
 
 Current FMIA status: Research-only watch-plus. The OpenReview supplement ships
 frequency-filter DDIM/Stable Diffusion attack code and exact split manifests,
