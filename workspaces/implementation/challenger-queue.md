@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `MT-MIA relational diffusion score-packet gate completed after LSA-Probe music diffusion mock-data gate` |
+| Active work | `FSECLab MIA-Diffusion code artifact gate completed after MT-MIA relational diffusion score-packet gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after MT-MIA relational diffusion score-packet gate |
+| CPU sidecar | none selected after FSECLab MIA-Diffusion code artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -31,6 +31,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo exposes code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
 | MIAHOLD / HOLD++ higher-order Langevin defense | defense / Lane A-B | defense watch-plus | official MIAHOLD repos expose higher-order Langevin defense code, audio split filelists, a CIFAR HOLD config, and PIA-style attack code | no checkpoint-bound target artifact, reusable score rows, ROC arrays, metric JSON, generated responses, or ready verifier | keep as defense watch-plus only; do not download Google Drive checkpoints/datasets, scrape W&B, train HOLD++ models, or release GPU |
 | MT-MIA relational diffusion score packet | intake / Lane A | relational-tabular support-only | official `joshward96/MT-MIA` repo exposes multi-table member/nonmember/reference splits, pre-generated ClavaDDPM and RelDiff synthetic outputs, and `18` MT-MIA score/metric JSONL packets | outside current image/latent Platform/Runtime boundary; packets lack row-ID-bound score manifests and no relational-tabular consumer schema exists | keep as Research-only support evidence; do not download raw/synthetic data, full repo, or training assets, regenerate RelDiff, release GPU, or promote Platform/Runtime rows |
+| FSECLab MIA-Diffusion code artifact | intake / Lane A | code-public watch-plus | official `fseclab-osaka/mia-diffusion` repo exposes DDIM/DCGAN training, sampling, white-box attack, black-box attack, dataset-loader, ROC-evaluator code, and two FID-stat `.npz` files | no frozen target checkpoint, immutable split manifest, generated sample packet, score array, ROC array, metric JSON, or ready verifier output; using it would require dataset download and target training/sampling | keep as Research-only code reference; do not download CIFAR-10/CelebA, clone full repo, train/sample DDIM/DCGAN targets, run attack scripts, release GPU, or promote Platform/Runtime rows |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -60,12 +61,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-MT-MIA Long-Horizon Idle State
+### Post-FSECLab MIA-Diffusion Long-Horizon Idle State
 
-- `mode`: post-MT-MIA relational diffusion score-packet gate after 2026-05-15 admitted
-  consumer-boundary sync and watch/watch-plus/support-only/candidate gates
-- `status`: The latest asset verdict is the MT-MIA relational diffusion
-  score-packet gate. MT-MIA publishes official multi-table
+- `mode`: post-FSECLab MIA-Diffusion code artifact gate after MT-MIA
+  relational diffusion score-packet gate and the 2026-05-15 admitted
+  consumer-boundary sync
+- `status`: The latest asset verdict is the FSECLab MIA-Diffusion code
+  artifact gate. The official `fseclab-osaka/mia-diffusion` repository
+  publishes DDIM/DCGAN training, sampling, white-box attack, black-box attack,
+  dataset-loader, and ROC-evaluator code plus two FID-stat `.npz` files, but no
+  frozen target checkpoint, immutable member/nonmember split manifest,
+  generated sample packet, score array, ROC array, metric JSON, or ready
+  verifier output is committed. The result is code-public watch-plus only: no
+  CIFAR-10/CelebA download, checkpoint/model acquisition, full repo clone,
+  training, sampling, attack-script execution, CPU sidecar, GPU release,
+  Platform row, or Runtime schema is selected. The previous asset verdict is
+  the MT-MIA relational diffusion score-packet gate. MT-MIA publishes official multi-table
   member/nonmember/reference splits, pre-generated ClavaDDPM/RelDiff synthetic
   outputs, and `18` score/metric packets, but it remains cross-modal
   relational-tabular support-only: no raw figshare data, synthetic CSV payload,
@@ -166,7 +177,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   They do not change admitted rows, Runtime schemas, recommendation logic, or
   product copy. I-B, I-C, ReDiffuse,
   CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
-  Regression, DualMD/DistillMD, DIFFENCE, MIAHOLD/HOLD++, and Noise as a Probe remain governed by
+  Regression, DualMD/DistillMD, DIFFENCE, MIAHOLD/HOLD++, FSECLab
+  MIA-Diffusion, and Noise as a Probe remain governed by
   `ROADMAP.md` lane gates
   and do not release automatic CPU/GPU work.
 - `goal`: next cycle must select exactly one Lane A/B/C task from
@@ -196,6 +208,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 Current evidence:
 
+- [../../docs/evidence/fseclab-mia-diffusion-code-artifact-gate-20260515.md](../../docs/evidence/fseclab-mia-diffusion-code-artifact-gate-20260515.md)
+- [../../docs/evidence/mtmia-relational-diffusion-score-packet-gate-20260515.md](../../docs/evidence/mtmia-relational-diffusion-score-packet-gate-20260515.md)
 - [../../docs/evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md](../../docs/evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md)
 - [../../docs/evidence/admitted-consumer-drift-audit-20260515.md](../../docs/evidence/admitted-consumer-drift-audit-20260515.md)
 - [../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md](../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md)

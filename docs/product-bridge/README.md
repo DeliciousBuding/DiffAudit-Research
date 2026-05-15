@@ -31,12 +31,14 @@ ReproMIA withdrawn proactive MIA, Noise Aggregation small-noise diffusion MIA,
 GenAI Confessions black-box image-to-image MIA, DurMI TTS duration-loss MIA,
 LSA-Probe music diffusion MIA, FERMI multi-relational tabular MIA,
 MT-MIA relational tabular diffusion MIA score packets,
+FSECLab MIA-Diffusion DDIM/DCGAN code release,
 DualMD/DistillMD disjoint-split defense, SAMA diffusion-language-model
 membership, VidLeaks text-to-video membership, and GGDM graph generative
 diffusion membership are
 weak, watch, metadata-only, defense-watch, related-method, out-of-scope,
-score-packet-missing, positive-but-provenance-limited, withdrawn,
-paper-source-only, or artifact-incomplete lines. They do not change admitted
+score-packet-missing, code-public result-missing,
+positive-but-provenance-limited, withdrawn, paper-source-only, or
+artifact-incomplete lines. They do not change admitted
 rows, Runtime schemas, recommendation logic, defense claims, or Platform
 product copy.
 See
@@ -150,6 +152,16 @@ appear as admitted Platform evidence, Runtime schema input, or active GPU/CPU
 work unless real public artifacts and a music/audio consumer-boundary decision
 exist. See
 [../evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md](../evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md).
+
+Current FSECLab MIA-Diffusion status: Research-only code-public watch-plus.
+The official `fseclab-osaka/mia-diffusion` repository ships DDIM/DCGAN
+training, sampling, white-box attack, black-box attack, dataset-loader, and ROC
+evaluation code plus two FID-stat `.npz` files. It does not ship frozen target
+checkpoints, immutable member/nonmember split manifests, generated sample
+packets, raw score arrays, ROC arrays, metric JSON, or a ready verifier output.
+It must not appear as admitted Platform evidence, Runtime schema input, or
+active GPU/CPU work unless public checkpoint-bound score artifacts appear. See
+[../evidence/fseclab-mia-diffusion-code-artifact-gate-20260515.md](../evidence/fseclab-mia-diffusion-code-artifact-gate-20260515.md).
 
 Current DualMD/DistillMD status: Research-only defense watch-plus. The
 OpenReview DDMD supplement ships DDPM/LDM training, disjoint teacher,
