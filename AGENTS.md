@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `LSA-Probe music diffusion mock-data gate completed after the 2026-05-15 admitted consumer drift audit. Status: music/audio cross-modal watch-plus / paper-and-demo-public / demo score data is generated mock data / no score artifact / no model-dataset download / no GPU release. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after LSA-Probe music diffusion mock-data gate`
+- Active work: `MT-MIA relational diffusion score-packet gate completed after the LSA-Probe music diffusion mock-data gate. Status: relational tabular diffusion score-packet public / cross-modal support-only / no dataset-model download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after MT-MIA relational diffusion score-packet gate`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -183,7 +183,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
   Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
   Memorization Anisotropy, StablePrivateLoRA, DualMD/DistillMD,
-  MIAHOLD/HOLD++, DIFFENCE, and LSA-Probe,
+  MIAHOLD/HOLD++, DIFFENCE, LSA-Probe, and MT-MIA,
   remain limitations or future-work hooks only. Platform/Runtime and
   paperization admitted claims still use only `recon`, `PIA baseline`,
   `PIA defended`, `GSA`, and `DPDM W-1`.
@@ -326,6 +326,19 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   relational datasets, train TabDDPM/TabDiff/TabSyn or surrogate models, or
   reopen MIDST/tabular execution unless public artifacts appear or DiffAudit
   explicitly opens a multi-relational tabular membership lane.
+- MT-MIA / `Finding Connections: Membership Inference Attacks for the
+  Multi-Table Synthetic Data Setting` is a relational tabular diffusion
+  score-packet support item, not a current image/latent-image execution target.
+  The official `joshward96/MT-MIA` repository publishes member/nonmember/
+  reference splits, pre-generated ClavaDDPM and RelDiff synthetic relational
+  tables, and `18` official MT-MIA score/metric JSONL packets. It remains
+  cross-modal support-only because it is outside the current Platform/Runtime
+  consumer boundary, lacks row-level score IDs suitable for product admission,
+  and has no reviewed relational-tabular schema. Do not download the raw
+  figshare datasets, synthetic CSV payloads, ClavaDDPM/RelDiff training assets,
+  or full repository; do not regenerate RelDiff or promote MT-MIA into
+  Platform/Runtime rows unless DiffAudit explicitly opens a relational tabular
+  synthetic-data membership lane or row-ID-bound verifier artifacts appear.
 - `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus candidate with public
   dataset split payloads and MP-LoRA/SMP-LoRA training code. It is not an
   execution target because the repo does not ship trained LoRA/checkpoint
