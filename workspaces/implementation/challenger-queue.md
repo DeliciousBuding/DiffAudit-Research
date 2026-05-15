@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `DualMD / DistillMD defense artifact gate completed after DIFFENCE classifier-defense artifact gate` |
+| Active work | `admitted consumer drift audit completed after 2026-05-15 watch/watch-plus/support-only/candidate gates` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after DualMD / DistillMD defense artifact gate |
+| CPU sidecar | none selected after the 2026-05-15 admitted consumer drift audit |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -58,13 +58,18 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-DualMD Long-Horizon Idle State
+### Post-Admitted-Drift Long-Horizon Idle State
 
-- `mode`: disjoint-split defense artifact gate after classifier-defense and
-  higher-order Langevin defense gates, support-only public score-packet replay,
-  defense CPU preflight, and candidate-card product-boundary sync
-- `status`: The latest asset verdict is the DualMD / DistillMD defense gate.
-  The OpenReview `DDMD/` supplement exposes DDPM/LDM training, disjoint
+- `mode`: admitted consumer-boundary sync after 2026-05-15 watch/watch-plus,
+  support-only, candidate-only, defense, cross-modal, and feature-packet gates
+- `status`: The latest consumer verdict is the admitted consumer drift audit.
+  The admitted bundle remains `admitted-only` with exactly five
+  Platform/Runtime rows: `recon`, `PIA baseline`, `PIA defended`, `GSA`, and
+  `DPDM W-1`. The validator chain passed, and recent watch/candidate lines do
+  not change Platform rows, Runtime schemas, product copy, download policy, CPU
+  sidecars, or GPU release. The previous asset verdict is the DualMD /
+  DistillMD defense gate. The OpenReview `DDMD/` supplement exposes DDPM/LDM
+  training, disjoint
   teacher, distillation, PIA/SecMIA, black-box attack code, DDPM split-index
   files, and FID stats, but the embedded GitHub origin is not public and the
   supplement ships no checkpoint-bound defended/undefended scores, ROC arrays,
@@ -167,14 +172,15 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   target/split/response or score artifacts. The latest cross-modal watch
   consumer boundary keeps
   SAMA/DLM and VidLeaks/T2V out of Platform/Runtime rows and releases no
-  CPU/GPU work. The latest DualMD gate found real supplementary code and split
-  indices but no checkpoint-bound score artifacts, so it updates artifact
-  knowledge without creating a CPU/GPU task.
+  CPU/GPU work. The latest admitted consumer drift audit confirms these
+  watch/candidate lines did not leak into the admitted Platform/Runtime bundle.
 - `GPU cap`: none selected
-- `integration`: no schema change; Research-only candidate feature-packet card
+- `integration`: no schema change; admitted five-row consumer set intact;
+  Research-only candidate feature-packet cards remain non-consumable
 
 Current evidence:
 
+- [../../docs/evidence/admitted-consumer-drift-audit-20260515.md](../../docs/evidence/admitted-consumer-drift-audit-20260515.md)
 - [../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md](../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md)
 - [../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md](../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md)
 - [../../docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md](../../docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md)
