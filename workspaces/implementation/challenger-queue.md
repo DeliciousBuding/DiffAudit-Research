@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Tabular Privacy Leakage TDM artifact gate completed after TMIA-DM temporal artifact gate` |
+| Active work | `FCRE medical frequency artifact gate completed after Tabular Privacy Leakage TDM artifact gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Tabular Privacy Leakage TDM artifact gate |
+| CPU sidecar | none selected after FCRE medical frequency artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -31,6 +31,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo exposes code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
 | MIAHOLD / HOLD++ higher-order Langevin defense | defense / Lane A-B | defense watch-plus | official MIAHOLD repos expose higher-order Langevin defense code, audio split filelists, a CIFAR HOLD config, and PIA-style attack code | no checkpoint-bound target artifact, reusable score rows, ROC arrays, metric JSON, generated responses, or ready verifier | keep as defense watch-plus only; do not download Google Drive checkpoints/datasets, scrape W&B, train HOLD++ models, or release GPU |
 | MT-MIA relational diffusion score packet | intake / Lane A | relational-tabular support-only | official `joshward96/MT-MIA` repo exposes multi-table member/nonmember/reference splits, pre-generated ClavaDDPM and RelDiff synthetic outputs, and `18` MT-MIA score/metric JSONL packets | outside current image/latent Platform/Runtime boundary; packets lack row-ID-bound score manifests and no relational-tabular consumer schema exists | keep as Research-only support evidence; do not download raw/synthetic data, full repo, or training assets, regenerate RelDiff, release GPU, or promote Platform/Runtime rows |
+| FCRE medical frequency MIA | gray-box / Lane A-B | paper-source-only / cross-domain watch | arXiv `2506.14919` reports frequency-calibrated reconstruction-error MIA metrics on FeTS 2022, ChestX-ray8, and CIFAR-10 | no official code, immutable split manifests, target checkpoints, generated reconstruction packets, score rows, ROC arrays, metric JSON, or ready verifier | keep as method context only; do not download FeTS/ChestX-ray8/CIFAR, train targets, run DDIM reconstruction, sweep frequency bands, release GPU, or promote Platform/Runtime rows |
 | Tabular Privacy Leakage TDM | intake / Lane A | single-table tabular watch-plus | arXiv `2605.06835` links official `VectorInstitute/midst-toolkit`; the toolkit exposes ClavaDDPM training/synthesis, Tartan Federer/Ensemble/EPT attacks, privacy/quality metrics, examples, and small integration-test TabDDPM fixtures | no paper-bound Berka/Diabetes target checkpoints, immutable split manifests, generated synthetic tables, score rows, ROC arrays, metric JSON, or ready verifier; current scope lacks a tabular consumer boundary | keep as Research-only watch-plus; do not download Berka/Diabetes/MIDST resources, train targets/shadows, run attacks, release GPU, or promote Platform/Runtime rows |
 | Shake-to-Leak code artifact | intake / Lane A | code-public watch-plus | official `VITA-Group/Shake-to-Leak` repo exposes fine-tuning-amplified generative privacy code, vendored SecMI/diffusers code, fine-tuning scripts, SecMI scripts, data extraction code, and a `40`-domain person list | no frozen SD-v1-1 fine-tuned checkpoint, immutable member/nonmember manifest, generated private-set packet, generated attack response, score array, ROC array, metric JSON, or ready verifier output; using it would require SD weights, person/LAION data, generation, fine-tuning, and attack execution | keep as Research-only mechanism watch-plus; do not download assets, clone full repo, generate private sets, fine-tune, run SecMI/data extraction, release GPU, or promote Platform/Runtime rows |
 | FSECLab MIA-Diffusion code artifact | intake / Lane A | code-public watch-plus | official `fseclab-osaka/mia-diffusion` repo exposes DDIM/DCGAN training, sampling, white-box attack, black-box attack, dataset-loader, ROC-evaluator code, and two FID-stat `.npz` files | no frozen target checkpoint, immutable split manifest, generated sample packet, score array, ROC array, metric JSON, or ready verifier output; using it would require dataset download and target training/sampling | keep as Research-only code reference; do not download CIFAR-10/CelebA, clone full repo, train/sample DDIM/DCGAN targets, run attack scripts, release GPU, or promote Platform/Runtime rows |
@@ -63,21 +64,27 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Tabular Privacy Leakage Long-Horizon Idle State
+### Post-FCRE Long-Horizon Idle State
 
-- `mode`: post-Tabular Privacy Leakage TDM artifact gate after TMIA-DM,
-  Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational diffusion
-  score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest asset verdict is the Tabular Privacy Leakage TDM
-  artifact gate. arXiv `2605.06835` links the official
-  `VectorInstitute/midst-toolkit` code for ClavaDDPM training/synthesis and
-  Tartan Federer / Ensemble / EPT attacks, but no paper-bound Berka/Diabetes
-  target checkpoints, immutable split manifests, generated synthetic tables,
-  score rows, ROC arrays, metric JSON, or ready verifier outputs are public.
-  The result is single-table tabular watch-plus only: no Berka/Diabetes/MIDST
-  resource download, target/shadow training, attack execution, CPU sidecar, GPU
-  release, Platform row, or Runtime schema is selected. The previous gray-box
-  artifact verdict is TMIA-DM, which remains paper-only temporal-noise /
+- `mode`: post-FCRE medical frequency artifact gate after Tabular Privacy
+  Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA
+  relational diffusion score-packet, and the 2026-05-15 admitted
+  consumer-boundary sync
+- `status`: The latest asset verdict is the FCRE medical frequency artifact
+  gate. arXiv `2506.14919` reports frequency-calibrated reconstruction-error
+  MIA metrics on FeTS 2022, ChestX-ray8, and CIFAR-10, but no official code,
+  immutable split manifests, target checkpoints, generated reconstruction
+  packets, score rows, ROC arrays, metric JSON, or ready verifier outputs are
+  public. The result is paper-source-only / medical-image cross-domain watch:
+  no FeTS/ChestX-ray8/CIFAR download, target training, DDIM reconstruction,
+  frequency sweep, CPU sidecar, GPU release, Platform row, or Runtime schema is
+  selected. The previous asset verdict is the Tabular Privacy Leakage TDM gate:
+  arXiv `2605.06835` links the official `VectorInstitute/midst-toolkit` code
+  for ClavaDDPM training/synthesis and Tartan Federer / Ensemble / EPT attacks,
+  but no paper-bound Berka/Diabetes target checkpoints, immutable split
+  manifests, generated synthetic tables, score rows, ROC arrays, metric JSON,
+  or ready verifier outputs are public. The previous gray-box artifact verdict
+  is TMIA-DM, which remains paper-only temporal-noise /
   noise-gradient MIA with reported metrics only and no code-score artifact. The
   previous asset verdict is the Shake-to-Leak code artifact gate. The official
   `VITA-Group/Shake-to-Leak` repository publishes fine-tuning-amplified
