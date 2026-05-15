@@ -30,6 +30,7 @@ diffusion MIA, Tracing the Roots diffusion-trajectory feature-packet MIA,
 ReproMIA withdrawn proactive MIA, Noise Aggregation small-noise diffusion MIA,
 GenAI Confessions black-box image-to-image MIA, DurMI TTS duration-loss MIA,
 LSA-Probe music diffusion MIA, FERMI multi-relational tabular MIA,
+MT-MIA relational tabular diffusion MIA score packets,
 DualMD/DistillMD disjoint-split defense, SAMA diffusion-language-model
 membership, VidLeaks text-to-video membership, and GGDM graph generative
 diffusion membership are
@@ -166,6 +167,16 @@ tables, feature/score rows, ROC arrays, metric JSON, or replay command. It must
 not appear as admitted Platform evidence or a Runtime row, and it does not
 reopen MIDST/tabular execution from scratch. See
 [../evidence/fermi-tabular-artifact-gate-20260515.md](../evidence/fermi-tabular-artifact-gate-20260515.md).
+
+Current MT-MIA status: Research-only relational-tabular support evidence. The
+official `joshward96/MT-MIA` repository publishes multi-table
+member/nonmember/reference splits, pre-generated ClavaDDPM and RelDiff
+synthetic outputs, and `18` official MT-MIA score/metric JSONL packets. It
+must not appear as admitted Platform evidence or a Runtime row because the
+current product boundary is image/latent diffusion, the packets are not
+row-ID-bound score manifests suitable for product admission, and no
+relational-tabular consumer schema exists. See
+[../evidence/mtmia-relational-diffusion-score-packet-gate-20260515.md](../evidence/mtmia-relational-diffusion-score-packet-gate-20260515.md).
 
 Current recon status: recon is the admitted black-box product row. The active
 row uses a unified upstream-threshold metric source and reports all four
