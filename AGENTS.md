@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `ReproMIA withdrawn artifact gate completed after Tracing Roots, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; ReproMIA has historical DDPM and Stable Diffusion paper-table metrics, but the current arXiv record is withdrawn and no official code, target checkpoints, exact split manifests, score arrays, ROC CSVs, or metric JSON were found, so it remains withdrawn paper-source-only watch and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Noise Aggregation small-noise artifact gate completed after ReproMIA, Tracing Roots, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; Noise Aggregation has strong DDPM paper-table metrics and a distinct small-noise predicted-noise aggregation mechanism, but the public surface is arXiv source only with TeX, bibliography, and figures, no official code, target checkpoints, exact split manifests, score arrays, ROC CSVs, or metric JSON, so it remains paper-source-only watch and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -145,8 +145,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   scratch before those artifacts exist.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
-  Zenodo fine-tuned diffusion, Noise as a Probe, Kohaku/Danbooru, MIDM, DMin,
-  ELSA Health Privacy, Memorization Anisotropy, and StablePrivateLoRA, are
+  Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
+  Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
+  Memorization Anisotropy, and StablePrivateLoRA, are
   limitations or future-work hooks only. Platform/Runtime and paperization
   admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
   `GSA`, and `DPDM W-1`.
@@ -236,6 +237,17 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   run prompt-memorization CUDA forward passes, seed/generation/mode/gamma
   sweeps, or mitigation notebooks unless ready score artifacts appear or
   DiffAudit explicitly opens a prompt-memorization lane.
+- Noise Aggregation / `Noise Aggregation Analysis Driven by Small-Noise
+  Injection` is a paper-source-only diffusion MIA watch item. arXiv
+  `2510.21783` v2 reports strong DDPM paper metrics (`CIFAR-10 AUC = 0.957`,
+  `TPR@1%FPR = 28.7`) and a distinct small-noise predicted-noise aggregation
+  mechanism, but the public source is only TeX, bibliography, and figures. No
+  official code, target checkpoints, exact split manifests, score arrays, ROC
+  CSVs, metric JSON, or query/response packet were found. Do not download
+  Stable Diffusion weights, LAION-aesthetic-5plus, COCO2017-Val,
+  CIFAR/Tiny-ImageNet, train DDPMs, implement the method from scratch, launch
+  CPU/GPU sidecars, or promote it into Platform/Runtime rows unless public-safe
+  code, target/split manifests, and reusable score artifacts appear.
 - FERMI / `FERMI: Exploiting Relations for Membership Inference Against
   Tabular Diffusion Models` is a multi-relational tabular watch item, not a
   current execution target. The 2026-05-12 arXiv source reports strong
