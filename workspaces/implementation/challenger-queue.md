@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `progress review completed after CPSample defense artifact gate` |
+| Active work | `DEB medical diffusion artifact gate completed` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after CPSample defense artifact gate |
+| CPU sidecar | none selected after DEB medical diffusion artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| DEB medical diffusion MIA | gray-box / Lane B | paper-source-only mechanism watch | MDPI Applied Sciences 2026 article reports Discrete Encoding-Based grey-box intermediate-trajectory metrics against SecMI, PIA, and SimA on CIFAR/TinyImageNet and MedMNIST2D subsets | no public code, target checkpoint hashes, immutable member/nonmember manifests, intermediate-state packet, score rows, ROC arrays, metric JSON, or verifier; requires intermediate generation-state access rather than final images only | keep as mechanism watch only; do not download MedMNIST/CIFAR/TinyImageNet/Stable Diffusion assets, implement DEB from the paper, release GPU/CPU sidecar, or promote Platform/Runtime rows |
 | same-noise residual comparator family | black-box | candidate-only / hold | seed-12 and seed-23 `64/64` packets retain signal, but low/full residual comparators match or beat mid-band on AUC | single DDPM/CIFAR10 asset, finite tails, no product boundary, mid-frequency specificity not supported | stop same-contract GPU expansion; reopen only with new comparator, second asset, or protocol |
 | black-box second response-contract acquisition | black-box | hold / stale skeleton | old Pokemon/Kandinsky skeleton probe returns `needs_query_split`; later CommonCanvas second-response-contract packets were executed and weak across pixel, CLIP, prompt-consistency, response-stability, and denoising-loss scorers | the old skeleton is not the active next lane and filling it would not by itself create a clean second asset | reopen only with a genuinely new public target identity plus exact member/nonmember query images and response/score coverage; do not keep filling the stale Pokemon/Kandinsky template |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
