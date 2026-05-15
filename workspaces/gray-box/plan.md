@@ -16,6 +16,9 @@
 - `Official SimA`: code-public watch-plus after the 2026-05-15 artifact gate;
   still not executable because public split manifests, checkpoints, score
   arrays, ROC/metric artifacts, and a ready verifier are missing.
+- `DSiRe / LoRA-WiSE`: strong future weight-only privacy lane candidate after
+  the 2026-05-15 boundary gate, but the claim is aggregate LoRA fine-tuning
+  dataset-size recovery rather than per-sample membership inference.
 - `TMIA-DM public-surface recheck`: paper-only after the 2026-05-15 temporal
   artifact gate; no official code, checkpoint-bound target, immutable split,
   score arrays, ROC/metric artifacts, or verifier output is public.
@@ -84,6 +87,11 @@ Current evidence:
   Structural Memorization is negative on the local smoke. The 2026-05-15
   TMIA-DM public-surface recheck found no new external artifact and does not
   reopen internal TMIA-DM / tri-score work. None releases GPU.
+- DSiRe / LoRA-WiSE adds a distinct LoRA-weight privacy surface with official
+  code and public non-gated benchmark rows, but it does not supply
+  member/nonmember MIA rows, ROC arrays, AUC/ASR/TPR-at-FPR metrics, or
+  current Platform/Runtime consumer semantics. It is a future weight-only lane
+  candidate, not a gray-box GPU release.
 
 ## Next Action
 
@@ -102,6 +110,9 @@ Do not run official SimA GPU jobs, request checkpoints by email, or rebuild its
 DDPM/SD targets from scratch unless public split/checkpoint/score artifacts
 appear. Do not implement TMIA-DM temporal-noise trajectories from the paper
 unless official code plus immutable target/split and score artifacts appear.
+Do not download LoRA-WiSE or run DSiRe unless DiffAudit explicitly opens a
+weight-only LoRA dataset-size recovery lane with MAE/MAPE/accuracy metrics and
+a consumer-boundary note.
 
 Canonical consolidation:
 [../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md).
@@ -124,6 +135,9 @@ Official SimA artifact gate is tracked by
 
 TMIA-DM public-surface recheck is tracked by
 [../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md).
+
+DSiRe / LoRA-WiSE boundary gate is tracked by
+[../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md](../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md).
 
 Fashion-MNIST score-Jacobian sensitivity closure is tracked by
 [../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md).
