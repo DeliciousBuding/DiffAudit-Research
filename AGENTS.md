@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `TMIA-DM temporal artifact gate completed after the Shake-to-Leak and FSECLab MIA-Diffusion code artifact gates. Status: TMIA-DM is paper-only temporal-noise gradient MIA / reported metrics only / no code-score artifact / no download / no GPU release / no admitted row; Shake-to-Leak is code-public generative-privacy watch-plus with checkpoint/data/score artifacts missing and no download/execution release. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after TMIA-DM temporal artifact gate, with Shake-to-Leak Stable Diffusion weights, LAION/person images, synthetic private sets, checkpoints, fine-tuning scripts, SecMI scripts, and data extraction still blocked.`
+- Active work: `Tabular Privacy Leakage TDM artifact gate completed after the TMIA-DM temporal artifact gate. Status: On Privacy Leakage in Tabular Diffusion Models is single-table tabular diffusion watch-plus / official code-public / no paper score packet / no download / no GPU release; TMIA-DM remains paper-only temporal-noise gradient MIA / reported metrics only / no code-score artifact / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after Tabular Privacy Leakage TDM artifact gate, with Berka, Diabetes, MIDST Google Drive resources, ClavaDDPM checkpoints, generated synthetic tables, target/shadow training, Tartan Federer, Ensemble, and EPT execution still blocked.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -354,6 +354,19 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   relational datasets, train TabDDPM/TabDiff/TabSyn or surrogate models, or
   reopen MIDST/tabular execution unless public artifacts appear or DiffAudit
   explicitly opens a multi-relational tabular membership lane.
+- `On Privacy Leakage in Tabular Diffusion Models: Influential Factors,
+  Attacker Knowledge, and Metrics` is a single-table tabular diffusion
+  watch-plus item, not a current execution target. The arXiv source is TeX plus
+  figures only, but the paper links the official `VectorInstitute/midst-toolkit`
+  code. That toolkit exposes ClavaDDPM training/synthesis, Tartan
+  Federer/Ensemble/EPT attacks, privacy/quality metrics, examples, and small
+  integration-test TabDDPM fixtures. It does not release the paper's
+  Berka/Diabetes target checkpoints, immutable split manifests, generated
+  synthetic tables, score rows, ROC arrays, metric JSON, or ready verifier.
+  Do not download Berka, Diabetes, MIDST Google Drive resources, target
+  checkpoints, or generated tables; do not run the attacks or train targets
+  from scratch unless public paper-bound artifacts appear or DiffAudit opens a
+  reviewed tabular consumer-boundary lane.
 - MT-MIA / `Finding Connections: Membership Inference Attacks for the
   Multi-Table Synthetic Data Setting` is a relational tabular diffusion
   score-packet support item, not a current image/latent-image execution target.
