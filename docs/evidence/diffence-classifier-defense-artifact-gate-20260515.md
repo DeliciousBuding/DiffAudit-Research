@@ -1,7 +1,7 @@
 # DIFFENCE Classifier-Defense Artifact Gate
 
 > Date: 2026-05-15
-> Status: classifier-defense-code-public / split-index-files-present / diffusion-as-preprocessor-not-target / score-artifacts-missing / no download / no GPU release / no admitted row
+> Status: classifier-defense-code-public / immutable Zenodo snapshot checked / split-index-files-present / diffusion-as-preprocessor-not-target / score-artifacts-missing / no model-data download / no GPU release / no admitted row
 
 ## Question
 
@@ -10,10 +10,10 @@ Membership Privacy With Diffusion Models` become the next bounded DiffAudit
 defense row, diffusion-model MIA replay, or GPU execution target?
 
 This was an artifact gate only. It inspected GitHub metadata, a shallow Git
-tree, README instructions, split/index files, config files, and MIA evaluation
-code. No Google Drive model folder, dataset payload, diffusion checkpoint,
-classifier checkpoint, generated reconstruction packet, or score output was
-downloaded or executed.
+tree, README instructions, split/index files, config files, MIA evaluation code,
+and the small immutable Zenodo code snapshot. No Google Drive model folder,
+dataset payload, diffusion checkpoint, classifier checkpoint, generated
+reconstruction packet, or score output was downloaded or executed.
 
 ## Candidate
 
@@ -26,12 +26,19 @@ downloaded or executed.
 | Latest push observed | `2024-09-06T03:05:08Z` |
 | License | MIT |
 | GitHub releases | none observed |
+| Zenodo record | `https://zenodo.org/records/13706131` |
+| Zenodo DOI | `10.5281/zenodo.13706131` |
+| Zenodo file | `Diffence-master.zip`, `2,133,861` bytes, `md5:3535eb087cba81de655767510d4c2506` |
+| Zenodo archive inspection | Downloaded only the small code snapshot into `%TEMP%` for central-directory inspection; MD5 matched Zenodo metadata. |
 
 ## Public Evidence Checked
 
 | Source | Finding |
 | --- | --- |
 | `README.md` | Identifies the repo as the code for the NDSS 2025 paper and describes DIFFENCE as a plug-and-play defense for undefended and defended models. The workflow asks users to partition datasets, download pretrained diffusion checkpoints from Google Drive, download target classifier models from Google Drive, and then run MIA evaluation scripts. |
+| Zenodo metadata | Publishes an open CC-BY-4.0 `Diffence-master.zip` code snapshot from `2024-09-06` with checksum `md5:3535eb087cba81de655767510d4c2506`. |
+| Zenodo archive central directory | The ZIP contains `604` entries totaling `6,061,721` uncompressed bytes. It includes code, configs, bytecode caches, `cifar_shuffle.pkl`, `svhn_shuffle.pkl`, and small `diff_ckpt/*.npz` split/index files. It does not include classifier checkpoints, diffusion checkpoints, generated logits, score rows, ROC arrays, metric JSON, or result logs. |
+| Zenodo archive README / evaluation code | Matches the GitHub execution boundary: users must still download Google Drive diffusion checkpoints and classifier checkpoints, then run local scripts that write results under `evaluate_MIAs/results`. |
 | `download_models.py` | Defines Google Drive folders for `cifar10`, `cifar100`, and `svhn` diffusion and target model downloads via `gdown.download_folder`. No model files, hashes, or score packets are committed. |
 | Dataset folders | `cifar10/`, `cifar100/`, and `svhn/` provide training, defense, and evaluation code for image classifiers, not a diffusion-model target membership contract. |
 | `cifar10/cifar_shuffle.pkl`, `cifar100/cifar_shuffle.pkl`, `svhn/svhn_shuffle.pkl` | Commit deterministic shuffle arrays for dataset partitioning (`50,000` CIFAR entries and `73,257` SVHN entries). These are useful split-index evidence, but they are not bound to committed classifier checkpoints or score artifacts. |
@@ -40,7 +47,7 @@ downloaded or executed.
 | `evaluate_MIAs/evaluate_mia.sh` | Generates model outputs with and without DIFFENCE, then redirects `dist_attack.py` output into `evaluate_MIAs/results/<defense>` and `<defense>_w_Diffence`. No such result files are committed. |
 | `evaluate_MIAs/dist_attack.py` | Computes ROC/AUC and low-FPR/TNR fields from locally generated logits and prints results. It expects generated `.npz` output files and does not ship reusable committed score arrays, ROC CSVs, or metric JSON. |
 | `evaluate_MIAs/dist_data.py` | Loads a target classifier checkpoint from `final-all-models/.../*.pth.tar`, constructs member/nonmember tensors from local dataset partitions, and wraps the classifier with DIFFENCE when `--diff` is used. |
-| Recursive tree | The repo contains code, configs, small split index files, and Python bytecode caches. It does not commit target classifier checkpoints, diffusion model checkpoints, generated defended/undefended logits, MIA score rows, ROC arrays, metric JSON, or ready verifier outputs. |
+| Recursive tree / Zenodo snapshot | The public surfaces contain code, configs, small split index files, and Python bytecode caches. They do not commit target classifier checkpoints, diffusion model checkpoints, generated defended/undefended logits, MIA score rows, ROC arrays, metric JSON, or ready verifier outputs. |
 
 ## Gate Result
 
@@ -57,16 +64,18 @@ downloaded or executed.
 
 ## Decision
 
-`classifier-defense-code-public / split-index-files-present /
-diffusion-as-preprocessor-not-target / score-artifacts-missing / no download /
-no GPU release / no admitted row`.
+`classifier-defense-code-public / immutable Zenodo snapshot checked /
+split-index-files-present / diffusion-as-preprocessor-not-target /
+score-artifacts-missing / no model-data download / no GPU release / no admitted
+row`.
 
 DIFFENCE should be retained as a classifier-defense related-method watch-plus
-item. It is stronger than paper-source-only because the official repo exposes
-code, configs, and small split-index files. It does not become a DiffAudit
-execution target because the protected model is a classifier, the diffusion
-model is an input-side defense component, and the public release does not ship
-checkpoint-bound defended/undefended MIA score artifacts.
+item. It is stronger than paper-source-only because the official repo and
+immutable Zenodo snapshot expose code, configs, and small split-index files. It
+does not become a DiffAudit execution target because the protected model is a
+classifier, the diffusion model is an input-side defense component, and the
+public release does not ship checkpoint-bound defended/undefended MIA score
+artifacts.
 
 Smallest valid reopen condition:
 
@@ -96,7 +105,7 @@ defense transformation before classifier inference. That makes it useful for
 defense literature context, not a clean second diffusion-model membership asset
 or admitted defense row. Current slots remain `active_gpu_question = none`,
 `next_gpu_candidate = none`, and `CPU sidecar = none selected after DIFFENCE
-classifier-defense artifact gate`.
+Zenodo snapshot sync`.
 
 ## Platform and Runtime Impact
 

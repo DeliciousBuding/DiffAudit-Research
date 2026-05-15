@@ -91,11 +91,12 @@
   Stable Diffusion weights, CIFAR/STL/Tiny-ImageNet datasets, training,
   attack-script run, GPU work, or admitted defense row is released.
 - DIFFENCE / `SPIN-UMass/Diffence` is classifier-defense watch-plus only. The
-  public repo exposes code, configs, and small split-index files, but the
-  protected target is an image classifier and diffusion is an input-side
-  purification/pre-inference defense component. The repo requires Google Drive
-  classifier/diffusion checkpoints and local result generation, and it commits
-  no defended/undefended logits, score rows, ROC arrays, metric JSON, or ready
+  public repo and Zenodo `10.5281/zenodo.13706131` snapshot expose code,
+  configs, and small split-index files, but the protected target is an image
+  classifier and diffusion is an input-side purification/pre-inference defense
+  component. The release still requires Google Drive classifier/diffusion
+  checkpoints and local result generation, and it commits no
+  defended/undefended logits, score rows, ROC arrays, metric JSON, or ready
   verifier. No dataset/model download, classifier training, diffusion training,
   MIA script run, or GPU work is released.
 - StablePrivateLoRA / `WilliamLUO0/StablePrivateLoRA` is a defense watch-plus
@@ -347,7 +348,8 @@ Current StablePrivateLoRA follow-up:
 Current DIFFENCE follow-up:
 
 - Keep it as classifier-defense related-method watch-plus, not a DiffAudit
-  diffusion-generator membership row.
+  diffusion-generator membership row. The immutable Zenodo code snapshot is
+  useful provenance, not a result packet.
 - Reopen only if public checkpoint-bound defended/undefended logits, score
   rows, ROC arrays, metric JSON, or a bounded verifier appear, and a
   consumer-boundary decision explicitly admits classifier-defense evidence.
