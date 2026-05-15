@@ -2,6 +2,26 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 CLiD Candidate Evidence Card
+
+Product-boundary execution converted the official CLiD CPU replay into a
+machine-readable candidate-only card without changing admitted rows. The card
+records the official `inter_output/*` replay (`alpha = 0.9`, target
+`AUC = 0.961277`, `ASR = 0.891957`, `TPR@1%FPR = 0.675470`), baseline target
+metrics, blocked claims, identity blockers, and a fresh authenticated HF access
+recheck. The 2026-05-15 live recheck for
+`zsf/COCO_MIA_ori_split1/mia_COCO.zip` still returns `403` for authenticated
+`HEAD`, start `Range`, and end `Range` requests, so no metadata-only ZIP
+central-directory inspection or download is released.
+
+Decision: `candidate evidence card / strong official CPU score packet /
+identity-manifest still blocked / no admitted row / no GPU release`. Current
+slots remain `active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after CLiD candidate evidence card`. See
+[docs/product-bridge/clid-candidate-evidence-card.md](docs/product-bridge/clid-candidate-evidence-card.md)
+and
+[docs/product-bridge/clid-candidate-evidence-card.json](docs/product-bridge/clid-candidate-evidence-card.json).
+
 ## 2026-05-15 Noise Aggregation Small-Noise Artifact Gate
 
 Artifact intake checked arXiv `2510.21783` / `Noise Aggregation Analysis
