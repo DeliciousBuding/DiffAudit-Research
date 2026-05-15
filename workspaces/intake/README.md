@@ -4,6 +4,16 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- Structural MIA for T2I / arXiv `2407.13252` is a paper-source-only
+  mechanism watch. It is non-duplicate because it targets text-to-image
+  structure-level memorization using DDIM inversion/noising plus SSIM between
+  original and corrupted images, with reported Latent Diffusion and Stable
+  Diffusion low-FPR gains. The arXiv source is TeX/figures only, exact-title
+  GitHub searches found no official code/artifact release, and the OpenReview
+  supplement is a ZIP containing only `supplementary.pdf`. No LAION/COCO
+  image, model/checkpoint, generated response, score row, ROC array, metric
+  JSON, verifier, CPU sidecar, GPU work, or admitted Platform/Runtime row is
+  released.
 - Rectified Flow MIA / arXiv `2603.13421` is a paper-source-only mechanism
   watch. It is non-duplicate because it targets Rectified Flow / Flow Matching
   vector fields with `T_naive`, `T_mc`, and complexity-calibrated `T_mc_cal`,
