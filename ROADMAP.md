@@ -1350,7 +1350,7 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after DualMD / DistillMD defense artifact gate. DDMD is defense watch-plus only: OpenReview supplement code and DDPM split-index files are public, but the embedded GitHub origin is not public and checkpoint-bound defended/undefended score artifacts are missing. |
+| CPU sidecar | none selected after the 2026-05-15 admitted consumer drift audit. The admitted bundle remains five-row `admitted-only`; recent watch/watch-plus/support-only/candidate gates did not change Platform/Runtime rows, schemas, product copy, downloads, or GPU release. |
 | Highest-value next action | Continue non-duplicate asset search only for candidates with public target identity, member/nonmember split artifacts, and response/score coverage. Reopen DualMD/DistillMD only if public checkpoint-bound defended/undefended score artifacts, ROC arrays, metric JSON, generated response packets, or a bounded verifier appear and a consumer-boundary decision explicitly admits disjoint-training defense evidence. Reopen DIFFENCE only if public checkpoint-bound defended/undefended score artifacts or a bounded verifier appear and a consumer-boundary decision explicitly admits classifier-defense evidence. Reopen MIAHOLD/HOLD++ only if public checkpoint-bound score artifacts or a bounded verifier appear, plus an explicit TTS/audio consumer-boundary decision before any audio lane execution. Reopen the Quantile/SecMI-style support packet only if explicit quantile-regression score outputs, trained quantile artifacts, or a bounded verifier command are released, or if a consumer-boundary review approves third-party SecMI-style packets as paperization support without Platform/Runtime admission. Reopen ReproMIA only if a current non-withdrawn paper plus official public code, exact target/split manifests, and reusable score/metric artifacts appear; reopen Tracing Roots only if raw target checkpoint identity, raw sample manifests, or a feature-packet consumer-boundary decision appears; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. |
 | Stop condition | Do not download the DualMD/DistillMD SharePoint Pokemon payload, Stable Diffusion weights, CIFAR/CIFAR100/STL10/Tiny-ImageNet datasets, or run DDPM/LDM training, distillation, SecMIA/PIA, black-box attack scripts, or launch GPU jobs from this gate. Do not download DIFFENCE Google Drive diffusion/target model folders or CIFAR/SVHN datasets; do not train classifiers or diffusion models, generate DIFFENCE reconstructions, run MIA scripts, or launch GPU jobs from that gate. Do not download MIAHOLD/HOLD++ Grad-TTS, HiFi-GAN, CLD-SGM, CIFAR, CelebA, LJSpeech, or LibriTTS assets; do not scrape W&B, train HOLD++ CIFAR/audio models, regenerate PIA scores, or launch GPU jobs from that gate. Do not clone the full `neilkale/quantile-diffusion-mia` repository by default, download pretrained DDPM checkpoints/CIFAR archives/SharePoint model folders, run training, fit quantile models, recover W&B artifacts, or launch GPU jobs from that support packet. Do not promote DualMD/DistillMD, DIFFENCE, or MIAHOLD as admitted defense rows, Quantile replay as a Quantile Regression result, or any of these lines as admitted Platform/Runtime rows. Keep the existing no-download/no-GPU constraints for ReproMIA, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, and same-family MIDST expansions. |
 
@@ -1802,12 +1802,13 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 
 1. ReDiffuse is closed as candidate-only for now. Do not run 800k or larger
    ReDiffuse packets without a new scorer hypothesis and CPU preflight.
-2. Black-box second response-contract acquisition remains `needs_query_split`.
-   It is no longer the immediate active work until real query/response assets
-   appear. Do not GPU-scale until the local
-   `response-contract-pokemon-kandinsky-20260511` package has at least `25/25`
-   real query images, response coverage, and a ready package probe. Existing
-   local Kandinsky/Pokemon weights are not query images or responses.
+2. Black-box second response-contract acquisition is on hold. The old
+   Pokemon/Kandinsky skeleton remains `needs_query_split`, and later
+   CommonCanvas second-response-contract packets were executed and weak across
+   pixel, CLIP, prompt-consistency, response-stability, and denoising-loss
+   scorers. Do not keep filling the stale skeleton by default. Reopen only with
+   a genuinely new public target identity, exact member/nonmember query images,
+   and reusable response/score coverage.
 3. The white-box influence/curvature stability decision is closed. The
    `up_blocks.1.attentions.0.to_v` board at `4` samples per split ties
    `raw_grad_l2_sq` under shadow-frozen target transfer, so diagonal-Fisher
