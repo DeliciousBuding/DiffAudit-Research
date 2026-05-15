@@ -4,6 +4,14 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- FreMIA / `poetic2/FreMIA` is a frequency-filter diffusion MIA watch item. The
+  arXiv source reports strong trained/fine-tuned table metrics and includes
+  rendered ROC/score figures, but the official repo is currently a README-only
+  stub. No implementation code, immutable member/hold-out split manifest, target
+  checkpoint, generated sample, score row, machine-readable ROC array, metric
+  JSON, or verifier is public. No dataset/model/checkpoint download, filter
+  implementation, attack execution, GPU work, or admitted Platform/Runtime row
+  is released.
 - CopyMark / `caradryanl/CopyMark` is official Research-side score-artifact
   support evidence. The public repo commits member/nonmember image logs,
   aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step score
