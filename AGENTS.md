@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `I-B shadow-local GSA risk preflight completed after Tracing Roots candidate evidence card; existing GSA shadow loss-score exports now produce true shadow-local GSA-only k32 risk records for shadow-01, shadow-02, and shadow-03, but PIA shadow-local risk records are still missing, so I-B remains blocked with no defended-shadow training, no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Quantile Diffusion MIA SecMI-style t_error replay completed after I-B shadow-local GSA risk preflight; neilkale/quantile-diffusion-mia exposes public CIFAR10/CIFAR100 SecMI-style score rows and split manifests with positive replay metrics, but it is support-only, not the official Quantile Regression paper output, not an admitted Platform/Runtime row, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -138,11 +138,15 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   train-step, rank, resolution, prompt, scheduler, loss-weight, timestep,
   layer, or block matrices by default.
   Quantile Regression is a useful sample-conditioned reconstruction-loss
-  mechanism reference, but it is not a runnable packet: no paper-specific
-  public code, exact target artifact bundle, per-sample split manifest, or
-  ready t-error packet was found. Do not train STL10/Tiny-ImageNet DDPMs,
-  reconstruct SecMI splits, or build a quantile-regression implementation from
-  scratch before those artifacts exist.
+  mechanism reference, but the latest public packet is only third-party
+  SecMI-style support evidence. `neilkale/quantile-diffusion-mia` exposes
+  committed CIFAR10/CIFAR100 `t_error` score rows and split manifests, and
+  replaying `score = -t_error` is positive, but this is not the official
+  Quantile Regression paper output or an admitted row. Do not clone the full
+  repo, download DDPM/CIFAR/SharePoint assets, train STL10/Tiny-ImageNet
+  DDPMs, fit quantile models, recover W&B artifacts, reconstruct SecMI splits,
+  or build a quantile-regression implementation from scratch before official
+  quantile artifacts or a bounded verifier exist.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
   Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
