@@ -2,6 +2,34 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Public Metadata Asset Sweep
+
+Lane A checked the post-DIFFENCE public metadata surface before opening another
+asset gate. Authenticated Hugging Face metadata search and GitHub
+artifact-shaped searches still expose only already-known CLiD and CopyMark
+surfaces: `zsf/COCO_MIA_ori_split1` has a gated `mia_COCO.zip`
+(`1,620,731,171` bytes) and descriptive README, but authenticated `HEAD` and
+`Range: bytes=-1048576` still return `403`, so no metadata-only ZIP central
+directory or row manifest can be inspected. `chumengl/copymark` has a
+non-gated `datasets.zip` (`5,662,307,542` bytes), but CopyMark's useful small
+score/ROC/image-log artifacts are already covered by the official score gate.
+GitHub code searches for replay-shaped artifacts such as
+`member_scores_all_steps.pth`, `COCO_MIA_ori_split1`, and
+`AUROC TPR_at_1_threshold diffusion` returned only already-covered CopyMark,
+CLiD, or DiffAudit evidence hits.
+
+Decision: `public metadata sweep / only known CLiD and CopyMark HF surfaces /
+CLiD ZIP still range-inaccessible with auth / no new replay packet / no
+download / no GPU release / no admitted row`. Do not download CLiD
+`mia_COCO.zip`, CopyMark `datasets.zip`, image folders, Stable Diffusion /
+CommonCanvas / LDM / Kohaku / COCO / LAION payloads, model folders, target or
+shadow checkpoints; do not clone large external repositories by default, run
+CLiD/CopyMark/PIA/PFAMI/SecMI/GSA scripts, regenerate features, fit attack
+models, or launch GPU jobs from this sweep. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after public metadata asset sweep`. See
+[docs/evidence/public-metadata-asset-sweep-20260515.md](docs/evidence/public-metadata-asset-sweep-20260515.md).
+
 ## 2026-05-15 GitHub Lightweight Diffusion MIA Triage
 
 Lane A external asset search checked four direct GitHub search hits that looked
