@@ -44,6 +44,7 @@ and
 See also
 [../evidence/cross-modal-watch-consumer-boundary-20260515.md](../evidence/cross-modal-watch-consumer-boundary-20260515.md).
 See
+[../evidence/admitted-consumer-drift-audit-20260515.md](../evidence/admitted-consumer-drift-audit-20260515.md),
 [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md)
 and
 [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md).
@@ -186,7 +187,8 @@ The current product bridge decision is recorded in
 | [clid-candidate-evidence-card.md](clid-candidate-evidence-card.md) | Machine-readable candidate-only card for the official CLiD CPU score-packet replay and identity blockers. |
 | [tracing-roots-candidate-evidence-card.md](tracing-roots-candidate-evidence-card.md) | Machine-readable candidate-only card for the Tracing Roots positive feature-packet replay and raw-provenance blockers. |
 | [h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md) | Why simple-distance remains Research evidence and what must happen before product consumption. |
-| [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md) | Latest no-drift audit for the admitted Platform/Runtime consumer boundary. |
+| [../evidence/admitted-consumer-drift-audit-20260515.md](../evidence/admitted-consumer-drift-audit-20260515.md) | Latest no-drift audit for the admitted Platform/Runtime consumer boundary. |
+| [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md) | Previous no-drift audit for the admitted Platform/Runtime consumer boundary. |
 | [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md) | Current admitted-vs-candidate boundary for downstream consumers. |
 
 ## Integration Rules

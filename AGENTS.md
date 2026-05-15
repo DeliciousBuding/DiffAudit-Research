@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `DualMD / DistillMD defense artifact gate completed after DIFFENCE classifier-defense artifact gate; OpenReview DDMD supplement exposes code, DDPM split-index files, and FID stats, but the embedded GitHub origin is not public and checkpoint-bound defended/undefended scores, ROC arrays, metric JSON, generated response packets, and a ready verifier are missing. Status: supplement-code-public / split-index-files-present / checkpoint-and-score-artifacts-missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after DualMD / DistillMD defense artifact gate`
+- Active work: `Admitted consumer drift audit completed after the 2026-05-15 watch/watch-plus/support-only/candidate gates; admitted bundle remains admitted-only with five Platform/Runtime rows. Status: synchronized / admitted-only boundary intact / no schema change / no GPU release. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after the 2026-05-15 admitted consumer drift audit`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
