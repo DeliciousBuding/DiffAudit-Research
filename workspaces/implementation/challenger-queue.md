@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `DIFFENCE classifier-defense artifact gate completed after MIAHOLD higher-order Langevin artifact gate` |
+| Active work | `DualMD / DistillMD defense artifact gate completed after DIFFENCE classifier-defense artifact gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after DIFFENCE classifier-defense artifact gate |
+| CPU sidecar | none selected after DualMD / DistillMD defense artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -27,6 +27,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | SecMI admission contract | gray-box | structural-support-only | full-split stat/NNS evidence is strong and evidence-ready; consumer review completed | not admitted; NNS product semantics, adaptive comparability, provenance language, and bundle schema fit remain blocked | keep validators active; no new metrics or promotion until a new schema/adaptive protocol exists |
 | Quantile Diffusion MIA SecMI `t_error` replay | gray-box / Lane A-B | candidate-support-only | third-party public CIFAR10/CIFAR100 SecMI-style score rows and split manifests replay from committed files with positive AUC | not official Quantile Regression paper output; same-family SecMI support only; no admitted-row consumer contract | keep as support evidence only; do not clone full repo, download DDPM/CIFAR/SharePoint assets, train, fit quantile models, or release GPU |
+| DualMD / DistillMD disjoint-split defense | defense / Lane A-B | defense watch-plus | OpenReview DDMD supplement exposes DDPM/LDM defense code, DDPM split-index files, and FID stats | embedded GitHub origin is not public; no checkpoint-bound defended/undefended scores, ROC arrays, metric JSON, generated response packets, or ready verifier are released | keep as defense watch-plus only; do not download SharePoint Pokemon, Stable Diffusion, CIFAR/STL/Tiny-ImageNet assets, train, run attack scripts, or release GPU |
 | DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo exposes code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
 | MIAHOLD / HOLD++ higher-order Langevin defense | defense / Lane A-B | defense watch-plus | official MIAHOLD repos expose higher-order Langevin defense code, audio split filelists, a CIFAR HOLD config, and PIA-style attack code | no checkpoint-bound target artifact, reusable score rows, ROC arrays, metric JSON, generated responses, or ready verifier | keep as defense watch-plus only; do not download Google Drive checkpoints/datasets, scrape W&B, train HOLD++ models, or release GPU |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
@@ -57,12 +58,21 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-DIFFENCE Long-Horizon Idle State
+### Post-DualMD Long-Horizon Idle State
 
-- `mode`: classifier-defense artifact gate after defense-code artifact gate,
-  support-only public score-packet replay, defense CPU preflight, and
-  candidate-card product-boundary sync
-- `status`: The latest asset verdict is the DIFFENCE classifier-defense gate.
+- `mode`: disjoint-split defense artifact gate after classifier-defense and
+  higher-order Langevin defense gates, support-only public score-packet replay,
+  defense CPU preflight, and candidate-card product-boundary sync
+- `status`: The latest asset verdict is the DualMD / DistillMD defense gate.
+  The OpenReview `DDMD/` supplement exposes DDPM/LDM training, disjoint
+  teacher, distillation, PIA/SecMIA, black-box attack code, DDPM split-index
+  files, and FID stats, but the embedded GitHub origin is not public and the
+  supplement ships no checkpoint-bound defended/undefended scores, ROC arrays,
+  metric JSON, generated response packets, or ready verifier. The result is
+  defense watch-plus only: no SharePoint Pokemon, Stable Diffusion,
+  CIFAR/STL/Tiny-ImageNet download, no training or attack-script execution, no
+  CPU sidecar, no GPU release, and no admitted defense row. The previous asset
+  verdict is the DIFFENCE classifier-defense gate.
   `SPIN-UMass/Diffence` exposes code, configs, and split-index files, but the
   protected target is an image classifier, diffusion is a pre-inference defense
   component, and the repo ships no checkpoint-bound defended/undefended logits,
@@ -135,7 +145,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   They do not change admitted rows, Runtime schemas, recommendation logic, or
   product copy. I-B, I-C, ReDiffuse,
   CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
-  Regression, DIFFENCE, MIAHOLD/HOLD++, and Noise as a Probe remain governed by
+  Regression, DualMD/DistillMD, DIFFENCE, MIAHOLD/HOLD++, and Noise as a Probe remain governed by
   `ROADMAP.md` lane gates
   and do not release automatic CPU/GPU work.
 - `goal`: next cycle must select exactly one Lane A/B/C task from
@@ -157,12 +167,15 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   target/split/response or score artifacts. The latest cross-modal watch
   consumer boundary keeps
   SAMA/DLM and VidLeaks/T2V out of Platform/Runtime rows and releases no
-  CPU/GPU work.
+  CPU/GPU work. The latest DualMD gate found real supplementary code and split
+  indices but no checkpoint-bound score artifacts, so it updates artifact
+  knowledge without creating a CPU/GPU task.
 - `GPU cap`: none selected
 - `integration`: no schema change; Research-only candidate feature-packet card
 
 Current evidence:
 
+- [../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md](../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md)
 - [../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md](../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md)
 - [../../docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md](../../docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md)
 - [../../docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md](../../docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md)
