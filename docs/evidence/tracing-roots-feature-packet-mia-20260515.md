@@ -131,3 +131,8 @@ or regularization sweeps. Reopen only if one of these appears:
 None. This is Research-only evidence. It does not add a Platform product row,
 does not change Runtime schemas, and does not promote Tracing the Roots to the
 admitted bundle.
+
+The product-bridge boundary is now also represented as a machine-readable
+candidate-only card:
+
+[../product-bridge/tracing-roots-candidate-evidence-card.md](../product-bridge/tracing-roots-candidate-evidence-card.md)
