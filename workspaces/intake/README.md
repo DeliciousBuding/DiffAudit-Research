@@ -4,6 +4,16 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- GitHub lightweight diffusion MIA triage checked four direct search hits:
+  `acha1934/Black-box-Membership-Inference-Attacks-against-Fine-tuned-Diffusion-Models`,
+  `KarinMalka1/Stable-Diffusion-Personalization-Forensics`,
+  `abramwit/ECE-CS-782-Research-Project`, and
+  `josephho9/score_function_diffusion`. They are lightweight/course-style or
+  toy reproductions only. None commits public checkpoint-bound targets, exact
+  target member/nonmember manifests, row-bound response packets, score rows,
+  ROC arrays, metric JSON, trained attack weights, or a verifier. No
+  notebook/image/model/Google Drive payload download, script execution, CPU
+  sidecar, GPU work, or admitted Platform/Runtime row is released.
 - DEB / `Assessing Membership Inference Privacy Risks in Medical Diffusion
   Models via Discrete Encoding-Based Inference` is a paper-source-only grey-box
   medical diffusion mechanism watch. The MDPI Applied Sciences article reports
