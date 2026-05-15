@@ -234,7 +234,7 @@
 - 内容简介：这篇论文研究图像分类模型的成员推断防御，目标是在不改目标模型训练流程、也不篡改输出接口的情况下，削弱黑盒攻击者利用成员与非成员预测分布差异进行推断的能力。作者把问题定义为 pre-inference defense：在样本进入目标分类器前先做扩散式重建，让模型面对的是语义相近但细节被改写的新输入。
 - 核心方法 / 结论：方法上，DIFFENCE 对每个输入先做 forward diffusion 与 reverse denoising，生成多个重建候选，再只保留预测标签与原图一致的候选，以避免准确率下降。若防御者有更强先验，就在这些候选中挑选能更好缩小成员与非成员 logit 分布差异的样本。论文报告该方法可在多个数据集和既有防御之上继续降低 attack accuracy、attack AUC 以及低 FPR 区间的攻击能力，同时基本保持分类准确率和置信校准。
 - 和 DiffAudit 的关系：对 DiffAudit 来说，这篇论文的重要性在于它提供了一条与攻击视角互补的输入侧防御路线，并明确指向成员推断最常利用的统计差异究竟是什么。它不直接扩展 DiffAudit 的攻击面，但非常适合作为 survey 中“预测分布差异如何被主动压平”的代表性防御论文，也能为后续比较黑盒审计与防御效果提供统一参照。
-- 开源仓库：暂未找到
+- 开源仓库：[SPIN-UMass/Diffence](https://github.com/SPIN-UMass/Diffence)
 - 阅读报告：[DIFFENCE: Fencing Membership Privacy With Diffusion Models](https://www.feishu.cn/docx/XchVdTnrBoXzc9xYqy1cj5LHnlc)
 
 ### Defending Diffusion Models Against Membership Inference Attacks via Higher-Order Langevin Dynamics
