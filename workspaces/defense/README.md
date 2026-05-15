@@ -8,6 +8,17 @@ notes should stay archived unless needed for active work.
 Defense results must report low-FPR behavior and adaptive-attacker limitations
 before being promoted to public evidence.
 
+DIFFENCE is classifier-defense watch-plus only. The official repo exposes code,
+configs, and split-index files, but the protected target is an image classifier
+and diffusion is only a pre-inference defense component. It requires Google
+Drive classifier/diffusion checkpoints and local result generation, and it
+commits no defended/undefended logits, score rows, ROC arrays, metric JSON, or
+ready verifier outputs. Do not download DIFFENCE model folders or CIFAR/SVHN
+payloads, train classifiers or diffusion models, run MIA scripts, or promote
+classifier-defense rows until checkpoint-bound score artifacts and an explicit
+consumer-boundary decision exist. See
+[../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md](../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md).
+
 MIAHOLD / HOLD++ higher-order Langevin is defense watch-plus only. The public
 repos expose higher-order Langevin defense code, audio split filelists, a CIFAR
 HOLD config, and PIA-style attack code, but no checkpoint-bound target

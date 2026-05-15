@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `MIAHOLD higher-order Langevin artifact gate completed after Quantile Diffusion MIA SecMI-style t_error replay; bensterl15/MIAHOLD and bensterl15/MIAHOLDCIFAR expose defense code, split evidence, a CIFAR HOLD config, and PIA-style attack code, but checkpoint-bound targets, reusable score rows, ROC arrays, metric JSON, generated responses, and a ready verifier are missing. Status: defense-code-public / split-and-attack-code-present / score-artifacts-missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after MIAHOLD higher-order Langevin artifact gate`
+- Active work: `DIFFENCE classifier-defense artifact gate completed after MIAHOLD higher-order Langevin artifact gate; SPIN-UMass/Diffence exposes code, configs, and split-index files, but the protected target is an image classifier, diffusion is only a pre-inference defense component, and checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, and a ready verifier are missing. Status: classifier-defense-code-public / split-index-files-present / diffusion-as-preprocessor-not-target / score-artifacts-missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after DIFFENCE classifier-defense artifact gate`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -147,8 +147,8 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   DDPMs, fit quantile models, recover W&B artifacts, reconstruct SecMI splits,
   or build a quantile-regression implementation from scratch before official
   quantile artifacts or a bounded verifier exist.
-- MIAHOLD / HOLD++ higher-order Langevin is the latest asset verdict and is
-  defense watch-plus only. The official `bensterl15/MIAHOLD` and
+- MIAHOLD / HOLD++ higher-order Langevin remains defense watch-plus only. The
+  official `bensterl15/MIAHOLD` and
   `bensterl15/MIAHOLDCIFAR` repos expose defense code, audio split filelists, a
   CIFAR HOLD config, and PIA-style attack code, but no checkpoint-bound target
   artifacts, reusable member/nonmember scores, ROC arrays, metric JSON,
@@ -156,14 +156,25 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Grad-TTS/HiFi-GAN/CLD-SGM checkpoints, CIFAR/CelebA/audio datasets, scrape
   W&B artifacts, train HOLD++ models, launch GPU work, or promote defense rows
   until checkpoint-bound score artifacts exist.
+- DIFFENCE is classifier-defense related-method watch-plus only. The official
+  `SPIN-UMass/Diffence` repo exposes code, configs, and small split-index files,
+  but the protected target is an image classifier and diffusion is an
+  input-side purification/pre-inference defense component, not the audited
+  diffusion generator. The repo relies on Google Drive classifier/diffusion
+  checkpoints and local result generation; it commits no defended/undefended
+  logits, score rows, ROC arrays, metric JSON, or ready verifier. Do not
+  download DIFFENCE model folders or CIFAR/SVHN payloads, train classifiers or
+  diffusion models, generate reconstructions, run its MIA scripts, launch GPU
+  work, or promote classifier-defense rows without a consumer-boundary decision
+  and checkpoint-bound score artifacts.
 - Paperization/consumer boundary: recent weak/watch lines, including
   CommonCanvas, MIDST, Beans LoRA, Quantile Regression, MIAGM, LAION-mi,
   Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
   Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
-  Memorization Anisotropy, StablePrivateLoRA, and MIAHOLD/HOLD++, remain
-  limitations or future-work hooks only. Platform/Runtime and paperization
-  admitted claims still use only `recon`, `PIA baseline`, `PIA defended`,
-  `GSA`, and `DPDM W-1`.
+  Memorization Anisotropy, StablePrivateLoRA, MIAHOLD/HOLD++, and DIFFENCE,
+  remain limitations or future-work hooks only. Platform/Runtime and
+  paperization admitted claims still use only `recon`, `PIA baseline`,
+  `PIA defended`, `GSA`, and `DPDM W-1`.
 - Official `zhaisf/CLiD` now has a public CPU replay packet under
   `inter_output/*`: replaying the official threshold path selects
   `alpha = 0.9` and reaches target `AUC = 0.961277`,
