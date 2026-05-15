@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Public metadata asset sweep completed` |
+| Active work | `Rectified Flow MIA artifact gate completed` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after public metadata asset sweep |
+| CPU sidecar | none selected after Rectified Flow MIA artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| Rectified Flow MIA | gray-box / Lane B | paper-source-only mechanism watch | arXiv `2603.13421` proposes Rectified Flow / Flow Matching MIA statistics `T_naive`, `T_mc`, and complexity-calibrated `T_mc_cal`, with reported low-FPR gains on CIFAR-10, SVHN, and TinyImageNet | promised GitHub repo `mx-ethan-rao/MIA_Rectified_Flow` is empty; no public refs, code, split manifests, checkpoints, score rows, ROC arrays, metric JSON, or verifier | keep as non-duplicate mechanism watch only; do not download datasets/models/checkpoints/images, implement from paper, train RF models, release CPU/GPU sidecar, or promote Platform/Runtime rows |
 | HF/GitHub public metadata replay packet search | intake / Lane A | closed / no new artifact | authenticated HF metadata and GitHub artifact-shaped searches checked for small target/split/score/ROC/manifest packets after DIFFENCE | only known CLiD and CopyMark HF surfaces appeared; CLiD `mia_COCO.zip` remains `403` for authenticated HEAD/range probes, CopyMark HF zip is already covered and too large, and GitHub code search returned only already-covered CopyMark/CLiD/DiffAudit evidence hits | keep as anti-duplication evidence; do not download CLiD/CopyMark ZIPs, images, model/checkpoint payloads, clone large repos, run scripts, release CPU/GPU sidecar, or promote Platform/Runtime rows |
 | GitHub lightweight diffusion MIA repos | intake / Lane A | false-positive triage | four direct GitHub search hits were checked: acha1934 fine-tuned diffusion MIA, KarinMalka1 personalization forensics, abramwit Boeing 707 toy project, and josephho9 empirical-score MNIST prototype | no public checkpoint-bound target, immutable target member/nonmember manifest, row-bound response packet, score rows, ROC arrays, metric JSON, trained attack weights, or verifier; some require Colab/Google Drive/local training | keep as anti-duplication evidence only; do not download notebooks/images/models/Drive payloads, run scripts, train/fine-tune, release CPU/GPU sidecar, or promote Platform/Runtime rows |
 | DEB medical diffusion MIA | gray-box / Lane B | paper-source-only mechanism watch | MDPI Applied Sciences 2026 article reports Discrete Encoding-Based grey-box intermediate-trajectory metrics against SecMI, PIA, and SimA on CIFAR/TinyImageNet and MedMNIST2D subsets | no public code, target checkpoint hashes, immutable member/nonmember manifests, intermediate-state packet, score rows, ROC arrays, metric JSON, or verifier; requires intermediate generation-state access rather than final images only | keep as mechanism watch only; do not download MedMNIST/CIFAR/TinyImageNet/Stable Diffusion assets, implement DEB from the paper, release GPU/CPU sidecar, or promote Platform/Runtime rows |
