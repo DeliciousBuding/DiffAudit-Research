@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `MT-MIA relational diffusion score-packet gate completed after the LSA-Probe music diffusion mock-data gate. Status: relational tabular diffusion score-packet public / cross-modal support-only / no dataset-model download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after MT-MIA relational diffusion score-packet gate`
+- Active work: `FSECLab MIA-Diffusion code artifact gate completed after the MT-MIA relational diffusion score-packet gate. Status: official-code-public / runtime-split-construction / checkpoint-and-score-artifacts-missing / no download / no GPU release / no admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after FSECLab MIA-Diffusion code artifact gate`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -183,7 +183,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Zenodo fine-tuned diffusion, Noise as a Probe, Noise Aggregation,
   Kohaku/Danbooru, MIDM, DMin, ELSA Health Privacy,
   Memorization Anisotropy, StablePrivateLoRA, DualMD/DistillMD,
-  MIAHOLD/HOLD++, DIFFENCE, LSA-Probe, and MT-MIA,
+  MIAHOLD/HOLD++, DIFFENCE, LSA-Probe, MT-MIA, and FSECLab MIA-Diffusion,
   remain limitations or future-work hooks only. Platform/Runtime and
   paperization admitted claims still use only `recon`, `PIA baseline`,
   `PIA defended`, `GSA`, and `DPDM W-1`.
