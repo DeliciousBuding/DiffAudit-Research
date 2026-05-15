@@ -2,6 +2,32 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Quantile Diffusion MIA SecMI T-Error Replay
+
+Lane A/B artifact intake checked `neilkale/quantile-diffusion-mia` because it
+exposes a public score packet adjacent to the previously blocked Quantile
+Regression watch line. The checked repo commit
+`2274da4413f358ef4876b5737c50e1a9d4fb08b8` publishes SecMI-style
+`t_error` JSON rows and CIFAR split manifests. Replaying the committed packets
+with `score = -t_error` gives CIFAR10 `25,000 / 25,000`
+`AUC = 0.843853`, `ASR = 0.771040`, `TPR@1%FPR = 0.090880`,
+`TPR@0.1%FPR = 0.006000`; CIFAR100 `25,000 / 25,000`
+`AUC = 0.782126`, `ASR = 0.711640`, `TPR@1%FPR = 0.087360`,
+`TPR@0.1%FPR = 0.007800`.
+
+Decision: `third-party score packet replayed / SecMI-style support evidence /
+no GPU release / no admitted row`. This updates the artifact layer but does
+not promote the ICML 2024 Quantile Regression paper itself: the ready packet is
+not an official Quantile Regression implementation or score output. It also
+does not change Platform/Runtime admitted evidence because the result is
+same-family SecMI support material and still lacks an admitted-row consumer
+contract. Current slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and `CPU sidecar = none selected after Quantile
+Diffusion MIA SecMI T-Error replay`. See
+[docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md](docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md)
+and
+[docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.json](docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.json).
+
 ## 2026-05-15 I-B Shadow-Local GSA Risk Preflight
 
 Defense-lane execution reduced the I-B defended-shadow blocker with a CPU-only
@@ -1221,9 +1247,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after ReproMIA withdrawn artifact gate, Tracing the Roots product-boundary sync, DMin data attribution gate, ELSA Health Privacy Challenge gate, Memorization Anisotropy artifact gate, FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, MIDST TabDDPM EPT scout, Diffusion Memorization asset gate, and ReDiffuse split-manifest audit. ReproMIA is withdrawn paper-source-only with no official code, target checkpoint, split manifest, or score packet; Tracing Roots is positive feature-packet evidence but lacks raw checkpoint/sample/query-response provenance; DMin has public LoRA/dataset/cache artifacts for data attribution but no MIA labels or ROC packet; ELSA has a public biomedical synthetic-data MIA starter example packet, but actual Noisy Diffusion challenge data is agreement-gated; Memorization Anisotropy has official code and prompt splits but no ready score tensors or image-identity MIA packet; FERMI is paper-source only; DurMI has cross-modal TTS code/split/checkpoint metadata but no ready score packet; FMIA has official frequency-filter code and exact split manifests but no target checkpoints or score packets; CLiD official intermediate outputs replay strongly but remain prompt-conditioned candidate evidence because public metadata does not bind score rows to immutable COCO image identities. |
-| Highest-value next action | Continue non-duplicate asset search only for candidates with public target identity, member/nonmember split artifacts, and response/score coverage. Reopen ReproMIA only if a current non-withdrawn paper plus official public code, exact target/split manifests, and reusable score/metric artifacts appear; reopen Tracing Roots only if raw target checkpoint identity, raw sample manifests, or a feature-packet consumer-boundary decision appears; reopen DMin only with an explicit training-data attribution lane or a released bounded MIA score/metric packet; reopen ELSA only with an explicit biomedical synthetic-data MIA lane or public-safe Noisy Diffusion target/split/score artifacts; reopen Memorization Anisotropy only with released score tensors/metric artifacts or an explicit prompt-memorization lane; reopen FERMI only with public code plus target/split/score artifacts or an explicit multi-relational tabular lane; reopen DurMI only with ready duration-loss score artifacts or an explicit TTS/audio lane; reopen FMIA only with public trained checkpoints or ready score arrays; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. Do not reopen StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, or MIDST without the specific missing artifacts named in their latest notes. |
-| Stop condition | Do not download datasets, checkpoints, Stable Diffusion weights, LAION/COCO assets, CIFAR/TinyImageNet targets, or train DDPMs for ReproMIA; do not implement ReproMIA from scratch from historical TeX. Do not download DMin's mixed dataset, SD3 base assets, LoRA payloads, cached gradients, or retrieval index by default; do not reframe data attribution as membership inference. Do not register for ELSA, accept data agreements, or download challenge data in the current image/latent-image roadmap cycle; do not treat the public ELSA example AUC as a Noisy Diffusion research result. Do not download SD v1.4, SD v2, Realistic Vision, or generated images for Memorization Anisotropy; do not run prompt-memorization CUDA forward passes, seed/generation/mode/gamma/normalization sweeps, or mitigation notebooks by default. Do not implement FERMI from scratch, train TabDDPM/TabDiff/TabSyn/surrogate models, download relational tabular datasets for FERMI, download DurMI Zenodo audio datasets/checkpoints, fetch Google Drive TextGrid files, run TTS attacks, download FMIA datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run FMIA filter/timestep matrices, download `mia_COCO.zip`, `COCO_MIA_ori_split1`, SD weights, CLiD target/shadow checkpoints, generated images, StablePrivateLoRA dataset payloads, LoRA checkpoints, FFHQ thumbnails, GGDM graph datasets, Diffusion Memorization GDrive assets, SSCD weights, or SD-v1-4 by default; do not run CLiD GPU jobs, XGBoost sweeps, prompt-shuffle matrices, MIDM DDPM training, ReDiffuse training, or same-family MIDST expansions; do not change Platform/Runtime admitted rows without a product-bridge handoff. |
+| CPU sidecar | none selected after Quantile Diffusion MIA SecMI T-Error replay. The replay is a public third-party SecMI-style score packet, not an official Quantile Regression paper replay and not an admitted Platform/Runtime row. |
+| Highest-value next action | Continue non-duplicate asset search only for candidates with public target identity, member/nonmember split artifacts, and response/score coverage. Reopen this Quantile/SecMI-style support packet only if explicit quantile-regression score outputs, trained quantile artifacts, or a bounded verifier command are released, or if a consumer-boundary review approves third-party SecMI-style packets as paperization support without Platform/Runtime admission. Reopen ReproMIA only if a current non-withdrawn paper plus official public code, exact target/split manifests, and reusable score/metric artifacts appear; reopen Tracing Roots only if raw target checkpoint identity, raw sample manifests, or a feature-packet consumer-boundary decision appears; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. |
+| Stop condition | Do not clone the full `neilkale/quantile-diffusion-mia` repository by default, download pretrained DDPM checkpoints/CIFAR archives/SharePoint model folders, run training, fit quantile models, recover W&B artifacts, or launch GPU jobs from this support packet. Do not promote it as a Quantile Regression result or as an admitted Platform/Runtime row. Keep the existing no-download/no-GPU constraints for ReproMIA, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, and same-family MIDST expansions. |
 
 ### P0 — 完成且弱
 
@@ -1798,6 +1824,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| Quantile Diffusion MIA SecMI T-Error replay | third-party public SecMI-style `t_error` score packet replayed on CIFAR10/CIFAR100 with positive AUC, but it is support-only, not the official Quantile Regression paper output, not an admitted row, and releases no GPU work | [docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md](docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md) |
 | FERMI tabular artifact gate | latest multi-relational tabular diffusion MIA paper-source candidate with strong reported metrics, but no public code, target/split manifests, synthetic-table cache, score/feature packet, ROC arrays, metric JSON, or replay command; no download, GPU release, or MIDST/tabular reopen | [docs/evidence/fermi-tabular-artifact-gate-20260515.md](docs/evidence/fermi-tabular-artifact-gate-20260515.md) |
 | DurMI TTS artifact gate | TTS/audio cross-modal watch-plus with GradTTS/WaveGrad2/VoiceFlow attack code, exact GradTTS LJSpeech `5,977 / 5,977` split, and Zenodo checkpoint/data metadata, but no ready duration-loss scores, ROC arrays, metric JSON, or generated result graphs; no dataset/checkpoint download, GPU release, or admitted promotion | [docs/evidence/durmi-tts-artifact-gate-20260515.md](docs/evidence/durmi-tts-artifact-gate-20260515.md) |
 | Diffusion Memorization asset gate | official ICLR 2024 repo has a `500`-row memorized-prompt manifest, but the route is memorization-detection semantic shift with `2.60G` GDrive ground-truth assets and no released member/nonmember MIA split, response/noise-track packet, score JSON, ROC CSV, or low-FPR metric artifact; no download or GPU release | [docs/evidence/diffusion-memorization-asset-gate-20260515.md](docs/evidence/diffusion-memorization-asset-gate-20260515.md) |
