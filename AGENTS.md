@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `FreMIA frequency-filter artifact gate completed after CopyMark, VAE2Diffusion, DCR, and FCRE gates. Status: poetic2/FreMIA is an ICML 2026 direct diffusion-model MIA watch item with arXiv source tables/figures and a stub official GitHub repo, but no implementation code, immutable member/hold-out split manifests, target checkpoints, generated samples, score rows, machine-readable ROC arrays, metric JSON, or no-training verifier; no CIFAR-100/STL10-U/Tiny-ImageNet/Pokemon/MS-COCO/Flickr/Laion-MI download, Stable Diffusion weight, DDIM/fine-tuned checkpoint, filter implementation, attack execution, GPU work, Platform/Runtime row, or CPU sidecar is released. CopyMark remains official score-artifact support evidence with public member/nonmember image logs, selected all-step score tensors, GSA feature/XGBoost files, and laion_ridar/mixing results, but no checkpoint hashes, compact row-ID-bound score manifest, small immutable data/checkpoint packet, or ready verifier output. VAE2Diffusion remains code-public latent-space MIA watch-plus / split-checkpoint link empty / local-path training scripts / score-artifacts-missing; DCR remains copying/memorization semantic-shift watch-plus / no MIA score packet; FCRE remains paper-source-only medical-image frequency-MIA context; Tabular Privacy Leakage TDM remains single-table tabular diffusion watch-plus without paper-bound score artifacts; TMIA-DM remains paper-only temporal-noise gradient MIA. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after FreMIA frequency-filter artifact gate.`
+- Active work: `DME dual-model entropy artifact gate completed after FreMIA and CopyMark gates. Status: F-YaNG1/DME is a non-duplicate complexity-bias diffusion-MIA watch item, but the official repo is README-only with no linked paper, implementation code, immutable split manifest, target checkpoint, generated sample, score row, ROC array, metric JSON, figure artifact, or verifier; no dataset/model/checkpoint download, DME implementation, dual-model training, CPU sidecar, GPU work, Platform/Runtime row, or product copy is released. FreMIA remains an ICML 2026 direct diffusion-model MIA watch item with arXiv source tables/figures and a stub official GitHub repo, but no code, splits, checkpoints, score rows, machine-readable ROC arrays, metric JSON, or verifier. CopyMark remains official score-artifact support evidence with public member/nonmember image logs, selected all-step score tensors, GSA feature/XGBoost files, and laion_ridar/mixing results, but no checkpoint hashes, compact row-ID-bound score manifest, small immutable data/checkpoint packet, or ready verifier output. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after DME dual-model entropy artifact gate.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -65,7 +65,10 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   same-family final-layer gradient norm/cosine variants are closed by default
   and do not release GPU or layer sweeps. A quick external
   diffusion benchmark scan did not find a ready target whose model card alone
-  proves exact member/nonmember provenance. FreMIA is now a Research-only
+  proves exact member/nonmember provenance. DME is now a Research-only
+  complexity-bias watch item: the official repo is a README-only stub with no
+  linked paper, implementation, split/checkpoint, score, ROC, metric, or
+  verifier artifacts. FreMIA remains a Research-only
   frequency-filter watch item: arXiv source reports strong trained/fine-tuned
   table metrics, but the official repo is currently a README-only stub and no
   split/checkpoint/score/ROC/verifier artifacts are public. CopyMark remains the highest-value

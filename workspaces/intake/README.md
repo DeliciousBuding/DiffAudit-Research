@@ -4,6 +4,12 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- DME / `F-YaNG1/DME` is a complexity-bias diffusion-MIA watch item. The
+  official repo currently contains only a README and does not link a paper,
+  implementation code, split manifest, target checkpoint, generated sample,
+  score row, ROC array, metric JSON, figure artifact, or verifier. No
+  dataset/model/checkpoint download, DME implementation, dual-model training,
+  CPU sidecar, GPU work, or admitted Platform/Runtime row is released.
 - FreMIA / `poetic2/FreMIA` is a frequency-filter diffusion MIA watch item. The
   arXiv source reports strong trained/fine-tuned table metrics and includes
   rendered ROC/score figures, but the official repo is currently a README-only

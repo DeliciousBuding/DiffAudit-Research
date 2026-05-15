@@ -2,6 +2,30 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 DME Dual-Model Entropy Artifact Gate
+
+Lane A external scout checked `F-YaNG1/DME` because GitHub search surfaced it as
+an official PyTorch implementation of `Dual-Model with Entropy Augmentation`, a
+plug-and-play module that claims to remove complexity-induced bias from
+diffusion-model membership inference attacks. The official repository was
+inspected at `main` `ae0cc48476746945720bf24b42d4f9dfecb6de31`
+(`2025-11-17T11:47:15Z`). The repo size field is `1` KB, GitHub metadata lists
+no license, there are `0` releases and `0` tags, and the recursive tree contains
+only `README.md` (`248` bytes).
+
+Decision: `stub-repo-only / complexity-bias MIA watch / no download / no GPU
+release / no admitted row`. DME is a non-duplicate watch item because the
+claimed mechanism is complexity-bias debiasing rather than another
+frequency/reconstruction/trajectory score, but the public surface has no linked
+paper, implementation code, immutable split manifest, target checkpoint,
+generated sample, score row, ROC array, metric JSON, figure artifact, or
+verifier. Do not implement DME from the README description, infer missing paper
+details, download datasets/weights/checkpoints, train dual models, release CPU
+or GPU work, or promote Platform/Runtime rows. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and `CPU sidecar =
+none selected after DME dual-model entropy artifact gate`. See
+[docs/evidence/dme-dual-model-entropy-artifact-gate-20260515.md](docs/evidence/dme-dual-model-entropy-artifact-gate-20260515.md).
+
 ## 2026-05-15 FreMIA Frequency-Filter Artifact Gate
 
 Lane A external scout checked `poetic2/FreMIA` /
