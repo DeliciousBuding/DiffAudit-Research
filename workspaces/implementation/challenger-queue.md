@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `LSA-Probe music diffusion mock-data gate completed after 2026-05-15 admitted consumer drift audit` |
+| Active work | `MT-MIA relational diffusion score-packet gate completed after LSA-Probe music diffusion mock-data gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after LSA-Probe music diffusion mock-data gate |
+| CPU sidecar | none selected after MT-MIA relational diffusion score-packet gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -30,6 +30,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | DualMD / DistillMD disjoint-split defense | defense / Lane A-B | defense watch-plus | OpenReview DDMD supplement exposes DDPM/LDM defense code, DDPM split-index files, and FID stats | embedded GitHub origin is not public; no checkpoint-bound defended/undefended scores, ROC arrays, metric JSON, generated response packets, or ready verifier are released | keep as defense watch-plus only; do not download SharePoint Pokemon, Stable Diffusion, CIFAR/STL/Tiny-ImageNet assets, train, run attack scripts, or release GPU |
 | DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo exposes code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
 | MIAHOLD / HOLD++ higher-order Langevin defense | defense / Lane A-B | defense watch-plus | official MIAHOLD repos expose higher-order Langevin defense code, audio split filelists, a CIFAR HOLD config, and PIA-style attack code | no checkpoint-bound target artifact, reusable score rows, ROC arrays, metric JSON, generated responses, or ready verifier | keep as defense watch-plus only; do not download Google Drive checkpoints/datasets, scrape W&B, train HOLD++ models, or release GPU |
+| MT-MIA relational diffusion score packet | intake / Lane A | relational-tabular support-only | official `joshward96/MT-MIA` repo exposes multi-table member/nonmember/reference splits, pre-generated ClavaDDPM and RelDiff synthetic outputs, and `18` MT-MIA score/metric JSONL packets | outside current image/latent Platform/Runtime boundary; packets lack row-ID-bound score manifests and no relational-tabular consumer schema exists | keep as Research-only support evidence; do not download raw/synthetic data, full repo, or training assets, regenerate RelDiff, release GPU, or promote Platform/Runtime rows |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
 | CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
@@ -53,23 +54,30 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
-| Cross-modal watch consumer boundary | system / Lane C | synchronized | SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, and LSA-Probe music/audio are related-method or watch-plus items only | no admitted row, no Runtime schema input, and no product copy change | keep out of Platform/Runtime unless a future reviewed scope expansion and promotion occurs |
+| Cross-modal watch consumer boundary | system / Lane C | synchronized | SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, LSA-Probe music/audio, and MT-MIA relational-tabular are related-method, watch-plus, or support-only items | no admitted row, no Runtime schema input, and no product copy change | keep out of Platform/Runtime unless a future reviewed scope expansion and promotion occurs |
 | I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but it remains attack-side threshold transfer; the defended-shadow reopen protocol is machine-checkable, explicit reopen mode rejects undefended threshold references, and the coverage-aware training manifest blocks the current target k32 identity contract; the shadow-local scout found a mechanically possible `shadow-01`/`shadow-02` target-risk remap; the 2026-05-15 GSA-only preflight now produces true shadow-local k32 GSA risk records for `shadow-01`, `shadow-02`, and `shadow-03` | target-risk remap is not true shadow-local scoring; GSA-only risk does not satisfy the frozen PIA+GSA contract; no shadow-local PIA records, no executed defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is shadow-local PIA risk scoring or explicit approval of weaker GSA-only semantics before any tiny defended-shadow training execution |
 | I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### Post-LSA-Probe Long-Horizon Idle State
+### Post-MT-MIA Long-Horizon Idle State
 
-- `mode`: post-LSA-Probe artifact gate after 2026-05-15 admitted
+- `mode`: post-MT-MIA relational diffusion score-packet gate after 2026-05-15 admitted
   consumer-boundary sync and watch/watch-plus/support-only/candidate gates
-- `status`: The latest asset verdict is the LSA-Probe music diffusion
-  mock-data gate. LSA-Probe remains music/audio cross-modal watch-plus only:
-  the public project repo has no implementation tree, and the GitHub Pages
-  score-like `data/*.json` arrays are generated mock demo data, not
-  checkpoint-bound adversarial-cost score artifacts. No MAESTRO/FMA/DiffWave/
-  MusicLDM/audio/checkpoint download, CPU sidecar, GPU release, or admitted row
-  is selected. The latest consumer verdict remains the admitted consumer drift
+- `status`: The latest asset verdict is the MT-MIA relational diffusion
+  score-packet gate. MT-MIA publishes official multi-table
+  member/nonmember/reference splits, pre-generated ClavaDDPM/RelDiff synthetic
+  outputs, and `18` score/metric packets, but it remains cross-modal
+  relational-tabular support-only: no raw figshare data, synthetic CSV payload,
+  full repo, training asset, CPU sidecar, GPU release, Platform row, or Runtime
+  schema is selected. The previous asset verdict is the LSA-Probe music
+  diffusion mock-data gate. LSA-Probe remains music/audio cross-modal
+  watch-plus only: the public project repo has no implementation tree, and the
+  GitHub Pages score-like `data/*.json` arrays are generated mock demo data,
+  not checkpoint-bound adversarial-cost score artifacts. No
+  MAESTRO/FMA/DiffWave/MusicLDM/audio/checkpoint download, CPU sidecar, GPU
+  release, or admitted row is selected. The latest consumer verdict remains
+  the admitted consumer drift
   audit. The admitted bundle remains `admitted-only` with exactly five
   Platform/Runtime rows: `recon`, `PIA baseline`, `PIA defended`, `GSA`, and
   `DPDM W-1`. The validator chain passed, and recent watch/candidate lines do
@@ -414,7 +422,7 @@ Restart conditions:
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
-| Cross-modal watch consumer boundary | Synchronized; SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, and LSA-Probe music/audio are related-method or watch-plus items only and do not change admitted Platform/Runtime rows or schemas. |
+| Cross-modal watch consumer boundary | Synchronized; SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, LSA-Probe music/audio, and MT-MIA relational-tabular are related-method, watch-plus, or support-only items and do not change admitted Platform/Runtime rows or schemas. |
 | VidLeaks T2V asset gate | Related-method/code-snapshot-only; live GitHub repo unavailable and Zenodo snapshot lacks target T2V weights, exact video split manifests, generated videos, feature CSVs, and score packets. |
 | SAMA DLM asset gate | Related-method/out-of-scope for current image-diffusion Lane A; public code lacks a released target DLM checkpoint, exact split manifests, and response/score packet. |
 | Memorization-LDM asset gate | Request-gated and artifact-incomplete; public code/Zenodo software snapshot lack target LDM checkpoint, exact split manifests, and generated response package. |
