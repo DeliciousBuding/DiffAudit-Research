@@ -8,6 +8,7 @@ This directory contains the public evidence overview.
 | [admitted-results-summary.md](admitted-results-summary.md) | Reviewed verified results summary. |
 | [innovation-evidence-map.md](innovation-evidence-map.md) | Mapping from research claims to evidence status. |
 | [cross-box-boundary-status.md](cross-box-boundary-status.md) | Current cross-box candidate boundary and next research question. |
+| [copymark-official-score-artifact-gate-20260515.md](copymark-official-score-artifact-gate-20260515.md) | Official CopyMark score-artifact gate; member/nonmember logs, aggregate ROC/threshold JSONs, selected score tensors, and laion_ridar/mixing results are public, but no compact row-ID-bound score manifest, checkpoint hash, small immutable data packet, ready verifier, download, GPU release, or admitted row. |
 | [cross-box-successor-scope-20260512.md](cross-box-successor-scope-20260512.md) | CPU-only successor scoping that closes cross-box as hold until a new observable or second response-contract package exists. |
 | [black-box-response-strength-preflight.md](black-box-response-strength-preflight.md) | H2 response-strength candidate status and latest validation verdict. |
 | [h2-lowpass-followup-contract.md](h2-lowpass-followup-contract.md) | Frozen CPU contract for deciding whether H2 lowpass deserves another bounded GPU packet. |

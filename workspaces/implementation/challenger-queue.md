@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `VAE2Diffusion latent-space inversion gate completed after DCR copying manifest gate` |
+| Active work | `CopyMark official score artifact gate completed after VAE2Diffusion latent-space inversion gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after VAE2Diffusion latent-space inversion gate |
+| CPU sidecar | none selected after CopyMark official score artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -26,6 +26,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Kandinsky/Pokemon response-contract package | black-box | hold / stale skeleton | package preflight is executable but only proves the old skeleton shape | missing query split, endpoint contract, response manifest, and responses; superseded by later weak second-response-contract evidence | do not use this as the default next action; reopen only if real `25/25` or larger member/nonmember query images and responses appear for a clean non-CommonCanvas asset |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | SecMI admission contract | gray-box | structural-support-only | full-split stat/NNS evidence is strong and evidence-ready; consumer review completed | not admitted; NNS product semantics, adaptive comparability, provenance language, and bundle schema fit remain blocked | keep validators active; no new metrics or promotion until a new schema/adaptive protocol exists |
+| CopyMark official score artifacts | black-box / Lane A | official score-artifact support-only | official `caradryanl/CopyMark` repo exposes member/nonmember image logs, aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI score tensors, GSA feature/XGBoost files, and LAION-RiDAR/mixing results; sampled official artifacts include SD1.5 PIA test `AUROC = 0.766974`, LDM PFAMI test `AUROC = 0.915734`, and LAION-RiDAR test `AUROC = 0.872135` | no checkpoint hashes, compact row-ID-bound score manifest, small immutable data/checkpoint packet, or ready verifier output; sdxl/CommonCanvas artifacts remain weak or threshold-transfer inconsistent | keep as Research-side support evidence; do not download HF `datasets.zip`, images, model folders, full repo, run CopyMark scripts, release GPU, or promote Platform/Runtime rows |
 | Quantile Diffusion MIA SecMI `t_error` replay | gray-box / Lane A-B | candidate-support-only | third-party public CIFAR10/CIFAR100 SecMI-style score rows and split manifests replay from committed files with positive AUC | not official Quantile Regression paper output; same-family SecMI support only; no admitted-row consumer contract | keep as support evidence only; do not clone full repo, download DDPM/CIFAR/SharePoint assets, train, fit quantile models, or release GPU |
 | DualMD / DistillMD disjoint-split defense | defense / Lane A-B | defense watch-plus | OpenReview DDMD supplement exposes DDPM/LDM defense code, DDPM split-index files, and FID stats | embedded GitHub origin is not public; no checkpoint-bound defended/undefended scores, ROC arrays, metric JSON, generated response packets, or ready verifier are released | keep as defense watch-plus only; do not download SharePoint Pokemon, Stable Diffusion, CIFAR/STL/Tiny-ImageNet assets, train, run attack scripts, or release GPU |
 | DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo exposes code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
@@ -66,14 +67,22 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-VAE2Diffusion Long-Horizon Idle State
+### Post-CopyMark Long-Horizon Idle State
 
-- `mode`: post-VAE2Diffusion latent-space inversion gate after DCR copying,
-  FCRE medical frequency, Tabular Privacy Leakage TDM, TMIA-DM, Shake-to-Leak,
-  FSECLab MIA-Diffusion, MT-MIA relational diffusion score-packet, and the
-  2026-05-15 admitted consumer-boundary sync
-- `status`: The latest asset verdict is the VAE2Diffusion latent-space
-  inversion gate. `mx-ethan-rao/VAE2Diffusion` exposes code for decoder-geometry
+- `mode`: post-CopyMark official score artifact gate after VAE2Diffusion,
+  DCR copying, FCRE medical frequency, Tabular Privacy Leakage TDM, TMIA-DM,
+  Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational diffusion
+  score-packet, and the 2026-05-15 admitted consumer-boundary sync
+- `status`: The latest asset verdict is the CopyMark official score artifact
+  gate. `caradryanl/CopyMark` exposes official member/nonmember image logs,
+  aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step score
+  tensors, GSA feature/XGBoost files, and LAION-RiDAR/mixing results. It
+  remains support-only because it lacks checkpoint hashes, a compact
+  row-ID-bound score manifest, small immutable data/checkpoint packet, and
+  ready verifier output. No HF dataset zip, image payload, model folder, full
+  repo clone, script execution, CPU sidecar, GPU release, Platform row, or
+  Runtime schema is selected. The previous asset verdict is the VAE2Diffusion
+  latent-space inversion gate. `mx-ethan-rao/VAE2Diffusion` exposes code for decoder-geometry
   / latent-dimension filtering membership inference on LDMs, but the README
   split/checkpoint link is empty, the repo has no release assets, the recursive
   tree has no split, checkpoint, score, ROC, metric, response, or verifier

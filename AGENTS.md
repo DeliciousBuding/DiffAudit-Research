@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `VAE2Diffusion latent-space inversion gate completed after DCR and FCRE gates. Status: mx-ethan-rao/VAE2Diffusion is code-public latent-space MIA watch-plus / split-checkpoint link empty / local-path training scripts / score-artifacts-missing / no download / no GPU release / no admitted row; DCR remains copying/memorization semantic-shift watch-plus / no MIA score packet; FCRE remains paper-source-only medical-image frequency-MIA context; Tabular Privacy Leakage TDM remains single-table tabular diffusion watch-plus without paper-bound score artifacts; TMIA-DM remains paper-only temporal-noise gradient MIA. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after VAE2Diffusion latent-space inversion gate, with CIFAR-10, CelebA, ImageNet-1K, Pokemon, COCO, Flickr, LAION, Stable Diffusion weights, split payloads, checkpoints, generated responses, pullback caches, VAE2Diffusion training/fine-tuning, SimA/PFAMI/PIA variants, DCR retrieval, FCRE reconstruction/frequency sweeps, and TDM attack execution still blocked.`
+- Active work: `CopyMark official score artifact gate completed after VAE2Diffusion, DCR, and FCRE gates. Status: caradryanl/CopyMark has public official score artifacts, member/nonmember image logs, selected all-step score tensors, GSA feature/XGBoost files, and laion_ridar/mixing results, but no checkpoint hashes, compact row-ID-bound score manifest, small immutable data/checkpoint packet, or ready verifier output; no HF dataset zip, image payload, model folder, full repo clone, script execution, GPU work, Platform/Runtime row, or CPU sidecar is released. VAE2Diffusion remains code-public latent-space MIA watch-plus / split-checkpoint link empty / local-path training scripts / score-artifacts-missing; DCR remains copying/memorization semantic-shift watch-plus / no MIA score packet; FCRE remains paper-source-only medical-image frequency-MIA context; Tabular Privacy Leakage TDM remains single-table tabular diffusion watch-plus without paper-bound score artifacts; TMIA-DM remains paper-only temporal-noise gradient MIA. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after CopyMark official score artifact gate, with CopyMark HF datasets.zip/images/model folders, CIFAR-10, CelebA, ImageNet-1K, Pokemon, COCO, Flickr, LAION, Stable Diffusion weights, split payloads, checkpoints, generated responses, pullback caches, VAE2Diffusion training/fine-tuning, SimA/PFAMI/PIA variants, DCR retrieval, FCRE reconstruction/frequency sweeps, and TDM attack execution still blocked.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -71,7 +71,14 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   zip central directory now show a concrete directory-level member/holdout
   contract with `eval` and `test` splits, but the archive itself carries only
   images plus `caption.json` fields (`path`, `height`, `width`, `caption`), not
-  per-row membership provenance. A local
+  per-row membership provenance. A later official score-artifact gate found
+  that the public repo also commits member/nonmember image logs, aggregate
+  ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step tensors, GSA
+  feature/XGBoost files, and laion_ridar/mixing result artifacts. Treat those
+  as Research-side support evidence only: no checkpoint hashes, compact
+  row-ID-bound score manifest, small immutable data/checkpoint packet, or ready
+  verifier exists, and no HF dataset zip, image payload, model folder, full
+  repo clone, script execution, or GPU work is released. A local
   `response-contract-copymark-commoncanvas-20260512` query split exists under
   `<DIFFAUDIT_ROOT>/Download` with `50` CommonCatalog member queries and `50`
   COCO holdout queries. The `diffaudit-research` conda environment has CUDA
