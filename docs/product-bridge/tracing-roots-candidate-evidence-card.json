@@ -1,0 +1,92 @@
+{
+  "schema": "diffaudit.candidate_evidence_card.v1",
+  "updated_at": "2026-05-15T09:02:22+08:00",
+  "status": "candidate-only",
+  "audience": "research-product-bridge",
+  "admitted": false,
+  "track": "gray-box",
+  "method": {
+    "attack": "Tracing the Roots diffusion-trajectory feature-packet replay",
+    "defense": "none",
+    "model": "CIFAR10 DDPM supplementary trajectory features"
+  },
+  "source_packet": {
+    "openreview_forum": "https://openreview.net/forum?id=mE74JKHTCE",
+    "venue": "NeurIPS 2025 poster",
+    "openreview_last_modified": "2026-04-21T14:57:25+08:00",
+    "supplementary_material": "https://openreview.net/attachment?id=mE74JKHTCE&name=supplementary_material",
+    "supplement_size_bytes": 45499156,
+    "supplement_sha256": "62e9ae3833bcc0f102612d05898262eea2b6025fe8949a72c3f055a8534c7b41",
+    "arxiv_eprint": "https://arxiv.org/e-print/2411.07449",
+    "arxiv_source_version": "2411.07449v3",
+    "arxiv_source_size_bytes": 3614846,
+    "arxiv_source_sha256": "f8662fcc4281ca2139fc93eed9819741b65335ee8d7f060abb61d2ad1fda9756",
+    "released_code": "train.py, eval.py, utils.py",
+    "released_feature_files": "data/cifar10/{train,eval}/{member,external}.pt",
+    "row_contract": "fixed feature tensors only; no raw CIFAR image IDs, sample IDs, target checkpoint hash, or regeneration manifest"
+  },
+  "metrics": {
+    "train_samples": 2000,
+    "eval_samples": 2000,
+    "selected_features": 1002,
+    "final_train_accuracy": 0.776,
+    "eval_accuracy": 0.7375,
+    "eval_auc": 0.815826,
+    "eval_tpr_at_1pct_fpr": 0.134,
+    "eval_tpr_at_0_1pct_fpr": 0.038
+  },
+  "feature_tensor_hashes": {
+    "train/member.pt": "f02f16a02d80c067865d7902d653eed65676c73f1472fb7f04b090d3afb89ebe",
+    "train/external.pt": "4f5a54efb8683237691c79f71f72fccc787db4e32fe9352faa6f528f111bc7bd",
+    "eval/member.pt": "93b9e5eefbab1a820a4945bce79dfa95f5799df2b77ba771d8bfe159e9fcdaa9",
+    "eval/external.pt": "ee9829eaa32d6a54c73b0851513cd5edeea7da2b810d61fb99b330429909616e"
+  },
+  "boundary": {
+    "summary": "Positive Research-side feature-packet evidence, but not raw target/checkpoint/image evidence.",
+    "allowed_claims": [
+      "the released supplementary feature packet replays with a non-trivial held-out MIA signal",
+      "the result is useful Research evidence for diffusion-trajectory features under gray-box/white-box access",
+      "the card can guide future non-black-box consumer-boundary design"
+    ],
+    "blocked_claims": [
+      "admitted Platform evidence",
+      "Runtime schema input",
+      "black-box response-contract evidence",
+      "image-identity-safe membership evidence",
+      "claim that DiffAudit can regenerate the released features from public raw assets"
+    ]
+  },
+  "promotion_blockers": [
+    "supplement ships feature tensors, not raw CIFAR image IDs or sample manifests",
+    "supplement does not identify the exact target DDPM checkpoint hash or training run identity",
+    "arXiv v3 source contains TeX, bibliography, style, and figures only; no raw provenance manifest or regeneration script",
+    "upstream train/eval scripts train and evaluate a linear classifier on feature tensors but do not generate the feature tensors from raw images and checkpoints"
+  ],
+  "live_primary_source_recheck": {
+    "checked_at": "2026-05-15T09:02:22+08:00",
+    "openreview_api_status": "reachable",
+    "openreview_last_modified": "2026-04-21T14:57:25+08:00",
+    "openreview_supplement_head_status": 200,
+    "openreview_supplement_size_bytes": 45499156,
+    "arxiv_eprint_head_status": 200,
+    "arxiv_source_version": "2411.07449v3",
+    "arxiv_source_size_bytes": 3614846,
+    "arxiv_source_sha256": "f8662fcc4281ca2139fc93eed9819741b65335ee8d7f060abb61d2ad1fda9756",
+    "github_repository_search": "no official repository found by title or OpenReview id search; GitHub code search was rate-limited and is not used as evidence"
+  },
+  "reopen_conditions": [
+    "authors publish raw target checkpoint identity plus raw member/external sample manifests",
+    "authors publish a script and public model/data asset contract that regenerates the released trajectory tensors",
+    "DiffAudit explicitly opens a non-black-box feature-packet consumer lane with separate Platform/Runtime semantics"
+  ],
+  "stop_conditions": [
+    "do not download raw CIFAR/CelebA-HQ/FFHQ assets, target checkpoints, or generated images from this card alone",
+    "do not expand timestep, feature-family, seed, classifier, optimizer, or regularization sweeps from this card alone",
+    "do not add Tracing the Roots to admitted-evidence-bundle.json"
+  ],
+  "provenance": {
+    "metric_doc": "docs/evidence/tracing-roots-feature-packet-mia-20260515.md",
+    "feature_artifact": "workspaces/gray-box/artifacts/tracing-roots-feature-packet-mia-20260515.json",
+    "bridge_doc": "docs/product-bridge/tracing-roots-candidate-evidence-card.md"
+  }
+}

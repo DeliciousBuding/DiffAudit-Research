@@ -80,7 +80,12 @@ linear replay reaches `AUC = 0.815826`, `accuracy = 0.737500`,
 `TPR@1%FPR = 0.134000`, and `TPR@0.1%FPR = 0.038000`. It must not appear as an
 admitted Platform evidence row or Runtime schema input because the public
 packet lacks raw target checkpoint identity, raw member/external sample IDs,
-and image query/response artifacts. See
+and image query/response artifacts. A machine-readable candidate card exists
+only for Research/product-boundary comparison; it must not appear as admitted
+Platform evidence or a Runtime row until a non-black-box feature-packet
+consumer handoff explicitly defines those semantics. See
+[tracing-roots-candidate-evidence-card.md](tracing-roots-candidate-evidence-card.md)
+and
 [../evidence/tracing-roots-feature-packet-mia-20260515.md](../evidence/tracing-roots-feature-packet-mia-20260515.md).
 
 Current ReproMIA status: Research-only withdrawn paper-source watch. The
@@ -169,6 +174,7 @@ The current product bridge decision is recorded in
 | [recon-product-evidence-card.md](recon-product-evidence-card.md) | Machine-readable product card for the admitted recon row. |
 | [admitted-evidence-bundle.md](admitted-evidence-bundle.md) | Machine-readable bundle for the complete admitted Platform/Runtime consumer set. |
 | [clid-candidate-evidence-card.md](clid-candidate-evidence-card.md) | Machine-readable candidate-only card for the official CLiD CPU score-packet replay and identity blockers. |
+| [tracing-roots-candidate-evidence-card.md](tracing-roots-candidate-evidence-card.md) | Machine-readable candidate-only card for the Tracing Roots positive feature-packet replay and raw-provenance blockers. |
 | [h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md) | Why simple-distance remains Research evidence and what must happen before product consumption. |
 | [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md) | Latest no-drift audit for the admitted Platform/Runtime consumer boundary. |
 | [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md) | Current admitted-vs-candidate boundary for downstream consumers. |
