@@ -4,6 +4,15 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- Public metadata asset sweep after the DIFFENCE Zenodo sync found no new
+  non-duplicate image/latent-image replay packet. Authenticated HF metadata
+  still exposes only known `zsf/COCO_MIA_ori_split1` and `chumengl/copymark`
+  surfaces: CLiD's `mia_COCO.zip` remains `403` for authenticated `HEAD` and
+  range probes, while CopyMark's `datasets.zip` is large and already covered
+  by the official score-artifact gate. GitHub artifact-shaped searches only
+  returned already-covered CopyMark, CLiD, or DiffAudit evidence hits. No ZIP,
+  image, model, checkpoint, full-repo download, CPU sidecar, GPU work, or
+  admitted Platform/Runtime row is released.
 - GitHub lightweight diffusion MIA triage checked four direct search hits:
   `acha1934/Black-box-Membership-Inference-Attacks-against-Fine-tuned-Diffusion-Models`,
   `KarinMalka1/Stable-Diffusion-Personalization-Forensics`,
