@@ -23,6 +23,7 @@ This directory contains the public evidence overview.
 | [post-midfreq-next-lane-reselection-20260512.md](post-midfreq-next-lane-reselection-20260512.md) | CPU-only reselection after residual comparator audit; selects SecMI consumer-contract review. |
 | [secmi-consumer-contract-review-20260512.md](secmi-consumer-contract-review-20260512.md) | CPU-only review keeping SecMI as structural supporting evidence, not a system-consumable row. |
 | [quantile-diffusion-mia-secmia-terror-replay-20260515.md](quantile-diffusion-mia-secmia-terror-replay-20260515.md) | Third-party SecMI-style `t_error` score-packet replay from `neilkale/quantile-diffusion-mia`; support-only, not official Quantile Regression output or an admitted row. |
+| [miahold-higher-order-langevin-artifact-gate-20260515.md](miahold-higher-order-langevin-artifact-gate-20260515.md) | Official MIAHOLD/HOLD++ defense-code gate; split and attack code are public, but checkpoint-bound score artifacts are missing, so no download, GPU release, or admitted row. |
 | [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md) | CPU-only portability check for H2 beyond DDPM/CIFAR10. |
 | [h2-image-to-image-contract.md](h2-image-to-image-contract.md) | CPU contract that reopens H2 portability only under image-to-image response observation. |
 | [h2-img2img-micro-result.md](h2-img2img-micro-result.md) | First frozen SD/CelebA image-to-image H2 micro-packet verdict. |

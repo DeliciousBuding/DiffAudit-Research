@@ -8,6 +8,16 @@ notes should stay archived unless needed for active work.
 Defense results must report low-FPR behavior and adaptive-attacker limitations
 before being promoted to public evidence.
 
+MIAHOLD / HOLD++ higher-order Langevin is defense watch-plus only. The public
+repos expose higher-order Langevin defense code, audio split filelists, a CIFAR
+HOLD config, and PIA-style attack code, but no checkpoint-bound target
+artifacts, reusable member/nonmember scores, ROC arrays, metric JSON, generated
+responses, or ready verifier outputs. Do not download Grad-TTS/HiFi-GAN/CLD-SGM
+checkpoints, CIFAR/CelebA/audio datasets, scrape W&B artifacts, train HOLD++
+models, or promote defense rows until checkpoint-bound score artifacts exist.
+See
+[../../docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md](../../docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md).
+
 StablePrivateLoRA is defense watch-plus only. Its public repo exposes
 MP-LoRA/SMP-LoRA code and dataset split payloads, but no released
 LoRA/checkpoint hashes, raw attack scores, ROC/metric artifacts, generated
