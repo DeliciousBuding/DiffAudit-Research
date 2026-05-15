@@ -2,6 +2,37 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Tabular Privacy Leakage TDM Artifact Gate
+
+Lane A tabular intake checked arXiv `2605.06835` / `On Privacy Leakage in
+Tabular Diffusion Models: Influential Factors, Attacker Knowledge, and Metrics`
+because it is a non-duplicate single-table TDM privacy-leakage study after the
+FERMI and MT-MIA tabular gates. The arXiv source is `7,335,590` bytes, SHA256
+`3BC7EBAA21BFA05E0825CFE67780B7AE5167509242BBAD3A5D16B7807D5002EE`, and
+contains `56` entries: TeX, bibliography/style files, `00README.json`, and
+`52` PDF figures. The paper studies ClavaDDPM single-table synthesis on Berka
+and Diabetes with Tartan Federer and Ensemble MIDST attacks, and links the
+official `VectorInstitute/midst-toolkit` repository for model training and
+attack code.
+
+Decision: `single-table tabular diffusion watch-plus / official code-public /
+no paper score packet / no download / no GPU release`. `midst-toolkit` main at
+`e0a3b3ee07fd1245a0d8617afa028f3988c7e812` exposes ClavaDDPM training and
+synthesis code, Tartan Federer / Ensemble / EPT attack code, privacy/quality
+metrics, examples, and small integration-test TabDDPM assets. Those test assets
+include `6` committed `None_trans_ckpt.pkl` checkpoints of about `19.4 MB`
+each and `6` balanced `200`-row `challenge_label.csv` files, but they are not
+the paper's Berka/Diabetes result packet. The public surface has no paper-bound
+target checkpoints, immutable Berka/Diabetes split manifests, generated
+synthetic tables, per-sample score rows, ROC arrays, metric JSON, or ready
+verifier output. Do not download Berka, Diabetes, MIDST Google Drive resources,
+ClavaDDPM checkpoints, or generated tables; do not run Tartan
+Federer/Ensemble/EPT or train targets/shadows from scratch; and do not promote
+toolkit test fixtures into Platform/Runtime rows. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and `CPU sidecar =
+none selected after Tabular Privacy Leakage TDM artifact gate`. See
+[docs/evidence/privacy-leakage-tdm-artifact-gate-20260515.md](docs/evidence/privacy-leakage-tdm-artifact-gate-20260515.md).
+
 ## 2026-05-15 TMIA-DM Temporal Artifact Gate
 
 Lane A intake checked `Temporal Membership Inference Attack Method for

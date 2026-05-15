@@ -79,6 +79,15 @@
   generated synthetic tables, feature/score rows, ROC arrays, metric JSON, or
   replay command. No tabular dataset download, model training, implementation
   work, or GPU work is released.
+- `On Privacy Leakage in Tabular Diffusion Models: Influential Factors,
+  Attacker Knowledge, and Metrics` is a single-table tabular diffusion
+  watch-plus item. The 2026-05-07 arXiv source is paper/figures only, while the
+  official `VectorInstitute/midst-toolkit` code exposes ClavaDDPM training and
+  MIDST attack implementations plus small integration-test TabDDPM fixtures.
+  The public surface still has no paper-bound Berka/Diabetes target
+  checkpoints, immutable split manifests, generated synthetic tables, score
+  rows, ROC arrays, metric JSON, or ready verifier. No Berka/Diabetes/MIDST
+  resource download, attack execution, model training, or GPU work is released.
 - MT-MIA / `Finding Connections: Membership Inference Attacks for the
   Multi-Table Synthetic Data Setting` is a relational tabular diffusion
   score-packet support item. The official `joshward96/MT-MIA` repository
