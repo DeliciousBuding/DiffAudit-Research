@@ -2,6 +2,25 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Progress Review After CPSample
+
+Long-horizon progress review checked the current state after Research PRs
+`#246`, `#247`, and `#248`. The latest verdict note exists, workspace evidence
+index now points at the review, `AGENTS.md` / `ROADMAP.md` / root `ROADMAP.md`
+carry the same CPSample three-slot state, and the defense/intake/implementation
+workspaces carry CPSample reopen and stop conditions. Research returned clean
+to `main...origin/main` after PR `#248`.
+
+Decision: `progress review complete / no active GPU candidate / no CPU sidecar
+/ no Platform-Runtime drift`. Current slots remain `active_gpu_question =
+none`, `next_gpu_candidate = none`, and `CPU sidecar = none selected after
+CPSample defense artifact gate`. The next valid cycle is still exactly one of:
+Lane A clean image/latent-image asset search with public target identity,
+member/nonmember row semantics, and response/score coverage; Lane B genuinely
+new observable with falsifiable decision impact; or Lane C consumer/paperization
+sync only if admitted-row or limitation wording drifts. See
+[docs/evidence/daily-research-review-20260515.md](docs/evidence/daily-research-review-20260515.md).
+
 ## 2026-05-15 CPSample Defense Artifact Gate
 
 Lane A/B defense intake checked OpenReview `LIBLIlk5M9` /
