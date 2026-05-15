@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `admitted consumer drift audit completed after 2026-05-15 watch/watch-plus/support-only/candidate gates` |
+| Active work | `LSA-Probe music diffusion mock-data gate completed after 2026-05-15 admitted consumer drift audit` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after the 2026-05-15 admitted consumer drift audit |
+| CPU sidecar | none selected after LSA-Probe music diffusion mock-data gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -47,23 +47,30 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | SecMI-LDM LDM fork | intake / Lane A | support-family / no independent second asset | public repo exposes a Diffusers fork, SecMI-style LDM scripts, and README SharePoint links for datasets plus Pokémon fine-tuned SD checkpoint | this repeats the existing same-author SecMI support family and does not create an independent second asset or black-box response contract | do not download the SharePoint zips, scrape LAION/COCO assets, or treat it as an independent second asset unless explicit SecMI-LDM reproducibility maintenance is selected |
 | R125 DreamBooth forensics notebook | intake / Lane A | watch / artifact-incomplete | public repo exposes DreamBooth/LoRA notebook code, report media, and six embedded reconstruction-MSE scores | target LoRA checkpoint and six-image forensics query set are private Colab/GDrive artifacts; no manifest or score JSON is released | do not recreate the private run, scrape report images, or treat embedded scalar scores as a DiffAudit packet |
 | SAMA diffusion-language-model asset | intake / Lane A | related-method / out-of-scope code-only | public repo exposes DLM training, dataset-prep, and SAMA/baseline attack code for NLP diffusion language models | no released target DLM checkpoint, exact member/nonmember manifest, reusable response/score packet, or image/latent-image response contract | keep as related-method reference only; do not train DLM targets or download gated language models unless a text/DLM lane is explicitly opened |
+| LSA-Probe music diffusion MIA | intake / Lane A | music/audio cross-modal watch-plus | public arXiv source and GitHub Pages demo exist; demo exposes `data/*.json` score-like arrays | project repo has only `README.md`; demo arrays are generated mock data, not checkpoint-bound adversarial-cost scores; no implementation, target identities, exact splits, real ROC/metric artifacts, or verifier | keep as watch-plus only; do not download MAESTRO/FMA/DiffWave/MusicLDM/audio/checkpoints, implement from TeX/demo, release GPU, or promote Platform/Runtime rows |
 | VidLeaks text-to-video asset | intake / Lane A | related-method / code-snapshot-only | Zenodo exposes a small T2V_MIA code snapshot, README, attack scripts, and ROC plot PNGs | live GitHub repo is unavailable; no target T2V weights, exact video split manifest, generated videos, feature CSVs, or score packets are published | keep as related-method watch only; do not download T2V datasets/models or generate videos unless a T2V lane is explicitly opened |
 | StyleMI style-mimicry asset | intake / Lane A | watch / paper-only artifact-incomplete | DOI metadata confirms a 2025 IEEE Access fine-tuned diffusion style-mimicry membership-relevant paper | no public code repository, target LoRA/checkpoint, exact artist/image split manifest, generated image package, image-processing feature packet, or score file was found | keep as paper-only watch; do not scrape artist images, train style LoRAs, invent splits, or release GPU unless public target/split/response artifacts appear |
 | I-A finite-tail / adaptive boundary | system / I-A | synchronized | admitted rows exist and are product-consumable, and the latest audit found no drift | none | keep validators active; do not spend another CPU slot unless a guard fails |
 | White-box distinct family | white-box | closed | diagonal-Fisher stability board ties `raw_grad_l2_sq` under shadow-frozen target transfer | no distinct score advantage | do not run larger same-score packet; reopen only with a genuinely different observable or paper-backed contract |
 | Research boundary-consumability sync | system | synchronized | admitted-vs-candidate boundary synced after candidate closures; 2026-05-12 drift audit passed all admitted consumer validators and exporters | none | keep docs synchronized; no GPU; rerun only if a guard fails or a reviewed promotion is proposed |
-| Cross-modal watch consumer boundary | system / Lane C | synchronized | SAMA/DLM and VidLeaks/T2V are related-method watch items only | no admitted row, no Runtime schema input, and no product copy change | keep out of Platform/Runtime unless a future reviewed scope expansion and promotion occurs |
+| Cross-modal watch consumer boundary | system / Lane C | synchronized | SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, and LSA-Probe music/audio are related-method or watch-plus items only | no admitted row, no Runtime schema input, and no product copy change | keep out of Platform/Runtime unless a future reviewed scope expansion and promotion occurs |
 | I-B risk-targeted unlearning successor | defense | hold-protocol-frozen | best k32 full-split anchor has attack-side AUC delta `-0.021347`, but it remains attack-side threshold transfer; the defended-shadow reopen protocol is machine-checkable, explicit reopen mode rejects undefended threshold references, and the coverage-aware training manifest blocks the current target k32 identity contract; the shadow-local scout found a mechanically possible `shadow-01`/`shadow-02` target-risk remap; the 2026-05-15 GSA-only preflight now produces true shadow-local k32 GSA risk records for `shadow-01`, `shadow-02`, and `shadow-03` | target-risk remap is not true shadow-local scoring; GSA-only risk does not satisfy the frozen PIA+GSA contract; no shadow-local PIA records, no executed defended-shadow training result, no adaptive attacker result, and no retained-utility result | keep hold; next valid work is shadow-local PIA risk scoring or explicit approval of weaker GSA-only semantics before any tiny defended-shadow training execution |
 | I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
 
-### Post-Admitted-Drift Long-Horizon Idle State
+### Post-LSA-Probe Long-Horizon Idle State
 
-- `mode`: admitted consumer-boundary sync after 2026-05-15 watch/watch-plus,
-  support-only, candidate-only, defense, cross-modal, and feature-packet gates
-- `status`: The latest consumer verdict is the admitted consumer drift audit.
-  The admitted bundle remains `admitted-only` with exactly five
+- `mode`: post-LSA-Probe artifact gate after 2026-05-15 admitted
+  consumer-boundary sync and watch/watch-plus/support-only/candidate gates
+- `status`: The latest asset verdict is the LSA-Probe music diffusion
+  mock-data gate. LSA-Probe remains music/audio cross-modal watch-plus only:
+  the public project repo has no implementation tree, and the GitHub Pages
+  score-like `data/*.json` arrays are generated mock demo data, not
+  checkpoint-bound adversarial-cost score artifacts. No MAESTRO/FMA/DiffWave/
+  MusicLDM/audio/checkpoint download, CPU sidecar, GPU release, or admitted row
+  is selected. The latest consumer verdict remains the admitted consumer drift
+  audit. The admitted bundle remains `admitted-only` with exactly five
   Platform/Runtime rows: `recon`, `PIA baseline`, `PIA defended`, `GSA`, and
   `DPDM W-1`. The validator chain passed, and recent watch/candidate lines do
   not change Platform rows, Runtime schemas, product copy, download policy, CPU
@@ -146,7 +153,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   generated image package, feature packet, or score file was found. The latest
   CDI official gate is code-public but held as a dataset-inference semantic
   shift with large model/data requirements and no ready small score packet. The latest consumer-boundary sync also
-  confirms that SAMA/DLM and VidLeaks/T2V are related-method watch items only.
+  confirms that SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, and LSA-Probe
+  music/audio are related-method or watch-plus items only.
   They do not change admitted rows, Runtime schemas, recommendation logic, or
   product copy. I-B, I-C, ReDiffuse,
   CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
@@ -170,16 +178,17 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   consumer claim semantics would change. The latest StyleMI gate tested a
   non-duplicate style-mimicry paper-only candidate, but found no executable
   target/split/response or score artifacts. The latest cross-modal watch
-  consumer boundary keeps
-  SAMA/DLM and VidLeaks/T2V out of Platform/Runtime rows and releases no
-  CPU/GPU work. The latest admitted consumer drift audit confirms these
-  watch/candidate lines did not leak into the admitted Platform/Runtime bundle.
+  consumer boundary keeps SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, and
+  LSA-Probe music/audio out of Platform/Runtime rows and releases no CPU/GPU
+  work. The latest admitted consumer drift audit confirms these watch/candidate
+  lines did not leak into the admitted Platform/Runtime bundle.
 - `GPU cap`: none selected
 - `integration`: no schema change; admitted five-row consumer set intact;
   Research-only candidate feature-packet cards remain non-consumable
 
 Current evidence:
 
+- [../../docs/evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md](../../docs/evidence/lsaprobe-music-diffusion-mock-data-gate-20260515.md)
 - [../../docs/evidence/admitted-consumer-drift-audit-20260515.md](../../docs/evidence/admitted-consumer-drift-audit-20260515.md)
 - [../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md](../../docs/evidence/dualmd-distillmd-defense-artifact-gate-20260515.md)
 - [../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md](../../docs/evidence/diffence-classifier-defense-artifact-gate-20260515.md)
@@ -405,7 +414,7 @@ Restart conditions:
 | Kandinsky/Pokemon response-contract package preflight | needs-assets; supplementary root exists, but no member/nonmember query package or response contract exists. |
 | GSA loss-score shadow stability | negative-but-useful; leave-one-shadow-out LR failed the distinct-scorer release gate. |
 | Research resting-state audit | No active GPU candidate or reducible CPU sidecar until assets or a new hypothesis arrive. |
-| Cross-modal watch consumer boundary | Synchronized; SAMA/DLM and VidLeaks/T2V are related-method watch items only and do not change admitted Platform/Runtime rows or schemas. |
+| Cross-modal watch consumer boundary | Synchronized; SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, and LSA-Probe music/audio are related-method or watch-plus items only and do not change admitted Platform/Runtime rows or schemas. |
 | VidLeaks T2V asset gate | Related-method/code-snapshot-only; live GitHub repo unavailable and Zenodo snapshot lacks target T2V weights, exact video split manifests, generated videos, feature CSVs, and score packets. |
 | SAMA DLM asset gate | Related-method/out-of-scope for current image-diffusion Lane A; public code lacks a released target DLM checkpoint, exact split manifests, and response/score packet. |
 | Memorization-LDM asset gate | Request-gated and artifact-incomplete; public code/Zenodo software snapshot lack target LDM checkpoint, exact split manifests, and generated response package. |
