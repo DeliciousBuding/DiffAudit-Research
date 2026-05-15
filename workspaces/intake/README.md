@@ -4,6 +4,16 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- DEB / `Assessing Membership Inference Privacy Risks in Medical Diffusion
+  Models via Discrete Encoding-Based Inference` is a paper-source-only grey-box
+  medical diffusion mechanism watch. The MDPI Applied Sciences article reports
+  discrete-codebook perturbation / intermediate-trajectory metrics against
+  SecMI, PIA, and SimA, but no public code, target checkpoint hashes, immutable
+  member/nonmember manifests, intermediate-state packets, score rows, ROC
+  arrays, metric JSON, or verifier were found. No MedMNIST/CIFAR/TinyImageNet/
+  Stable Diffusion/model/checkpoint/image download, DEB implementation from the
+  paper, active CPU sidecar, GPU work, or admitted Platform/Runtime row is
+  released.
 - CPSample / OpenReview `LIBLIlk5M9` is defense watch-plus only. The ICLR 2025
   supplement provides diffusion/classifier code and four small
   `inference_attacks/*.txt` loss fragments, but no immutable denoiser/classifier
