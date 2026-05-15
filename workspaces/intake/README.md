@@ -79,6 +79,15 @@
   generated synthetic tables, feature/score rows, ROC arrays, metric JSON, or
   replay command. No tabular dataset download, model training, implementation
   work, or GPU work is released.
+- MT-MIA / `Finding Connections: Membership Inference Attacks for the
+  Multi-Table Synthetic Data Setting` is a relational tabular diffusion
+  score-packet support item. The official `joshward96/MT-MIA` repository
+  publishes member/nonmember/reference split folders, pre-generated ClavaDDPM
+  and RelDiff synthetic outputs, and `18` official MT-MIA `mtmia_seed_*.jsonl`
+  score/metric packets. It is not an image/latent-image execution target and
+  does not change Platform/Runtime admitted rows. No raw figshare data,
+  synthetic CSV payload, full repo, model/training asset, GPU work, or active
+  CPU sidecar is released.
 - MIDM / `HailongHuPri/MIDM` is a stronger image-diffusion watch-plus
   candidate than generic paper-only items because it exposes FFHQ DDPM
   loss/likelihood attack code, `ffhq_1000_idx.npy` member-index semantics,
@@ -316,6 +325,18 @@ Current FERMI follow-up:
 - Do not implement FERMI from scratch, download California/Instacart/Berka
   relational datasets, train TabDDPM/TabDiff/TabSyn or surrogate models, or
   build a FERMI mapper/attack MLP inside the current roadmap cycle.
+
+Current MT-MIA follow-up:
+
+- Keep it as relational-tabular score-packet support evidence, not a current
+  image/latent-image execution target.
+- Reopen only if DiffAudit explicitly opens a relational tabular
+  synthetic-data membership lane, if authors publish row-ID-bound verifier
+  artifacts, or if paperization needs clearly labeled cross-domain support.
+- Do not download raw figshare datasets, synthetic CSV payloads,
+  ClavaDDPM/RelDiff training assets, or the full repository; do not regenerate
+  RelDiff or promote MT-MIA into Platform/Runtime rows inside the current
+  roadmap cycle.
 
 Current Zenodo fine-tuned diffusion follow-up:
 
