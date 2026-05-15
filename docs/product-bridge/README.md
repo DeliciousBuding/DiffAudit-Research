@@ -61,10 +61,13 @@ Current CLiD status: CLiD is candidate-only. The official GitHub
 official threshold path, but the evidence is still prompt-conditioned and does
 not resolve the image-identity boundary. The follow-up identity-manifest gate
 found numeric-only score rows, no public row manifest or COCO image-id binding,
-and authenticated `mia_COCO.zip` HEAD/Range access returned `403`. It can guide
-research planning, but it must not appear as admitted Platform evidence or a
-Runtime row until a product-bridge handoff defines an image-identity-safe
-protocol. See
+and authenticated `mia_COCO.zip` HEAD/Range access returned `403`; the
+2026-05-15 live access recheck still returns `403` for authenticated `HEAD`,
+start `Range`, and end `Range` probes. A machine-readable candidate card exists
+only for Research/product-boundary comparison; it must not appear as admitted
+Platform evidence or a Runtime row until a product-bridge handoff defines an
+image-identity-safe protocol. See
+[clid-candidate-evidence-card.md](clid-candidate-evidence-card.md),
 [../evidence/clid-identity-manifest-gate-20260515.md](../evidence/clid-identity-manifest-gate-20260515.md),
 [../evidence/clid-official-inter-output-replay-20260515.md](../evidence/clid-official-inter-output-replay-20260515.md)
 and
@@ -165,6 +168,7 @@ The current product bridge decision is recorded in
 | [recon-product-validation-handoff.md](recon-product-validation-handoff.md) | Current product boundary for the promoted recon black-box row. |
 | [recon-product-evidence-card.md](recon-product-evidence-card.md) | Machine-readable product card for the admitted recon row. |
 | [admitted-evidence-bundle.md](admitted-evidence-bundle.md) | Machine-readable bundle for the complete admitted Platform/Runtime consumer set. |
+| [clid-candidate-evidence-card.md](clid-candidate-evidence-card.md) | Machine-readable candidate-only card for the official CLiD CPU score-packet replay and identity blockers. |
 | [h2-simple-distance-product-bridge-comparison.md](h2-simple-distance-product-bridge-comparison.md) | Why simple-distance remains Research evidence and what must happen before product consumption. |
 | [../evidence/admitted-consumer-drift-audit-20260512.md](../evidence/admitted-consumer-drift-audit-20260512.md) | Latest no-drift audit for the admitted Platform/Runtime consumer boundary. |
 | [../evidence/research-boundary-consumability-sync-20260510.md](../evidence/research-boundary-consumability-sync-20260510.md) | Current admitted-vs-candidate boundary for downstream consumers. |
