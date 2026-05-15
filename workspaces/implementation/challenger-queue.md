@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Shake-to-Leak code artifact gate completed after FSECLab MIA-Diffusion code artifact gate` |
+| Active work | `Reconstruction-Based Attack artifact gate completed after TMIA-DM, Shake-to-Leak, and FSECLab MIA-Diffusion gates` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Shake-to-Leak code artifact gate |
+| CPU sidecar | none selected after Reconstruction-Based Attack artifact gate |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -31,6 +31,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo exposes code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
 | MIAHOLD / HOLD++ higher-order Langevin defense | defense / Lane A-B | defense watch-plus | official MIAHOLD repos expose higher-order Langevin defense code, audio split filelists, a CIFAR HOLD config, and PIA-style attack code | no checkpoint-bound target artifact, reusable score rows, ROC arrays, metric JSON, generated responses, or ready verifier | keep as defense watch-plus only; do not download Google Drive checkpoints/datasets, scrape W&B, train HOLD++ models, or release GPU |
 | MT-MIA relational diffusion score packet | intake / Lane A | relational-tabular support-only | official `joshward96/MT-MIA` repo exposes multi-table member/nonmember/reference splits, pre-generated ClavaDDPM and RelDiff synthetic outputs, and `18` MT-MIA score/metric JSONL packets | outside current image/latent Platform/Runtime boundary; packets lack row-ID-bound score manifests and no relational-tabular consumer schema exists | keep as Research-only support evidence; do not download raw/synthetic data, full repo, or training assets, regenerate RelDiff, release GPU, or promote Platform/Runtime rows |
+| Reconstruction-Based Attack fine-tuned diffusion asset | intake / Lane A | black-box watch-plus | `py85252876/Reconstruction-based-Attack` exposes LoRA fine-tuned SD v1-5 reconstruction-distance code, and Zenodo `10.5281/zenodo.13371475` exposes a `736,366,195` byte checkpoint/dataset ZIP with CelebA LoRA checkpoint folders and several dataset pickle files | ZIP central directory has no generated responses, reconstruction-distance features, score rows, ROC arrays, metric JSON, ready verifier, or complete four-way `test_accuracy.py` score-input split | keep as Research-only watch-plus; do not download ZIP/SD weights/CelebA assets, run inference/feature extraction/classifier replay, release GPU, or promote Platform/Runtime rows unless complete score-input or response-feature artifacts appear |
 | Shake-to-Leak code artifact | intake / Lane A | code-public watch-plus | official `VITA-Group/Shake-to-Leak` repo exposes fine-tuning-amplified generative privacy code, vendored SecMI/diffusers code, fine-tuning scripts, SecMI scripts, data extraction code, and a `40`-domain person list | no frozen SD-v1-1 fine-tuned checkpoint, immutable member/nonmember manifest, generated private-set packet, generated attack response, score array, ROC array, metric JSON, or ready verifier output; using it would require SD weights, person/LAION data, generation, fine-tuning, and attack execution | keep as Research-only mechanism watch-plus; do not download assets, clone full repo, generate private sets, fine-tune, run SecMI/data extraction, release GPU, or promote Platform/Runtime rows |
 | FSECLab MIA-Diffusion code artifact | intake / Lane A | code-public watch-plus | official `fseclab-osaka/mia-diffusion` repo exposes DDIM/DCGAN training, sampling, white-box attack, black-box attack, dataset-loader, ROC-evaluator code, and two FID-stat `.npz` files | no frozen target checkpoint, immutable split manifest, generated sample packet, score array, ROC array, metric JSON, or ready verifier output; using it would require dataset download and target training/sampling | keep as Research-only code reference; do not download CIFAR-10/CelebA, clone full repo, train/sample DDIM/DCGAN targets, run attack scripts, release GPU, or promote Platform/Runtime rows |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
@@ -62,23 +63,34 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Shake-to-Leak Long-Horizon Idle State
+### Post-Reconstruction-Based-Attack Long-Horizon Idle State
 
-- `mode`: post-Shake-to-Leak code artifact gate after FSECLab MIA-Diffusion,
-  MT-MIA relational diffusion score-packet, and the 2026-05-15 admitted
-  consumer-boundary sync
-- `status`: The latest asset verdict is the Shake-to-Leak code artifact gate.
-  The official `VITA-Group/Shake-to-Leak` repository publishes
-  fine-tuning-amplified generative privacy code, vendored SecMI/diffusers code,
-  fine-tuning scripts, SecMI scripts, data extraction code, and a `40`-domain
-  celebrity/person list, but no frozen SD-v1-1 fine-tuned checkpoint,
-  immutable member/nonmember manifest, generated synthetic private-set packet,
-  generated attack response, score array, ROC array, metric JSON, or ready
-  verifier output is committed. The result is code-public watch-plus only: no
-  Stable Diffusion weight download, LAION/person image acquisition,
-  synthetic-private-set generation, fine-tuning, SecMI/data-extraction run,
-  CPU sidecar, GPU release, Platform row, or Runtime schema is selected. The
-  previous asset verdict is the FSECLab MIA-Diffusion code artifact gate. The
+- `mode`: post-Reconstruction-Based-Attack artifact gate after TMIA-DM,
+  Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational diffusion
+  score-packet, and the 2026-05-15 admitted consumer-boundary sync
+- `status`: The latest asset verdict is the Reconstruction-Based Attack
+  artifact gate. `py85252876/Reconstruction-based-Attack` publishes LoRA
+  fine-tuned SD v1-5 reconstruction-distance MIA code, and Zenodo
+  `10.5281/zenodo.13371475` publishes a `736,366,195` byte checkpoint/dataset
+  ZIP. Range inspection found CelebA LoRA checkpoint folders and several
+  dataset pickle files, but no generated responses, reconstruction-distance
+  feature packets, score rows, ROC arrays, metric JSON, ready verifier, or
+  complete four-way `test_accuracy.py` score-input split. The result is
+  black-box watch-plus only: no ZIP/SD/CelebA download, response generation,
+  feature extraction, classifier replay, CPU sidecar, GPU release, Platform
+  row, or Runtime schema is selected. The previous asset verdict is the
+  Shake-to-Leak code artifact gate. The official `VITA-Group/Shake-to-Leak`
+  repository publishes fine-tuning-amplified generative privacy code, vendored
+  SecMI/diffusers code, fine-tuning scripts, SecMI scripts, data extraction
+  code, and a `40`-domain celebrity/person list, but no frozen SD-v1-1
+  fine-tuned checkpoint, immutable member/nonmember manifest, generated
+  synthetic private-set packet, generated attack response, score array, ROC
+  array, metric JSON, or ready verifier output is committed. The result is
+  code-public watch-plus only: no Stable Diffusion weight download,
+  LAION/person image acquisition, synthetic-private-set generation,
+  fine-tuning, SecMI/data-extraction run, CPU sidecar, GPU release, Platform
+  row, or Runtime schema is selected. The previous asset verdict is the
+  FSECLab MIA-Diffusion code artifact gate. The
   official `fseclab-osaka/mia-diffusion` repository publishes DDIM/DCGAN
   training, sampling, white-box attack, black-box attack, dataset-loader, and
   ROC-evaluator code plus two FID-stat `.npz` files, but no frozen target
