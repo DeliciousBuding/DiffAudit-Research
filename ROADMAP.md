@@ -2,6 +2,39 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 FreMIA Frequency-Filter Artifact Gate
+
+Lane A external scout checked `poetic2/FreMIA` /
+`Enhancing Membership Inference Attacks on Diffusion Models from a
+Frequency-Domain Perspective` because GitHub search surfaced it as an ICML 2026
+official repository for direct diffusion-model membership inference. The current
+arXiv record is `2505.20955v3`, published `2025-05-27` and updated
+`2026-01-29`. The official GitHub repository was inspected at `main`
+`7bed9fb829a67ed8d576d9630dc30e428a286c1f` (`2026-05-03T15:09:56Z`).
+The repo size field is `1` KB and the tree contains only `README.md`, which says
+the code is coming soon. The arXiv source archive is `2,857,150` bytes with
+SHA256 `CC830F3F673DAB4137EFBC1AF72D8DAD0335523B4E3166FEE6A931151D61A9F6`;
+it contains TeX, bibliography/style files, figure PDFs, and comparison images.
+
+Decision: `paper-source-plus-stub-repo / frequency-filter MIA watch / no
+download / no GPU release / no admitted row`. FreMIA is a meaningful mechanism
+watch item: the paper reports a plug-and-play high-frequency filter that
+improves Naive, SecMI, PIA, and CLiD-style attacks, with reported trained /
+fine-tuned metrics such as DDIM CIFAR-100 SecMI+F `AUC = 93.74`,
+DDIM Tiny-ImageNet PIA+F `AUC = 93.23`, Stable Diffusion MS-COCO fine-tuned
+Naive+F `AUC = 98.32`, and Stable Diffusion Flickr fine-tuned Naive+F
+`AUC = 96.82` on the paper's percentage scale. The public surface still has no
+implementation code, immutable member/hold-out split manifests, target
+checkpoints, generated samples, score rows, machine-readable ROC arrays, metric
+JSON, or no-training verifier. Do not download CIFAR-100, STL10-U,
+Tiny-ImageNet, Pokemon, MS-COCO, Flickr, Laion-MI, Stable Diffusion weights,
+DDIM/fine-tuned checkpoints, generated images, or figure payloads; do not
+implement the filter, run Naive/SecMI/PIA/CLiD variants, train/fine-tune
+targets, or launch GPU work. Current slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and `CPU sidecar = none selected after FreMIA
+frequency-filter artifact gate`. See
+[docs/evidence/fremia-frequency-filter-artifact-gate-20260515.md](docs/evidence/fremia-frequency-filter-artifact-gate-20260515.md).
+
 ## 2026-05-15 CopyMark Official Score Artifact Gate
 
 Lane A returned to `caradryanl/CopyMark` because the earlier CopyMark evidence
