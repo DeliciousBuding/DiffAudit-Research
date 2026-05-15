@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `DMin data attribution gate completed after ELSA, Memorization Anisotropy, FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; DMin has public LoRA, mixed dataset, compressed-gradient cache, and retrieval index artifacts, but its claim is training-data attribution rather than membership inference and it has no member/nonmember labels or MIA ROC packet, and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
+- Active work: `Tracing Roots product-boundary sync completed after DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, GenAI Confessions, SimA, FMIA, and CLiD gates; Tracing the Roots has a positive public CIFAR10 diffusion-trajectory feature-packet replay, but it lacks raw target checkpoint identity, raw member/external sample IDs, and image query/response artifacts, so it remains Research-only and there is no active GPU question, no next GPU candidate, and no CPU sidecar selected`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
