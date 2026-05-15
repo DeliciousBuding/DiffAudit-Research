@@ -2,6 +2,29 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 MIAHOLD Higher-Order Langevin Artifact Gate
+
+Lane A/B defense intake checked the official `bensterl15/MIAHOLD` and
+`bensterl15/MIAHOLDCIFAR` repos for the Higher-Order Langevin / `HOLD++`
+defense paper because it is a non-adjacent mechanism that could otherwise look
+like the next defense execution lane. The checked commits
+`8d3d418a07a33856a28741f10210e9f4b3bc44c7` and
+`ce4fcb6ab845f387ac9c8ca50def351d9c5d7a81` expose defense code, audio split
+filelists, a CIFAR HOLD config, and PIA-style attack code. They do not expose
+checkpoint-bound target artifacts, reusable member/nonmember score rows, ROC
+arrays, metric JSON, generated responses, or a ready verifier. AUROC/ROC paths
+are runtime/W&B outputs, not committed replay packets.
+
+Decision: `defense-code-public / split-and-attack-code-present /
+score-artifacts-missing / no download / no GPU release / no admitted row`.
+This retains MIAHOLD as defense watch-plus evidence only. Do not download
+Google Drive Grad-TTS/HiFi-GAN/CLD-SGM checkpoints or datasets, scrape W&B
+artifacts, train HOLD++ CIFAR/audio targets, or promote Platform/Runtime
+defense rows without checkpoint-bound score artifacts. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and `CPU sidecar =
+none selected after MIAHOLD higher-order Langevin artifact gate`. See
+[docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md](docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md).
+
 ## 2026-05-15 Quantile Diffusion MIA SecMI T-Error Replay
 
 Lane A/B artifact intake checked `neilkale/quantile-diffusion-mia` because it
@@ -1247,9 +1270,9 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after Quantile Diffusion MIA SecMI T-Error replay. The replay is a public third-party SecMI-style score packet, not an official Quantile Regression paper replay and not an admitted Platform/Runtime row. |
-| Highest-value next action | Continue non-duplicate asset search only for candidates with public target identity, member/nonmember split artifacts, and response/score coverage. Reopen this Quantile/SecMI-style support packet only if explicit quantile-regression score outputs, trained quantile artifacts, or a bounded verifier command are released, or if a consumer-boundary review approves third-party SecMI-style packets as paperization support without Platform/Runtime admission. Reopen ReproMIA only if a current non-withdrawn paper plus official public code, exact target/split manifests, and reusable score/metric artifacts appear; reopen Tracing Roots only if raw target checkpoint identity, raw sample manifests, or a feature-packet consumer-boundary decision appears; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. |
-| Stop condition | Do not clone the full `neilkale/quantile-diffusion-mia` repository by default, download pretrained DDPM checkpoints/CIFAR archives/SharePoint model folders, run training, fit quantile models, recover W&B artifacts, or launch GPU jobs from this support packet. Do not promote it as a Quantile Regression result or as an admitted Platform/Runtime row. Keep the existing no-download/no-GPU constraints for ReproMIA, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, and same-family MIDST expansions. |
+| CPU sidecar | none selected after MIAHOLD higher-order Langevin artifact gate. MIAHOLD/HOLD++ is defense watch-plus only: official code, split evidence, and PIA-style attack code are public, but checkpoint-bound targets, reusable scores, ROC arrays, metric JSON, generated responses, and a ready verifier are missing. |
+| Highest-value next action | Continue non-duplicate asset search only for candidates with public target identity, member/nonmember split artifacts, and response/score coverage. Reopen MIAHOLD/HOLD++ only if public checkpoint-bound score artifacts or a bounded verifier appear, plus an explicit TTS/audio consumer-boundary decision before any audio lane execution. Reopen the Quantile/SecMI-style support packet only if explicit quantile-regression score outputs, trained quantile artifacts, or a bounded verifier command are released, or if a consumer-boundary review approves third-party SecMI-style packets as paperization support without Platform/Runtime admission. Reopen ReproMIA only if a current non-withdrawn paper plus official public code, exact target/split manifests, and reusable score/metric artifacts appear; reopen Tracing Roots only if raw target checkpoint identity, raw sample manifests, or a feature-packet consumer-boundary decision appears; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. |
+| Stop condition | Do not download MIAHOLD/HOLD++ Grad-TTS, HiFi-GAN, CLD-SGM, CIFAR, CelebA, LJSpeech, or LibriTTS assets; do not scrape W&B, train HOLD++ CIFAR/audio models, regenerate PIA scores, or launch GPU jobs from this gate. Do not clone the full `neilkale/quantile-diffusion-mia` repository by default, download pretrained DDPM checkpoints/CIFAR archives/SharePoint model folders, run training, fit quantile models, recover W&B artifacts, or launch GPU jobs from that support packet. Do not promote MIAHOLD as an admitted defense row, Quantile replay as a Quantile Regression result, or either line as an admitted Platform/Runtime row. Keep the existing no-download/no-GPU constraints for ReproMIA, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, and same-family MIDST expansions. |
 
 ### P0 — 完成且弱
 
@@ -1824,6 +1847,7 @@ Every autonomous research cycle must follow this loop:
 
 | Item | Verdict | Evidence |
 | --- | --- | --- |
+| MIAHOLD / HOLD++ higher-order Langevin defense gate | official defense code, audio split filelists, CIFAR HOLD config, and PIA-style attack code are public, but checkpoint-bound target artifacts, reusable member/nonmember scores, ROC arrays, metric JSON, generated responses, and a ready verifier are missing; no download, GPU release, or admitted defense row | [docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md](docs/evidence/miahold-higher-order-langevin-artifact-gate-20260515.md) |
 | Quantile Diffusion MIA SecMI T-Error replay | third-party public SecMI-style `t_error` score packet replayed on CIFAR10/CIFAR100 with positive AUC, but it is support-only, not the official Quantile Regression paper output, not an admitted row, and releases no GPU work | [docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md](docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md) |
 | FERMI tabular artifact gate | latest multi-relational tabular diffusion MIA paper-source candidate with strong reported metrics, but no public code, target/split manifests, synthetic-table cache, score/feature packet, ROC arrays, metric JSON, or replay command; no download, GPU release, or MIDST/tabular reopen | [docs/evidence/fermi-tabular-artifact-gate-20260515.md](docs/evidence/fermi-tabular-artifact-gate-20260515.md) |
 | DurMI TTS artifact gate | TTS/audio cross-modal watch-plus with GradTTS/WaveGrad2/VoiceFlow attack code, exact GradTTS LJSpeech `5,977 / 5,977` split, and Zenodo checkpoint/data metadata, but no ready duration-loss scores, ROC arrays, metric JSON, or generated result graphs; no dataset/checkpoint download, GPU release, or admitted promotion | [docs/evidence/durmi-tts-artifact-gate-20260515.md](docs/evidence/durmi-tts-artifact-gate-20260515.md) |
