@@ -34,6 +34,12 @@
   but the claim is aggregate LoRA fine-tuning dataset-size recovery, not
   per-sample membership inference. Do not download LoRA-WiSE or run `dsire.py`
   unless a separate weight-only consumer contract is opened.
+- DEB medical diffusion status: paper-source-only grey-box mechanism watch.
+  Discrete-codebook perturbation plus intermediate-trajectory aggregation is a
+  distinct observable, but no public code, target/split manifests,
+  intermediate-state packet, score rows, ROC/metric artifacts, or verifier are
+  released. Do not implement DEB from the paper or download MedMNIST/CIFAR/
+  TinyImageNet/Stable Diffusion assets.
 - GPU: none released.
 
 ## Files
@@ -62,6 +68,9 @@ Current MoFit artifact verdict:
 
 Current DSiRe / LoRA-WiSE boundary gate:
 [../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md](../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md).
+
+Current DEB medical diffusion artifact gate:
+[../../docs/evidence/deb-medical-diffusion-artifact-gate-20260515.md](../../docs/evidence/deb-medical-diffusion-artifact-gate-20260515.md).
 
 Current Fashion-MNIST SimA score-norm closure:
 [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md).

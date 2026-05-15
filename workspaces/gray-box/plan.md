@@ -19,6 +19,11 @@
 - `DSiRe / LoRA-WiSE`: strong future weight-only privacy lane candidate after
   the 2026-05-15 boundary gate, but the claim is aggregate LoRA fine-tuning
   dataset-size recovery rather than per-sample membership inference.
+- `DEB medical diffusion`: paper-source-only grey-box mechanism watch after the
+  2026-05-15 artifact gate. The discrete-codebook / intermediate-trajectory
+  observable is distinct, but public code, checkpoint-bound targets, immutable
+  member/nonmember manifests, score artifacts, ROC/metric JSON, and verifier
+  output are missing.
 - `TMIA-DM public-surface recheck`: paper-only after the 2026-05-15 temporal
   artifact gate; no official code, checkpoint-bound target, immutable split,
   score arrays, ROC/metric artifacts, or verifier output is public.

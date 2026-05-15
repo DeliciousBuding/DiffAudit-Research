@@ -5,6 +5,13 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[deb-medical-diffusion-artifact-gate-20260515.md](deb-medical-diffusion-artifact-gate-20260515.md)
+records the latest Lane B mechanism gate. DEB is a paper-source-only medical
+diffusion grey-box discrete-codebook / intermediate-trajectory MIA watch; no
+public code, target/split/score/ROC/metric artifacts, verifier, download, GPU
+release, or admitted row is selected.
+
+Previous Research update:
 [daily-research-review-20260515.md](daily-research-review-20260515.md)
 records the required progress review after the DSiRe / LoRA-WiSE and CPSample
 gates. The review confirms the latest verdict note exists, current slots are
