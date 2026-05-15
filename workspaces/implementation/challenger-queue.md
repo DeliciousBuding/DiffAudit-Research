@@ -21,9 +21,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
 | same-noise residual comparator family | black-box | candidate-only / hold | seed-12 and seed-23 `64/64` packets retain signal, but low/full residual comparators match or beat mid-band on AUC | single DDPM/CIFAR10 asset, finite tails, no product boundary, mid-frequency specificity not supported | stop same-contract GPU expansion; reopen only with new comparator, second asset, or protocol |
-| black-box second response-contract acquisition | black-box | needs_query_split | local skeleton exists; package probe returns `needs_query_split`; query-source audit found no reusable local Pokemon/Kandinsky images or responses | missing member/nonmember query images and response coverage | acquire/build at least `25/25` real query images plus responses, then rerun package probe |
+| black-box second response-contract acquisition | black-box | hold / stale skeleton | old Pokemon/Kandinsky skeleton probe returns `needs_query_split`; later CommonCanvas second-response-contract packets were executed and weak across pixel, CLIP, prompt-consistency, response-stability, and denoising-loss scorers | the old skeleton is not the active next lane and filling it would not by itself create a clean second asset | reopen only with a genuinely new public target identity plus exact member/nonmember query images and response/score coverage; do not keep filling the stale Pokemon/Kandinsky template |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
-| Kandinsky/Pokemon response-contract package | black-box | CPU-only | package preflight executable; supplementary root present | missing query split, endpoint contract, response manifest, and responses | build/acquire package; do not GPU-scale |
+| Kandinsky/Pokemon response-contract package | black-box | hold / stale skeleton | package preflight is executable but only proves the old skeleton shape | missing query split, endpoint contract, response manifest, and responses; superseded by later weak second-response-contract evidence | do not use this as the default next action; reopen only if real `25/25` or larger member/nonmember query images and responses appear for a clean non-CommonCanvas asset |
 | ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
 | SecMI admission contract | gray-box | structural-support-only | full-split stat/NNS evidence is strong and evidence-ready; consumer review completed | not admitted; NNS product semantics, adaptive comparability, provenance language, and bundle schema fit remain blocked | keep validators active; no new metrics or promotion until a new schema/adaptive protocol exists |
 | Quantile Diffusion MIA SecMI `t_error` replay | gray-box / Lane A-B | candidate-support-only | third-party public CIFAR10/CIFAR100 SecMI-style score rows and split manifests replay from committed files with positive AUC | not official Quantile Regression paper output; same-family SecMI support only; no admitted-row consumer contract | keep as support evidence only; do not clone full repo, download DDPM/CIFAR/SharePoint assets, train, fit quantile models, or release GPU |
@@ -239,8 +239,9 @@ Restart conditions:
 
 - do not run a larger same-contract tri-score packet; it is closed as
   internal-only positive-but-bounded evidence.
-- continue constructing a second response-contract asset package only against
-  the frozen skeleton; do not call empty templates ready assets.
+- do not keep constructing the stale Pokemon/Kandinsky skeleton by default;
+  reopen response-contract acquisition only with a genuinely new public target
+  identity, exact member/nonmember query images, and response/score coverage.
 - do not fill the Pokemon/Kandinsky skeleton with CelebA/recon tensors or
   weights-only material.
 - do not run 800k ReDiffuse metrics as an automatic shortcut.
@@ -293,7 +294,8 @@ Restart conditions:
 ### Public Documentation Sync
 
 - `mode`: CPU-only repository hygiene
-- `why ready`: run only when docs or repository surface become stale.
+- `why ready`: run only when docs or repository surface become stale; this is
+  not a research lane, GPU release gate, or substitute for Lane A/B evidence.
 - `release gate`: no model run; preserve CLI arguments, JSON output fields, and
   workspace artifact schemas.
 
