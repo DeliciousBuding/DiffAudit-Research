@@ -2,6 +2,29 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Admitted Consumer Drift Audit
+
+Lane C checked whether the 2026-05-15 watch, watch-plus, support-only, and
+candidate-only gates changed the Platform/Runtime consumer boundary. They did
+not. `validate_attack_defense_table.py`,
+`export_admitted_evidence_bundle.py --check`,
+`export_recon_product_evidence_card.py --check`,
+`validate_secmi_supporting_contract.py`,
+`validate_clid_identity_boundary.py`, and
+`validate_ib_adaptive_defense_contract.py` all passed. The admitted bundle
+remains `admitted-only` with exactly five rows: `recon`, `PIA baseline`,
+`PIA defended`, `GSA`, and `DPDM W-1`.
+
+Decision: `synchronized / admitted-only boundary intact / no schema change /
+no GPU release`. Do not promote DualMD/DistillMD, DIFFENCE, MIAHOLD/HOLD++,
+Quantile/SecMI-style replay, CLiD, Tracing the Roots, DurMI, FERMI, SimA,
+FMIA, or any other recent watch/candidate line into Platform/Runtime rows,
+schemas, product copy, defense claims, downloads, or GPU tasks without a
+separate reviewed promotion. Current slots remain `active_gpu_question =
+none`, `next_gpu_candidate = none`, and `CPU sidecar = none selected after the
+2026-05-15 admitted consumer drift audit`. See
+[docs/evidence/admitted-consumer-drift-audit-20260515.md](docs/evidence/admitted-consumer-drift-audit-20260515.md).
+
 ## 2026-05-15 DualMD / DistillMD Defense Artifact Gate
 
 Lane A/B defense intake checked OpenReview `PjIe6IesEm` / arXiv `2410.16657`
@@ -1397,14 +1420,14 @@ P0 结论:
 4. **GPU release 不再走"CPU-first scoping"反复流程**:P0 step 3 完成 → step 4 直接释放 GPU(`active_gpu_question` 升为 `commoncanvas-recon-50/50`)。RTX 4070 闲置写 prose 是研究失败,不是审慎。
 5. **不再写"反思 / taste reset / 路线纠偏"长 doc**:这种 doc 本身就是新一轮"差生文具多"。本节是当前唯一有效的纠偏 source-of-truth,直到 P0 出结果为止。
 
-### Sync 字段(2026-05-15 post-DualMD / DistillMD defense artifact gate;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
+### Sync 字段(2026-05-15 post admitted consumer drift audit;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
 
 | Field | 2026-05-15 value |
 | --- | --- |
-| Active work | DualMD / DistillMD defense artifact gate completed. OpenReview DDMD supplement code, DDPM split-index files, and FID stats are public, but the embedded GitHub origin is not public and no checkpoint-bound defended/undefended scores, ROC arrays, metric JSON, generated response packet, or ready verifier are released. |
+| Active work | Admitted consumer drift audit completed after the 2026-05-15 watch/watch-plus/support-only/candidate gates. Validator chain passed; `admitted-evidence-bundle.json` remains `admitted-only` with five Platform/Runtime rows. |
 | Active GPU question | none selected after DualMD / DistillMD defense artifact gate, DIFFENCE classifier-defense artifact gate, MIAHOLD/HOLD++ defense artifact gate, Quantile Diffusion MIA support-packet replay, DMin data attribution gate, ELSA Health Privacy Challenge gate, Memorization Anisotropy artifact gate, FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after DualMD / DistillMD defense artifact gate. Do not download the DDMD SharePoint Pokemon payload, Stable Diffusion weights, CIFAR/CIFAR100/STL10/Tiny-ImageNet datasets, or run DDPM/LDM training, distillation, SecMIA/PIA, black-box attack scripts, or GPU jobs. Keep prior no-download/no-GPU gates for DIFFENCE, MIAHOLD/HOLD++, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, and same-family MIDST expansions; do not promote any defense row without checkpoint-bound score artifacts and product-bridge handoff. |
+| CPU sidecar | none selected after the 2026-05-15 admitted consumer drift audit. Do not download the DDMD SharePoint Pokemon payload, Stable Diffusion weights, CIFAR/CIFAR100/STL10/Tiny-ImageNet datasets, or run DDPM/LDM training, distillation, SecMIA/PIA, black-box attack scripts, or GPU jobs. Keep prior no-download/no-GPU gates for DIFFENCE, MIAHOLD/HOLD++, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, and same-family MIDST expansions; do not promote any watch/candidate row without score artifacts and product-bridge handoff. |
 | Platform/Runtime impact | none; no admitted promotion |
 
 ### 对 Codex 的明确指令
@@ -1421,9 +1444,9 @@ run narratives live in `legacy/`; current workspace state lives in
 
 | Field | Current value |
 | --- | --- |
-| Active work | `DualMD / DistillMD defense artifact gate completed. OpenReview DDMD supplement code and DDPM split-index files are public, but checkpoint-bound defended/undefended score artifacts are missing.` |
+| Active work | `Admitted consumer drift audit completed after the 2026-05-15 watch/watch-plus/support-only/candidate gates; admitted bundle remains five-row admitted-only.` |
 | Current GPU candidate | none selected |
-| CPU sidecar | none selected after DualMD / DistillMD defense artifact gate. Do not download DDMD datasets/models or run training/attack scripts. |
+| CPU sidecar | none selected after the 2026-05-15 admitted consumer drift audit. Do not download DDMD datasets/models or run training/attack scripts. |
 | Active GPU question | none after DualMD / DistillMD defense artifact gate, DIFFENCE classifier-defense artifact gate, MIAHOLD/HOLD++ defense artifact gate, Quantile Diffusion MIA support-packet replay, DMin data attribution gate, ELSA Health Privacy Challenge gate, Memorization Anisotropy artifact gate, FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
 | Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
 
@@ -1972,7 +1995,7 @@ Every autonomous research cycle must follow this loop:
 | I-B reopen shadow-reference guard | ready CPU guard; defended-shadow reopen mode rejects undefended threshold references; no GPU release | [docs/evidence/ib-reopen-shadow-reference-guard-20260512.md](docs/evidence/ib-reopen-shadow-reference-guard-20260512.md) |
 | I-B defended-shadow training manifest | blocked CPU manifest; target k32 forget IDs are not covered by shadow member datasets; no training run | [docs/evidence/ib-defended-shadow-training-manifest-20260512.md](docs/evidence/ib-defended-shadow-training-manifest-20260512.md) |
 | I-B shadow-local identity scout | blocked semantic scout; `shadow-01`/`shadow-02` remap mechanically possible, but target-level risk records are not true shadow-local scoring | [docs/evidence/ib-shadow-local-identity-scout-20260512.md](docs/evidence/ib-shadow-local-identity-scout-20260512.md) |
-| Admitted consumer drift audit | synchronized; no candidate leakage into Platform/Runtime bundle; no schema change | [docs/evidence/admitted-consumer-drift-audit-20260512.md](docs/evidence/admitted-consumer-drift-audit-20260512.md) |
+| Admitted consumer drift audit | synchronized; no 2026-05-15 watch/candidate leakage into Platform/Runtime bundle; no schema change | [docs/evidence/admitted-consumer-drift-audit-20260515.md](docs/evidence/admitted-consumer-drift-audit-20260515.md) |
 | SecMI consumer-contract review | structural-support-only; not system-consumable; no GPU release | [docs/evidence/secmi-consumer-contract-review-20260512.md](docs/evidence/secmi-consumer-contract-review-20260512.md) |
 | I-C same-spec evaluator feasibility | hold; translated-alias probes are not same-spec release surfaces; no GPU release | [docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md](docs/evidence/ic-same-spec-evaluator-feasibility-scout-20260512.md) |
 | Post-I-B next-lane reselection | select-I-C-same-spec-evaluator-feasibility-scout; no GPU release | [docs/evidence/post-ib-next-lane-reselection-20260512.md](docs/evidence/post-ib-next-lane-reselection-20260512.md) |
