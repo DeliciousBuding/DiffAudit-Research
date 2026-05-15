@@ -42,6 +42,14 @@
   checkpoints, Stable Diffusion weights, generated samples, score arrays, ROC
   CSVs, metric JSON, or ready verifier packet. No dataset/model download or GPU
   work is released.
+- DCR / `somepago/DCR` is a copying/memorization semantic-shift watch-plus item.
+  The official repo publishes diffusion replication/copying code,
+  retrieval/similarity scripts, metric helpers, and a committed LAION caption
+  manifest, but the README LAION-10k Drive split link returns HTTP `404`, and
+  no immutable member/nonmember MIA split, target checkpoint, generated response
+  package, score rows, ROC arrays, metric JSON, or ready verifier are public. No
+  LAION/Drive/model download, fine-tuning, inference, retrieval, or GPU work is
+  released.
 - FCRE / `Frequency-Calibrated Reconstruction Error` is a medical-image
   frequency MIA paper-source-only watch item. arXiv `2506.14919` reports
   FeTS 2022, ChestX-ray8, and CIFAR-10 metrics, but no official code, immutable
