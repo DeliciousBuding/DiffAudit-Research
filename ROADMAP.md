@@ -2,6 +2,36 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 Hyperparameter-Free SecMI Reproduction Gate
+
+Lane A external scout checked
+`mohammadKazzazi/Membership-Inference-Attack-against-Diffusion-Models` because
+it is a recent third-party SecMI-family repository with actual source code,
+notebook/report material, and a claimed hyperparameter-free multi-timestep
+SecMI extension. The public repository was inspected at `main`
+`3a8855cb54bbff9d15fb19e734b2feadd0cb12bb`
+(`2026-03-21T09:34:44Z`). GitHub metadata lists no license, `0` releases, and
+`0` tags; the recursive tree has `16` blobs totaling `2,472,985` bytes, with
+large committed blobs limited to `docs/DGM_Project_Final_Report.pdf`
+(`1,230,776` bytes) and `secmia_official_plus_hyperfree_clean.ipynb`
+(`1,113,821` bytes).
+
+Decision: `third-party SecMI-family code/report surface / no reusable score
+packet / no download / no GPU release / no admitted row`. The repo's README
+claims CIFAR-100 seed-0 metrics for baseline SecMINNs (`AUC = 0.971`,
+`TPR@1%FPR = 0.519`) and hyperparameter-free multi-timestep SecMI
+(`AUC = 0.984`, `TPR@1%FPR = 0.642`), while `run.py` trains/evaluates
+baseline and hyperparameter-free attackers over official SecMI checkpoints and
+CIFAR data. It still commits no new target checkpoint, immutable split
+manifest, trained attacker weight, per-sample score row, ROC array, metric
+JSON, generated response packet, or no-training verifier. Do not clone the repo
+by default, download CIFAR or official SecMI SharePoint checkpoints, run the
+notebook or `python run.py *`, train attackers, launch GPU work, or promote a
+Platform/Runtime row. Current slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and `CPU sidecar = none selected after
+hyperparameter-free SecMI reproduction gate`. See
+[docs/evidence/hyperfree-secmi-reproduction-gate-20260515.md](docs/evidence/hyperfree-secmi-reproduction-gate-20260515.md).
+
 ## 2026-05-15 DME Dual-Model Entropy Artifact Gate
 
 Lane A external scout checked `F-YaNG1/DME` because GitHub search surfaced it as

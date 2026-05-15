@@ -4,6 +4,17 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- Hyperparameter-free SecMI /
+  `mohammadKazzazi/Membership-Inference-Attack-against-Diffusion-Models` is a
+  third-party SecMI-family code/report support surface. The repo provides
+  source code, a notebook/report, and claimed CIFAR-100 seed-0 metrics for a
+  multi-timestep learned SecMI variant, but it depends on the official SecMI
+  clone, official SecMI SharePoint checkpoints, CIFAR downloads, local cache
+  generation, and attacker training. It commits no reusable score rows, ROC
+  arrays, metric JSON, trained attacker weights, immutable new split manifest,
+  or no-training verifier. No CIFAR/SecMI checkpoint download, attacker
+  training, GPU work, active CPU sidecar, or admitted Platform/Runtime row is
+  released.
 - DME / `F-YaNG1/DME` is a complexity-bias diffusion-MIA watch item. The
   official repo currently contains only a README and does not link a paper,
   implementation code, split manifest, target checkpoint, generated sample,
@@ -455,6 +466,16 @@ Current Quantile Regression follow-up:
   deterministic target recreation plus exact member/public/holdout splits.
 - Do not train STL10/Tiny-ImageNet DDPMs, reconstruct SecMI splits, or build a
   quantile-regression implementation from scratch before those artifacts exist.
+
+Current hyperparameter-free SecMI follow-up:
+
+- Keep it as a third-party SecMI-family anti-duplication gate only.
+- Reopen only if public artifacts expose row-ID-bound baseline and
+  hyperparameter-free SecMI score rows, ROC arrays or metric JSON, trained
+  attacker weights, or a no-training verifier.
+- Do not clone the repo, download CIFAR/SecMI SharePoint checkpoints, run
+  `python run.py`, execute the notebook, train attackers, or promote it into
+  Platform/Runtime rows inside the current roadmap cycle.
 
 Current MIA_SD follow-up:
 
