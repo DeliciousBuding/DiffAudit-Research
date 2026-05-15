@@ -2,6 +2,33 @@
 
 > Last updated: 2026-05-15
 
+## 2026-05-15 DEB Medical Diffusion Artifact Gate
+
+Lane B mechanism discovery checked `Assessing Membership Inference Privacy
+Risks in Medical Diffusion Models via Discrete Encoding-Based Inference`
+because it is a non-duplicate medical-image diffusion MIA with a discrete
+codebook perturbation / intermediate-trajectory observable. The MDPI `Applied
+Sciences` article (`16(7)`, `3140`, DOI `10.3390/app16073140`) reports DEB
+against SecMI, PIA, and SimA on CIFAR/TinyImageNet and five MedMNIST2D subsets,
+with examples including CIFAR-10 `TPR@1%FPR = 60.3%` and PathMNIST
+`TPR@1%FPR = 10.2%`.
+
+Decision: `paper-source-only medical diffusion MIA / grey-box
+intermediate-trajectory mechanism watch / no code-score packet / no download /
+no GPU release`. DEB is mechanism-relevant because the observable is not another
+raw denoising-loss, response-distance, score-norm, frequency-filter, prompt
+likelihood, or final-layer gradient repeat. It is not a current DiffAudit
+execution lane: no public code, target checkpoint hashes, immutable
+member/nonmember manifests, intermediate-state feature packets, score rows, ROC
+arrays, metric JSON, or ready verifier were found, and the paper's own setting
+requires grey-box access to intermediate generation states rather than final
+generated images only. Do not download MedMNIST/CIFAR/TinyImageNet/Stable
+Diffusion/model/checkpoint/image assets, implement DEB from the paper, launch a
+CPU sidecar, release GPU work, or promote Platform/Runtime rows. Current slots
+remain `active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after DEB medical diffusion artifact gate`. See
+[docs/evidence/deb-medical-diffusion-artifact-gate-20260515.md](docs/evidence/deb-medical-diffusion-artifact-gate-20260515.md).
+
 ## 2026-05-15 Progress Review After CPSample
 
 Long-horizon progress review checked the current state after Research PRs
