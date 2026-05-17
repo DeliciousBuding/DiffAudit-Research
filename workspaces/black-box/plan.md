@@ -3,6 +3,10 @@
 ## Status
 
 - `recon`: strongest main black-box method, but public data limits strict paper-aligned claims.
+- `Stable Diffusion ReDiffuse collaborator artifact`: imported candidate-only
+  evidence with validated `5000`-row `2500 / 2500` score packet and replayed
+  `AUC = 0.710319`. Keep it in the mainline as a usable candidate packet, but
+  do not treat it as a public replay asset or strict API-only black-box row.
 - `CLiD`: hold-candidate. The prompt-conditioned packet is strong and
   repeat-stable, but prompt controls and attribution block admission as general
   black-box evidence. The current machine-readable boundary is
@@ -49,9 +53,11 @@
 No black-box GPU or CPU sidecar is selected. The next action belongs to the
 root long-horizon queue: continue Lane A only with a non-duplicate asset that
 has exact target identity, member/nonmember split artifacts, and response or
-score coverage. Do not reopen CommonCanvas, Beans, Fashion-MNIST, MIDST, or
-same-contract mid-frequency residual variants unless a genuinely new artifact
-or observable changes the decision gate.
+score coverage. The imported Stable Diffusion ReDiffuse collaborator artifact
+does not satisfy that gate by itself, so preserve it as candidate evidence
+instead of turning it into a rerun task. Do not reopen CommonCanvas, Beans,
+Fashion-MNIST, MIDST, or same-contract mid-frequency residual variants unless a
+genuinely new artifact or observable changes the decision gate.
 
 ## Current Status
 

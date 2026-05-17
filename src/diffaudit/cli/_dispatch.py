@@ -103,6 +103,14 @@ def _handle_asset_probes(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
+    if args.command == "probe-rediffuse-sd-artifacts":
+        from diffaudit.attacks.rediffuse_sd import probe_rediffuse_sd_artifacts
+
+        payload = probe_rediffuse_sd_artifacts(args.artifact_dir)
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
     if args.command == "probe-clid-assets":
         from diffaudit.attacks.clid import explain_clid_assets
 
@@ -1358,6 +1366,7 @@ _COMMAND_HANDLERS: dict[str, CommandHandler] = {
     "probe-secmi-assets": _handle_asset_probes,
     "probe-pia-assets": _handle_asset_probes,
     "probe-rediffuse-assets": _handle_asset_probes,
+    "probe-rediffuse-sd-artifacts": _handle_asset_probes,
     "probe-clid-assets": _handle_asset_probes,
     "probe-recon-assets": _handle_asset_probes,
     "probe-recon-score-artifacts": _handle_asset_probes,
