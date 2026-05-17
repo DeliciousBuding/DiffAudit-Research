@@ -11,6 +11,8 @@
 | `pia.py` | `PIA` 的 planner、资产探测、workspace 校验 |
 | `pia_adapter.py` | `PIA` 的 runtime probe、runtime smoke、synthetic smoke |
 | `clid.py` | `CLiD` 的 planner、asset probe、dry-run、artifact summary |
+| `rediffuse.py` | collaborator `DDIM ReDiffuse` CIFAR10 bundle 的 asset probe |
+| `rediffuse_sd.py` | collaborator `Stable Diffusion ReDiffuse` 结果包的 artifact probe |
 | `recon.py` | reconstruction-based 纯黑盒主线 |
 | `variation.py` | API-only black-box variation 主线 |
 | `registry.py` | 统一 planner 注册表 |
@@ -20,6 +22,7 @@
 ### 黑盒
 
 - `clid`
+- `rediffuse_sd.py`
 - `recon`
 - `variation`
 
