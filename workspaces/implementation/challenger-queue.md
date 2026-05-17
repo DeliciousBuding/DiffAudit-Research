@@ -1,6 +1,6 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-15
+> Last refreshed: 2026-05-17
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Structural MIA T2I artifact gate completed` |
+| Active work | `Stable Diffusion ReDiffuse collaborator artifact audit completed` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Structural MIA T2I artifact gate |
+| CPU sidecar | none selected after Stable Diffusion ReDiffuse collaborator artifact audit |
 | Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| Stable Diffusion ReDiffuse collaborator artifact | black-box / Lane A | collaborator-local candidate-only artifact | imported `5000`-row `2500 / 2500` result packet replays to `AUC = 0.710319`, `ASR = 0.6846`; holdout bundle reports `test_auc = 0.704604`; new `probe-rediffuse-sd-artifacts` CLI path now audits the packet without rerun | not a public immutable replay packet; member side is a LAION-like repeatable subset rather than the exact paper LAION-5B split; boundary is local-model-query black-box rather than strict external API-only; missing COCO payload is not needed for audit but blocks a fresh end-to-end reproduction | keep as candidate-only black-box evidence; do not request `coco_data`, do not download Stable Diffusion weights, do not rerun `2500 / 2500`, and do not promote Platform/Runtime rows unless public-asset and product-boundary gaps are resolved |
 | Structural MIA for T2I | gray-box / Lane B | paper-source-only mechanism watch | arXiv `2407.13252` proposes structure-level membership inference for Latent Diffusion and Stable Diffusion using DDIM inversion/noising plus SSIM, with strong reported low-FPR paper metrics | arXiv source is TeX/figures only, OpenReview supplement is PDF-only, no official code repo or score/split/checkpoint/verifier artifact was found | keep as non-duplicate mechanism watch only; do not download LAION/COCO/model/checkpoint/image payloads, implement SSIM/DDIM scoring, release CPU/GPU sidecar, or promote Platform/Runtime rows |
 | Rectified Flow MIA | gray-box / Lane B | paper-source-only mechanism watch | arXiv `2603.13421` proposes Rectified Flow / Flow Matching MIA statistics `T_naive`, `T_mc`, and complexity-calibrated `T_mc_cal`, with reported low-FPR gains on CIFAR-10, SVHN, and TinyImageNet | promised GitHub repo `mx-ethan-rao/MIA_Rectified_Flow` is empty; no public refs, code, split manifests, checkpoints, score rows, ROC arrays, metric JSON, or verifier | keep as non-duplicate mechanism watch only; do not download datasets/models/checkpoints/images, implement from paper, train RF models, release CPU/GPU sidecar, or promote Platform/Runtime rows |
 | HF/GitHub public metadata replay packet search | intake / Lane A | closed / no new artifact | authenticated HF metadata and GitHub artifact-shaped searches checked for small target/split/score/ROC/manifest packets after DIFFENCE | only known CLiD and CopyMark HF surfaces appeared; CLiD `mia_COCO.zip` remains `403` for authenticated HEAD/range probes, CopyMark HF zip is already covered and too large, and GitHub code search returned only already-covered CopyMark/CLiD/DiffAudit evidence hits | keep as anti-duplication evidence; do not download CLiD/CopyMark ZIPs, images, model/checkpoint payloads, clone large repos, run scripts, release CPU/GPU sidecar, or promote Platform/Runtime rows |
@@ -77,14 +78,24 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-CPSample Long-Horizon Idle State
+### Post-Stable-Diffusion-ReDiffuse Collaborator Artifact Idle State
 
-- `mode`: post-CPSample defense artifact gate after DSiRe / LoRA-WiSE,
+- `mode`: post-Stable-Diffusion-ReDiffuse collaborator artifact audit after
+  Structural MIA T2I, Rectified Flow MIA, public metadata sweep, CPSample,
+  DSiRe / LoRA-WiSE,
   hyperparameter-free SecMI, DME, FreMIA, CopyMark, VAE2Diffusion, DCR copying,
   FCRE medical frequency, Tabular Privacy Leakage TDM, TMIA-DM, Shake-to-Leak,
   FSECLab MIA-Diffusion, MT-MIA relational diffusion score-packet, and the
   2026-05-15 admitted consumer-boundary sync
-- `status`: The latest defense verdict is the CPSample artifact gate.
+- `status`: The latest asset verdict is the Stable Diffusion ReDiffuse
+  collaborator artifact audit. The imported `5000`-row `2500 / 2500` result
+  packet replays to `AUC = 0.710319` and `ASR = 0.6846`, but it remains
+  candidate-only because it is a collaborator local transfer, the member side
+  is a LAION-like repeatable subset rather than the exact paper split, and the
+  boundary is local-model-query black-box rather than strict external
+  API-only. No `coco_data` rebuild, Stable Diffusion weight download, CPU
+  sidecar, GPU release, Platform row, or Runtime schema is selected. The
+  previous defense verdict is the CPSample artifact gate.
   OpenReview `LIBLIlk5M9` exposes an official ICLR 2025 code supplement with
   diffusion/classifier code and small attack-loss text fragments, but it lacks
   immutable denoiser/classifier checkpoint hashes, exact subset-index

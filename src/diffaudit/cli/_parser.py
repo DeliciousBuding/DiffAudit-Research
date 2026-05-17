@@ -77,6 +77,12 @@ def build_parser() -> argparse.ArgumentParser:
     rediffuse_asset_probe_parser.add_argument("--checkpoint-path", default=None)
     rediffuse_asset_probe_parser.add_argument("--dataset-root", default=None)
 
+    rediffuse_sd_artifact_probe_parser = subparsers.add_parser(
+        "probe-rediffuse-sd-artifacts",
+        help="audit a collaborator Stable Diffusion ReDiffuse artifact directory without rerunning the attack",
+    )
+    rediffuse_sd_artifact_probe_parser.add_argument("--artifact-dir", required=True)
+
     clid_asset_probe_parser = subparsers.add_parser(
         "probe-clid-assets",
         help="inspect CLiD asset readiness without importing the runtime",

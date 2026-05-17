@@ -7,6 +7,16 @@
   lane for finite-tail confidence hardening.
 - Supporting methods: `CLiD`, `variation`, `H2 response-strength`, and
   semantic-auxiliary classifiers.
+- Imported candidate artifact: collaborator-transferred Stable Diffusion
+  ReDiffuse result packet is now audited through
+  `diffaudit probe-rediffuse-sd-artifacts`. The imported `5000`-row
+  `2500 / 2500` packet replays to `AUC = 0.710319` and `ASR = 0.6846`, so it
+  is worth keeping as candidate evidence. It is not admitted: the packet is a
+  collaborator local transfer, the member side is a LAION-like repeatable
+  subset rather than the exact paper LAION-5B split, and the boundary is
+  local-model-query black-box rather than strict external API-only black-box.
+  Do not request `coco_data`, do not download Stable Diffusion weights, and do
+  not rerun the full `2500 / 2500` path in the current cycle.
 - Candidate method: simple image-to-image distance is bounded single-asset
   evidence, not a product row or portability result.
 - Active candidate: mid-frequency same-noise residual is a distinct observable
@@ -122,6 +132,9 @@ Current CLiD image-identity boundary:
 
 Current CLiD official inter-output replay:
 [../../docs/evidence/clid-official-inter-output-replay-20260515.md](../../docs/evidence/clid-official-inter-output-replay-20260515.md).
+
+Current Stable Diffusion ReDiffuse collaborator artifact audit:
+[../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md](../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md).
 
 Current CLiD identity-manifest gate:
 [../../docs/evidence/clid-identity-manifest-gate-20260515.md](../../docs/evidence/clid-identity-manifest-gate-20260515.md).
