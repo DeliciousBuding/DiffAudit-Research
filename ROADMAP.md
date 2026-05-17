@@ -1,6 +1,37 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-15
+> Last updated: 2026-05-17
+
+## 2026-05-17 Stable Diffusion ReDiffuse Collaborator Artifact Audit
+
+Lane A checked a collaborator-transferred Stable Diffusion ReDiffuse result
+bundle because it is a real black-box-like result surface rather than another
+paper-only or README-only watch item. The imported bundle contains
+`metrics.json`, `result.csv`, `roc_curve.csv`, feature-sweep files, validation
+JSON, and the collaborator's `attack.py` / `score_single_image.py` tree for the
+Stable Diffusion line of `Towards Black-Box Membership Inference Attack for
+Diffusion Models`. The audited final packet is balanced at `2500` members and
+`2500` nonmembers, with reported `AUC = 0.71031888`, `ASR = 0.6846`, and
+`TPR@1%FPR = 0.0716`.
+
+Decision: `collaborator-local artifact imported / candidate-only / no new
+download / no GPU release / no admitted row`. The new
+`python -m diffaudit probe-rediffuse-sd-artifacts --artifact-dir <local-dir>`
+command replays `AUC` and `ASR` exactly from `result.csv`; exact-curve
+`TPR@1%FPR` is `0.0736`, which stays within audit tolerance of the reported
+value and is treated as threshold-grid rounding. This bundle is useful
+mainline candidate evidence because it is a real `5000`-row score packet and
+now has a first-class CLI import path, but it does not satisfy the current
+public Lane A reopen gate: it is a collaborator local transfer, the member side
+is a LAION-like repeatable subset rather than the exact paper LAION-5B split,
+and the boundary is local-model-query black-box rather than strict external
+API-only black-box. Do not request `coco_data`, do not download Stable
+Diffusion weights, and do not rerun the full `2500 / 2500` pipeline in the
+current cycle. Current slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and
+`CPU sidecar = none selected after Stable Diffusion ReDiffuse collaborator artifact audit`.
+See
+[docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md](docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md).
 
 ## 2026-05-15 Structural MIA T2I Artifact Gate
 

@@ -4,6 +4,14 @@
 
 - Direction: new method evaluation and paper scouting.
 - No active intake review.
+- Stable Diffusion ReDiffuse collaborator artifact audit imported a local
+  `5000`-row `2500 / 2500` result packet and validated it through the new
+  `diffaudit probe-rediffuse-sd-artifacts` CLI path. This is useful
+  candidate-only black-box evidence and a stronger surface than paper-only
+  watches, but it is not a public immutable replay packet, not the exact paper
+  LAION-5B member split, and not a strict external API-only black-box asset.
+  No `coco_data` rebuild, Stable Diffusion weight download, CPU sidecar, GPU
+  work, or admitted Platform/Runtime row is released.
 - Structural MIA for T2I / arXiv `2407.13252` is a paper-source-only
   mechanism watch. It is non-duplicate because it targets text-to-image
   structure-level memorization using DDIM inversion/noising plus SSIM between
