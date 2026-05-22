@@ -5,6 +5,21 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[trajectory-generation-privacy-artifact-gate-20260523.md](trajectory-generation-privacy-artifact-gate-20260523.md)
+records a Lane A metadata gate for arXiv `2605.15246` / `Privacy Evaluation of
+Generative Models for Trajectory Generation`. This is cross-domain
+trajectory/mobility privacy evidence, not a current image or latent-image
+asset. The diffusion trajectory results are weak, with DiffTraj
+`AUC-ROC = 0.5012` and Diff-RNTraj `AUC-ROC = 0.4949`; the only clearly
+positive table value is GAN MoveSim `AUC-ROC = 0.7002`. The public surface is
+paper-source-only: arXiv source has LaTeX material only, GitHub searches
+returned no official code or artifact hits, and no model checkpoint,
+member/nonmember trajectory manifest, generated trajectory packet, score file,
+ROC array, metric JSON, or verifier is public. Decision: `cross-domain
+trajectory paper-source-only watch / diffusion trajectory MIA weak / no
+code-score artifact / no download / no GPU release / no admitted row`.
+
+Previous Research update:
 [model-will-tell-drc-artifact-gate-20260523.md](model-will-tell-drc-artifact-gate-20260523.md)
 records a Lane A/B metadata gate for arXiv `2403.08487` /
 `Model Will Tell: Training Membership Inference for Diffusion Models`. DRC is
