@@ -2231,15 +2231,14 @@ P0 结论:
 4. **GPU release 不再走"CPU-first scoping"反复流程**:P0 step 3 完成 → step 4 直接释放 GPU(`active_gpu_question` 升为 `commoncanvas-recon-50/50`)。RTX 4070 闲置写 prose 是研究失败,不是审慎。
 5. **不再写"反思 / taste reset / 路线纠偏"长 doc**:这种 doc 本身就是新一轮"差生文具多"。本节是当前唯一有效的纠偏 source-of-truth,直到 P0 出结果为止。
 
-### Sync 字段(2026-05-15 post CopyMark official score artifact gate;覆盖下方 `Current Focus` 表格直至下一次三槽位变更)
+### Historical Sync Note
 
-| Field | 2026-05-15 value |
-| --- | --- |
-| Active work | CopyMark official score artifact gate completed after VAE2Diffusion. `caradryanl/CopyMark` publishes official member/nonmember image logs, aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step score tensors, GSA feature/XGBoost artifacts, and LAION-RiDAR/mixing results, but it still lacks checkpoint hashes, a compact row-ID-bound score manifest, small immutable data/checkpoint packet, and ready verifier output. |
-| Active GPU question | none selected after CopyMark official score artifact gate, VAE2Diffusion latent-space inversion gate, DCR copying manifest gate, FCRE medical frequency artifact gate, Tabular Privacy Leakage TDM artifact gate, TMIA-DM temporal artifact gate, Shake-to-Leak code artifact gate, FSECLab MIA-Diffusion code artifact gate, MT-MIA relational diffusion score-packet gate, LSA-Probe music diffusion mock-data gate, DualMD / DistillMD defense artifact gate, DIFFENCE classifier-defense artifact gate, MIAHOLD/HOLD++ defense artifact gate, Quantile Diffusion MIA support-packet replay, DMin data attribution gate, ELSA Health Privacy Challenge gate, Memorization Anisotropy artifact gate, FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
-| Next GPU candidate | none; reopen only with a genuinely new mechanism or cleaner asset with exact member/nonmember split and response coverage |
-| CPU sidecar | none selected after CopyMark official score artifact gate. Do not download the CopyMark HF `datasets.zip`, image folders, Stable Diffusion/CommonCanvas/LDM/Kohaku weights, LAION/COCO/CC12M/YFCC/DataComp/FFHQ/CelebA-HQ/CommonCatalog payloads, or model folders; do not clone the full repo by default, run PIA/PFAMI/SecMI/GSA scripts, regenerate features, fit XGBoost models, or launch GPU work. Keep the prior VAE2Diffusion, DCR, FCRE, TDM, TMIA-DM, Shake-to-Leak, FSECLab, MT-MIA, LSA-Probe, DDMD, DIFFENCE, MIAHOLD/HOLD++, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, and same-family MIDST no-download/no-GPU constraints active; do not promote any watch/candidate row without score artifacts and product-bridge handoff. |
-| Platform/Runtime impact | none; no admitted promotion |
+The 2026-05-15 CopyMark sync table was removed from this hot path because it
+was a stale duplicate current-state surface. The authoritative current slots
+are now only the `Current Long-Horizon State` table above and the matching
+root `ROADMAP.md` entry. Historical CopyMark / CommonCanvas weak-result
+steering below remains useful as a stop-condition record, not as current slot
+state.
 
 ### 对 Codex 的明确指令
 
@@ -2247,19 +2246,10 @@ P0 结论:
 
 ---
 
-This is the short steering document for Research. Execution history and old
+This is historical steering context for Research. Execution history and old
 run narratives live in `legacy/`; current workspace state lives in
-`workspaces/`; reviewed evidence lives in `docs/evidence/`.
-
-## Current Focus
-
-| Field | Current value |
-| --- | --- |
-| Active work | `CopyMark official score artifact gate completed after VAE2Diffusion; official score artifacts, member/nonmember image logs, selected all-step tensors, and laion_ridar/mixing results are public, but no checkpoint hashes, compact row-ID-bound score manifest, small immutable data/checkpoint packet, or ready verifier output is public.` |
-| Current GPU candidate | none selected |
-| CPU sidecar | none selected after CopyMark official score artifact gate. Do not download CopyMark HF `datasets.zip`, image folders, SD/CommonCanvas/LDM/Kohaku weights, external image payloads, or model folders; do not clone the full repo, run PIA/PFAMI/SecMI/GSA scripts, regenerate features, fit XGBoost models, or launch GPU work. Keep the prior VAE2Diffusion, DCR, FCRE, TDM, TMIA-DM, Shake-to-Leak, FSECLab, MT-MIA, LSA-Probe, DDMD, and other no-download/no-GPU constraints active. |
-| Active GPU question | none after CopyMark official score artifact gate, VAE2Diffusion latent-space inversion gate, DCR copying manifest gate, FCRE medical frequency artifact gate, Tabular Privacy Leakage TDM artifact gate, TMIA-DM temporal artifact gate, Shake-to-Leak code artifact gate, FSECLab MIA-Diffusion code artifact gate, MT-MIA relational diffusion score-packet gate, LSA-Probe music diffusion mock-data gate, DualMD / DistillMD defense artifact gate, DIFFENCE classifier-defense artifact gate, MIAHOLD/HOLD++ defense artifact gate, Quantile Diffusion MIA support-packet replay, DMin data attribution gate, ELSA Health Privacy Challenge gate, Memorization Anisotropy artifact gate, FERMI tabular artifact gate, DurMI TTS artifact gate, GenAI Confessions black-box artifact gate, SimA score-based artifact gate, FMIA OpenReview frequency artifact gate, CLiD identity-manifest gate, CLiD official inter-output replay, StablePrivateLoRA defense artifact gate, MIDM artifact gate, cross-modal watch consumer-boundary sync, GGDM Zenodo artifact gate, MIDST Blending++ official score-export scout, SecMI/PIA adaptive comparability board, Diffusion Memorization semantic-shift gate, positive-but-feature-only Tracing the Roots replay, weak CommonCanvas/Fashion-MNIST/Beans scouts, failed LAION-mi URL probe, StyleMI artifact-gate verdict, and CDI dataset-inference gate |
-| Platform/Runtime impact | no schema change; admitted consumer rows are guarded |
+`workspaces/`; reviewed evidence lives in `docs/evidence/`. Do not treat this
+section as the current slot table; use `Current Long-Horizon State` above.
 
 Current objective: stop turning weak or blocked lines into larger engineering
 surfaces. The second response contract has now been tested, and pixel-distance,
