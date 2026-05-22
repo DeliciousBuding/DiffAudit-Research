@@ -1,6 +1,7 @@
 # FMIA OpenReview Frequency Artifact Gate
 
 > Date: 2026-05-15
+> Last rechecked: 2026-05-23
 > Status: code-and-split-manifests-present / checkpoint-and-score-packets-missing / no large download / no GPU release / no admitted row
 
 ## Question
@@ -22,10 +23,36 @@ checkpoints, generated samples, or score packets were downloaded or generated.
 | Supplement URL | `https://openreview.net/attachment?id=p9uryyZ5bw&name=supplementary_material` |
 | Supplement filename | `3274_Unveiling_Impact_of_Frequ_Supplementary Material.zip` |
 | Supplement size | `1,783,018` bytes |
+| Supplement SHA-256 | `567ac598eefc849c9dfdd95c26be24bd6b7349c72843e210b56cce2f67969045` |
+| OpenReview note status on 2026-05-23 | version `2`, venue `Submitted to ICLR 2026`, venueid `ICLR.cc/2026/Conference/Rejected_Submission`, `mdate = 2026-02-11T10:13:54Z` |
+| ZIP inventory on 2026-05-23 | `79` entries, `5,117,651` total uncompressed bytes |
 | Main code root | `FMIA/` |
 | Attack code | `FMIA/DDIM/attack.py`, `FMIA/DDIM/components.py`, `FMIA/DDIM/filter.py`, `FMIA/Stable_Diffusion/attack.py`, `FMIA/Stable_Diffusion/filter.py` |
 | Training code | `FMIA/train/main.py`, `FMIA/train/diffusion.py`, `FMIA/train/model.py` |
 | README claim | datasets and model weights cannot be uploaded because of file size; users should refer to previous methods such as SecMI and PIA for pretrained weights and segmented datasets |
+
+## 2026-05-23 Bounded Recheck
+
+The public OpenReview note and supplementary ZIP were rechecked without
+downloading datasets, model weights, generated images, or running code.
+OpenReview still exposes a rejected ICLR 2026 submission at version `2`, with
+supplementary material at
+`/attachment/74aa19564760102160f5bbd2d8691d92abf825cc.zip`. A fresh `HEAD`
+against the attachment returned `200`, `Content-Type: application/zip`, and
+`Content-Length: 1783018`.
+
+The downloaded temporary ZIP has SHA-256
+`567ac598eefc849c9dfdd95c26be24bd6b7349c72843e210b56cce2f67969045`, `79`
+entries, and `5,117,651` total uncompressed bytes. Entry-name scanning found
+only code, bytecode, the duplicated split `.npz` manifests, and training
+utility score modules such as `FMIA/train/score/fid.py` and
+`FMIA/train/score/inception_score.py`. It did not reveal checkpoint files,
+`pos_result.npy`, `neg_result.npy`, row-level score exports, ROC CSVs, metric
+JSON, generated sample packets, or a ready verifier.
+
+This recheck does not change the original gate: FMIA remains watch-plus only
+and does not justify a dataset/model download, GPU run, CPU sidecar, or
+Platform/Runtime promotion.
 
 ## What Is Present
 
