@@ -21,6 +21,11 @@ GitHub lightweight diffusion MIA triage now covers five direct hits and remains
 anti-duplication evidence only. Current slots remain `active_gpu_question =
 none`, `next_gpu_candidate = none`, and
 `CPU sidecar = none selected after GitHub lightweight diffusion MIA triage`.
+Follow-up queue sync updates
+`workspaces/implementation/challenger-queue.md` so its `Current State` and
+`Active` section point to the same `eidetic` false-positive closure instead of
+the older ReDiffuse provenance state; this is a roadmap operating-system sync,
+not a new candidate check.
 See
 [docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md](docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md).
 
