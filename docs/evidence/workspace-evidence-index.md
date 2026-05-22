@@ -5,6 +5,25 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[workspaces/implementation/challenger-queue.md](../../workspaces/implementation/challenger-queue.md)
+now points its `Current State` and `Active` section at the 2026-05-23
+`hackerman70000/eidetic` lightweight triage closure instead of the older
+ReDiffuse provenance state. This is a roadmap operating-system sync, not a new
+candidate check: no download, CPU/GPU sidecar, Platform row, Runtime schema, or
+admitted row is selected.
+
+Previous Research update:
+[github-lightweight-diffusion-mia-triage-20260515.md](github-lightweight-diffusion-mia-triage-20260515.md)
+records the Lane A external-search false-positive triage. Five direct GitHub
+diffusion-MIA hits are now covered, including `hackerman70000/eidetic`.
+`eidetic` is a code-only Carlini-style toolkit with README-reported CIFAR-10
+Strong-LiRA metrics, but it commits no shadow checkpoints, immutable split
+manifest, per-row scores, ROC arrays, metric JSON, generated response packet,
+or ready verifier, and its experiment path downloads CIFAR-10 plus requires
+local shadow checkpoints. Decision: `lightweight GitHub false-positive / no
+artifact packet / no download / no GPU release / no admitted row`.
+
+Previous Research update:
 [clid-identity-manifest-gate-20260515.md](clid-identity-manifest-gate-20260515.md)
 and
 [copymark-official-score-artifact-gate-20260515.md](copymark-official-score-artifact-gate-20260515.md)
@@ -82,9 +101,10 @@ GPU release, or admitted row.
 
 Prior Research update:
 [github-lightweight-diffusion-mia-triage-20260515.md](github-lightweight-diffusion-mia-triage-20260515.md)
-records a Lane A external search triage. Four direct GitHub
-diffusion-MIA hits were lightweight/course-style false positives with no
-target/split/response/score/ROC/metric/verifier artifacts, download, GPU
+records a Lane A external search triage. Five direct GitHub diffusion-MIA hits
+are lightweight/course-style, toy, or code-only-toolkit false positives with no
+public target checkpoint, immutable split manifest, row-bound response packet,
+committed score rows, ROC arrays, metric JSON, ready verifier, download, GPU
 release, or admitted row.
 
 Earlier Research update:
