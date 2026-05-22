@@ -1,6 +1,33 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-17
+> Last updated: 2026-05-23
+
+## 2026-05-23 CLiD / CopyMark Metadata Recheck
+
+Lane A did a bounded metadata recheck instead of opening another reproduction
+branch. CLiD remains blocked by authorization rather than local login: the
+local Hugging Face token is present, `HfApi().dataset_info("zsf/COCO_MIA_ori_split1")`
+still reads the dataset at sha `4af0207c955c893a49b7c2970db5ada414b37ed2`, and
+the authenticated `Range: bytes=0-1023` request to `mia_COCO.zip` returns
+`403` with `restricted` / `not in the authorized list`. The ZIP central
+directory and any internal row manifest are still inaccessible without dataset
+approval, so no download or CLiD GPU work is justified.
+
+CopyMark `laion_ridar` was also rechecked through the GitHub contents API. The
+public directory exposes feature arrays, image logs, aggregate
+`laion_ridar_score_result*.json`, runtime metadata, and an XGBoost model. The
+test result JSON reports `AUROC = 0.872134768572823` with `10000` ROC/threshold
+points, while `laion_ridar_image_log.json` has `10000` member filenames and
+`10000` nonmember filenames. It still lacks a per-row score field and a compact
+manifest joining filename, role, model/checkpoint identity, and score. Decision:
+`metadata recheck / CLiD gated by HF authorization / CopyMark laion_ridar
+support-only aggregate evidence / no download / no GPU release / no admitted
+row`. Current slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and
+`CPU sidecar = none selected after CLiD / CopyMark metadata recheck`. See
+[docs/evidence/clid-identity-manifest-gate-20260515.md](docs/evidence/clid-identity-manifest-gate-20260515.md)
+and
+[docs/evidence/copymark-official-score-artifact-gate-20260515.md](docs/evidence/copymark-official-score-artifact-gate-20260515.md).
 
 ## 2026-05-17 CopyMark + laion_mi Public Binding Gate
 

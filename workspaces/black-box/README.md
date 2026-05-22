@@ -32,6 +32,14 @@
   the first public member URLs still return `200`. Keep it as Research-side
   CopyMark support evidence only; do not escalate this branch into large
   downloads, URL-recovery work, or GPU execution.
+- Latest metadata recheck: CLiD remains blocked by HF dataset authorization,
+  not local login. On 2026-05-23, local token presence and dataset metadata
+  access were confirmed, but authenticated range access to `mia_COCO.zip`
+  returned `403 restricted / not in the authorized list`. CopyMark
+  `laion_ridar` remains support-only: public `10000 / 10000` image logs and
+  aggregate `AUROC = 0.872134768572823` ROC/threshold JSON are useful evidence,
+  but there is still no per-row score field or compact filename/role/checkpoint
+  score manifest. No download, GPU task, or admitted row is selected.
 - Candidate method: simple image-to-image distance is bounded single-asset
   evidence, not a product row or portability result.
 - Active candidate: mid-frequency same-noise residual is a distinct observable
@@ -45,8 +53,9 @@
 - CLiD status: official public `inter_output/*` replay is strong on CPU
   (`AUC = 0.961277`, `TPR@1%FPR = 0.675470`, `ASR = 0.891957`) but remains
   prompt-conditioned candidate-only. The identity-manifest gate found no public
-  row manifest, COCO image-id binding, or accessible HF ZIP metadata, so
-  admitted black-box claims stay blocked.
+  row manifest or COCO image-id binding. The 2026-05-23 recheck confirmed the
+  HF ZIP remains inaccessible to this token, so admitted black-box claims stay
+  blocked.
 - Semantic-auxiliary status: negative-but-useful after low-FPR review; no GPU
   packet selected.
 - GPU: no active black-box GPU task running now.

@@ -5,6 +5,20 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[clid-identity-manifest-gate-20260515.md](clid-identity-manifest-gate-20260515.md)
+and
+[copymark-official-score-artifact-gate-20260515.md](copymark-official-score-artifact-gate-20260515.md)
+now include the 2026-05-23 bounded metadata recheck. CLiD still has readable
+HF dataset metadata and a local token, but authenticated range access to
+`zsf/COCO_MIA_ori_split1/mia_COCO.zip` returns `403` with `restricted` / `not
+in the authorized list`, so no ZIP central directory or internal manifest can
+be inspected. CopyMark `laion_ridar` still exposes useful public support
+evidence: `10000 / 10000` image logs and aggregate ROC/threshold JSON with
+`AUROC = 0.872134768572823`, but no per-row score field or compact
+filename/role/checkpoint/score manifest. Decision: `metadata recheck / no
+download / no GPU release / no admitted row`.
+
+Previous Research update:
 [copymark-laion-mi-public-binding-gate-20260517.md](copymark-laion-mi-public-binding-gate-20260517.md)
 records the bounded public CopyMark `laion_mi` row-binding audit. The current
 public `members.parquet` exposes only `url/caption`, the official member

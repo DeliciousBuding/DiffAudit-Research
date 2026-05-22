@@ -19,6 +19,13 @@
   public parquet has only `13396` rows, and a live first-`10` URL check
   returns only `4` HTTP `200` responses. Keep this as Research-side CopyMark
   support evidence, not a clean second asset.
+- `CLiD / CopyMark metadata recheck`: no reopen. CLiD metadata is readable
+  with the local HF token, but authenticated range access to
+  `mia_COCO.zip` still returns `403 restricted / not in the authorized list`.
+  CopyMark `laion_ridar` exposes useful `10000 / 10000` image logs and
+  aggregate `AUROC = 0.872134768572823` ROC/threshold JSON, but still has no
+  per-row score field or compact filename/role/checkpoint/score manifest.
+  Treat both as Research-only support/candidate evidence, not execution lanes.
 - `CLiD`: hold-candidate. The prompt-conditioned packet is strong and
   repeat-stable, but prompt controls and attribution block admission as general
   black-box evidence. The current machine-readable boundary is
@@ -65,13 +72,12 @@
 No black-box GPU or CPU sidecar is selected. The next action belongs to the
 root long-horizon queue: continue Lane A only with a non-duplicate asset that
 has exact target identity, member/nonmember split artifacts, and response or
-score coverage. The imported Stable Diffusion ReDiffuse collaborator artifact
-does not satisfy that gate by itself, and the public CopyMark `laion_mi`
-surface is now explicitly blocked by the row-binding gap, so preserve both as
-support/candidate evidence instead of turning them into rerun tasks. Do not
-reopen CommonCanvas, Beans, Fashion-MNIST, MIDST, or same-contract
-mid-frequency residual variants unless a genuinely new artifact or observable
-changes the decision gate.
+score coverage. The imported Stable Diffusion ReDiffuse collaborator artifact,
+CLiD gated ZIP, CopyMark `laion_mi`, and CopyMark `laion_ridar` do not satisfy
+that gate by themselves, so preserve them as support/candidate evidence instead
+of turning them into rerun tasks. Do not reopen CommonCanvas, Beans,
+Fashion-MNIST, MIDST, or same-contract mid-frequency residual variants unless
+a genuinely new artifact or observable changes the decision gate.
 
 ## Current Status
 
