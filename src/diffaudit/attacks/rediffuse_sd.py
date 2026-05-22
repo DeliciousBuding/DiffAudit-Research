@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import csv
+import importlib.util
 import json
+import subprocess
+import sys
 from pathlib import Path, PureWindowsPath
 from typing import Any
 
@@ -12,6 +15,23 @@ import numpy as np
 from diffaudit.utils.metrics import metric_bundle, round6, tpr_at_fpr_from_curve
 
 
+DEFAULT_BUNDLE_RELATIVE = Path("Download/shared/supplementary/collaborator-stable-diffusion-rediffuse-20260516/raw")
+DEFAULT_SOURCE_SUBDIR = Path("SD_MIA_Reproduction")
+DEFAULT_ARTIFACT_SUBDIR = Path("runs/final_rediffuse_combined")
+DEFAULT_DETECTOR_SUBPATH = Path(
+    "论文复现攻击材料_20260516/mia_detector_rediffuse_sweep_best_a2_a5_combined.json"
+)
+DEFAULT_SCORE_NPZ_SUBPATH = Path("论文复现攻击材料_20260516/merged_rediffuse_scores_a2_a5_combined.npz")
+DEFAULT_VALIDATION_SUBPATH = Path("runs/final_rediffuse_combined/rediffuse_holdout_validation_a2_a5_combined.json")
+REQUIRED_SOURCE_FILES = (
+    "attack.py",
+    "components.py",
+    "dataset.py",
+    "score_single_image.py",
+    "select_rediffuse_detector.py",
+    "validate_rediffuse_detector.py",
+    "coco-2500-random.yaml",
+)
 REQUIRED_ARTIFACT_FILES = ("metrics.json", "result.csv", "roc_curve.csv")
 REQUIRED_RESULT_COLUMNS = ("label", "score", "prediction", "correct")
 REQUIRED_ARTIFACT_PATHS = {
@@ -19,6 +39,34 @@ REQUIRED_ARTIFACT_PATHS = {
     "result_csv": "result.csv",
     "roc_curve_csv": "roc_curve.csv",
 }
+
+
+def diffaudit_root() -> Path:
+    return Path(__file__).resolve().parents[4]
+
+
+def default_rediffuse_sd_bundle_root() -> Path:
+    return diffaudit_root() / DEFAULT_BUNDLE_RELATIVE
+
+
+def default_rediffuse_sd_artifact_dir(bundle_root: str | Path | None = None) -> Path:
+    root = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    return root / DEFAULT_ARTIFACT_SUBDIR
+
+
+def default_rediffuse_sd_detector_json(bundle_root: str | Path | None = None) -> Path:
+    root = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    return root / DEFAULT_DETECTOR_SUBPATH
+
+
+def default_rediffuse_sd_score_npz(bundle_root: str | Path | None = None) -> Path:
+    root = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    return root / DEFAULT_SCORE_NPZ_SUBPATH
+
+
+def default_rediffuse_sd_validation_json(bundle_root: str | Path | None = None) -> Path:
+    root = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    return root / DEFAULT_VALIDATION_SUBPATH
 
 
 def _path_tail(path_text: str) -> str:
@@ -32,6 +80,55 @@ def _read_json(path: Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise TypeError(f"{path.name} must contain a top-level JSON object")
     return payload
+
+
+def _as_scalar(value: Any, default: Any = None) -> Any:
+    if value is None:
+        return default
+    arr = np.asarray(value)
+    if arr.shape == ():
+        return arr.item()
+    return arr.tolist()
+
+
+def _tail_text(text: str, limit: int = 2000) -> str:
+    cleaned = text.strip()
+    if len(cleaned) <= limit:
+        return cleaned
+    return cleaned[-limit:]
+
+
+def _module_available(name: str) -> bool:
+    return importlib.util.find_spec(name) is not None
+
+
+def _checkpoint_runtime_summary(checkpoint: str | None) -> dict[str, Any]:
+    checkpoint_text = str(checkpoint or "")
+    if not checkpoint_text:
+        return {
+            "requested": "",
+            "is_local_path": False,
+            "exists": False,
+            "cache_candidates": [],
+        }
+    checkpoint_path = Path(checkpoint_text)
+    if checkpoint_path.exists():
+        return {
+            "requested": checkpoint_text,
+            "is_local_path": True,
+            "exists": True,
+            "cache_candidates": [checkpoint_text],
+        }
+    cache_candidates = []
+    if checkpoint_text == "CompVis/stable-diffusion-v1-4":
+        cache_candidates.append(str(Path.home() / ".cache" / "huggingface" / "hub" / "models--CompVis--stable-diffusion-v1-4"))
+    exists = any(Path(path).exists() for path in cache_candidates)
+    return {
+        "requested": checkpoint_text,
+        "is_local_path": False,
+        "exists": exists,
+        "cache_candidates": cache_candidates,
+    }
 
 
 def _read_result_csv(path: Path) -> tuple[list[dict[str, str]], np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
@@ -85,6 +182,60 @@ def _build_missing_payload(
         "notes": [
             "This artifact bundle is incomplete for DiffAudit import until metrics.json, result.csv, and roc_curve.csv are all present."
         ],
+    }
+
+
+def _detector_summary(path: Path) -> dict[str, Any]:
+    payload = _read_json(path)
+    logistic = payload.get("logistic") or {}
+    coef = logistic.get("coef")
+    return {
+        "feature_mode": payload.get("feature_mode"),
+        "checkpoint": payload.get("checkpoint"),
+        "dataset": payload.get("dataset"),
+        "rediffuse_scorer": payload.get("rediffuse_scorer"),
+        "threshold_low_score": round6(float(payload.get("threshold", 0.0))),
+        "decision_rule": payload.get("decision_rule"),
+        "selection_source": payload.get("selection_source"),
+        "logistic_dim": len(coef) if isinstance(coef, list) else None,
+    }
+
+
+def _score_npz_summary(path: Path) -> dict[str, Any]:
+    data = np.load(path, allow_pickle=True)
+    member_features = data["member_features"]
+    nonmember_features = data["nonmember_features"]
+    return {
+        "member_shape": list(member_features.shape),
+        "nonmember_shape": list(nonmember_features.shape),
+        "feature_dim": int(member_features.shape[1]) if member_features.ndim == 2 else None,
+        "dataset": str(_as_scalar(data.get("dataset"), "")),
+        "checkpoint": str(_as_scalar(data.get("checkpoint"), "")),
+        "attack_num": int(_as_scalar(data.get("attack_num"), 0)),
+        "interval": int(_as_scalar(data.get("interval"), 0)),
+        "k": int(_as_scalar(data.get("k"), 0)),
+        "average": int(_as_scalar(data.get("average"), 0)),
+        "torch_dtype": str(_as_scalar(data.get("torch_dtype"), "")),
+        "rediffuse_scorer": str(_as_scalar(data.get("rediffuse_scorer"), "")),
+    }
+
+
+def _validation_summary(path: Path) -> dict[str, Any]:
+    payload = _read_json(path)
+    holdout = payload.get("holdout") or {}
+    if isinstance(holdout, list):
+        holdout = next((row for row in holdout if row.get("method") == "logistic_l2"), holdout[0] if holdout else {})
+    cross_validation = payload.get("cross_validation") or payload.get("cv_summary") or {}
+    if isinstance(cross_validation, list):
+        cross_validation = next(
+            (row for row in cross_validation if row.get("method") == "logistic_l2"),
+            cross_validation[0] if cross_validation else {},
+        )
+    return {
+        "holdout_test_auc": holdout.get("test_auc"),
+        "cv_mean_test_auc": cross_validation.get("mean_test_auc"),
+        "cv_std_test_auc": cross_validation.get("std_test_auc"),
+        "shape": payload.get("shape"),
     }
 
 
@@ -251,4 +402,331 @@ def probe_rediffuse_sd_artifacts(artifact_dir: str | Path) -> dict[str, Any]:
         "missing": [],
         "missing_items": [],
         "notes": notes,
+    }
+
+
+def probe_rediffuse_sd_assets(
+    bundle_root: str | Path | None = None,
+    artifact_dir: str | Path | None = None,
+    detector_json: str | Path | None = None,
+    score_npz: str | Path | None = None,
+    validation_json: str | Path | None = None,
+) -> dict[str, Any]:
+    bundle = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    source_root = bundle / DEFAULT_SOURCE_SUBDIR
+    artifact_path = Path(artifact_dir) if artifact_dir else default_rediffuse_sd_artifact_dir(bundle)
+    detector_path = Path(detector_json) if detector_json else default_rediffuse_sd_detector_json(bundle)
+    score_npz_path = Path(score_npz) if score_npz else default_rediffuse_sd_score_npz(bundle)
+    validation_path = Path(validation_json) if validation_json else default_rediffuse_sd_validation_json(bundle)
+
+    source_checks = {name: (source_root / name).exists() for name in REQUIRED_SOURCE_FILES}
+    detector_exists = detector_path.exists()
+    score_npz_exists = score_npz_path.exists()
+    validation_exists = validation_path.exists()
+    artifact_probe = probe_rediffuse_sd_artifacts(artifact_path) if artifact_path.exists() else _build_missing_payload(
+        artifact_path,
+        {key: False for key in REQUIRED_ARTIFACT_PATHS},
+    )
+
+    detector = _detector_summary(detector_path) if detector_exists else {}
+    score_packet = _score_npz_summary(score_npz_path) if score_npz_exists else {}
+    validation = _validation_summary(validation_path) if validation_exists else {}
+    local_runtime = {
+        "python_exe": sys.executable,
+        "modules": {
+            "fire": _module_available("fire"),
+            "pytorch_lightning": _module_available("pytorch_lightning"),
+            "skimage": _module_available("skimage"),
+            "omegaconf": _module_available("omegaconf"),
+            "diffusers": _module_available("diffusers"),
+            "torchvision": _module_available("torchvision"),
+        },
+        "checkpoint": _checkpoint_runtime_summary(detector.get("checkpoint")),
+    }
+
+    detector_matches_score_npz = True
+    if detector_exists and score_npz_exists:
+        logistic_dim = detector.get("logistic_dim")
+        feature_dim = score_packet.get("feature_dim")
+        if logistic_dim is not None and feature_dim is not None:
+            detector_matches_score_npz = int(logistic_dim) == int(feature_dim)
+
+    checks = {
+        "bundle_root": bundle.exists(),
+        "source_root": source_root.exists(),
+        "required_source_files": all(source_checks.values()),
+        "detector_json": detector_exists,
+        "score_npz": score_npz_exists,
+        "artifact_dir": artifact_path.exists(),
+        "artifact_probe_ready": artifact_probe.get("status") == "ready",
+        "detector_matches_score_npz": detector_matches_score_npz,
+        "validation_json": validation_exists,
+    }
+    status = (
+        "ready"
+        if all(
+            checks[key]
+            for key in (
+                "bundle_root",
+                "source_root",
+                "required_source_files",
+                "detector_json",
+                "score_npz",
+                "artifact_dir",
+                "artifact_probe_ready",
+                "detector_matches_score_npz",
+            )
+        )
+        else "blocked"
+    )
+    missing = []
+    if not checks["bundle_root"]:
+        missing.append(str(bundle))
+    if not checks["source_root"]:
+        missing.append(str(source_root))
+    missing.extend(str(source_root / name) for name, ready in source_checks.items() if not ready)
+    if not checks["detector_json"]:
+        missing.append(str(detector_path))
+    if not checks["score_npz"]:
+        missing.append(str(score_npz_path))
+    if not checks["artifact_dir"]:
+        missing.append(str(artifact_path))
+    if not checks["validation_json"]:
+        missing.append(str(validation_path))
+
+    notes = [
+        "This bundle adds a candidate-only single-image scoring surface on top of the audited Stable Diffusion ReDiffuse result packet.",
+        "It remains non-admitted mainline evidence because the bundle is collaborator-transferred, not a public immutable replay asset.",
+        "Single-image scoring still depends on a local Stable Diffusion v1-4 runtime plus the collaborator source tree; it is not an external API-only black-box surface.",
+    ]
+    if not checks["validation_json"]:
+        notes.append(
+            "Held-out validation JSON is missing, so the bundle can still be wrapped for scoring but loses one piece of detector-selection evidence."
+        )
+    if not detector_matches_score_npz:
+        notes.append(
+            "Detector logistic dimension does not match the saved combined feature packet, so this bundle should not be used for single-image scoring until the detector and NPZ agree."
+        )
+    missing_runtime_modules = [name for name, ready in local_runtime["modules"].items() if not ready]
+    if missing_runtime_modules:
+        notes.append(
+            "Current interpreter is missing runtime packages for score_single_image.py: "
+            + ", ".join(missing_runtime_modules)
+        )
+    if not local_runtime["checkpoint"]["exists"]:
+        notes.append(
+            "CompVis/stable-diffusion-v1-4 is not present at a known local path or Hugging Face cache candidate, so direct single-image scoring still needs a local checkpoint source."
+        )
+
+    return {
+        "status": status,
+        "track": "black-box",
+        "method": "rediffuse_sd",
+        "mode": "asset-probe",
+        "artifact_family": "stable-diffusion-rediffuse",
+        "checks": checks,
+        "paths": {
+            "bundle_root": str(bundle),
+            "source_root": str(source_root),
+            "artifact_dir": str(artifact_path),
+            "detector_json": str(detector_path),
+            "score_npz": str(score_npz_path),
+            "validation_json": str(validation_path),
+            "score_script": str(source_root / "score_single_image.py"),
+        },
+        "required_source_files": source_checks,
+        "detector": detector,
+        "score_npz": score_packet,
+        "validation": validation,
+        "local_runtime": local_runtime,
+        "artifact_probe": artifact_probe,
+        "provenance": {
+            "source": "collaborator-manual-transfer",
+            "asset_scope": "stable-diffusion-rediffuse-source-plus-detector",
+        },
+        "missing": missing,
+        "missing_items": [Path(item).name for item in missing],
+        "recommended_feature_plan": "a2_a5_combined",
+        "notes": notes,
+    }
+
+
+def score_rediffuse_sd_image(
+    image: str | Path,
+    prompt: str,
+    bundle_root: str | Path | None = None,
+    artifact_dir: str | Path | None = None,
+    detector_json: str | Path | None = None,
+    score_npz: str | Path | None = None,
+    python_exe: str | None = None,
+    feature_plan: str = "a2_a5_combined",
+    checkpoint: str = "CompVis/stable-diffusion-v1-4",
+    torch_dtype: str = "auto",
+    output_json: str | Path | None = None,
+    dry_run: bool = False,
+) -> dict[str, Any]:
+    image_path = Path(image)
+    asset_probe = probe_rediffuse_sd_assets(
+        bundle_root=bundle_root,
+        artifact_dir=artifact_dir,
+        detector_json=detector_json,
+        score_npz=score_npz,
+    )
+    if asset_probe["status"] != "ready":
+        return {
+            **asset_probe,
+            "status": "blocked",
+            "mode": "single-image-score",
+            "notes": asset_probe["notes"]
+            + [
+                "Single-image scoring is blocked until the Stable Diffusion ReDiffuse source bundle, detector, and artifact packet all pass the asset probe."
+            ],
+        }
+    if not image_path.exists():
+        return {
+            **asset_probe,
+            "status": "blocked",
+            "mode": "single-image-score",
+            "error": f"image not found: {image_path}",
+            "notes": asset_probe["notes"] + ["Single-image scoring requires a local input image path."],
+        }
+
+    detector_path = Path(detector_json) if detector_json else Path(asset_probe["paths"]["detector_json"])
+    source_root = Path(asset_probe["paths"]["source_root"])
+    score_script = source_root / "score_single_image.py"
+    output_path = Path(output_json) if output_json else None
+    resolved_python = python_exe or sys.executable
+    command = [
+        resolved_python,
+        str(score_script),
+        "--image",
+        str(image_path),
+        "--prompt",
+        prompt,
+        "--detector-json",
+        str(detector_path),
+        "--feature-plan",
+        feature_plan,
+        "--checkpoint",
+        checkpoint,
+        "--torch-dtype",
+        torch_dtype,
+    ]
+    if output_path is not None:
+        command.extend(["--output-json", str(output_path)])
+
+    if dry_run:
+        return {
+            "status": "ready",
+            "track": "black-box",
+            "method": "rediffuse_sd",
+            "mode": "single-image-score-dry-run",
+            "paths": {
+                "image": str(image_path),
+                "bundle_root": asset_probe["paths"]["bundle_root"],
+                "source_root": str(source_root),
+                "detector_json": str(detector_path),
+                "score_script": str(score_script),
+                "output_json": str(output_path) if output_path is not None else "",
+            },
+            "runtime": {
+                "python_exe": resolved_python,
+                "command": command,
+                "feature_plan": feature_plan,
+                "checkpoint": checkpoint,
+                "torch_dtype": torch_dtype,
+            },
+            "notes": asset_probe["notes"]
+            + [
+                "Dry-run only: no Stable Diffusion runtime call was made.",
+            ],
+        }
+
+    completed = subprocess.run(
+        args=command,
+        cwd=str(source_root),
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    stdout = completed.stdout or ""
+    stderr = completed.stderr or ""
+    if completed.returncode != 0:
+        return {
+            "status": "blocked",
+            "track": "black-box",
+            "method": "rediffuse_sd",
+            "mode": "single-image-score",
+            "paths": {
+                "image": str(image_path),
+                "bundle_root": asset_probe["paths"]["bundle_root"],
+                "source_root": str(source_root),
+                "detector_json": str(detector_path),
+                "score_script": str(score_script),
+                "output_json": str(output_path) if output_path is not None else "",
+            },
+            "runtime": {
+                "python_exe": resolved_python,
+                "command": command,
+                "feature_plan": feature_plan,
+                "checkpoint": checkpoint,
+                "torch_dtype": torch_dtype,
+                "returncode": int(completed.returncode),
+                "stdout_tail": _tail_text(stdout),
+                "stderr_tail": _tail_text(stderr),
+            },
+            "notes": asset_probe["notes"]
+            + [
+                "The collaborator single-image scoring script failed under the selected Python interpreter. Use stderr_tail to fix missing runtime packages or checkpoint/model-path issues."
+            ],
+        }
+
+    try:
+        score_payload = json.loads(stdout.strip())
+    except json.JSONDecodeError as exc:
+        return {
+            "status": "blocked",
+            "track": "black-box",
+            "method": "rediffuse_sd",
+            "mode": "single-image-score",
+            "error": f"score script did not emit JSON: {exc}",
+            "runtime": {
+                "python_exe": resolved_python,
+                "command": command,
+                "stdout_tail": _tail_text(stdout),
+                "stderr_tail": _tail_text(stderr),
+            },
+            "notes": asset_probe["notes"]
+            + [
+                "The collaborator score script returned non-JSON stdout, so DiffAudit cannot safely ingest the result."
+            ],
+        }
+
+    return {
+        "status": "ready",
+        "track": "black-box",
+        "method": "rediffuse_sd",
+        "mode": "single-image-score",
+        "paths": {
+            "image": str(image_path),
+            "bundle_root": asset_probe["paths"]["bundle_root"],
+            "source_root": str(source_root),
+            "detector_json": str(detector_path),
+            "score_script": str(score_script),
+            "output_json": str(output_path) if output_path is not None else "",
+        },
+        "runtime": {
+            "python_exe": resolved_python,
+            "command": command,
+            "feature_plan": feature_plan,
+            "checkpoint": checkpoint,
+            "torch_dtype": torch_dtype,
+        },
+        "score": score_payload,
+        "asset_probe": asset_probe,
+        "notes": asset_probe["notes"]
+        + [
+            "This score is candidate-only research output from a collaborator-transferred detector and should not be promoted to an admitted mainline row without the stronger public-asset boundary.",
+        ],
     }

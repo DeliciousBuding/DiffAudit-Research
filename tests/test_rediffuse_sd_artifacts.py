@@ -3,6 +3,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 
@@ -134,6 +135,85 @@ def _write_rediffuse_sd_artifact_dir(root: Path) -> Path:
     return artifact_dir
 
 
+def _write_rediffuse_sd_bundle(root: Path) -> Path:
+    bundle_root = root / "collaborator-stable-diffusion-rediffuse"
+    source_root = bundle_root / "SD_MIA_Reproduction"
+    source_root.mkdir(parents=True, exist_ok=True)
+
+    for name in (
+        "attack.py",
+        "components.py",
+        "dataset.py",
+        "score_single_image.py",
+        "select_rediffuse_detector.py",
+        "validate_rediffuse_detector.py",
+        "coco-2500-random.yaml",
+    ):
+        (source_root / name).write_text(f"# {name}\n", encoding="utf-8")
+
+    artifact_dir = _write_rediffuse_sd_artifact_dir(bundle_root / "runs")
+    artifact_target = bundle_root / "runs" / "final_rediffuse_combined"
+    artifact_target.parent.mkdir(parents=True, exist_ok=True)
+    if artifact_dir != artifact_target:
+        artifact_dir.rename(artifact_target)
+    artifact_dir = artifact_target
+
+    detector_dir = bundle_root / "论文复现攻击材料_20260516"
+    detector_dir.mkdir(parents=True, exist_ok=True)
+    detector_payload = {
+        "dataset": "laion5_blip",
+        "attacker_name": "ReDiffuse",
+        "checkpoint": "CompVis/stable-diffusion-v1-4",
+        "attack_num": 5,
+        "interval": 10,
+        "k": 10,
+        "average": 3,
+        "torch_dtype": "auto",
+        "feature_mode": "logistic_l2",
+        "rediffuse_scorer": "vae_ssim",
+        "auc": 0.71031888,
+        "asr": 0.6846,
+        "tpr_1fpr": 0.0716,
+        "threshold": -0.123456,
+        "decision_rule": "member_if_score_leq_threshold",
+        "selection_source": str(detector_dir / "merged_rediffuse_scores_a2_a5_combined.npz"),
+        "logistic": {
+            "coef": [0.1, -0.2, 0.3, -0.4, 0.5, -0.6, 0.7],
+            "intercept": 0.8,
+            "scaler_mean": [0.0] * 7,
+            "scaler_scale": [1.0] * 7,
+        },
+    }
+    (detector_dir / "mia_detector_rediffuse_sweep_best_a2_a5_combined.json").write_text(
+        json.dumps(detector_payload, indent=2),
+        encoding="utf-8",
+    )
+    np.savez(
+        detector_dir / "merged_rediffuse_scores_a2_a5_combined.npz",
+        member_features=np.ones((4, 7), dtype=np.float32),
+        nonmember_features=np.zeros((4, 7), dtype=np.float32),
+        dataset=np.asarray("laion5_blip"),
+        checkpoint=np.asarray("CompVis/stable-diffusion-v1-4"),
+        attack_num=np.asarray(5),
+        interval=np.asarray(10),
+        k=np.asarray(10),
+        average=np.asarray(3),
+        torch_dtype=np.asarray("auto"),
+        rediffuse_scorer=np.asarray("vae_ssim"),
+    )
+    (artifact_dir / "rediffuse_holdout_validation_a2_a5_combined.json").write_text(
+        json.dumps(
+            {
+                "holdout": {"test_auc": 0.7046},
+                "cross_validation": {"mean_test_auc": 0.7080, "std_test_auc": 0.0116},
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    return bundle_root
+
+
 class StableDiffusionReDiffuseArtifactTests(unittest.TestCase):
     def test_probe_rediffuse_sd_artifacts_reports_ready(self) -> None:
         from diffaudit.attacks.rediffuse_sd import probe_rediffuse_sd_artifacts
@@ -182,6 +262,76 @@ class StableDiffusionReDiffuseArtifactTests(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(payload["status"], "ready")
         self.assertEqual(payload["reported"]["dataset"], "laion5_blip")
+
+    def test_probe_rediffuse_sd_assets_reports_ready(self) -> None:
+        from diffaudit.attacks.rediffuse_sd import probe_rediffuse_sd_assets
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            bundle_root = _write_rediffuse_sd_bundle(Path(tmpdir))
+            payload = probe_rediffuse_sd_assets(bundle_root)
+
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["method"], "rediffuse_sd")
+        self.assertTrue(payload["checks"]["source_root"])
+        self.assertTrue(payload["checks"]["required_source_files"])
+        self.assertTrue(payload["checks"]["detector_json"])
+        self.assertTrue(payload["checks"]["score_npz"])
+        self.assertTrue(payload["checks"]["artifact_probe_ready"])
+        self.assertEqual(payload["detector"]["feature_mode"], "logistic_l2")
+        self.assertEqual(payload["score_npz"]["member_shape"], [4, 7])
+
+    def test_cli_probe_rediffuse_sd_assets_reports_ready(self) -> None:
+        from diffaudit.cli import main
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            bundle_root = _write_rediffuse_sd_bundle(Path(tmpdir))
+            exit_code, payload = capture_cli_json(
+                main,
+                ["probe-rediffuse-sd-assets", "--bundle-root", str(bundle_root)],
+            )
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["paths"]["bundle_root"], str(bundle_root))
+
+    def test_score_rediffuse_sd_image_wraps_collaborator_script(self) -> None:
+        from diffaudit.cli import main
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            bundle_root = _write_rediffuse_sd_bundle(Path(tmpdir))
+            image_path = Path(tmpdir) / "sample.png"
+            image_path.write_bytes(b"fake-image")
+
+            completed = type(
+                "CompletedProcess",
+                (),
+                {
+                    "returncode": 0,
+                    "stdout": json.dumps({"prediction": 1, "score": 0.91}),
+                    "stderr": "",
+                },
+            )()
+
+            with patch("diffaudit.attacks.rediffuse_sd.subprocess.run", return_value=completed) as run_mock:
+                exit_code, payload = capture_cli_json(
+                    main,
+                    [
+                        "score-rediffuse-sd-image",
+                        "--bundle-root",
+                        str(bundle_root),
+                        "--image",
+                        str(image_path),
+                        "--prompt",
+                        "a flower crown portrait",
+                    ],
+                )
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["score"]["prediction"], 1)
+        command = run_mock.call_args.kwargs["args"]
+        self.assertIn("score_single_image.py", command[1])
+        self.assertEqual(command[3], str(image_path))
 
 
 if __name__ == "__main__":

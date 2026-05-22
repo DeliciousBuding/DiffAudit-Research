@@ -111,6 +111,54 @@ def _handle_asset_probes(args: Any) -> int:
         return 0 if payload["status"] == "ready" else 1
 
 
+    if args.command == "probe-rediffuse-sd-assets":
+        from diffaudit.attacks.rediffuse_sd import probe_rediffuse_sd_assets
+
+        payload = probe_rediffuse_sd_assets(
+            bundle_root=args.bundle_root,
+            artifact_dir=args.artifact_dir,
+            detector_json=args.detector_json,
+            score_npz=args.score_npz,
+            validation_json=args.validation_json,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
+    if args.command == "score-rediffuse-sd-image":
+        from diffaudit.attacks.rediffuse_sd import score_rediffuse_sd_image
+
+        payload = score_rediffuse_sd_image(
+            image=args.image,
+            prompt=args.prompt,
+            bundle_root=args.bundle_root,
+            artifact_dir=args.artifact_dir,
+            detector_json=args.detector_json,
+            score_npz=args.score_npz,
+            python_exe=args.python_exe,
+            feature_plan=args.feature_plan,
+            checkpoint=args.checkpoint,
+            torch_dtype=args.torch_dtype,
+            output_json=args.output_json,
+            dry_run=args.dry_run,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
+    if args.command == "probe-copymark-laion-mi-assets":
+        from diffaudit.attacks.copymark_laion_mi import probe_copymark_laion_mi_assets
+
+        payload = probe_copymark_laion_mi_assets(
+            package_root=args.package_root,
+            member_parquet=args.member_parquet,
+            member_image_log=args.member_image_log,
+            member_script=args.member_script,
+        )
+        print(json.dumps(payload, indent=2, ensure_ascii=True))
+        return 0 if payload["status"] == "ready" else 1
+
+
     if args.command == "probe-clid-assets":
         from diffaudit.attacks.clid import explain_clid_assets
 
@@ -1367,6 +1415,9 @@ _COMMAND_HANDLERS: dict[str, CommandHandler] = {
     "probe-pia-assets": _handle_asset_probes,
     "probe-rediffuse-assets": _handle_asset_probes,
     "probe-rediffuse-sd-artifacts": _handle_asset_probes,
+    "probe-rediffuse-sd-assets": _handle_asset_probes,
+    "score-rediffuse-sd-image": _handle_asset_probes,
+    "probe-copymark-laion-mi-assets": _handle_asset_probes,
     "probe-clid-assets": _handle_asset_probes,
     "probe-recon-assets": _handle_asset_probes,
     "probe-recon-score-artifacts": _handle_asset_probes,
