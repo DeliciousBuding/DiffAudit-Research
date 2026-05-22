@@ -5,6 +5,23 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[silent-brush-artarena-artifact-gate-20260523.md](silent-brush-artarena-artifact-gate-20260523.md)
+records a Lane A metadata gate for arXiv `2605.17500` /
+`The Silent Brush: Evaluating Artistic Style Leakage in AI Art Generation`.
+This is text-to-image diffusion-adjacent privacy evidence, but the claim
+boundary is style leakage / copyright evaluation rather than the current
+per-sample membership contract. The metadata-readable anonymous resource
+surface exposes code/notebook inventory only, including `ArtArena.ipynb`,
+`README.md`, ET/MD eval and infer scripts, `FT_models.py`, `get_leadger.py`,
+prep scripts, `CSD/model.py`, `CSD/utils.py`, and figure PDFs. GitHub searches
+returned no official public artifact repository, and no target checkpoint,
+member/nonmember artwork manifest, generated image packet, per-row membership
+score file, ROC array, metric JSON, or verifier is public. Decision:
+`style-leakage semantic-shift watch / anonymous code-notebook inventory only /
+no row-bound membership artifact / no download / no GPU release / no admitted
+row`.
+
+Previous Research update:
 [trajectory-generation-privacy-artifact-gate-20260523.md](trajectory-generation-privacy-artifact-gate-20260523.md)
 records a Lane A metadata gate for arXiv `2605.15246` / `Privacy Evaluation of
 Generative Models for Trajectory Generation`. This is cross-domain
