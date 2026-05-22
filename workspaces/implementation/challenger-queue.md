@@ -1,6 +1,6 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-17
+> Last refreshed: 2026-05-23
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
@@ -9,11 +9,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Stable Diffusion ReDiffuse collaborator artifact audit completed` |
+| Active work | `FMIA OpenReview bounded recheck completed after CLiD / CopyMark metadata recheck` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Stable Diffusion ReDiffuse collaborator artifact audit |
-| Gray-box status | PIA remains admitted; tri-score is positive-but-bounded internal candidate; ReDiffuse candidate-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity weak |
+| CPU sidecar | none selected after FMIA OpenReview bounded recheck |
+| Gray-box status | PIA remains admitted; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
 ## Decision Inbox
@@ -37,7 +37,8 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Hyperparameter-free SecMI reproduction | gray-box / Lane A | third-party SecMI-family support-only | `mohammadKazzazi/Membership-Inference-Attack-against-Diffusion-Models` exposes code, notebook/report surface, and claimed CIFAR-100 seed-0 improvements over baseline SecMINNs | same-family SecMI support; no reusable score rows, ROC arrays, metric JSON, trained attacker weights, verifier packet, independent target checkpoint, or immutable split manifest | keep as anti-duplication support gate only; do not clone, download CIFAR/SecMI checkpoints, run `python run.py`, train attackers, release GPU, or promote Platform/Runtime rows |
 | DME dual-model entropy | gray-box / Lane A | stub-repo-only watch | official `F-YaNG1/DME` repo claims complexity-induced bias debiasing for diffusion-model MIA | repo is README-only with no linked paper, implementation code, split manifests, checkpoints, score rows, ROC arrays, metric JSON, figures, or verifier | keep as Research-only watch; do not infer missing method details, implement DME, train dual models, release GPU, or promote Platform/Runtime rows |
 | FreMIA frequency-filter MIA | gray-box / Lane A | paper-source-plus-stub-repo watch | ICML 2026 direct diffusion MIA; arXiv source reports strong frequency-filter table metrics and rendered ROC/score figures; official `poetic2/FreMIA` repo exists | official repo is README-only; no implementation code, immutable member/hold-out split manifests, target checkpoints, generated samples, score rows, machine-readable ROC arrays, metric JSON, or verifier | keep as Research-only mechanism watch; do not download datasets/weights/checkpoints, implement filter, run Naive/SecMI/PIA/CLiD variants, release GPU, or promote Platform/Runtime rows |
-| CopyMark official score artifacts | black-box / Lane A | official score-artifact support-only | official `caradryanl/CopyMark` repo exposes member/nonmember image logs, aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI score tensors, GSA feature/XGBoost files, and LAION-RiDAR/mixing results; sampled official artifacts include SD1.5 PIA test `AUROC = 0.766974`, LDM PFAMI test `AUROC = 0.915734`, and LAION-RiDAR test `AUROC = 0.872135` | no checkpoint hashes, compact row-ID-bound score manifest, small immutable data/checkpoint packet, or ready verifier output; sdxl/CommonCanvas artifacts remain weak or threshold-transfer inconsistent | keep as Research-side support evidence; do not download HF `datasets.zip`, images, model folders, full repo, run CopyMark scripts, release GPU, or promote Platform/Runtime rows |
+| FMIA OpenReview frequency artifact | gray-box / Lane B | watch-plus / bounded rechecked | OpenReview `p9uryyZ5bw` still exposes a small official supplementary ZIP with DDIM/Stable Diffusion frequency-filter attack code and duplicated split `.npz` manifests; 2026-05-23 recheck records SHA-256 `567ac598eefc849c9dfdd95c26be24bd6b7349c72843e210b56cce2f67969045`, `79` entries, and `5,117,651` uncompressed bytes | no trained DDIM checkpoints, Stable Diffusion weights, generated samples, `pos_result.npy` / `neg_result.npy`, row-level score exports, ROC CSVs, metric JSON, or ready verifier | keep as watch-plus only; do not download datasets/models/checkpoints/images, train FMIA targets, fine-tune Stable Diffusion, run filter/timestep matrices, release CPU/GPU sidecar, or promote Platform/Runtime rows |
+| CopyMark official score artifacts | black-box / Lane A | official score-artifact support-only | official `caradryanl/CopyMark` repo exposes member/nonmember image logs, aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI score tensors, GSA feature/XGBoost files, and LAION-RiDAR/mixing results; `laion_ridar` recheck confirms `10000 / 10000` image logs and aggregate `AUROC = 0.872134768572823` | no checkpoint hashes, compact row-ID-bound score manifest, small immutable data/checkpoint packet, or ready verifier output; public `laion_mi` row binding is blocked because current member parquet exposes only `url/caption`, official numeric filenames exceed the public row range, and URL rehydration is partial | keep as Research-side support evidence; do not download HF `datasets.zip`, images, model folders, full repo, run CopyMark scripts, release GPU, or promote Platform/Runtime rows |
 | Quantile Diffusion MIA SecMI `t_error` replay | gray-box / Lane A-B | candidate-support-only | third-party public CIFAR10/CIFAR100 SecMI-style score rows and split manifests replay from committed files with positive AUC | not official Quantile Regression paper output; same-family SecMI support only; no admitted-row consumer contract | keep as support evidence only; do not clone full repo, download DDPM/CIFAR/SharePoint assets, train, fit quantile models, or release GPU |
 | DualMD / DistillMD disjoint-split defense | defense / Lane A-B | defense watch-plus | OpenReview DDMD supplement exposes DDPM/LDM defense code, DDPM split-index files, and FID stats | embedded GitHub origin is not public; no checkpoint-bound defended/undefended scores, ROC arrays, metric JSON, generated response packets, or ready verifier are released | keep as defense watch-plus only; do not download SharePoint Pokemon, Stable Diffusion, CIFAR/STL/Tiny-ImageNet assets, train, run attack scripts, or release GPU |
 | DIFFENCE classifier defense | defense / Lane A-B | defense watch-plus | official repo plus Zenodo `10.5281/zenodo.13706131` snapshot expose code, configs, and split-index files | protected target is an image classifier, diffusion is only a pre-inference defense component, and no checkpoint-bound defended/undefended logits, score rows, ROC arrays, metric JSON, or ready verifier are committed | keep as classifier-defense watch-plus only; do not download Google Drive checkpoints/datasets, train, run MIA scripts, or release GPU |
@@ -50,7 +51,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | Shake-to-Leak code artifact | intake / Lane A | code-public watch-plus | official `VITA-Group/Shake-to-Leak` repo exposes fine-tuning-amplified generative privacy code, vendored SecMI/diffusers code, fine-tuning scripts, SecMI scripts, data extraction code, and a `40`-domain person list | no frozen SD-v1-1 fine-tuned checkpoint, immutable member/nonmember manifest, generated private-set packet, generated attack response, score array, ROC array, metric JSON, or ready verifier output; using it would require SD weights, person/LAION data, generation, fine-tuning, and attack execution | keep as Research-only mechanism watch-plus; do not download assets, clone full repo, generate private sets, fine-tune, run SecMI/data extraction, release GPU, or promote Platform/Runtime rows |
 | FSECLab MIA-Diffusion code artifact | intake / Lane A | code-public watch-plus | official `fseclab-osaka/mia-diffusion` repo exposes DDIM/DCGAN training, sampling, white-box attack, black-box attack, dataset-loader, ROC-evaluator code, and two FID-stat `.npz` files | no frozen target checkpoint, immutable split manifest, generated sample packet, score array, ROC array, metric JSON, or ready verifier output; using it would require dataset download and target training/sampling | keep as Research-only code reference; do not download CIFAR-10/CelebA, clone full repo, train/sample DDIM/DCGAN targets, run attack scripts, release GPU, or promote Platform/Runtime rows |
 | GSA loss-score LR stability | white-box | CPU-only | leave-one-shadow-out review failed release gate | LR did not beat threshold in enough held-out/target folds | closed; do not GPU-scale |
-| CLiD boundary maintenance | black-box | CPU-only | prompt-control boundary anchor and validator exist | no independent image-identity protocol | keep as hold-candidate; no GPU |
+| CLiD boundary maintenance | black-box | CPU-only / gated metadata | prompt-control boundary anchor and validator exist; 2026-05-23 recheck confirms local HF token presence and readable dataset metadata | no independent image-identity protocol; authenticated range access to `zsf/COCO_MIA_ori_split1/mia_COCO.zip` still returns `403` restricted / not in authorized list, so no ZIP central directory or internal row manifest can be inspected | keep as hold-candidate; no CLiD ZIP download, no GPU, and no admitted row |
 | Variation real-query line | black-box | CPU/API-only | query-contract audit | missing member/nonmember query images and endpoint | hold until assets exist |
 | Simple-distance portability | black-box | needs assets | second image-to-image or repeated-response contract | no valid second asset contract | hold |
 | Cross-box successor hypothesis | cross-box | hold | CPU-only scope review closed without a new release-ready hypothesis | current executable routes are existing score-sharing/fusion/support/tail-gated variants or asset-blocked response-contract transfer | reopen only with a genuinely new observable or ready second response-contract package |
@@ -78,23 +79,31 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Stable-Diffusion-ReDiffuse Collaborator Artifact Idle State
+### Post-FMIA / CLiD / CopyMark Metadata Idle State
 
-- `mode`: post-Stable-Diffusion-ReDiffuse collaborator artifact audit after
-  Structural MIA T2I, Rectified Flow MIA, public metadata sweep, CPSample,
-  DSiRe / LoRA-WiSE,
-  hyperparameter-free SecMI, DME, FreMIA, CopyMark, VAE2Diffusion, DCR copying,
-  FCRE medical frequency, Tabular Privacy Leakage TDM, TMIA-DM, Shake-to-Leak,
-  FSECLab MIA-Diffusion, MT-MIA relational diffusion score-packet, and the
-  2026-05-15 admitted consumer-boundary sync
-- `status`: The latest asset verdict is the Stable Diffusion ReDiffuse
-  collaborator artifact audit. The imported `5000`-row `2500 / 2500` result
-  packet replays to `AUC = 0.710319` and `ASR = 0.6846`, but it remains
+- `mode`: post-FMIA OpenReview bounded recheck after CLiD / CopyMark metadata
+  recheck, CopyMark `laion_mi` public binding gate, Stable Diffusion ReDiffuse
+  collaborator artifact audit, Structural MIA T2I, Rectified Flow MIA, public
+  metadata sweep, CPSample, DSiRe / LoRA-WiSE, hyperparameter-free SecMI, DME,
+  FreMIA, VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy
+  Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
+  diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
+- `status`: The latest watch verdict is the FMIA OpenReview bounded recheck.
+  FMIA still has official frequency-filter code and split manifests, but no
+  checkpoints, score arrays, ROC/metric artifacts, generated samples, or ready
+  verifier. The latest metadata verdict before FMIA is the CLiD / CopyMark
+  recheck: CLiD remains blocked by HF authorization for `mia_COCO.zip`, and
+  CopyMark `laion_ridar` remains support-only aggregate evidence without a
+  row-level score manifest. No dataset zip, image payload, model folder,
+  checkpoint, CPU sidecar, GPU release, Platform row, or Runtime schema is
+  selected. The previous asset verdict is the Stable Diffusion ReDiffuse
+  collaborator artifact audit. Its imported `5000`-row `2500 / 2500` result
+  packet replays to `AUC = 0.710319` and `ASR = 0.6846`, but remains
   candidate-only because it is a collaborator local transfer, the member side
   is a LAION-like repeatable subset rather than the exact paper split, and the
   boundary is local-model-query black-box rather than strict external
-  API-only. No `coco_data` rebuild, Stable Diffusion weight download, CPU
-  sidecar, GPU release, Platform row, or Runtime schema is selected. The
+  API-only. No `coco_data` rebuild or Stable Diffusion weight download is
+  selected. The
   previous defense verdict is the CPSample artifact gate.
   OpenReview `LIBLIlk5M9` exposes an official ICLR 2025 code supplement with
   diffusion/classifier code and small attack-loss text fragments, but it lacks
