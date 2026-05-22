@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `RAPTA / ADMCD copying-mitigation artifact gate completed; latest candidate verdict is paper-source-only copying / memorization mitigation watch with no official code or score artifacts` |
+| Active work | `Identity-Focused Inference / Extraction artifact gate completed; latest candidate verdict is paper-source-only identity-level inference / extraction watch with no official code or score artifacts` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after RAPTA / ADMCD copying-mitigation artifact gate |
+| CPU sidecar | none selected after Identity-Focused Inference / Extraction artifact gate |
 | Gray-box status | PIA remains admitted; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| Identity-Focused Inference / Extraction | identity-level diffusion privacy / Lane A-B | paper-source-only semantic-shift watch | arXiv `2410.10177` reports membership inference, identity inference, and data extraction against diffusion models in LFW / CelebA-style face settings; arXiv source `HEAD` is a `3,990,545` byte gzip with SHA-256 ETag `eedf38231ea31b6440f63109d7ab9fa3d49fa5bf3601703ac259d3e0405253e2` and was not downloaded | claim boundary is identity-level inclusion / extraction, not current per-sample membership rows; no official code, LDM / DDPM target checkpoint bundle, LFW / CelebA identity or member/nonmember manifest, generated response packet, per-row membership / identity scores, ROC arrays, metric JSON, extraction-quality artifact, or verifier is public | keep as Research-only identity-level privacy watch evidence; do not download arXiv source/PDF, face images, generated images, training data, model weights, checkpoints, or inferred code archives; do not implement from paper, launch CPU/GPU sidecars, or promote Platform/Runtime rows unless public row-bound identity/member artifacts and a reviewed identity-privacy consumer boundary appear |
 | RAPTA / ADMCD copying mitigation | text-to-image copying / memorization mitigation / Lane A-B | paper-source-only mitigation watch | arXiv `2603.13070` proposes Region-Aware Prompt Augmentation and Attention-Driven Multimodal Copy Detection; arXiv source `HEAD` is a `4,172,177` byte gzip with SHA-256 ETag `f44be31acedbcb98485527bb56c4c1e7e02c96d646b7f09e36edf356280fe059` and was not downloaded | claim boundary is copying / memorization mitigation, not current per-sample membership rows; no official code, target checkpoint bundle, copied/non-copied or member/nonmember row manifest, generated response packet, per-row ADMCD scores, ROC arrays, metric JSON, retained-utility artifact, or verifier is public | keep as Research-only copying / memorization mitigation watch evidence; do not download arXiv source/PDF, generated images, training data, detector assets, Stable Diffusion weights, checkpoints, or inferred code archives; do not implement RAPTA/ADMCD, launch CPU/GPU sidecars, or promote Platform/Runtime rows unless public row-bound pre/post copying artifacts and a reviewed copying/memorization consumer boundary appear |
 | GUARD surgical mitigation | Stable Diffusion memorization mitigation / Lane A-B | code-public mitigation watch | arXiv `2603.00133` has official `kairanzhao/GUARD` code at commit `3a49dafe6de652c1a6d9b6dd13758d2e67118094`; the repo exposes inference, detection, mask-generation, metric, and vendored `open_clip` code for `sdv1_500_mem`; arXiv source `HEAD` is a `1,429,877` byte gzip with SHA-256 ETag `7d33099de25263768026fd4d5d45cbb825acbe01bac60ee648843bae565ba625` and was not downloaded | claim boundary is memorized-generation mitigation, not current per-sample membership rows; the repo points to Google Drive benchmark assets and requires Stable Diffusion/reference-model execution, but no checkpoint-bound target identity, immutable row manifest, generated response packet, pre/post mitigation score rows, ROC arrays, metric JSON, retained-utility artifact, or verifier is public | keep as Research-only surgical mitigation watch evidence; do not download arXiv source, GitHub archive, Google Drive assets, SD/reference weights, generated images, masks, or checkpoints; do not run GUARD scripts, launch CPU/GPU sidecars, or promote Platform/Runtime rows unless public row-bound pre/post mitigation artifacts and a reviewed memorization-mitigation consumer boundary appear |
 | BAF LoRA parameter-space mitigation | LoRA weight-only / Lane A-B | semantic-shift mitigation watch | arXiv `2605.10439` proposes Base-Anchored Filtering, a post-hoc, training-free, data-free LoRA memorization-mitigation method that decomposes LoRA updates into spectral channels and suppresses weakly backbone-aligned channels as possible memorization carriers; arXiv source `HEAD` is a `5,785,836` byte gzip with SHA-256 ETag `1d10717f5eb4f9ea99d8f36ce0d044e68a937aa88376af20c9d2000a04f6904a` and was not downloaded | claim boundary is weight-only mitigation, not current per-sample membership; arXiv says code is in supplementary material but no official public repository, target LoRA/checkpoint bundle, training-image manifest, member/nonmember rows, generated response packet, score/ROC/metric artifacts, retained-utility artifact, or verifier is public | keep as Research-only LoRA mitigation watch evidence; do not download source/supplement, LoRA weights, SD base weights, training images, generated images, or checkpoints; do not implement BAF, train LoRAs, launch CPU/GPU sidecars, or promote Platform/Runtime rows unless public row-bound artifacts and a reviewed weight-only LoRA mitigation boundary appear |
@@ -88,10 +89,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### RAPTA / ADMCD Copying-Mitigation Metadata Idle State
+### Identity-Focused Inference / Extraction Metadata Idle State
 
-- `mode`: post-RAPTA / ADMCD copying-mitigation artifact gate after GUARD
-  surgical mitigation, BAF LoRA
+- `mode`: post-Identity-Focused Inference / Extraction artifact gate after
+  RAPTA / ADMCD copying-mitigation, GUARD surgical mitigation, BAF LoRA
   parameter-space mitigation, Broken Memories, IAR Privacy Attacks, Silent Brush
   / Art Arena, Trajectory Generation Privacy, Model Will Tell DRC, roadmap
   current-state cleanup, Discrete DLM withdrawn artifact gate, Eidetic
@@ -103,9 +104,19 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy Leakage
   TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
   diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest candidate verdict is the RAPTA / ADMCD
-  copying-mitigation artifact gate, not a reproduction branch. arXiv
-  `2603.13070` /
+- `status`: The latest candidate verdict is the Identity-Focused Inference /
+  Extraction artifact gate, not a reproduction branch. arXiv `2410.10177` /
+  `Identity-Focused Inference and Extraction Attacks on Diffusion Models` is
+  paper-source-only identity-level privacy watch evidence. The checked public
+  surface exposes arXiv metadata and source availability, but no official code,
+  LDM / DDPM target checkpoint bundle, LFW / CelebA identity or
+  member/nonmember manifest, generated response packet, per-row membership /
+  identity scores, ROC arrays, metric JSON, extraction-quality artifact, or
+  verifier. The decision is: paper-source-only identity-level inference /
+  extraction watch, no official code, no score artifacts, no download, no
+  CPU/GPU sidecar, no Platform row, and no Runtime schema. The previous
+  candidate verdict is the RAPTA / ADMCD copying-mitigation artifact gate.
+  arXiv `2603.13070` /
   `Mitigating Memorization in Text-to-Image Diffusion via Region-Aware Prompt
   Augmentation and Multimodal Copy Detection` is paper-source-only copying /
   memorization mitigation watch evidence. The checked public surface exposes
