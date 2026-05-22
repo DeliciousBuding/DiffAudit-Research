@@ -2,6 +2,29 @@
 
 > Last updated: 2026-05-23
 
+## 2026-05-23 FMIA OpenReview Bounded Recheck
+
+Lane B/watch rechecked OpenReview `p9uryyZ5bw` / `Unveiling Impact of
+Frequency Components on Membership Inference Attacks for Diffusion Models`
+because the existing supplement is small enough to validate without opening a
+dataset, checkpoint, model, or GPU lane. The public OpenReview note remains a
+version `2` `Submitted to ICLR 2026` rejected submission with `mdate =
+2026-02-11T10:13:54Z`. The supplementary attachment still returns `200` as
+`application/zip` with `Content-Length = 1783018`; the temporary ZIP recheck
+has SHA-256
+`567ac598eefc849c9dfdd95c26be24bd6b7349c72843e210b56cce2f67969045`, `79`
+entries, and `5,117,651` uncompressed bytes.
+
+Entry scanning still finds code, duplicated member split `.npz` manifests, and
+training utility score modules only. It does not expose checkpoint files,
+`pos_result.npy` / `neg_result.npy`, row-level score exports, ROC CSVs, metric
+JSON, generated sample packets, or a ready verifier. Decision:
+`bounded public recheck / unchanged watch-plus / checkpoint-and-score-packets
+missing / no download / no GPU release / no admitted row`. Current slots remain
+`active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after FMIA OpenReview bounded recheck`. See
+[docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md](docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md).
+
 ## 2026-05-23 CLiD / CopyMark Metadata Recheck
 
 Lane A did a bounded metadata recheck instead of opening another reproduction
