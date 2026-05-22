@@ -5,6 +5,16 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[ROADMAP.md](../../ROADMAP.md)
+now treats `Current Long-Horizon State` as the single active three-slot source
+of truth after the PR `#267` current-state dedupe and PR `#268` steering
+priority clarification. This is a roadmap operating-system update, not a new
+candidate check: no download, CPU/GPU sidecar, Platform row, Runtime schema, or
+admitted row is selected. Latest slots remain `active_gpu_question = none`,
+`next_gpu_candidate = none`, and
+`CPU sidecar = none selected after Discrete DLM withdrawn artifact gate`.
+
+Previous Research update:
 [discrete-dlm-withdrawn-artifact-gate-20260523.md](discrete-dlm-withdrawn-artifact-gate-20260523.md)
 records a Lane B/watch metadata gate for arXiv `2605.16445` /
 `Membership Inference Attacks on Discrete Diffusion Language Models`. The
