@@ -26,6 +26,10 @@ Follow-up queue sync updates
 `Active` section point to the same `eidetic` false-positive closure instead of
 the older ReDiffuse provenance state; this is a roadmap operating-system sync,
 not a new candidate check.
+Follow-up evidence-index sync updates
+`docs/evidence/workspace-evidence-index.md` so its latest update also points
+to the same queue-state sync and the GitHub lightweight triage entry records
+five direct hits including `eidetic`, not the older four-hit state.
 See
 [docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md](docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md).
 
