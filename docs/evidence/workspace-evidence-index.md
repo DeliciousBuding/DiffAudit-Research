@@ -5,24 +5,35 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[guard-surgical-mitigation-artifact-gate-20260523.md](guard-surgical-mitigation-artifact-gate-20260523.md)
+records a Lane A/B metadata gate for arXiv `2603.00133` /
+`You Don't Need All That Attention: Surgical Memorization Mitigation in
+Text-to-Image Diffusion Models`. The official `kairanzhao/GUARD` repository is
+code-public, MIT-licensed, and exposes inference, detection, mask-generation,
+metric, and vendored `open_clip` code for the `sdv1_500_mem` Stable Diffusion
+memorization benchmark. It remains mitigation context rather than a current
+DiffAudit execution target: the public release points users to Google Drive
+benchmark assets and local Stable Diffusion/reference-model execution, but no
+checkpoint-bound target identity, immutable row manifest, generated response
+packet, pre/post GUARD score rows, ROC arrays, metric JSON, retained-utility
+artifact, or no-training verifier is public. Decision: `official code-public
+mitigation watch / no score artifacts / no download / no GPU release / no
+admitted row`.
+
+Previous Research update:
 [baf-lora-parameter-space-mitigation-gate-20260523.md](baf-lora-parameter-space-mitigation-gate-20260523.md)
 records a Lane A/B metadata gate for arXiv `2605.10439` /
 `Filtering Memorization from Parameter-Space in Diffusion Models`. This is a
 weight-only LoRA memorization-mitigation watch item: the paper proposes
 Base-Anchored Filtering (`BAF`), a post-hoc, training-free, data-free method
 that decomposes LoRA updates into spectral channels and suppresses weakly
-backbone-aligned channels as possible memorization carriers. The public
-surface is supplementary-code-claim-only: arXiv HTML says code is in
-supplementary material and arXiv source `HEAD` reports a `5,785,836` byte gzip
-with SHA-256 ETag
-`1d10717f5eb4f9ea99d8f36ce0d044e68a937aa88376af20c9d2000a04f6904a`, but the
-source tarball and supplement were not downloaded; GitHub exact-title,
-arXiv-id, `Base-Anchored Filtering`, and BAF/LoRA/memorization searches expose
-no official public repository, target LoRA/checkpoint bundle, training-image
-manifest, member/nonmember rows, generated response packet, score file, ROC
-array, metric JSON, retained-utility artifact, or verifier. Decision:
-`weight-only LoRA mitigation watch / supplementary-code claim only / no public
-score artifacts / no download / no GPU release / no admitted row`.
+backbone-aligned channels as possible memorization carriers. The public surface
+is supplementary-code-claim-only: no official public repository, target
+LoRA/checkpoint bundle, training-image manifest, member/nonmember rows,
+generated response packet, score file, ROC array, metric JSON, retained-utility
+artifact, or verifier is public. Decision: `weight-only LoRA mitigation watch /
+supplementary-code claim only / no public score artifacts / no download / no GPU
+release / no admitted row`.
 
 Previous Research update:
 [broken-memories-artifact-gate-20260523.md](broken-memories-artifact-gate-20260523.md)
@@ -253,7 +264,7 @@ product-copy, recommendation, download, CPU sidecar, or GPU change was released.
 | Implementation | [workspaces/implementation/README.md](../../workspaces/implementation/README.md), [challenger-queue.md](../../workspaces/implementation/challenger-queue.md), [daily-research-review-20260515.md](daily-research-review-20260515.md), [daily-research-review-20260513.md](daily-research-review-20260513.md), [../product-bridge/clid-candidate-evidence-card.md](../product-bridge/clid-candidate-evidence-card.md), [../product-bridge/tracing-roots-candidate-evidence-card.md](../product-bridge/tracing-roots-candidate-evidence-card.md) | Shared CLI, schemas, queue state, CLiD and Tracing Roots candidate-only evidence cards, daily slot reviews, and research operations. |
 | I-A / consumer boundary | [admitted-consumer-drift-audit-20260515.md](admitted-consumer-drift-audit-20260515.md), [cross-modal-watch-consumer-boundary-20260515.md](cross-modal-watch-consumer-boundary-20260515.md), [cross-modal-watch-consumer-boundary-20260514.md](cross-modal-watch-consumer-boundary-20260514.md), [paperization-consumer-boundary-20260513.md](paperization-consumer-boundary-20260513.md), [admitted-consumer-drift-audit-20260512.md](admitted-consumer-drift-audit-20260512.md), [ia-finite-tail-adaptive-boundary-audit-20260511.md](ia-finite-tail-adaptive-boundary-audit-20260511.md), [admitted-results-summary.md](admitted-results-summary.md), [../product-bridge/README.md](../product-bridge/README.md), [../product-bridge/clid-candidate-evidence-card.md](../product-bridge/clid-candidate-evidence-card.md), [../product-bridge/tracing-roots-candidate-evidence-card.md](../product-bridge/tracing-roots-candidate-evidence-card.md) | 2026-05-15 admitted no-drift audit, cross-modal watch boundary including DurMI TTS and LSA-Probe music/audio, CLiD and Tracing Roots candidate-only evidence cards, finite-tail, adaptive-language, paperization limitation, and admitted/candidate boundary status. |
 | FMIA / frequency watch | [fmia-openreview-frequency-artifact-gate-20260515.md](fmia-openreview-frequency-artifact-gate-20260515.md) | 2026-05-23 bounded OpenReview recheck confirmed the same small official supplement: version `2` rejected ICLR 2026 submission, `1,783,018` byte ZIP, SHA-256 `567ac598eefc849c9dfdd95c26be24bd6b7349c72843e210b56cce2f67969045`, `79` entries, code and split manifests present, but no checkpoints, generated samples, row-level score exports, ROC CSVs, metric JSON, or ready verifier; FMIA remains watch-plus only with no download, no GPU/CPU sidecar, and no Platform/Runtime admission. |
-| Watch candidates / consumer boundary | [broken-memories-artifact-gate-20260523.md](broken-memories-artifact-gate-20260523.md), [iar-privacy-attacks-artifact-gate-20260523.md](iar-privacy-attacks-artifact-gate-20260523.md), [discrete-dlm-withdrawn-artifact-gate-20260523.md](discrete-dlm-withdrawn-artifact-gate-20260523.md), [hyperfree-secmi-reproduction-gate-20260515.md](hyperfree-secmi-reproduction-gate-20260515.md), [dme-dual-model-entropy-artifact-gate-20260515.md](dme-dual-model-entropy-artifact-gate-20260515.md), [fremia-frequency-filter-artifact-gate-20260515.md](fremia-frequency-filter-artifact-gate-20260515.md), [copymark-official-score-artifact-gate-20260515.md](copymark-official-score-artifact-gate-20260515.md), [diffusion-memorization-asset-gate-20260515.md](diffusion-memorization-asset-gate-20260515.md), [memorization-anisotropy-artifact-gate-20260515.md](memorization-anisotropy-artifact-gate-20260515.md), [watch-candidate-consumer-boundary-20260513.md](watch-candidate-consumer-boundary-20260513.md) | Broken Memories, IAR Privacy Attacks, Discrete DLM, Hyperparameter-free SecMI, DME, FreMIA, CopyMark score artifacts, Diffusion Memorization, Memorization Anisotropy, and older watch candidates remain Research-only watch / support / semantic-shift / paper-source-only / artifact-incomplete states unless a future reviewed promotion occurs. |
+| Watch candidates / consumer boundary | [guard-surgical-mitigation-artifact-gate-20260523.md](guard-surgical-mitigation-artifact-gate-20260523.md), [baf-lora-parameter-space-mitigation-gate-20260523.md](baf-lora-parameter-space-mitigation-gate-20260523.md), [broken-memories-artifact-gate-20260523.md](broken-memories-artifact-gate-20260523.md), [iar-privacy-attacks-artifact-gate-20260523.md](iar-privacy-attacks-artifact-gate-20260523.md), [discrete-dlm-withdrawn-artifact-gate-20260523.md](discrete-dlm-withdrawn-artifact-gate-20260523.md), [hyperfree-secmi-reproduction-gate-20260515.md](hyperfree-secmi-reproduction-gate-20260515.md), [dme-dual-model-entropy-artifact-gate-20260515.md](dme-dual-model-entropy-artifact-gate-20260515.md), [fremia-frequency-filter-artifact-gate-20260515.md](fremia-frequency-filter-artifact-gate-20260515.md), [copymark-official-score-artifact-gate-20260515.md](copymark-official-score-artifact-gate-20260515.md), [diffusion-memorization-asset-gate-20260515.md](diffusion-memorization-asset-gate-20260515.md), [memorization-anisotropy-artifact-gate-20260515.md](memorization-anisotropy-artifact-gate-20260515.md), [watch-candidate-consumer-boundary-20260513.md](watch-candidate-consumer-boundary-20260513.md) | GUARD, BAF, Broken Memories, IAR Privacy Attacks, Discrete DLM, Hyperparameter-free SecMI, DME, FreMIA, CopyMark score artifacts, Diffusion Memorization, Memorization Anisotropy, and older watch candidates remain Research-only watch / support / semantic-shift / paper-source-only / artifact-incomplete states unless a future reviewed promotion occurs. |
 | Intake | [workspaces/intake/README.md](../../workspaces/intake/README.md) | Candidate intake and archived paper-backed scouting. |
 | Runtime | [workspaces/runtime/README.md](../../workspaces/runtime/README.md) | Research-side runtime contract notes. |
 
