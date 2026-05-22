@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Model Will Tell DRC artifact gate completed; latest candidate verdict is paper-source-only restoration-prior watch` |
+| Active work | `Trajectory Generation Privacy artifact gate completed; latest candidate verdict is cross-domain trajectory paper-source-only watch with weak diffusion trajectory MIA` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Model Will Tell DRC artifact gate |
+| CPU sidecar | none selected after trajectory generation privacy artifact gate |
 | Gray-box status | PIA remains admitted; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| Trajectory Generation Privacy | trajectory/mobility / Lane A-watch | cross-domain paper-source-only watch | arXiv `2605.15246` evaluates MIA against LSTM-TrajGAN, MoveSim, DiffTraj, and Diff-RNTraj; the diffusion trajectory rows are near random (`0.5012` and `0.4949` AUC-ROC), while the only positive table value is GAN MoveSim `AUC-ROC = 0.7002` | arXiv source tarball has only LaTeX material; exact-title, arXiv-id, author/title, and trajectory-generation GitHub repo/code searches returned no official hits; no trajectory checkpoint, immutable member/nonmember manifest, generated trajectory packet, score rows, ROC arrays, metric JSON, or verifier | keep as cross-domain boundary evidence only; do not download Foursquare/GeoLife/DiDi data, generated trajectories, model checkpoints, or preprocessing assets; do not implement trajectory MIA or promote Platform/Runtime rows unless a trajectory consumer boundary and row-bound artifacts appear |
 | Model Will Tell / DRC | black-box/restoration / Lane A-B | paper-source-only restoration-prior watch | arXiv `2403.08487` proposes Degrade Restore Compare: degrade an image, restore it with the target diffusion model, and compare semantic similarity to the original; paper tables report CelebA `AUC = 0.989`, `TPR@1%FPR = 80.46%`, and `TPR@0.1%FPR = 54.52%` | arXiv source tarball has only TeX/style/bibliography/figure files; the paper says authors intend to release code but gives no official code URL; exact-title, DRC phrase, author-name, and arXiv-id GitHub repo/code searches returned no official hits; no target checkpoint, immutable split manifest, restored response packet, score rows, ROC arrays, metric JSON, or verifier | keep as Research-only mechanism watch; do not download Cifar10/Cifar100/CelebA/FFHQ/model/checkpoint assets, implement DRC, run restoration, launch CPU/GPU sidecars, or promote Platform/Runtime rows unless row-bound public artifacts appear |
 | Discrete DLM withdrawn paper | text/DLM / Lane B-watch | withdrawn paper-source-only | arXiv `2605.16445` reports Masked Diffusion Language Model membership metrics in the abstract, including MIMIR-domain mean `AUC = 0.878`, peak `AUC = 0.930`, and `K = 3` shadow-transfer mean `AUC = 0.858` | current arXiv record is withdrawn with no current PDF; comments say citations/co-authors need verification; exact-title and topic-style GitHub repo searches returned no repositories; code search for `2605.16445` returned no hits; no official code, target checkpoint, immutable text split manifest, score rows, ROC arrays, metric JSON, or verifier | keep as Research-only watch signal; do not download MIMIR, MDLM checkpoints, language weights, tokenizers, or text datasets; do not implement reconstruction-loss/XGBoost/MLP features or open a text/DLM sidecar unless a corrected paper, artifacts, and consumer-boundary decision appear |
 | Stable Diffusion ReDiffuse collaborator artifact | black-box / Lane A | collaborator-local candidate-only artifact | imported `5000`-row `2500 / 2500` result packet replays to `AUC = 0.710319`, `ASR = 0.6846`; holdout bundle reports `test_auc = 0.704604`; new `probe-rediffuse-sd-artifacts` CLI path now audits the packet without rerun | not a public immutable replay packet; member side is a LAION-like repeatable subset rather than the exact paper LAION-5B split; boundary is local-model-query black-box rather than strict external API-only; missing COCO payload is not needed for audit but blocks a fresh end-to-end reproduction | keep as candidate-only black-box evidence; do not request `coco_data`, do not download Stable Diffusion weights, do not rerun `2500 / 2500`, and do not promote Platform/Runtime rows unless public-asset and product-boundary gaps are resolved |
@@ -81,9 +82,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Model Will Tell / DRC Metadata Idle State
+### Trajectory Generation Privacy Metadata Idle State
 
-- `mode`: post-Model-Will-Tell DRC artifact gate after the roadmap
+- `mode`: post-trajectory-generation privacy artifact gate after Model Will Tell
+  DRC, roadmap
   current-state cleanup, Discrete DLM withdrawn artifact gate, Eidetic
   lightweight triage sync, ReDiffuse raw transfer
   provenance recheck, FMIA OpenReview bounded recheck, CLiD / CopyMark metadata
@@ -93,8 +95,23 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   FreMIA, VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy
   Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
   diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest candidate verdict is the Model Will Tell / DRC
-  artifact gate, not a reproduction branch. arXiv `2403.08487` /
+- `status`: The latest candidate verdict is the Trajectory Generation Privacy
+  artifact gate, not a reproduction branch. arXiv `2605.15246` /
+  `Privacy Evaluation of Generative Models for Trajectory Generation` is
+  cross-domain trajectory/mobility privacy evidence, not a current image or
+  latent-image asset. It evaluates LSTM-TrajGAN, MoveSim, DiffTraj, and
+  Diff-RNTraj. The two diffusion trajectory rows are near random
+  (`AUC-ROC = 0.5012` and `0.4949`), and the only clearly positive table value
+  is GAN MoveSim (`AUC-ROC = 0.7002`). The arXiv source tarball has only
+  LaTeX material, and exact-title, arXiv-id, author/title, and
+  trajectory-generation GitHub repository/code searches returned no official
+  code, score, or artifact hits. No trajectory model checkpoint, immutable
+  member/nonmember manifest, generated trajectory packet, score rows, ROC
+  arrays, metric JSON, or verifier is public. The decision is:
+  cross-domain trajectory paper-source-only watch, diffusion trajectory MIA
+  weak, no code-score artifact, no download, no CPU/GPU sidecar, no Platform
+  row, and no Runtime schema. The previous candidate verdict is the Model Will
+  Tell / DRC artifact gate. arXiv `2403.08487` /
   `Model Will Tell: Training Membership Inference for Diffusion Models`
   proposes Degrade Restore Compare, a restoration-prior signal that degrades an
   image, restores it with the target diffusion model, and compares semantic
