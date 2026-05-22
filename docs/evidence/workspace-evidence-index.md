@@ -5,6 +5,26 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[baf-lora-parameter-space-mitigation-gate-20260523.md](baf-lora-parameter-space-mitigation-gate-20260523.md)
+records a Lane A/B metadata gate for arXiv `2605.10439` /
+`Filtering Memorization from Parameter-Space in Diffusion Models`. This is a
+weight-only LoRA memorization-mitigation watch item: the paper proposes
+Base-Anchored Filtering (`BAF`), a post-hoc, training-free, data-free method
+that decomposes LoRA updates into spectral channels and suppresses weakly
+backbone-aligned channels as possible memorization carriers. The public
+surface is supplementary-code-claim-only: arXiv HTML says code is in
+supplementary material and arXiv source `HEAD` reports a `5,785,836` byte gzip
+with SHA-256 ETag
+`1d10717f5eb4f9ea99d8f36ce0d044e68a937aa88376af20c9d2000a04f6904a`, but the
+source tarball and supplement were not downloaded; GitHub exact-title,
+arXiv-id, `Base-Anchored Filtering`, and BAF/LoRA/memorization searches expose
+no official public repository, target LoRA/checkpoint bundle, training-image
+manifest, member/nonmember rows, generated response packet, score file, ROC
+array, metric JSON, retained-utility artifact, or verifier. Decision:
+`weight-only LoRA mitigation watch / supplementary-code claim only / no public
+score artifacts / no download / no GPU release / no admitted row`.
+
+Previous Research update:
 [broken-memories-artifact-gate-20260523.md](broken-memories-artifact-gate-20260523.md)
 records a Lane A metadata gate for arXiv `2605.22050` /
 `Broken Memories: Detecting and Mitigating Memorization in Diffusion Models
