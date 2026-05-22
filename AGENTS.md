@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `GUARD surgical mitigation artifact gate completed after BAF, Broken Memories, and IAR Privacy Attacks. arXiv 2603.00133 / You Don't Need All That Attention: Surgical Memorization Mitigation in Text-to-Image Diffusion Models is official code-public memorization-mitigation evidence. The public kairanzhao/GUARD repo is MIT-licensed and exposes scripts for sdv1_500_mem inference, detection, mask generation, metrics helpers, and vendored open_clip code, but it ships no checkpoint-bound target package, immutable row manifest, generated response packet, pre/post mitigation score rows, ROC arrays, metric JSON, retained-utility artifact, or verifier. Decision: official code-public mitigation watch / no score artifacts / no download / no GPU release / no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after GUARD surgical mitigation artifact gate.`
+- Active work: `RAPTA / ADMCD copying-mitigation artifact gate completed after GUARD, BAF, Broken Memories, and IAR Privacy Attacks. arXiv 2603.13070 / Mitigating Memorization in Text-to-Image Diffusion via Region-Aware Prompt Augmentation and Multimodal Copy Detection is paper-source-only copying / memorization mitigation evidence. The public surface exposes arXiv HTML and source availability, but no official code, target checkpoint bundle, copied/non-copied or member/nonmember row manifest, generated response packet, per-row ADMCD scores, ROC arrays, metric JSON, retained-utility artifact, or verifier. Decision: paper-source-only copying / memorization mitigation watch / no official code / no score artifacts / no download / no GPU release / no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after RAPTA / ADMCD copying-mitigation artifact gate.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -431,6 +431,19 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   logging, or mitigation sweeps; do not promote it into Platform/Runtime rows
   unless public row-bound pre/post mitigation artifacts and a reviewed
   memorization-mitigation consumer boundary appear.
+- RAPTA / ADMCD / arXiv `2603.13070` is a paper-source-only copying /
+  memorization mitigation watch item. The arXiv page exposes title, abstract,
+  authors, and TeX source availability, but no official implementation
+  repository, target checkpoint bundle, copied/non-copied or member/nonmember
+  row manifest, generated response packet, per-row ADMCD scores, ROC arrays,
+  metric JSON, retained-utility artifact, or ready verifier is public. Do not
+  download the arXiv source/PDF, generated images, training data, detector
+  assets, Stable Diffusion weights, checkpoints, or inferred code archives; do
+  not implement RAPTA or ADMCD from the paper, train/fine-tune targets, run
+  object detection, generate images, fit copy detectors, launch CPU/GPU
+  sidecars, or promote it into Platform/Runtime rows unless public row-bound
+  copying/memorization artifacts and a reviewed copying/memorization consumer
+  boundary appear.
 - `HailongHuPri/MIDM` is an image-diffusion watch-plus candidate with concrete
   FFHQ DDPM loss/likelihood attack code, `ffhq_1000_idx.npy` member-index
   semantics, `1000/1000` labels in `Example.ipynb`, and fixed-FPR TPR metric
