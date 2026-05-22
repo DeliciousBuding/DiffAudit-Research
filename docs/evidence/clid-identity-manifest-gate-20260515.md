@@ -15,6 +15,15 @@ authenticated HEAD/Range probes against the gated dataset ZIP. It did not
 download `mia_COCO.zip`, images, Stable Diffusion weights, target/shadow
 checkpoints, generated outputs, or any GPU artifact.
 
+2026-05-23 access recheck: the local Hugging Face token is still present, and
+`HfApi().dataset_info("zsf/COCO_MIA_ori_split1")` still reads the dataset at
+sha `4af0207c955c893a49b7c2970db5ada414b37ed2` with siblings
+`.gitattributes`, `README.md`, and `mia_COCO.zip`. An authenticated
+`Range: bytes=0-1023` request to `mia_COCO.zip` returned `403` with the message
+prefix `Access to dataset zsf/COCO_MIA_ori_split1 is restricted and you are not
+in the authorized list`. The ZIP central directory and any internal manifest
+remain uninspectable without dataset access; no payload was downloaded.
+
 ## Public Surface Checked
 
 | Surface | Evidence |
@@ -28,8 +37,8 @@ checkpoints, generated outputs, or any GPU artifact.
 | HF dataset | `zsf/COCO_MIA_ori_split1`, `private=false`, `gated=auto`, `sha=4af0207c955c893a49b7c2970db5ada414b37ed2`, `lastModified=2025-01-04T07:57:18.000Z` |
 | HF siblings | `.gitattributes` (`2,307` bytes), `README.md` (`871` bytes), `mia_COCO.zip` (`1,620,731,171` byte LFS object, `sha256=7b78861d38b07a9593f2615418ccde8b8d06cd9d8a6990496169a7d7a89ee587`) |
 | HF storage | `usedStorage=4,873,649,351` bytes |
-| Auth state | `hf auth whoami` in `diffaudit-research` confirmed an authenticated user |
-| ZIP access with auth | authenticated `HEAD` and `Range: bytes=0-1023` returned `403 Forbidden`; unauthenticated probes returned `401 Unauthorized` |
+| Auth state | `hf auth whoami` in `diffaudit-research` confirmed an authenticated user on 2026-05-15; `huggingface_hub.get_token()` confirmed a local token on 2026-05-23 |
+| ZIP access with auth | authenticated `HEAD` and `Range: bytes=0-1023` returned `403 Forbidden`; 2026-05-23 authenticated range recheck returned `403` with `restricted` / `not in the authorized list`; unauthenticated probes returned `401 Unauthorized` |
 
 ## Row Identity Findings
 
@@ -73,6 +82,9 @@ because the skipped first line is also numeric, not a header.
 - Because authenticated HEAD/Range requests returned `403`, this cycle could
   not list the ZIP central directory or inspect whether it contains metadata
   files without downloading the dataset.
+- The 2026-05-23 authenticated range recheck confirms this is still an access
+  authorization blocker, not a missing local login or a need for a large
+  download.
 
 ## Decision
 

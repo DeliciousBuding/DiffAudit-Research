@@ -12,7 +12,8 @@
 | `pia_adapter.py` | `PIA` 的 runtime probe、runtime smoke、synthetic smoke |
 | `clid.py` | `CLiD` 的 planner、asset probe、dry-run、artifact summary |
 | `rediffuse.py` | collaborator `DDIM ReDiffuse` CIFAR10 bundle 的 asset probe |
-| `rediffuse_sd.py` | collaborator `Stable Diffusion ReDiffuse` 结果包的 artifact probe |
+| `rediffuse_sd.py` | collaborator `Stable Diffusion ReDiffuse` 的结果包 probe、bundle probe、单图评分包装器 |
+| `copymark_laion_mi.py` | public `CopyMark + laion_mi` row-binding gate |
 | `recon.py` | reconstruction-based 纯黑盒主线 |
 | `variation.py` | API-only black-box variation 主线 |
 | `registry.py` | 统一 planner 注册表 |
@@ -23,6 +24,11 @@
 
 - `clid`
 - `rediffuse_sd.py`
+  - `probe-rediffuse-sd-artifacts`
+  - `probe-rediffuse-sd-assets`
+  - `score-rediffuse-sd-image`
+- `copymark_laion_mi.py`
+  - `probe-copymark-laion-mi-assets`
 - `recon`
 - `variation`
 

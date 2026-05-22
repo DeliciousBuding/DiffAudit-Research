@@ -18,6 +18,19 @@ small committed `.pth` score tensors for shape checks. No Hugging Face
 `datasets.zip`, image payload, model weight, checkpoint folder, full repository
 clone, training run, inference run, or GPU work was used.
 
+2026-05-23 bounded recheck: `diffusers/experiments/laion_ridar/` still exposes
+only support-layer artifacts for this gate: two `27,440,128` byte feature
+arrays, `laion_ridar_image_log.json`, identical test image log content,
+aggregate `laion_ridar_score_result*.json`, runtime metadata, and an XGBoost
+model. The test score JSON has keys `TPR_at_1_threshold`,
+`FPR_at_1_threshold`, `TPR_at_01_threshold`, `FPR_at_01_threshold`, `AUROC`,
+`TPR`, `FPR`, and `threshold`; it reports `AUROC = 0.872134768572823`, but no
+per-row score field. The image log has `10000` members and `10000` nonmembers,
+with first member filenames `0.png`, `3.png`, `4.png` and first nonmember
+filenames `0.png`, `1.png`, `3.png`. This confirms the prior decision: useful
+official support evidence, not a compact row-bound score packet or admitted
+asset.
+
 ## Public Surface
 
 | Field | Value |
@@ -115,6 +128,13 @@ The `mixing` eval artifacts are also useful as official trend evidence:
 PIA sum AUC rises from `0.668904` at `coco0_laion100_plus` to `0.745244` at
 `coco75_laion25_plus`; SecMI 50th AUC rises from `0.660715` to `0.691905`.
 Those files are evaluation-side threshold artifacts, not final test outputs.
+
+The 2026-05-23 `laion_ridar` recheck does not change the artifact class. Its
+public result JSON is a ROC/threshold curve with `10000` threshold points, not
+a per-sample score table. The paired image log records member/nonmember
+filenames, but there is still no committed manifest that joins filename,
+member role, model/checkpoint identity, and per-row score in one reusable
+contract.
 
 ## Gate Result
 
