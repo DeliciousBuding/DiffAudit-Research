@@ -83,6 +83,46 @@ def build_parser() -> argparse.ArgumentParser:
     )
     rediffuse_sd_artifact_probe_parser.add_argument("--artifact-dir", required=True)
 
+    rediffuse_sd_asset_probe_parser = subparsers.add_parser(
+        "probe-rediffuse-sd-assets",
+        help="inspect collaborator Stable Diffusion ReDiffuse source, detector, and artifact readiness",
+    )
+    rediffuse_sd_asset_probe_parser.add_argument("--bundle-root", default=None)
+    rediffuse_sd_asset_probe_parser.add_argument("--artifact-dir", default=None)
+    rediffuse_sd_asset_probe_parser.add_argument("--detector-json", default=None)
+    rediffuse_sd_asset_probe_parser.add_argument("--score-npz", default=None)
+    rediffuse_sd_asset_probe_parser.add_argument("--validation-json", default=None)
+
+    rediffuse_sd_score_parser = subparsers.add_parser(
+        "score-rediffuse-sd-image",
+        help="run the collaborator Stable Diffusion ReDiffuse single-image score script through DiffAudit",
+    )
+    rediffuse_sd_score_parser.add_argument("--bundle-root", default=None)
+    rediffuse_sd_score_parser.add_argument("--artifact-dir", default=None)
+    rediffuse_sd_score_parser.add_argument("--detector-json", default=None)
+    rediffuse_sd_score_parser.add_argument("--score-npz", default=None)
+    rediffuse_sd_score_parser.add_argument("--python-exe", default=None)
+    rediffuse_sd_score_parser.add_argument("--image", required=True)
+    rediffuse_sd_score_parser.add_argument("--prompt", required=True)
+    rediffuse_sd_score_parser.add_argument(
+        "--feature-plan",
+        default="a2_a5_combined",
+        choices=["a2_avg3", "a5_avg3", "a2_a5_combined"],
+    )
+    rediffuse_sd_score_parser.add_argument("--checkpoint", default="CompVis/stable-diffusion-v1-4")
+    rediffuse_sd_score_parser.add_argument("--torch-dtype", default="auto")
+    rediffuse_sd_score_parser.add_argument("--output-json", default=None)
+    rediffuse_sd_score_parser.add_argument("--dry-run", action="store_true")
+
+    copymark_laion_mi_probe_parser = subparsers.add_parser(
+        "probe-copymark-laion-mi-assets",
+        help="inspect whether public CopyMark laion_mi artifacts can be rebound to public row identities",
+    )
+    copymark_laion_mi_probe_parser.add_argument("--package-root", default=None)
+    copymark_laion_mi_probe_parser.add_argument("--member-parquet", default=None)
+    copymark_laion_mi_probe_parser.add_argument("--member-image-log", default=None)
+    copymark_laion_mi_probe_parser.add_argument("--member-script", default=None)
+
     clid_asset_probe_parser = subparsers.add_parser(
         "probe-clid-assets",
         help="inspect CLiD asset readiness without importing the runtime",
