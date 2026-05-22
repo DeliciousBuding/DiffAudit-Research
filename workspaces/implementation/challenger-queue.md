@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `ReDiffuse raw transfer provenance recheck completed after FMIA OpenReview bounded recheck` |
+| Active work | `Eidetic lightweight triage sync completed after ReDiffuse raw transfer provenance recheck` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after ReDiffuse raw transfer provenance recheck |
+| CPU sidecar | none selected after GitHub lightweight diffusion MIA triage |
 | Gray-box status | PIA remains admitted; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
@@ -79,30 +79,35 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-ReDiffuse / FMIA / CLiD / CopyMark Metadata Idle State
+### Post-Eidetic / ReDiffuse / FMIA / CLiD / CopyMark Metadata Idle State
 
-- `mode`: post-ReDiffuse raw transfer provenance recheck after the FMIA
-  OpenReview bounded recheck, CLiD / CopyMark metadata recheck, CopyMark
-  `laion_mi` public binding gate, Stable Diffusion ReDiffuse collaborator
-  artifact audit, Structural MIA T2I, Rectified Flow MIA, public metadata
-  sweep, CPSample, DSiRe / LoRA-WiSE, hyperparameter-free SecMI, DME, FreMIA,
-  VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy Leakage
-  TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
+- `mode`: post-Eidetic lightweight triage sync after the ReDiffuse raw transfer
+  provenance recheck, FMIA OpenReview bounded recheck, CLiD / CopyMark metadata
+  recheck, CopyMark `laion_mi` public binding gate, Stable Diffusion ReDiffuse
+  collaborator artifact audit, Structural MIA T2I, Rectified Flow MIA, public
+  metadata sweep, CPSample, DSiRe / LoRA-WiSE, hyperparameter-free SecMI, DME,
+  FreMIA, VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy
+  Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
   diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest repository verdict is a provenance closure for the
-  collaborator Stable Diffusion ReDiffuse bundle, not a new experiment. The
-  two original chat attachments were rechecked: the full transfer ZIP is
-  `512,403,674` bytes with SHA-256
+- `status`: The latest repository verdict is the `hackerman70000/eidetic`
+  lightweight metadata sync, not a new experiment. `eidetic` is a small
+  code-only Carlini-style extraction/MIA toolkit at commit
+  `1aa786bd6e6c39af1da1ac3581e1835f9b55b2ee`; its README reports CIFAR-10
+  Strong-LiRA metrics, but the repo commits no shadow checkpoints, immutable
+  split manifest, per-row scores, ROC arrays, metric JSON, generated response
+  packet, or ready verifier. Its experiment path downloads CIFAR-10 and
+  requires local `checkpoints/shadow/*.pt`. The decision is unchanged:
+  lightweight GitHub false-positive, no artifact packet, no download, no
+  CPU/GPU sidecar, no Platform row, and no Runtime schema. The previous
+  provenance verdict is the collaborator Stable Diffusion ReDiffuse transfer:
+  the full transfer ZIP is `512,403,674` bytes with SHA-256
   `3b2f6ea09ce7d9ece4957ec635bac322e0b545b833f1d902f46abbf44f6fef73`, and
   `artifacts.zip` is `349,479` bytes with SHA-256
   `1cb085e1df5c6f305f8af5562be51bf7af7277fd2fa8467c5ce401ed56aff447`.
-  `artifacts.zip` is only the already-imported final
-  `metrics/result/ROC` subset. Current-state probes still return `ready` for
-  `probe-rediffuse-sd-artifacts` and `probe-rediffuse-sd-assets`; the imported
-  `5000`-row `2500 / 2500` packet still recomputes to `AUC = 0.710319`,
-  `ASR = 0.6846`, `TPR@1%FPR = 0.0736`, and `TPR@0.1%FPR = 0.0100`. The
-  decision is unchanged: candidate-only, no new download, no GPU release, no
-  Platform row, and no Runtime schema. The previous watch verdict is the FMIA
+  `artifacts.zip` is only the already-imported final `metrics/result/ROC`
+  subset, and the imported `5000`-row `2500 / 2500` packet still recomputes to
+  `AUC = 0.710319`, `ASR = 0.6846`, `TPR@1%FPR = 0.0736`, and
+  `TPR@0.1%FPR = 0.0100`. The previous watch verdict is the FMIA
   OpenReview bounded recheck. FMIA still has official frequency-filter code and
   split manifests, but no checkpoints, score arrays, ROC/metric artifacts,
   generated samples, or ready verifier. The latest metadata verdict before
