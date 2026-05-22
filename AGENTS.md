@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `BAF LoRA parameter-space mitigation gate completed after Broken Memories and IAR Privacy Attacks. arXiv 2605.10439 / Filtering Memorization from Parameter-Space in Diffusion Models is fresh weight-only LoRA memorization-mitigation evidence. It proposes Base-Anchored Filtering, a post-hoc, training-free, data-free defense that decomposes LoRA updates into spectral channels and suppresses weakly backbone-aligned channels as possible memorization carriers. The public surface is supplementary-code-claim-only: arXiv source HEAD reports a 5,785,836 byte gzip with SHA-256 ETag 1d10717f5eb4f9ea99d8f36ce0d044e68a937aa88376af20c9d2000a04f6904a, but no official public repository, target LoRA/checkpoint bundle, training-image manifest, member/nonmember rows, generated response packet, per-row memorization score, ROC array, metric JSON, retained-utility artifact, or verifier was found. Decision: weight-only LoRA mitigation watch / supplementary-code claim only / no public score artifacts / no download / no GPU release / no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after BAF LoRA parameter-space mitigation gate.`
+- Active work: `GUARD surgical mitigation artifact gate completed after BAF, Broken Memories, and IAR Privacy Attacks. arXiv 2603.00133 / You Don't Need All That Attention: Surgical Memorization Mitigation in Text-to-Image Diffusion Models is official code-public memorization-mitigation evidence. The public kairanzhao/GUARD repo is MIT-licensed and exposes scripts for sdv1_500_mem inference, detection, mask generation, metrics helpers, and vendored open_clip code, but it ships no checkpoint-bound target package, immutable row manifest, generated response packet, pre/post mitigation score rows, ROC arrays, metric JSON, retained-utility artifact, or verifier. Decision: official code-public mitigation watch / no score artifacts / no download / no GPU release / no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after GUARD surgical mitigation artifact gate.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -419,6 +419,18 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   run mitigation sweeps, or promote it into Platform/Runtime rows unless public
   row-bound artifacts and a reviewed weight-only LoRA mitigation boundary
   appear.
+- GUARD / arXiv `2603.00133` is an official code-public surgical memorization
+  mitigation watch item. The `kairanzhao/GUARD` repo exposes mitigation and
+  metric scripts, but no checkpoint-bound defended/undefended target identity,
+  immutable `sdv1_500_mem` row manifest, generated image or internal-score
+  packet, pre/post mitigation score rows, ROC arrays, metric JSON,
+  retained-utility artifact, or ready verifier is public. Do not download the
+  arXiv source, GitHub archive, Google Drive assets, Stable Diffusion weights,
+  reference model weights, generated images, masks, or checkpoints; do not run
+  `detect_mem.py`, `inference_mem.py`, `generate_mask.py`, generation, W&B
+  logging, or mitigation sweeps; do not promote it into Platform/Runtime rows
+  unless public row-bound pre/post mitigation artifacts and a reviewed
+  memorization-mitigation consumer boundary appear.
 - `HailongHuPri/MIDM` is an image-diffusion watch-plus candidate with concrete
   FFHQ DDPM loss/likelihood attack code, `ffhq_1000_idx.npy` member-index
   semantics, `1000/1000` labels in `Example.ipynb`, and fixed-FPR TPR metric
