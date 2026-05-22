@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `RAPTA / ADMCD copying-mitigation artifact gate completed after GUARD, BAF, Broken Memories, and IAR Privacy Attacks. arXiv 2603.13070 / Mitigating Memorization in Text-to-Image Diffusion via Region-Aware Prompt Augmentation and Multimodal Copy Detection is paper-source-only copying / memorization mitigation evidence. The public surface exposes arXiv HTML and source availability, but no official code, target checkpoint bundle, copied/non-copied or member/nonmember row manifest, generated response packet, per-row ADMCD scores, ROC arrays, metric JSON, retained-utility artifact, or verifier. Decision: paper-source-only copying / memorization mitigation watch / no official code / no score artifacts / no download / no GPU release / no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after RAPTA / ADMCD copying-mitigation artifact gate.`
+- Active work: `Identity-Focused Inference / Extraction artifact gate completed after RAPTA / ADMCD, GUARD, BAF, Broken Memories, and IAR Privacy Attacks. arXiv 2410.10177 / Identity-Focused Inference and Extraction Attacks on Diffusion Models is paper-source-only identity-level privacy evidence. The public surface exposes arXiv metadata and source availability, but no official code, LDM / DDPM target checkpoint bundle, LFW / CelebA identity or member/nonmember manifest, generated response packet, per-row membership / identity scores, ROC arrays, metric JSON, retained-utility artifact, extraction-quality artifact, or verifier. Decision: paper-source-only identity-level inference / extraction watch / no official code / no score artifacts / no download / no GPU release / no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after Identity-Focused Inference / Extraction artifact gate.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -443,6 +443,20 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   object detection, generate images, fit copy detectors, launch CPU/GPU
   sidecars, or promote it into Platform/Runtime rows unless public row-bound
   copying/memorization artifacts and a reviewed copying/memorization consumer
+  boundary appear.
+- Identity-Focused Inference / arXiv `2410.10177` is a paper-source-only
+  identity-level privacy watch item. The arXiv page exposes title, abstract,
+  authors, and TeX source availability, but no official implementation
+  repository, LDM / DDPM checkpoint bundle, LFW / CelebA identity or
+  member/nonmember manifest, generated response packet, per-row membership /
+  identity scores, ROC arrays, metric JSON, extraction-quality artifact, or
+  ready verifier is public. Do not download the arXiv source/PDF, LFW / CelebA
+  images, generated images, training data, Stable Diffusion / LDM / DDPM
+  weights, checkpoints, or inferred code archives; do not implement identity
+  inference or extraction from the paper, scrape face datasets, train
+  face-generation targets, generate images, fit identity classifiers, launch
+  CPU/GPU sidecars, or promote it into Platform/Runtime rows unless public
+  row-bound identity/member artifacts and a reviewed identity-privacy consumer
   boundary appear.
 - `HailongHuPri/MIDM` is an image-diffusion watch-plus candidate with concrete
   FFHQ DDPM loss/likelihood attack code, `ffhq_1000_idx.npy` member-index
