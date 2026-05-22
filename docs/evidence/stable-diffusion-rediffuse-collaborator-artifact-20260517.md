@@ -36,6 +36,21 @@ exact paper LAION-5B member split, and the implementation uses a local
 Diffusers Stable Diffusion pipeline rather than an external `img2img` or
 variation endpoint.
 
+Raw transfer provenance was rechecked on 2026-05-23 from the original chat
+attachments without extracting new payloads into Git. The full transfer ZIP is
+`512,403,674` bytes with SHA-256
+`3b2f6ea09ce7d9ece4957ec635bac322e0b545b833f1d902f46abbf44f6fef73`,
+`2,558` entries, and `542,464,818` uncompressed bytes. The smaller
+`artifacts.zip` is `349,479` bytes with SHA-256
+`1cb085e1df5c6f305f8af5562be51bf7af7277fd2fa8467c5ce401ed56aff447`,
+`6` entries, and `1,566,286` uncompressed bytes; it is only the final
+`metrics.json` / `metrics.csv` / `result.csv` / `roc_curve.csv` /
+`roc_curve.png` subset already represented under
+`runs/final_rediffuse_combined/`. The existing imported manifest at
+`<DIFFAUDIT_ROOT>/Download/shared/supplementary/collaborator-stable-diffusion-rediffuse-20260516/manifest.json`
+remains the authoritative local subset manifest for the source tree, detector
+JSON, merged feature NPZ, and final result packet.
+
 ## Artifact Audit
 
 The new CLI command
@@ -81,6 +96,17 @@ Additional validation committed in the bundle:
 | --- | --- |
 | holdout JSON | `test_auc = 0.704604`, `test_asr = 0.701000`, `test_tpr_1fpr = 0.084000` |
 | five-fold summary | `mean_test_auc = 0.708036`, `std_test_auc = 0.011590` |
+
+The 2026-05-23 current-state probe still returns `ready` for both existing
+entrypoints:
+`python -m diffaudit probe-rediffuse-sd-artifacts --artifact-dir <imported-final-dir>`
+and
+`python -m diffaudit probe-rediffuse-sd-assets --bundle-root <imported-raw-dir>`.
+The artifact probe still reports `5,000` rows, a balanced `2,500 / 2,500`
+split, recomputed `AUC = 0.710319`, `ASR = 0.6846`,
+`TPR@1%FPR = 0.0736`, and `TPR@0.1%FPR = 0.0100`; the asset probe still
+confirms detector JSON, merged score NPZ, validation JSON, and source files are
+present and internally consistent.
 
 ## Usefulness
 

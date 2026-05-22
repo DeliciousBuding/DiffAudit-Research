@@ -2,6 +2,34 @@
 
 > Last updated: 2026-05-23
 
+## 2026-05-23 ReDiffuse Raw Transfer Provenance Recheck
+
+Lane A revisited the collaborator Stable Diffusion ReDiffuse transfer only to
+close the provenance loop on the two original chat attachments, not to reopen a
+new reproduction branch. The full transfer ZIP is `512,403,674` bytes with
+SHA-256
+`3b2f6ea09ce7d9ece4957ec635bac322e0b545b833f1d902f46abbf44f6fef73`,
+`2,558` entries, and `542,464,818` uncompressed bytes. The smaller
+`artifacts.zip` is `349,479` bytes with SHA-256
+`1cb085e1df5c6f305f8af5562be51bf7af7277fd2fa8467c5ce401ed56aff447`,
+`6` entries, and `1,566,286` uncompressed bytes; it is only the final
+`metrics.json` / `metrics.csv` / `result.csv` / `roc_curve.csv` /
+`roc_curve.png` subset already represented under `runs/final_rediffuse_combined/`.
+
+Current-state probes still return `ready` for
+`python -m diffaudit probe-rediffuse-sd-artifacts` and
+`python -m diffaudit probe-rediffuse-sd-assets` on the imported local subset.
+The existing `5000`-row `2500 / 2500` packet still recomputes to
+`AUC = 0.710319`, `ASR = 0.6846`, `TPR@1%FPR = 0.0736`, and
+`TPR@0.1%FPR = 0.0100`; detector JSON, merged score NPZ, validation JSON, and
+source files remain internally consistent. Decision:
+`raw transfer provenance closed / candidate-only unchanged / no download / no
+GPU release / no admitted row`. Current slots remain `active_gpu_question =
+none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after ReDiffuse raw transfer provenance recheck`.
+See
+[docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md](docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md).
+
 ## 2026-05-23 FMIA OpenReview Bounded Recheck
 
 Lane B/watch rechecked OpenReview `p9uryyZ5bw` / `Unveiling Impact of
