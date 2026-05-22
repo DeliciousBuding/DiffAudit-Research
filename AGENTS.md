@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Broken Memories artifact gate completed after IAR Privacy Attacks. arXiv 2605.22050 / Broken Memories: Detecting and Mitigating Memorization in Diffusion Models with Degraded Generations is fresh Stable Diffusion memorization detection/mitigation evidence with reported SD 1.4 AUC > 0.999, 0.0% post-mitigation memorization rate, and about 0.01s overhead. The public surface is paper-source-only: arXiv source HEAD reports a 24,383,310 byte gzip with SHA-256 ETag e860fea66b3b44ecaa80f001c8443740443711151958005fe11ae82ec1d70c9d, but no official repository, prompt manifest, generated image packet, internal trace, per-row score file, ROC array, metric JSON, mitigation-decision artifact, or verifier was found. Decision: memorization detection/mitigation semantic-shift watch / paper-source-only / no official code / no score artifacts / no download / no GPU release / no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after Broken Memories artifact gate.`
+- Active work: `BAF LoRA parameter-space mitigation gate completed after Broken Memories and IAR Privacy Attacks. arXiv 2605.10439 / Filtering Memorization from Parameter-Space in Diffusion Models is fresh weight-only LoRA memorization-mitigation evidence. It proposes Base-Anchored Filtering, a post-hoc, training-free, data-free defense that decomposes LoRA updates into spectral channels and suppresses weakly backbone-aligned channels as possible memorization carriers. The public surface is supplementary-code-claim-only: arXiv source HEAD reports a 5,785,836 byte gzip with SHA-256 ETag 1d10717f5eb4f9ea99d8f36ce0d044e68a937aa88376af20c9d2000a04f6904a, but no official public repository, target LoRA/checkpoint bundle, training-image manifest, member/nonmember rows, generated response packet, per-row memorization score, ROC array, metric JSON, retained-utility artifact, or verifier was found. Decision: weight-only LoRA mitigation watch / supplementary-code claim only / no public score artifacts / no download / no GPU release / no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after BAF LoRA parameter-space mitigation gate.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -409,6 +409,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   dataset payloads, SD-v1.5 base model, LoRA checkpoints, generated images, or
   logs; do not train MP-LoRA/SMP-LoRA or promote it into Platform/Runtime
   defense rows unless public checkpoint-bound score artifacts appear.
+- BAF / arXiv `2605.10439` is a weight-only LoRA memorization-mitigation watch
+  item. The public arXiv page says code is in supplementary material, but no
+  official public repository, target LoRA/checkpoint bundle, training-image
+  manifest, member/nonmember rows, generated responses, score/ROC/metric
+  artifacts, retained-utility artifact, or ready verifier is public. Do not
+  download the arXiv source/supplement, LoRA weights, SD base weights, training
+  images, generated images, or checkpoints; do not implement BAF, train LoRAs,
+  run mitigation sweeps, or promote it into Platform/Runtime rows unless public
+  row-bound artifacts and a reviewed weight-only LoRA mitigation boundary
+  appear.
 - `HailongHuPri/MIDM` is an image-diffusion watch-plus candidate with concrete
   FFHQ DDPM loss/likelihood attack code, `ffhq_1000_idx.npy` member-index
   semantics, `1000/1000` labels in `Example.ipynb`, and fixed-FPR TPR metric
