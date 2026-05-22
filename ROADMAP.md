@@ -2,6 +2,28 @@
 
 > Last updated: 2026-05-23
 
+## 2026-05-23 Eidetic Lightweight Triage Sync
+
+Lane A checked `hackerman70000/eidetic` as a bounded GitHub metadata recheck,
+not as a new reproduction branch. The public repo is a small code-only toolkit
+at commit `1aa786bd6e6c39af1da1ac3581e1835f9b55b2ee` with source, tests, docs,
+and experiments only; it has no releases, no tags, and no license. Its README
+reports a CIFAR-10 Strong-LiRA reproduction result (`AUC = 0.690`,
+`TPR @ FPR=1% = 12.2%`), but the result is prose rather than committed
+score/ROC/metric artifacts. `experiments/lira_cifar.py` downloads CIFAR-10 and
+requires local `checkpoints/shadow/*.pt`; the repo commits no shadow
+checkpoints, immutable split manifest, per-row scores, ROC arrays, metric JSON,
+generated response packet, or ready verifier.
+
+Decision: `lightweight GitHub false-positive / code-only toolkit / no
+artifact packet / no download / no GPU release / no admitted row`. The existing
+GitHub lightweight diffusion MIA triage now covers five direct hits and remains
+anti-duplication evidence only. Current slots remain `active_gpu_question =
+none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after GitHub lightweight diffusion MIA triage`.
+See
+[docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md](docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md).
+
 ## 2026-05-23 ReDiffuse Raw Transfer Provenance Recheck
 
 Lane A revisited the collaborator Stable Diffusion ReDiffuse transfer only to
@@ -229,25 +251,29 @@ models, or launch GPU jobs from this sweep. Current slots remain
 
 ## 2026-05-15 GitHub Lightweight Diffusion MIA Triage
 
-Lane A external asset search checked four direct GitHub search hits that looked
-like possible diffusion-MIA assets by title or description:
+Lane A external asset search checked five direct GitHub search hits that looked
+like possible diffusion-MIA assets by title, description, or README claim:
 `acha1934/Black-box-Membership-Inference-Attacks-against-Fine-tuned-Diffusion-Models`,
 `KarinMalka1/Stable-Diffusion-Personalization-Forensics`,
 `abramwit/ECE-CS-782-Research-Project`, and
-`josephho9/score_function_diffusion`. The checked surfaces were small
-README/code/notebook/toy-output repositories, not reusable asset packets.
+`josephho9/score_function_diffusion`, plus the later
+`hackerman70000/eidetic` lightweight recheck. The checked surfaces were small
+README/code/notebook/toy-output repositories or code-only toolkits, not
+reusable asset packets.
 
 Decision: `lightweight / course-style reproduction triage / no score artifact /
 no download / no GPU release`. The repositories are useful as false-positive
 search evidence only. They lack immutable target checkpoint hashes, exact
 target-bound member/nonmember manifests, row-bound generated response packets,
 per-sample score rows, ROC arrays, metric JSON, trained attack weights, or
-ready verifiers. Some scripts depend on Colab/Google Drive/local folders or
-train/evaluate an attack model on the same small feature matrix. Do not
-download their datasets, notebooks, generated images, Stable Diffusion weights,
-LoRA weights, Google Drive payloads, or local Colab artifacts; do not run their
-scripts, fine-tune DreamBooth/LoRA targets, train attack MLPs, release CPU/GPU
-work, or promote Platform/Runtime rows. Current slots remain
+ready verifiers. Some scripts depend on Colab/Google Drive/local folders,
+live dataset/model downloads, local shadow checkpoints, or train/evaluate an
+attack model on the same small feature matrix. Do not download their datasets,
+notebooks, generated images, Stable Diffusion weights, LoRA weights, CIFAR
+data, shadow checkpoints, Google Drive payloads, or local Colab artifacts; do
+not run their scripts, fine-tune DreamBooth/LoRA targets, train attack MLPs,
+train/evaluate LiRA shadow models, release CPU/GPU work, or promote
+Platform/Runtime rows. Current slots remain
 `active_gpu_question = none`, `next_gpu_candidate = none`, and
 `CPU sidecar = none selected after GitHub lightweight diffusion MIA triage`. See
 [docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md](docs/evidence/github-lightweight-diffusion-mia-triage-20260515.md).
@@ -2099,10 +2125,10 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after CopyMark laion_mi public binding gate. The admitted bundle remains five-row `admitted-only`; the bounded public CopyMark `laion_mi` package proves a row-binding gap and does not change Platform/Runtime rows, schemas, product copy, downloads beyond the small metadata subset, or GPU release. |
+| CPU sidecar | none selected after GitHub lightweight diffusion MIA triage. The `eidetic` metadata recheck only adds a fifth false-positive/code-only toolkit to the existing lightweight triage; it does not change Platform/Runtime rows, schemas, product copy, downloads, shadow training, CPU sidecars, or GPU release. |
 | Latest mechanism watch | Structural MIA T2I / arXiv `2407.13252` is non-duplicate and mechanism-relevant, but the arXiv source is TeX/figures only, exact GitHub searches found no official release, and the OpenReview supplement is PDF-only; reopen only if public code, row manifests, target hashes, score/ROC/metric artifacts, or a verifier appear. |
 | Previous mechanism watch | Rectified Flow MIA / arXiv `2603.13421` is non-duplicate and mechanism-relevant, but the promised GitHub repository is empty; reopen only if public splits, checkpoints, code, score/ROC/metric artifacts, or a verifier appear. |
-| Latest closed search branch | The bounded public CopyMark `laion_mi` binding gate is closed unless authors publish a compact row-binding manifest, restore a public identifier column, or release another public file that binds the official score artifacts back to exact public member rows. The collaborator Stable Diffusion ReDiffuse bundle remains candidate-only and does not reopen this public-asset gate. |
+| Latest closed search branch | The GitHub lightweight diffusion MIA triage is closed as false-positive evidence unless one of the checked repositories publishes checkpoint-bound splits plus reusable score/response and metric artifacts. The bounded public CopyMark `laion_mi` binding gate is also closed unless authors publish a compact row-binding manifest, restore a public identifier column, or release another public file that binds the official score artifacts back to exact public member rows. The collaborator Stable Diffusion ReDiffuse bundle remains candidate-only and does not reopen this public-asset gate. |
 | Highest-value next action | Continue non-duplicate Lane A clean-asset search only for candidates with public target identity, exact member/nonmember split artifacts, response or score coverage, and a public row-binding path. Do not reopen CommonCanvas, Beans, MIDST, same-contract mid-frequency residual, the collaborator Stable Diffusion ReDiffuse bundle, or the current public CopyMark `laion_mi` surface unless a new artifact changes the actual decision gate. CPSample remains defense watch-plus; reopen it only if checkpoint-bound denoiser/classifier artifacts or hashes, exact train/test/subset row identities, protected/unprotected row-bound score packets, ROC/metric JSON, retained-utility metrics, and a defended-vs-undefended adaptive-attacker consumer contract are public. DSiRe / LoRA-WiSE remains a future weight-only privacy lane candidate, but reopen it only if DiffAudit explicitly opens a weight-only LoRA dataset-size recovery consumer contract with MAE/MAPE/accuracy as primary metrics and language separating aggregate model-weight cardinality leakage from per-sample MIA. CopyMark remains official Research-side score-artifact support evidence, but reopen its public asset path only if authors publish a compact row-ID-bound score manifest, checkpoint hashes, a no-training verifier, or a small immutable data/checkpoint packet that avoids the full HF zip and model-folder downloads. VAE2Diffusion remains code-public latent-space MIA watch-plus; reopen it only if public split manifests, matching checkpoints or generated response/feature caches, score rows, ROC/metric JSON, verifier outputs, or another bounded no-training artifact appears. DCR remains copying/memorization semantic-shift watch-plus; reopen it only if a public available LAION split or equivalent immutable image manifest, target checkpoint/generated response packets, score rows, ROC/metric JSON, verifier outputs, or an explicit copying/memorization consumer-boundary lane appear. FCRE remains a medical-image frequency-calibrated reconstruction-error paper-source watch item; reopen it only if official code plus frozen split manifests, matching target checkpoints, generated reconstruction packets, reusable score rows, ROC/metric JSON, verifier outputs, or a reviewed medical-image consumer-boundary lane appear. Tabular Privacy Leakage TDM is a single-table tabular code-public watch-plus item; reopen it only if paper-bound Berka/Diabetes target checkpoints, immutable split manifests, generated synthetic tables, reusable score rows, ROC/metric JSON, verifier outputs, or a reviewed tabular consumer-boundary lane appear. TMIA-DM remains a temporal-noise / noise-gradient paper-only mechanism watch item; reopen it only if official public code plus immutable target/split artifacts and reusable score/ROC/metric packets appear. Shake-to-Leak is a fine-tuning-amplified generative-privacy code-public watch-plus item, but reopen it only if public checkpoint-bound score artifacts, immutable split manifests, generated private-set packets, or ready verifier outputs appear. FSECLab MIA-Diffusion is a direct diffusion-MIA code-public watch-plus item, but reopen it only if public checkpoint-bound score artifacts, immutable split manifests, generated sample packets, or ready verifier outputs appear. MT-MIA remains useful public score-packet support evidence, but reopen it only if DiffAudit explicitly opens a relational-tabular synthetic-data membership lane, authors publish row-ID-bound verifier artifacts, or paperization needs clearly labeled cross-domain support outside Platform/Runtime rows. Reopen LSA-Probe only if real public adversarial-cost score artifacts, exact music/audio target identities, and exact member/nonmember manifests appear, or if DiffAudit explicitly opens a music/audio lane. Reopen DualMD/DistillMD only if public checkpoint-bound defended/undefended score artifacts, ROC arrays, metric JSON, generated response packets, or a bounded verifier appear and a consumer-boundary decision explicitly admits disjoint-training defense evidence. Reopen DIFFENCE only if public checkpoint-bound defended/undefended score artifacts or a bounded verifier appear and a consumer-boundary decision explicitly admits classifier-defense evidence. Reopen MIAHOLD/HOLD++ only if public checkpoint-bound score artifacts or a bounded verifier appear, plus an explicit TTS/audio consumer-boundary decision before any audio lane execution. Reopen the Quantile/SecMI-style support packet only if explicit quantile-regression score outputs, trained quantile artifacts, or a bounded verifier command are released, or if a consumer-boundary review approves third-party SecMI-style packets as paperization support without Platform/Runtime admission. Reopen ReproMIA only if a current non-withdrawn paper plus official public code, exact target/split manifests, and reusable score/metric artifacts appear; reopen Tracing Roots only if raw target checkpoint identity, raw sample manifests, or a feature-packet consumer-boundary decision appears; reopen CLiD only if authors publish a row manifest or HF gated access allows metadata-only manifest inspection. |
 | Stop condition | Do not download CIFAR-10, CelebA, LSUN, Stable Diffusion weights, denoiser/classifier checkpoints, generated images, or missing Google Drive placeholders for CPSample; do not run `python main.py`, train classifiers, fine-tune denoisers, generate protected/unprotected images, run `--inference_attack`, or launch CPU/GPU sidecars from this gate. Do not download LoRA-WiSE parquet shards, image folders, Stable Diffusion weights, or LoRA tensor payloads; do not run `python dsire.py`, FAISS/SVD sweeps, CPU sidecars, or GPU work unless a separate weight-only consumer contract is opened. Do not download CopyMark HF `datasets.zip`, image folders, Stable Diffusion/CommonCanvas/LDM/Kohaku weights, LAION/COCO/CC12M/YFCC/DataComp/FFHQ/CelebA-HQ/CommonCatalog payloads, or model folders; do not clone the full repo by default, run PIA/PFAMI/SecMI/GSA scripts, regenerate features, fit XGBoost models, or launch GPU work from the CopyMark official score artifact gate. Do not download CIFAR-10, CelebA, ImageNet-1K, Pokemon, COCO, Flickr, LAION, Stable Diffusion weights, VAE/LDM checkpoints, split payloads, generated responses, or pullback/per-dim caches for VAE2Diffusion; do not train LDMs, fine-tune Stable Diffusion, run SimA/PFAMI/PIA variants, or launch GPU work from that gate. Do not download LAION payloads, DCR Drive split folders, Stable Diffusion weights, generated image sets, or retrieval outputs; do not fine-tune, infer, run retrieval, or launch GPU work for DCR. Do not download FeTS, ChestX-ray8, CIFAR-10, or medical-image payloads, train diffusion targets, run DDIM reconstruction, sweep frequency bands, or launch GPU work for FCRE. Do not download Berka/Diabetes/MIDST resources, train ClavaDDPM targets or shadows, run Tartan Federer/Ensemble/EPT attacks, promote MIDST toolkit integration-test fixtures, or launch GPU work for Tabular Privacy Leakage TDM. Do not download CIFAR/Tiny-ImageNet/Pokemon/LAION/COCO assets, train or fine-tune diffusion targets, reconstruct temporal-noise trajectory pipelines, or launch GPU work for TMIA-DM. Do not download Stable Diffusion weights, LAION/person images, synthetic private sets, or checkpoints for Shake-to-Leak; do not run `sp_gen.py`, LoRA/DB/End2End fine-tuning, SecMI scripts, or data extraction from that gate. Do not download CIFAR-10, CelebA, DDIM/DCGAN checkpoints, generated samples, or full repo payloads for FSECLab MIA-Diffusion; do not run DDIM/DCGAN training, sampling, attack scripts, or TTUR evaluation from that gate. Do not download MT-MIA raw figshare datasets, synthetic CSV payloads, ClavaDDPM/RelDiff training assets, or the full repository; do not regenerate high-cost RelDiff outputs or promote relational-tabular score packets without a consumer-boundary decision. Do not download MAESTRO, FMA-Large, DiffWave, MusicLDM, audio clips, checkpoints, or GitHub Pages demo JSON as LSA-Probe experiment evidence; do not implement LSA-Probe from the TeX or demo. Do not download the DualMD/DistillMD SharePoint Pokemon payload, Stable Diffusion weights, CIFAR/CIFAR100/STL10/Tiny-ImageNet datasets, or run DDPM/LDM training, distillation, SecMIA/PIA, black-box attack scripts, or launch GPU jobs from this gate. Do not download DIFFENCE Google Drive diffusion/target model folders or CIFAR/SVHN datasets; do not train classifiers or diffusion models, generate DIFFENCE reconstructions, run MIA scripts, or launch GPU jobs from that gate. Do not download MIAHOLD/HOLD++ Grad-TTS, HiFi-GAN, CLD-SGM, CIFAR, CelebA, LJSpeech, or LibriTTS assets; do not scrape W&B, train HOLD++ CIFAR/audio models, regenerate PIA scores, or launch GPU jobs from that gate. Do not clone the full `neilkale/quantile-diffusion-mia` repository by default, download pretrained DDPM checkpoints/CIFAR archives/SharePoint model folders, run training, fit quantile models, recover W&B artifacts, or launch GPU jobs from that support packet. Do not promote CPSample, DSiRe / LoRA-WiSE, CopyMark, VAE2Diffusion, DCR, FCRE, Tabular Privacy Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA, LSA-Probe, DualMD/DistillMD, DIFFENCE, or MIAHOLD as admitted rows, Quantile replay as a Quantile Regression result, or any of these lines as admitted Platform/Runtime rows. Keep the existing no-download/no-GPU constraints for ReproMIA, DMin, ELSA, Memorization Anisotropy, FERMI, DurMI, FMIA, CLiD, StablePrivateLoRA, MIDM, GGDM, Diffusion Memorization, ReDiffuse, and same-family MIDST expansions. |
 
