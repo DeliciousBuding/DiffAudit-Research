@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `roadmap current-state cleanup and entrypoint sync after PR #267 / #268; latest candidate verdict remains Discrete DLM withdrawn artifact gate` |
+| Active work | `Model Will Tell DRC artifact gate completed; latest candidate verdict is paper-source-only restoration-prior watch` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Discrete DLM withdrawn artifact gate |
+| CPU sidecar | none selected after Model Will Tell DRC artifact gate |
 | Gray-box status | PIA remains admitted; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| Model Will Tell / DRC | black-box/restoration / Lane A-B | paper-source-only restoration-prior watch | arXiv `2403.08487` proposes Degrade Restore Compare: degrade an image, restore it with the target diffusion model, and compare semantic similarity to the original; paper tables report CelebA `AUC = 0.989`, `TPR@1%FPR = 80.46%`, and `TPR@0.1%FPR = 54.52%` | arXiv source tarball has only TeX/style/bibliography/figure files; the paper says authors intend to release code but gives no official code URL; exact-title, DRC phrase, author-name, and arXiv-id GitHub repo/code searches returned no official hits; no target checkpoint, immutable split manifest, restored response packet, score rows, ROC arrays, metric JSON, or verifier | keep as Research-only mechanism watch; do not download Cifar10/Cifar100/CelebA/FFHQ/model/checkpoint assets, implement DRC, run restoration, launch CPU/GPU sidecars, or promote Platform/Runtime rows unless row-bound public artifacts appear |
 | Discrete DLM withdrawn paper | text/DLM / Lane B-watch | withdrawn paper-source-only | arXiv `2605.16445` reports Masked Diffusion Language Model membership metrics in the abstract, including MIMIR-domain mean `AUC = 0.878`, peak `AUC = 0.930`, and `K = 3` shadow-transfer mean `AUC = 0.858` | current arXiv record is withdrawn with no current PDF; comments say citations/co-authors need verification; exact-title and topic-style GitHub repo searches returned no repositories; code search for `2605.16445` returned no hits; no official code, target checkpoint, immutable text split manifest, score rows, ROC arrays, metric JSON, or verifier | keep as Research-only watch signal; do not download MIMIR, MDLM checkpoints, language weights, tokenizers, or text datasets; do not implement reconstruction-loss/XGBoost/MLP features or open a text/DLM sidecar unless a corrected paper, artifacts, and consumer-boundary decision appear |
 | Stable Diffusion ReDiffuse collaborator artifact | black-box / Lane A | collaborator-local candidate-only artifact | imported `5000`-row `2500 / 2500` result packet replays to `AUC = 0.710319`, `ASR = 0.6846`; holdout bundle reports `test_auc = 0.704604`; new `probe-rediffuse-sd-artifacts` CLI path now audits the packet without rerun | not a public immutable replay packet; member side is a LAION-like repeatable subset rather than the exact paper LAION-5B split; boundary is local-model-query black-box rather than strict external API-only; missing COCO payload is not needed for audit but blocks a fresh end-to-end reproduction | keep as candidate-only black-box evidence; do not request `coco_data`, do not download Stable Diffusion weights, do not rerun `2500 / 2500`, and do not promote Platform/Runtime rows unless public-asset and product-boundary gaps are resolved |
 | Structural MIA for T2I | gray-box / Lane B | paper-source-only mechanism watch | arXiv `2407.13252` proposes structure-level membership inference for Latent Diffusion and Stable Diffusion using DDIM inversion/noising plus SSIM, with strong reported low-FPR paper metrics | arXiv source is TeX/figures only, OpenReview supplement is PDF-only, no official code repo or score/split/checkpoint/verifier artifact was found | keep as non-duplicate mechanism watch only; do not download LAION/COCO/model/checkpoint/image payloads, implement SSIM/DDIM scoring, release CPU/GPU sidecar, or promote Platform/Runtime rows |
@@ -80,11 +81,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Roadmap Cleanup / Post-Discrete-DLM Metadata Idle State
+### Model Will Tell / DRC Metadata Idle State
 
-- `mode`: roadmap operating-system update after the current-state dedupe and
-  steering-priority cleanup; latest candidate verdict remains the Discrete DLM
-  withdrawn artifact gate after the Eidetic lightweight triage sync, ReDiffuse raw transfer
+- `mode`: post-Model-Will-Tell DRC artifact gate after the roadmap
+  current-state cleanup, Discrete DLM withdrawn artifact gate, Eidetic
+  lightweight triage sync, ReDiffuse raw transfer
   provenance recheck, FMIA OpenReview bounded recheck, CLiD / CopyMark metadata
   recheck, CopyMark `laion_mi` public binding gate, Stable Diffusion ReDiffuse
   collaborator artifact audit, Structural MIA T2I, Rectified Flow MIA, public
@@ -92,13 +93,25 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   FreMIA, VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy
   Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
   diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest repository operating-system update is the PR `#267` /
-  `#268` roadmap current-state cleanup: `Current Long-Horizon State` is the
-  active three-slot source of truth, and the 2026-05-13 Leader Steering block is
-  historical anti-stationery guidance when the two disagree. This is not a new
-  candidate check, download, CPU/GPU sidecar, Platform row, or Runtime schema.
-  The latest candidate verdict remains the Discrete DLM withdrawn artifact
-  gate. arXiv `2605.16445` /
+- `status`: The latest candidate verdict is the Model Will Tell / DRC
+  artifact gate, not a reproduction branch. arXiv `2403.08487` /
+  `Model Will Tell: Training Membership Inference for Diffusion Models`
+  proposes Degrade Restore Compare, a restoration-prior signal that degrades an
+  image, restores it with the target diffusion model, and compares semantic
+  similarity with the original. The arXiv source tarball has only TeX,
+  bibliography/style files, and figure PDFs; the paper says the authors intend
+  to release code but gives no official code URL; exact-title, DRC phrase,
+  author-name, and arXiv-id GitHub repository/code searches returned no
+  official hits. No target checkpoint, immutable Cifar/CelebA/FFHQ split
+  manifest, restored response packet, score rows, ROC arrays, metric JSON, or
+  verifier is public. The decision is: paper-source-only DRC restoration MIA
+  watch, no official code, no split-score artifact, no download, no CPU/GPU
+  sidecar, no Platform row, and no Runtime schema. The previous repository
+  operating-system update is the PR `#267` / `#268` roadmap current-state
+  cleanup: `Current Long-Horizon State` is the active three-slot source of
+  truth, and the 2026-05-13 Leader Steering block is historical
+  anti-stationery guidance when the two disagree. The previous candidate
+  verdict is the Discrete DLM withdrawn artifact gate. arXiv `2605.16445` /
   `Membership Inference Attacks on Discrete Diffusion Language Models` is
   withdrawn in the current arXiv record, has no current PDF, and says
   citations/co-authors need verification before a future version. Its abstract

@@ -5,6 +5,18 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[model-will-tell-drc-artifact-gate-20260523.md](model-will-tell-drc-artifact-gate-20260523.md)
+records a Lane A/B metadata gate for arXiv `2403.08487` /
+`Model Will Tell: Training Membership Inference for Diffusion Models`. DRC is
+a non-duplicate restoration-prior watch signal, but the public surface is
+paper-source-only: arXiv source has TeX/style/bibliography/figure entries only,
+the paper says the authors intend to release code but gives no official code
+URL, and exact-title/DRC/author/arXiv-id GitHub searches returned no official
+code or artifact hits. Decision: `paper-source-only DRC restoration MIA watch /
+no official code / no split-score artifact / no download / no GPU release / no
+admitted row`.
+
+Previous Research update:
 [ROADMAP.md](../../ROADMAP.md)
 now treats `Current Long-Horizon State` as the single active three-slot source
 of truth after the PR `#267` current-state dedupe and PR `#268` steering
