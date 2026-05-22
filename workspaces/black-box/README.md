@@ -11,12 +11,27 @@
   ReDiffuse result packet is now audited through
   `diffaudit probe-rediffuse-sd-artifacts`. The imported `5000`-row
   `2500 / 2500` packet replays to `AUC = 0.710319` and `ASR = 0.6846`, so it
-  is worth keeping as candidate evidence. It is not admitted: the packet is a
-  collaborator local transfer, the member side is a LAION-like repeatable
-  subset rather than the exact paper LAION-5B split, and the boundary is
-  local-model-query black-box rather than strict external API-only black-box.
-  Do not request `coco_data`, do not download Stable Diffusion weights, and do
-  not rerun the full `2500 / 2500` path in the current cycle.
+  is worth keeping as candidate evidence. The same imported subset now also
+  supports `diffaudit probe-rediffuse-sd-assets` and
+  `diffaudit score-rediffuse-sd-image` for bundle readiness and candidate-only
+  single-image scoring around the collaborator detector. It is not admitted:
+  the packet is a collaborator local transfer, the member side is a LAION-like
+  repeatable subset rather than the exact paper LAION-5B split, and the
+  boundary is local-model-query black-box rather than strict external API-only
+  black-box. Current local runtime still lacks `fire`, `pytorch_lightning`,
+  `skimage`, `omegaconf`, and a local `CompVis/stable-diffusion-v1-4` cache,
+  so direct scoring is wired but not yet runnable end-to-end on the default
+  interpreter. Do not request `coco_data`, do not download Stable Diffusion
+  weights, and do not rerun the full `2500 / 2500` path in the current cycle.
+- Latest public asset gate: `CopyMark + laion_mi` is blocked as a clean Lane A
+  asset. The bounded public subset and `diffaudit probe-copymark-laion-mi-assets`
+  show that the current public member parquet exposes only `url/caption`, the
+  official member utility still expects a hidden third parquet column, official
+  numeric member filenames span `9617..33905220` while the current public
+  parquet has only `13396` rows, and a live spot-check found only `4/10` of
+  the first public member URLs still return `200`. Keep it as Research-side
+  CopyMark support evidence only; do not escalate this branch into large
+  downloads, URL-recovery work, or GPU execution.
 - Candidate method: simple image-to-image distance is bounded single-asset
   evidence, not a product row or portability result.
 - Active candidate: mid-frequency same-noise residual is a distinct observable
@@ -132,6 +147,9 @@ Current CLiD image-identity boundary:
 
 Current CLiD official inter-output replay:
 [../../docs/evidence/clid-official-inter-output-replay-20260515.md](../../docs/evidence/clid-official-inter-output-replay-20260515.md).
+
+Current CopyMark laion_mi public binding gate:
+[../../docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md](../../docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md).
 
 Current Stable Diffusion ReDiffuse collaborator artifact audit:
 [../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md](../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md).

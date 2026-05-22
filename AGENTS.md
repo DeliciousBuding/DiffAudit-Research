@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Stable Diffusion ReDiffuse collaborator artifact audit completed after the Structural MIA T2I artifact gate, Rectified Flow MIA artifact gate, public metadata asset sweep, DIFFENCE Zenodo snapshot sync, GitHub lightweight diffusion MIA triage, DEB, CPSample, DSiRe / LoRA-WiSE, hyperparameter-free SecMI, DME, FreMIA, and CopyMark gates. Status: latest verdict note, workspace-evidence index, Research ROADMAP, AGENTS, intake/implementation workspace notes, and root ROADMAP are synchronized to the Stable Diffusion ReDiffuse collaborator artifact audit. The collaborator transfer provides a real `5000`-row `2500 / 2500` Stable Diffusion result packet with replayed `AUC = 0.710319`, but it remains candidate-only because it is not a public immutable replay packet, the member side is a LAION-like repeatable subset rather than the exact paper LAION-5B split, and the boundary is local-model-query black-box rather than strict external API-only black-box. No `coco_data` rebuild, Stable Diffusion weight download, CPU sidecar, GPU work, Platform/Runtime row, schema change, or product copy is released. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after Stable Diffusion ReDiffuse collaborator artifact audit.`
+- Active work: `CopyMark laion_mi public binding gate completed after the Stable Diffusion ReDiffuse collaborator artifact audit, Structural MIA T2I artifact gate, Rectified Flow MIA artifact gate, public metadata asset sweep, DIFFENCE Zenodo snapshot sync, GitHub lightweight diffusion MIA triage, DEB, CPSample, DSiRe / LoRA-WiSE, hyperparameter-free SecMI, DME, FreMIA, and earlier CopyMark gates. Status: latest verdict note, workspace-evidence index, Research ROADMAP, AGENTS, intake/implementation workspace notes, and root ROADMAP are synchronized to the CopyMark laion_mi public binding gate. The bounded public subset under <DIFFAUDIT_ROOT>/Download/black-box/supplementary/copymark-laion-mi-public-20260517/ now supports probe-copymark-laion-mi-assets and proves that the current public members parquet exposes only url/caption, the official member utility still expects a hidden third parquet column via df.iloc[idx, 2], and the official numeric member filenames span 9617..33905220 while the current public parquet has only 13396 rows. A live spot-check also found only 4/10 of the first public member URLs still return 200. Decision: blocked public row-binding gap. No full CopyMark HF zip download, image payload, model-folder download, CPU sidecar, GPU work, Platform/Runtime row, schema change, or product copy is released. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after CopyMark laion_mi public binding gate.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -71,20 +71,27 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   verifier artifacts. FreMIA remains a Research-only
   frequency-filter watch item: arXiv source reports strong trained/fine-tuned
   table metrics, but the official repo is currently a README-only stub and no
-  split/checkpoint/score/ROC/verifier artifacts are public. CopyMark remains the highest-value
-  external intake candidate because its paper-level protocol is explicitly about
-  diffusion membership/copyright detection. Its diffusers README, scripts, and
-  zip central directory now show a concrete directory-level member/holdout
-  contract with `eval` and `test` splits, but the archive itself carries only
-  images plus `caption.json` fields (`path`, `height`, `width`, `caption`), not
-  per-row membership provenance. A later official score-artifact gate found
-  that the public repo also commits member/nonmember image logs, aggregate
-  ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step tensors, GSA
-  feature/XGBoost files, and laion_ridar/mixing result artifacts. Treat those
-  as Research-side support evidence only: no checkpoint hashes, compact
-  row-ID-bound score manifest, small immutable data/checkpoint packet, or ready
-  verifier exists, and no HF dataset zip, image payload, model folder, full
-  repo clone, script execution, or GPU work is released. A local
+  split/checkpoint/score/ROC/verifier artifacts are public. CopyMark remains a
+  high-value Research-side support surface because its paper-level protocol is
+  explicitly about diffusion membership/copyright detection. Its diffusers
+  README, scripts, and zip central directory show a concrete directory-level
+  member/holdout contract with `eval` and `test` splits, but the archive itself
+  carries only images plus `caption.json` fields (`path`, `height`, `width`,
+  `caption`), not per-row membership provenance. A later official
+  score-artifact gate found that the public repo also commits member/nonmember
+  image logs, aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step
+  tensors, GSA feature/XGBoost files, and laion_ridar/mixing result artifacts.
+  Treat those as Research-side support evidence only: no checkpoint hashes,
+  compact row-ID-bound score manifest, small immutable data/checkpoint packet,
+  or ready verifier exists, and no HF dataset zip, image payload, model
+  folder, full repo clone, script execution, or GPU work is released. The
+  latest bounded public `laion_mi` gate also confirms that the current public
+  member parquet exposes only `url/caption`, the official member utility still
+  expects a hidden third parquet column, the official numeric member filenames
+  exceed the current public row range, and a live `10`-URL spot-check returns
+  only `4` HTTP `200` responses. Keep CopyMark blocked as a public row-binding
+  asset unless authors publish a compact public binding manifest or restore the
+  missing public identifier column. A local
   `response-contract-copymark-commoncanvas-20260512` query split exists under
   `<DIFFAUDIT_ROOT>/Download` with `50` CommonCatalog member queries and `50`
   COCO holdout queries. The `diffaudit-research` conda environment has CUDA

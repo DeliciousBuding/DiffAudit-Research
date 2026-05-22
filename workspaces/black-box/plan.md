@@ -7,6 +7,18 @@
   evidence with validated `5000`-row `2500 / 2500` score packet and replayed
   `AUC = 0.710319`. Keep it in the mainline as a usable candidate packet, but
   do not treat it as a public replay asset or strict API-only black-box row.
+  The imported subset now also has `probe-rediffuse-sd-assets` and
+  `score-rediffuse-sd-image`; current local runtime is still blocked by missing
+  `fire`, `pytorch_lightning`, `skimage`, `omegaconf`, and a local
+  `CompVis/stable-diffusion-v1-4` checkpoint.
+- `CopyMark + laion_mi public binding gate`: blocked. The bounded public
+  package and `probe-copymark-laion-mi-assets` show that the current public
+  `members.parquet` exposes only `url/caption`, the official member utility
+  still expects a hidden third parquet column via `df.iloc[idx, 2]`, the
+  official numeric member filenames span `9617..33905220` while the current
+  public parquet has only `13396` rows, and a live first-`10` URL check
+  returns only `4` HTTP `200` responses. Keep this as Research-side CopyMark
+  support evidence, not a clean second asset.
 - `CLiD`: hold-candidate. The prompt-conditioned packet is strong and
   repeat-stable, but prompt controls and attribution block admission as general
   black-box evidence. The current machine-readable boundary is
@@ -27,7 +39,7 @@
   the comparator audit narrows the claim to same-noise residual rather than
   proven mid-frequency specificity. It is not admitted evidence and
   same-contract GPU expansion is closed.
-- `CommonCanvas / CopyMark`: ready true second response contract, but
+- `CommonCanvas`: ready true second response contract, but
   pixel-distance, CLIP image-similarity, prompt-response consistency,
   multi-seed response stability, and conditional denoising-loss are all weak;
   do not expand same-packet metric or denoising-loss matrices.
@@ -54,10 +66,12 @@ No black-box GPU or CPU sidecar is selected. The next action belongs to the
 root long-horizon queue: continue Lane A only with a non-duplicate asset that
 has exact target identity, member/nonmember split artifacts, and response or
 score coverage. The imported Stable Diffusion ReDiffuse collaborator artifact
-does not satisfy that gate by itself, so preserve it as candidate evidence
-instead of turning it into a rerun task. Do not reopen CommonCanvas, Beans,
-Fashion-MNIST, MIDST, or same-contract mid-frequency residual variants unless a
-genuinely new artifact or observable changes the decision gate.
+does not satisfy that gate by itself, and the public CopyMark `laion_mi`
+surface is now explicitly blocked by the row-binding gap, so preserve both as
+support/candidate evidence instead of turning them into rerun tasks. Do not
+reopen CommonCanvas, Beans, Fashion-MNIST, MIDST, or same-contract
+mid-frequency residual variants unless a genuinely new artifact or observable
+changes the decision gate.
 
 ## Current Status
 

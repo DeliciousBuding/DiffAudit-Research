@@ -91,9 +91,18 @@ Additional validation committed in the bundle:
   a first-class CLI import path. It is materially more useful than a chat note
   or screenshot because the full score packet can now be re-audited and
   compared in a uniform way.
-- The bundle is also a practical bridge to future product or report work if the
-  user later wants a candidate evidence card, detector import, or single-image
-  scoring wrapper around the collaborator detector.
+- The imported subset under
+  `<DIFFAUDIT_ROOT>/Download/shared/supplementary/collaborator-stable-diffusion-rediffuse-20260516/`
+  now supports two additional DiffAudit entrypoints:
+  `probe-rediffuse-sd-assets` for source/detector/result-bundle readiness and
+  `score-rediffuse-sd-image` as a candidate-only wrapper around the
+  collaborator `score_single_image.py` path.
+- The single-image scorer is integrated but not yet end-to-end runnable on the
+  default local interpreter: the current Python surface is missing `fire`,
+  `pytorch_lightning`, `skimage`, and `omegaconf`, and no local
+  `CompVis/stable-diffusion-v1-4` checkpoint cache was found during the
+  2026-05-17 probe. This is a runtime prerequisite gap, not a research-lane
+  reopening signal.
 
 ## Decision
 
