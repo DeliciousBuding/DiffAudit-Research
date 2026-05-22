@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Broken Memories artifact gate completed; latest candidate verdict is memorization detection/mitigation semantic-shift watch with no official code or score artifacts` |
+| Active work | `BAF LoRA parameter-space mitigation gate completed; latest candidate verdict is weight-only LoRA mitigation watch with no public score artifacts` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Broken Memories artifact gate |
+| CPU sidecar | none selected after BAF LoRA parameter-space mitigation gate |
 | Gray-box status | PIA remains admitted; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| BAF LoRA parameter-space mitigation | LoRA weight-only / Lane A-B | semantic-shift mitigation watch | arXiv `2605.10439` proposes Base-Anchored Filtering, a post-hoc, training-free, data-free LoRA memorization-mitigation method that decomposes LoRA updates into spectral channels and suppresses weakly backbone-aligned channels as possible memorization carriers; arXiv source `HEAD` is a `5,785,836` byte gzip with SHA-256 ETag `1d10717f5eb4f9ea99d8f36ce0d044e68a937aa88376af20c9d2000a04f6904a` and was not downloaded | claim boundary is weight-only mitigation, not current per-sample membership; arXiv says code is in supplementary material but no official public repository, target LoRA/checkpoint bundle, training-image manifest, member/nonmember rows, generated response packet, score/ROC/metric artifacts, retained-utility artifact, or verifier is public | keep as Research-only LoRA mitigation watch evidence; do not download source/supplement, LoRA weights, SD base weights, training images, generated images, or checkpoints; do not implement BAF, train LoRAs, launch CPU/GPU sidecars, or promote Platform/Runtime rows unless public row-bound artifacts and a reviewed weight-only LoRA mitigation boundary appear |
 | Broken Memories | Stable Diffusion memorization / Lane A-watch | semantic-shift paper-source-only watch | arXiv `2605.22050` reports SD `1.4` memorization detection with `AUC > 0.999`, post-mitigation memorization rate `0.0%`, and about `0.01s` overhead; the setup describes `500` Webster memorized prompts, nonmember prompts from Lexica / COCO / GPT-4, LAION-400M reference prompts, and a fine-tuned SD `1.4` LAION subset setup | claim boundary is memorized-generation detection/mitigation rather than current per-sample membership rows; no official code, exact prompt/image manifest, generated image packet, internal trace, per-row score file, ROC array, metric JSON, mitigation-decision artifact, or verifier is public; arXiv source is a `24,383,310` byte gzip and was not downloaded | keep as Research-only memorization watch evidence; do not download the arXiv source, SD weights, LAION/Webster assets, generated images, or baseline repos; do not implement from paper or promote Platform/Runtime rows unless row-bound public artifacts or a reviewed memorization consumer boundary appears |
 | IAR Privacy Attacks | image autoregressive / Lane A-watch | code-public watch-plus | arXiv `2502.02514` and official `sprintml/privacy_attacks_against_iars` expose image-generation privacy code for MIA, dataset inference, and extraction; reported claims include IAR `TPR@FPR=1% = 94.57%`, dataset inference with `4` samples, and `698` extracted samples from `VAR-d30`; repository exposes `main.py`, `environment.yaml`, analysis scripts, VAR/RAR/MAR configs, and attack implementations | target family is image autoregressive rather than current diffusion/latent-image rows; no model hashes, immutable ImageNet train/val row manifests, generated sample packet, per-row MIA scores, ROC arrays, metric JSON, DI CSV, memorization CSV, or no-training verifier is committed; README path requires upstream model repos, ImageNet train/val, model downloads, and local output generation | keep as Research-only watch-plus evidence; do not download ImageNet, VAR/RAR/MAR weights, generated samples, memorization candidates, or extraction outputs; do not clone upstream repos or run MIA/DI/extraction scripts unless row-bound replay artifacts appear or a reviewed IAR consumer boundary is opened |
 | Silent Brush / Art Arena | style leakage / Lane A-watch | semantic-shift watch with code-notebook inventory | arXiv `2605.17500` introduces Art Arena for evaluating unintended artwork style resurfacing in text-to-image diffusion outputs; anonymous inventory exposes `ArtArena.ipynb`, `README.md`, ET/MD eval and infer scripts, `FT_models.py`, `get_leadger.py`, prep scripts, `CSD/model.py`, `CSD/utils.py`, and figure PDFs | claim boundary is style leakage / copyright evaluation, not current per-sample membership; no target checkpoint hash, immutable member/nonmember artwork manifest, generated image packet, per-row membership score file, ROC array, metric JSON, or ready verifier is visible; raw file/tree/readme endpoints were not metadata-readable, and GitHub searches returned no official public artifact repo | keep as Research-only related privacy evidence; do not download artwork datasets, generated images, SD1.5/SDXL/SANA weights, anonymous repo archives, or the 35,598,493 byte arXiv source tarball; do not run Art Arena scripts or promote Platform/Runtime rows unless a reviewed style-leakage consumer boundary or row-bound membership artifacts appear |
@@ -85,31 +86,39 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Broken Memories Metadata Idle State
+### BAF LoRA Mitigation Metadata Idle State
 
-- `mode`: post-Broken Memories artifact gate after IAR Privacy Attacks, Silent Brush / Art
-  Arena, Trajectory Generation Privacy, Model Will Tell DRC, roadmap
-  current-state cleanup, Discrete DLM withdrawn artifact gate, Eidetic
-  lightweight triage sync, ReDiffuse raw transfer
-  provenance recheck, FMIA OpenReview bounded recheck, CLiD / CopyMark metadata
-  recheck, CopyMark `laion_mi` public binding gate, Stable Diffusion ReDiffuse
-  collaborator artifact audit, Structural MIA T2I, Rectified Flow MIA, public
-  metadata sweep, CPSample, DSiRe / LoRA-WiSE, hyperparameter-free SecMI, DME,
-  FreMIA, VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy
-  Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
-  diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest candidate verdict is the Broken Memories artifact
-  gate, not a reproduction branch. arXiv `2605.22050` /
+- `mode`: post-BAF LoRA parameter-space mitigation gate after Broken Memories,
+  IAR Privacy Attacks, Silent Brush / Art Arena, Trajectory Generation
+  Privacy, Model Will Tell DRC, roadmap current-state cleanup, Discrete DLM
+  withdrawn artifact gate, Eidetic lightweight triage sync, ReDiffuse raw
+  transfer provenance recheck, FMIA OpenReview bounded recheck, CLiD /
+  CopyMark metadata recheck, CopyMark `laion_mi` public binding gate, Stable
+  Diffusion ReDiffuse collaborator artifact audit, Structural MIA T2I,
+  Rectified Flow MIA, public metadata sweep, CPSample, DSiRe / LoRA-WiSE,
+  hyperparameter-free SecMI, DME, FreMIA, VAE2Diffusion, DCR copying, FCRE
+  medical frequency, Tabular Privacy Leakage TDM, TMIA-DM, Shake-to-Leak,
+  FSECLab MIA-Diffusion, MT-MIA relational diffusion score-packet, and the
+  2026-05-15 admitted consumer-boundary sync
+- `status`: The latest candidate verdict is the BAF LoRA parameter-space
+  mitigation gate, not a reproduction branch. arXiv `2605.10439` /
+  `Filtering Memorization from Parameter-Space in Diffusion Models` is a
+  weight-only LoRA memorization-mitigation watch item. The paper proposes
+  Base-Anchored Filtering, a post-hoc, training-free, data-free method that
+  decomposes LoRA updates into spectral channels and suppresses weakly
+  backbone-aligned channels as possible memorization carriers. The public
+  surface is supplementary-code-claim-only: no official public repository,
+  target LoRA/checkpoint bundle, training-image manifest, member/nonmember
+  rows, generated response packet, per-row score file, ROC array, metric JSON,
+  retained-utility artifact, or verifier was found. The decision is:
+  weight-only LoRA mitigation watch, supplementary-code claim only, no public
+  score artifacts, no download, no CPU/GPU sidecar, no Platform row, and no
+  Runtime schema. The previous candidate verdict is the Broken Memories
+  artifact gate. arXiv `2605.22050` /
   `Broken Memories: Detecting and Mitigating Memorization in Diffusion Models
   with Degraded Generations` is fresh Stable Diffusion memorization
-  detection/mitigation evidence with reported SD `1.4` `AUC > 0.999`, `0.0%`
-  post-mitigation memorization rate, and about `0.01s` overhead. The public
-  surface is paper-source-only: no official repository, exact prompt/image
-  manifest, generated image packet, internal trace, per-row score file, ROC
-  array, metric JSON, mitigation-decision artifact, or verifier was found.
-  The decision is: memorization detection/mitigation semantic-shift watch,
-  paper-source-only, no official code, no score artifacts, no download, no
-  CPU/GPU sidecar, no Platform row, and no Runtime schema. The previous
+  detection/mitigation evidence, but the public surface is paper-source-only
+  and no row-bound replay artifacts or verifier are public. The earlier
   candidate verdict is the IAR Privacy Attacks artifact gate. arXiv
   `2502.02514` /
   `Privacy Attacks on Image AutoRegressive Models` is strong image-generation
