@@ -2,6 +2,39 @@
 
 > Last updated: 2026-05-23
 
+## 2026-05-23 Silent Brush / Art Arena Artifact Gate
+
+Lane A checked arXiv `2605.17500` /
+`The Silent Brush: Evaluating Artistic Style Leakage in AI Art Generation` as a
+bounded public metadata gate, not as a reproduction branch. The paper is
+text-to-image diffusion-adjacent, but the claim boundary is style leakage /
+copyright evaluation: Art Arena measures artwork style encoding, interaction,
+and unintended style resurfacing in generated outputs. This is privacy-relevant
+related work, not the current DiffAudit per-sample membership contract.
+
+The public resource surface is anonymous code/notebook inventory only. The
+arXiv API advertises `https://anonymous.4open.science/r/ArtArena-EBE4`, and the
+arXiv source endpoint reports `application/gzip` with `Content-Length =
+35,598,493`; the source tarball was not downloaded. The anonymous root
+inventory endpoint lists `ArtArena.ipynb`, `README.md`, `ET_eval*.py`,
+`ET_infer.py`, `MD_eval*.py`, `MD_infer*.py`, `FT_models.py`, `get_leadger.py`,
+`prep_ET.py`, `prep_FT_dataset.py`, `prep_MD.py`, plus `CSD/` and `figures/`.
+The readable subdirectory metadata exposes `CSD/model.py`, `CSD/utils.py`, and
+figure PDFs. Raw file, tree, readme, and contents endpoints were not
+metadata-readable through the probed API surface. Exact-title repository
+search, arXiv-id repository search, and `ArtArena-EBE4` code search returned no
+official public GitHub repository or artifact hits; exact-title code search
+only found paper-index aggregator entries.
+
+Decision: `style-leakage semantic-shift watch / anonymous code-notebook
+inventory only / no row-bound membership artifact / no download / no GPU
+release / no admitted row`. Current slots become `active_gpu_question = none`,
+`next_gpu_candidate = none`, and
+`CPU sidecar = none selected after Silent Brush / Art Arena artifact gate`.
+This does not change Platform/Runtime rows, schemas, product copy, downloads,
+CPU sidecars, or GPU release. See
+[docs/evidence/silent-brush-artarena-artifact-gate-20260523.md](docs/evidence/silent-brush-artarena-artifact-gate-20260523.md).
+
 ## 2026-05-23 Trajectory Generation Privacy Artifact Gate
 
 Lane A checked arXiv `2605.15246` / `Privacy Evaluation of Generative Models
