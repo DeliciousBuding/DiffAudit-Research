@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Silent Brush / Art Arena artifact gate completed; latest candidate verdict is style-leakage semantic-shift watch with anonymous code-notebook inventory only` |
+| Active work | `IAR Privacy Attacks artifact gate completed; latest candidate verdict is image-autoregressive privacy watch-plus with official code but no committed replay packet` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Silent Brush / Art Arena artifact gate |
+| CPU sidecar | none selected after IAR privacy artifact gate |
 | Gray-box status | PIA remains admitted; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
@@ -20,6 +20,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Candidate | Track | Mode | Gate | Blocker | Next action |
 | --- | --- | --- | --- | --- | --- |
+| IAR Privacy Attacks | image autoregressive / Lane A-watch | code-public watch-plus | arXiv `2502.02514` and official `sprintml/privacy_attacks_against_iars` expose image-generation privacy code for MIA, dataset inference, and extraction; reported claims include IAR `TPR@FPR=1% = 94.57%`, dataset inference with `4` samples, and `698` extracted samples from `VAR-d30`; repository exposes `main.py`, `environment.yaml`, analysis scripts, VAR/RAR/MAR configs, and attack implementations | target family is image autoregressive rather than current diffusion/latent-image rows; no model hashes, immutable ImageNet train/val row manifests, generated sample packet, per-row MIA scores, ROC arrays, metric JSON, DI CSV, memorization CSV, or no-training verifier is committed; README path requires upstream model repos, ImageNet train/val, model downloads, and local output generation | keep as Research-only watch-plus evidence; do not download ImageNet, VAR/RAR/MAR weights, generated samples, memorization candidates, or extraction outputs; do not clone upstream repos or run MIA/DI/extraction scripts unless row-bound replay artifacts appear or a reviewed IAR consumer boundary is opened |
 | Silent Brush / Art Arena | style leakage / Lane A-watch | semantic-shift watch with code-notebook inventory | arXiv `2605.17500` introduces Art Arena for evaluating unintended artwork style resurfacing in text-to-image diffusion outputs; anonymous inventory exposes `ArtArena.ipynb`, `README.md`, ET/MD eval and infer scripts, `FT_models.py`, `get_leadger.py`, prep scripts, `CSD/model.py`, `CSD/utils.py`, and figure PDFs | claim boundary is style leakage / copyright evaluation, not current per-sample membership; no target checkpoint hash, immutable member/nonmember artwork manifest, generated image packet, per-row membership score file, ROC array, metric JSON, or ready verifier is visible; raw file/tree/readme endpoints were not metadata-readable, and GitHub searches returned no official public artifact repo | keep as Research-only related privacy evidence; do not download artwork datasets, generated images, SD1.5/SDXL/SANA weights, anonymous repo archives, or the 35,598,493 byte arXiv source tarball; do not run Art Arena scripts or promote Platform/Runtime rows unless a reviewed style-leakage consumer boundary or row-bound membership artifacts appear |
 | Trajectory Generation Privacy | trajectory/mobility / Lane A-watch | cross-domain paper-source-only watch | arXiv `2605.15246` evaluates MIA against LSTM-TrajGAN, MoveSim, DiffTraj, and Diff-RNTraj; the diffusion trajectory rows are near random (`0.5012` and `0.4949` AUC-ROC), while the only positive table value is GAN MoveSim `AUC-ROC = 0.7002` | arXiv source tarball has only LaTeX material; exact-title, arXiv-id, author/title, and trajectory-generation GitHub repo/code searches returned no official hits; no trajectory checkpoint, immutable member/nonmember manifest, generated trajectory packet, score rows, ROC arrays, metric JSON, or verifier | keep as cross-domain boundary evidence only; do not download Foursquare/GeoLife/DiDi data, generated trajectories, model checkpoints, or preprocessing assets; do not implement trajectory MIA or promote Platform/Runtime rows unless a trajectory consumer boundary and row-bound artifacts appear |
 | Model Will Tell / DRC | black-box/restoration / Lane A-B | paper-source-only restoration-prior watch | arXiv `2403.08487` proposes Degrade Restore Compare: degrade an image, restore it with the target diffusion model, and compare semantic similarity to the original; paper tables report CelebA `AUC = 0.989`, `TPR@1%FPR = 80.46%`, and `TPR@0.1%FPR = 54.52%` | arXiv source tarball has only TeX/style/bibliography/figure files; the paper says authors intend to release code but gives no official code URL; exact-title, DRC phrase, author-name, and arXiv-id GitHub repo/code searches returned no official hits; no target checkpoint, immutable split manifest, restored response packet, score rows, ROC arrays, metric JSON, or verifier | keep as Research-only mechanism watch; do not download Cifar10/Cifar100/CelebA/FFHQ/model/checkpoint assets, implement DRC, run restoration, launch CPU/GPU sidecars, or promote Platform/Runtime rows unless row-bound public artifacts appear |
@@ -83,10 +84,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Silent Brush / Art Arena Metadata Idle State
+### IAR Privacy Metadata Idle State
 
-- `mode`: post-Silent Brush / Art Arena artifact gate after Trajectory
-  Generation Privacy, Model Will Tell DRC, roadmap
+- `mode`: post-IAR Privacy Attacks artifact gate after Silent Brush / Art
+  Arena, Trajectory Generation Privacy, Model Will Tell DRC, roadmap
   current-state cleanup, Discrete DLM withdrawn artifact gate, Eidetic
   lightweight triage sync, ReDiffuse raw transfer
   provenance recheck, FMIA OpenReview bounded recheck, CLiD / CopyMark metadata
@@ -96,8 +97,24 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   FreMIA, VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy
   Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
   diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest candidate verdict is the Silent Brush / Art Arena
-  artifact gate, not a reproduction branch. arXiv `2605.17500` /
+- `status`: The latest candidate verdict is the IAR Privacy Attacks artifact
+  gate, not a reproduction branch. arXiv `2502.02514` /
+  `Privacy Attacks on Image AutoRegressive Models` is strong image-generation
+  privacy evidence with official code and reported MIA, dataset-inference, and
+  extraction claims, but the target family is image autoregressive generation
+  rather than current diffusion / latent-image admitted rows. The official
+  `sprintml/privacy_attacks_against_iars` repository exposes `main.py`,
+  `environment.yaml`, MIA/DI/memorization analysis scripts, VAR/RAR/MAR
+  configs, and attack implementations. It commits no model hashes, immutable
+  ImageNet train/validation row manifests, generated sample packets, per-row
+  MIA scores, ROC arrays, metric JSON, DI CSVs, memorization CSVs, or
+  no-training verifier. The README path requires upstream model repositories,
+  ImageNet train/validation, model downloads, and local output generation. The
+  decision is: image-autoregressive privacy watch-plus, official code-public,
+  no committed score packet, large ImageNet and model assets required, no
+  download, no CPU/GPU sidecar, no Platform row, and no Runtime schema. The
+  previous candidate verdict is the Silent Brush / Art Arena artifact gate.
+  arXiv `2605.17500` /
   `The Silent Brush: Evaluating Artistic Style Leakage in AI Art Generation`
   is text-to-image diffusion-adjacent privacy evidence, but its claim boundary
   is style leakage / copyright evaluation rather than current per-sample
