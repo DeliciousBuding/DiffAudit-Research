@@ -1392,7 +1392,7 @@ selected after SecMI/PIA adaptive comparability board`.
 
 ## 2026-05-13 Leader Steering
 
-> 入口约束:Researcher / Codex 在选下一条 lane 前必须先读完本节。本节覆盖下方 `Current Focus`、`Next Decision Contract`、`Current Sidecars` 中与之冲突的优先级,直至被显式撤回。
+> 入口约束:Researcher / Codex 在选下一条 lane 前必须先读完本节。它是历史 steering 和反屎山约束;若与上方 `Current Long-Horizon State` 冲突,以上方当前三槽位为准。
 
 ### 现状诊断
 
