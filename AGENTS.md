@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `CLiD / CopyMark metadata recheck completed after the CopyMark laion_mi public binding gate. The 2026-05-23 CLiD check confirmed local HF token presence and readable dataset metadata, but authenticated range access to zsf/COCO_MIA_ori_split1/mia_COCO.zip still returns 403 restricted / not in the authorized list, so no ZIP central-directory or internal manifest can be inspected. The 2026-05-23 CopyMark laion_ridar check confirmed public 10000/10000 image logs and aggregate ROC/threshold JSON with AUROC = 0.872134768572823, but no per-row score field or compact filename/role/checkpoint/score manifest. Decision: metadata recheck only; CLiD remains gated, CopyMark laion_ridar remains support-only aggregate evidence. No dataset zip, image payload, model-folder download, CPU sidecar, GPU work, Platform/Runtime row, schema change, product copy, new CLI, or new reproduction branch is released. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after CLiD / CopyMark metadata recheck.`
+- Active work: `FMIA OpenReview bounded recheck completed after the CLiD / CopyMark metadata recheck. The 2026-05-23 FMIA check confirmed OpenReview p9uryyZ5bw is still a version 2 Submitted to ICLR 2026 rejected submission with mdate 2026-02-11T10:13:54Z. The supplementary ZIP still returns 200 as application/zip with Content-Length = 1783018; the temporary ZIP inventory has SHA-256 567ac598eefc849c9dfdd95c26be24bd6b7349c72843e210b56cce2f67969045, 79 entries, and 5117651 uncompressed bytes. Entry scanning still finds code, duplicated split .npz manifests, and training utility score modules only; no checkpoint files, pos_result.npy / neg_result.npy, row-level score exports, ROC CSVs, metric JSON, generated sample packets, or ready verifier are public. Decision: unchanged watch-plus only; no dataset/model/image/checkpoint download, CPU sidecar, GPU work, Platform/Runtime row, schema change, product copy, new CLI, or new reproduction branch is released. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after FMIA OpenReview bounded recheck.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -271,12 +271,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   Attacks for Diffusion Models` is watch-plus only. The OpenReview supplement
   is small and ships frequency-filter DDIM/Stable Diffusion attack code plus
   exact `CIFAR10`, `CIFAR100`, `STL10-Unlabeled`, and `TINY-IN` split
-  manifests, but it does not ship trained checkpoints, Stable Diffusion
+  manifests. The 2026-05-23 recheck found the same `1,783,018` byte, `79`
+  entry supplementary ZIP and no trained checkpoints, Stable Diffusion
   weights, generated samples, `pos_result.npy` / `neg_result.npy`, ROC CSVs,
-  metric JSON, or ready score packets. Do not download datasets, train FMIA
-  DDIM targets, fine-tune Stable Diffusion, run filter/timestep matrices, or
-  promote FMIA into Platform/Runtime admitted rows without ready score artifacts
-  and a product-bridge handoff.
+  metric JSON, row-level score exports, or ready score packets. Do not download
+  datasets, train FMIA DDIM targets, fine-tune Stable Diffusion, run
+  filter/timestep matrices, or promote FMIA into Platform/Runtime admitted rows
+  without ready score artifacts and a product-bridge handoff.
 - SimA / `Score-based Membership Inference on Diffusion Models` is watch-plus
   only. The official `mx-ethan-rao/SimA` repo is code-public and implements a
   distinct denoiser-output score-norm attack across DDPM, Guided Diffusion,
