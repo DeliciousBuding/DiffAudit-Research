@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Discrete DLM withdrawn artifact gate completed after Eidetic lightweight triage sync` |
+| Active work | `roadmap current-state cleanup and entrypoint sync after PR #267 / #268; latest candidate verdict remains Discrete DLM withdrawn artifact gate` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected after Discrete DLM withdrawn artifact gate |
@@ -80,10 +80,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Post-Discrete-DLM / Eidetic / ReDiffuse Metadata Idle State
+### Roadmap Cleanup / Post-Discrete-DLM Metadata Idle State
 
-- `mode`: post-Discrete-DLM withdrawn artifact gate after the Eidetic
-  lightweight triage sync, ReDiffuse raw transfer
+- `mode`: roadmap operating-system update after the current-state dedupe and
+  steering-priority cleanup; latest candidate verdict remains the Discrete DLM
+  withdrawn artifact gate after the Eidetic lightweight triage sync, ReDiffuse raw transfer
   provenance recheck, FMIA OpenReview bounded recheck, CLiD / CopyMark metadata
   recheck, CopyMark `laion_mi` public binding gate, Stable Diffusion ReDiffuse
   collaborator artifact audit, Structural MIA T2I, Rectified Flow MIA, public
@@ -91,8 +92,13 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   FreMIA, VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy
   Leakage TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
   diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest repository verdict is the Discrete DLM withdrawn
-  artifact gate, not a new experiment. arXiv `2605.16445` /
+- `status`: The latest repository operating-system update is the PR `#267` /
+  `#268` roadmap current-state cleanup: `Current Long-Horizon State` is the
+  active three-slot source of truth, and the 2026-05-13 Leader Steering block is
+  historical anti-stationery guidance when the two disagree. This is not a new
+  candidate check, download, CPU/GPU sidecar, Platform row, or Runtime schema.
+  The latest candidate verdict remains the Discrete DLM withdrawn artifact
+  gate. arXiv `2605.16445` /
   `Membership Inference Attacks on Discrete Diffusion Language Models` is
   withdrawn in the current arXiv record, has no current PDF, and says
   citations/co-authors need verification before a future version. Its abstract
