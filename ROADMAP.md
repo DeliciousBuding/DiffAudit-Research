@@ -2,57 +2,50 @@
 
 > Last updated: 2026-05-23
 
-## 2026-05-23 Next-Phase Research Synthesis
+## 2026-05-23 下一阶段研究综合
 
-Three parallel research agents completed a systematic scan of the public
-surface for new artifacts, candidate promotion potential, and second-asset
-contract definition. Key findings:
+三个并行研究 agent 完成了对公开面的系统性扫描，覆盖新产物、候选晋升潜力和第二资产合约定义。关键发现：
 
-### Public Artifact Scan (35+ searches across arXiv, OpenReview, HF, GitHub, CVPR)
+### 公开产物扫描（arXiv、OpenReview、HF、GitHub、CVPR 共 35+ 次检索）
 
-**No fully qualified second asset exists publicly as of 2026-05-23.** Nine
-candidates were checked; eight are paper-only or blocked. The pattern is
-consistent: code sometimes exists, split manifests occasionally exist,
-checkpoints and precomputed score packets almost never exist.
+**截至 2026-05-23，公开面上不存在完全合格的第二资产。** 共检查了九个候选；八个为纯论文或已被阻断。模式一致：代码有时存在，划分清单偶尔存在，checkpoint 和预计算 score 包几乎从不存在。
 
-**One actionable finding: ReDiffuse (ICLR 2025) OpenReview supplement.**
-Contains public `STL10_train_ratio0.5.npz` — a genuine STL-10 member/nonmember
-split manifest with SHA-256 hashes, plus full DDPM training and attack code.
-Also contains CIFAR-100 and Tiny-IN split manifests. No checkpoints, but the
-training code is included. Training a DDPM on STL-10 from scratch is ~4 GPU-hours
-on an A100 (~8-12 hours on local RTX 4070 laptop). This is the cleanest path to
-a second dataset surface.
+**一个可操作发现：ReDiffuse (ICLR 2025) OpenReview 补充材料。**
+包含公开的 `STL10_train_ratio0.5.npz`——一个真正的 STL-10 member/nonmember
+划分清单，附 SHA-256 哈希，以及完整的 DDPM 训练和攻击代码。
+同时包含 CIFAR-100 和 Tiny-IN 划分清单。没有 checkpoint，但训练代码已包含在内。
+从零开始在 STL-10 上训练 DDPM 约需 4 GPU-小时（A100），本地 RTX 4070 笔记本约 8-12 小时。
+这是通往第二数据集面的最清晰路径。
 
-### Candidate Promotion Assessment
+### 候选晋升评估
 
-| Candidate | Signal | Feasibility | Blocker |
+| 候选 | 信号 | 可行性 | 阻断因素 |
 |-----------|--------|-------------|---------|
-| CLiD | AUC=0.961 | LOW | Prompt-conditioning is inherent to the signal; control experiments prove it |
-| CopyMark | AUC=0.44-0.57 (CommonCanvas) | LOW | Empirically closed (4 scorers all weak) |
-| Tracing the Roots | AUC=0.816 | **MEDIUM** | Public feature tensors exist; blocker is internal — need feature-packet consumer lane |
+| CLiD | AUC=0.961 | 低 | Prompt 条件化是信号固有属性；对照实验证明 |
+| CopyMark | AUC=0.44-0.57 (CommonCanvas) | 低 | 经验上已闭合（4 个 scorer 均弱） |
+| Tracing the Roots | AUC=0.816 | **中** | 公开 feature tensor 存在；阻断因素在内部——需要 feature-packet 消费通道 |
 
-### Second-Asset Contract
+### 第二资产合约
 
-Formal 6-gate contract saved to `docs/evidence/second-asset-contract.md`:
-Target Identity → Split → Score → Metric → Provenance → Surface Delta.
+正式 6 关合约已保存至 `docs/evidence/second-asset-contract.md`：
+Target Identity → Split → Score → Metric → Provenance → Surface Delta。
 
-Most accessible paths:
-1. **ReDiffuse DDPM/STL-10**: Same-family different-dataset. Split manifest exists. ~4 GPU-hours training.
-2. **ReDiffuse DDPM/CIFAR-100**: Same path, CIFAR-100 split also in supplement.
-3. **MT-MIA Relational Tabular**: 18 public score packets, but requires scope expansion to tabular modality.
-4. **Tracing the Roots feature-packet**: Requires opening a gray-box consumer lane.
+最可达路径：
+1. **ReDiffuse DDPM/STL-10**：同家族不同数据集。划分清单已存在。约 4 GPU-小时训练。
+2. **ReDiffuse DDPM/CIFAR-100**：同路径，CIFAR-100 划分也在补充材料中。
+3. **MT-MIA Relational Tabular**：18 个公开 score 包，但需要将范围扩展到表格模态。
+4. **Tracing the Roots feature-packet**：需要开通灰盒消费通道。
 
-### Decision
+### 决策
 
-**Immediate**: Download ReDiffuse supplement, extract STL-10 split, begin
-CPU-side preflight. If split semantics check out, proceed to bounded GPU
-training. This would give DiffAudit its first genuinely second dataset surface
-(DDPM/STL-10) with verifiable third-party split provenance.
+**立即执行**：下载 ReDiffuse 补充材料，提取 STL-10 划分，开始 CPU 侧预检。
+若划分语义验证通过，进入有界 GPU 训练。这将为 DiffAudit 提供首个真正的
+第二数据集面（DDPM/STL-10），具有可验证的第三方划分溯源。
 
-**Medium-term**: Decide on Tracing the Roots feature-packet lane. If yes,
-design the consumer contract and admit. If no, close as Research-side reference.
+**中期**：决定 Tracing the Roots feature-packet 通道。若是，设计消费合约并准入。
+若否，作为 Research 侧参考关闭。
 
-**No new GPU experiments outside the ReDiffuse STL-10 path.**
+**ReDiffuse STL-10 路径之外不启动新的 GPU 实验。**
 `active_gpu_question = ReDiffuse DDPM/STL-10 preflight`
 
 ## 2026-05-23 Lane A Metadata Triage Sync
