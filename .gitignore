@@ -188,3 +188,4 @@ workspaces/white-box/assets/gsa/**
 !workspaces/white-box/assets/gsa/HANDOFF.md
 !workspaces/white-box/assets/gsa/manifests/
 !workspaces/white-box/assets/gsa/manifests/*.json
+workspaces/xuchi-reproduction-20260516/final_rediffuse_combined/result.csv

@@ -94,34 +94,34 @@ The black-box response-contract acquisition audit also closes as
 asset family as the existing simple-distance evidence, while variation and
 Kandinsky/Pokemon lack the required split/endpoint contract.
 The minimum second-asset package is now specified in
-[../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](../../docs/evidence/blackbox-response-contract-asset-acquisition-spec.md).
+[../../docs/evidence/black-box-response-contract-asset-acquisition-spec.md](../../docs/evidence/black-box-response-contract-asset-acquisition-spec.md).
 The executable package-level preflight confirms that the current
 Kandinsky/Pokemon supplementary root is not enough: it has no member/nonmember
 query package, endpoint contract, response manifest, or responses. See
-[../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).
+[../../docs/evidence/black-box-response-contract-package-preflight.md](../../docs/evidence/black-box-response-contract-package-preflight.md).
 The repository-level discovery pass generalizes that finding across the current
 black-box package roots: `Download/black-box/datasets` has no package ids,
 `Download/black-box/supplementary` has only `clid-mia-supplementary` and
 `recon-assets` as supplementary-only directories, and no ready paired
 response-contract package exists. See
-[../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md).
+[../../docs/evidence/black-box-response-contract-discovery.md](../../docs/evidence/black-box-response-contract-discovery.md).
 The post-tri-score intake refresh reconfirms the same status and preserves the
 machine-readable discovery output under
-`workspaces/black-box/artifacts/blackbox-response-contract-second-asset-intake-20260511.json`;
+`workspaces/black-box/artifacts/black-box-response-contract-second-asset-intake-20260511.json`;
 see
-[../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](../../docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md).
+[../../docs/evidence/black-box-response-contract-second-asset-intake-20260511.md](../../docs/evidence/black-box-response-contract-second-asset-intake-20260511.md).
 Do not release a black-box response-contract GPU task until a candidate package
 passes that CPU preflight. The Kandinsky/Pokemon package scaffold dry-run for
 `response-contract-pokemon-kandinsky-20260511` is recorded in
-[../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md).
+[../../docs/evidence/black-box-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/black-box-response-contract-protocol-scaffold-20260511.md).
 It freezes a handoff layout only. The local skeleton has now been created and
 the follow-up probe returns `needs_query_split`; real query images, splits,
 response files, provenance, and integrity hashes are still missing. See
-[../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](../../docs/evidence/blackbox-response-contract-skeleton-create-20260511.md).
+[../../docs/evidence/black-box-response-contract-skeleton-create-20260511.md](../../docs/evidence/black-box-response-contract-skeleton-create-20260511.md).
 The local query-source audit confirms that `public-kandinsky-pokemon` contains
 weights only and cannot fill the query/response package. Do not mix CelebA or
 recon tensor assets into this Pokemon/Kandinsky package. See
-[../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](../../docs/evidence/blackbox-response-contract-query-source-audit-20260511.md).
+[../../docs/evidence/black-box-response-contract-query-source-audit-20260511.md](../../docs/evidence/black-box-response-contract-query-source-audit-20260511.md).
 
 A more practical near-term response-contract candidate is now
 `AI-Lab-Makerere/beans` plus the local SD1.5 image-to-image pipeline. The beans

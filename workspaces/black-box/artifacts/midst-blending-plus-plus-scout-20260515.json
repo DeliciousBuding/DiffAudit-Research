@@ -4,12 +4,12 @@
   "status": "bounded_external_score_export_scout",
   "source": {
     "repo": "https://github.com/CRCHUM-CITADEL/ensemble-mia",
-    "local_checkout": "<DIFFAUDIT_ROOT>/Download/shared/midst-ensemble-mia",
+    "local_checkout": "<DIFFAUDIT_ROOT>/Download/shared/supplementary/midst-ensemble-mia",
     "head": "a27d3653708596acbdf54b03ad446e81779a5e70",
     "method": "Blending++ MIDST black-box single-table score exports"
   },
   "inputs": {
-    "label_root": "<DIFFAUDIT_ROOT>/Download/shared/midst-challenge/codabench_bundles/midst_blackbox_single_table/data/tabddpm_black_box",
+    "label_root": "<DIFFAUDIT_ROOT>/Download/shared/datasets/midst-challenge/codabench_bundles/midst_blackbox_single_table/data/tabddpm_black_box",
     "score_exports": [
       "input/tabddpm_black_box/*/tabddpm_*/rmia_scores_k_5.csv",
       "output/eval/tabddpm_black_box/blending_plus_plus/tabddpm_*/prediction.csv",

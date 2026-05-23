@@ -38,7 +38,7 @@ The current I-C successor review is
 The current lane reselection is
 [../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md).
 The current feasibility contract is
-[../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md).
+[../../docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md).
 The current micro-board result is
 [../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md).
 The current layer-scope review is

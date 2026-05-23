@@ -1,4 +1,4 @@
-﻿# Getting Started
+﻿# 入门指南
 
 这份文档面向第一次进入 DiffAudit Research 仓库的新成员或外部贡献者。
 

@@ -1,214 +1,152 @@
-# Black-Box Workspace
+# 黑盒工作台
 
-## Current Status
+## 当前状态
 
-- Direction: black-box membership inference attacks.
-- Main method: `recon` is the admitted black-box product row and the selected
-  lane for finite-tail confidence hardening.
-- Supporting methods: `CLiD`, `variation`, `H2 response-strength`, and
-  semantic-auxiliary classifiers.
-- Imported candidate artifact: collaborator-transferred Stable Diffusion
-  ReDiffuse result packet is now audited through
-  `diffaudit probe-rediffuse-sd-artifacts`. The imported `5000`-row
-  `2500 / 2500` packet replays to `AUC = 0.710319` and `ASR = 0.6846`, so it
-  is worth keeping as candidate evidence. The same imported subset now also
-  supports `diffaudit probe-rediffuse-sd-assets` and
-  `diffaudit score-rediffuse-sd-image` for bundle readiness and candidate-only
-  single-image scoring around the collaborator detector. It is not admitted:
-  the packet is a collaborator local transfer, the member side is a LAION-like
-  repeatable subset rather than the exact paper LAION-5B split, and the
-  boundary is local-model-query black-box rather than strict external API-only
-  black-box. Current local runtime still lacks `fire`, `pytorch_lightning`,
-  `skimage`, `omegaconf`, and a local `CompVis/stable-diffusion-v1-4` cache,
-  so direct scoring is wired but not yet runnable end-to-end on the default
-  interpreter. Do not request `coco_data`, do not download Stable Diffusion
-  weights, and do not rerun the full `2500 / 2500` path in the current cycle.
-- Latest public asset gate: `CopyMark + laion_mi` is blocked as a clean Lane A
-  asset. The bounded public subset and `diffaudit probe-copymark-laion-mi-assets`
-  show that the current public member parquet exposes only `url/caption`, the
-  official member utility still expects a hidden third parquet column, official
-  numeric member filenames span `9617..33905220` while the current public
-  parquet has only `13396` rows, and a live spot-check found only `4/10` of
-  the first public member URLs still return `200`. Keep it as Research-side
-  CopyMark support evidence only; do not escalate this branch into large
-  downloads, URL-recovery work, or GPU execution.
-- Latest metadata recheck: CLiD remains blocked by HF dataset authorization,
-  not local login. On 2026-05-23, local token presence and dataset metadata
-  access were confirmed, but authenticated range access to `mia_COCO.zip`
-  returned `403 restricted / not in the authorized list`. CopyMark
-  `laion_ridar` remains support-only: public `10000 / 10000` image logs and
-  aggregate `AUROC = 0.872134768572823` ROC/threshold JSON are useful evidence,
-  but there is still no per-row score field or compact filename/role/checkpoint
-  score manifest. No download, GPU task, or admitted row is selected.
-- Candidate method: simple image-to-image distance is bounded single-asset
-  evidence, not a product row or portability result.
-- Active candidate: mid-frequency same-noise residual is a distinct observable
-  gap. The scorer, collector functions, synthetic tiny cache writer,
-  real-asset `4/4` cache preflight, and frozen `64/64` sign-check are
-  implemented. The seed-only repeat retained signal, but the comparator audit
-  shows mid-band is not uniquely strongest; keep the line as same-noise
-  residual candidate evidence, not a mid-frequency-specific claim.
-- Variation status: blocked until a real member/nonmember query-image set and
-  endpoint contract exist.
-- CLiD status: official public `inter_output/*` replay is strong on CPU
-  (`AUC = 0.961277`, `TPR@1%FPR = 0.675470`, `ASR = 0.891957`) but remains
-  prompt-conditioned candidate-only. The identity-manifest gate found no public
-  row manifest or COCO image-id binding. The 2026-05-23 recheck confirmed the
-  HF ZIP remains inaccessible to this token, so admitted black-box claims stay
-  blocked.
-- Semantic-auxiliary status: negative-but-useful after low-FPR review; no GPU
-  packet selected.
-- GPU: no active black-box GPU task running now.
-- CommonCanvas status: true second response contract is ready but weak across
-  pixel distance, CLIP image-similarity, prompt-response consistency,
-  multi-seed response stability, and conditional denoising-loss. Do not reopen
-  it through adjacent metric or denoising-loss matrices.
-- MIDST TabDDPM status: exact local single-table labels are available, and
-  official CITADEL/UQAM Blending++ score exports are the strongest MIDST signal
-  so far (`dev+final AUC = 0.598079`, `TPR@1%FPR = 0.095750`), but still below
-  the `0.60` reopen floor. Earlier nearest-synthetic-row, shadow-distributional,
-  and MIA-EPT-style mechanisms are weaker. Do not expand Blending++ retraining,
-  Gower feature matrices, EPT configs, TabSyn, multi-table, or white-box MIDST.
-- Beans member-LoRA status: exact known-split target construction fixes the
-  old Beans/SD1.5 pseudo-membership issue, but internal conditional
-  denoising-loss is weak (`AUC = 0.414400`, reverse `0.585600`) and
-  parameter-delta sensitivity is also weak (`AUC = 0.512000`,
-  `TPR@1%FPR = 0.040000`); do not expand train-step, rank, resolution, prompt,
-  scheduler, loss-weight, timestep, layer, or block matrices.
-- MIA_SD status: related face-LDM code/result reference only. Public artifacts
-  do not release images, target checkpoint, exact member/nonmember split
-  manifest, or reusable query/response package; do not scrape staff images or
-  train SD1.5 from this repo.
-- FMIA status: OpenReview supplement has frequency-filter attack code and exact
-  split manifests, but no target checkpoints, score arrays, generated samples,
-  ROC CSVs, or metric artifacts; no GPU release and no admitted row.
-- SimA status: official score-based code exists, including SD1.4/SD1.5 scripts,
-  but the public release has empty split/checkpoint links, no release assets,
-  no split manifests, no target checkpoints, no score arrays, and no ready
-  verifier packet; no download, GPU release, or admitted row.
-- GenAI Confessions status: public raw image/caption inputs exist for STROLL,
-  Carlini, and Midjourney settings, but the fine-tuned STROLL checkpoint,
-  generated image-to-image responses, DreamSim distance vectors, ROC/metric
-  artifacts, Midjourney query logs, and ready verifier are missing; no dataset
-  download, GPU release, or admitted row.
+- 方向：黑盒成员推断攻击。
+- 主要方法：`recon` 是已准入的黑盒产品行，也是选定用于有限尾部置信度加固的审计线路。
+- 支撑方法：`CLiD`、`variation`、`H2 response-strength` 以及语义辅助分类器。
+- 已导入候选工件：协作者移交的 Stable Diffusion ReDiffuse 结果包现通过
+  `diffaudit probe-rediffuse-sd-artifacts` 进行审计。导入的 `5000` 行
+  `2500 / 2500` 包重放结果为 `AUC = 0.710319` 和 `ASR = 0.6846`，因此值得保留作为候选证据。同一导入子集现在也支持
+  `diffaudit probe-rediffuse-sd-assets` 和
+  `diffaudit score-rediffuse-sd-image`，用于围绕协作者检测器的捆绑包就绪检查和仅候选单张图像评分。该包尚未准入：该包是协作者本地移交，成员侧是类 LAION 可重复子集而非精确的论文 LAION-5B 划分，且其边界为本地模型查询黑盒而非严格的外部纯 API 黑盒。当前本地运行时仍缺少 `fire`、`pytorch_lightning`、
+  `skimage`、`omegaconf` 以及本地 `CompVis/stable-diffusion-v1-4` 缓存，因此直接评分已接线但在默认解释器上尚无法端到端运行。不要请求 `coco_data`、不要下载 Stable Diffusion 权重、不要在当前周期内重跑完整的 `2500 / 2500` 路径。
+- 最新公共资产关卡：`CopyMark + laion_mi` 作为干净的 Lane A 资产被阻止。有界公共子集和 `diffaudit probe-copymark-laion-mi-assets`
+  显示当前公共成员 parquet 仅暴露 `url/caption`，官方成员工具仍期望隐藏的第三列 parquet，官方数值成员文件名跨度为 `9617..33905220` 而当前公共
+  parquet 仅 `13396` 行，且实时抽查发现仅有 `4/10` 的前几条公共成员 URL 仍返回 `200`。将其仅保留为 Research 侧 CopyMark 支撑证据；不要将此分支升级为大规模下载、URL 恢复工作或 GPU 执行。
+- 最新元数据复查：CLiD 仍因 HF 数据集授权问题受阻，而非本地登录问题。2026-05-23 已确认本地 token 存在和数据集元数据可访问，但 `mia_COCO.zip` 的认证范围访问返回 `403 restricted / not in the authorized list`。CopyMark
+  `laion_ridar` 仅为支撑证据：公共 `10000 / 10000` 图像日志和聚合 `AUROC = 0.872134768572823` ROC/阈值 JSON 是有用证据，但仍没有逐行评分字段或紧凑的文件名/角色/检查点评分清单。未选择任何下载、GPU 任务或准入行。
+- 候选方法：简单的图像到图像距离是有界单资产证据，而非产品行或可移植性结果。
+- 活跃候选：中频同噪声残差是一个可辨别的可观测差距。评分器、采集器函数、合成微缓存写入器、真实资产 `4/4` 缓存预检以及冻结的 `64/64` 符号检查均已实现。仅种子重复保留了信号，但比较器审计显示中频带并非唯一最强的；将该线路保留为同噪声残差候选证据，而非中频特定声明。
+- Variation 状态：在存在真实的成员/非成员查询图像集和端点合约之前被阻止。
+- CLiD 状态：官方的公共 `inter_output/*` 重放在 CPU 上表现强劲（`AUC = 0.961277`、`TPR@1%FPR = 0.675470`、`ASR = 0.891957`），但仍仅为提示条件候选。身份清单关卡未发现公共行清单或 COCO 图像 ID 绑定。2026-05-23 复查确认该 HF ZIP 对该 token 仍不可访问，因此准入的黑盒声明仍被阻止。
+- 语义辅助状态：在低 FPR 审查后为负面但有用；未选择 GPU 包。
+- GPU：当前没有活跃的黑盒 GPU 任务运行。
+- CommonCanvas 状态：真正的二次响应合约已就绪，但跨像素距离、CLIP 图像相似度、提示-响应一致性、多种子响应稳定性以及条件去噪损失方面表现较弱。不要通过相邻度量或去噪损失矩阵重新打开此项。
+- MIDST TabDDPM 状态：精确的本地单表标签可用，官方 CITADEL/UQAM Blending++ 评分导出是迄今为止最强的 MIDST 信号（`dev+final AUC = 0.598079`、`TPR@1%FPR = 0.095750`），但仍低于 `0.60` 的重新打开阈值。更早的最近合成行、影子分布和类 MIA-EPT 机制更弱。不要扩展 Blending++ 重训练、Gower 特征矩阵、EPT 配置、TabSyn、多表或白盒 MIDST。
+- Beans member-LoRA 状态：精确的已知划分目标构造修复了旧的 Beans/SD1.5 伪成员关系问题，但内部条件去噪损失较弱（`AUC = 0.414400`，反向 `0.585600`），参数增量敏感度也较弱（`AUC = 0.512000`、`TPR@1%FPR = 0.040000`）；不要扩展训练步数、秩、分辨率、提示、调度器、损失权重、时间步、层或块矩阵。
+- MIA_SD 状态：仅为相关 face-LDM 代码/结果参考。公共工件不发布图像、目标检查点、精确的成员/非成员划分清单或可复用的查询/响应包；不要从此仓库抓取人员图像或训练 SD1.5。
+- FMIA 状态：OpenReview 补充材料有频率滤波攻击代码和精确的划分清单，但没有目标检查点、评分数组、生成样本、ROC CSV 或度量工件；无 GPU 发布且无准入行。
+- SimA 状态：官方基于评分的代码存在，包括 SD1.4/SD1.5 脚本，但公开发布有空划分/检查点链接、无发布资产、无划分清单、无目标检查点、无评分数组、无就绪验证器包；无下载、GPU 发布或准入行。
+- GenAI Confessions 状态：STROLL、Carlini 和 Midjourney 设置有公共原始图像/标题输入，但缺少微调 STROLL 检查点、生成的图像到图像响应、DreamSim 距离向量、ROC/度量工件、Midjourney 查询日志和就绪验证器；无数据集下载、GPU 发布或准入行。
 
-## Files
+## 文件
 
-| File | Purpose |
+| 文件 | 用途 |
 | --- | --- |
-| [plan.md](plan.md) | Current status and next steps. |
-| [experiment-entrypoints.md](experiment-entrypoints.md) | Stable CLI commands for running experiments. |
-| [paper-matrix-2024-2026.md](paper-matrix-2024-2026.md) | Paper and method overview. |
+| [plan.md](plan.md) | 当前状态及后续步骤。 |
+| [experiment-entrypoints.md](experiment-entrypoints.md) | 运行实验的稳定 CLI 命令。 |
+| [paper-matrix-2024-2026.md](paper-matrix-2024-2026.md) | 论文和方法概览。 |
 
-Current H2 candidate boundary:
-[../../docs/evidence/black-box-response-strength-preflight.md](../../docs/evidence/black-box-response-strength-preflight.md).
+当前 H2 候选边界：
+[../../docs/evidence/black-box-response-strength-preflight.md](../../docs/evidence/black-box-response-strength-preflight.md)。
 
-Current mid-frequency same-noise residual preflight:
-[../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md).
+当前中频同噪声残差预检：
+[../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md)。
 
-Current mid-frequency residual scorer contract:
-[../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md).
+当前中频残差评分器合约：
+[../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md)。
 
-Current mid-frequency residual collector contract:
-[../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md).
+当前中频残差采集器合约：
+[../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md)。
 
-Current mid-frequency residual tiny runner contract:
-[../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md).
+当前中频残差微运行器合约：
+[../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md)。
 
-Current mid-frequency residual real-asset preflight:
-[../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md).
+当前中频残差真实资产预检：
+[../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md)。
 
-Current mid-frequency residual sign-check:
-[../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md).
+当前中频残差符号检查：
+[../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md)。
 
-Current mid-frequency residual stability decision:
-[../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md).
+当前中频残差稳定性决策：
+[../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md)。
 
-Current mid-frequency residual stability result:
-[../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md).
+当前中频残差稳定性结果：
+[../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md)。
 
-Current mid-frequency residual comparator audit:
-[../../docs/evidence/midfreq-residual-comparator-audit-20260512.md](../../docs/evidence/midfreq-residual-comparator-audit-20260512.md).
+当前中频残差比较器审计：
+[../../docs/evidence/midfreq-residual-comparator-audit-20260512.md](../../docs/evidence/midfreq-residual-comparator-audit-20260512.md)。
 
-Current CommonCanvas conditional denoising-loss closure:
-[../../docs/evidence/commoncanvas-denoising-loss-20260513.md](../../docs/evidence/commoncanvas-denoising-loss-20260513.md).
+当前 CommonCanvas 条件去噪损失闭合：
+[../../docs/evidence/commoncanvas-denoising-loss-20260513.md](../../docs/evidence/commoncanvas-denoising-loss-20260513.md)。
 
-Current non-CLiD reselection:
-[../../docs/evidence/non-clid-blackbox-reselection.md](../../docs/evidence/non-clid-blackbox-reselection.md).
+当前非 CLiD 重新选择：
+[../../docs/evidence/non-clid-black-box-reselection.md](../../docs/evidence/non-clid-black-box-reselection.md)。
 
-Current recon validation contract:
-[../../docs/evidence/recon-product-validation-contract.md](../../docs/evidence/recon-product-validation-contract.md).
+当前 recon 验证合约：
+[../../docs/evidence/recon-product-validation-contract.md](../../docs/evidence/recon-product-validation-contract.md)。
 
-Current recon validation result:
-[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md).
+当前 recon 验证结果：
+[../../docs/evidence/recon-product-validation-result.md](../../docs/evidence/recon-product-validation-result.md)。
 
-Current recon tail confidence review:
-[../../docs/evidence/recon-tail-confidence-review.md](../../docs/evidence/recon-tail-confidence-review.md).
+当前 recon 尾部置信度审查：
+[../../docs/evidence/recon-tail-confidence-review.md](../../docs/evidence/recon-tail-confidence-review.md)。
 
-Current H2 simple-distance boundary:
-[../../docs/evidence/h2-simple-distance-portability-preflight.md](../../docs/evidence/h2-simple-distance-portability-preflight.md).
+当前 H2 简单距离边界：
+[../../docs/evidence/h2-simple-distance-portability-preflight.md](../../docs/evidence/h2-simple-distance-portability-preflight.md)。
 
-Current variation query contract audit:
-[../../docs/evidence/variation-query-contract-audit.md](../../docs/evidence/variation-query-contract-audit.md).
+当前 variation 查询合约审计：
+[../../docs/evidence/variation-query-contract-audit.md](../../docs/evidence/variation-query-contract-audit.md)。
 
-Current CLiD image-identity boundary:
-[../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md).
+当前 CLiD 图像身份边界：
+[../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md)。
 
-Current CLiD official inter-output replay:
-[../../docs/evidence/clid-official-inter-output-replay-20260515.md](../../docs/evidence/clid-official-inter-output-replay-20260515.md).
+当前 CLiD 官方中间输出重放：
+[../../docs/evidence/clid-official-inter-output-replay-20260515.md](../../docs/evidence/clid-official-inter-output-replay-20260515.md)。
 
-Current CopyMark laion_mi public binding gate:
-[../../docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md](../../docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md).
+当前 CopyMark laion_mi 公共绑定关卡：
+[../../docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md](../../docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md)。
 
-Current Stable Diffusion ReDiffuse collaborator artifact audit:
-[../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md](../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md).
+当前 Stable Diffusion ReDiffuse 协作者工件审计：
+[../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md](../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md)。
 
-Current CLiD identity-manifest gate:
-[../../docs/evidence/clid-identity-manifest-gate-20260515.md](../../docs/evidence/clid-identity-manifest-gate-20260515.md).
+当前 CLiD 身份清单关卡：
+[../../docs/evidence/clid-identity-manifest-gate-20260515.md](../../docs/evidence/clid-identity-manifest-gate-20260515.md)。
 
-Current FMIA OpenReview frequency artifact gate:
-[../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md](../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md).
+当前 FMIA OpenReview 频率工件关卡：
+[../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md](../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md)。
 
-Current SimA score-based artifact gate:
-[../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md).
+当前 SimA 基于评分的工件关卡：
+[../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md)。
 
-Current GenAI Confessions black-box artifact gate:
-[../../docs/evidence/genai-confessions-blackbox-artifact-gate-20260515.md](../../docs/evidence/genai-confessions-blackbox-artifact-gate-20260515.md).
+当前 GenAI Confessions 黑盒工件关卡：
+[../../docs/evidence/genai-confessions-black-box-artifact-gate-20260515.md](../../docs/evidence/genai-confessions-black-box-artifact-gate-20260515.md)。
 
-Current response-contract package preflight:
-[../../docs/evidence/blackbox-response-contract-package-preflight.md](../../docs/evidence/blackbox-response-contract-package-preflight.md).
+当前响应合约包预检：
+[../../docs/evidence/black-box-response-contract-package-preflight.md](../../docs/evidence/black-box-response-contract-package-preflight.md)。
 
-Current response-contract discovery:
-[../../docs/evidence/blackbox-response-contract-discovery.md](../../docs/evidence/blackbox-response-contract-discovery.md).
+当前响应合约发现：
+[../../docs/evidence/black-box-response-contract-discovery.md](../../docs/evidence/black-box-response-contract-discovery.md)。
 
-Current Beans/SD1.5 response-contract scout:
-[../../docs/evidence/beans-sd15-response-contract-scout-20260512.md](../../docs/evidence/beans-sd15-response-contract-scout-20260512.md).
+当前 Beans/SD1.5 响应合约侦察：
+[../../docs/evidence/beans-sd15-response-contract-scout-20260512.md](../../docs/evidence/beans-sd15-response-contract-scout-20260512.md)。
 
-Current Beans/SD1.5 response-contract ready package:
-[../../docs/evidence/beans-sd15-response-contract-ready-20260512.md](../../docs/evidence/beans-sd15-response-contract-ready-20260512.md).
+当前 Beans/SD1.5 响应合约就绪包：
+[../../docs/evidence/beans-sd15-response-contract-ready-20260512.md](../../docs/evidence/beans-sd15-response-contract-ready-20260512.md)。
 
-Current Beans/SD1.5 simple-distance scout:
-[../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md](../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md).
+当前 Beans/SD1.5 简单距离侦察：
+[../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md](../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md)。
 
-Current Beans/SD1.5 CLIP-distance scout:
-[../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md).
+当前 Beans/SD1.5 CLIP 距离侦察：
+[../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md)。
 
-Current Beans/SD1.5 membership semantics correction:
-[../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md).
+当前 Beans/SD1.5 成员语义修正：
+[../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md)。
 
-Current Beans member-LoRA denoising-loss closure:
-[../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md).
+当前 Beans member-LoRA 去噪损失闭合：
+[../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md)。
 
-Current MIA_SD asset verdict:
-[../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md).
+当前 MIA_SD 资产裁决：
+[../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md)。
 
-Current Beans member-LoRA delta-sensitivity closure:
-[../../docs/evidence/beans-lora-delta-sensitivity-20260513.md](../../docs/evidence/beans-lora-delta-sensitivity-20260513.md).
+当前 Beans member-LoRA 增量敏感度闭合：
+[../../docs/evidence/beans-lora-delta-sensitivity-20260513.md](../../docs/evidence/beans-lora-delta-sensitivity-20260513.md)。
 
-Current semantic-auxiliary low-FPR review:
-[../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md).
+当前语义辅助低 FPR 审查：
+[../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md)。
 
-## Archive
+## 归档
 
-Closed notes are in
-[../../legacy/workspaces/black-box/2026-04/](../../legacy/workspaces/black-box/2026-04/).
+已关闭的笔记位于
+[../../legacy/workspaces/black-box/2026-04/](../../legacy/workspaces/black-box/2026-04/)。
