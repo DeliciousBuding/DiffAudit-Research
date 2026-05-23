@@ -120,10 +120,10 @@ weight-only LoRA dataset-size recovery lane with MAE/MAPE/accuracy metrics and
 a consumer-boundary note.
 
 Canonical consolidation:
-[../../docs/evidence/graybox-triscore-consolidation-review.md](../../docs/evidence/graybox-triscore-consolidation-review.md).
+[../../docs/evidence/gray-box-triscore-consolidation-review.md](../../docs/evidence/gray-box-triscore-consolidation-review.md).
 
 Canonical truth-hardening:
-[../../docs/evidence/graybox-triscore-truth-hardening-review.md](../../docs/evidence/graybox-triscore-truth-hardening-review.md).
+[../../docs/evidence/gray-box-triscore-truth-hardening-review.md](../../docs/evidence/gray-box-triscore-truth-hardening-review.md).
 
 ## GPU Policy
 
@@ -164,4 +164,4 @@ Keep the SecMI admission boundary aligned with
 The hardened SecMI admission-contract artifact is tracked by
 [../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md).
 Archived paper-candidate reentry is tracked by
-[../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](../../docs/evidence/graybox-paper-candidate-reentry-review-20260512.md).
+[../../docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md](../../docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md).

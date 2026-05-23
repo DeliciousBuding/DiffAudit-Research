@@ -1,12 +1,12 @@
-# Command Reference
+# 命令参考
 
-This page collects runnable command recipes for local validation and research runs.
+本页汇总了可用于本地验证和研究运行的命令配方。
 
-Run commands from the `Research/` repository root unless a command says otherwise.
+除非命令另有说明，请在 `Research/` 仓库根目录下执行。
 
-## Environment
+## 环境
 
-Create the default environment:
+创建默认环境：
 
 ```powershell
 conda env create -f environment.yml
@@ -16,7 +16,7 @@ python scripts/verify_env.py
 python -m diffaudit --help
 ```
 
-Update an existing environment:
+更新已有环境：
 
 ```powershell
 conda env update -f environment.yml --prune
@@ -24,7 +24,7 @@ conda activate diffaudit-research
 python scripts/bootstrap_research_env.py --install
 ```
 
-Use the optional newer-GPU environment only after the default stack hits a real CUDA compatibility error:
+仅在默认环境栈出现真实的 CUDA 兼容性错误后，才使用较新 GPU 的可选环境：
 
 ```powershell
 conda env create -f environment.gpu-cu128.yml
@@ -32,38 +32,38 @@ conda activate diffaudit-research
 python scripts/bootstrap_research_env.py --install
 ```
 
-If the shell has not activated conda, prefix commands with:
+如果 shell 尚未激活 conda，请在命令前添加前缀：
 
 ```powershell
 conda run -n diffaudit-research python scripts/verify_env.py
 conda run -n diffaudit-research python -m diffaudit --help
 ```
 
-## Local Asset Binding
+## 本地资产绑定
 
-Create the ignored local config:
+创建被忽略的本地配置：
 
 ```powershell
 Copy-Item configs/assets/team.local.template.yaml configs/assets/team.local.yaml
 ```
 
-Fill the paths in `configs/assets/team.local.yaml`, then render per-line local configs:
+在 `configs/assets/team.local.yaml` 中填写路径，然后渲染各线本地配置：
 
 ```powershell
 python scripts/render_team_local_configs.py
 ```
 
-Do not commit personal absolute paths. Shared raw assets belong under `<DIFFAUDIT_ROOT>/Download/`; ignored upstream code clones belong under `Research/external/`.
+不要提交个人机器的绝对路径。共享原始资产放在 `<DIFFAUDIT_ROOT>/Download/` 下；被忽略的上游代码克隆放在 `Research/external/` 下。
 
-## Smoke Pipeline
+## Smoke 流水线
 
-Run the minimal smoke pipeline:
+运行最小 smoke 流水线：
 
 ```powershell
 python -m diffaudit run-smoke --config configs/benchmarks/secmi_smoke.yaml --workspace .
 ```
 
-Run the local check wrapper:
+运行本地检查包装脚本：
 
 ```powershell
 python -X utf8 scripts/run_pr_checks.py
@@ -71,9 +71,9 @@ python -X utf8 scripts/run_local_checks.py --fast
 python -X utf8 scripts/run_local_checks.py
 ```
 
-## Black-Box
+## 黑盒
 
-Plan `recon`:
+规划 `recon`：
 
 ```powershell
 python -m diffaudit plan-recon --config configs/attacks/recon_plan.yaml
@@ -81,7 +81,7 @@ python -m diffaudit probe-recon-assets --config configs/attacks/recon_plan.yaml
 python -m diffaudit dry-run-recon --config configs/attacks/recon_plan.yaml --repo-root external/Reconstruction-based-Attack
 ```
 
-Run `recon` smoke and artifact paths:
+运行 `recon` smoke 与产物路径：
 
 ```powershell
 python -m diffaudit run-recon-eval-smoke --workspace experiments/recon-eval-smoke
@@ -90,13 +90,13 @@ python -m diffaudit probe-recon-score-artifacts --artifact-dir path/to/recon-sco
 python -m diffaudit run-recon-artifact-mainline --artifact-dir path/to/recon-scores --workspace experiments/recon-artifact-mainline --repo-root external/Reconstruction-based-Attack --method threshold
 ```
 
-Run the paper Stage 0 gate:
+运行论文 Stage 0 关卡：
 
 ```powershell
 python -m diffaudit check-recon-stage0-paper-gate --repo-root external/Reconstruction-based-Attack --bundle-root "$env:DIFFAUDIT_ROOT/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models" --attack-scenario attack-i
 ```
 
-Evaluate a saved H2 response-strength cache:
+评估已保存的 H2 响应强度缓存：
 
 ```powershell
 python scripts/evaluate_h2_response_cache.py `
@@ -104,10 +104,9 @@ python scripts/evaluate_h2_response_cache.py `
   --output workspaces/black-box/runs/<run>/cache-eval-summary.json
 ```
 
-This is a CPU-only candidate scorer. It does not collect model responses and
-does not promote H2 to admitted evidence.
+这是纯 CPU 的候选评分器。它不收集模型响应，也不会将 H2 提升为已确认证据。
 
-Write the synthetic mid-frequency same-noise residual cache schema preflight:
+写入合成的中频同噪残差缓存模式预检：
 
 ```powershell
 python -X utf8 -m diffaudit run-midfreq-residual-tiny-cache `
@@ -119,11 +118,9 @@ python -X utf8 -m diffaudit run-midfreq-residual-tiny-cache `
   --timestep 80
 ```
 
-This writes `summary.json` and `residual-cache.npz` under the ignored
-workspace. It is a cache-contract smoke only, not a benchmark and not a GPU
-release.
+这会在被忽略的工作区下写入 `summary.json` 和 `residual-cache.npz`。仅作缓存合约 smoke 用途，不是 benchmark，也不释放 GPU。
 
-Write the real-asset mid-frequency same-noise residual cache preflight:
+写入真实资产的中频同噪残差缓存预检：
 
 ```powershell
 conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-real-asset-preflight `
@@ -134,11 +131,9 @@ conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual
   --timestep 80
 ```
 
-This uses the collaborator 750k checkpoint and CIFAR10 ratio0.5 split when the
-local asset manifest paths are present. It is still a `4/4` cache-contract
-preflight, not benchmark evidence and not a GPU release.
+当本地资产清单路径存在时，此命令使用合作者 750k checkpoint 和 CIFAR10 ratio0.5 划分。仍为 `4/4` 缓存合约预检，不是 benchmark 证据，也不释放 GPU。
 
-Run the bounded mid-frequency same-noise residual sign-check:
+运行有限规模的中频同噪残差符号检查：
 
 ```powershell
 conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-sign-check `
@@ -150,11 +145,9 @@ conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual
   --device cuda
 ```
 
-This is a frozen `64/64` candidate packet. It writes ignored local run
-artifacts and must be summarized through an evidence note before it influences
-the roadmap. It is not an admitted result.
+这是冻结的 `64/64` 候选数据包。它会在被忽略的本地运行目录下写入产物，必须通过证据说明总结后才能影响路线图，不是已确认结果。
 
-Run the released mid-frequency same-noise residual seed-stability probe:
+运行已释放的中频同噪残差种子稳定性探针：
 
 ```powershell
 conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-sign-check `
@@ -166,11 +159,9 @@ conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual
   --device cuda
 ```
 
-This is the only packet released by
-[midfreq-residual-stability-decision-20260512.md](../evidence/midfreq-residual-stability-decision-20260512.md).
-It tests seed/noise-pairing stability only; it is not a sweep.
+这是 [midfreq-residual-stability-decision-20260512.md](../evidence/midfreq-residual-stability-decision-20260512.md) 唯一释放的数据包。仅测试种子/噪声配对的稳定性，不是 sweep。
 
-Run the bounded H2 response-strength validation candidate:
+运行有限规模的 H2 响应强度验证候选：
 
 ```powershell
 python scripts/run_h2_response_strength_validation.py `
@@ -180,9 +171,9 @@ python scripts/run_h2_response_strength_validation.py `
   --device cuda:0
 ```
 
-This is a GPU validation candidate, not an admitted benchmark.
+这是 GPU 验证候选，不是已确认 benchmark。
 
-Review lowpass cutoff sensitivity on a saved H2 cache:
+审查已保存 H2 缓存的低通截止灵敏度：
 
 ```powershell
 python scripts/review_h2_lowpass_cutoffs.py `
@@ -190,7 +181,7 @@ python scripts/review_h2_lowpass_cutoffs.py `
   --output workspaces/black-box/runs/<run>/lowpass-cutoff-review.json
 ```
 
-Review simple image-to-image response distance on a saved H2 cache:
+审查已保存 H2 缓存的简单图到图响应距离：
 
 ```powershell
 python scripts/review_h2_img2img_simple_distance.py `
@@ -199,23 +190,21 @@ python scripts/review_h2_img2img_simple_distance.py `
   --output workspaces/black-box/runs/<run>/simple-distance-review.json
 ```
 
-Probe whether H2 can transfer to a non-DDPM black-box asset contract:
+探测 H2 是否能迁移到非 DDPM 的黑盒资产合约：
 
 ```powershell
 python scripts/probe_h2_cross_asset_contract.py
 ```
 
-The default SD/CelebA text-to-image mode is expected to be protocol-blocked for
-H2 response-strength. Use `--endpoint-mode image_to_image` only when the target
-surface actually supports image-conditioned repeated queries.
+默认的 SD/CelebA 文生图模式预计会被 H2 响应强度协议阻断。仅当目标界面确实支持基于图像条件的重复查询时，才使用 `--endpoint-mode image_to_image`。
 
-Prepare the frozen H2 SD/CelebA image-to-image micro-packet without running GPU:
+准备冻结的 H2 SD/CelebA 图到图微数据包（不运行 GPU）：
 
 ```powershell
 python scripts/collect_h2_img2img_response_cache.py
 ```
 
-Collect the bounded 10/10 GPU micro-packet only after confirming GPU memory:
+确认 GPU 显存后，收集有限规模的 10/10 GPU 微数据包：
 
 ```powershell
 python scripts/collect_h2_img2img_response_cache.py `
@@ -226,11 +215,9 @@ python scripts/collect_h2_img2img_response_cache.py `
   --device cuda:0
 ```
 
-The script writes local run artifacts under ignored workspace run directories.
-Commit only reviewed summaries and evidence notes, not response caches or
-generated images.
+脚本在被忽略的工作区运行目录下写入本地运行产物。仅提交经过审查的摘要和证据说明，不要提交响应缓存或生成图像。
 
-Dry-run the non-overlapping simple-distance stability packet:
+试运行不重叠的简单距离稳定性数据包：
 
 ```powershell
 python scripts/collect_h2_img2img_response_cache.py `
@@ -243,7 +230,7 @@ python scripts/collect_h2_img2img_response_cache.py `
   --run-root workspaces/black-box/runs/h2-img2img-simple-distance-stability-20260501-r1
 ```
 
-Dry-run the frozen 25/25 simple-distance admission packet:
+试运行冻结的 25/25 简单距离验收数据包：
 
 ```powershell
 python scripts/collect_h2_img2img_response_cache.py `
@@ -256,21 +243,21 @@ python scripts/collect_h2_img2img_response_cache.py `
   --run-root workspaces/black-box/runs/h2-img2img-simple-distance-admission-20260501-r1
 ```
 
-Validate a prepared local CLiD bridge contract:
+验证已准备的本地 CLiD 桥接合约：
 
 ```powershell
 python scripts/review_clid_bridge_contract.py `
   --run-root workspaces/black-box/runs/<clid-bridge-run>
 ```
 
-Validate a CLiD score-summary gate before promotion:
+在提升前验证 CLiD 分数汇总关卡：
 
 ```powershell
 python scripts/review_clid_score_schema.py `
   --summary workspaces/black-box/runs/<clid-score-run>/score-summary.json
 ```
 
-Summarize a local two-file CLiD bridge output pair:
+汇总本地双文件 CLiD 桥接输出对：
 
 ```powershell
 python scripts/summarize_clid_bridge_pair_outputs.py `
@@ -278,7 +265,7 @@ python scripts/summarize_clid_bridge_pair_outputs.py `
   --workspace workspaces/black-box/runs/<clid-bridge-run>/score-summary-workspace
 ```
 
-Plan `variation`:
+规划 `variation`：
 
 ```powershell
 python -m diffaudit plan-variation --config configs/attacks/variation_plan.yaml
@@ -287,7 +274,7 @@ python -m diffaudit dry-run-variation --config configs/attacks/variation_plan.ya
 python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke
 ```
 
-Plan `CLiD`:
+规划 `CLiD`：
 
 ```powershell
 python -m diffaudit plan-clid --config configs/attacks/clid_plan.yaml
@@ -297,9 +284,9 @@ python -m diffaudit run-clid-dry-run-smoke --workspace experiments/clid-dry-run-
 python -m diffaudit summarize-clid-artifacts --artifact-dir "$env:DIFFAUDIT_ROOT/Download/black-box/supplementary/clid-mia-supplementary/contents/CLID_MIA/inter_output/CLID" --workspace experiments/clid-artifact-summary
 ```
 
-## Gray-Box
+## 灰盒
 
-Plan and probe `PIA`:
+规划并探测 `PIA`：
 
 ```powershell
 python -m diffaudit plan-pia --config configs/attacks/pia_plan.yaml
@@ -307,7 +294,7 @@ python -m diffaudit probe-pia-assets --config configs/attacks/pia_plan.yaml --me
 python -m diffaudit dry-run-pia --config configs/attacks/pia_plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM
 ```
 
-Run small `PIA` previews:
+运行小型 `PIA` 预览：
 
 ```powershell
 python -m diffaudit runtime-probe-pia --config configs/attacks/pia_plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM --device cpu
@@ -316,7 +303,7 @@ python -m diffaudit run-pia-runtime-smoke --workspace experiments/pia-runtime-sm
 python -m diffaudit run-pia-synth-smoke --workspace experiments/pia-synth-smoke-cpu --repo-root external/PIA --device cpu
 ```
 
-Plan and probe `SecMI`:
+规划并探测 `SecMI`：
 
 ```powershell
 python -m diffaudit plan-secmi --config configs/attacks/secmi_plan.yaml
@@ -326,35 +313,35 @@ python -m diffaudit dry-run-secmi --config configs/attacks/secmi_plan.yaml --rep
 python -m diffaudit runtime-probe-secmi --config configs/attacks/secmi_plan.yaml --repo-root third_party/secmi
 ```
 
-Bootstrap local `SecMI` smoke assets:
+引导本地 `SecMI` smoke 资产：
 
 ```powershell
 python -m diffaudit bootstrap-secmi-smoke-assets --target-dir tmp/secmi-smoke-assets
 ```
 
-## White-Box
+## 白盒
 
-Probe and run `GSA`:
+探测并运行 `GSA`：
 
 ```powershell
 python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 python -m diffaudit run-gsa-runtime-mainline --workspace workspaces/white-box/runs/gsa-runtime-mainline --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa --resolution 32 --ddpm-num-steps 20 --sampling-frequency 2 --attack-method 1
 ```
 
-Probe and sample `DiT`:
+探测并采样 `DiT`：
 
 ```powershell
 python -m diffaudit probe-dit-assets --repo-root external/DiT --model "DiT-XL/2" --image-size 256
 python -m diffaudit run-dit-sample-smoke --workspace experiments/dit-sample-smoke --repo-root external/DiT --model "DiT-XL/2" --image-size 256 --num-sampling-steps 2 --seed 0
 ```
 
-## Runtime Boundary
+## Runtime 边界
 
-The active runtime service lives in a sibling repository (`Runtime-Server/`), not here:
+当前运行的 Runtime 服务位于同级仓库 (`Runtime-Server/`)，不在这里：
 
 ```powershell
 cd ../Runtime-Server
 go run ./cmd/runtime --host 127.0.0.1 --port 8765
 ```
 
-Research commands may write summaries and manifests that Runtime or Platform consumes later, but service deployment and HTTP API work should stay in `Runtime-Server/` or `Platform/`.
+Research 命令可以写出 Runtime 或 Platform 后续消费的摘要和清单，但服务部署和 HTTP API 工作应保留在 `Runtime-Server/` 或 `Platform/` 中。

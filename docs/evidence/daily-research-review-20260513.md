@@ -16,7 +16,7 @@ several times.
 | Metric verdict | Beans member-LoRA parameter-delta sensitivity is weak; Beans LoRA family is closed after both denoising-loss and parameter-delta routes fail. | [beans-lora-delta-sensitivity-20260513.md](beans-lora-delta-sensitivity-20260513.md) |
 | Consumer verdict | Paperization and Platform/Runtime boundaries remain admitted-only. Weak/watch lines stay limitations or future-work hooks. | [paperization-consumer-boundary-20260513.md](paperization-consumer-boundary-20260513.md) |
 | Asset verdict | `osquera/MIA_SD` lacks released images, checkpoint, exact split manifest, and query/response package. | [miasd-face-ldm-asset-verdict-20260513.md](miasd-face-ldm-asset-verdict-20260513.md) |
-| Asset verdict | Zenodo `10.5281/zenodo.14928092` is admitted-family GSA provenance, not a new second asset. | [whitebox-gsa-zenodo-archive-verdict-20260513.md](whitebox-gsa-zenodo-archive-verdict-20260513.md) |
+| Asset verdict | Zenodo `10.5281/zenodo.14928092` is admitted-family GSA provenance, not a new second asset. | [white-box-gsa-zenodo-archive-verdict-20260513.md](white-box-gsa-zenodo-archive-verdict-20260513.md) |
 
 ## Current Slots
 

@@ -16,7 +16,7 @@ candidate?
 - Machine-readable review:
   `workspaces/gray-box/artifacts/graybox-triscore-truth-hardening-review.json`
 - Consolidation review:
-  [graybox-triscore-consolidation-review.md](graybox-triscore-consolidation-review.md)
+  [gray-box-triscore-consolidation-review.md](gray-box-triscore-consolidation-review.md)
 - Admitted comparator:
   [admitted-results-summary.md](admitted-results-summary.md)
 

@@ -12,7 +12,7 @@ Fashion-MNIST, and controlled MNIST mechanisms were weak?
 - Benchmark: MIDST SaTML 2025 black-box single-table challenge.
 - Model family: TabDDPM synthetic tabular diffusion models.
 - Data: `tabddpm_black_box.zip`, downloaded from the starter-kit Google Drive
-  entry to `<DOWNLOAD_ROOT>/shared/midst-data/`.
+  entry to `<DOWNLOAD_ROOT>/shared/datasets/midst-data/`.
 - Labels: train labels from the downloaded package; dev/final labels from the
   local Codabench bundle cloned with the MIDST repository.
 - Membership split: each model folder has `200` challenge rows, exactly

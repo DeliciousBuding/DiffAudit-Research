@@ -20,8 +20,8 @@ Reviewed sources:
 - [innovation-evidence-map.md](innovation-evidence-map.md)
 - [research-boundary-card.md](research-boundary-card.md)
 - [../product-bridge/README.md](../product-bridge/README.md)
-- [blackbox-response-contract-second-asset-intake-20260511.md](blackbox-response-contract-second-asset-intake-20260511.md)
-- [graybox-triscore-truth-hardening-review.md](graybox-triscore-truth-hardening-review.md)
+- [black-box-response-contract-second-asset-intake-20260511.md](black-box-response-contract-second-asset-intake-20260511.md)
+- [gray-box-triscore-truth-hardening-review.md](gray-box-triscore-truth-hardening-review.md)
 - [rediffuse-exact-replay-packet.md](rediffuse-exact-replay-packet.md)
 
 ## Consumer Boundary
