@@ -2,6 +2,52 @@
 
 > Last updated: 2026-05-23
 
+## 2026-05-23 下一阶段研究综合
+
+三个并行研究 agent 完成了对公开面的系统性扫描，覆盖新产物、候选晋升潜力和第二资产合约定义。关键发现：
+
+### 公开产物扫描（arXiv、OpenReview、HF、GitHub、CVPR 共 35+ 次检索）
+
+**截至 2026-05-23，公开面上不存在完全合格的第二资产。** 共检查了九个候选；八个为纯论文或已被阻断。模式一致：代码有时存在，划分清单偶尔存在，checkpoint 和预计算 score 包几乎从不存在。
+
+**一个可操作发现：ReDiffuse (ICLR 2025) OpenReview 补充材料。**
+包含公开的 `STL10_train_ratio0.5.npz`——一个真正的 STL-10 member/nonmember
+划分清单，附 SHA-256 哈希，以及完整的 DDPM 训练和攻击代码。
+同时包含 CIFAR-100 和 Tiny-IN 划分清单。没有 checkpoint，但训练代码已包含在内。
+从零开始在 STL-10 上训练 DDPM 约需 4 GPU-小时（A100），本地 RTX 4070 笔记本约 8-12 小时。
+这是通往第二数据集面的最清晰路径。
+
+### 候选晋升评估
+
+| 候选 | 信号 | 可行性 | 阻断因素 |
+|-----------|--------|-------------|---------|
+| CLiD | AUC=0.961 | 低 | Prompt 条件化是信号固有属性；对照实验证明 |
+| CopyMark | AUC=0.44-0.57 (CommonCanvas) | 低 | 经验上已闭合（4 个 scorer 均弱） |
+| Tracing the Roots | AUC=0.816 | **中** | 公开 feature tensor 存在；阻断因素在内部——需要 feature-packet 消费通道 |
+
+### 第二资产合约
+
+正式 6 关合约已保存至 `docs/evidence/second-asset-contract.md`：
+Target Identity → Split → Score → Metric → Provenance → Surface Delta。
+
+最可达路径：
+1. **ReDiffuse DDPM/STL-10**：同家族不同数据集。划分清单已存在。约 4 GPU-小时训练。
+2. **ReDiffuse DDPM/CIFAR-100**：同路径，CIFAR-100 划分也在补充材料中。
+3. **MT-MIA Relational Tabular**：18 个公开 score 包，但需要将范围扩展到表格模态。
+4. **Tracing the Roots feature-packet**：需要开通灰盒消费通道。
+
+### 决策
+
+**立即执行**：下载 ReDiffuse 补充材料，提取 STL-10 划分，开始 CPU 侧预检。
+若划分语义验证通过，进入有界 GPU 训练。这将为 DiffAudit 提供首个真正的
+第二数据集面（DDPM/STL-10），具有可验证的第三方划分溯源。
+
+**中期**：决定 Tracing the Roots feature-packet 通道。若是，设计消费合约并准入。
+若否，作为 Research 侧参考关闭。
+
+**ReDiffuse STL-10 路径之外不启动新的 GPU 实验。**
+`active_gpu_question = ReDiffuse DDPM/STL-10 preflight`
+
 ## 2026-05-23 Lane A Metadata Triage Sync
 
 Lane A ran a bounded metadata-only public asset check after the ReDiffuse SD
