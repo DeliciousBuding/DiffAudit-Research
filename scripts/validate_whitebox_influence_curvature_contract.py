@@ -43,7 +43,7 @@ REQUIRED_BLOCKED_CLAIMS = (
 )
 REQUIRED_DOCS = (
     "docs/evidence/post-secmi-next-lane-reselection-20260511.md",
-    "docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md",
+    "docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md",
 )
 
 

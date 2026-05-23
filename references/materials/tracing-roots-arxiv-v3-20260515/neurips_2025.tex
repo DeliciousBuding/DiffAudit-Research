@@ -1,0 +1,622 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2025
+
+% The authors should use one of these tracks.
+% Before accepting by the NeurIPS conference, select one of the options below.
+% 0. "default" for submission
+ \usepackage[main, final]{neurips_2025}
+% the "default" option is equal to the "main" option, which is used for the Main Track with double-blind reviewing.
+% 1. "main" option is used for the Main Track
+%  \usepackage[main]{neurips_2025}
+% 2. "position" option is used for the Position Paper Track
+%  \usepackage[position]{neurips_2025}
+% 3. "dandb" option is used for the Datasets & Benchmarks Track
+ % \usepackage[dandb]{neurips_2025}
+% 4. "creativeai" option is used for the Creative AI Track
+%  \usepackage[creativeai]{neurips_2025}
+% 5. "sglblindworkshop" option is used for the Workshop with single-blind reviewing
+ % \usepackage[sglblindworkshop]{neurips_2025}
+% 6. "dblblindworkshop" option is used for the Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop]{neurips_2025}
+
+% After being accepted, the authors should add "final" behind the track to compile a camera-ready version.
+% 1. Main Track
+ % \usepackage[main, final]{neurips_2025}
+% 2. Position Paper Track
+%  \usepackage[position, final]{neurips_2025}
+% 3. Datasets & Benchmarks Track
+ % \usepackage[dandb, final]{neurips_2025}
+% 4. Creative AI Track
+%  \usepackage[creativeai, final]{neurips_2025}
+% 5. Workshop with single-blind reviewing
+%  \usepackage[sglblindworkshop, final]{neurips_2025}
+% 6. Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop, final]{neurips_2025}
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote.
+% For workshops (5., 6.), the authors should add the name of the workshop, "\workshoptitle" command is used to set the workshop title.
+% \workshoptitle{WORKSHOP TITLE}
+
+% "preprint" option is used for arXiv or other preprint submissions
+ % \usepackage[preprint]{neurips_2025}
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2025}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{tcolorbox}
+\DeclareRobustCommand{\mybox}[2][gray!10]{%
+	\begin{tcolorbox}[   %
+		left=0pt,
+		right=0pt,
+		top=0pt,
+		bottom=0pt,
+		colback=#1,
+		colframe=#1,
+		width=\dimexpr\textwidth\relax, 
+		enlarge left by=0mm,
+		boxsep=5pt,
+		arc=0pt,outer arc=0pt,
+		]
+		#2
+	\end{tcolorbox}
+}
+\usepackage{amsthm}
+\theoremstyle{remark}
+\newtheorem{conjecture}{Conjecture}
+\usepackage[algoruled,vlined]{algorithm2e}
+\usepackage{wrapfig}
+
+
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote. 
+\title{Tracing the Roots: Leveraging Temporal Dynamics in Diffusion Trajectories for Origin Attribution}
+
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to break the
+% lines. Using \AND forces a line break at that point. So, if LaTeX puts 3 of 4
+% authors names on the first line, and the last on the second line, try using
+% \AND instead of \And before the third author name.
+
+
+\author{%
+  Andreas Floros \\
+  Imperial College London \\
+  \texttt{andreas.floros18@imperial.ac.uk} \\
+  \AND
+  Seyed-Mohsen Moosavi-Dezfooli\thanks{Work done while at Imperial.} \\
+  Apple \\
+  \texttt{smoosavi@apple.com} \\
+  \And
+  Pier Luigi Dragotti \\
+  Imperial College London \\
+  \texttt{p.dragotti@imperial.ac.uk} \\
+}
+
+\begin{document}
+
+
+\maketitle
+
+\setcounter{footnote}{0}
+
+\begin{abstract}
+    Diffusion models have transformed image synthesis through iterative denoising, by defining trajectories from noise to coherent data. While their capabilities are widely celebrated, a critical challenge remains unaddressed: ensuring responsible use by verifying whether an image originates from a model's training set, its novel generations or external sources. We introduce a framework that analyzes diffusion trajectories for this purpose. Specifically, we demonstrate that temporal dynamics across the entire trajectory allow for more robust classification and challenge the widely-adopted "Goldilocks zone" conjecture, which posits that membership inference is effective only within narrow denoising stages. More fundamentally, we expose critical flaws in current membership inference practices by showing that representative methods fail under distribution shifts or when model-generated data is present. For model attribution, we demonstrate a first white-box approach directly applicable to diffusion. Ultimately, we propose the unification of data provenance into a single, cohesive framework tailored to modern generative systems.
+\end{abstract}
+
+
+\section{Introduction}
+
+Generative modeling has seen major advancements with the rise of diffusion models \citep{NEURIPS2020_4c5bcfec}. These models have become the standard for image synthesis, achieving state-of-the-art performance via trajectories from noise to coherent data \citep{Karras2024edm2}. However, their growing prevalence has raised significant concerns about privacy, security and accountability. For instance, sensitive or copyrighted data used during training can be memorized and inadvertently reproduced by the model during inference \citep{10.5555/3620237.3620531, 10203298, gu2025on}. Furthermore, the lack of mechanisms to attribute content to specific models has made it easier to distribute harmful or malicious outputs without repercussions \citep{wang2023where, pmlr-v235-laszkiewicz24a, 10.1007/978-3-031-73033-7_16}. We are therefore broadly concerned with the following question regarding data provenance:
+
+\begin{center}
+    \textit{Given pretrained generative models and data points, what relationships, if any, exist between them?}
+\end{center}
+
+Specifically, toward responsible generative modeling, our goal is to determine whether an image is (i) part of a model’s training (\textit{member}) set, (ii) a novel sample from the model (\textit{belonging}) or (iii) sourced externally (\textit{external}). In doing so, we propose to unify two traditionally separate tasks: Membership Inference Attacks (MIAs), which determine whether an image was part of a model’s training set \citep{7958568, 8429311}, and Model Attribution (MA), which determines whether an image was generated by a specific model \citep{wang2023where, pmlr-v235-laszkiewicz24a}.
+
+\pagebreak
+
+We begin our exploration of data forensics by first focusing on the MIA setting. The literature on this task for diffusion models has largely converged to a likelihood thresholding approach, where the model's (negative) denoising loss is used as a proxy \citep{10188618, 10.5555/3618408.3618757}. We identify two significant limitations with methods adopting this framework that, arguably, render them unworkable for practical membership inference. In particular, we show that such MIAs cannot distinguish between model-generated and training data, limiting their applicability in auditing synthetic data (e.g., for identifying memorization) or data extraction attacks. More importantly, we show that such threshold-based approaches may also underperform compared to naive baselines, that have no access to the underlying diffusion model and hence no real predictive power. We therefore argue that existing MIAs are, at best, strong \textit{non-membership} inference attacks \citep{carlini2022firstprinciples}.
+
+The above-mentioned shortcomings of diffusion MIAs motivate us to depart from conventional approaches. Specifically, we challenge the widely-adopted and influential "Goldilocks zone" conjecture of \citet{10.5555/3620237.3620531}, which posits that representations at the intermediate steps of denoising diffusion are most effective for membership inference. Intuitively, we expect that there is a wealth of information that is encoded within diffusion trajectories, and we hypothesize the existence of hidden patterns in the temporal dynamics of diffusion that may be used for more robust classification.
+
+Equipped with our proposed trajectory representations, we then revisit the problem of data provenance. With our method, we demonstrate an application to data extraction, improved robustness to distribution shifts and a first white-box model attribution method that is directly applicable to diffusion models.
+
+\section{Background}
+
+We give a brief overview of diffusion and the various data provenance tasks we are concerned with. We refer the reader to Section \ref{sec:discussion} for a discussion on our work's position within the broader literature.
+
+\subsection{Diffusion-based generative models}
+
+\paragraph{Continuous-time formulation}
+Diffusion defines a mapping between the data distribution, $p$, and a tractable distribution. Let $\boldsymbol{x}(\cdot):[0, T]\to\mathbb{R}^D$ such that $\boldsymbol{x}(0)\sim p$ and $\boldsymbol{x}(T)$ is normal. Specifically, for time $t=0$ to $t=T$, we write the It\^{o} Stochastic Differential Equation (SDE) \citep{song2021scorebased}:
+\begin{equation}
+    \label{eq:fwdito}
+    \text{d}\boldsymbol{x}=\boldsymbol{f}(\boldsymbol{x}, t)\text{d}t+g(t)\text{d}\boldsymbol{w},
+\end{equation}
+where $\boldsymbol{f}(\cdot,t):\mathbb{R}^D\to\mathbb{R}^D$, $g(\cdot):\mathbb{R}\to\mathbb{R}$ are appropriate drift, diffusion coefficients and $\boldsymbol{w}$ is the standard Wiener process. Given the above forward process, sampling is performed from $t=T$ to $t=0$, by modeling trajectories with a reverse-time SDE \citep{ANDERSON1982313} as:
+\begin{equation}
+    \label{eq:revito}
+    \text{d}\boldsymbol{x}=[\boldsymbol{f}(\boldsymbol{x}, t) - g(t)^2\nabla_{\boldsymbol{x}}\log p_t(\boldsymbol{x})]\text{d}t + g(t)\text{d}\bar{\boldsymbol{w}},
+\end{equation}
+where $\text{d}t<0$ and $\bar{\boldsymbol{w}}$ is the time-reversed standard Wiener process. Crucially, under this interpretation, modeling the reverse diffusion trajectories requires knowledge of the score function $\nabla_{\boldsymbol{x}}\log p_t(\boldsymbol{x})$.
+
+\paragraph{Denoising diffusion probabilistic models}
+In practice, one discretizes the above equations and considers families of SDEs with a tractable forward process. A common parameterization is given by DDPMs \citep{NEURIPS2020_4c5bcfec}, which choose $\boldsymbol{f}(\boldsymbol{x},t)=-\frac{1}{2}\beta(t)\boldsymbol{x}$ and $g(t)=\sqrt{\beta(t)}$, where the function $\beta(t)$ is some noise schedule. By discretizing \eqref{eq:fwdito} with DDPM, the forward probabilities become:
+\begin{equation}
+    \label{eq:fwdddpm}
+    p_{t}(\boldsymbol{x}_t|\boldsymbol{x})=\mathcal{N}(\boldsymbol{x}_t;\sqrt{\bar{\alpha}_t}\boldsymbol{x},(1-\bar{\alpha}_t)\boldsymbol{I}),
+\end{equation}
+where the subscripts denote discretization, $\alpha_t=1-\beta_t$ and $\bar{\alpha}_t=\prod_{s=0}^{t}\alpha_s$. As $p_{t}(\boldsymbol{x}_t|\boldsymbol{x})$ is normal, the score may be approximated by application of Tweedie's formula \citep{04f9ad2d-909a-34da-ad09-b5ac91b665b6}:
+\begin{equation}
+    \label{eq:tweedie}
+    \nabla_{\boldsymbol{x}_t}\log p_t(\boldsymbol{x}_t)=\frac{\sqrt{\bar{\alpha}_t}\mathbb{E}(\boldsymbol{x}|\boldsymbol{x}_t, t)-\boldsymbol{x}_t}{1-\bar{\alpha}_t},
+\end{equation}
+where the expectation describes the minimum mean squared error Gaussian denoiser. Therefore, by \eqref{eq:fwdddpm} and \eqref{eq:tweedie}, Denoising Score Matching (DSM) may be performed via a noise-predicting neural network, $\boldsymbol{\epsilon_\theta}(\cdot, t):\mathbb{R}^D\to\mathbb{R}^D$, that minimizes the quantity $\mathcal{L}_t=\|\boldsymbol{\epsilon_\theta}(\sqrt{\bar{\alpha}_t}\boldsymbol{x}+\sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon},t)-\boldsymbol{\epsilon}\|^2_2$ for all $t$. The complete DDPM optimization objective is then expressed as follows:
+\begin{equation}
+\min_{\boldsymbol{\theta}}\mathbb{E}_{t\sim\mathcal{U}(\{0, \dots, T-1\}), \boldsymbol{x}\sim p, \boldsymbol{\epsilon}\sim\mathcal{N}(\boldsymbol{0},\boldsymbol{I})}\lambda_t\mathcal{L}_t.
+\end{equation}
+For appropriate $\lambda_t$, the above is equivalent to the Negative Evidence Lower Bound (NELBO) of the data \citep{NEURIPS2020_4c5bcfec}. In this sense, DSM may also be reframed as likelihood maximization.
+
+\subsection{Data provenance}
+
+\paragraph{Membership inference} The aim of this task is to determine whether a given data point was used in the training of a machine learning model, i.e., whether it is a member. Traditionally, one assumes knowledge of the overall data distribution, $p$, but no knowledge of the specific training data. Moreover, other training details of the model are also assumed. Given this setup, \citet{7958568} proposed to develop MIAs via surrogates, whose aim is to closely reproduce the target model without knowledge of its member set. As these surrogate models are trained by us, the attacker, it is then possible to optimize the MIA in a supervised way, hoping that it will also be transferable to the target model.
+
+Since then, follow-up work by \citet{8429311} proposed MIAs via loss thresholding, where the intuition is that training data will naturally achieve a smaller model loss compared to unseen data. In practice, this approach simplifies the design space of the attacks, making them largely parameter-free.
+
+\paragraph{Model attribution} With the rise of increasingly capable generative models, the attribution of synthetic data has become a problem of interest to the research community \citep{wang2023where, pmlr-v235-laszkiewicz24a, 10.1007/978-3-031-73033-7_16}. Given such synthetic data, the aim here is to identify the \textit{specific} generative model that is responsible for producing it. Arguably, assuming the generators adequately capture the underlying data such that there are no noticeable distribution shifts, this is a task that may require white-box access to the systems for more reliable attribution. Representative works operating under this assumption have converged to reconstruction or inversion-based methods, where the idea is to estimate model-specific, internal preimages of the samples that are more informative and distinguishable than the final outputs \citep{wang2023where, pmlr-v235-laszkiewicz24a}.
+
+\section{Threat model}
+\label{sec:threat}
+
+We frame data forensics as a game between model developers, whose interest is to minimize liability, and an adversary wishing to uncover data and its origins. The adversary's goal is to extract meaningful features, $\boldsymbol{f}$, that couple the diffusion model, $\boldsymbol{\epsilon}_{\boldsymbol{\theta}}$, and the data, $\boldsymbol{x}$, in a way that reveals their underlying relationship. To this end, we will consider a simple pipeline consisting of a feature extraction stage from an off-the-shelf diffusion model and a learning stage. For a simple and standardized evaluation, we will adopt a linear probing model for classification to assess the quality of feature representations:
+\begin{equation}
+\label{eq:linclass}
+\boldsymbol{l}(\boldsymbol{x};\boldsymbol{\epsilon}_{\boldsymbol{\theta}})=\boldsymbol{W}\cdot\boldsymbol{f}(\boldsymbol{x};\boldsymbol{\epsilon}_{\boldsymbol{\theta}}) + \boldsymbol{b}.
+\end{equation}
+Here, $\boldsymbol{l}$ represents logits for binary or ternary classification, depending on the task we consider, and $\boldsymbol{W}$, $\boldsymbol{b}$ are parameters to be optimized based on the adversary's capabilities. For clarity, we provide complete implementation details in Appendix \ref{appendix:setup} and state such capabilities explicitly below:
+\begin{itemize}
+    \item \textit{White-box access}. Given well-trained generative systems, we argue that black-box methods will struggle to distinguish the various classes of data under a fair evaluation with no distribution shifts, necessitating the use of internal model signals for reliable classification.
+    \item \textit{Limited data access}. Surrogate development, as proposed by \citet{7958568}, is often unrealistic and the alternative of method refinement at evaluation leads to inflated metrics. To properly develop forensics tools, we instead explicitly assume access to a small, potentially imbalanced or otherwise uncurated fraction of the member set (we will use $<3.4\%$).
+\end{itemize}
+Note, the above-described threat model makes a non-standard assumption regarding data access and trades this for the surrogate framework of \citet{7958568}. Our position is that, while ours is a strong assumption, it is far milder than the alternative. We give two reasons to defend our choice.
+
+On a practical level, we argue that surrogate development is computationally prohibitive for modern generative systems, especially since competitive MIAs operating under this framework may train several such surrogates to approximate the target's behavior \citep{10.5555/3620237.3620531, pang2025whitebox}.
+
+More fundamentally, under the surrogate framework, it is difficult to justify or bound our assumptions. In particular, to reproduce modern generative systems, a detailed description of the training setup may be required. However, important details such as pretraining, dataset composition, number of iterations and regularization are often omitted or otherwise difficult to infer even in open-source releases. We therefore argue that data provenance via surrogate development involves several hidden and intractable assumptions that make it harder to judge real data privacy and security risks.
+
+\begin{figure}[t!]
+    \centering
+    \begin{minipage}[b]{0.43\textwidth}
+        \includegraphics[width=\textwidth]{figures/chq256-trajectories.pdf}
+        \caption{Member, model-generated and external data loss (averages with solid lines) as a function of $t$ for CelebA-HQ DDPM.}
+        \label{fig:adv}
+    \end{minipage}
+    \nextfloat
+    \hfill
+    \begin{minipage}[b]{0.56\textwidth}
+        \begin{subfigure}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{figures/chq256-hist-loss.pdf}
+            \caption{$\mathbb{E}_t(\mathcal{L}_t)$ histograms}
+            \label{fig:histschq256a}
+        \end{subfigure}
+        \begin{subfigure}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{figures/chq256-hist-gradx.pdf}
+            \caption{$\mathbb{E}_t(\|\nabla_{\boldsymbol{x}}\mathcal{L}_t\|^2_2)$ histograms}
+        \end{subfigure}
+        \begin{subfigure}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{figures/chq256-tsne-loss.pdf}
+            \caption{$\{\mathcal{L}_t\}^{T-1}_{t=0}$ t-SNE}
+        \end{subfigure}
+        \begin{subfigure}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{figures/chq256-tsne-gradx.pdf}
+            \caption{$\{\|\nabla_{\boldsymbol{x}}\mathcal{L}_t\|^2_2\}^{T-1}_{t=0}$ t-SNE}
+        \end{subfigure}
+        \caption{Visualization of CelebA-HQ DDPM features.}
+        \label{fig:histschq256}
+    \end{minipage}
+\end{figure}
+
+\begin{table*}[!t]
+    \caption{TPRs / FPRs for MIA using \eqref{eq:mastumoto}. Top are FPRs on external and bottom are FPRs on model-generated data. The latter (TPR, FPR) are below the $y=x$ curve, i.e., worse than random.}
+    \centering
+    \begin{tabular}{@{}lrrrrrr@{}}
+           \toprule
+           Dataset & $t=50$ & $t=100$ & $t=150$ & $t=200$ & $t=250$ & $t=300$ \\ \midrule
+         CIFAR-10 & 56.3 / \begin{tabular}{@{}c@{}}46.4 \\ 60.7 \end{tabular} & 60.1 / \begin{tabular}{@{}c@{}}44.7 \\ 64.3 \end{tabular} & 61.1 / \begin{tabular}{@{}c@{}}41.7 \\ 66.6 \end{tabular} & 62.2 / \begin{tabular}{@{}c@{}}42.8 \\ 66.6 \end{tabular} & 62.2 / \begin{tabular}{@{}c@{}}42.4 \\ 67.3 \end{tabular} & 59.6 / \begin{tabular}{@{}c@{}}45.6 \\ 65.7 \end{tabular} \\         
+         \\
+         CelebA-HQ 256 & 64.1 / \begin{tabular}{@{}c@{}}48.3 \\ 92.4 \end{tabular} & 72.9 / \begin{tabular}{@{}c@{}}41.5 \\ 94.3 \end{tabular} & 78.9 / \begin{tabular}{@{}c@{}}34.2 \\ 95.7 \end{tabular} & 83.5 / \begin{tabular}{@{}c@{}}31.0 \\ 96.5 \end{tabular} & 85.1 / \begin{tabular}{@{}c@{}}29.2 \\ 96.4 \end{tabular} & 85.9 / \begin{tabular}{@{}c@{}}29.2 \\96.7 \end{tabular} \\ \bottomrule
+    \end{tabular}
+    \label{tab:gen<train<test}
+\end{table*}
+
+\section{Do membership inference attacks work?}
+\label{sec:miadoesntwork}
+
+It is instructive to first review existing approaches to MIAs on diffusion models. Under the assumptions established in Section \ref{sec:threat}, these attacks are, arguably, useful only as filters for data extraction \citep{cannotmembership}. However, we will demonstrate that MIAs fail in the presence of model-generated data, limiting their potential in auditing model outputs or extracting training data. Even worse, we will highlight a further weakness and show how, under certain conditions, existing MIAs may underperform relative to naive baselines that provably have no real predictive power.
+
+To this end, we consider the representative threshold-based approach of \citet{8429311}, which has inspired several recent works on diffusion MIAs \citep{10.5555/3620237.3620531, 10.5555/3618408.3618757, 10188618, kong2024an, tang2024membership, zhai2024membership}. For a given time-step, $t$, the idea is to identify as members the samples that attain a denoising loss, $\mathcal{L}_t$, below a certain threshold $\tau$:
+\begin{equation}
+    \label{eq:mastumoto}
+    \mathcal{M}(\boldsymbol{x};\boldsymbol{\epsilon}_{\boldsymbol{\theta}})=\mathbbm{1}[\mathcal{L}_t<\tau], \quad \mathcal{L}_t:=\|\boldsymbol{\epsilon}_{\boldsymbol{\theta}}(\sqrt{\bar\alpha_t}\boldsymbol{x}+\sqrt{1-\bar\alpha_t}\boldsymbol{\epsilon},t)-\boldsymbol{\epsilon}\|^2_2, \quad \boldsymbol{\epsilon}\sim\mathcal{N}(\boldsymbol{0},\boldsymbol{I}).
+\end{equation}
+Typically, $\tau$ is chosen to demonstrate the True Positive Rate at a set False Positive Rate (TPR @ FPR) or adjusted for other metrics, e.g., the Area Under the Curve (AUC) or Attack Success Rate (ASR). $t$ is reported to be a critical hyperparameter \citep{10.5555/3620237.3620531} and commonly tuned via surrogates.
+\subsection{Representative attacks cannot audit synthetic data}
+\label{subsec:genrobust}
+
+For a DDPM trained on CelebA-HQ \citep{karras2018progressive} at $256\times256$ resolution, we plot $\mathcal{L}_t$ in Figures \ref{fig:adv}, \ref{fig:histschq256a}.  It is clear that thresholding is not sufficient for reliable classification as synthetic data consistently fools such detectors by attaining the lowest loss. We confirm our findings with further experiments in Table \ref{tab:gen<train<test} and also include a CIFAR-10 \citep{Krizhevsky2009LearningML} DDPM in our analysis. Fundamentally, we attribute this phenomenon to the maximum likelihood interpretation of DSM, where the loss is equivalent to the NELBO of the DDPM \citep{NEURIPS2020_4c5bcfec}. As hinted in Figure \ref{fig:histschq256}, this limitation motivates us to explore more separable features, beyond thresholding, later in Section \ref{sec:goldilocks}.
+
+\begin{table*}[t]
+    \caption{MIA (member-external) AUC, TPRs @ 1\% FPR and ASRs. For the CIFAR-10 experiment, we use CIFAR-10.1 as the external set, where the naive baseline is close to random guessing and there are no distribution shifts. The CelebA-HQ experiment uses FFHQ as external data, where there are clear distribution shifts, as reflected by the baseline's performance. In the latter case, the representative threshold-based approaches of \citet{10188618, kong2024an} underperform.}
+    \centering
+    \setlength{\tabcolsep}{1mm}
+    \begin{tabular}{@{}lrrrrrrr@{}}
+           \toprule
+           \multirow{2}{*}{Method} & \multicolumn{3}{l}{CIFAR-10} && \multicolumn{3}{l}{CelebA-HQ 256} \\
+           \cmidrule{2-4}  \cmidrule{6-8}
+           & AUC & TPR @ 1\% FPR & ASR && AUC & TPR @ 1\% FPR & ASR\\
+           \midrule
+            Naive (model-blind) & 52.2 & 0.0 & 52.0 && 94.4 & 60.1 & 86.6\\
+            \citet{10188618} & 63.2 & 3.3 & 59.7 && 85.2 & 26.4 & 76.2\\
+            \citet{kong2024an} (PIA) & 66.9 & 5.1 & 62.4 && 62.5 & 0.1 & 58.1\\ 
+            \citet{pang2025whitebox} ($\text{GSA}_2$) & \textbf{82.7} & \textbf{12.5} & \textbf{73.5} && \textbf{100.0} & \textbf{99.6} & \textbf{92.5}\\
+            \bottomrule
+
+    \end{tabular}
+    \label{tab:mia}
+\end{table*}
+
+\begin{figure*}[t!]
+\begin{minipage}[b]{0.48\textwidth}
+    \captionsetup{hypcap=false}
+    \setcounter{subfigure}{0}
+        \begin{subfigure}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{figures/c10-weights.pdf}
+            \caption{CIFAR-10}
+        \end{subfigure}
+        \begin{subfigure}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{figures/chq256-weights.pdf}
+            \caption{CelebA-HQ 256}
+        \end{subfigure}
+    \caption{Parameters from $\boldsymbol{W}$ in \eqref{eq:linclass} corresponding to different features against $t$ for our MIAs.}
+   \label{fig:weights}
+\end{minipage}
+\nextfloat
+\hfill
+\begin{minipage}[b]{0.48\textwidth}
+    \captionsetup{hypcap=false}
+    \setcounter{subfigure}{0}
+        \begin{subfigure}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{figures/tpr-budget.pdf}
+            \caption{TPR @ 1\% FPR}
+        \end{subfigure}
+        \begin{subfigure}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{figures/auc-budget.pdf}
+            \caption{AUC}
+        \end{subfigure}
+    \caption{MIA performance as a function of the data budget (\% of member set) on CIFAR-10.}
+   \label{fig:budget}
+\end{minipage}
+\end{figure*}
+\begin{table*}[!t]
+ \caption{AUC for our MIAs (member-external) with $\{\mathcal{L}_t\}^{T-1}_{t=0}$ as features on CIFAR-10. We fix the number of queries to the diffusion model and consider different sampling strategies for $t$. We observe significant performance gains when the time-steps cover the entirety of the diffusion process.}
+    \centering
+\begin{tabular}{@{}rrrrr@{}} \toprule $t=0,\dots,249$ & $t=250,\dots499$ & $t=500,\dots,749$ & $t=750,\dots,999$ & ${t=0, 4, \dots, 996}$ \\  68.5 & 68.1 & 54.7 & 50.7 & \textbf{71.2} \\ \bottomrule \end{tabular}
+    \label{tab:time}
+\end{table*}
+
+\subsection{Blind baselines may beat most membership inference attacks}
+\label{subsec:blindbeat}
+
+We now focus on attacks under distribution shifts, where the member and external data may be distinguishable beyond the membership property.\footnote{These are interclass shifts. There is also the possibility of intraclass shifts, e.g., the development budget consists of "cat" members, but at evaluation there exist "dog" members. See Table \ref{tab:newrep} for some analysis on this.} For idealized external data, indistinguishable from the members barring membership, the literature often reports a random baseline, i.e., 1\% TPR @ 1\% FPR and 50\% AUC, ASR. Here, we propose a potentially stronger, data-driven baseline that makes predictions without access to the diffusion model. In particular, we use a standard ResNet18 \citep{He_2016_CVPR} classifier that is otherwise developed under identical conditions and with the same data budget as the other MIAs, i.e., 1000 members and 1000 external samples. Note, it is clear that such a naive method cannot possibly generalize, since the membership property is necessarily tied to the model. Therefore, it is expected that tailored MIAs, with access to the model, will outperform it.
+
+To our surprise, however, the results of Table \ref{tab:mia} reveal that the representative threshold-based attacks of \citet{10188618, kong2024an} are brittle to distribution shifts. In particular, while we see reasonable performance on the CIFAR-10 DDPM when the external data is from CIFAR-10.1 \citep{recht2018cifar10.1, torralba2008tinyimages}, the experiments on the CelebA-HQ DDPM with FFHQ \citep{Karras2018ASG} external data show that the naive baseline significantly outperforms them.
+
+Note, the superior attack of \citet{pang2025whitebox}, namely Gradient Subsampling and Aggregation (GSA), is not based on loss thresholding and instead computes a more involved feature vector as follows:
+\begin{equation}
+    \boldsymbol{f}_i(\boldsymbol{x};\boldsymbol{\epsilon}_{\boldsymbol{\theta}})=\mathbb{E}_{t}\|\nabla_{\boldsymbol{\theta}_i}\mathcal{L}_t\|^2_2, \quad \texttt{concat}(\dots,\boldsymbol{\theta}_i,\dots)=\boldsymbol{\theta},
+\end{equation}
+where $\boldsymbol{\theta}$ is partitioned into subsets $i$. As GSA maintains competitive performance, our findings suggest a failure specific to thresholding and further motivate us to investigate more robust representations.
+
+\section{Rethinking the Goldilocks zone conjecture}
+\label{sec:goldilocks}
+
+\begin{figure*}[t]
+    \centering
+    \subfloat[CIFAR-10]{{\includegraphics[width=0.29\textwidth]{figures/01c10-tpr-budget.pdf} }} \qquad
+    \subfloat[CelebA-HQ 256]{{\includegraphics[width=0.29\textwidth]{figures/01chq-tpr-budget.pdf} }} \qquad
+    \subfloat[CIFAR-100]
+    {{\includegraphics[width=0.29\textwidth]{figures/01c100-tpr-budget.pdf} }}
+    \caption{MIA TPRs @ 0.1\% FPR as the data budget varies. See Appendix \ref{appendix:setup} for details.}
+   \label{fig:01budget}
+\end{figure*}
+
+\begin{table*}[t!]
+    \caption{TPR @ 1\% FPR for the MIA of \citet{pang2025whitebox} ($\text{GSA}_2$) and our method ($\mathcal{L}_t$, $\nabla_{\boldsymbol{x}}\mathcal{L}_t$, $\nabla_{\boldsymbol{\theta}}\mathcal{L}_{t}$, $t=0,\dots,999$). We report TPRs over ten random data splits that are not necessarily object-balanced, i.e., there may be intraclass distribution shifts. The mean and standard deviation are on the right.}
+    \centering
+    \begin{tabular}{@{}lrrrrrrrrrrr@{}}
+           \toprule
+           Method & \multicolumn{10}{c}{CIFAR-10} & $\mu\pm\sigma$ \\
+           \cmidrule{1-1} \cmidrule{12-12}
+            $\text{GSA}_2$ & 9.7 & 9.6 & \textbf{11.7} & 8.0 & \textbf{9.8} & 8.2 & 7.1 & 8.8 & 11.1 & 6.6 & 9.1$\pm$1.64 \\
+            Ours & \textbf{18.3} & \textbf{10.9} & 11.3 & \textbf{14.5} & 9.4 & \textbf{11.9} & \textbf{11.3} & \textbf{13.0} & \textbf{12.4} & \textbf{7.4} & \textbf{12.0$\boldsymbol{\pm}$2.93} \\
+            \midrule
+            & \multicolumn{10}{c}{CIFAR-100} \\
+            $\text{GSA}_2$ & 3.7 & 2.8 & 1.5 & 1.9 & 2.7 & 1.8 & 4.4 & 4.0 & 2.2 & 1.2 & 2.6$\pm$1.10 \\
+            Ours & \textbf{9.4} & \textbf{7.4} & \textbf{9.1} & \textbf{7.7} & \textbf{14.0} & \textbf{6.9} & \textbf{10.2} & \textbf{12.7} & \textbf{10.6} & \textbf{6.4} & \textbf{9.4$\boldsymbol{\pm}$2.50} \\
+            \bottomrule
+    \end{tabular}
+    \label{tab:newrep}
+\end{table*}
+
+% \begin{table*}[!t]
+%  \caption{AUC for our MIAs (member-external) with $\{\mathcal{L}_t\}^{T-1}_{t=0}$ as features on CIFAR-100.  We fix the number of queries to the diffusion model and consider different sampling strategies for $t$. The experiment is similar to the one reported in Table \ref{tab:time}.}
+%     \centering
+% \begin{tabular}{@{}rrrrr@{}} \toprule $t=0,\dots,249$ & $t=250,\dots499$ & $t=500,\dots,749$ & $t=750,\dots,999$ & ${t=0, 4, \dots, 996}$ \\  xx.x & xx.x & xx.x & xx.x & \textbf{xx.x} \\ \bottomrule \end{tabular}
+%     \label{tab:timec100}
+% \end{table*}
+
+\mybox[gray!8]{\begin{conjecture}\label{conj:goldilocks} If $t$ is too large, and so the noisy image is similar to Gaussian noise, then predicting the added noise is easy regardless if the input was in the training set; if $t$ is too small, and so the noisy image is similar to the original, then the task is too difficult. It is hypothesized that there exists a "Goldilocks zone" for membership inference \citep{10.5555/3620237.3620531}.
+\end{conjecture}}
+
+Our experiments in Section \ref{sec:miadoesntwork} justify an exploration of richer features for more robust classification, beyond brittle thresholding. Inspired by the GSA method of \citet{pang2025whitebox}, which extracts internal network signals via gradient information, and contrary to the influential "Goldilocks zone" hypothesis of \citet{10.5555/3620237.3620531}, as stated in Conjecture \ref{conj:goldilocks}, we propose to extract internal signals relating to the underlying diffusion processes. In particular, we will now explore vulnerabilities arising due to global temporal dynamics that would otherwise be discarded in previous approaches, hypothesizing that the paths traversed in high-dimensional ambient spaces are distinct for different classes of data.
+
+\citet{10.5555/3620237.3620531} validated their conjecture on CIFAR-10 MIAs, where they found that $t\in[50,300]$ is optimal. To motivate our approach, we revisit this setting and demonstrate alternatives that make use of temporal context. Specifically, given a fixed query budget to the diffusion model, we generalize the thresholding approach via concatenation of $\{\mathcal{L}_t\}^{T-1}_{t=0}$ into a feature vector meant to capture evolution.\footnote{Note, our loss sequences are not native to DDPMs. The native forward process has independent Gaussian increments, with dependent overall noise at different $t$. Instead, our overall noise is completely independent of $t$.} The results using this proposed approach are in Table \ref{tab:time}, with the setup of Section \ref{subsec:blindbeat}. Interestingly, while there exists a locally optimal region for $t$, in line with previous observations, we find that performance can be boosted significantly by uniformly distributing the time-steps over the entirety of the diffusion process. We therefore propose the counterhypothesis that there exist global patterns encoded in diffusion trajectories, containing valuable information for data provenance.
+
+In particular, having freed ourselves from loss thresholding, we augment our MIAs with gradient features, $\{\|\nabla_{\boldsymbol{x}}\mathcal{L}_t\|^2_2,\|\nabla_{\boldsymbol{\theta}}\mathcal{L}_{t}\|^2_2\}^{T-1}_{t=0}$, with our complete feature extraction given in Algorithm \ref{alg:feats} and visualizations in Figures \ref{fig:histschq256}, \ref{fig:weights}. Though we admittedly do not have a theoretical basis for including the gradients, we intuitively expect that they capture curvature information that is useful for trajectory modeling, given that $\mathcal{L}_t$ measures the score matching error. Moreover, as explored in Appendix \ref{appendix:featureablation}, we find they greatly improve our MIAs, making them competitive with GSA in Figures \ref{fig:budget}, \ref{fig:01budget} and Table \ref{tab:newrep}.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{figures/overview.pdf}
+    \caption{Our method. Given an image, we model its trajectory via features at different time-steps. We train classifiers on these representations to distinguish member, belonging and external data.}
+    \label{fig:overview}
+\end{figure*}
+
+\begin{figure*}[t]
+\begin{minipage}[t]{0.52\textwidth}
+\begin{algorithm}[H]
+\caption{Trajectory feature extraction}
+\label{alg:feats}
+\textbf{Input}: Data point $\boldsymbol{x}$\\
+\textbf{Parameters}: Trained DDPM, $\boldsymbol{\epsilon}_{\boldsymbol{\theta}}$, with $\{\bar{\alpha}_t\}^{T-1}_{t=0}$\\
+\textbf{Output}: Trajectory features $\boldsymbol{f}$ \\
+$\boldsymbol{f}\leftarrow\{\}$ \\
+\For{$t \in \{0,\dots,T - 1\}$}{ 
+$\boldsymbol{\epsilon} \sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{I})$ \\
+$\mathcal{L}_t\leftarrow\|\boldsymbol{\epsilon}_{\boldsymbol{\theta}}(\sqrt{\bar{\alpha}_t}\boldsymbol{x}+\sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon}, t) - \boldsymbol{\epsilon}\|^2_2$ \\
+$\boldsymbol{f}\leftarrow\boldsymbol{f}\cup\{\mathcal{L}_t, \|\nabla_{\boldsymbol{x}}\mathcal{L}_t\|^2_2, \|\nabla_{\boldsymbol{\theta}}\mathcal{L}_t\|^2_2\}$}
+\textbf{return} $\boldsymbol{f}$
+\end{algorithm}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \captionsetup{hypcap=false}
+    \captionof{table}[]{Hyperparameters of our linear classifier, defined in \eqref{eq:linclass}. We refer the reader to Appendix \ref{appendix:setup} for further implementation details.}
+    \centering
+    \setlength{\tabcolsep}{1mm}
+    \begin{tabular}{@{}llr@{}}
+        \toprule
+        & $\texttt{batch\_size}$ & 50 \\
+        & $\texttt{epochs}$ & 100 \\
+        \midrule
+        \multirow{ 2}{*}{AdamW }& $\texttt{learning\_rate}$ & 1e-3\\
+        & $\texttt{weight\_decay}$ & 10\\
+        \midrule
+        \multirow{ 2}{*}{StepLR } & $\texttt{step\_size}$ & 5 epochs\\
+        & $\texttt{learning\_rate\_decay}$ & 0.8 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:classifierhyper}
+\end{minipage}
+\end{figure*}
+
+\section{Toward origin attribution}
+
+Having investigated temporal dynamics in MIAs, we now generalize to Origin Attribution (OA), aiming to unify data provenance under a cohesive framework. Arguably, in this context, there are two fundamental relationships between models and data, i.e., \textit{membership} and \textit{belongingness}. To this end, we elevate binary MIAs into ternary classification, with our overall implementation summarized in Figure \ref{fig:overview} and Table \ref{tab:classifierhyper}. In what follows, we conduct experiments toward this more ambitious goal.\footnote{Following \citet{wang2023where}, we refer to novel model-generated data as \textit{belonging}, noting potential overlap of generated data and members when models memorize. Also note that we have overloaded their OA term.}
+
+\begin{wrapfigure}{r}{0.52\textwidth}
+    \centering
+    \subfloat[Similarity histograms of generated images to members\label{fig:filtergena}]{{\includegraphics[width=0.51\textwidth]{figures/sim.pdf} }}
+
+    \subfloat[Misclassified, generated]{{\includegraphics[width=0.25\textwidth]{figures/fakeconcat.png} }}
+\subfloat[Similar members]{{\includegraphics[width=0.25\textwidth]{figures/realconcat.png} }}
+    \caption{We investigate generated data that is misclassified by our system and identify similar samples to members (all unseen by the classifier in training).}
+   \label{fig:filtergen}
+\end{wrapfigure}
+
+\subsection{Stronger membership inference attacks}
+\label{subsec:dataextract}
+
+Here, we show how our ternary OA may address the limitation discussed in Section \ref{subsec:genrobust} by including model-generated data during classifier training, maintaining compliance with our stated assumptions in Section \ref{sec:threat}. With this enhancement, we develop a method suited for OA and benchmark its performance in Figure \ref{fig:rocs3class} and Table \ref{tab:oa}. Importantly, we also demonstrate an application to the more ambitious task of data extraction. Specifically, by inspecting our system's misclassifications, we collect a subset of model generations that are classified as members and investigate their similarity to the training data of the model. We report our findings with this approach in Figure \ref{fig:filtergen}, where we filter 30k model-generated samples down to 1.7k that resemble members, as quantified via the SSCD score \citep{9880343}. With reference to Figure \ref{fig:filtergena}, it is clear that similarity is left-skewed for such misclassified data, validating our method.
+
+\clearpage
+
+\begin{figure*}[!ht]
+    \centering
+    \captionsetup[subfigure]{labelformat=empty}
+    \subfloat[Member (CIFAR-10)]{{\includegraphics[width=0.244\textwidth]{figures/c10-roc-member.pdf} }}
+    \subfloat[Belonging (CIFAR-10)]{{\includegraphics[width=0.244\textwidth]{figures/c10-roc-belonging.pdf} }}
+    \subfloat[Member (CelebA-HQ)]{{\includegraphics[width=0.244\textwidth]{figures/chq256-roc-member.pdf} }}
+\subfloat[Belonging (CelebA-HQ)]{{\includegraphics[width=0.244\textwidth]{figures/chq256-roc-belonging.pdf} }}
+    \caption{OA ROCs, taking member or belonging classes as positives.}
+   \label{fig:rocs3class}
+\end{figure*}
+\begin{table*}[!ht]
+    \caption{Average AUC, TPRs @ 1\% FPR and ASRs for OA methods (member-belonging-external).}
+    \centering
+    \setlength{\tabcolsep}{1mm}
+    \begin{tabular}{@{}lrrrrrrr@{}}
+           \toprule
+           \multirow{2}{*}{Method} & \multicolumn{3}{l}{CIFAR-10} && \multicolumn{3}{l}{CelebA-HQ 256} \\
+           \cmidrule{2-4} \cmidrule{6-8} & AUC & TPR @ 1\% FPR & ASR && AUC & TPR @ 1\% FPR & ASR\\
+           \midrule
+           Naive (model-blind) & 51.5 & 1.2 & 34.7 && 90.0 & 32.1 & 74.4\\
+           \textbf{Our method}\\
+           \multirow{4}{*}{\begin{tabular}{lccc} time-steps & $\mathcal{L}_t$ & $\nabla_{\boldsymbol{x}}\mathcal{L}_{t}$ & $\nabla_{\boldsymbol{\theta}}\mathcal{L}_{t}$ \\ $0,1,\dots,999$ & \checkmark & & \\ $0, 3,\dots,999$ & \checkmark & \checkmark & \checkmark \\ $0,1, \dots,999$ & \checkmark & \checkmark & \checkmark \end{tabular}}\\
+           & 71.6 & 6.9 & 54.9 && 95.2 & 52.7 & 84.4 \\
+           & 85.0 & 14.3 & 69.4 && 98.8 & 79.5 & 92.7 \\
+           & \textbf{86.5}    & \textbf{15.9}   & \textbf{71.1} && \textbf{99.3}    & \textbf{86.5}    & \textbf{94.1}\\
+           \bottomrule                              
+    \end{tabular}
+    \label{tab:oa}
+\end{table*}
+
+\subsection{Model attribution on diffusion models}
+\label{subsec:ma}
+
+Our analysis so far has centered around MIAs. We now specifically focus on attribution of synthetic data: Beyond membership, do trajectories also capture fingerprints useful for robust MA? To investigate, we train classifiers to distinguish DDPM, synthetic data and non-belonging, real data, with the same budget of 1000 external samples as in Section \ref{subsec:blindbeat}. For assessing robustness, we evaluate on non-belonging data produced by other generative models, i.e., DDIM \citep{song2021denoising}, WaveDiff \citep{phung2023wavediff} and DDGAN \citep{xiao2022tackling}. In this sense, this is a fine-grained task aiming to extract features that are capable of attribution to a \textit{specific} model. Crucially, other generators are unseen during development, reflecting an open-world setting \citep{pmlr-v235-laszkiewicz24a}.
+
+The results using the above-described setup are in Table \ref{tab:oodcomp}. While our approach works overall, note it is not without limitations. In particular, we observe failure cases on DDGAN and DDIM samples, where a model-blind baseline may achieve higher conditional accuracy. However, referencing class-balanced accuracy in Table \ref{tab:oodcomp}, the predictions of the model-blind classifiers are, overall, close to random guesses. We therefore caution that conditional accuracy is not sufficient to judge performance.
+
+Actually, our analysis here leads us to question the viability of black-box methods for the task. Arguably, sufficiently capable generative models should produce samples perceptually indistinguishable from real data, motivating us to explore model-internal signals. Despite this, we note that there are recent works claiming promising results even in the black-box setting, by exploiting representations from foundational models \citep{10.1007/978-3-031-73033-7_16}. However, we deem such approaches to be methodologically impure and outside our scope as their performance may be attributed to the underlying pretraining. In particular, since foundation model development details are often opaque, it becomes difficult to assess effectiveness when a method's assumptions are unclear or otherwise unbounded.
+
+It is also important to clarify that, while we are certainly not the first to explore the MA task in the white-box setting \citep{wang2023where, pmlr-v235-laszkiewicz24a}, to our knowledge, we are the first to demonstrate white-box MA directly on diffusion. We stress that the above-mentioned works rely on reconstruction / inversion techniques that have only been shown to work \textit{indirectly} on latent or distilled models \citep{Rombach_2022_CVPR, 10.5555/3618408.3619743}. Specifically for the former, attribution is performed on autoencoders, saying nothing about the underlying diffusion model. Moreover, approaches based on reconstruction error may be fundamentally doomed in DDPMs, since perfect reconstruction is theoretically always possible, regardless of the sample. For example, see the inversion in \citet{song2021denoising} and also of \citet{huberman2024edit}, which is applicable to stochastic processes.
+
+\begin{table*}[!ht]
+    \caption{Performance of DDPM MA. We show per-model and average (class-balanced) accuracy. During development, classifiers only see DDPM-generated samples and non-belonging, real samples.}
+    \centering
+    \setlength{\tabcolsep}{0.59mm}
+    \begin{tabular}{@{}lrrrrrrrrrrr@{}}
+           \toprule
+           \multirow{2}{*}{Method} & \multicolumn{5}{l}{CIFAR-10} &&  \multicolumn{5}{l}{CelebA-HQ 256} \\
+           \cmidrule{2-6} \cmidrule{8-12}
+           & DDPM & DDIM & DDGAN & WDiff & Avg && DDPM & DDIM & DDGAN & WDiff & Avg
+           \\
+           \midrule
+           Naive (model-blind) & 60.8 & 39.1 & \textbf{41.9} & 44.0 & 51.2 && 88.3 & \textbf{20.2} & 22.6 & 27.0 & 55.8\\
+           \textbf{Our method}\\
+           \multirow{4}{*}{\begin{tabular}{lcc} time-steps & $\mathcal{L}_t$ & $\nabla\mathcal{L}_{t}$ \\
+           $0,1,\dots,999$ & \checkmark & \\ $0,3,\dots,999$ & \checkmark & \checkmark \\ $0,1,\dots,999$ &  \checkmark & \checkmark\end{tabular}} \\
+           & 75.5 & 57.6 & 36.2 & 64.4 & 64.1 && 98.9 & 6.3 & 59.6 & 57.8 & 70.0\\
+           & 86.0 & 72.4 & 18.1 & 76.1 & 70.8 && \textbf{100.0} & 7.9 & 74.2 & \textbf{76.9} & \textbf{76.5} \\
+           & \textbf{87.2} & \textbf{86.8} & 13.1 & \textbf{91.7} & \textbf{75.5} && \textbf{100.0} & 3.5 & \textbf{86.8} & 68.9 & \textbf{76.5}\\
+           \bottomrule
+
+    \end{tabular}
+    \label{tab:oodcomp}
+\end{table*}
+
+\section{Discussion}
+\label{sec:discussion}
+
+We conclude with a discussion of our study's limitations and with recommendations for future research based on our findings. We have taken a first step in addressing general origin attribution. However, we believe that the task is far from solved, and we hope our work inspires the community to make further advancements toward more practical and robust data forensics tools.
+
+\subsection{Limitations}
+\label{subsec:limitations}
+
+Our attacks’ times are comparable to diffusion inference, making our approach significantly slower compared to existing membership inference attacks. However, as we are not concerned with real-time application, this is not unworkable. More importantly, in our model attribution experiments of Section \ref{subsec:ma}, we observed failure cases that require further investigation. In general, our developed data provenance tools and evaluation should be made more robust, especially since our benchmarking was with controlled external sets. Other important aspects that warrant futher exploration include robustness to intraclass shifts, common and adversarial data corruptions as well as our approach's generalization ability and extensions to large, foundational generative systems.
+
+\subsection{Recommendations}
+
+\paragraph{Revisit the threat models} As we have argued in Section \ref{sec:threat}, the traditional surrogate approach to membership inference \citep{7958568} is not viable for modern generative systems. Beyond the issues relating to computational complexity, the core concern is the implicit and opaque assumptions that this framework entails, which are not usually met in practice. Granted, our proposed threat model also makes strong assumptions regarding data availability. However, we argue that ours are more practical, better defined and quantified. In the same spirit, for the sake of methodological purity, we also recommend against the use of foundational or otherwise pretrained models in the context of resource constrained and sensitive applications such as model attribution.
+
+\paragraph{Embrace distribution shifts} It is important to contextualize metrics with suitable baselines. As also shown in Section \ref{subsec:blindbeat}, distribution shifts may lift such baselines from random guessing to seemingly high-performing solutions \citep{das2025blind}. While there is recent work that explores data sanitization to mitigate these shifts \citep{Dubinski_2024_WACV}, this approach risks discarding a still valuable, potentially informative part of the data and may end up crippling applicability. We therefore argue for an alternative, simpler protocol, where distribution shifts are embraced and performance must be judged relative to appropriate, naive baselines that are developed under a fair setting.
+
+\paragraph{Focus on data extraction} Ultimately, as also discussed in Section \ref{sec:miadoesntwork}, our position is that MIAs in the literature \textit{cannot} prove membership, since they do not bound the FPRs. Specifically, under our stated assumptions in Section \ref{sec:threat}, \citet{cannotmembership} argue that membership inference is only useful as a subcomponent of a training data extraction attack \citep{10.5555/3620237.3620531}. Indeed, while we have also performed an evaluation via the standard AUC, TPR @ FPR and ASR metrics, we believe that it is our experiment in Figure \ref{fig:filtergen} that is most insightful about real privacy and security risks. Going forward, we therefore advocate for the membership inference community to forgo the conventional benchmarks in favor of a more challenging and ambitious training data extraction task.
+
+\begin{ack}
+Andreas acknowledges support from a NeurIPS Scholar Award. Seyed contributed to this work while at Imperial and remained involved after joining Apple. The authors declare no competing interests.
+\end{ack}
+
+{
+\small
+
+\bibliographystyle{apalike}
+\bibliography{bibliography}
+}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+\begin{table*}[t]
+    \caption{Ablation study on the choice of features for our MIAs. We use $t=0,1,\dots,999$.}
+    \centering
+    \setlength{\tabcolsep}{1mm}
+    \begin{tabular}{@{}lrrrrrrr@{}}
+           \toprule
+\multirow{2}{*}{} & \multicolumn{3}{l}{CIFAR-10} && \multicolumn{3}{l}{CelebA-HQ 256} \\
+           \cmidrule{2-4} \cmidrule{6-8} & AUC & TPR @ 1\% FPR & ASR && AUC & TPR @ 1\% FPR & ASR\\
+           \midrule
+           \multirow{15}{*}{\begin{tabular}{cccc} PIA & $\mathcal{L}_t$ & $\nabla_{\boldsymbol{x}}\mathcal{L}_{t}$ & $\nabla_{\boldsymbol{\theta}}\mathcal{L}_{t}$ \\ & \checkmark & & \\ & & \checkmark & \\ & & & \checkmark \\
+           & \checkmark & \checkmark & \\
+           & \checkmark & & \checkmark \\
+           & & \checkmark & \checkmark \\
+           & \checkmark&\checkmark &\checkmark \\
+ \checkmark & \checkmark & & \\ \checkmark & & \checkmark & \\ \checkmark & & & \checkmark \\
+           \checkmark & \checkmark & \checkmark & \\
+           \checkmark & \checkmark & & \checkmark \\
+           \checkmark & & \checkmark & \checkmark \\
+        \checkmark & \checkmark & \checkmark & \checkmark   \end{tabular}}\\
+           & 73.3 & 6.5 & 68.1 && 99.1 & 95.4 & 96.4 \\
+           & 74.9 & 6.1 & 68.5 && 99.3 & 97.5 & 97.3 \\
+           & 77.0 & 3.1 & 71.6 && \textbf{100.0} & 99.5 & 93.7 \\
+           & 80.0 & 12.2 & 72.4 && 99.7 & 99.2 & 98.9 \\
+           & 80.5 & 10.5 & 72.8 && \textbf{100.0} & 99.9 & 98.4 \\
+           & 81.8 & 11.1 & 74.1 && \textbf{100.0} & \textbf{100.0} & 98.9 \\
+           & \textbf{83.3} & \textbf{16.8} & \textbf{74.8} && \textbf{100.0} & \textbf{100.0} & \textbf{99.5} \\
+           & 69.5 & 5.2 & 64.2 && 99.2 & 89.4 & 95.5 \\
+           & 75.6 & 1.0 & 68.7 && 88.1 & 51.3 & 80.7 \\
+           & 71.7 & 3.3 & 64.5 && 97.1 & 40.2 & 92.8 \\
+           & 75.3 & 5.2 & 68.6 && 99.3 & 89.6 & 95.7 \\
+           & 72.9 & 9.8 & 66.8 && 99.2 & 89.0 & 96.3 \\
+           & 75.6 & 1.6 & 68.6 && 97.5 & 46.0 & 93.3 \\
+           & 76.3 & 6.1 & 69.1 && 99.3 & 90.0 & 96.4 \\
+           \bottomrule                              
+    \end{tabular}
+    \label{tab:ablationmia}
+\end{table*}
+
+\section{Experimental setup}
+\label{appendix:setup}
+
+Sampling and feature extraction from the generative models was conducted on a Linux cluster with Quadro RTX 6000 GPUs. We then developed our framework on a Windows laptop with a GTX 1650 GPU. All demonstrations are on off-the-shelf DDPMs, according to \citet{NEURIPS2020_4c5bcfec}. By default, we budget 1000 (object-balanced) samples per class for classifier development and evaluate on separate, similarly chosen datasets. CIFAR experiments use external sets (CIFAR-10.1/100 val) with minimal interclass shifts, whereas CelebA-HQ experiments use FFHQ as the external set with notable shifts. After feature normalization to zero mean and unit variance based on training data statistics, we fix the hyperparameters in Table \ref{tab:classifierhyper} to optimize \eqref{eq:linclass} via a cross-entropy loss. Hyperparameters are optimal (TPR @ 1\% FPR on CIFAR-10) for \citet{pang2025whitebox} and we did not perform a search beyond that.
+
+\section{The choice of features}
+\label{appendix:featureablation}
+
+\begin{wrapfigure}{r}{0.56\textwidth}
+    \captionsetup{hypcap=false}
+    \captionof{table}[]{CIFAR-10 classification with trajectory features.}
+    \centering
+    \begin{tabular}{@{}lcccr@{}}
+           \toprule
+            time-steps & $\mathcal{L}_t$ & $\nabla_{\boldsymbol{x}}\mathcal{L}_{t}$ & $\nabla_{\boldsymbol{\theta}}\mathcal{L}_{t}$ & Accuracy \\
+           \midrule
+           $0,1,\dots,999$ & \checkmark &  &  & 26.5 \\
+           $0,3,\dots,999$ & \checkmark & \checkmark & \checkmark & 31.4 \\
+           $0,1,\dots,999$ & \checkmark & \checkmark & \checkmark & \textbf{31.6} \\
+           \bottomrule                              
+    \end{tabular}
+    \label{tab:c10class}
+\end{wrapfigure}
+We experiment with different features for modeling diffusion trajectories. From Table \ref{tab:ablationmia}, feature combination yields the best results. When integrating PIA \citep{kong2024an}, we replace $\boldsymbol{\epsilon}\sim\mathcal{N}(\boldsymbol{0},\boldsymbol{I})$ in $\mathcal{L}_t$ with $\boldsymbol{\epsilon}_{\boldsymbol{\theta}}(\boldsymbol{x},0)$, making the features deterministic. However, we see that these features are not as performant as their stochastic counterparts. As a further exploration, we investigate whether trajectories can reveal the object-class of samples on CIFAR-10 in Table \ref{tab:c10class}, i.e., standard classification. Interestingly, this approach is much better than random guessing ($\sim10\%$).
+\section{Broader impact}
+\label{appendix:broader}
+
+The methods presented in this paper are developed to ensure accountability and transparency in scenarios involving open-weight models with undisclosed training data. By enabling data owners to determine whether their data was used in training a model, these techniques support ethical development, protect intellectual property rights and enhance privacy by identifying memorization. Furthermore, they allow for the attribution of harmful or malicious content to specific models, contributing to greater safety and fostering trust in these technologies. The methods also present potential risks, such as enabling the deanonymization of data, exploiting privacy vulnerabilities or unfairly penalizing applications due to inaccurate attributions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

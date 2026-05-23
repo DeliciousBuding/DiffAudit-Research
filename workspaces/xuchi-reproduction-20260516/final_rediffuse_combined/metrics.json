@@ -1,0 +1,21 @@
+{
+  "auc": 0.71031888,
+  "asr": 0.6846,
+  "tpr_at_fpr_1pct": 0.0716,
+  "threshold_confidence": 0.2720070144474646,
+  "threshold_low_score": -0.2720070144474646,
+  "dataset": "laion5_blip",
+  "attacker_name": "ReDiffuse",
+  "checkpoint": "CompVis/stable-diffusion-v1-4",
+  "feature_mode": "logistic_l2_C3",
+  "rediffuse_scorer": "combined",
+  "num_member": 2500,
+  "num_nonmember": 2500,
+  "result_csv": "E:\\stable_diffusion\\coco_data_like_submit_20260516\\artifacts\\result.csv",
+  "roc_curve_csv": "E:\\stable_diffusion\\coco_data_like_submit_20260516\\artifacts\\roc_curve.csv",
+  "roc_curve_plot": "E:\\stable_diffusion\\coco_data_like_submit_20260516\\artifacts\\roc_curve.png",
+  "score_direction": "higher score means more likely member",
+  "prediction_rule": "member_if_score_geq_threshold",
+  "detector_json": "E:\\stable_diffusion\\coco_data_like_submit_20260516\\论文复现攻击材料_20260516\\mia_detector_rediffuse_sweep_best_a2_a5_combined.json",
+  "scores_npz": "E:\\stable_diffusion\\coco_data_like_submit_20260516\\论文复现攻击材料_20260516\\merged_rediffuse_scores_a2_a5_combined.npz"
+}

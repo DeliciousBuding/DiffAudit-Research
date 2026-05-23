@@ -1527,7 +1527,7 @@ response grids, DreamSim distance vectors, ROC/metric artifacts, or a ready
 verifier. Current slots remain `active_gpu_question = none`,
 `next_gpu_candidate = none`, and `CPU sidecar = none selected after GenAI
 Confessions black-box artifact gate`. See
-[docs/evidence/genai-confessions-blackbox-artifact-gate-20260515.md](docs/evidence/genai-confessions-blackbox-artifact-gate-20260515.md).
+[docs/evidence/genai-confessions-black-box-artifact-gate-20260515.md](docs/evidence/genai-confessions-black-box-artifact-gate-20260515.md).
 
 ## 2026-05-15 SimA Score-Based Artifact Gate
 
@@ -1985,7 +1985,7 @@ GPU candidate。当前 `active_gpu_question = none`,`next_gpu_candidate = none`,
 ### 2026-05-13 MIDST TabDDPM nearest-neighbor scout
 
 为避免停在本机包盘点,本轮直接下载 MIDST black-box single-table 的
-`tabddpm_black_box.zip` 到 `<DOWNLOAD_ROOT>/shared/midst-data/`,并使用本地
+`tabddpm_black_box.zip` 到 `<DOWNLOAD_ROOT>/shared/datasets/midst-data/`,并使用本地
 Codabench bundle 中的 dev/final labels 做可判 scorer。MIDST 是 SaTML 2025
 tabular diffusion membership benchmark,每个 TabDDPM model folder 有 `200`
 challenge rows、`20000` synthetic rows,且 member/nonmember 各半。最小
@@ -2095,7 +2095,7 @@ second asset。结论为 `admitted-family archive / not a new second asset /
 no full download / no GPU release`;不得下载 `DDPM.zip`、重跑 GSA GPU、扩
 loss-score / gradient ablation 或把它包装成黑盒/条件扩散 response-contract。
 见
-[docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md](docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md)。
+[docs/evidence/white-box-gsa-zenodo-archive-verdict-20260513.md](docs/evidence/white-box-gsa-zenodo-archive-verdict-20260513.md)。
 
 ### 2026-05-13 LAION-mi asset verdict
 
@@ -2745,7 +2745,7 @@ PIA baseline, PIA defended, GSA, and DPDM W-1. See
 [docs/evidence/midfreq-residual-collector-contract-20260512.md](docs/evidence/midfreq-residual-collector-contract-20260512.md),
 [docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md),
 [docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](docs/evidence/midfreq-residual-real-asset-preflight-20260512.md),
-[docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](docs/evidence/graybox-paper-candidate-reentry-review-20260512.md),
+[docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md](docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md),
 [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md),
 [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md),
 [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md),
@@ -2756,7 +2756,7 @@ assets are ready only with the workspace-scoped upstream checkout, and the
 contract blocks GPU until a micro-board proves a distinct non-scalar gradient
 or curvature observable beyond scalar loss, raw gradient norm, GSA loss-score
 LR, and activation-subspace variants:
-[docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md).
+[docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md](docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md).
 The first CPU micro-board ran on selected-layer raw gradients and closed as
 `negative-but-useful`: extraction is viable, but diagonal-Fisher
 self-influence fails the target-transfer gate and does not beat scalar loss or
@@ -2775,11 +2775,11 @@ Kandinsky/Pokemon package skeleton now exists locally at
 `response-contract-pokemon-kandinsky-20260511`, but the probe verdict is
 `needs_query_split`: real member/nonmember query images and response coverage
 are still missing. See
-[docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](docs/evidence/blackbox-response-contract-skeleton-create-20260511.md).
+[docs/evidence/black-box-response-contract-skeleton-create-20260511.md](docs/evidence/black-box-response-contract-skeleton-create-20260511.md).
 The local query-source audit confirms that the available Kandinsky/Pokemon
 material is weights-only and cannot fill the package; CelebA/recon artifacts
 must not be copied into this asset identity. See
-[docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](docs/evidence/blackbox-response-contract-query-source-audit-20260511.md).
+[docs/evidence/black-box-response-contract-query-source-audit-20260511.md](docs/evidence/black-box-response-contract-query-source-audit-20260511.md).
 `scripts/validate_attack_defense_table.py` now guards the full admitted
 consumer set (`recon`, `PIA baseline`, `PIA defended`, `GSA`, and `DPDM W-1`)
 so candidate-only rows cannot silently become product-consumable evidence.
@@ -2827,9 +2827,9 @@ remain candidate, negative, hold, or needs-assets states. See
 [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md).
 Gray-box tri-score survives as internal Research candidate evidence, but it is
 not admitted, not product-facing, and not a GPU release candidate. See
-[docs/evidence/graybox-triscore-consolidation-review.md](docs/evidence/graybox-triscore-consolidation-review.md)
+[docs/evidence/gray-box-triscore-consolidation-review.md](docs/evidence/gray-box-triscore-consolidation-review.md)
 and
-[docs/evidence/graybox-triscore-truth-hardening-review.md](docs/evidence/graybox-triscore-truth-hardening-review.md).
+[docs/evidence/gray-box-triscore-truth-hardening-review.md](docs/evidence/gray-box-triscore-truth-hardening-review.md).
 The systematic black-box response-contract discovery closed as `needs-assets`,
 so acquiring or constructing second response-contract assets remains required
 before black-box portability validation can run. The post-tri-score intake
@@ -2838,11 +2838,11 @@ creation roll the concrete candidate id forward from the missing 2026-05-10
 placeholder to `response-contract-pokemon-kandinsky-20260511` and freeze the
 next package handoff layout without releasing GPU. The query-source audit
 blocks local self-fill from existing weights/tensors. See
-[docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md),
-[docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md),
-[docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](docs/evidence/blackbox-response-contract-skeleton-create-20260511.md),
+[docs/evidence/black-box-response-contract-second-asset-intake-20260511.md](docs/evidence/black-box-response-contract-second-asset-intake-20260511.md),
+[docs/evidence/black-box-response-contract-protocol-scaffold-20260511.md](docs/evidence/black-box-response-contract-protocol-scaffold-20260511.md),
+[docs/evidence/black-box-response-contract-skeleton-create-20260511.md](docs/evidence/black-box-response-contract-skeleton-create-20260511.md),
 and
-[docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](docs/evidence/blackbox-response-contract-query-source-audit-20260511.md).
+[docs/evidence/black-box-response-contract-query-source-audit-20260511.md](docs/evidence/black-box-response-contract-query-source-audit-20260511.md).
 The 750k
 exact-replay GPU packet completed with `AUC = 0.702293`, but strict-tail
 evidence remains weak (`TPR@1%FPR = 0.019231`, `TPR@0.1%FPR = 0.019231`) and
@@ -2852,13 +2852,13 @@ the held-out ResNet accuracy is `0.5`; ReDiffuse stays candidate-only and no
 and
 [docs/evidence/post-rediffuse-next-lane-reselection.md](docs/evidence/post-rediffuse-next-lane-reselection.md).
 The black-box response-contract package preflight remains `needs-assets`; see
-[docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
+[docs/evidence/black-box-response-contract-acquisition-audit.md](docs/evidence/black-box-response-contract-acquisition-audit.md)
 and
-[docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md).
+[docs/evidence/black-box-response-contract-asset-acquisition-spec.md](docs/evidence/black-box-response-contract-asset-acquisition-spec.md).
 The package-level preflight is
-[docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md).
+[docs/evidence/black-box-response-contract-package-preflight.md](docs/evidence/black-box-response-contract-package-preflight.md).
 The repository-level discovery pass also found no ready paired package:
-[docs/evidence/blackbox-response-contract-discovery.md](docs/evidence/blackbox-response-contract-discovery.md).
+[docs/evidence/black-box-response-contract-discovery.md](docs/evidence/black-box-response-contract-discovery.md).
 The resting-state audit is
 [docs/evidence/research-resting-state-audit-20260510.md](docs/evidence/research-resting-state-audit-20260510.md).
 The first post-resting CPU discovery review closed the GSA loss-score LR rescue
@@ -2946,11 +2946,11 @@ AUC but weak strict-tail evidence and no admitted promotion. See
 6. Non-gray-box reselection selected a CPU-only black-box response-contract
    acquisition audit. It closed as `needs-assets`, not GPU-ready. The minimum
    acquisition package is specified in
-   [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md);
+   [docs/evidence/black-box-response-contract-asset-acquisition-spec.md](docs/evidence/black-box-response-contract-asset-acquisition-spec.md);
    see also
-   [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md)
+   [docs/evidence/black-box-response-contract-acquisition-audit.md](docs/evidence/black-box-response-contract-acquisition-audit.md)
    for the audit result and
-   [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md).
+   [docs/evidence/non-gray-box-reselection-20260510.md](docs/evidence/non-gray-box-reselection-20260510.md).
 7. Do not update `docs/evidence/admitted-results-summary.md` unless a reviewed
    packet is explicitly promoted.
 8. Boundary-consumability sync and the 2026-05-12 admitted consumer drift audit
@@ -3079,7 +3079,7 @@ Every autonomous research cycle must follow this loop:
 | Fashion-MNIST DDPM SimA score-norm scout | weak `64/64` CUDA gray-box scout on a real train/test split; `AUC = 0.515137` and zero low-FPR recovery; no timestep, `p`-norm, seed, or packet-size expansion | [docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md) |
 | MoFit artifact verdict | mechanism-relevant caption-free gray-box route but public code is TBW and target/split artifacts are missing; no from-scratch implementation or GPU release | [docs/evidence/mofit-artifact-verdict-20260513.md](docs/evidence/mofit-artifact-verdict-20260513.md) |
 | Daily Research review | no active GPU candidate or CPU sidecar after Beans LoRA, paperization, MIA_SD, and White-box GSA Zenodo verdicts; next cycle must pass Lane A/B/C gates or stop | [docs/evidence/daily-research-review-20260513.md](docs/evidence/daily-research-review-20260513.md) |
-| White-box GSA Zenodo archive verdict | admitted-family archive for the already admitted GSA line; not a new second asset; no full download or GPU release | [docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md](docs/evidence/whitebox-gsa-zenodo-archive-verdict-20260513.md) |
+| White-box GSA Zenodo archive verdict | admitted-family archive for the already admitted GSA line; not a new second asset; no full download or GPU release | [docs/evidence/white-box-gsa-zenodo-archive-verdict-20260513.md](docs/evidence/white-box-gsa-zenodo-archive-verdict-20260513.md) |
 | MIA_SD face-LDM asset verdict | code-and-result-artifacts but private images/checkpoint/split/query-response missing; no download or GPU release | [docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](docs/evidence/miasd-face-ldm-asset-verdict-20260513.md) |
 | Paperization consumer boundary | synchronized; recent weak/watch lines remain limitations/future-work only and do not change Platform/Runtime admitted rows | [docs/evidence/paperization-consumer-boundary-20260513.md](docs/evidence/paperization-consumer-boundary-20260513.md) |
 | Quantile Regression asset verdict | mechanism-reference but artifact-incomplete; no paper-specific code, target artifacts, split manifest, download, or GPU release | [docs/evidence/quantile-regression-asset-verdict-20260513.md](docs/evidence/quantile-regression-asset-verdict-20260513.md) |
@@ -3151,24 +3151,24 @@ Every autonomous research cycle must follow this loop:
 | ReDiffuse exact replay preflight | CPU preflight passed; no GPU release | [docs/evidence/rediffuse-exact-replay-preflight.md](docs/evidence/rediffuse-exact-replay-preflight.md) |
 | ReDiffuse 750k exact replay | candidate-only; modest AUC but weak strict-tail evidence | [docs/evidence/rediffuse-exact-replay-packet.md](docs/evidence/rediffuse-exact-replay-packet.md) |
 | Post-ReDiffuse reselection | selects black-box second response-contract acquisition; no GPU release | [docs/evidence/post-rediffuse-next-lane-reselection.md](docs/evidence/post-rediffuse-next-lane-reselection.md) |
-| Gray-box tri-score consolidation | positive-but-bounded internal evidence; no admitted promotion | [docs/evidence/graybox-triscore-consolidation-review.md](docs/evidence/graybox-triscore-consolidation-review.md) |
-| Gray-box tri-score truth-hardening | positive-but-bounded internal evidence; no admitted promotion and no GPU release | [docs/evidence/graybox-triscore-truth-hardening-review.md](docs/evidence/graybox-triscore-truth-hardening-review.md) |
+| Gray-box tri-score consolidation | positive-but-bounded internal evidence; no admitted promotion | [docs/evidence/gray-box-triscore-consolidation-review.md](docs/evidence/gray-box-triscore-consolidation-review.md) |
+| Gray-box tri-score truth-hardening | positive-but-bounded internal evidence; no admitted promotion and no GPU release | [docs/evidence/gray-box-triscore-truth-hardening-review.md](docs/evidence/gray-box-triscore-truth-hardening-review.md) |
 | PIA stochastic-dropout truth-hardening | positive boundary hardening; no GPU release | [docs/evidence/pia-stochastic-dropout-truth-hardening-review.md](docs/evidence/pia-stochastic-dropout-truth-hardening-review.md) |
-| Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-graybox-reselection-20260510.md](docs/evidence/non-graybox-reselection-20260510.md) |
-| Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-acquisition-audit.md](docs/evidence/blackbox-response-contract-acquisition-audit.md) |
-| Black-box response-contract asset spec | needs-assets; minimum second-asset package defined; no GPU release | [docs/evidence/blackbox-response-contract-asset-acquisition-spec.md](docs/evidence/blackbox-response-contract-asset-acquisition-spec.md) |
-| Black-box response-contract package preflight | needs-assets; Kandinsky/Pokemon has weights but no query/response package | [docs/evidence/blackbox-response-contract-package-preflight.md](docs/evidence/blackbox-response-contract-package-preflight.md) |
-| Black-box response-contract discovery | needs-assets; no paired package found under black-box dataset/supplementary roots | [docs/evidence/blackbox-response-contract-discovery.md](docs/evidence/blackbox-response-contract-discovery.md) |
-| Black-box response-contract second-asset intake | needs-assets; no ready package after post-tri-score refresh | [docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md](docs/evidence/blackbox-response-contract-second-asset-intake-20260511.md) |
-| Black-box response-contract protocol scaffold | CPU-only scaffold dry-run; needs-assets; no GPU release | [docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md](docs/evidence/blackbox-response-contract-protocol-scaffold-20260511.md) |
-| Black-box response-contract skeleton create | local skeleton created; needs query split; no GPU release | [docs/evidence/blackbox-response-contract-skeleton-create-20260511.md](docs/evidence/blackbox-response-contract-skeleton-create-20260511.md) |
-| Black-box response-contract query-source audit | needs-assets; local Kandinsky/Pokemon material is weights-only | [docs/evidence/blackbox-response-contract-query-source-audit-20260511.md](docs/evidence/blackbox-response-contract-query-source-audit-20260511.md) |
+| Non-gray-box reselection | selected black-box response-contract acquisition audit; no GPU release | [docs/evidence/non-gray-box-reselection-20260510.md](docs/evidence/non-gray-box-reselection-20260510.md) |
+| Black-box response-contract acquisition audit | needs-assets; no GPU release | [docs/evidence/black-box-response-contract-acquisition-audit.md](docs/evidence/black-box-response-contract-acquisition-audit.md) |
+| Black-box response-contract asset spec | needs-assets; minimum second-asset package defined; no GPU release | [docs/evidence/black-box-response-contract-asset-acquisition-spec.md](docs/evidence/black-box-response-contract-asset-acquisition-spec.md) |
+| Black-box response-contract package preflight | needs-assets; Kandinsky/Pokemon has weights but no query/response package | [docs/evidence/black-box-response-contract-package-preflight.md](docs/evidence/black-box-response-contract-package-preflight.md) |
+| Black-box response-contract discovery | needs-assets; no paired package found under black-box dataset/supplementary roots | [docs/evidence/black-box-response-contract-discovery.md](docs/evidence/black-box-response-contract-discovery.md) |
+| Black-box response-contract second-asset intake | needs-assets; no ready package after post-tri-score refresh | [docs/evidence/black-box-response-contract-second-asset-intake-20260511.md](docs/evidence/black-box-response-contract-second-asset-intake-20260511.md) |
+| Black-box response-contract protocol scaffold | CPU-only scaffold dry-run; needs-assets; no GPU release | [docs/evidence/black-box-response-contract-protocol-scaffold-20260511.md](docs/evidence/black-box-response-contract-protocol-scaffold-20260511.md) |
+| Black-box response-contract skeleton create | local skeleton created; needs query split; no GPU release | [docs/evidence/black-box-response-contract-skeleton-create-20260511.md](docs/evidence/black-box-response-contract-skeleton-create-20260511.md) |
+| Black-box response-contract query-source audit | needs-assets; local Kandinsky/Pokemon material is weights-only | [docs/evidence/black-box-response-contract-query-source-audit-20260511.md](docs/evidence/black-box-response-contract-query-source-audit-20260511.md) |
 | Post-response-contract reselection | CPU-only system-consumable admitted evidence hardening; no GPU release | [docs/evidence/post-response-contract-reselection-20260511.md](docs/evidence/post-response-contract-reselection-20260511.md) |
 | Admitted evidence bundle | synchronized; complete admitted consumer set exported as checked machine-readable bundle | [docs/evidence/admitted-evidence-bundle-20260511.md](docs/evidence/admitted-evidence-bundle-20260511.md) |
 | SecMI full-split admission boundary | evidence-ready supporting reference; not admitted | [docs/evidence/secmi-full-split-admission-boundary-review.md](docs/evidence/secmi-full-split-admission-boundary-review.md) |
 | SecMI admission contract hardening | supporting-reference-hardened; not admitted; no GPU release | [docs/evidence/secmi-admission-contract-hardening-20260511.md](docs/evidence/secmi-admission-contract-hardening-20260511.md) |
 | Post-SecMI next-lane reselection | selects CPU-first white-box influence/curvature feasibility scout; no GPU release | [docs/evidence/post-secmi-next-lane-reselection-20260511.md](docs/evidence/post-secmi-next-lane-reselection-20260511.md) |
-| White-box influence/curvature feasibility | CPU contract ready; assets ready with workspace-scoped GSA checkout; no GPU release | [docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md](docs/evidence/whitebox-influence-curvature-feasibility-scout-20260511.md) |
+| White-box influence/curvature feasibility | CPU contract ready; assets ready with workspace-scoped GSA checkout; no GPU release | [docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md](docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md) |
 | GSA diagonal-Fisher micro-board | negative-but-useful; selected-layer raw gradients are extractable, but the score fails target transfer and no GPU is released | [docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md) |
 | GSA diagonal-Fisher layer scope | mixed-but-not-gpu-ready; one layer transfers on a tiny pair but ties `raw_grad_l2_sq` | [docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md) |
 | GSA diagonal-Fisher stability board | negative-but-useful; the only transferring layer ties `raw_grad_l2_sq` at `4` samples per split, closing the line | [docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md) |
@@ -3176,7 +3176,7 @@ Every autonomous research cycle must follow this loop:
 | I-A finite-tail / adaptive boundary audit | synchronized; admitted strict-tail and adaptive-language boundaries remain guarded | [docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md](docs/evidence/ia-finite-tail-adaptive-boundary-audit-20260511.md) |
 | Cross-box successor scope | hold; no genuinely new CPU/GPU successor hypothesis is ready | [docs/evidence/cross-box-successor-scope-20260512.md](docs/evidence/cross-box-successor-scope-20260512.md) |
 | I-B defense-aware reopen scout | hold; current I-B evidence is not defense-aware and releases no GPU | [docs/evidence/ib-defense-aware-reopen-scout-20260512.md](docs/evidence/ib-defense-aware-reopen-scout-20260512.md) |
-| Gray-box paper-candidate reentry | hold; archived paper candidates do not release CPU/GPU work from current artifacts | [docs/evidence/graybox-paper-candidate-reentry-review-20260512.md](docs/evidence/graybox-paper-candidate-reentry-review-20260512.md) |
+| Gray-box paper-candidate reentry | hold; archived paper candidates do not release CPU/GPU work from current artifacts | [docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md](docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md) |
 | Research boundary-consumability sync | synchronized admitted-vs-candidate boundary; no schema change | [docs/evidence/research-boundary-consumability-sync-20260510.md](docs/evidence/research-boundary-consumability-sync-20260510.md) |
 | I-B risk-targeted unlearning successor scope | hold-protocol-frozen; no GPU release until executed defended-shadow training, adaptive-attacker metrics, and retained utility are available | [docs/evidence/ib-risk-targeted-unlearning-successor-scope.md](docs/evidence/ib-risk-targeted-unlearning-successor-scope.md) |
 | I-C cross-permission successor scope | hold; no GPU release until same-spec evaluator and matched comparator exist | [docs/evidence/ic-cross-permission-successor-scope.md](docs/evidence/ic-cross-permission-successor-scope.md) |

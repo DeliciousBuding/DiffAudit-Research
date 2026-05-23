@@ -70,7 +70,7 @@ These assets support multiple directions and should be downloaded first.
 | `BB-PAP-01` | Any missing black-box paper supplements | Backup for protocol details if local PDFs are insufficient | paper supplement pages | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/black-box/papers/` |
 
 `BB-DS-01` and `BB-SUP-03` are specified in
-[../evidence/blackbox-response-contract-asset-acquisition-spec.md](../evidence/blackbox-response-contract-asset-acquisition-spec.md).
+[../evidence/black-box-response-contract-asset-acquisition-spec.md](../evidence/black-box-response-contract-asset-acquisition-spec.md).
 They are not generic raw image dumps: they must include member/nonmember query
 identity, model or endpoint identity, controlled repeats, response observability,
 and integrity metadata before any GPU packet is released.

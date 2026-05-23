@@ -1,8 +1,8 @@
-# Start Here
+# 入门指引
 
-This directory is the onboarding path for new contributors.
+本目录是新贡献者的上手路径。
 
-Read in this order:
+请按以下顺序阅读：
 
 1. [getting-started.md](getting-started.md)
 2. [teammate-setup.md](teammate-setup.md)
@@ -10,6 +10,6 @@ Read in this order:
 4. [command-reference.md](command-reference.md)
 5. [repo-map.md](repo-map.md)
 
-If a command needs local datasets or weights, configure assets through
+如果某条命令需要本地数据集或权重，请先通过
 [../assets-and-storage/data-and-assets-handoff.md](../assets-and-storage/data-and-assets-handoff.md)
-before running the command.
+配置资产，再执行命令。

@@ -1,57 +1,57 @@
-# Next-Run Intake Index
+# 下一轮执行准入索引
 
-This page is an index of runnable "next-run" entrypoints and their intake/output contracts.
-It is meant to be one-line attachable to `GLOBAL_TASK_BOARD` without pulling in per-track notebooks.
+本页是可执行的"下一轮"入口点及其准入/输出合约的索引。
+它旨在作为一行条目挂接到 `GLOBAL_TASK_BOARD`，而无需引入每条 track 的 notebook。
 
-## GSA (white-box) next-run intake gate
+## GSA（白盒）下一轮准入门控
 
-Board one-liner:
-`GSA next-run: tools/gsa_next_run emits manifest+provenance (input hashes + git + host) as the intake gate.`
+Board 一行摘要：
+`GSA next-run: tools/gsa_next_run 产出 manifest+provenance（输入哈希 + git + host）作为准入门控。`
 
-Command (no install):
+命令（无需安装）：
 
 ```powershell
 cd Research/tools/gsa_next_run
 .\run.ps1 --assets-root .\examples\minimal\assets_root --repo-root .\examples\minimal\repo_root --config .\examples\minimal\config --out-dir ..\..\tmp\gsa_next_run_smoke
 ```
 
-Inputs:
-- `--assets-root <dir>`: runtime assets directory (hashed as a tree)
-- `--config <file|dir>`: run config (hashed by content)
-- `--repo-root <dir>`: used to record git commit (and optionally enforce clean repo via `--strict`)
+输入：
+- `--assets-root <dir>`：运行时资产目录（以目录树形式哈希）
+- `--config <file|dir>`：运行配置（以内容形式哈希）
+- `--repo-root <dir>`：用于记录 git commit（并可选通过 `--strict` 强制要求仓库干净）
 
-Outputs (under `--out-dir`):
-- `manifest.json`: inputs + hashes + git + validation
-- `provenance.json`: host + timestamp + manifest sha256 + validation
+输出（位于 `--out-dir` 下）：
+- `manifest.json`：输入 + 哈希 + git + 验证
+- `provenance.json`：主机 + 时间戳 + manifest sha256 + 验证
 
-Exit codes:
-- `0`: validation OK
-- `2`: validation failed (intake blocked)
+退出码：
+- `0`：验证通过
+- `2`：验证失败（准入被阻止）
 
-Reference:
+参考资料：
 - gate README: [../tools/gsa_next_run/README.md](../tools/gsa_next_run/README.md)
 
-## PIA (gray-box) next-run intake gate
+## PIA（灰盒）下一轮准入门控
 
-Board one-liner:
+Board 一行摘要：
 `PIA next-run: tools/pia_next_run emits manifest+provenance (config + member split + git + host) before runtime mainline.`
 
-Command (no install):
+命令（无需安装）：
 
 ```powershell
 cd Research/tools/pia_next_run
 .\run.ps1 --config ..\..\tmp\configs\pia-cifar10-graybox-assets.local.yaml --member-split-root ..\..\external\PIA\DDPM --repo-root ..\..\external\PIA --out-dir ..\..\tmp\pia_next_run_smoke
 ```
 
-Inputs:
-- `--config <file|dir>`: PIA runtime config
-- `--member-split-root <dir>`: member split directory
-- `--repo-root <dir>`: used to record git commit (and optionally enforce clean repo via `--strict`)
+输入：
+- `--config <file|dir>`：PIA 运行时配置
+- `--member-split-root <dir>`：member split 目录
+- `--repo-root <dir>`：用于记录 git commit（并可选通过 `--strict` 强制要求仓库干净）
 
-Outputs (under `--out-dir`):
+输出（位于 `--out-dir` 下）：
 - `manifest.json`
 - `provenance.json`
 
-Reference:
+参考资料：
 - gate README: [../tools/pia_next_run/README.md](../tools/pia_next_run/README.md)
 - runtime evidence note: [../workspaces/gray-box/2026-04-07-pia-runtime-mainline.md](../workspaces/gray-box/2026-04-07-pia-runtime-mainline.md)

@@ -1,7 +1,7 @@
 <div align="center">
 
-<img src="docs/assets/brand/diffaudit-logo.svg#gh-light-mode-only" alt="DiffAudit" width="360">
-<img src="docs/assets/brand/diffaudit-logo-white.svg#gh-dark-mode-only" alt="DiffAudit" width="360">
+<img src="docs/brand/diffaudit-logo.svg#gh-light-mode-only" alt="DiffAudit" width="360">
+<img src="docs/brand/diffaudit-logo-white.svg#gh-dark-mode-only" alt="DiffAudit" width="360">
 
 # DiffAudit Research
 

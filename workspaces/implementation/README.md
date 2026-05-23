@@ -1,20 +1,20 @@
-# Implementation Workspace
+# 实现工作台
 
-## Current Status
+## 当前状态
 
-- Direction: shared CLI, schemas, validators, and repository tooling.
-- Priority: maintain experiment contracts and public documentation quality.
-- GPU: none.
+- 方向：共享 CLI、模式、验证器和仓库工具。
+- 优先级：维护实验合约和公开文档质量。
+- GPU：无。
 
-## Files
+## 文件
 
-| File | Purpose |
+| 文件 | 用途 |
 | --- | --- |
-| [plan.md](plan.md) | Current status. |
-| [challenger-queue.md](challenger-queue.md) | Active task queue with priority tiers. |
-| [result-schema.md](result-schema.md) | Shared result schema notes. |
+| [plan.md](plan.md) | 当前状态。 |
+| [challenger-queue.md](challenger-queue.md) | 按优先级分层排列的活跃任务队列。 |
+| [result-schema.md](result-schema.md) | 共享结果模式笔记。 |
 
-## Archive
+## 归档
 
-Closed notes are in
-[../../legacy/workspaces/implementation/2026-04/](../../legacy/workspaces/implementation/2026-04/).
+已关闭的笔记位于
+[../../legacy/workspaces/implementation/2026-04/](../../legacy/workspaces/implementation/2026-04/)。

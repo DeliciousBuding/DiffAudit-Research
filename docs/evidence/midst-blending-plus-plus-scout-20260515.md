@@ -14,8 +14,8 @@ shadow-distributional, and MIA-EPT scouts?
 
 - Upstream repo: `https://github.com/CRCHUM-CITADEL/ensemble-mia`
 - Checked commit: `a27d3653708596acbdf54b03ad446e81779a5e70`
-- Local checkout: `<DIFFAUDIT_ROOT>/Download/shared/midst-ensemble-mia`
-- Local labels: `<DIFFAUDIT_ROOT>/Download/shared/midst-challenge/codabench_bundles/midst_blackbox_single_table/data/tabddpm_black_box`
+- Local checkout: `<DIFFAUDIT_ROOT>/Download/shared/supplementary/midst-ensemble-mia`
+- Local labels: `<DIFFAUDIT_ROOT>/Download/shared/datasets/midst-challenge/codabench_bundles/midst_blackbox_single_table/data/tabddpm_black_box`
 - Artifact: `workspaces/black-box/artifacts/midst-blending-plus-plus-scout-20260515.json`
 - Script: `scripts/probe_midst_blending_plus_plus_scout.py`
 
