@@ -189,3 +189,4 @@ workspaces/white-box/assets/gsa/**
 !workspaces/white-box/assets/gsa/manifests/
 !workspaces/white-box/assets/gsa/manifests/*.json
 workspaces/xuchi-reproduction-20260516/final_rediffuse_combined/result.csv
+scripts/preflight_rediffuse_stl10.py
