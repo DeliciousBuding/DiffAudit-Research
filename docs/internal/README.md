@@ -1,20 +1,19 @@
-# Internal Research Material
+# 内部研究资料
 
-This directory stores material that is useful for maintainers but not part of
-the public onboarding path.
+此目录存放维护者需要的资料，不属于公开入门路径。
 
-It may contain:
+可能包含：
 
-- long progress ledgers
-- agent prompts and operating notes
-- competition-era material
-- paper-reading reports
-- external model review bundles
-- planning drafts and retired research-package notes
+- 长期进度台账
+- Agent 提示词和操作记录
+- 比赛时期材料
+- 论文阅读报告
+- 外部模型审查包
+- 规划草稿和退役研究包笔记
 
-Do not link these files as product copy. If a finding becomes public-facing,
-rewrite it into [../evidence/](../evidence/) or
-[../product-bridge/](../product-bridge/) with explicit evidence status.
+不要将这些文件作为产品文案引用。如果某个发现需要对外展示，
+请改写后放入 [../evidence/](../evidence/) 或
+[../product-bridge/](../product-bridge/)，并注明明确的证据状态。
 
-Current long-running goal prompt:
-[research-autonomous-execution-prompt.md](research-autonomous-execution-prompt.md).
+当前长期运行目标提示词：
+[research-autonomous-execution-prompt.md](research-autonomous-execution-prompt.md)。
