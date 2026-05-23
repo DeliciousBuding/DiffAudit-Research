@@ -2,6 +2,22 @@
 
 > Last updated: 2026-05-23
 
+## 2026-05-23 ReDiffuse SD Bundle-Root Normalization
+
+Implementation fixed a false-negative probe path for the collaborator Stable
+Diffusion ReDiffuse bundle. `probe-rediffuse-sd-assets --bundle-root` now
+accepts both the authoritative `raw/` bundle directory and its imported parent
+directory, normalizing to `raw/` when that child contains
+`SD_MIA_Reproduction`. This preserves the existing imported artifact behavior:
+the local `5000`-row `2500 / 2500` result packet still probes as `ready`, and
+the result remains `collaborator-local artifact imported / candidate-only / no
+new download / no GPU release / no admitted row`.
+
+This is an engineering correctness fix for an already admitted-to-Research
+candidate surface, not a new research candidate or evidence promotion. Current
+slots remain `active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after ReDiffuse SD bundle-root normalization`.
+
 ## 2026-05-23 Identity-Focused Inference / Extraction Artifact Gate
 
 Lane A/B checked arXiv `2410.10177` /
