@@ -214,6 +214,14 @@ def _write_rediffuse_sd_bundle(root: Path) -> Path:
     return bundle_root
 
 
+def _write_rediffuse_sd_parent_bundle(root: Path) -> Path:
+    bundle_root = _write_rediffuse_sd_bundle(root)
+    parent_root = root / "collaborator-stable-diffusion-rediffuse-parent"
+    parent_root.mkdir(parents=True, exist_ok=True)
+    bundle_root.rename(parent_root / "raw")
+    return parent_root
+
+
 class StableDiffusionReDiffuseArtifactTests(unittest.TestCase):
     def test_probe_rediffuse_sd_artifacts_reports_ready(self) -> None:
         from diffaudit.attacks.rediffuse_sd import probe_rediffuse_sd_artifacts
@@ -279,6 +287,18 @@ class StableDiffusionReDiffuseArtifactTests(unittest.TestCase):
         self.assertTrue(payload["checks"]["artifact_probe_ready"])
         self.assertEqual(payload["detector"]["feature_mode"], "logistic_l2")
         self.assertEqual(payload["score_npz"]["member_shape"], [4, 7])
+
+    def test_probe_rediffuse_sd_assets_accepts_parent_with_raw_child(self) -> None:
+        from diffaudit.attacks.rediffuse_sd import probe_rediffuse_sd_assets
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            parent_root = _write_rediffuse_sd_parent_bundle(Path(tmpdir))
+            payload = probe_rediffuse_sd_assets(parent_root)
+
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["paths"]["bundle_root"], str(parent_root / "raw"))
+        self.assertTrue(payload["checks"]["source_root"])
+        self.assertTrue(payload["checks"]["artifact_probe_ready"])
 
     def test_cli_probe_rediffuse_sd_assets_reports_ready(self) -> None:
         from diffaudit.cli import main

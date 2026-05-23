@@ -49,23 +49,35 @@ def default_rediffuse_sd_bundle_root() -> Path:
     return diffaudit_root() / DEFAULT_BUNDLE_RELATIVE
 
 
+def _resolve_rediffuse_sd_bundle_root(bundle_root: str | Path | None = None) -> Path:
+    bundle = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    if (bundle / DEFAULT_SOURCE_SUBDIR).exists():
+        return bundle
+
+    raw_bundle = bundle / "raw"
+    if (raw_bundle / DEFAULT_SOURCE_SUBDIR).exists():
+        return raw_bundle
+
+    return bundle
+
+
 def default_rediffuse_sd_artifact_dir(bundle_root: str | Path | None = None) -> Path:
-    root = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    root = _resolve_rediffuse_sd_bundle_root(bundle_root)
     return root / DEFAULT_ARTIFACT_SUBDIR
 
 
 def default_rediffuse_sd_detector_json(bundle_root: str | Path | None = None) -> Path:
-    root = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    root = _resolve_rediffuse_sd_bundle_root(bundle_root)
     return root / DEFAULT_DETECTOR_SUBPATH
 
 
 def default_rediffuse_sd_score_npz(bundle_root: str | Path | None = None) -> Path:
-    root = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    root = _resolve_rediffuse_sd_bundle_root(bundle_root)
     return root / DEFAULT_SCORE_NPZ_SUBPATH
 
 
 def default_rediffuse_sd_validation_json(bundle_root: str | Path | None = None) -> Path:
-    root = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    root = _resolve_rediffuse_sd_bundle_root(bundle_root)
     return root / DEFAULT_VALIDATION_SUBPATH
 
 
@@ -412,7 +424,7 @@ def probe_rediffuse_sd_assets(
     score_npz: str | Path | None = None,
     validation_json: str | Path | None = None,
 ) -> dict[str, Any]:
-    bundle = Path(bundle_root) if bundle_root else default_rediffuse_sd_bundle_root()
+    bundle = _resolve_rediffuse_sd_bundle_root(bundle_root)
     source_root = bundle / DEFAULT_SOURCE_SUBDIR
     artifact_path = Path(artifact_dir) if artifact_dir else default_rediffuse_sd_artifact_dir(bundle)
     detector_path = Path(detector_json) if detector_json else default_rediffuse_sd_detector_json(bundle)
