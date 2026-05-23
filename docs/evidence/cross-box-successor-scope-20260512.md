@@ -20,9 +20,9 @@ that do not create a new low-FPR or transfer claim.
   some settings but do not establish stable low-FPR gains.
 - Existing `workspaces/cross-box/runs/*/summary.json` packets, including
   GSA/PIA, GSA/PIA tail-gated, PIA/SimA, and three-surface consensus boards.
-- [graybox-triscore-consolidation-review.md](graybox-triscore-consolidation-review.md)
+- [gray-box-triscore-consolidation-review.md](gray-box-triscore-consolidation-review.md)
   and
-  [graybox-triscore-truth-hardening-review.md](graybox-triscore-truth-hardening-review.md):
+  [gray-box-triscore-truth-hardening-review.md](gray-box-triscore-truth-hardening-review.md):
   tri-score is positive-but-bounded internal evidence, not an admitted or
   product-facing cross-box successor.
 - [h2-cross-asset-contract-preflight.md](h2-cross-asset-contract-preflight.md),
@@ -31,9 +31,9 @@ that do not create a new low-FPR or transfer claim.
   [../product-bridge/h2-simple-distance-product-bridge-comparison.md](../product-bridge/h2-simple-distance-product-bridge-comparison.md):
   simple-distance is bounded single-asset black-box evidence, not a portable
   cross-box replacement.
-- [blackbox-response-contract-skeleton-create-20260511.md](blackbox-response-contract-skeleton-create-20260511.md)
+- [black-box-response-contract-skeleton-create-20260511.md](black-box-response-contract-skeleton-create-20260511.md)
   and
-  [blackbox-response-contract-query-source-audit-20260511.md](blackbox-response-contract-query-source-audit-20260511.md):
+  [black-box-response-contract-query-source-audit-20260511.md](black-box-response-contract-query-source-audit-20260511.md):
   the next black-box transfer package is still `needs_query_split`; local
   Kandinsky/Pokemon material is weights-only and cannot fill query images or
   responses.

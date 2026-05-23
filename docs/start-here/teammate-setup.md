@@ -1,4 +1,4 @@
-﻿# Contributor Setup
+﻿# 成员环境配置
 
 这份文档面向刚拿到 `Research` 仓库的新成员或外部贡献者。
 
@@ -104,7 +104,7 @@ conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config co
 conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 ```
 
-## 4. Current Priority Sources
+## 4. 当前优先级来源
 
 刚开始接手时，不要从历史日志反推优先级。当前真实优先级以这些文件为准：
 
@@ -124,7 +124,7 @@ conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root
 - 灰盒计划：[../workspaces/gray-box/plan.md](../../workspaces/gray-box/plan.md)
 - 白盒计划：[../workspaces/white-box/plan.md](../../workspaces/white-box/plan.md)
 
-## 6. Common Setup Risks
+## 6. 常见配置风险
 
 1. 环境创建后没有重新执行 `python scripts/bootstrap_research_env.py --install`，导致 `python -m diffaudit` 不可用。
 2. 把个人机器真实路径写进共享配置。

@@ -126,7 +126,7 @@ Recommended location:
 
 The black-box response-contract audit found no second compatible asset family
 ready for execution. The required acquisition package is now specified in
-[../evidence/blackbox-response-contract-asset-acquisition-spec.md](../evidence/blackbox-response-contract-asset-acquisition-spec.md).
+[../evidence/black-box-response-contract-asset-acquisition-spec.md](../evidence/black-box-response-contract-asset-acquisition-spec.md).
 
 Current status:
 

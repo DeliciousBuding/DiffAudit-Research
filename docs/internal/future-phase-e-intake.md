@@ -1,4 +1,4 @@
-﻿# Future Phase E Intake
+﻿# 未来 Phase E 准入
 
 这份文档用于固定当前 `Phase E` 候选池的排序、进入条件、退出条件与预期产物。
 

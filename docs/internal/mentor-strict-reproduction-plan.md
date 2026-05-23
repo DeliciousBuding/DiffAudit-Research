@@ -1,4 +1,4 @@
-# Mentor Strict Reproduction Plan
+# 导师严格复现方案
 
 这份文档把师兄口头方案收口成当前 `Research` 仓库的严格执行面。
 

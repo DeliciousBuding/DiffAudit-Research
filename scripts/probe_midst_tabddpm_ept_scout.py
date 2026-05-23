@@ -16,11 +16,12 @@ from sklearn.pipeline import Pipeline
 
 ROOT = Path(__file__).resolve().parents[1]
 DIFFAUDIT_ROOT = ROOT.parent
-DEFAULT_DATA_ROOT = DIFFAUDIT_ROOT / "Download" / "shared" / "midst-data" / "tabddpm_black_box"
+DEFAULT_DATA_ROOT = DIFFAUDIT_ROOT / "Download" / "shared" / "datasets" / "midst-data" / "tabddpm_black_box"
 DEFAULT_LABEL_ROOT = (
     DIFFAUDIT_ROOT
     / "Download"
     / "shared"
+    / "datasets"
     / "midst-challenge"
     / "codabench_bundles"
     / "midst_blackbox_single_table"
@@ -316,7 +317,7 @@ def main() -> None:
         },
         "asset": {
             "source": "MIDST SaTML 2025 black-box single-table starter-kit data",
-            "local_extract_root": "<DOWNLOAD_ROOT>/shared/midst-data/tabddpm_black_box",
+            "local_extract_root": "<DOWNLOAD_ROOT>/shared/datasets/midst-data/tabddpm_black_box",
             "label_source": {
                 "train": "downloaded challenge_label.csv files",
                 "dev_final": "local Codabench bundle challenge_label.csv files from the cloned MIDST repository",

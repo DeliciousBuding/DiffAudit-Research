@@ -74,7 +74,7 @@ The old `ROADMAP.md` is archived out of the startup path.
 | Path | Action | Reason |
 | --- | --- | --- |
 | `experiments/_tmp_kandinsky_repro/image_01_01.jpg` | removed from current tree | Temporary generated experiment image; reproducible/generated outputs should not be committed. |
-| `tools/gsa_next_run/examples/minimal/assets_root/data.bin` | removed from current tree | Tiny binary fixture was not needed for the example contract; text fixture remains. |
+| `tools/gsa_next_run/minimal/assets_root/data.bin` | removed from current tree | Tiny binary fixture was not needed for the example contract; text fixture remains. |
 
 ## Tracked-But-Ignored Drift
 

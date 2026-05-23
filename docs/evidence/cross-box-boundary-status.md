@@ -23,9 +23,9 @@ candidate-only: useful for internal comparison and hypothesis selection
 
 | Packet | Shared set | Main read |
 | --- | ---: | --- |
-| `crossbox-pairboard-gsa-targeted-full-overlap-*` | 461 members / 474 nonmembers | PIA+GSA fusion improves some low-FPR variants but does not consistently dominate the best single surface. |
-| `crossbox-pairboard-pia-sima-full-overlap-20260421-r1` | 461 members / 474 nonmembers | PIA+SIMA improves AUC, but low-FPR gains are small and unstable. |
-| `x165-crossbox-trisurface-consensus-20260429-r1` | 461 members / 474 nonmembers | Three-surface logistic fusion improves mean AUC, but TPR@0.1%FPR remains low and variable. |
+| `cross-box-pairboard-gsa-targeted-full-overlap-*` | 461 members / 474 nonmembers | PIA+GSA fusion improves some low-FPR variants but does not consistently dominate the best single surface. |
+| `cross-box-pairboard-pia-sima-full-overlap-20260421-r1` | 461 members / 474 nonmembers | PIA+SIMA improves AUC, but low-FPR gains are small and unstable. |
+| `x165-cross-box-trisurface-consensus-20260429-r1` | 461 members / 474 nonmembers | Three-surface logistic fusion improves mean AUC, but TPR@0.1%FPR remains low and variable. |
 
 The strongest three-surface packet has:
 

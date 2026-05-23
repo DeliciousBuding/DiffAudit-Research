@@ -1,4 +1,4 @@
-﻿# Leader Research Delivery Snapshot
+﻿# Leader 研究成果交付快照
 更新日期：`2026-04-18`
 
 ## 1. Leader 一页主讲表

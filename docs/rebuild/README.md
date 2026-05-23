@@ -1,49 +1,44 @@
-# Rebuild
+# 重建
 
-This directory tracks codebase rebuild work for DiffAudit Research.
+本目录跟踪 DiffAudit Research 的代码库重建工作。
 
-Use it for architecture debt, refactor ordering, and cleanup that
-does not change behavior. Research results, asset handoff, GitHub
-collaboration rules, and long execution logs belong elsewhere.
+用于架构债务、重构排序及不改变行为的清理工作。研究结果、资产交接、GitHub 协作规则和长执行日志归属其他地方。
 
-## Scope
+## 范围
 
-| Area | Belongs Here | Does Not Belong Here |
+| 领域 | 属于此处 | 不属于此处 |
 | --- | --- | --- |
-| Package architecture | CLI package shape, adapter boundaries, shared utility extraction | New attack results or admitted evidence |
-| Refactor plans | Small PR sequence, characterization-test requirements, rollback boundaries | Agent prompts or chat transcripts |
-| Audit triage | Which reviewer findings are admitted, stale, rejected, or deferred | Raw local disk inventories without reproducible commands |
-| Rebuild status | What has merged and what remains as code debt | Repository policy that belongs in `docs/governance/` |
+| 包架构 | CLI 包结构、适配器边界、共享工具提取 | 新的攻击结果或准入证据 |
+| 重构计划 | 小型 PR 序列、特征测试要求、回滚边界 | Agent 提示或聊天记录 |
+| 审计分类 | 哪些审查发现是准入、陈旧、拒绝或推迟的 | 无可复现命令的原始本地磁盘清单 |
+| 重建状态 | 已合并的内容及仍为代码债务的内容 | 属于 `docs/governance/` 的仓库策略 |
 
-## Current State
+## 当前状态
 
-Merged by 2026-04-30:
+截至 2026-04-30 已合并：
 
-- Shared utility extraction into `src/diffaudit/utils/`.
-- CLI package split into `src/diffaudit/cli/`.
-- Local checks aligned with public-surface and Markdown-link guards.
-- Empty placeholder package directories removed from `src/diffaudit/`.
+- 共享工具提取至 `src/diffaudit/utils/`。
+- CLI 包拆分至 `src/diffaudit/cli/`。
+- 本地检查与公开表层和 Markdown 链接守卫对齐。
+- 从 `src/diffaudit/` 移除空的占位包目录。
 
-Still open as rebuild work:
+仍待处理的重建工作：
 
-- Split the largest adapter modules only after characterization tests exist.
-- Replace private cross-module imports with explicit public helper APIs.
-- Move remaining reusable script logic into package modules when it is needed
-  by tests, CLI commands, or downstream consumers.
-- Revisit package dependency extras after the package/runtime boundary is
-  stable.
+- 仅在特征测试存在后再拆分最大的适配器模块。
+- 用显式的公共辅助 API 替换私有跨模块导入。
+- 当测试、CLI 命令或下游消费方需要时，将剩余可复用脚本逻辑移入包模块。
+- 在包/运行时边界稳定后重新审视包依赖 extras。
 
-## Documents
+## 文档
 
-| Document | Purpose |
+| 文档 | 用途 |
 | --- | --- |
-| [codebase-rebuild-plan.md](codebase-rebuild-plan.md) | Current rebuild sequence and validation floor. |
-| [architecture-audit-triage-2026-04-30.md](architecture-audit-triage-2026-04-30.md) | Corrected outcomes from the 2026-04-30 architecture review. |
+| [codebase-rebuild-plan.md](codebase-rebuild-plan.md) | 当前重建顺序和验证底线。 |
+| [architecture-audit-triage-2026-04-30.md](architecture-audit-triage-2026-04-30.md) | 2026-04-30 架构审查的修正结论。 |
 
-## Rules
+## 规则
 
-- Prefer small PRs that do not change behavior.
-- Do not mix code architecture rebuilds with new GPU experiments.
-- Do not move evidence files into this directory.
-- Record only lasting decisions here; short execution notes belong in PRs or
-  `legacy/` when they need to be preserved.
+- 优先选择不改变行为的小型 PR。
+- 不要将代码架构重建与新的 GPU 实验混合。
+- 不要将证据文件移入此目录。
+- 此处仅记录长期有效决策；短期执行笔记归属 PR 或需要保留时归属 `legacy/`。
