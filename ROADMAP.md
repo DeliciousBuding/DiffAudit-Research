@@ -2,6 +2,59 @@
 
 > Last updated: 2026-05-23
 
+## 2026-05-23 Next-Phase Research Synthesis
+
+Three parallel research agents completed a systematic scan of the public
+surface for new artifacts, candidate promotion potential, and second-asset
+contract definition. Key findings:
+
+### Public Artifact Scan (35+ searches across arXiv, OpenReview, HF, GitHub, CVPR)
+
+**No fully qualified second asset exists publicly as of 2026-05-23.** Nine
+candidates were checked; eight are paper-only or blocked. The pattern is
+consistent: code sometimes exists, split manifests occasionally exist,
+checkpoints and precomputed score packets almost never exist.
+
+**One actionable finding: ReDiffuse (ICLR 2025) OpenReview supplement.**
+Contains public `STL10_train_ratio0.5.npz` — a genuine STL-10 member/nonmember
+split manifest with SHA-256 hashes, plus full DDPM training and attack code.
+Also contains CIFAR-100 and Tiny-IN split manifests. No checkpoints, but the
+training code is included. Training a DDPM on STL-10 from scratch is ~4 GPU-hours
+on an A100 (~8-12 hours on local RTX 4070 laptop). This is the cleanest path to
+a second dataset surface.
+
+### Candidate Promotion Assessment
+
+| Candidate | Signal | Feasibility | Blocker |
+|-----------|--------|-------------|---------|
+| CLiD | AUC=0.961 | LOW | Prompt-conditioning is inherent to the signal; control experiments prove it |
+| CopyMark | AUC=0.44-0.57 (CommonCanvas) | LOW | Empirically closed (4 scorers all weak) |
+| Tracing the Roots | AUC=0.816 | **MEDIUM** | Public feature tensors exist; blocker is internal — need feature-packet consumer lane |
+
+### Second-Asset Contract
+
+Formal 6-gate contract saved to `docs/evidence/second-asset-contract.md`:
+Target Identity → Split → Score → Metric → Provenance → Surface Delta.
+
+Most accessible paths:
+1. **ReDiffuse DDPM/STL-10**: Same-family different-dataset. Split manifest exists. ~4 GPU-hours training.
+2. **ReDiffuse DDPM/CIFAR-100**: Same path, CIFAR-100 split also in supplement.
+3. **MT-MIA Relational Tabular**: 18 public score packets, but requires scope expansion to tabular modality.
+4. **Tracing the Roots feature-packet**: Requires opening a gray-box consumer lane.
+
+### Decision
+
+**Immediate**: Download ReDiffuse supplement, extract STL-10 split, begin
+CPU-side preflight. If split semantics check out, proceed to bounded GPU
+training. This would give DiffAudit its first genuinely second dataset surface
+(DDPM/STL-10) with verifiable third-party split provenance.
+
+**Medium-term**: Decide on Tracing the Roots feature-packet lane. If yes,
+design the consumer contract and admit. If no, close as Research-side reference.
+
+**No new GPU experiments outside the ReDiffuse STL-10 path.**
+`active_gpu_question = ReDiffuse DDPM/STL-10 preflight`
+
 ## 2026-05-23 Lane A Metadata Triage Sync
 
 Lane A ran a bounded metadata-only public asset check after the ReDiffuse SD
