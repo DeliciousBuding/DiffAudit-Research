@@ -17,7 +17,7 @@
       "evidence": [
         "workspaces/gray-box/runs/sima-cifar10-runtime-rescan-20260416-cpu-32-r2/summary.json",
         "workspaces/gray-box/runs/sima-packet-score-export-pia-full-overlap-20260421-r1/summary.json",
-        "workspaces/cross-box/runs/crossbox-pairboard-pia-sima-full-overlap-20260421-r1/summary.json"
+        "workspaces/cross-box/runs/cross-box-pairboard-pia-sima-full-overlap-20260421-r1/summary.json"
       ],
       "key_metrics": {
         "standalone_auc": 0.584961,

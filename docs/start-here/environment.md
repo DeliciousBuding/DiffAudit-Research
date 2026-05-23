@@ -13,10 +13,7 @@
 
 目前它还没有绑定到某一篇论文的完整执行资产。
 
-This environment installs Research as a local Python package and CLI. It is not
-the production service deployment surface; Runtime jobs and HTTP serving belong
-to the sibling `Runtime-Server/` repository, and product deployment belongs to
-`Platform/`.
+本环境将 Research 作为本地 Python 包和 CLI 安装。它不是生产服务部署界面；Runtime 任务和 HTTP 服务属于同级 `Runtime-Server/` 仓库，产品部署属于 `Platform/`。
 
 ## 为什么用 Python 3.11
 

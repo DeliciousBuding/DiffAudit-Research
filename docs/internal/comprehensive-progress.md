@@ -1,8 +1,10 @@
 # Comprehensive Progress
 
+> 最后验证：2026-05-23。ROADMAP.md 为最新状态。
+
 这份文档是 `Research` 研究仓库的综合进度入口。
 
-它不替代 [reproduction-status.md](reproduction-status.md) 的逐线细节，也不替代 [mia-defense-research-index.md](mia-defense-research-index.md) 的文献整理；它的职责是把“当前最能讲的攻击线、最缺的防御线、最短执行路径”放到一页里。
+它不替代 [reproduction-status.md](../evidence/reproduction-status.md) 的逐线细节，也不替代 [mia-defense-research-index.md](mia-defense-research-index.md) 的文献整理；它的职责是把“当前最能讲的攻击线、最缺的防御线、最短执行路径”放到一页里。
 
 ## 当前一句话
 
@@ -42,8 +44,8 @@
   - 当前没有 honest bounded successor lane
   - 只有 genuinely new bounded hypothesis 出现时才允许重开
   - `Local Mirror` 不提供第二防御家族
-- [2026-04-10-recon-decision-package](../workspaces/black-box/2026-04-10-recon-decision-package.md) 已把黑盒五件套固定为 decision-grade package，本轮 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json) 又在 CPU 上复算到相同 headline metrics，且不改 admitted 结果
-- [2026-04-10-pia-provenance-split-protocol-delta](../workspaces/gray-box/2026-04-10-pia-provenance-split-protocol-delta.md) 已把 `split shape aligned locally / random-four-split protocol still open / strict redo currently dirty` 三点固定为新的 provenance supplement
+- [2026-04-10-recon-decision-package](../../legacy/workspaces/black-box/2026-04/2026-04-10-recon-decision-package.md) 已把黑盒五件套固定为 decision-grade package，本轮 [recon-artifact-mainline-public-100-step30-reverify-20260410-round28](../experiments/recon-artifact-mainline-public-100-step30-reverify-20260410-round28/summary.json) 又在 CPU 上复算到相同 headline metrics，且不改 admitted 结果
+- [2026-04-10-pia-provenance-split-protocol-delta](../../legacy/workspaces/gray-box/2026-04/2026-04-10-pia-provenance-split-protocol-delta.md) 已把 `split shape aligned locally / random-four-split protocol still open / strict redo currently dirty` 三点固定为新的 provenance supplement
 - `X-86→X-89` 序列原本把 G1-A/X-90 deferred 为 `needs-assets`；`X-141→X-142` 已在当前 GPU 窗口补齐这个缺口，生成两轮 matched `TMIA-DM 512` 表面并完成两次 positive-but-bounded X-90 review。当前读法不再是 `G1-A deferred-needs-assets`，而是 `two-seed internal auxiliary positive / not headline`；`X-143→X-144` 已把它同步为 internal-only 并明确 GPU hold。之后 `X-145→X-150` 把 `03-H1 activation-subspace` 走完三轮 GPU-safe scout：same-rule top-delta 过拟合，validation-regularized 仍 weak，cross-layer stability gate 也 negative-but-useful；`X-153→X-154` 的 per-timestep trajectory scout 也未过 holdout fire gate；`X-156→X-163` 已把 live lane 推进并收口到 `04-H3 selective all-steps gating = candidate-only positive-hardening / GPU hold`；`X-164→X-165` 又把现有 `PIA + GSA + SimA` tri-surface consensus 收口为 `negative but useful`，所以当前没有 immediate GPU release。
 - issue #10 已关闭为 `positive hardening`：`recon` 现在有独立的 strict Stage 0 paper gate（`check-recon-stage0-paper-gate`），它会在当前公开 bundle 只证明 `proxy-shadow-member / local-semantic-chain-ready` 时明确返回 `blocked`，防止把 local-ready 误读成 paper-aligned `Attack-I`。
 - GPT-5.4 round-2 报告已完成 long-horizon 收敛，而最近真实 packet 又把 active slot 进一步收口为：
@@ -174,17 +176,17 @@
   - 这份 batch32 comparator 当前仍是 `runtime-smoke` 级 bridge 诊断结果，不应直接写成新的 admitted 白盒防御主结果
   - 当前 same-protocol bridge 已正式以 `保持冻结` 收口；这只是治理与资源排序决策，不是新的 benchmark 结果
   - 系统侧对白盒 `GSA` 的 live intake 现在应与 admitted `1k-3shadow` 主结果对齐，而不是继续停在早期 CPU closed-loop
-  - 新的 [2026-04-10-finding-nemo-mechanism-intake](../workspaces/white-box/2026-04-10-finding-nemo-mechanism-intake.md) 现在只应被读作历史 intake gate；当前 branch 已经越过 intake-only 阶段，不能再把它当作当前 `Phase E` 候选
-  - 新的 [2026-04-10-finding-nemo-protocol-reconciliation](../workspaces/white-box/2026-04-10-finding-nemo-protocol-reconciliation.md) 已明确：当前 admitted 白盒资产与 `Finding NeMo` 原始 `Stable Diffusion v1.4 / cross-attention value layers` 协议面不兼容；这条边界仍然有效，但它现在约束的是 future reconsideration，而不是“当前仍只允许 observability / zero-GPU hold”
-  - 新的 [2026-04-10-finding-nemo-observability-smoke-contract](../workspaces/white-box/2026-04-10-finding-nemo-observability-smoke-contract.md) 已把未来 smoke 的 `checkpoint_root / layer selector / sample binding / output schema / scheduler gate` 写成可审查合同；本轮又把它落实成 `read-only contract-probe`
+  - 新的 [2026-04-10-finding-nemo-mechanism-intake](../../legacy/workspaces/white-box/2026-04/2026-04-10-finding-nemo-mechanism-intake.md) 现在只应被读作历史 intake gate；当前 branch 已经越过 intake-only 阶段，不能再把它当作当前 `Phase E` 候选
+  - 新的 [2026-04-10-finding-nemo-protocol-reconciliation](../../legacy/workspaces/white-box/2026-04/2026-04-10-finding-nemo-protocol-reconciliation.md) 已明确：当前 admitted 白盒资产与 `Finding NeMo` 原始 `Stable Diffusion v1.4 / cross-attention value layers` 协议面不兼容；这条边界仍然有效，但它现在约束的是 future reconsideration，而不是“当前仍只允许 observability / zero-GPU hold”
+  - 新的 [2026-04-10-finding-nemo-observability-smoke-contract](../../legacy/workspaces/white-box/2026-04/2026-04-10-finding-nemo-observability-smoke-contract.md) 已把未来 smoke 的 `checkpoint_root / layer selector / sample binding / output schema / scheduler gate` 写成可审查合同；本轮又把它落实成 `read-only contract-probe`
   - `src/diffaudit/attacks/gsa_observability.py` 与 `probe-gsa-observability-contract` 已在 `Research` 内实现零 GPU 的合同解析入口，并已在真实 admitted 资产上返回 `status = ready`
   - 本轮新增 `export-gsa-observability-canary` 与 `export_gsa_observability_canary`，已在 `Research` 内实现 CPU-only 的 sample-pair activation export，并在 [finding-nemo-observability-canary-20260410-round24](../workspaces/white-box/runs/finding-nemo-observability-canary-20260410-round24/summary.json) 写出 `summary.json + records.jsonl + tensor artifacts`
-  - 新的 [2026-04-10-finding-nemo-activation-export-adapter-review](../workspaces/white-box/2026-04-10-finding-nemo-activation-export-adapter-review.md) 现在只应被读作历史 adapter boundary；当前 branch 的更强 truth 已经是“一条真实 bounded admitted packet exists”
-  - 新的 [2026-04-17-finding-nemo-first-truly-bounded-admitted-intervention-review-verdict](../workspaces/white-box/2026-04-17-finding-nemo-first-truly-bounded-admitted-intervention-review-verdict.md) 与 [2026-04-17-finding-nemo-post-first-actual-packet-boundary-review](../workspaces/white-box/2026-04-17-finding-nemo-post-first-actual-packet-boundary-review.md) 已把 `Finding NeMo` 当前最强诚实口径冻结为 `non-admitted actual bounded falsifier`：
+  - 新的 [2026-04-10-finding-nemo-activation-export-adapter-review](../../legacy/workspaces/white-box/2026-04/2026-04-10-finding-nemo-activation-export-adapter-review.md) 现在只应被读作历史 adapter boundary；当前 branch 的更强 truth 已经是“一条真实 bounded admitted packet exists”
+  - 新的 [2026-04-17-finding-nemo-first-truly-bounded-admitted-intervention-review-verdict](../../legacy/workspaces/white-box/2026-04/2026-04-17-finding-nemo-first-truly-bounded-admitted-intervention-review-verdict.md) 与 [2026-04-17-finding-nemo-post-first-actual-packet-boundary-review](../../legacy/workspaces/white-box/2026-04/2026-04-17-finding-nemo-post-first-actual-packet-boundary-review.md) 已把 `Finding NeMo` 当前最强诚实口径冻结为 `non-admitted actual bounded falsifier`：
     - one actual bounded admitted packet now exists
     - current branch is not `zero-GPU hold`
     - current branch is not defense-positive
-  - [2026-04-10-finding-nemo-activation-only-canary-sketch](../workspaces/white-box/2026-04-10-finding-nemo-activation-only-canary-sketch.md) 继续保留为边界文档，但当前不再能写成“尚未开始 activation export”
+  - [2026-04-10-finding-nemo-activation-only-canary-sketch](../../legacy/workspaces/white-box/2026-04/2026-04-10-finding-nemo-activation-only-canary-sketch.md) 继续保留为边界文档，但当前不再能写成“尚未开始 activation export”
 - 当前不能说的话：
   - 还不能说白盒论文级复现成功
   - 还不能说白盒 defense 比较已经完成
@@ -340,7 +342,7 @@
 
 ## 关联文档
 
-- 逐线状态：[reproduction-status.md](reproduction-status.md)
+- 逐线状态：[reproduction-status.md](../evidence/reproduction-status.md)
 - 主线叙事：[mainline-narrative.md](mainline-narrative.md)
 - GPT-5.4 原始结果包：[report-bundles/gpt54/round2-results](report-bundles/gpt54/round2-results)（第二轮） / [report-bundles/gpt54/round1-results](report-bundles/gpt54/round1-results)（第一轮）
 - 防御文档索引：[mia-defense-research-index.md](mia-defense-research-index.md)

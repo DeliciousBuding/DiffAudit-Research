@@ -1,4 +1,4 @@
-# MIA Defense Execution Checklist
+# MIA 防御执行清单
 
 这份清单基于 mia-defense-document.docx (`references/materials/context/mia-defense-document.docx`; see `references/materials/manifest.csv`) 与当前仓库真实状态整理，目标是把“文档路线”变成“可执行任务”。
 

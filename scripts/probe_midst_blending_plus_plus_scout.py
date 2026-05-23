@@ -13,11 +13,12 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 DIFFAUDIT_ROOT = ROOT.parent
-DEFAULT_UPSTREAM_ROOT = DIFFAUDIT_ROOT / "Download" / "shared" / "midst-ensemble-mia"
+DEFAULT_UPSTREAM_ROOT = DIFFAUDIT_ROOT / "Download" / "shared" / "supplementary" / "midst-ensemble-mia"
 DEFAULT_LABEL_ROOT = (
     DIFFAUDIT_ROOT
     / "Download"
     / "shared"
+    / "datasets"
     / "midst-challenge"
     / "codabench_bundles"
     / "midst_blackbox_single_table"
