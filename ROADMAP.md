@@ -2,6 +2,31 @@
 
 > Last updated: 2026-05-23
 
+## 2026-05-23 Lane A Metadata Triage Sync
+
+Lane A ran a bounded metadata-only public asset check after the ReDiffuse SD
+bundle-root normalization, without cloning repositories or downloading model,
+dataset, ZIP, image, checkpoint, or score payloads. The pending
+`OPTML-Group/Diffusion-MU-Attack` check is closed as non-mainline:
+the repository is the MIT-licensed ECCV 2024 `UnlearnDiffAtk` implementation
+for safety-driven diffusion unlearning robustness and adversarial prompt
+generation. Its public tree exposes prompt CSVs, configs, attack/evaluation
+code, and an ONNX harmful-content detector, but no per-sample membership
+contract, target member/nonmember manifest, generated response packet,
+row-bound score file, ROC array, metric JSON, or verifier.
+
+GitHub repository/code searches for new diffusion membership replay packets
+returned no usable non-duplicate candidate. Hugging Face plugin access remains
+blocked by an invalidated connector token, so the check used public HTTP API
+queries instead; those metadata queries returned no new dataset surface for
+`diffusion membership inference`, `member nonmember diffusion`, or
+`COCO_MIA diffusion` beyond the already-covered CLiD / CopyMark class of
+surfaces. Decision: `roadmap operating-system update / no new artifact / no
+download / no CPU sidecar / no GPU release / no admitted row`. Latest
+candidate verdict remains Identity-Focused Inference / Extraction; current
+slots remain `active_gpu_question = none`, `next_gpu_candidate = none`, and
+`CPU sidecar = none selected after Lane A metadata triage sync`.
+
 ## 2026-05-23 ReDiffuse SD Bundle-Root Normalization
 
 Implementation fixed a false-negative probe path for the collaborator Stable
@@ -2457,7 +2482,7 @@ claim。
 | --- | --- |
 | Active GPU question | none |
 | Next GPU candidate | none |
-| CPU sidecar | none selected after Identity-Focused Inference / Extraction artifact gate. arXiv `2410.10177` is paper-source-only identity-level privacy context with no official code, LDM / DDPM target checkpoint bundle, identity/member manifest, generated response packet, score/ROC/metric artifacts, extraction-quality artifact, or verifier public. |
+| CPU sidecar | none selected after Lane A metadata triage sync. `OPTML-Group/Diffusion-MU-Attack` is safety-driven diffusion unlearning robustness / adversarial prompt generation code, not a per-sample membership artifact; public HF/GitHub metadata checks exposed no new target/split/score/ROC/metric/verifier packet. |
 | Latest mechanism watch | Identity-Focused Inference / arXiv `2410.10177` is identity-level inference / extraction evidence, not a current per-sample membership row. Reopen only if official public code plus checkpoint-bound LDM / DDPM target identities, immutable LFW / CelebA identity and member/nonmember manifests, generated image / extraction / score packets, ROC/metric JSON, utility or extraction-quality metrics, and a no-training verifier appear, or if DiffAudit explicitly opens an identity-privacy consumer boundary. |
 | Previous mechanism watch | RAPTA / ADMCD / arXiv `2603.13070` is copying / memorization mitigation evidence, not a current per-sample membership row. Reopen only if official public code plus checkpoint-bound target identities, immutable copied/non-copied or member/nonmember row manifests, generated image or internal-score packets, pre/post RAPTA / ADMCD ROC/metric JSON, retained-utility and prompt-alignment metrics, and a no-training verifier appear, or if DiffAudit explicitly opens a copying/memorization mitigation consumer boundary. GUARD / arXiv `2603.00133` is official code-public surgical memorization mitigation evidence, not a current per-sample membership row. |
 | Latest closed search branch | Identity-Focused Inference is closed as paper-source-only identity-level inference / extraction evidence unless official public code and row-bound identity/member artifacts or a reviewed identity-privacy consumer boundary appear. RAPTA / ADMCD is closed as paper-source-only copying / memorization mitigation evidence unless official public code and row-bound pre/post copying artifacts or a reviewed copying/memorization consumer boundary appear. GUARD is closed as code-public surgical memorization mitigation evidence unless row-bound pre/post-mitigation artifacts or a reviewed memorization-mitigation consumer boundary appear. BAF is closed as weight-only LoRA mitigation evidence unless row-bound pre/post-mitigation artifacts or a reviewed weight-only LoRA mitigation consumer boundary appear. Broken Memories is closed as memorization detection/mitigation semantic-shift evidence unless row-bound replay artifacts or a reviewed memorized-generation consumer boundary appear. IAR Privacy Attacks remains closed as image-autoregressive code-public watch-plus unless row-bound public replay artifacts or a reviewed IAR boundary appear. Silent Brush, Trajectory Generation Privacy, Model Will Tell / DRC, Discrete DLM, GitHub lightweight diffusion MIA triage, CopyMark `laion_mi`, and the collaborator Stable Diffusion ReDiffuse bundle retain their previously documented close/reopen conditions. |
