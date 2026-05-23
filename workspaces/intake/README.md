@@ -3,7 +3,7 @@
 ## Current Status
 
 - Direction: new method evaluation and paper scouting.
-- No active intake review.
+- No active intake review after the 2026-05-23 Lane A metadata triage sync.
 - Stable Diffusion ReDiffuse collaborator artifact audit imported a local
   `5000`-row `2500 / 2500` result packet and validated it through the new
   `diffaudit probe-rediffuse-sd-artifacts` CLI path. This is useful
@@ -34,23 +34,37 @@
   Platform/Runtime row is released.
 - Public metadata asset sweep after the DIFFENCE Zenodo sync found no new
   non-duplicate image/latent-image replay packet. Authenticated HF metadata
-  still exposes only known `zsf/COCO_MIA_ori_split1` and `chumengl/copymark`
-  surfaces: CLiD's `mia_COCO.zip` remains `403` for authenticated `HEAD` and
-  range probes, while CopyMark's `datasets.zip` is large and already covered
-  by the official score-artifact gate. GitHub artifact-shaped searches only
-  returned already-covered CopyMark, CLiD, or DiffAudit evidence hits. No ZIP,
-  image, model, checkpoint, full-repo download, CPU sidecar, GPU work, or
-  admitted Platform/Runtime row is released.
-- GitHub lightweight diffusion MIA triage checked four direct search hits:
+  previously exposed only known `zsf/COCO_MIA_ori_split1` and
+  `chumengl/copymark` surfaces: CLiD's `mia_COCO.zip` remains `403` for
+  authenticated `HEAD` and range probes, while CopyMark's `datasets.zip` is
+  large and already covered by the official score-artifact gate. The 2026-05-23
+  follow-up used public HF HTTP API metadata because the HF connector token was
+  invalidated; `diffusion membership inference`, `member nonmember diffusion`,
+  and `COCO_MIA diffusion` returned no new dataset surface. GitHub
+  artifact-shaped searches also returned no usable non-duplicate replay packet.
+  No ZIP, image, model, checkpoint, full-repo download, CPU sidecar, GPU work,
+  or admitted Platform/Runtime row is released.
+- `OPTML-Group/Diffusion-MU-Attack` is non-mainline for the current intake
+  gate. It is the ECCV 2024 `UnlearnDiffAtk` safety-driven diffusion unlearning
+  robustness / adversarial-prompt-generation implementation, with prompt CSVs,
+  configs, attack/evaluation code, and an ONNX harmful-content detector. It
+  publishes no per-sample membership contract, target member/nonmember
+  manifest, generated response packet, row-bound score file, ROC array, metric
+  JSON, or verifier. No repository clone, Google Drive model download, prompt
+  payload download, script execution, CPU sidecar, GPU work, or
+  Platform/Runtime row is released.
+- GitHub lightweight diffusion MIA triage checked five direct search hits:
   `acha1934/Black-box-Membership-Inference-Attacks-against-Fine-tuned-Diffusion-Models`,
   `KarinMalka1/Stable-Diffusion-Personalization-Forensics`,
   `abramwit/ECE-CS-782-Research-Project`, and
-  `josephho9/score_function_diffusion`. They are lightweight/course-style or
-  toy reproductions only. None commits public checkpoint-bound targets, exact
-  target member/nonmember manifests, row-bound response packets, score rows,
-  ROC arrays, metric JSON, trained attack weights, or a verifier. No
-  notebook/image/model/Google Drive payload download, script execution, CPU
-  sidecar, GPU work, or admitted Platform/Runtime row is released.
+  `josephho9/score_function_diffusion`, plus `hackerman70000/eidetic`. They are
+  lightweight/course-style, toy, or code-only toolkit reproductions only. None
+  commits public checkpoint-bound targets, exact target member/nonmember
+  manifests, row-bound response packets, score rows, ROC arrays, metric JSON,
+  trained attack weights, or a verifier. No notebook/image/model/Google Drive
+  payload download, script execution, CIFAR download, shadow-checkpoint
+  reconstruction, CPU sidecar, GPU work, or admitted Platform/Runtime row is
+  released.
 - DEB / `Assessing Membership Inference Privacy Risks in Medical Diffusion
   Models via Discrete Encoding-Based Inference` is a paper-source-only grey-box
   medical diffusion mechanism watch. The MDPI Applied Sciences article reports
