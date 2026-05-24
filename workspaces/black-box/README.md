@@ -5,6 +5,13 @@
 - 方向：黑盒成员推断攻击。
 - 主要方法：`recon` 是已准入的黑盒产品行，也是选定用于有限尾部置信度加固的审计线路。
 - 支撑方法：`CLiD`、`variation`、`H2 response-strength` 以及语义辅助分类器。
+- H2 output-cloud geometry 状态：复用既有 H2 `512 / 512` response cache 的
+  CPU-only review 发现强候选信号，logistic `AUC = 0.961529`、
+  `TPR@1%FPR = 0.333984`、`TPR@0.1%FPR = 0.117188`；seed `177` 仍稳定，
+  label-shuffle sanity 回到随机级。但源 cache 使用 class-ordered sample offset，
+  所以该结果必须先过 reseeded / interleaved order-control cache，才能讨论晋升。
+  不要把它扩成 KDE、shadow density、repeat-count 或同 cache feature sweep；
+  不要新增 Platform/Runtime schema、runner 或 admitted bundle row。
 - 已导入候选工件：协作者移交的 Stable Diffusion ReDiffuse 结果包现通过
   `diffaudit probe-rediffuse-sd-artifacts` 进行审计。导入的 `5000` 行
   `2500 / 2500` 包重放结果为 `AUC = 0.710319` 和 `ASR = 0.6846`，因此值得保留作为候选证据。同一导入子集现在也支持
@@ -40,6 +47,9 @@
 
 当前 H2 候选边界：
 [../../docs/evidence/black-box-response-strength-preflight.md](../../docs/evidence/black-box-response-strength-preflight.md)。
+
+当前 H2 output-cloud geometry 候选：
+[../../docs/evidence/h2-output-cloud-geometry-20260525.md](../../docs/evidence/h2-output-cloud-geometry-20260525.md)。
 
 当前中频同噪声残差预检：
 [../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md)。
