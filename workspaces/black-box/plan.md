@@ -42,7 +42,10 @@
   sanity check. A bounded `256 / 256` shared-position order-control scout
   preserved the signal (`AUC = 0.967819`, `TPR@1%FPR = 0.410156`,
   `TPR@0.1%FPR = 0.132812`) with random-level label shuffle (`AUC = 0.464066`),
-  so class-ordered seed offset is not a sufficient explanation. It remains
+  so class-ordered seed offset is not a sufficient explanation. The same
+  boundary at seed `177` remains strong (`AUC = 0.956192`,
+  `TPR@1%FPR = 0.285156`, `TPR@0.1%FPR = 0.109375`) with random-level label
+  shuffle (`AUC = 0.484070`), so it is not a single-seed artifact. It remains
   candidate-only: do not promote it into Platform or Runtime runners from this
   cache family.
 - `simple image-to-image distance`: bounded single-asset evidence on
@@ -78,8 +81,8 @@
 ## Next Action
 
 No black-box GPU or CPU sidecar is selected. The H2 output-cloud order-control
-scout has answered the seed-offset caveat at decision value; do not turn the
-candidate into same-cache feature work or a full `512 / 512` rerun just to
+and seed-stability scouts have answered the current caveats at decision value;
+do not turn the candidate into same-cache feature work or a full `512 / 512` rerun just to
 complete a table. The broader root long-horizon queue
 still continues Lane A only with a non-duplicate asset that has exact target
 identity, member/nonmember split artifacts, and response or score coverage.
