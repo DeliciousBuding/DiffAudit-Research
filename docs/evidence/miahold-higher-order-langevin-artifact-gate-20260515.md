@@ -1,6 +1,7 @@
 # MIAHOLD Higher-Order Langevin Artifact Gate
 
 > Date: 2026-05-15
+> Live refresh: 2026-05-25
 > Status: defense-code-public / split-and-attack-code-present / score-artifacts-missing / no download / no GPU release / no admitted row
 
 ## Question
@@ -30,6 +31,7 @@ generated sample packet, or score output was downloaded or executed.
 | CIFAR repo latest push observed | `2026-02-06T17:42:37Z` |
 | CIFAR repo license field | `Other` |
 | GitHub releases | none observed for either repository |
+| 2026-05-25 related arXiv refresh | arXiv `2605.19170` / `Reducing Diffusion Model Memorization with Higher Order Langevin Dynamics` is same-family HOLD / higher-order Langevin memorization-mitigation context by Benjamin Sterling, Monica F. Bugallo, and Tom Tirer. Its PDF and source are public, but exact-title, arXiv-id, and phrase GitHub repository searches returned no official repository, and code search found only unrelated course/index JSON entries. |
 
 ## Public Evidence Checked
 
@@ -46,6 +48,7 @@ generated sample packet, or score output was downloaded or executed.
 | `MIAHOLDCIFAR/pia.py` | Implements a HOLD-style proximal inference attack: it collects train/validation images, assigns member/nonmember labels, computes ROC arrays in memory, prints `AUC = ...`, and logs `val/AUROC` to W&B. The code comments out saving ROC arrays as artifacts. |
 | `MIAHOLDCIFAR/log2.err` / `log2.out` / `nohup.out` | Show a local CUDA training attempt and argument errors. They do not contain a final replayable AUROC board, strict-tail metrics, score arrays, checkpoints, or artifact hashes. |
 | Recursive trees | Outside toy/model/logs and split text files, no committed `.npz`, `.npy`, `.h5`, `.hdf5`, score CSV, metric JSON, ROC artifact, or model-checkpoint-bound MIA packet was found. |
+| arXiv `2605.19170` live refresh | The paper-source surface is useful mechanism context for why HOLD may reduce memorization, but it does not add target checkpoints, member/nonmember manifests, generated packets, score rows, ROC arrays, metric JSON, verifier output, or official code beyond the already-gated MIAHOLD repositories. |
 
 ## Gate Result
 
@@ -71,6 +74,10 @@ configuration, but it does not expose the artifact set DiffAudit needs for the
 next execution cycle: checkpoint-bound target identity, immutable
 member/nonmember manifests, reusable score rows, ROC arrays, strict-tail
 metrics, or a ready verifier command.
+
+The 2026-05-25 arXiv `2605.19170` refresh does not change that decision. It
+adds a same-family HOLD memorization-mitigation paper-source surface, not a
+new replay target or admitted defense packet.
 
 Smallest valid reopen condition:
 
