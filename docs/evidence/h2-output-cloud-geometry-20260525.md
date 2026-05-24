@@ -1,16 +1,17 @@
 # H2 Output-Cloud Geometry Cache Review
 
 > Date: 2026-05-25
-> Status: candidate complementary signal / CPU-only cache review / order-control required before promotion / no GPU release / no admitted row
+> Status: candidate complementary signal / order-control scout passed / no admitted row / no 512/512 rerun selected
 
 ## Question
 
 在已有 H2 response-strength cache 上，输出之间的几何结构是否携带不同于
 seed-to-output distance 的 membership 信号？
 
-本轮只复用现有
+第一轮只复用现有
 `workspaces/black-box/runs/h2-response-strength-512-20260501-r1/response-cache.npz`。
-没有生成新响应、没有下载资产、没有运行 GPU，也没有扩展同一路线的 KDE、shadow
+随后只释放一个有界 `256 / 256` shared-position order-control scout，用来回答
+class-ordered seed-offset caveat。没有下载资产，也没有扩展同一路线的 KDE、shadow
 density、repeat-count 或特征 sweep。
 
 ## Contract
@@ -87,46 +88,99 @@ Label-shuffle sanity：
 
 这说明 scorer/evaluation 管线没有明显的标签直通泄漏。
 
-## Critical Caveat
+## Shared-Position Order-Control Scout
 
-该结果仍然不能晋升。源 cache 的响应生成存在 class-ordered seed offset：
-`scripts/run_h2_response_strength_validation.py` 中 member 侧使用
-`sample_offset = 0`，nonmember 侧使用 `sample_offset = len(member_indices)`。
-Output-output geometry 对采样种子和响应云形态敏感，因此当前强信号可能混入
+源 `512 / 512` cache 的响应生成存在 class-ordered seed offset：
+`scripts/run_h2_response_strength_validation.py` 的历史默认行为是 member 侧
+`sample_offset = 0`，nonmember 侧 `sample_offset = len(member_indices)`。
+Output-output geometry 对采样种子和响应云形态敏感，因此必须检查强信号是否只是
 class-ordered sampling effect。
 
-这不是要继续在同一个 cache 上补表格；它只定义一个非常窄的下一步：
-如果需要推进，最多释放一个有界 order-control / reseeded / interleaved
-response-cache scout，用来判断该强信号是否跨 class-order 控制保留。
-
-当前允许的最小脚本改动仅限于生成这个控制 cache：
+本轮只加入一个窄的 seed policy 控制：
 `scripts/run_h2_response_strength_validation.py --seed-offset-policy shared-position`。
-该模式会让 member / nonmember 使用相同 per-position seed offset，并在
-`summary.json` 中标记 `order_control_scout = true`。它只用于重新评估
-class-ordered sampling effect，不代表 admission，也不得直接生成 Platform /
-Runtime row。
+该模式让 member / nonmember 使用相同 per-position seed offset，并在
+`summary.json` 中标记 `order_control_scout = true`。运行边界为
+`256 / 256`，timesteps `40 / 80 / 120 / 160`，repeats `2`，seed `176`，
+holdout repeats `7`，bootstrap iters `100`。GPU scout 用时 `208.866516s`。
+
+Runner summary 的 H2 distance scorer 在 shared-position 下仍为正但尾部弱：
+
+| Metric | Raw H2 logistic | Lowpass H2 logistic |
+| --- | ---: | ---: |
+| AUC | `0.906967` | `0.898102` |
+| ASR | `0.837891` | `0.828125` |
+| TPR@1%FPR | `0.058594` | `0.066406` |
+| TPR@0.1%FPR | `0.003906` | `0.003906` |
+
+Output-cloud geometry review on the same shared-position cache:
+`workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-256-20260525.json`
+
+| Metric | Shared-position `256 / 256` |
+| --- | ---: |
+| AUC | `0.967819` |
+| ASR | `0.923828` |
+| TPR@1%FPR | `0.410156` |
+| TPR@0.1%FPR | `0.132812` |
+
+Label-shuffle sanity for the shared-position cache:
+`workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-256-label-shuffle-20260525.json`
+
+| Metric | Shared-position label shuffle |
+| --- | ---: |
+| AUC | `0.464066` |
+| ASR | `0.505859` |
+| TPR@1%FPR | `0.003906` |
+| TPR@0.1%FPR | `0.0` |
+
+Same-size historical class-ordered subset from the old cache:
+`workspaces/black-box/artifacts/h2-output-cloud-geometry-class-ordered-subset-256-20260525.json`
+
+| Metric | Class-ordered subset `256 / 256` |
+| --- | ---: |
+| AUC | `0.967438` |
+| ASR | `0.916016` |
+| TPR@1%FPR | `0.179688` |
+| TPR@0.1%FPR | `0.105469` |
+
+Class-ordered subset label shuffle:
+`workspaces/black-box/artifacts/h2-output-cloud-geometry-class-ordered-subset-256-label-shuffle-20260525.json`
+
+| Metric | Class-ordered subset label shuffle |
+| --- | ---: |
+| AUC | `0.427902` |
+| ASR | `0.5` |
+| TPR@1%FPR | `0.0` |
+| TPR@0.1%FPR | `0.0` |
+
+Interpretation: shared-position order-control did not collapse the output-cloud
+geometry signal, and its label-shuffle check returns random-level. This removes
+the previous class-ordered seed-offset caveat as a sufficient explanation for
+the signal. The result still does not imply product admission: it is one
+controlled scout on H2 DDPM/CIFAR10 response-cache geometry, not a second
+public asset or Platform/Runtime contract.
 
 ## Decision
 
-`candidate complementary signal / order-control required / no admitted row`。
+`candidate complementary signal / order-control scout passed / no admitted row`。
 
 保留为 Research-side 强候选，因为它满足三个有价值条件：
 
 - 它是不同 observable：output-output cloud geometry，而不是 seed-to-output distance。
 - 它在同一 H2 cache 上明显强于 raw/lowpass H2 logistic。
 - 它通过了 seed-177 稳定性和 label-shuffle sanity。
+- 它在 `256 / 256` shared-position order-control scout 中没有因 seed-offset 控制而坍塌。
 
 但当前不做以下事情：
 
 - 不升级到 Platform/Runtime admitted bundle。
 - 不新增产品 schema、Runtime runner、UI 类型或 bundle row。
 - 不在同一 cache 上展开 KDE、shadow density、repeat-count、特征族或融合 sweep。
-- 不释放 GPU 或大下载。
+- 不释放完整 `512 / 512` shared-position GPU rerun 或大下载；当前 `256 / 256`
+  order-control 已经回答了会改变路线的 caveat。
 
-下一次重新评估只允许基于一个 order-control cache 的结果。如果 reseeded /
-interleaved cache 仍保持强 AUC 和严格尾部恢复，再讨论是否进入更正式的 H2
-output-cloud 机制线；如果不保持，该候选直接关闭为 class-ordered response-cache
-artifact。
+下一次重新评估不应是同 cache feature sweep 或为了表格好看的 `512 / 512` 补跑。
+只有在需要正式晋升机制线、发现第二公开资产、或要建立独立消费合约时，才重新定义
+更高成本的验证任务。
 
 ## Platform and Runtime Impact
 

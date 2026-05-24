@@ -1,0 +1,142 @@
+{
+  "status": "ready",
+  "track": "black-box",
+  "method": "H2 output-cloud geometry scorer",
+  "mode": "cpu-cache-review",
+  "response_cache": "workspaces\\black-box\\runs\\h2-response-strength-256-shared-position-20260525-r1\\response-cache.npz",
+  "inputs": {
+    "sample_count": 512,
+    "member_count": 256,
+    "nonmember_count": 256,
+    "timesteps": [
+      40,
+      80,
+      120,
+      160
+    ],
+    "repeat_count": 2,
+    "feature_count": 17,
+    "feature_names": [
+      "within_timestep_pair_rmse_40",
+      "within_timestep_pair_rmse_80",
+      "within_timestep_pair_rmse_120",
+      "within_timestep_pair_rmse_160",
+      "within_timestep_pair_rmse_mean",
+      "within_timestep_pair_rmse_std",
+      "within_timestep_pair_rmse_slope",
+      "centroid_rmse_40_80",
+      "centroid_rmse_40_120",
+      "centroid_rmse_40_160",
+      "centroid_rmse_80_120",
+      "centroid_rmse_80_160",
+      "centroid_rmse_120_160",
+      "centroid_rmse_mean",
+      "centroid_rmse_std",
+      "cloud_pca_trace",
+      "cloud_pca_top_share"
+    ],
+    "seed": 176,
+    "label_mode": "shuffled_seed_176",
+    "holdout_repeats": 7,
+    "bootstrap_iters": 100
+  },
+  "simple": {
+    "best_by_auc": {
+      "name": "centroid_rmse_120_160",
+      "orientation": "positive_higher_is_member",
+      "metrics": {
+        "auc": 0.515778,
+        "asr": 0.533203,
+        "tpr_at_1pct_fpr": 0.0,
+        "tpr_at_0_1pct_fpr": 0.0,
+        "member_score_mean": 0.041212,
+        "nonmember_score_mean": 0.041062
+      }
+    },
+    "best_by_low_fpr": {
+      "name": "centroid_rmse_40_80",
+      "orientation": "negative_higher_is_member",
+      "metrics": {
+        "auc": 0.489319,
+        "asr": 0.515625,
+        "tpr_at_1pct_fpr": 0.039062,
+        "tpr_at_0_1pct_fpr": 0.015625,
+        "member_score_mean": -0.026152,
+        "nonmember_score_mean": -0.026148
+      }
+    }
+  },
+  "logistic": {
+    "aggregate_metrics": {
+      "auc": 0.464066,
+      "asr": 0.505859,
+      "tpr_at_1pct_fpr": 0.003906,
+      "tpr_at_0_1pct_fpr": 0.0,
+      "member_score_mean": 0.497809,
+      "nonmember_score_mean": 0.50503
+    },
+    "aggregate_ci95": {
+      "auc": {
+        "p025": 0.418926,
+        "p975": 0.516493
+      },
+      "asr": {
+        "p025": 0.5,
+        "p975": 0.551904
+      },
+      "tpr_at_1pct_fpr": {
+        "p025": 0.0,
+        "p975": 0.017676
+      },
+      "tpr_at_0_1pct_fpr": {
+        "p025": 0.0,
+        "p975": 0.003906
+      }
+    },
+    "mean_coefficients": [
+      -0.260484,
+      0.501752,
+      0.135572,
+      0.133148,
+      0.168222,
+      -0.370717,
+      0.229815,
+      0.010699,
+      0.334602,
+      0.084006,
+      -0.375054,
+      -0.638924,
+      0.021262,
+      -0.105943,
+      0.198377,
+      -0.015044,
+      0.039851
+    ],
+    "prediction_count": {
+      "min": 7,
+      "max": 7,
+      "mean": 7.0
+    }
+  },
+  "comparison": {
+    "raw_h2_logistic": null,
+    "lowpass_h2_logistic": null,
+    "output_cloud_minus_raw_h2": null,
+    "output_cloud_minus_lowpass_h2": null
+  },
+  "decision_gate": {
+    "uses_only_output_output_geometry": true,
+    "does_not_generate_new_responses": true,
+    "nonzero_strict_tail": false,
+    "beats_best_simple_low_fpr": false,
+    "reopen_allowed": false,
+    "requires_reseeded_or_interleaved_cache_before_promotion": true
+  },
+  "verdict": "label_shuffle_sanity_random_level",
+  "notes": [
+    "This is a CPU-only scorer review on an existing H2 response cache.",
+    "It intentionally excludes seed-to-output distance features so it cannot collapse back into H2 simple distance.",
+    "A positive result is candidate-only until reseeded or interleaved response-cache controls rule out class-ordered sampling effects.",
+    "Do not expand this cache into KDE, shadow density, repeat-count, or same-cache feature sweeps."
+  ]
+}
