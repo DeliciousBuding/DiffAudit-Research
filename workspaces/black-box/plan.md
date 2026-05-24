@@ -36,7 +36,12 @@
   not selected for GPU.
 - `H2 response-strength`: candidate-only with positive non-overlap signal;
   frozen lowpass follow-up is positive-but-bounded on `DDPM/CIFAR10`; SD/CelebA
-  text-to-image transfer is protocol-blocked.
+  text-to-image transfer is protocol-blocked. The 2026-05-25 output-cloud
+  geometry cache review found a stronger output-output candidate signal
+  (`AUC = 0.961529`, `TPR@0.1%FPR = 0.117188`) and a random-level label-shuffle
+  sanity check, but it remains candidate-only until a reseeded or interleaved
+  order-control cache preserves the signal. Do not promote it into Platform or
+  Runtime runners from the existing cache.
 - `simple image-to-image distance`: bounded single-asset evidence on
   SD1.5/CelebA; not a product row and not portability evidence.
 - `mid-frequency same-noise residual`: distinct paper-backed observable gap;
@@ -69,15 +74,18 @@
 
 ## Next Action
 
-No black-box GPU or CPU sidecar is selected. The next action belongs to the
-root long-horizon queue: continue Lane A only with a non-duplicate asset that
-has exact target identity, member/nonmember split artifacts, and response or
-score coverage. The imported Stable Diffusion ReDiffuse collaborator artifact,
-CLiD gated ZIP, CopyMark `laion_mi`, and CopyMark `laion_ridar` do not satisfy
-that gate by themselves, so preserve them as support/candidate evidence instead
-of turning them into rerun tasks. Do not reopen CommonCanvas, Beans,
-Fashion-MNIST, MIDST, or same-contract mid-frequency residual variants unless
-a genuinely new artifact or observable changes the decision gate.
+No black-box GPU or CPU sidecar is selected. The only H2 output-cloud reopen
+path is one bounded reseeded or interleaved order-control response-cache scout;
+until that exists, preserve the signal as candidate evidence instead of
+turning it into same-cache feature work. The broader root long-horizon queue
+still continues Lane A only with a non-duplicate asset that has exact target
+identity, member/nonmember split artifacts, and response or score coverage.
+The imported Stable Diffusion ReDiffuse collaborator artifact, CLiD gated ZIP,
+CopyMark `laion_mi`, and CopyMark `laion_ridar` do not satisfy that gate by
+themselves, so preserve them as support/candidate evidence instead of turning
+them into rerun tasks. Do not reopen CommonCanvas, Beans, Fashion-MNIST,
+MIDST, or same-contract mid-frequency residual variants unless a genuinely new
+artifact or observable changes the decision gate.
 
 ## Current Status
 

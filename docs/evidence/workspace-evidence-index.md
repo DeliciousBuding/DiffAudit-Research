@@ -5,6 +5,18 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[h2-output-cloud-geometry-20260525.md](h2-output-cloud-geometry-20260525.md)
+records a CPU-only metric verdict on the existing H2 response-strength cache.
+The output-output geometry scorer is a strong Research-side candidate
+(`AUC = 0.961529`, `TPR@1%FPR = 0.333984`,
+`TPR@0.1%FPR = 0.117188`) and is stable under seed `177`
+(`AUC = 0.961048`), while label-shuffle sanity returns random-level
+(`AUC = 0.507595`). It is not admitted because the source cache used
+class-ordered sample offsets and needs a reseeded or interleaved order-control
+cache before promotion. Decision: `candidate complementary signal /
+order-control required / no admitted row / no download / no GPU release`.
+
+Previous Research update:
 [feature-packet-channel-consumer-verdict-20260525.md](feature-packet-channel-consumer-verdict-20260525.md)
 records a consumer-boundary verdict for the gray-box feature-packet lane.
 Tracing the Roots remains positive Research-side feature-packet evidence

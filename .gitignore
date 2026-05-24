@@ -142,6 +142,9 @@ workspaces/**/artifacts/**
 !workspaces/black-box/artifacts/copymark-commoncanvas-response-contract-probe-20260512.json
 !workspaces/black-box/artifacts/copymark-commoncanvas-multiseed-stability-20260513.json
 !workspaces/black-box/artifacts/commoncanvas-denoising-loss-20260513.json
+!workspaces/black-box/artifacts/h2-output-cloud-geometry-20260525.json
+!workspaces/black-box/artifacts/h2-output-cloud-geometry-seed177-20260525.json
+!workspaces/black-box/artifacts/h2-output-cloud-geometry-label-shuffle-20260525.json
 !workspaces/black-box/artifacts/beans-lora-member-denoising-loss-scout-20260513.json
 !workspaces/black-box/artifacts/clid-image-identity-boundary-20260511.json
 !workspaces/black-box/artifacts/midfreq-same-noise-residual-cache-audit-20260512.json
