@@ -8,10 +8,14 @@
 - H2 output-cloud geometry 状态：复用既有 H2 `512 / 512` response cache 的
   CPU-only review 发现强候选信号，logistic `AUC = 0.961529`、
   `TPR@1%FPR = 0.333984`、`TPR@0.1%FPR = 0.117188`；seed `177` 仍稳定，
-  label-shuffle sanity 回到随机级。但源 cache 使用 class-ordered sample offset，
-  所以该结果必须先过 reseeded / interleaved order-control cache，才能讨论晋升。
+  label-shuffle sanity 回到随机级。后续 `256 / 256` shared-position
+  order-control scout 仍为 `AUC = 0.967819`、`TPR@1%FPR = 0.410156`、
+  `TPR@0.1%FPR = 0.132812`，label-shuffle `AUC = 0.464066`，因此
+  class-ordered seed offset 不是充分解释。但它仍只是 Research-side H2
+  response-cache geometry 候选，不是第二公开资产或产品合约。
   不要把它扩成 KDE、shadow density、repeat-count 或同 cache feature sweep；
-  不要新增 Platform/Runtime schema、runner 或 admitted bundle row。
+  不要补跑完整 `512 / 512` 只为表格好看；不要新增 Platform/Runtime schema、
+  runner 或 admitted bundle row。
 - 已导入候选工件：协作者移交的 Stable Diffusion ReDiffuse 结果包现通过
   `diffaudit probe-rediffuse-sd-artifacts` 进行审计。导入的 `5000` 行
   `2500 / 2500` 包重放结果为 `AUC = 0.710319` 和 `ASR = 0.6846`，因此值得保留作为候选证据。同一导入子集现在也支持

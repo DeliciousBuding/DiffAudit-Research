@@ -39,9 +39,12 @@
   text-to-image transfer is protocol-blocked. The 2026-05-25 output-cloud
   geometry cache review found a stronger output-output candidate signal
   (`AUC = 0.961529`, `TPR@0.1%FPR = 0.117188`) and a random-level label-shuffle
-  sanity check, but it remains candidate-only until a reseeded or interleaved
-  order-control cache preserves the signal. Do not promote it into Platform or
-  Runtime runners from the existing cache.
+  sanity check. A bounded `256 / 256` shared-position order-control scout
+  preserved the signal (`AUC = 0.967819`, `TPR@1%FPR = 0.410156`,
+  `TPR@0.1%FPR = 0.132812`) with random-level label shuffle (`AUC = 0.464066`),
+  so class-ordered seed offset is not a sufficient explanation. It remains
+  candidate-only: do not promote it into Platform or Runtime runners from this
+  cache family.
 - `simple image-to-image distance`: bounded single-asset evidence on
   SD1.5/CelebA; not a product row and not portability evidence.
 - `mid-frequency same-noise residual`: distinct paper-backed observable gap;
@@ -74,10 +77,10 @@
 
 ## Next Action
 
-No black-box GPU or CPU sidecar is selected. The only H2 output-cloud reopen
-path is one bounded reseeded or interleaved order-control response-cache scout;
-until that exists, preserve the signal as candidate evidence instead of
-turning it into same-cache feature work. The broader root long-horizon queue
+No black-box GPU or CPU sidecar is selected. The H2 output-cloud order-control
+scout has answered the seed-offset caveat at decision value; do not turn the
+candidate into same-cache feature work or a full `512 / 512` rerun just to
+complete a table. The broader root long-horizon queue
 still continues Lane A only with a non-duplicate asset that has exact target
 identity, member/nonmember split artifacts, and response or score coverage.
 The imported Stable Diffusion ReDiffuse collaborator artifact, CLiD gated ZIP,
