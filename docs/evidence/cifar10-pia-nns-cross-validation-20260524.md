@@ -88,5 +88,4 @@ despite AUC=0.990.
 ## Files
 
 - PIA/NNS scripts: `Research/outputs/score_800k_pia.py`, `score_800k_nns.py`, `score_750k_nns.py`
-- Scores: `C:\Users\Ding\DiffAudit\outputs\cifar10-800k-existing\pia_v2_scores.npz`, `nns_scores.npz`
-- Scores: `C:\Users\Ding\DiffAudit\outputs\cifar10-750k-ddim\nns_scores.npz`
+- Scores available at `$env:DIFFAUDIT_OUTPUT/pia_v2_scores.npz`, `nns_scores.npz` (800k run) and `$env:DIFFAUDIT_OUTPUT/nns_scores.npz` (750k run)

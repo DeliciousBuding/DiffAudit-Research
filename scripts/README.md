@@ -41,7 +41,7 @@
 
 ```powershell
 conda activate diffaudit-research
-$env:DIFFAUDIT_OUTPUT = "C:\Users\Ding\DiffAudit\outputs\my-run"
+$env:DIFFAUDIT_OUTPUT = "$env:USERPROFILE\DiffAudit\outputs\my-run"
 python scripts/train_cifar10_pt.py           # 训练
 python scripts/score_cifar10_pia_v2.py       # 评分
 ```
