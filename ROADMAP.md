@@ -4,11 +4,12 @@
 
 ## 2026-05-25 H2 output-cloud geometry 候选信号
 
-最新决策：H2 response-strength 的既有 `512 / 512` response cache 暴露出一个强的
-output-output geometry 候选信号，但在 order-control 通过前不晋升、不释放产品消费、
-不扩展同 cache 特征工程。该复查只读取现有
-`workspaces/black-box/runs/h2-response-strength-512-20260501-r1/response-cache.npz`，
-没有生成新响应、没有下载资产、没有运行 GPU。
+最新决策：H2 response-strength 的 output-cloud geometry 是 Research-side 强候选，
+并且已通过一个有界 `256 / 256` shared-position order-control scout；但它仍不晋升、
+不释放产品消费、不扩展同 cache 特征工程，也不默认补跑完整 `512 / 512`
+shared-position。第一轮复查读取既有
+`workspaces/black-box/runs/h2-response-strength-512-20260501-r1/response-cache.npz`；
+控制轮生成了本地 `256 / 256` shared-position cache，没有下载资产。
 
 该 scorer 刻意排除 seed-to-output distance，只使用同 timestep repeat 间 RMSE、
 不同 timestep centroid RMSE 和 response-cloud Gram/PCA 特征。主结果为
@@ -19,13 +20,19 @@ seed `177` 稳定性仍为 `AUC = 0.961048`，`TPR@1%FPR = 0.353516`，
 `TPR@0.1%FPR = 0.130859`；label-shuffle sanity 回到随机级
 `AUC = 0.507595`。
 
-关键 caveat：源 cache 生成时 member 侧 `sample_offset = 0`，nonmember 侧
-`sample_offset = len(member_indices)`，output-output geometry 对采样种子和响应云形态敏感，
-所以当前强信号可能混入 class-ordered sampling effect。该结果只能作为
-Research-side 强候选；下一次重新评估只能是一个有界 reseeded / interleaved
-order-control response-cache scout。当前 slots 仍为：
+已完成的 order-control：`--seed-offset-policy shared-position` 让 member / nonmember
+使用相同 per-position seed offset。该 `256 / 256` 控制 cache 上 output-cloud
+logistic 仍为 `AUC = 0.967819`，`ASR = 0.923828`，
+`TPR@1%FPR = 0.410156`，`TPR@0.1%FPR = 0.132812`；label-shuffle
+回到随机级 `AUC = 0.464066`。同尺寸旧 class-ordered subset 为
+`AUC = 0.967438`，`TPR@1%FPR = 0.179688`，
+`TPR@0.1%FPR = 0.105469`。因此 class-ordered seed offset 不再是该强信号的充分解释。
+
+该结果只能作为 Research-side 强候选；下一步不是同 cache sweep，也不是为了补表格跑
+完整 `512 / 512` shared-position。重新打开只应基于正式机制晋升、第二公开资产或独立消费合约。
+当前 slots 仍为：
 `active_gpu_question = none`，`next_gpu_candidate = none`，
-`CPU sidecar = none selected after H2 output-cloud cache review`。
+`CPU sidecar = none selected after H2 output-cloud order-control scout`。
 See
 [docs/evidence/h2-output-cloud-geometry-20260525.md](docs/evidence/h2-output-cloud-geometry-20260525.md)。
 
