@@ -11,8 +11,11 @@
   label-shuffle sanity 回到随机级。后续 `256 / 256` shared-position
   order-control scout 仍为 `AUC = 0.967819`、`TPR@1%FPR = 0.410156`、
   `TPR@0.1%FPR = 0.132812`，label-shuffle `AUC = 0.464066`，因此
-  class-ordered seed offset 不是充分解释。但它仍只是 Research-side H2
-  response-cache geometry 候选，不是第二公开资产或产品合约。
+  class-ordered seed offset 不是充分解释。同边界 seed `177` shared-position
+  scout 仍为 `AUC = 0.956192`、`TPR@1%FPR = 0.285156`、
+  `TPR@0.1%FPR = 0.109375`，label-shuffle `AUC = 0.484070`，说明该候选
+  在 order-control 后不是单 seed 现象。但它仍只是 Research-side H2 response-cache
+  geometry 候选，不是第二公开资产或产品合约。
   不要把它扩成 KDE、shadow density、repeat-count 或同 cache feature sweep；
   不要补跑完整 `512 / 512` 只为表格好看；不要新增 Platform/Runtime schema、
   runner 或 admitted bundle row。
