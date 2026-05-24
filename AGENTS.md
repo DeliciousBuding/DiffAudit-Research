@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `Lane A metadata triage sync is the latest roadmap operating-system update. ReDiffuse SD bundle-root normalization remains the latest engineering fix. OPTML-Group/Diffusion-MU-Attack was checked as metadata only and closed as non-mainline safety-driven diffusion unlearning / adversarial-prompt robustness code, not a per-sample membership artifact; public GitHub/HF metadata checks exposed no new target/split/score/ROC/metric/verifier packet. Latest candidate verdict remains Identity-Focused Inference / Extraction: arXiv 2410.10177 is paper-source-only identity-level privacy evidence with no official code, checkpoint-bound identity/row/score/ROC/metric/verifier artifacts, no download, no GPU release, and no admitted Platform or Runtime row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after Lane A metadata triage sync.`
+- Active work: `2026-05-25 feature-packet consumer-boundary correction is the latest roadmap operating-system update. The current Platform/Runtime admitted bundle remains admitted-only with exactly five rows: recon, PIA baseline, PIA defended, GSA, and DPDM W-1. Tracing the Roots remains positive Research-side gray-box feature-packet evidence (AUC = 0.815826, TPR@1%FPR = 0.134000) and a candidate consumer-boundary design item, but it is not admitted because the current bundle/export/tests/schema still exclude it and the public packet lacks raw target checkpoint identity, raw sample IDs, and image query/response artifacts. ReDiffuse OpenReview split manifests remain the clearest second-asset path, but no checkpoint/score packet is public and no GPU job is selected from this correction. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after feature-packet boundary correction.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -265,8 +265,9 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   feature-regeneration script. Do not download raw CIFAR/CelebA-HQ/FFHQ assets,
   target checkpoints, or generated images; do not expand timestep,
   feature-family, seed, classifier, optimizer, or regularization sweeps; do not
-  promote Tracing the Roots into Platform/Runtime admitted rows unless
-  DiffAudit explicitly opens a non-black-box feature-packet consumer lane.
+  promote Tracing the Roots into Platform/Runtime admitted rows unless a
+  reviewed feature-packet schema, machine-readable bundle, validator, tests,
+  and product-bridge handoff are added together.
 - FMIA / `Unveiling the Impact of Frequency Components on Membership Inference
   Attacks for Diffusion Models` is watch-plus only. The OpenReview supplement
   is small and ships frequency-filter DDIM/Stable Diffusion attack code plus
