@@ -108,6 +108,36 @@ split, recomputed `AUC = 0.710319`, `ASR = 0.6846`,
 confirms detector JSON, merged score NPZ, validation JSON, and source files are
 present and internally consistent.
 
+## 2026-05-25 Source-Label Boundary Audit
+
+A CPU-only metadata audit checked whether the imported `result.csv` supports a
+strict same-distribution membership claim or whether the member label is
+confounded with the source domain. This did not rerun Stable Diffusion, download
+COCO, request new LAION payloads, or create a new tool. It inspected the
+existing `5,000` result rows only.
+
+Observed boundary facts:
+
+| Check | Result |
+| --- | ---: |
+| Row-level ReDiffuse score AUC | `0.71031888` |
+| Source-only AUC from the `source` column | `1.000000` |
+| Member source rows | `2,500 / 2,500` from `LAION-5B member subset` |
+| Nonmember source rows | `2,500 / 2,500` from `COCO2017-val non-member subset` |
+| Caption-unique groups | `4,637` |
+| Duplicate-caption groups | `271` |
+| Mixed-label caption groups | `0` |
+| Caption-deduplicated group AUC | `0.707006` |
+| File-name duplicate groups | `0` |
+
+This closes the main interpretation gap. The packet is internally replayable
+and nontrivial, but it is not a clean same-distribution per-sample membership
+asset because the member/nonmember label is perfectly aligned with
+`LAION-5B member subset` versus `COCO2017-val non-member subset`. The
+ReDiffuse score remains useful as candidate evidence for a Stable Diffusion
+cross-source privacy stress test, not as a second asset for strict
+member/nonmember portability or Platform/Runtime admission.
+
 ## Usefulness
 
 - This is a real imported Stable Diffusion candidate packet, not another empty
@@ -140,6 +170,9 @@ This does not satisfy the current Lane A reopen gate for a public replay asset:
 - it is a collaborator local transfer, not a public immutable packet;
 - the member side is a LAION-like repeatable subset rather than the exact paper
   LAION-5B member split;
+- the member and nonmember rows are also perfectly separated by source
+  (`LAION-5B member subset` versus `COCO2017-val non-member subset`), so the
+  packet cannot support a strict same-distribution membership claim;
 - the current boundary is local-model-query black-box, not strict external
   API-only black-box; and
 - the missing COCO payload is not needed for artifact audit, but it also means
