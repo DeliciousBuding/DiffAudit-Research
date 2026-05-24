@@ -5,11 +5,13 @@
 ## 2026-05-25 H2 output-cloud geometry 候选信号
 
 最新决策：H2 response-strength 的 output-cloud geometry 是 Research-side 强候选，
-并且已通过一个有界 `256 / 256` shared-position order-control scout；但它仍不晋升、
+并且已通过有界 `256 / 256` shared-position order-control 和 seed-stability scout；
+但它仍不晋升、
 不释放产品消费、不扩展同 cache 特征工程，也不默认补跑完整 `512 / 512`
 shared-position。第一轮复查读取既有
 `workspaces/black-box/runs/h2-response-strength-512-20260501-r1/response-cache.npz`；
-控制轮生成了本地 `256 / 256` shared-position cache，没有下载资产。
+控制轮生成了本地 `256 / 256` shared-position cache，稳定性轮只把 seed 从 `176`
+改成 `177`，没有下载资产。
 
 该 scorer 刻意排除 seed-to-output distance，只使用同 timestep repeat 间 RMSE、
 不同 timestep centroid RMSE 和 response-cloud Gram/PCA 特征。主结果为
@@ -27,12 +29,15 @@ logistic 仍为 `AUC = 0.967819`，`ASR = 0.923828`，
 回到随机级 `AUC = 0.464066`。同尺寸旧 class-ordered subset 为
 `AUC = 0.967438`，`TPR@1%FPR = 0.179688`，
 `TPR@0.1%FPR = 0.105469`。因此 class-ordered seed offset 不再是该强信号的充分解释。
+同边界 seed `177` shared-position scout 继续保持强信号：output-cloud logistic
+`AUC = 0.956192`，`ASR = 0.896484`，`TPR@1%FPR = 0.285156`，
+`TPR@0.1%FPR = 0.109375`；label-shuffle 回到随机级 `AUC = 0.484070`。
 
 该结果只能作为 Research-side 强候选；下一步不是同 cache sweep，也不是为了补表格跑
 完整 `512 / 512` shared-position。重新打开只应基于正式机制晋升、第二公开资产或独立消费合约。
 当前 slots 仍为：
 `active_gpu_question = none`，`next_gpu_candidate = none`，
-`CPU sidecar = none selected after H2 output-cloud order-control scout`。
+`CPU sidecar = none selected after H2 output-cloud order-control seed-stability scout`。
 See
 [docs/evidence/h2-output-cloud-geometry-20260525.md](docs/evidence/h2-output-cloud-geometry-20260525.md)。
 

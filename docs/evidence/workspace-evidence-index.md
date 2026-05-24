@@ -6,8 +6,8 @@ This index separates current track state from archived research history.
 
 Latest Research update:
 [h2-output-cloud-geometry-20260525.md](h2-output-cloud-geometry-20260525.md)
-records a metric verdict on the H2 response-strength cache plus a bounded
-`256 / 256` shared-position order-control scout.
+records a metric verdict on the H2 response-strength cache plus bounded
+`256 / 256` shared-position order-control and seed-stability scouts.
 The output-output geometry scorer is a strong Research-side candidate
 (`AUC = 0.961529`, `TPR@1%FPR = 0.333984`,
 `TPR@0.1%FPR = 0.117188`) and is stable under seed `177`
@@ -15,9 +15,12 @@ The output-output geometry scorer is a strong Research-side candidate
 (`AUC = 0.507595`). The shared-position order-control scout also stays strong
 (`AUC = 0.967819`, `TPR@1%FPR = 0.410156`,
 `TPR@0.1%FPR = 0.132812`) with random-level label shuffle (`AUC = 0.464066`).
+The same controlled boundary at seed `177` remains strong (`AUC = 0.956192`,
+`TPR@1%FPR = 0.285156`, `TPR@0.1%FPR = 0.109375`) with random-level label
+shuffle (`AUC = 0.484070`).
 It is not admitted because this remains a Research-side H2 response-cache
 geometry candidate, not a second public asset or Platform/Runtime contract.
-Decision: `candidate complementary signal / order-control scout passed /
+Decision: `candidate complementary signal / order-control scout passed / seed-stable /
 no admitted row / no download / no 512/512 rerun selected`.
 
 Previous Research update:
