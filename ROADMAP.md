@@ -2,6 +2,29 @@
 
 > Last updated: 2026-05-25
 
+## 2026-05-25 Stable Diffusion ReDiffuse source-label 边界审计
+
+最新决策：徐驰转交的 Stable Diffusion ReDiffuse `5000` 行包继续保留为
+Research 侧候选证据，但不能升级为第二资产，也不能释放 GPU/下载去补同一路线。
+原因不是分数包不可用：现有 probe 仍能从 `result.csv` 重放
+`AUC = 0.71031888`、`ASR = 0.6846`、`TPR@1%FPR = 0.0736`
+和 `TPR@0.1%FPR = 0.0100`。真正的边界问题是标签语义：
+`source` 列与标签完全重合，`LAION-5B member subset` 覆盖全部 `2500`
+member 行，`COCO2017-val non-member subset` 覆盖全部 `2500` nonmember 行，
+仅用 `source` 就得到 `AUC = 1.000000`。
+
+CPU-only 机制审计还确认：`caption` 去重后分组 AUC 仍为 `0.707006`，
+`271` 个重复 caption 组没有混合标签，文件名没有重复。这说明现有分数有非平凡
+重放价值，但该包更准确的定位是 Stable Diffusion 跨来源隐私压力测试，而不是严格的
+同分布 per-sample membership portability 证据。
+
+因此不请求 `coco_data`，不下载 Stable Diffusion v1.4 权重，不重跑 `2500 / 2500`
+pipeline，不围绕该包新增 CLI/validator/长文档。当前 slots：
+`active_gpu_question = none`，`next_gpu_candidate = none`，
+`CPU sidecar = none selected after Stable Diffusion ReDiffuse source-label boundary audit`。
+See
+[docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md](docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md)。
+
 ## 2026-05-25 Feature-Packet 消费边界修正
 
 最新决策：不把 Tracing the Roots 直接升级为现有 Platform/Runtime
