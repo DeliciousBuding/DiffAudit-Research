@@ -32,6 +32,29 @@ The OpenReview public note exposes the PDF field only; common supplementary
 attachment names `supplementary_material`, `supplementary`, and
 `supplemental_material` returned HTTP `404`.
 
+## 2026-05-25 Public Asset Refresh
+
+A 2026-05-25 metadata refresh rechecked the official GitHub repository because
+the paper-facing surface claims a complete reproduction codebase. The repository
+default branch is still `master`, with latest commit
+`97dce4fec6030094fc722557a8b03b6858eab37b` from `2026-03-25T18:20:25Z`
+(`fix a bug for unconditional; 1000 is unconditional by default`). GitHub
+still reports no releases and no tags.
+
+The README still points DDPM splits/checkpoints and SD1.4 splits to empty
+`[here]()` links and tells readers to email for SD1.4 checkpoints. Runnable
+commands still use local `/path/to/...` dataset and checkpoint placeholders.
+A non-vendor artifact-shaped tree scan excluding `diffusers/`,
+`guided-diffusion/`, `latent-diffusion/`, and `taming-transformers/` found only
+editor config, figures, and `scripts.sh`; it did not find committed public
+split manifests, checkpoints, per-sample score arrays, ROC/metric artifacts,
+or verifier manifests.
+
+Decision unchanged: SimA remains a useful mechanism reference and official
+code-public watch item, but it still does not release GPU work, dataset/model
+downloads, or Platform/Runtime admission. Reopen only if the smallest valid
+reopen conditions below become public.
+
 ## Public Evidence Checked
 
 | Source | Finding |
