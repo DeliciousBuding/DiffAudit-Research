@@ -8,12 +8,12 @@
 
 | # | Track | Attack | Defense | AUC | ASR | TPR@1% | Evidence |
 |---|---|---|---|---|---|---|---|
-| 1 | Black-box | recon DDIM public-100 step30 | none | 0.837 | 0.74 | 0.22 | recon-product-validation-result.md |
-| 2 | Gray-box | PIA GPU512 baseline | none | 0.841 | 0.786 | 0.059 | unified-attack-defense-table.json |
-| 3 | Gray-box | PIA GPU512 baseline | stochastic-dropout | 0.828 | 0.768 | 0.053 | unified-attack-defense-table.json |
-| 4 | White-box | GSA 1k-3shadow | none | 0.998 | 0.990 | 0.987 | unified-attack-defense-table.json |
-| 5 | White-box | GSA 1k-3shadow | DPDM strong-v3 | 0.489 | 0.499 | 0.009 | unified-attack-defense-table.json |
-| 6 | Gray-box | Tracing the Roots | none | 0.816 | 0.738 | 0.134 | feature-packet-lane.md |
+| 1 | Black-box | recon DDIM public-100 step30 | none | 0.837 | 0.74 | 0.22 | `docs/evidence/recon-product-validation-result.md` |
+| 2 | Gray-box | PIA GPU512 baseline | none | 0.841 | 0.786 | 0.059 | `workspaces/implementation/artifacts/unified-attack-defense-table.json` |
+| 3 | Gray-box | PIA GPU512 baseline | stochastic-dropout | 0.828 | 0.768 | 0.053 | `workspaces/implementation/artifacts/unified-attack-defense-table.json` |
+| 4 | White-box | GSA 1k-3shadow | none | 0.998 | 0.990 | 0.987 | `workspaces/implementation/artifacts/unified-attack-defense-table.json` |
+| 5 | White-box | GSA 1k-3shadow | DPDM strong-v3 | 0.489 | 0.499 | 0.009 | `workspaces/implementation/artifacts/unified-attack-defense-table.json` |
+| 6 | Gray-box | Tracing the Roots | none | 0.816 | 0.738 | 0.134 | `docs/product-bridge/tracing-roots-candidate-evidence-card.md` |
 
 ### Evidence-Ready（内部验证通过，未收录）
 
