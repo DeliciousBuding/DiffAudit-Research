@@ -1,6 +1,6 @@
 # 灰盒 Feature-Packet 消费者线路
 
-> 状态：已开放（2026-05-23） | 首个 admitted entry：Tracing the Roots
+> 状态：已开放（2026-05-24） | 首个 admitted entry：Tracing the Roots
 
 ## 背景
 
