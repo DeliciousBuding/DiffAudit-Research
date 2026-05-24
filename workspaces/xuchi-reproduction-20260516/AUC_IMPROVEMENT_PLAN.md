@@ -28,8 +28,10 @@ stable ReDiffuse score extraction path.
 Use the CUDA PyTorch environment:
 
 ```powershell
-$py = "C:\Users\33166\miniconda3\envs\ddim_repro\python.exe"
-cd E:\stable_diffusion\coco_data\SD_MIA_Reproduction
+conda activate diffaudit-research
+$downloadRoot = $env:DOWNLOAD_ROOT
+$py = "python"
+Set-Location "$downloadRoot\stable-diffusion-mia\coco_data\SD_MIA_Reproduction"
 
 & $py run_experiment.py `
   --project-dir . `
@@ -61,8 +63,10 @@ Outputs:
 ## Fast Smoke Run
 
 ```powershell
-$py = "C:\Users\33166\miniconda3\envs\ddim_repro\python.exe"
-cd E:\stable_diffusion\coco_data\SD_MIA_Reproduction
+conda activate diffaudit-research
+$downloadRoot = $env:DOWNLOAD_ROOT
+$py = "python"
+Set-Location "$downloadRoot\stable-diffusion-mia\coco_data\SD_MIA_Reproduction"
 
 & $py attack.py `
   --attacker_name ReDiffuse `
@@ -86,7 +90,7 @@ cd E:\stable_diffusion\coco_data\SD_MIA_Reproduction
 Final full-dataset run used:
 
 - dataset: `laion5_blip`
-- data root: `E:\stable_diffusion\coco_data\stable_diffusion_data`
+- data root: `$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\stable_diffusion_data`
 - scorer: `vae_ssim`
 - attack_num: `2`
 - interval: `10`
@@ -97,11 +101,11 @@ Final full-dataset run used:
 
 The run was executed in ten 250-sample chunks under:
 
-`E:\stable_diffusion\coco_data\SD_MIA_Reproduction\chunk_outputs`
+`$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\SD_MIA_Reproduction\chunk_outputs`
 
 Merged scores:
 
-`E:\stable_diffusion\coco_data\SD_MIA_Reproduction\chunk_outputs\merged_rediffuse_scores.npz`
+`$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\SD_MIA_Reproduction\chunk_outputs\merged_rediffuse_scores.npz`
 
 Baseline saved-feature selector result:
 
@@ -141,11 +145,11 @@ Follow-up run used:
 
 The run was executed in ten 250-sample chunks under:
 
-`E:\stable_diffusion\coco_data\SD_MIA_Reproduction\chunk_outputs_a5_avg3_vae`
+`$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\SD_MIA_Reproduction\chunk_outputs_a5_avg3_vae`
 
 Merged scores:
 
-`E:\stable_diffusion\coco_data\SD_MIA_Reproduction\chunk_outputs_a5_avg3_vae\merged_rediffuse_scores_a5_avg3_vae.npz`
+`$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\SD_MIA_Reproduction\chunk_outputs_a5_avg3_vae\merged_rediffuse_scores_a5_avg3_vae.npz`
 
 Results:
 
@@ -168,7 +172,7 @@ Combined detector:
 
 Recommended detector after this round:
 
-`E:\stable_diffusion\coco_data\SD_MIA_Reproduction\chunk_outputs_a5_avg3_vae\mia_detector_rediffuse_sweep_best_a2_a5_combined.json`
+`$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\SD_MIA_Reproduction\chunk_outputs_a5_avg3_vae\mia_detector_rediffuse_sweep_best_a2_a5_combined.json`
 
 The combined detector is a small but consistent improvement over the previous
 strict 5-fold AUC of `0.7067`.  Because the gain is modest, keep the previous

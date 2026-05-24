@@ -15,9 +15,9 @@ member and non-member samples.
 
 | Requirement | Status | Notes |
 |---|---|---|
-| member data from LAION-style local subset | done | `E:\stable_diffusion\coco_data\stable_diffusion_data\images-random` |
-| member list | done | `E:\stable_diffusion\coco_data\stable_diffusion_data\val-list-2500-random.npy` |
-| non-member data from COCO2017-val | done | `E:\stable_diffusion\coco_data\coco_data\val2017` |
+| member data from LAION-style local subset | done | `$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\stable_diffusion_data\images-random` |
+| member list | done | `$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\stable_diffusion_data\val-list-2500-random.npy` |
+| non-member data from COCO2017-val | done | `$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\coco_data\val2017` |
 | 2500 member + 2500 non-member full evaluation | done | exported `result.csv` has 5000 samples |
 | model `CompVis/stable-diffusion-v1-4` | done | loaded from local HuggingFace cache |
 | no Stable Diffusion retraining | done | no training or fine-tuning performed |
@@ -36,7 +36,7 @@ member and non-member samples.
 
 Directory:
 
-`E:\stable_diffusion\coco_data\SD_MIA_Reproduction\reproduction_artifacts`
+`$env:DOWNLOAD_ROOT\stable-diffusion-mia\coco_data\SD_MIA_Reproduction\reproduction_artifacts`
 
 Files:
 
@@ -92,13 +92,15 @@ variant and should be reported separately.
 Example:
 
 ```powershell
-$py = 'C:\Users\33166\miniconda3\envs\ddim_repro\python.exe'
-cd E:\stable_diffusion\coco_data\SD_MIA_Reproduction
+conda activate diffaudit-research
+$downloadRoot = $env:DOWNLOAD_ROOT
+$py = 'python'
+Set-Location "$downloadRoot\stable-diffusion-mia\coco_data\SD_MIA_Reproduction"
 
 & $py score_single_image.py `
-  --image 'E:\stable_diffusion\coco_data\stable_diffusion_data\images-random\laion_000250717.jpg' `
+  --image "$downloadRoot\stable-diffusion-mia\coco_data\stable_diffusion_data\images-random\laion_000250717.jpg" `
   --prompt 'a woman with long hair and a crown of flowers' `
-  --detector-json 'E:\stable_diffusion\coco_data\SD_MIA_Reproduction\chunk_outputs_a5_avg3_vae\mia_detector_rediffuse_sweep_best_a2_a5_combined.json' `
+  --detector-json "$downloadRoot\stable-diffusion-mia\coco_data\SD_MIA_Reproduction\chunk_outputs_a5_avg3_vae\mia_detector_rediffuse_sweep_best_a2_a5_combined.json" `
   --feature-plan a2_a5_combined
 ```
 

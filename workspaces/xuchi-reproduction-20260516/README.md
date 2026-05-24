@@ -70,10 +70,11 @@ AUC_IMPROVEMENT_PLAN.md
 
 ## 五、环境说明
 
-推荐使用已有 conda 环境：
+推荐使用 Research 环境或等价的 CUDA PyTorch 环境：
 
 ```powershell
-C:\Users\33166\miniconda3\envs\ddim_repro\python.exe
+conda activate diffaudit-research
+python --version
 ```
 
 依赖见：
@@ -96,7 +97,8 @@ Get-Content .\artifacts\metrics.json
 请在本文件夹根目录运行：
 
 ```powershell
-$py = 'C:\Users\33166\miniconda3\envs\ddim_repro\python.exe'
+conda activate diffaudit-research
+$py = 'python'
 
 & $py .\SD_MIA_Reproduction\score_single_image.py `
   --image '.\stable_diffusion_data\images-random\laion_000250717.jpg' `
