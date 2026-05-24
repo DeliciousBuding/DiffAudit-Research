@@ -595,12 +595,15 @@ Language Model membership metrics, including MIMIR-domain mean `AUC = 0.878`,
 peak `AUC = 0.930` on Pile CC, and `K = 3` shadow-transfer mean `AUC = 0.858`,
 but those claims are abstract-only in the current withdrawn record.
 
-GitHub repository searches for the exact title and for `discrete diffusion
-language models membership inference` returned no repositories; code search
-for `2605.16445` returned no hits; and the local Research index had no prior
-record for this paper. Decision: `withdrawn arXiv / DLM paper-source-only / no
-official code / no artifact packet / no download / no GPU release / no
-admitted row`. Current slots remain `active_gpu_question = none`,
+The 2026-05-25 live refresh confirms this did not become an active executable
+candidate: the arXiv API still points to `2605.16445v2`, the abs page still says
+withdrawn and `No PDF available`, and `/pdf` plus `/e-print` return `404`.
+GitHub repository searches for the exact title, arXiv id, author, and topic
+terms returned no official repository. Code search found only unrelated numeric
+hits or a paper-index JSON aggregator, not implementation or artifacts.
+Decision: `withdrawn arXiv / DLM paper-source-only / no official code / no
+artifact packet / no download / no GPU release / no admitted row`. Current
+slots remain `active_gpu_question = none`,
 `next_gpu_candidate = none`, and
 `CPU sidecar = none selected after Discrete DLM withdrawn artifact gate`. This
 does not reopen the current image/latent-image Lane A asset search, and it does
