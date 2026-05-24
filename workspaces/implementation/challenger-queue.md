@@ -1,6 +1,6 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-23
+> Last refreshed: 2026-05-25
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
@@ -9,11 +9,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Lane A metadata triage sync completed; latest candidate verdict remains Identity-Focused Inference / Extraction paper-source-only identity-level inference / extraction watch with no official code or score artifacts` |
+| Active work | `H2 output-cloud geometry is a strong Research-side candidate after order-control and seed-stability scouts, but it is not admitted; ReDiffuse STL-10 bounded denoising-loss and score-norm scouts are weak; feature-packet channel remains deferred; no selected CPU/GPU sidecar` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after Lane A metadata triage sync |
-| Gray-box status | PIA remains admitted; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
+| CPU sidecar | none selected after H2 output-cloud order-control seed-stability and ReDiffuse STL-10 weak metric verdicts |
+| Gray-box status | PIA remains admitted; feature-packet channel remains deferred; Tracing the Roots is positive Research-only evidence; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
 ## Decision Inbox
@@ -40,7 +40,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | black-box second response-contract acquisition | black-box | hold / stale skeleton | old Pokemon/Kandinsky skeleton probe returns `needs_query_split`; later CommonCanvas second-response-contract packets were executed and weak across pixel, CLIP, prompt-consistency, response-stability, and denoising-loss scorers | the old skeleton is not the active next lane and filling it would not by itself create a clean second asset | reopen only with a genuinely new public target identity plus exact member/nonmember query images and response/score coverage; do not keep filling the stale Pokemon/Kandinsky template |
 | gray-box tri-score successor | gray-box | hold | X-88/X-141/X-142 tri-score truth-hardening closed positive-but-bounded | same-contract expansion would not change admission or product story | reopen only with a genuinely new scorer, surface, or adaptive/low-FPR falsifier |
 | Kandinsky/Pokemon response-contract package | black-box | hold / stale skeleton | package preflight is executable but only proves the old skeleton shape | missing query split, endpoint contract, response manifest, and responses; superseded by later weak second-response-contract evidence | do not use this as the default next action; reopen only if real `25/25` or larger member/nonmember query images and responses appear for a clean non-CommonCanvas asset |
-| ReDiffuse future reopen | gray-box | hold | exact replay shows modest AUC but weak strict-tail evidence | no admitted promotion; 800k shortcut remains blocked | reopen only with new scorer hypothesis or stricter paper-faithful contract |
+| ReDiffuse future reopen | gray-box | hold | collaborator SD packet replays modestly but has source-label boundary issues; local STL-10 bounded denoising-loss and score-norm scouts are random-level | no admitted promotion; no same-family expansion; 800k shortcut, STL-10 step/seed/timestep matrices, Tiny-ImageNet, and Stable Diffusion downloads remain blocked | reopen only with a public third-party checkpoint/score packet, a truly different membership observable, or an explicitly approved long-train checkpoint/score publication contract |
 | SecMI admission contract | gray-box | structural-support-only | full-split stat/NNS evidence is strong and evidence-ready; consumer review completed | not admitted; NNS product semantics, adaptive comparability, provenance language, and bundle schema fit remain blocked | keep validators active; no new metrics or promotion until a new schema/adaptive protocol exists |
 | CPSample defense artifact | defense / Lane A-B | defense watch-plus | OpenReview ICLR 2025 supplement exposes diffusion/classifier code, configs, training/sampling/inference-attack runners, and four small attack-loss text fragments | no immutable denoiser/classifier checkpoint hashes, exact subset-index manifests, row-bound protected/unprotected score packet, ROC arrays, AUC/ASR/TPR-at-FPR metrics, retained-utility metric contract, or ready verifier | keep as defense watch-plus only; do not download CIFAR-10/CelebA/LSUN/Stable Diffusion/checkpoint/image assets, run `python main.py`, launch CPU/GPU sidecars, or promote defense rows |
 | DSiRe / LoRA-WiSE dataset-size recovery | gray-box / Lane A-B | weight-only semantic-shift watch | official `MoSalama98/DSiRe` code and public non-gated HF `MoSalama98/LoRA-WiSE` benchmark expose `7` configs, `2,050` LoRA fine-tuned model rows, `101` parquet shards, and reported dataset-size recovery `MAE = 0.36` images | aggregate LoRA fine-tuning dataset-size recovery, not per-sample membership; no member/nonmember query rows, generated response packet, AUC/ASR/TPR-at-FPR metrics, or current Platform/Runtime consumer semantics | keep as future weight-only privacy lane candidate only; do not download LoRA-WiSE data/images/model/tensors, run `dsire.py`, release GPU/CPU sidecar, or promote Platform/Runtime rows |
@@ -89,359 +89,17 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ## Active
 
-### Identity-Focused Inference / Extraction Metadata Idle State
+### 2026-05-25 Research Resting State
 
-- `mode`: post-Identity-Focused Inference / Extraction artifact gate after
-  RAPTA / ADMCD copying-mitigation, GUARD surgical mitigation, BAF LoRA
-  parameter-space mitigation, Broken Memories, IAR Privacy Attacks, Silent Brush
-  / Art Arena, Trajectory Generation Privacy, Model Will Tell DRC, roadmap
-  current-state cleanup, Discrete DLM withdrawn artifact gate, Eidetic
-  lightweight triage sync, ReDiffuse raw transfer provenance recheck, FMIA
-  OpenReview bounded recheck, CLiD / CopyMark metadata recheck, CopyMark
-  `laion_mi` public binding gate, Stable Diffusion ReDiffuse collaborator
-  artifact audit, Structural MIA T2I, Rectified Flow MIA, public metadata sweep,
-  CPSample, DSiRe / LoRA-WiSE, hyperparameter-free SecMI, DME, FreMIA,
-  VAE2Diffusion, DCR copying, FCRE medical frequency, Tabular Privacy Leakage
-  TDM, TMIA-DM, Shake-to-Leak, FSECLab MIA-Diffusion, MT-MIA relational
-  diffusion score-packet, and the 2026-05-15 admitted consumer-boundary sync
-- `status`: The latest candidate verdict is the Identity-Focused Inference /
-  Extraction artifact gate, not a reproduction branch. arXiv `2410.10177` /
-  `Identity-Focused Inference and Extraction Attacks on Diffusion Models` is
-  paper-source-only identity-level privacy watch evidence. The checked public
-  surface exposes arXiv metadata and source availability, but no official code,
-  LDM / DDPM target checkpoint bundle, LFW / CelebA identity or
-  member/nonmember manifest, generated response packet, per-row membership /
-  identity scores, ROC arrays, metric JSON, extraction-quality artifact, or
-  verifier. The decision is: paper-source-only identity-level inference /
-  extraction watch, no official code, no score artifacts, no download, no
-  CPU/GPU sidecar, no Platform row, and no Runtime schema. The previous
-  candidate verdict is the RAPTA / ADMCD copying-mitigation artifact gate.
-  arXiv `2603.13070` /
-  `Mitigating Memorization in Text-to-Image Diffusion via Region-Aware Prompt
-  Augmentation and Multimodal Copy Detection` is paper-source-only copying /
-  memorization mitigation watch evidence. The checked public surface exposes
-  arXiv HTML and source availability, but no official implementation
-  repository, target checkpoint bundle, copied/non-copied or member/nonmember
-  row manifest, generated response packet, per-row ADMCD scores, ROC arrays,
-  metric JSON, retained-utility artifact, or verifier. The decision is:
-  paper-source-only copying / memorization mitigation watch, no official code,
-  no score artifacts, no download, no CPU/GPU sidecar, no Platform row, and no
-  Runtime schema. The previous candidate verdict is the GUARD surgical
-  mitigation artifact gate. arXiv `2603.00133` / `You Don't
-  Need All That Attention: Surgical Memorization Mitigation in Text-to-Image
-  Diffusion Models` is official code-public memorization-mitigation watch
-  evidence. The `kairanzhao/GUARD` repository exposes inference, detection,
-  mask-generation, metric, and vendored `open_clip` code for the `sdv1_500_mem`
-  Stable Diffusion memorization benchmark, but the release points to Google
-  Drive benchmark assets and requires local Stable Diffusion/reference-model
-  execution. It ships no checkpoint-bound target identity, immutable row
-  manifest, generated response packet, pre/post mitigation score rows, ROC
-  arrays, metric JSON, retained-utility artifact, or no-training verifier. The
-  decision is: official code-public mitigation watch, no score artifacts, no
-  download, no CPU/GPU sidecar, no Platform row, and no Runtime schema. The
-  previous candidate verdict is the BAF LoRA parameter-space mitigation gate.
-  arXiv `2605.10439` / `Filtering Memorization from Parameter-Space in Diffusion
-  Models` is a weight-only LoRA memorization-mitigation watch item with a
-  supplementary-code-claim-only public surface and no official public
-  repository, target LoRA/checkpoint bundle, training-image manifest,
-  member/nonmember rows, generated response packet, score/ROC/metric artifacts,
-  retained-utility artifact, or verifier. The previous candidate verdict is the
-  Broken Memories artifact gate. arXiv `2605.22050` /
-  `Broken Memories: Detecting and Mitigating Memorization in Diffusion Models
-  with Degraded Generations` is fresh Stable Diffusion memorization
-  detection/mitigation evidence, but the public surface is paper-source-only
-  and no row-bound replay artifacts or verifier are public. The earlier
-  candidate verdict is the IAR Privacy Attacks artifact gate. arXiv
-  `2502.02514` /
-  `Privacy Attacks on Image AutoRegressive Models` is strong image-generation
-  privacy evidence with official code and reported MIA, dataset-inference, and
-  extraction claims, but the target family is image autoregressive generation
-  rather than current diffusion / latent-image admitted rows. The official
-  `sprintml/privacy_attacks_against_iars` repository exposes `main.py`,
-  `environment.yaml`, MIA/DI/memorization analysis scripts, VAR/RAR/MAR
-  configs, and attack implementations. It commits no model hashes, immutable
-  ImageNet train/validation row manifests, generated sample packets, per-row
-  MIA scores, ROC arrays, metric JSON, DI CSVs, memorization CSVs, or
-  no-training verifier. The README path requires upstream model repositories,
-  ImageNet train/validation, model downloads, and local output generation. The
-  decision is: image-autoregressive privacy watch-plus, official code-public,
-  no committed score packet, large ImageNet and model assets required, no
-  download, no CPU/GPU sidecar, no Platform row, and no Runtime schema. The
-  previous candidate verdict is the Silent Brush / Art Arena artifact gate.
-  arXiv `2605.17500` /
-  `The Silent Brush: Evaluating Artistic Style Leakage in AI Art Generation`
-  is text-to-image diffusion-adjacent privacy evidence, but its claim boundary
-  is style leakage / copyright evaluation rather than current per-sample
-  membership. The metadata-readable anonymous resource surface exposes
-  code/notebook inventory only: `ArtArena.ipynb`, `README.md`, ET/MD eval and
-  infer scripts, `FT_models.py`, `get_leadger.py`, prep scripts,
-  `CSD/model.py`, `CSD/utils.py`, and figure PDFs. The arXiv source endpoint
-  reports a `35,598,493` byte gzip and was not downloaded. No target checkpoint
-  hash, immutable member/nonmember artwork manifest, generated image packet,
-  per-row membership score file, ROC array, metric JSON, or verifier is public.
-  The decision is: style-leakage semantic-shift watch, anonymous
-  code-notebook inventory only, no row-bound membership artifact, no download,
-  no CPU/GPU sidecar, no Platform row, and no Runtime schema. The previous
-  candidate verdict is the Trajectory Generation Privacy artifact gate. arXiv
-  `2605.15246` / `Privacy Evaluation of Generative Models for Trajectory
-  Generation` is cross-domain trajectory/mobility privacy evidence with weak
-  diffusion trajectory rows and no code-score artifact. The previous candidate
-  verdict is the Model Will Tell / DRC artifact gate. arXiv `2403.08487` /
-  `Model Will Tell: Training Membership Inference for Diffusion Models`
-  proposes Degrade Restore Compare, a restoration-prior signal that degrades an
-  image, restores it with the target diffusion model, and compares semantic
-  similarity with the original. The arXiv source tarball has only TeX,
-  bibliography/style files, and figure PDFs; the paper says the authors intend
-  to release code but gives no official code URL; exact-title, DRC phrase,
-  author-name, and arXiv-id GitHub repository/code searches returned no
-  official hits. No target checkpoint, immutable Cifar/CelebA/FFHQ split
-  manifest, restored response packet, score rows, ROC arrays, metric JSON, or
-  verifier is public. The decision is: paper-source-only DRC restoration MIA
-  watch, no official code, no split-score artifact, no download, no CPU/GPU
-  sidecar, no Platform row, and no Runtime schema. The previous repository
-  operating-system update is the PR `#267` / `#268` roadmap current-state
-  cleanup: `Current Long-Horizon State` is the active three-slot source of
-  truth, and the 2026-05-13 Leader Steering block is historical
-  anti-stationery guidance when the two disagree. The previous candidate
-  verdict is the Discrete DLM withdrawn artifact gate. arXiv `2605.16445` /
-  `Membership Inference Attacks on Discrete Diffusion Language Models` is
-  withdrawn in the current arXiv record, has no current PDF, and says
-  citations/co-authors need verification before a future version. Its abstract
-  reports Masked Diffusion Language Model membership metrics, including
-  MIMIR-domain mean `AUC = 0.878`, peak `AUC = 0.930` on Pile CC, and `K = 3`
-  shadow-transfer mean `AUC = 0.858`, but no official repository, code hit,
-  target checkpoint, immutable member/nonmember text manifest, score rows, ROC
-  arrays, metric JSON, response packet, or verifier is public. The decision is:
-  withdrawn arXiv, DLM paper-source-only, no official code, no artifact packet,
-  no download, no CPU/GPU sidecar, no Platform row, and no Runtime schema. The
-  previous repository verdict is the `hackerman70000/eidetic` lightweight
-  metadata sync. `eidetic` is a small
-  code-only Carlini-style extraction/MIA toolkit at commit
-  `1aa786bd6e6c39af1da1ac3581e1835f9b55b2ee`; its README reports CIFAR-10
-  Strong-LiRA metrics, but the repo commits no shadow checkpoints, immutable
-  split manifest, per-row scores, ROC arrays, metric JSON, generated response
-  packet, or ready verifier. Its experiment path downloads CIFAR-10 and
-  requires local `checkpoints/shadow/*.pt`. The decision is unchanged:
-  lightweight GitHub false-positive, no artifact packet, no download, no
-  CPU/GPU sidecar, no Platform row, and no Runtime schema. The previous
-  provenance verdict is the collaborator Stable Diffusion ReDiffuse transfer:
-  the full transfer ZIP is `512,403,674` bytes with SHA-256
-  `3b2f6ea09ce7d9ece4957ec635bac322e0b545b833f1d902f46abbf44f6fef73`, and
-  `artifacts.zip` is `349,479` bytes with SHA-256
-  `1cb085e1df5c6f305f8af5562be51bf7af7277fd2fa8467c5ce401ed56aff447`.
-  `artifacts.zip` is only the already-imported final `metrics/result/ROC`
-  subset, and the imported `5000`-row `2500 / 2500` packet still recomputes to
-  `AUC = 0.710319`, `ASR = 0.6846`, `TPR@1%FPR = 0.0736`, and
-  `TPR@0.1%FPR = 0.0100`. The previous watch verdict is the FMIA
-  OpenReview bounded recheck. FMIA still has official frequency-filter code and
-  split manifests, but no checkpoints, score arrays, ROC/metric artifacts,
-  generated samples, or ready verifier. The latest metadata verdict before
-  FMIA is the CLiD / CopyMark recheck: CLiD remains blocked by HF authorization
-  for `mia_COCO.zip`, and CopyMark `laion_ridar` remains support-only aggregate
-  evidence without a row-level score manifest. No dataset zip, image payload,
-  model folder, checkpoint, CPU sidecar, GPU release, Platform row, or Runtime
-  schema is selected. The
-  previous defense verdict is the CPSample artifact gate.
-  OpenReview `LIBLIlk5M9` exposes an official ICLR 2025 code supplement with
-  diffusion/classifier code and small attack-loss text fragments, but it lacks
-  immutable denoiser/classifier checkpoint hashes, exact subset-index
-  manifests, row-bound protected/unprotected score packets, ROC arrays, metric
-  JSON, retained-utility metrics, and a ready verifier. The result is defense
-  watch-plus only: no CIFAR-10/CelebA/LSUN/Stable Diffusion/checkpoint/image
-  download, no `python main.py` or `--inference_attack` run, no CPU sidecar, no
-  GPU release, no Platform row, and no Runtime schema. The previous boundary
-  verdict is the DSiRe / LoRA-WiSE dataset-size gate: strong future weight-only
-  privacy evidence, but aggregate dataset-size recovery rather than per-sample
-  MIA. The previous score-artifact verdict is the CopyMark official score
-  artifact gate. `caradryanl/CopyMark` exposes official member/nonmember image
-  logs, aggregate ROC/threshold JSONs, selected PIA/PFAMI/SecMI all-step score
-  tensors, GSA feature/XGBoost files, and LAION-RiDAR/mixing results. It
-  remains support-only because it lacks checkpoint hashes, a compact
-  row-ID-bound score manifest, small immutable data/checkpoint packet, and
-  ready verifier output. No HF dataset zip, image payload, model folder, full
-  repo clone, script execution, CPU sidecar, GPU release, Platform row, or
-  Runtime schema is selected. The previous asset verdict before CopyMark is the
-  VAE2Diffusion
-  latent-space inversion gate. `mx-ethan-rao/VAE2Diffusion` exposes code for decoder-geometry
-  / latent-dimension filtering membership inference on LDMs, but the README
-  split/checkpoint link is empty, the repo has no release assets, the recursive
-  tree has no split, checkpoint, score, ROC, metric, response, or verifier
-  artifacts, and scripts require author-local paths plus local training /
-  fine-tuning and pullback/per-dim cache generation. The result is code-public
-  latent-space MIA watch-plus only: no dataset/model/checkpoint/cache download,
-  CPU sidecar, GPU release, Platform row, or Runtime schema is selected. The
-  previous asset verdict is the DCR copying manifest gate.
-  `somepago/DCR` publishes official replication/copying code, retrieval scripts,
-  metric helpers, and LAION caption metadata, but the README LAION-10k Drive
-  split link returned `404`, and no immutable member/nonmember MIA split, target
-  checkpoint, generated response package, score rows, ROC arrays, metric JSON,
-  or ready verifier outputs are public. The result is copying/memorization
-  semantic-shift watch-plus only: no LAION/Drive/model download, fine-tuning,
-  inference, retrieval, CPU sidecar, GPU release, Platform row, or Runtime
-  schema is selected. The previous asset verdict is the FCRE medical frequency
-  artifact gate: arXiv `2506.14919` reports frequency-calibrated
-  reconstruction-error MIA metrics on FeTS 2022, ChestX-ray8, and CIFAR-10, but
-  no official code, immutable split manifests, target checkpoints, generated
-  reconstruction packets, score rows, ROC arrays, metric JSON, or ready verifier
-  outputs are public. The previous asset verdict is the Tabular Privacy Leakage
-  TDM gate:
-  arXiv `2605.06835` links the official `VectorInstitute/midst-toolkit` code
-  for ClavaDDPM training/synthesis and Tartan Federer / Ensemble / EPT attacks,
-  but no paper-bound Berka/Diabetes target checkpoints, immutable split
-  manifests, generated synthetic tables, score rows, ROC arrays, metric JSON,
-  or ready verifier outputs are public. The previous gray-box artifact verdict
-  is TMIA-DM, which remains paper-only temporal-noise /
-  noise-gradient MIA with reported metrics only and no code-score artifact. The
-  previous asset verdict is the Shake-to-Leak code artifact gate. The official
-  `VITA-Group/Shake-to-Leak` repository publishes fine-tuning-amplified
-  generative privacy code, vendored SecMI/diffusers code, fine-tuning scripts,
-  SecMI scripts, data extraction code, and a `40`-domain celebrity/person list,
-  but no frozen SD-v1-1 fine-tuned checkpoint, immutable member/nonmember
-  manifest, generated synthetic private-set packet, generated attack response,
-  score array, ROC array, metric JSON, or ready verifier output is committed.
-  The result is code-public watch-plus only: no Stable Diffusion weight
-  download, LAION/person image acquisition, synthetic-private-set generation,
-  fine-tuning, SecMI/data-extraction run, CPU sidecar, GPU release, Platform
-  row, or Runtime schema is selected. The previous asset verdict is the FSECLab
-  MIA-Diffusion code artifact gate. The
-  official `fseclab-osaka/mia-diffusion` repository publishes DDIM/DCGAN
-  training, sampling, white-box attack, black-box attack, dataset-loader, and
-  ROC-evaluator code plus two FID-stat `.npz` files, but no frozen target
-  checkpoint, immutable member/nonmember split manifest, generated sample
-  packet, score array, ROC array, metric JSON, or ready verifier output is
-  committed. The result is code-public watch-plus only: no CIFAR-10/CelebA
-  download, checkpoint/model acquisition, full repo clone, training, sampling,
-  attack-script execution, CPU sidecar, GPU release, Platform row, or Runtime
-  schema is selected. The previous asset verdict is the MT-MIA relational
-  diffusion score-packet gate. MT-MIA publishes official multi-table
-  member/nonmember/reference splits, pre-generated ClavaDDPM/RelDiff synthetic
-  outputs, and `18` score/metric packets, but it remains cross-modal
-  relational-tabular support-only: no raw figshare data, synthetic CSV payload,
-  full repo, training asset, CPU sidecar, GPU release, Platform row, or Runtime
-  schema is selected. The previous asset verdict is the LSA-Probe music
-  diffusion mock-data gate. LSA-Probe remains music/audio cross-modal
-  watch-plus only: the public project repo has no implementation tree, and the
-  GitHub Pages score-like `data/*.json` arrays are generated mock demo data,
-  not checkpoint-bound adversarial-cost score artifacts. No
-  MAESTRO/FMA/DiffWave/MusicLDM/audio/checkpoint download, CPU sidecar, GPU
-  release, or admitted row is selected. The latest consumer verdict remains
-  the admitted consumer drift
-  audit. The admitted bundle remains `admitted-only` with exactly five
-  Platform/Runtime rows: `recon`, `PIA baseline`, `PIA defended`, `GSA`, and
-  `DPDM W-1`. The validator chain passed, and recent watch/candidate lines do
-  not change Platform rows, Runtime schemas, product copy, download policy, CPU
-  sidecars, or GPU release. The previous asset verdict is the DualMD /
-  DistillMD defense gate. The OpenReview `DDMD/` supplement exposes DDPM/LDM
-  training, disjoint
-  teacher, distillation, PIA/SecMIA, black-box attack code, DDPM split-index
-  files, and FID stats, but the embedded GitHub origin is not public and the
-  supplement ships no checkpoint-bound defended/undefended scores, ROC arrays,
-  metric JSON, generated response packets, or ready verifier. The result is
-  defense watch-plus only: no SharePoint Pokemon, Stable Diffusion,
-  CIFAR/STL/Tiny-ImageNet download, no training or attack-script execution, no
-  CPU sidecar, no GPU release, and no admitted defense row. The previous asset
-  verdict is the DIFFENCE classifier-defense gate.
-  `SPIN-UMass/Diffence` exposes code, configs, and split-index files, but the
-  protected target is an image classifier, diffusion is a pre-inference defense
-  component, and the repo ships no checkpoint-bound defended/undefended logits,
-  score rows, ROC arrays, metric JSON, or ready verifier outputs. The result is
-  classifier-defense watch-plus only: no Google Drive checkpoint/data download,
-  no classifier or diffusion training, no MIA script execution, no CPU sidecar,
-  no GPU release, and no admitted defense row. The previous asset verdict is
-  the MIAHOLD / HOLD++ higher-order
-  Langevin artifact gate. `bensterl15/MIAHOLD` and
-  `bensterl15/MIAHOLDCIFAR` expose defense code, audio split filelists, a
-  CIFAR HOLD config, and PIA-style attack code, but they do not ship
-  checkpoint-bound target artifacts, reusable member/nonmember scores, ROC
-  arrays, metric JSON, generated responses, or ready verifier outputs. The
-  result is defense watch-plus only: no Google Drive checkpoint/data download,
-  no W&B scraping, no training, no CPU sidecar, no GPU release, and no
-  admitted defense row. The previous metric verdict is the Quantile Diffusion MIA SecMI
-  `t_error` replay. `neilkale/quantile-diffusion-mia` publishes committed
-  CIFAR10/CIFAR100 SecMI-style score rows plus split manifests. Replaying
-  `score = -t_error` gives CIFAR10 `AUC = 0.843853` and CIFAR100
-  `AUC = 0.782126`, with positive ASR but weak strict-tail recovery. The
-  result is support-only: it is not the official Quantile Regression paper
-  output, not an admitted Platform/Runtime row, and it releases no full repo
-  clone, asset download, training, quantile fitting, CPU sidecar, or GPU work.
-  The previous defense verdict is the I-B shadow-local GSA risk
-  preflight. Existing GSA shadow loss-score exports now produce true
-  shadow-local GSA-only k32 risk records for `shadow-01`, `shadow-02`, and
-  `shadow-03`; duplicate suffix IDs are de-duplicated before identity-file
-  selection. The artifact stays blocked because shadow-local PIA risk records
-  remain missing from the frozen PIA+GSA defended-shadow contract. It releases
-  no training, GPU work, admitted defense row, Platform/Runtime schema, or CPU
-  sidecar. The previous product-boundary verdict is the Tracing Roots
-  candidate evidence card. The OpenReview supplementary feature packet remains
-  positive (`AUC = 0.815826`, `TPR@1%FPR = 0.134000`,
-  `TPR@0.1%FPR = 0.038000`) and now has a machine-readable candidate card for
-  Research/product-boundary comparison. The 2026-05-15 live recheck found the
-  OpenReview attachment still reachable and arXiv `2411.07449v3` source still
-  TeX/figures-only, with no raw target checkpoint identity, sample manifest,
-  image query-response packet, or feature-regeneration script. It remains
-  Research-only feature-packet evidence, not an admitted product row, CPU
-  sidecar, or GPU release. The previous metric verdict is MIDST TabDDPM EPT. It
-  adapted the MIA-EPT error-prediction profile to local single-table TabDDPM
-  assets and used all `30` train, `20` dev, and `20` final model folders. The
-  train shadow folders are learnable (`AUC = 0.851961`), but dev+final transfer
-  remains weak (`AUC = 0.530089`, `ASR = 0.524625`,
-  `TPR@1%FPR = 0.029500`), so MIDST stays closed without account toggles,
-  target-column subsets, random-forest grids, classifier sweeps, TabSyn,
-  multi-table, or white-box expansion. The previous asset gate is
-  `YuxinWenRick/diffusion_memorization`.
-  It has a real `500`-row `sdv1_500_memorized.jsonl` prompt manifest, but it is
-  a memorization detection/mitigation reference rather than a released
-  per-sample MIA packet. `CompVis/stable-diffusion-v1-4` is not cached locally,
-  the ground-truth image archive is `2.60G`, and no member/nonmember MIA split,
-  generated response/noise-track packet, score JSON, ROC CSV, or low-FPR metric
-  artifact is public. It releases no CPU/GPU work. The previous asset audit is
-  ReDiffuse OpenReview split-manifest provenance: exact DDPM
-  CIFAR10/CIFAR100/STL10/Tiny-IN train/eval split index manifests are public,
-  but no target checkpoint or score packet is released. The latest active metric
-  verdict is Tracing the Roots feature-packet MIA: bounded local replay gives
-  `AUC = 0.815826` and `TPR@1%FPR = 0.134000`, but raw target checkpoint, sample
-  IDs, and image query-response assets are missing, so there is no admitted
-  promotion and no GPU release. The previous Fashion-MNIST DDPM score-Jacobian sensitivity verdict is weak
-  (`AUC = 0.511719`, zero low-FPR recovery) and closes the local score-field
-  sensitivity branch after prior weak Fashion-MNIST PIA-loss and SimA
-  score-norm scouts. The latest Lane A asset gate keeps StyleMI as paper-only /
-  artifact-incomplete: no code, target checkpoint, exact artist/image split,
-  generated image package, feature packet, or score file was found. The latest
-  CDI official gate is code-public but held as a dataset-inference semantic
-  shift with large model/data requirements and no ready small score packet. The latest consumer-boundary sync also
-  confirms that SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, and LSA-Probe
-  music/audio are related-method or watch-plus items only.
-  They do not change admitted rows, Runtime schemas, recommendation logic, or
-  product copy. I-B, I-C, ReDiffuse,
-  CommonCanvas, MIDST, Beans LoRA, LAION-mi, Zenodo, MoFit, MIAGM, Quantile
-  Regression, DualMD/DistillMD, DIFFENCE, MIAHOLD/HOLD++, FSECLab
-  MIA-Diffusion, and Noise as a Probe remain governed by
-  `ROADMAP.md` lane gates
-  and do not release automatic CPU/GPU work.
-- `goal`: next cycle must select exactly one Lane A/B/C task from
-  `ROADMAP.md`; if no candidate passes target identity, exact split,
-  query/response coverage, provenance, and non-adjacent mechanism gates, stop
-  rather than writing another scope/audit/reselection chain.
-- `latest trigger`: Diffusion Memorization tested a non-ReDiffuse public T2I
-  privacy repo and found a real small prompt manifest, but the claim is
-  memorization detection, not DiffAudit MIA, and the execution assets are either
-  large GDrive packages or missing score packets. Tracing the Roots tested a non-adjacent trajectory-feature
-  mechanism using a released small supplementary packet. It produced a real
-  positive metric but also exposed the current boundary: feature-packet evidence
-  is not raw image/query-response evidence. The ReDiffuse supplement then
-  improved split provenance but did not add checkpoints or score artifacts. CDI tested a non-adjacent scientific pivot from weak
-  pointwise MIAs to dataset inference. The public gate found official code, but
-  not a bounded DiffAudit-ready score packet; assets remain too large and the
-  consumer claim semantics would change. The latest StyleMI gate tested a
-  non-duplicate style-mimicry paper-only candidate, but found no executable
-  target/split/response or score artifacts. The latest cross-modal watch
-  consumer boundary keeps SAMA/DLM, VidLeaks/T2V, GGDM/graph, DurMI/TTS, and
-  LSA-Probe music/audio out of Platform/Runtime rows and releases no CPU/GPU
-  work. The latest admitted consumer drift audit confirms these watch/candidate
-  lines did not leak into the admitted Platform/Runtime bundle.
-- `GPU cap`: none selected
-- `integration`: no schema change; admitted five-row consumer set intact;
-  Research-only candidate feature-packet cards remain non-consumable
+- `mode`: post-H2 output-cloud order-control / post-ReDiffuse STL-10 weak scout / post-feature-packet consumer verdict.
+- `status`: H2 output-cloud geometry is the latest strong Research-side candidate, with the existing `512 / 512` response-cache review and two `256 / 256` shared-position order-control scouts retaining strong signal while label-shuffle stays random-level. It is not admitted because it is still a single H2 response-cache geometry candidate, not a second public asset or Platform/Runtime contract.
+- `status`: ReDiffuse STL-10 is closed by default. The official split and local CUDA path are executable, but the bounded `300`-step target produced random-level fixed-timestep denoising-loss metrics, and the same checkpoint/split also failed a SimA-style denoiser-output score-norm scorer.
+- `status`: Feature-packet consumption remains deferred. Tracing the Roots is positive Research-only evidence, but there is no second public non-source-equivalent feature packet and no raw target/sample/regeneration asset.
+- `goal`: next cycle must select exactly one high-information task. Valid reopen triggers are a public third-party checkpoint/score packet, a genuinely different membership observable with bounded preflight, an explicit cross-modal/feature-level consumer-boundary decision, or an approved long-train checkpoint/score publication contract.
+- `stop rule`: if a candidate cannot pass target identity, exact split, query/response or score coverage, provenance, and non-adjacent mechanism gates, stop rather than writing another scope/audit/reselection chain.
+- `GPU cap`: none selected.
+- `CPU sidecar`: none selected.
+- `integration`: no schema change; admitted five-row consumer set remains intact; H2 output-cloud, H2 simple-distance, ReDiffuse, CLiD, Tracing Roots, SecMI stat/NNS, and MT-MIA remain outside Platform/Runtime admitted rows.
 
 Current evidence:
 
