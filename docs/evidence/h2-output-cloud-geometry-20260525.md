@@ -1,7 +1,7 @@
 # H2 Output-Cloud Geometry Cache Review
 
 > Date: 2026-05-25
-> Status: candidate complementary signal / order-control scout passed / no admitted row / no 512/512 rerun selected
+> Status: candidate complementary signal / order-control scout passed / shared-position seed-stable / no admitted row / no 512/512 rerun selected
 
 ## Question
 
@@ -11,8 +11,9 @@ seed-to-output distance 的 membership 信号？
 第一轮只复用现有
 `workspaces/black-box/runs/h2-response-strength-512-20260501-r1/response-cache.npz`。
 随后只释放一个有界 `256 / 256` shared-position order-control scout，用来回答
-class-ordered seed-offset caveat。没有下载资产，也没有扩展同一路线的 KDE、shadow
-density、repeat-count 或特征 sweep。
+class-ordered seed-offset caveat；再释放一个同边界的 seed `177` 稳定性 scout，
+用来判断 order-control 后的强信号是否只是单 seed 现象。没有下载资产，也没有扩展
+同一路线的 KDE、shadow density、repeat-count 或特征 sweep。
 
 ## Contract
 
@@ -159,9 +160,51 @@ the signal. The result still does not imply product admission: it is one
 controlled scout on H2 DDPM/CIFAR10 response-cache geometry, not a second
 public asset or Platform/Runtime contract.
 
+## Shared-Position Seed-177 Stability Scout
+
+为避免把 order-control 结论建立在单个 random seed 上，下一步只跑同边界
+`256 / 256` shared-position seed `177`。运行边界不扩大：timesteps
+`40 / 80 / 120 / 160`，repeats `2`，holdout repeats `7`，bootstrap iters
+`100`。GPU scout 用时 `185.470864s`。
+
+Runner summary 的 H2 distance scorer：
+
+| Metric | Raw H2 logistic | Lowpass H2 logistic |
+| --- | ---: | ---: |
+| AUC | `0.911255` | `0.896698` |
+| ASR | `0.851562` | `0.828125` |
+| TPR@1%FPR | `0.113281` | `0.093750` |
+| TPR@0.1%FPR | `0.0` | `0.062500` |
+
+Output-cloud geometry review:
+`workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-seed177-256-20260525.json`
+
+| Metric | Shared-position seed `177` |
+| --- | ---: |
+| AUC | `0.956192` |
+| ASR | `0.896484` |
+| TPR@1%FPR | `0.285156` |
+| TPR@0.1%FPR | `0.109375` |
+
+Label-shuffle sanity:
+`workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-seed177-256-label-shuffle-20260525.json`
+
+| Metric | Seed `177` label shuffle |
+| --- | ---: |
+| AUC | `0.484070` |
+| ASR | `0.513672` |
+| TPR@1%FPR | `0.023438` |
+| TPR@0.1%FPR | `0.011719` |
+
+Interpretation: the shared-position output-cloud signal remains strong under
+seed `177`, and label shuffle stays random-level. Together with seed `176`, this
+supports the narrower conclusion that output-cloud geometry is a stable H2
+mechanism candidate after seed-offset control. It still does not create a
+second public asset, a product contract, or an admitted row.
+
 ## Decision
 
-`candidate complementary signal / order-control scout passed / no admitted row`。
+`candidate complementary signal / order-control scout passed / seed-stable / no admitted row`。
 
 保留为 Research-side 强候选，因为它满足三个有价值条件：
 
@@ -169,6 +212,7 @@ public asset or Platform/Runtime contract.
 - 它在同一 H2 cache 上明显强于 raw/lowpass H2 logistic。
 - 它通过了 seed-177 稳定性和 label-shuffle sanity。
 - 它在 `256 / 256` shared-position order-control scout 中没有因 seed-offset 控制而坍塌。
+- 它在 shared-position seed `177` scout 中仍保持强 AUC 和非零严格尾部恢复。
 
 但当前不做以下事情：
 

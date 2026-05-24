@@ -147,6 +147,8 @@ workspaces/**/artifacts/**
 !workspaces/black-box/artifacts/h2-output-cloud-geometry-label-shuffle-20260525.json
 !workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-256-20260525.json
 !workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-256-label-shuffle-20260525.json
+!workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-seed177-256-20260525.json
+!workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-seed177-256-label-shuffle-20260525.json
 !workspaces/black-box/artifacts/h2-output-cloud-geometry-class-ordered-subset-256-20260525.json
 !workspaces/black-box/artifacts/h2-output-cloud-geometry-class-ordered-subset-256-label-shuffle-20260525.json
 !workspaces/black-box/artifacts/beans-lora-member-denoising-loss-scout-20260513.json
