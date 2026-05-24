@@ -1488,6 +1488,13 @@ checkpoint-bound target artifacts, reusable member/nonmember score rows, ROC
 arrays, metric JSON, generated responses, or a ready verifier. AUROC/ROC paths
 are runtime/W&B outputs, not committed replay packets.
 
+The 2026-05-25 related-paper refresh checked arXiv `2605.19170` /
+`Reducing Diffusion Model Memorization with Higher Order Langevin Dynamics`.
+It is same-family HOLD memorization-mitigation context, not a new artifact
+surface: arXiv PDF/source are public, but exact-title, arXiv-id, and phrase
+GitHub repository searches returned no official repository, while code search
+found only unrelated course/index JSON entries.
+
 Decision: `defense-code-public / split-and-attack-code-present /
 score-artifacts-missing / no download / no GPU release / no admitted row`.
 This retains MIAHOLD as defense watch-plus evidence only. Do not download
