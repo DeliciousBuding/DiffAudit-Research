@@ -1,10 +1,10 @@
 {
   "schema": "diffaudit.admitted_evidence_bundle.v1",
-  "updated_at": "2026-05-01T00:00:00+08:00",
+  "updated_at": "2026-05-24T00:00:00+08:00",
   "status": "admitted-only",
   "audience": "platform-runtime",
   "source_table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
-  "row_count": 5,
+  "row_count": 6,
   "rows": [
     {
       "id": "black-box::recon DDIM public-100 step30::none::runtime-mainline",
@@ -292,6 +292,63 @@
       "provenance": {
         "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
         "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/summary.json"
+      }
+    },
+    {
+      "id": "gray-box::Tracing the Roots diffusion-trajectory::none::feature-packet",
+      "status": "admitted",
+      "audience": "platform-runtime",
+      "track": "gray-box",
+      "method": {
+        "attack": "Tracing the Roots (diffusion trajectory features)",
+        "defense": "none",
+        "model": "DDPM CIFAR-10 (NeurIPS 2025 OpenReview supplement)"
+      },
+      "evidence_type": "feature-packet",
+      "metrics": {
+        "auc": 0.816,
+        "accuracy": 0.738,
+        "tpr_at_1pct_fpr": 0.134,
+        "tpr_at_0_1pct_fpr": 0.038
+      },
+      "evidence_level": "feature-packet",
+      "quality_cost": "2000 train (1000 member + 1000 external) + 2000 eval; 1002 trajectory features (loss + image-gradient + parameter-gradient); CPU replay only; no GPU needed",
+      "boundary": {
+        "summary": "gray-box feature-packet evidence; trajectory features carry detectable membership signal but do NOT prove per-image identity; feature level only, not raw image-identity-safe; pre-computed tensors, immutable SHA-256 verified",
+        "allowed_claims": [
+          "diffusion trajectory features carry detectable membership signal under gray-box access",
+          "AUC=0.816 on held-out CIFAR-10 eval with 1002 trajectory features",
+          "public feature tensors are SHA-256 verifiable and replay-stable",
+          "evidence supports gray-box trajectory-based MIA as a distinct privacy risk surface"
+        ],
+        "blocked_claims": [
+          "per-image membership identity for any specific CIFAR-10 sample",
+          "black-box detectable membership signal",
+          "generalization to other models/datasets without feature-regeneration script",
+          "raw image-identity-safe membership proof",
+          "commercial-model or real-world deployment benchmark"
+        ]
+      },
+      "low_fpr_interpretation": {
+        "type": "finite_empirical_tail",
+        "nonmember_denominator": 1000,
+        "false_positive_budget": {
+          "at_1pct_fpr": 10.0,
+          "at_0_1pct_fpr": 1.0
+        },
+        "minimum_nonzero_fpr": 0.001,
+        "summary": "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts from 1000 external eval samples. Not calibrated continuous sub-percent FPR estimates."
+      },
+      "provenance": {
+        "supplement": "OpenReview NeurIPS 2025",
+        "supplement_sha256": "62e9ae3833bcc0f102612d05898262eea2b6025fe8949a72c3f055a8534c7b41",
+        "feature_tensors": {
+          "train_member": "f02f16a02d80c067865d7902d653eed65676c73f1472fb7f04b090d3afb89ebe",
+          "train_external": "4f5a54efb8683237691c79f71f72fccc787db4e32fe9352faa6f528f111bc7bd",
+          "eval_member": "93b9e5eefbab1a820a4945bce79dfa95f5799df2b77ba771d8bfe159e9fcdaa9",
+          "eval_external": "ee9829eaa32d6a54c73b0851513cd5edeea7da2b810d61fb99b330429909616e"
+        },
+        "source": "docs/product-bridge/tracing-roots-candidate-evidence-card.md"
       }
     }
   ],

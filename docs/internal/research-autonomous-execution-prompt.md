@@ -34,10 +34,10 @@
 - 已收录黑盒线路：`recon`
 - 已收录灰盒线路：`PIA + stochastic-dropout`
 - 已收录白盒对照线路：`GSA + DPDM W-1`
-- 截至 2026-05-23 的活跃工作：Lane A 元数据分流同步；ReDiffuse SD 打包根归一化修正；Identity-Focused Inference 和 RAPTA/ADMCD 伪影关卡已关闭，标记为 paper-source-only；active_gpu_question = none
-- 截至 2026-05-23 的下一个 GPU 候选：未选定
+- 截至 2026-05-23 的活跃工作：Lane A 元数据分流同步；ReDiffuse SD 打包根归一化修正；Identity-Focused Inference 和 RAPTA/ADMCD 伪影关卡已关闭，标记为 paper-source-only；active_gpu_question = ReDiffuse DDPM/STL-10（10k-step training 进行中，AMP batch48，~2.4 it/s，ETA ~65min）
+- 截至 2026-05-23 的下一个 GPU 候选：STL-10 10k 训练中，完成后跑 PIA scoring → 首个 STL-10 MIA 结果
 - 非灰盒 GPU 候选：未选定
-- ReDiffuse 仅作候选/暂缓，因精确回放显示 AUC 尚可但严格低尾证据不足。
+- ReDiffuse STL-10：正在进行自有 DDPM 训练以获取可评分 checkpoint；此前合作者 750k bundle 因缺乏 split 精确对齐和严格低尾证据未收录。
 - 黑盒响应合约获取状态为 `needs-assets`；仓库发现扫描未找到配对的 `Download/black-box` 包。
 - 灰盒 tri-score 真值硬化已关闭，标记为 positive-but-bounded 的内部证据；未获收录提升，未释放 GPU。
 - 当前 CPU 侧车任务：未选定；下一周期必须重新选择一个有边界的非冗余任务，而非扩展同一 tri-score 合约。

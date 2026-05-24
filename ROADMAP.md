@@ -1,6 +1,58 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-23
+> Last updated: 2026-05-24
+
+## 远景路线图（Forward Roadmap）
+
+### 当前前线
+
+| 线路 | 状态 | 下一步 |
+|---|---|---|
+| **ReDiffuse STL-10 PIA** | 10k DDPM 训练完成，简单 loss AUC=0.502（负） | 实现 paper-accurate PIA/SecMI attack，在现有 checkpoint 上重跑 |
+| **Tracing the Roots** | AUC=0.816，feature-packet lane 已开通 | 写消费者合同，加入 admitted evidence bundle |
+| **第二资产合约** | 6-gate contract 已写，ReDiffuse STL-10 为首选 | 等待 PIA 结果 ≥ threshold 后正式提交 |
+
+### 三层攻击面状态
+
+| 层面 | 最强已收录 | AUC | 缺口 |
+|---|---|---|---|
+| 黑盒 recon | `recon` product row | 0.837 | 第二黑盒资产（CommonCanvas 已闭合为弱） |
+| 灰盒 PIA | `PIA + stochastic-dropout` | — | 第二数据集面（STL-10 进行中） |
+| 白盒 GSA | `GSA + DPDM W-1` | — | 互补白盒方法、influence/curvature 均为负 |
+
+### 6 个月远景（2026-05 → 2026-11）
+
+```
+Phase A: 巩固第二数据集面（5月-6月）
+├── STL-10 PIA v2: paper-accurate attack → AUC target >0.7
+├── 若 STL-10 信号强：100k-step 训练 → 论文级 checkpoint
+├── 若 STL-10 持续弱：转 CIFAR-10（更确定，PIA baseline 已验证）
+└── Tracing the Roots 消费者合同 + 准入
+
+Phase B: 资产扩展（6月-7月）
+├── ReDiffuse CIFAR-100 路径（划分清单已存在）
+├── 第二黑盒资产的重新搜索（6 个月内新论文）
+└── 防御侧评估（CPSample、DualMD 等 artifact gate 监控）
+
+Phase C: 方法论深化（7月-9月）
+├── Cross-box score fusion（已有 positive-but-bounded evidence）
+├── Adaptive-attacker 框架（I-B 需要）
+└── 论文级 benchmark 复现
+
+Phase D: 产品化与论文（9月-11月）
+├── Platform/Runtime 集成（已收录的 5 行）
+├── 论文写作（若结果充分）
+└── 开源发布准备
+```
+
+### 当前约束
+
+- **GPU**：RTX 4070 Laptop 8GB，单卡，插电使用
+- **CPU sidecar**：无活跃任务
+- **不启动的新方向**：CLiD（prompt-conditioned 阻断）、CopyMark/CommonCanvas（已闭合为弱）、新论文 artifact gate（除非出现完全合格的第二资产）
+- **active_gpu_question = ReDiffuse STL-10 PIA v2（paper-accurate attack）**
+
+---
 
 ## 2026-05-23 下一阶段研究综合
 
