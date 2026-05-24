@@ -9,12 +9,13 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `H2 output-cloud geometry is a strong Research-side candidate after order-control and seed-stability scouts, but it is not admitted; ReDiffuse STL-10 bounded denoising-loss and score-norm scouts are weak; feature-packet channel remains deferred; no selected CPU/GPU sidecar` |
+| Active work | `H2 output-cloud geometry is the latest Research-side metric verdict: strong on the existing H2 response cache, preserved under bounded shared-position order-control, and seed-stable at 177; still candidate-only, not admitted, and not a Platform/Runtime contract; ReDiffuse STL-10 bounded denoising-loss and score-norm scouts are weak; feature-packet channel remains deferred; no selected CPU/GPU sidecar` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | none selected after H2 output-cloud order-control seed-stability and ReDiffuse STL-10 weak metric verdicts |
-| Gray-box status | PIA remains admitted; feature-packet channel remains deferred; Tracing the Roots is positive Research-only evidence; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
+| Gray-box status | PIA remains admitted; Tracing the Roots remains positive Research-side feature-packet evidence, but the feature-packet consumer lane is deferred and not a Platform/Runtime channel; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
+| Boundary notes | LeakyCLIP remains CLIP / multimodal privacy watch-plus; ReDiffuse DDPM/STL-10 remains closed by default after weak denoising-loss and score-norm scouts; no schema, validator, bundle row, UI type, Runtime runner, or same-cache feature sweep is selected |
 
 ## Decision Inbox
 
@@ -103,6 +104,11 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 Current evidence:
 
+- [../../docs/evidence/h2-output-cloud-geometry-20260525.md](../../docs/evidence/h2-output-cloud-geometry-20260525.md)
+- [../../docs/evidence/feature-packet-channel-consumer-verdict-20260525.md](../../docs/evidence/feature-packet-channel-consumer-verdict-20260525.md)
+- [../../docs/evidence/leakyclip-clip-inversion-boundary-gate-20260525.md](../../docs/evidence/leakyclip-clip-inversion-boundary-gate-20260525.md)
+- [../../docs/evidence/rediffuse-stl10-bounded-scout-20260525.md](../../docs/evidence/rediffuse-stl10-bounded-scout-20260525.md)
+- [../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md](../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md)
 - [../../docs/evidence/privacy-leakage-tdm-artifact-gate-20260515.md](../../docs/evidence/privacy-leakage-tdm-artifact-gate-20260515.md)
 - [../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md)
 - [../../docs/evidence/fseclab-mia-diffusion-code-artifact-gate-20260515.md](../../docs/evidence/fseclab-mia-diffusion-code-artifact-gate-20260515.md)
