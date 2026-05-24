@@ -1,6 +1,7 @@
 # Discrete DLM Withdrawn Artifact Gate
 
 > Date: 2026-05-23
+> Live refresh: 2026-05-25
 > Status: withdrawn arXiv / DLM paper-source-only / no official code / no artifact packet / no download / no GPU release
 
 ## Question
@@ -24,17 +25,17 @@ paper could otherwise look like a new mechanism lane.
 | Author | Shailesh Kasivelrajan |
 | Domain | Discrete / masked diffusion language models over text, not the current image or latent-image DiffAudit lane |
 | Public repo search | `gh search repos` for the exact title and for `discrete diffusion language models membership inference` returned no repositories |
-| Public code search | `gh search code "2605.16445"` returned no code hits |
+| Public code search | `gh search code "2605.16445"` returned no official code hits; a 2026-05-25 exact-title refresh found only a paper-index JSON aggregator |
 
 ## Public Evidence Checked
 
 | Source | Finding |
 | --- | --- |
-| Current arXiv abstract page | The record says the paper has been withdrawn, the current version is v2, and no PDF is available for the withdrawn version. |
+| Current arXiv abstract page | The record says the paper has been withdrawn, the current version is v2, and no PDF is available for the withdrawn version. A 2026-05-25 live refresh still shows `arXiv:2605.16445v2` as withdrawn with `No PDF available`; `https://arxiv.org/pdf/2605.16445` and `https://arxiv.org/e-print/2605.16445` both returned `404`. |
 | Current arXiv abstract | Reports a `46`-dimensional reconstruction-loss feature vector across four masking ratios, XGBoost/MLP classifiers, MIMIR-domain mean `AUC = 0.878`, peak `AUC = 0.930` on Pile CC, and a `K = 3` shadow-model transfer attack with mean `AUC = 0.858`. |
 | Current arXiv comments | Says citations and co-authors need verification and a new version will be submitted. This makes the current scientific record explicitly unstable. |
-| GitHub repository search | No official public repository was found by exact-title or topic-style GitHub repository search. |
-| GitHub code search | No public code hit was found for `2605.16445`. |
+| GitHub repository search | No official public repository was found by exact-title, arXiv-id, author, or topic-style GitHub repository search. |
+| GitHub code search | No official code hit was found. A 2026-05-25 `2605.16445` code search returned unrelated numeric-data hits, and exact-title code search found only a paper-index JSON aggregator. |
 | Local Research index search | No prior DiffAudit evidence note referenced this arXiv identifier or title. |
 
 ## Gate Result

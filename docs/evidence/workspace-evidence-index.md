@@ -233,12 +233,13 @@ Previous Research update:
 [discrete-dlm-withdrawn-artifact-gate-20260523.md](discrete-dlm-withdrawn-artifact-gate-20260523.md)
 records a Lane B/watch metadata gate for arXiv `2605.16445` /
 `Membership Inference Attacks on Discrete Diffusion Language Models`. The
-current arXiv record is withdrawn and has no current PDF; repository searches
-for the exact title and for `discrete diffusion language models membership
-inference` returned no GitHub repositories; code search for `2605.16445`
-returned no hits. Decision: `withdrawn arXiv / DLM paper-source-only / no
-official code / no artifact packet / no download / no GPU release / no
-admitted row`.
+current arXiv record is withdrawn and has no current PDF. A 2026-05-25 live
+refresh confirmed the abs page still says withdrawn / `No PDF available`, while
+`/pdf` and `/e-print` return `404`. Repository searches for the exact title,
+arXiv id, author, and topic terms returned no official GitHub repository; code
+search found only unrelated numeric-data hits or a paper-index JSON aggregator.
+Decision: `withdrawn arXiv / DLM paper-source-only / no official code / no
+artifact packet / no download / no GPU release / no admitted row`.
 
 Previous Research update:
 [workspaces/implementation/challenger-queue.md](../../workspaces/implementation/challenger-queue.md)
