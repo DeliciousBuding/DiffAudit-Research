@@ -28,8 +28,8 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `2026-05-25 ReDiffuse DDPM/STL-10 split/statistics/resource preflight is the latest roadmap operating-system update. The official STL-10 split is exact and public (50k / 50k, SHA256 14a06133f36c74e7d3cb97dbe74385fb42c22335a7cb955fd9944ca503baca52), binds to the local STL-10 unlabeled payload, and does not show obvious low-level image-statistics leakage (linear-probe holdout AUC = 0.4994776215625). The CUDA-capable surface is conda env diffaudit-research, not the default PATH Python. Official ReDiffuse DDPM UNet + GaussianDiffusionTrainer calibration succeeded at batch 4 / 20 steps and batch 64 / 10 steps, with batch 64 peak allocated VRAM 4.419 GB. This is not a membership metric, checkpoint, score packet, or admitted row. active_gpu_question = ReDiffuse DDPM/STL-10 bounded scout; next_gpu_candidate = one bounded STL-10 DDPM pipeline scout only; CPU sidecar = none; split/statistics/resource preflight complete.`
-- Next GPU candidate: one bounded ReDiffuse DDPM/STL-10 pipeline scout only
+- Active work: `2026-05-25 ReDiffuse DDPM/STL-10 bounded scout is the latest roadmap operating-system update. The official STL-10 split is exact and public, and the local pipeline produced a short-target checkpoint plus 256 / 256 score packet, but fixed-timestep denoising-loss is random-level: AUC = 0.4996337890625, ASR = 0.509765625, TPR@1%FPR = 0.01171875, TPR@0.1%FPR = 0.0. This is scoreable negative evidence, not a second asset, not a full-paper reproduction, and not an admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after ReDiffuse STL-10 bounded scout weak result.`
+- Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
   Research lane. The selected forward path is Lane A external asset acquisition
@@ -553,15 +553,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   package it as a black-box/conditional response-contract candidate unless a
   separate reproducibility-maintenance task explicitly reopens admitted GSA
   provenance.
-- ReDiffuse is open only for one bounded DDPM/STL-10 scout after the 2026-05-25
-  split/statistics/resource preflight. The official OpenReview supplement gives
-  exact DDPM split manifests, the STL-10 `50k / 50k` split binds to local data,
-  low-level statistics do not separate labels, and the official UNet/trainer path
-  fits local CUDA at batch 64 calibration scale. This still has no third-party
-  trained checkpoint, generated response/feature cache, score packet, ROC CSV,
-  or metric artifact. Do not run full DDPM/DiT/Stable Diffusion training,
-  `800k`-step jobs, Tiny-ImageNet downloads, Stable Diffusion downloads, or
-  same-family attack-script sweeps by default.
+- ReDiffuse STL-10 is closed after the one bounded DDPM/STL-10 scout. The
+  official OpenReview split binds cleanly to STL-10, and the local pipeline is
+  executable, but the `300`-step short target with fixed-timestep denoising-loss
+  produced random-level membership metrics (`AUC = 0.4996337890625`). This still
+  has no third-party trained checkpoint, generated response/feature cache,
+  strong score packet, ROC CSV, or admitted metric artifact. Do not expand into
+  step-count, seed, timestep, batch-size, subset-size, EMA, scheduler,
+  denoising-loss, full DDPM/DiT/Stable Diffusion training, `800k`-step jobs,
+  Tiny-ImageNet downloads, Stable Diffusion downloads, or same-family
+  attack-script sweeps by default.
 - `YuxinWenRick/diffusion_memorization` is closed as memorization semantic-shift
   watch. It has a real `500`-row `sdv1_500_memorized.jsonl` prompt manifest, but
   the ground-truth image package is `2.60G`, `CompVis/stable-diffusion-v1-4` is
