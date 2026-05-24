@@ -56,6 +56,30 @@ Platform/Runtime row.
 Machine-readable summary:
 [`mtmia-relational-diffusion-score-packet-gate-20260515.json`](mtmia-relational-diffusion-score-packet-gate-20260515.json).
 
+## 2026-05-25 Public Asset Refresh
+
+A 2026-05-25 metadata refresh rechecked the official GitHub repository before
+reopening any relational-tabular or cross-modal work. The `master` branch still
+points to commit `d02aebb9241b383f08a4f89cc32054cf283c2ec6` from
+`2026-05-01T21:15:39Z` with message `Stop tracking junk/`. The repository has
+no GitHub releases and no tags.
+
+The refreshed recursive tree still exposes the same public split, synthetic
+table, and result-packet surfaces: `data/*/split/{mem,non_mem,ref}/`,
+`synth_data/{clava_synth,reldiff_synth}/*/seed_{42,43,44}/`, and
+`results/{clava_ddpm,reldiff,rtf}/*/mtmia_seed_*.jsonl`. A path-name scan for
+`manifest`, `row`, `id`, `verifier`, `score`, `result`, and `split` did not
+find a new row-ID-bound verifier or compact score manifest. Fresh samples from
+`results/clava_ddpm/airbnb/mtmia_seed_42.jsonl` and
+`results/reldiff/airbnb/mtmia_seed_42.jsonl` still begin with `epoch` and
+`full.results` / `full.scores` payloads, with score arrays but no per-score row
+IDs.
+
+Decision unchanged: MT-MIA remains a real public relational-diffusion
+score-packet support artifact, but it does not release GPU work, dataset/model
+downloads, Platform/Runtime admission, or a relational-tabular consumer lane.
+Reopen only under the conditions already listed below.
+
 ## Parsed Metric Summary
 
 `TPR@0.1%FPR` maps to the repository field `tpr_at_fpr_0.001`; `TPR@1%FPR`

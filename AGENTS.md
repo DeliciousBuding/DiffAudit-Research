@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `2026-05-25 feature-packet consumer-boundary correction is the latest roadmap operating-system update. The current Platform/Runtime admitted bundle remains admitted-only with exactly five rows: recon, PIA baseline, PIA defended, GSA, and DPDM W-1. Tracing the Roots remains positive Research-side gray-box feature-packet evidence (AUC = 0.815826, TPR@1%FPR = 0.134000) and a candidate consumer-boundary design item, but it is not admitted because the current bundle/export/tests/schema still exclude it and the public packet lacks raw target checkpoint identity, raw sample IDs, and image query/response artifacts. ReDiffuse OpenReview split manifests remain the clearest second-asset path, but no checkpoint/score packet is public and no GPU job is selected from this correction. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after feature-packet boundary correction.`
+- Active work: `2026-05-25 ReDiffuse DDPM/STL-10 bounded scout is the latest roadmap operating-system update. The official STL-10 split is exact and public, and the local pipeline produced a short-target checkpoint plus 256 / 256 score packet, but fixed-timestep denoising-loss is random-level: AUC = 0.4996337890625, ASR = 0.509765625, TPR@1%FPR = 0.01171875, TPR@0.1%FPR = 0.0. This is scoreable negative evidence, not a second asset, not a full-paper reproduction, and not an admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after ReDiffuse STL-10 bounded scout weak result.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -553,12 +553,16 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   package it as a black-box/conditional response-contract candidate unless a
   separate reproducibility-maintenance task explicitly reopens admitted GSA
   provenance.
-- ReDiffuse is closed as hold / split-manifest-only. The official OpenReview
-  supplement now gives DDPM CIFAR10/CIFAR100/STL10/Tiny-IN train/eval index
-  manifests, but no target checkpoint, generated response/feature cache, score
-  packet, ROC CSV, or metric artifact. Do not train DDPM/DiT/Stable Diffusion
-  targets or rerun same-family attack scripts unless exact checkpoints or score
-  packets appear for those manifests.
+- ReDiffuse STL-10 is closed after the one bounded DDPM/STL-10 scout. The
+  official OpenReview split binds cleanly to STL-10, and the local pipeline is
+  executable, but the `300`-step short target with fixed-timestep denoising-loss
+  produced random-level membership metrics (`AUC = 0.4996337890625`). This still
+  has no third-party trained checkpoint, generated response/feature cache,
+  strong score packet, ROC CSV, or admitted metric artifact. Do not expand into
+  step-count, seed, timestep, batch-size, subset-size, EMA, scheduler,
+  denoising-loss, full DDPM/DiT/Stable Diffusion training, `800k`-step jobs,
+  Tiny-ImageNet downloads, Stable Diffusion downloads, or same-family
+  attack-script sweeps by default.
 - `YuxinWenRick/diffusion_memorization` is closed as memorization semantic-shift
   watch. It has a real `500`-row `sdv1_500_memorized.jsonl` prompt manifest, but
   the ground-truth image package is `2.60G`, `CompVis/stable-diffusion-v1-4` is
