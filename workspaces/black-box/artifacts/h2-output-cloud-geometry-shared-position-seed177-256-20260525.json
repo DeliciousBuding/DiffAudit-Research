@@ -1,0 +1,166 @@
+{
+  "status": "ready",
+  "track": "black-box",
+  "method": "H2 output-cloud geometry scorer",
+  "mode": "cpu-cache-review",
+  "response_cache": "workspaces\\black-box\\runs\\h2-response-strength-256-shared-position-seed177-20260525-r1\\response-cache.npz",
+  "inputs": {
+    "sample_count": 512,
+    "member_count": 256,
+    "nonmember_count": 256,
+    "timesteps": [
+      40,
+      80,
+      120,
+      160
+    ],
+    "repeat_count": 2,
+    "feature_count": 17,
+    "feature_names": [
+      "within_timestep_pair_rmse_40",
+      "within_timestep_pair_rmse_80",
+      "within_timestep_pair_rmse_120",
+      "within_timestep_pair_rmse_160",
+      "within_timestep_pair_rmse_mean",
+      "within_timestep_pair_rmse_std",
+      "within_timestep_pair_rmse_slope",
+      "centroid_rmse_40_80",
+      "centroid_rmse_40_120",
+      "centroid_rmse_40_160",
+      "centroid_rmse_80_120",
+      "centroid_rmse_80_160",
+      "centroid_rmse_120_160",
+      "centroid_rmse_mean",
+      "centroid_rmse_std",
+      "cloud_pca_trace",
+      "cloud_pca_top_share"
+    ],
+    "seed": 177,
+    "label_mode": "original",
+    "holdout_repeats": 7,
+    "bootstrap_iters": 100
+  },
+  "simple": {
+    "best_by_auc": {
+      "name": "centroid_rmse_40_160",
+      "orientation": "negative_higher_is_member",
+      "metrics": {
+        "auc": 0.794266,
+        "asr": 0.755859,
+        "tpr_at_1pct_fpr": 0.015625,
+        "tpr_at_0_1pct_fpr": 0.007812,
+        "member_score_mean": -0.035444,
+        "nonmember_score_mean": -0.045246
+      }
+    },
+    "best_by_low_fpr": {
+      "name": "cloud_pca_top_share",
+      "orientation": "negative_higher_is_member",
+      "metrics": {
+        "auc": 0.626831,
+        "asr": 0.619141,
+        "tpr_at_1pct_fpr": 0.058594,
+        "tpr_at_0_1pct_fpr": 0.042969,
+        "member_score_mean": -0.264214,
+        "nonmember_score_mean": -0.273958
+      }
+    }
+  },
+  "logistic": {
+    "aggregate_metrics": {
+      "auc": 0.956192,
+      "asr": 0.896484,
+      "tpr_at_1pct_fpr": 0.285156,
+      "tpr_at_0_1pct_fpr": 0.109375,
+      "member_score_mean": 0.797283,
+      "nonmember_score_mean": 0.200697
+    },
+    "aggregate_ci95": {
+      "auc": {
+        "p025": 0.941745,
+        "p975": 0.970779
+      },
+      "asr": {
+        "p025": 0.877881,
+        "p975": 0.917041
+      },
+      "tpr_at_1pct_fpr": {
+        "p025": 0.116406,
+        "p975": 0.678613
+      },
+      "tpr_at_0_1pct_fpr": {
+        "p025": 0.07793,
+        "p975": 0.364649
+      }
+    },
+    "mean_coefficients": [
+      2.492539,
+      0.229399,
+      0.14844,
+      0.910024,
+      0.794222,
+      -0.250528,
+      -0.167823,
+      -0.138342,
+      -3.268879,
+      -3.724328,
+      0.825758,
+      0.516866,
+      2.113911,
+      -0.684683,
+      -0.41095,
+      -0.702947,
+      -0.039379
+    ],
+    "prediction_count": {
+      "min": 7,
+      "max": 7,
+      "mean": 7.0
+    }
+  },
+  "comparison": {
+    "raw_h2_logistic": {
+      "auc": 0.911255,
+      "asr": 0.851562,
+      "tpr_at_1pct_fpr": 0.113281,
+      "tpr_at_0_1pct_fpr": 0.0,
+      "member_score_mean": 0.737363,
+      "nonmember_score_mean": 0.263165
+    },
+    "lowpass_h2_logistic": {
+      "auc": 0.896698,
+      "asr": 0.828125,
+      "tpr_at_1pct_fpr": 0.09375,
+      "tpr_at_0_1pct_fpr": 0.0625,
+      "member_score_mean": 0.727362,
+      "nonmember_score_mean": 0.273117
+    },
+    "output_cloud_minus_raw_h2": {
+      "auc": 0.044937,
+      "asr": 0.044922,
+      "tpr_at_1pct_fpr": 0.171875,
+      "tpr_at_0_1pct_fpr": 0.109375
+    },
+    "output_cloud_minus_lowpass_h2": {
+      "auc": 0.059494,
+      "asr": 0.068359,
+      "tpr_at_1pct_fpr": 0.191406,
+      "tpr_at_0_1pct_fpr": 0.046875
+    }
+  },
+  "decision_gate": {
+    "uses_only_output_output_geometry": true,
+    "does_not_generate_new_responses": true,
+    "nonzero_strict_tail": true,
+    "beats_best_simple_low_fpr": true,
+    "reopen_allowed": false,
+    "requires_reseeded_or_interleaved_cache_before_promotion": true
+  },
+  "verdict": "candidate_complementary_output_cloud_geometry",
+  "notes": [
+    "This is a CPU-only scorer review on an existing H2 response cache.",
+    "It intentionally excludes seed-to-output distance features so it cannot collapse back into H2 simple distance.",
+    "A positive result is candidate-only until reseeded or interleaved response-cache controls rule out class-ordered sampling effects.",
+    "Do not expand this cache into KDE, shadow density, repeat-count, or same-cache feature sweeps."
+  ]
+}
