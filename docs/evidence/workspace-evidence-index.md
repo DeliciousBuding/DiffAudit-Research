@@ -5,6 +5,16 @@ This index separates current track state from archived research history.
 ## Current Track State
 
 Latest Research update:
+[rediffuse-stl10-sima-score-norm-20260525.md](rediffuse-stl10-sima-score-norm-20260525.md)
+records a one-pass SimA-style denoiser-output score-norm scorer on the existing
+ReDiffuse DDPM/STL-10 `300`-step checkpoint and the same `256 / 256` score split.
+It ran without training or downloads, completed in `15.938s` with `0.365 GB`
+peak allocated VRAM, and remained random-level (`AUC = 0.5052947998046875`,
+`ASR = 0.525390625`, `TPR@1%FPR = 0.03125`,
+`TPR@0.1%FPR = 0.01953125`). Decision: `bounded scorer completed / weak
+score-norm signal / no GPU expansion`.
+
+Previous Research update:
 [rediffuse-stl10-bounded-scout-20260525.md](rediffuse-stl10-bounded-scout-20260525.md)
 records the only ReDiffuse DDPM/STL-10 bounded scout released by the preflight.
 The run trained a `300`-step official ReDiffuse DDPM tiny target on `1024`
