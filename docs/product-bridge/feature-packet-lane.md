@@ -4,9 +4,15 @@
 
 ## 背景
 
-DiffAudit 当前 Platform/Runtime 仅消费黑盒响应合约证据（查询图像 → 生成响应 → 逐样本评分）。
-但扩散模型成员推断的研究面不仅限于黑盒——灰盒和白盒场景下，内部特征（梯度、轨迹、激活）
-同样携带成员信号。
+DiffAudit 当前 Platform/Runtime 的已准入 bundle 不是 black-box-only：现有五行同时包含
+black-box `recon`、gray-box `PIA baseline` / `PIA defended`，以及 white-box `GSA` /
+`DPDM W-1`。这些行之所以可被消费，是因为它们已经有各自已审查的 schema、固定工件、
+验证脚本和产品边界。
+
+Feature-packet 线路要解决的是另一类消费语义：Research 预计算 feature tensor、分类器输出
+和聚合指标，Platform/Runtime 只能消费固定数据包及其边界说明，而不能把它当成黑盒查询响应、
+逐图像身份判断或现有五行 bundle 的自然扩展。扩散模型成员推断的研究面不仅限于黑盒——灰盒和
+白盒场景下，内部特征（梯度、轨迹、激活）同样携带成员信号。
 
 灰盒 feature-packet 候选消费者线路用于定义未来可能的 Platform/Runtime 消费边界。
 截至 2026-05-25，它不是已准入消费通道，也不会因为 Tracing the Roots 单例立刻开通。
