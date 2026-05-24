@@ -28,7 +28,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
 
-- Active work: `2026-05-25 ReDiffuse DDPM/STL-10 bounded scout is the latest roadmap operating-system update. The official STL-10 split is exact and public, and the local pipeline produced a short-target checkpoint plus 256 / 256 score packet, but fixed-timestep denoising-loss is random-level: AUC = 0.4996337890625, ASR = 0.509765625, TPR@1%FPR = 0.01171875, TPR@0.1%FPR = 0.0. This is scoreable negative evidence, not a second asset, not a full-paper reproduction, and not an admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after ReDiffuse STL-10 bounded scout weak result.`
+- Active work: `2026-05-25 ReDiffuse DDPM/STL-10 bounded scout plus SimA-style score-norm one-pass scorer are the latest roadmap operating-system update. The official STL-10 split is exact and public, and the local pipeline produced a short-target checkpoint plus 256 / 256 score packet, but fixed-timestep denoising-loss is random-level: AUC = 0.4996337890625, ASR = 0.509765625, TPR@1%FPR = 0.01171875, TPR@0.1%FPR = 0.0. The same checkpoint and split also failed a different denoiser-output norm observable: AUC = 0.5052947998046875, ASR = 0.525390625, TPR@1%FPR = 0.03125, TPR@0.1%FPR = 0.01953125. This is scoreable negative evidence, not a second asset, not a full-paper reproduction, and not an admitted row. active_gpu_question = none; next_gpu_candidate = none; CPU sidecar = none selected after ReDiffuse STL-10 denoising-loss and score-norm weak results.`
 - Next GPU candidate: none selected
 - Long-horizon control: follow `ROADMAP.md` section
   `Long-Horizon Research Task Board（2026-05-13 起）` before reopening any
@@ -553,16 +553,19 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   package it as a black-box/conditional response-contract candidate unless a
   separate reproducibility-maintenance task explicitly reopens admitted GSA
   provenance.
-- ReDiffuse STL-10 is closed after the one bounded DDPM/STL-10 scout. The
+- ReDiffuse STL-10 is closed after the bounded DDPM/STL-10 scout and one
+  SimA-style score-norm scoring pass. The
   official OpenReview split binds cleanly to STL-10, and the local pipeline is
   executable, but the `300`-step short target with fixed-timestep denoising-loss
-  produced random-level membership metrics (`AUC = 0.4996337890625`). This still
-  has no third-party trained checkpoint, generated response/feature cache,
-  strong score packet, ROC CSV, or admitted metric artifact. Do not expand into
-  step-count, seed, timestep, batch-size, subset-size, EMA, scheduler,
-  denoising-loss, full DDPM/DiT/Stable Diffusion training, `800k`-step jobs,
-  Tiny-ImageNet downloads, Stable Diffusion downloads, or same-family
-  attack-script sweeps by default.
+  produced random-level membership metrics (`AUC = 0.4996337890625`), and the
+  same checkpoint/split with `score = -L4_norm(model_epsilon_prediction_at_t100)`
+  also remained random-level (`AUC = 0.5052947998046875`). This still has no
+  third-party trained checkpoint, generated response/feature cache, strong score
+  packet, ROC CSV, or admitted metric artifact. Do not expand into step-count,
+  seed, timestep, batch-size, subset-size, EMA, scheduler, denoising-loss,
+  score-norm, checkpoint-step, fusion, full DDPM/DiT/Stable Diffusion training,
+  `800k`-step jobs, Tiny-ImageNet downloads, Stable Diffusion downloads, or
+  same-family attack-script sweeps by default.
 - `YuxinWenRick/diffusion_memorization` is closed as memorization semantic-shift
   watch. It has a real `500`-row `sdv1_500_memorized.jsonl` prompt manifest, but
   the ground-truth image package is `2.60G`, `CompVis/stable-diffusion-v1-4` is
@@ -649,7 +652,7 @@ Default behavior after a blocked or candidate-only verdict:
 
 Current strategic correction:
 
-- ReDiffuse target training/checkpoint-portability repeats, I-B target-risk
+- ReDiffuse target training/checkpoint-portability/score-norm repeats, I-B target-risk
   remap training, I-B GSA-only preflight expansion without PIA/contract
   approval, I-C translated replay,
   diagonal-Fisher repeats, GSA loss-score LR repeats, and mid-frequency

@@ -97,6 +97,9 @@
 | [recon-product-validation-contract.md](recon-product-validation-contract.md) | 下一个 recon 产品可消费验证数据包的 CPU 合约。 |
 | [recon-product-validation-result.md](recon-product-validation-result.md) | 有边界的 recon 产品验证重新运行与指标来源边界。 |
 | [recon-tail-confidence-review.md](recon-tail-confidence-review.md) | 已确认 recon 严格尾部指标的有限样本置信度审查。 |
+| [rediffuse-stl10-sima-score-norm-20260525.md](rediffuse-stl10-sima-score-norm-20260525.md) | ReDiffuse STL-10 短目标上的 SimA-style 去噪器输出范数单次评分；结果弱，不释放 GPU 扩展。 |
+| [rediffuse-stl10-bounded-scout-20260525.md](rediffuse-stl10-bounded-scout-20260525.md) | ReDiffuse STL-10 官方 DDPM 短目标有界 scout；固定 timestep denoising-loss 结果随机级。 |
+| [rediffuse-stl10-split-and-microtrain-preflight-20260525.md](rediffuse-stl10-split-and-microtrain-preflight-20260525.md) | ReDiffuse STL-10 split、低层统计和 CUDA 微训练预检。 |
 | [rediffuse-collaborator-integration-report.md](rediffuse-collaborator-integration-report.md) | 合作者 ReDiffuse 包与 750k checkpoint 的录入和运行时集成报告。 |
 | [rediffuse-collaborator-bundle-intake.md](rediffuse-collaborator-bundle-intake.md) | 合作者 ReDiffuse 包的资产级录入记录。 |
 | [rediffuse-runtime-smoke-result.md](rediffuse-runtime-smoke-result.md) | ReDiffuse 适配器的 CPU 与 CUDA 兼容性 smoke 结果。 |
