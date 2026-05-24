@@ -28,6 +28,14 @@ class ValidateAttackDefenseTableTests(unittest.TestCase):
 
         self.assertEqual(exit_code, 0)
 
+    def test_legacy_root_attack_defense_table_copy_is_absent(self) -> None:
+        research_root = Path(__file__).resolve().parents[1]
+
+        self.assertFalse(
+            (research_root / "workspaces" / "implementation" / "unified-attack-defense-table.json").exists(),
+            "Use workspaces/implementation/artifacts/unified-attack-defense-table.json as the only active table",
+        )
+
     def test_project_table_promotes_latest_gsa_rerun_as_mainline(self) -> None:
         research_root = Path(__file__).resolve().parents[1]
         payload = json.loads(
