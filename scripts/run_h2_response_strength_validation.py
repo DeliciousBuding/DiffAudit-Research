@@ -62,6 +62,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bootstrap-iters", type=int, default=200)
     parser.add_argument("--frequency-cutoff", type=float, default=0.5)
     parser.add_argument("--primary-scorer", choices=PRIMARY_SCORERS, default="raw_h2_logistic")
+    parser.add_argument(
+        "--seed-offset-policy",
+        choices=("class-ordered", "shared-position"),
+        default="class-ordered",
+        help=(
+            "class-ordered preserves the original member/nonmember contiguous seed offsets; "
+            "shared-position uses the same per-position seed sequence for both classes as an order-control scout."
+        ),
+    )
     parser.add_argument("--no-save-responses", action="store_true")
     return parser.parse_args()
 
@@ -79,6 +88,16 @@ def _validate_args(args: argparse.Namespace) -> list[int]:
     if sorted(timesteps) != timesteps or len(set(timesteps)) != len(timesteps):
         raise ValueError("--timesteps must be sorted unique values")
     return timesteps
+
+
+def seed_offsets_for_policy(policy: str, *, member_count: int) -> tuple[int, int]:
+    """Return member and nonmember seed offsets for the requested control policy."""
+
+    if policy == "class-ordered":
+        return 0, int(member_count)
+    if policy == "shared-position":
+        return 0, 0
+    raise ValueError(f"Unknown seed offset policy: {policy}")
 
 
 def main() -> int:
@@ -127,6 +146,10 @@ def main() -> int:
             packet_indices=nonmember_indices,
             batch_size=args.batch_size,
         )
+        member_seed_offset, nonmember_seed_offset = seed_offsets_for_policy(
+            args.seed_offset_policy,
+            member_count=len(member_indices),
+        )
 
         member_inputs, member_responses, member_distances = collect_strength_responses(
             model,
@@ -137,7 +160,7 @@ def main() -> int:
             repeats=args.repeats,
             denoise_stride=args.denoise_stride,
             seed=args.seed,
-            sample_offset=0,
+            sample_offset=member_seed_offset,
         )
         nonmember_inputs, nonmember_responses, nonmember_distances = collect_strength_responses(
             model,
@@ -148,7 +171,7 @@ def main() -> int:
             repeats=args.repeats,
             denoise_stride=args.denoise_stride,
             seed=args.seed,
-            sample_offset=len(member_indices),
+            sample_offset=nonmember_seed_offset,
         )
 
         labels = np.concatenate(
@@ -216,6 +239,7 @@ def main() -> int:
             raw_best_simple_auc=raw_best_simple_auc,
         )
         validation_passed = bool(validation_gate["validation_passed"])
+        is_order_control_scout = args.seed_offset_policy != "class-ordered"
         summary = {
             "status": "ready",
             "task": "H2 response-strength validation",
@@ -235,6 +259,9 @@ def main() -> int:
                 "repeats": int(args.repeats),
                 "denoise_stride": int(args.denoise_stride),
                 "seed": int(args.seed),
+                "seed_offset_policy": args.seed_offset_policy,
+                "member_seed_offset": int(member_seed_offset),
+                "nonmember_seed_offset": int(nonmember_seed_offset),
                 "frequency_cutoff": float(args.frequency_cutoff),
                 "primary_scorer": args.primary_scorer,
             },
@@ -257,11 +284,19 @@ def main() -> int:
                 "validation_gate": validation_gate,
                 "validation_passed": bool(validation_passed),
                 "promotion_allowed": False,
+                "order_control_scout": bool(is_order_control_scout),
             },
-            "verdict": "positive but bounded validation" if validation_passed else "negative but useful",
+            "verdict": (
+                "order-control scout generated"
+                if is_order_control_scout
+                else "positive but bounded validation"
+                if validation_passed
+                else "negative but useful"
+            ),
             "notes": [
                 "This runner is a stable successor to archived H2 X-run scripts.",
                 "A positive result remains candidate evidence until cross-asset or stronger black-box comparator review.",
+                "Non-default seed offset policies are control-cache scouts only and do not admit a Runtime job.",
             ],
         }
     except Exception as exc:
