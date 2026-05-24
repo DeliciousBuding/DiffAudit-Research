@@ -2,6 +2,31 @@
 
 > Last updated: 2026-05-25
 
+## 2026-05-25 LeakyCLIP CLIP-inversion 边界门控
+
+最新决策：`dongdongunique/LeakyCLIP` 是一个真实的官方代码公开面，但它不是当前
+DiffAudit 的扩散模型 membership target。该工作审计对象是 CLIP，Stable Diffusion
+只作为可选 refinement 阶段出现；因此它是 multimodal privacy / CLIP inversion
+watch-plus，而不是第二扩散资产、不是准入行，也不释放模型/数据下载或 GPU。
+
+已完成的 metadata-only 门控：arXiv `2508.00756v4`，GitHub 默认分支 `main`，
+仓库 pushed `2026-02-27T08:12:16Z`，updated `2026-05-11T07:59:31Z`，`0`
+releases，`0` tags。公开树包含 CLIP inversion、embedding alignment、Stable
+Diffusion refinement、metrics、configs 和 scripts，但没有 frozen CLIP/SDXL/VAE
+hashes、immutable member/nonmember manifests、generated reconstruction packet、
+per-row membership score file、ROC array、metric JSON、trained alignment weights
+或 no-training verifier。
+
+因此当前 slots 仍为：
+`active_gpu_question = none`，`next_gpu_candidate = none`，
+`CPU sidecar = none selected after LeakyCLIP CLIP-inversion boundary gate`。
+
+不要下载 CLIP、robust CLIP、SDXL、VAE、SSCD、LAION、Flickr、LFW、Furniture
+或 generated reconstructions；不要运行 LeakyCLIP inversion/refinement/metrics。
+只有未来出现 row-bound replay artifacts，且 DiffAudit 明确开通 CLIP / multimodal
+privacy consumer boundary 时，才重新评估。See
+[docs/evidence/leakyclip-clip-inversion-boundary-gate-20260525.md](docs/evidence/leakyclip-clip-inversion-boundary-gate-20260525.md)。
+
 ## 2026-05-25 ReDiffuse STL-10 bounded scout 与 score-norm 结果
 
 最新决策：ReDiffuse DDPM/STL-10 的唯一有界训练 scout 和一个不同 observable 的
