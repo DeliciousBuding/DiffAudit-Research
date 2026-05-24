@@ -103,8 +103,10 @@ Current evidence:
 No gray-box GPU task is running. Keep `PIA` as the admitted gray-box line with
 bounded adaptive and finite low-FPR caveats. Keep SecMI as a strong hardened
 supporting reference, not a Platform/Runtime row. ReDiffuse is closed as
-candidate-only for now; do not run 800k or larger packets without a new scorer
-hypothesis and CPU preflight. CDI/TMIA-DM/PIA tri-score is closed as
+candidate-only for now: the STL-10 short target failed both fixed-timestep
+denoising-loss (`AUC = 0.4996337890625`) and SimA-style score-norm
+(`AUC = 0.5052947998046875`). Do not run 800k or larger packets without a new
+scorer hypothesis and CPU preflight. CDI/TMIA-DM/PIA tri-score is closed as
 positive-but-bounded internal evidence; do not run a larger same-contract
 tri-score packet.
 Do not reopen SIMA, Noise-as-Probe, MoFit, or Structural Memorization without
@@ -127,10 +129,16 @@ Canonical truth-hardening:
 
 ## GPU Policy
 
-No ReDiffuse GPU task is released.
+No ReDiffuse GPU task is released. The STL-10 short target is closed unless a
+public third-party checkpoint/score packet, materially different membership
+observable, or reviewed long-training budget with checkpoint/score publication
+contract appears.
 
 No tri-score GPU task is released. The next gray-box task must introduce a new
 scorer, surface, or falsifier before it can become CPU-active again.
+
+ReDiffuse STL-10 score-norm closure is tracked by
+[../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md](../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md).
 
 Fashion-MNIST SimA score-norm closure is tracked by
 [../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md).

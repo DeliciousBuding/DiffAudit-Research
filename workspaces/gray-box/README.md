@@ -6,7 +6,7 @@
 - 主要方法：`PIA` 是已准入的最强本地 DDPM/CIFAR10 灰盒审计线路。
 - 支撑参考：`SecMI` 经全划分审查后达到证据就绪状态，但仍在 Platform/Runtime 准入证据之外。其准入合约现已固化为仅 Research 支撑证据。
 - 防御参考：随机 dropout 是临时防御比较器，并非已验证的隐私保护。
-- 活跃候选：灰盒 CDI/TMIA-DM/PIA 三评分真实性加固是 CPU 优先且仅内部。ReDiffuse 750k 精确重放因 AUC 一般且严格尾部证据较弱而为仅候选；800k 仍被阻止。已归档的论文候选（SIMA、Noise-as-Probe、MoFit、Structural Memorization）已审查重新入场并保持在暂缓状态。
+- 活跃候选：灰盒 CDI/TMIA-DM/PIA 三评分真实性加固是 CPU 优先且仅内部。ReDiffuse 750k 精确重放因 AUC 一般且严格尾部证据较弱而为仅候选；800k 仍被阻止。ReDiffuse STL-10 短目标的固定 timestep denoising-loss 与 SimA-style score-norm 均随机级（`AUC = 0.4996337890625` 和 `0.5052947998046875`），不释放同路线扩展。已归档的论文候选（SIMA、Noise-as-Probe、MoFit、Structural Memorization）已审查重新入场并保持在暂缓状态。
 - Fashion-MNIST DDPM 状态：score-norm 和 score-Jacobian 敏感度侦察均较弱（`AUC = 0.515137` 和 `0.511719`，零低 FPR 恢复）；不要扩展时间步、`p`-范数、扰动尺度、种子、调度器、范数或包大小变体。
 - 官方 SimA 状态：代码公开观察加。上游发布定义了一个基于去噪器输出评分范数的独特攻击，但公开的划分清单、检查点、评分数组、ROC/度量工件和就绪验证器缺失；无 GPU 作业发布。
 - TMIA-DM 公共表层复查：仅 CRAD 论文/PDF。2026-05-15 关卡未发现官方代码、目标检查点、不可变划分清单、逐样本评分、ROC 数组、度量 JSON 或验证器输出；不要重新打开内部 TMIA-DM/三评分工作或从头实现时间噪声轨迹。
@@ -32,6 +32,9 @@
 
 当前官方 SimA 工件关卡：
 [../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md)。
+
+当前 ReDiffuse STL-10 score-norm 关闭：
+[../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md](../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md)。
 
 当前 TMIA-DM 公共表层复查：
 [../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md)。
