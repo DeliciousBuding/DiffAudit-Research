@@ -99,6 +99,13 @@ class-ordered sampling effect。
 如果需要推进，最多释放一个有界 order-control / reseeded / interleaved
 response-cache scout，用来判断该强信号是否跨 class-order 控制保留。
 
+当前允许的最小脚本改动仅限于生成这个控制 cache：
+`scripts/run_h2_response_strength_validation.py --seed-offset-policy shared-position`。
+该模式会让 member / nonmember 使用相同 per-position seed offset，并在
+`summary.json` 中标记 `order_control_scout = true`。它只用于重新评估
+class-ordered sampling effect，不代表 admission，也不得直接生成 Platform /
+Runtime row。
+
 ## Decision
 
 `candidate complementary signal / order-control required / no admitted row`。
