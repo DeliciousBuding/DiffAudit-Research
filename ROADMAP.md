@@ -32,9 +32,10 @@ scheduler 或 denoising-loss 矩阵。只有出现公开第三方 STL-10 checkpo
 
 ## 2026-05-25 ReDiffuse STL-10 split 与微训练预检
 
-最新决策：ReDiffuse DDPM/STL-10 线路从“仅 split-manifest 线索”升级为
-“可以释放一个有上限 scout 的候选”，但仍不是 membership metric、不是第二资产、
-也不是 Platform/Runtime 准入证据。
+历史预检结论：ReDiffuse DDPM/STL-10 线路曾从“仅 split-manifest 线索”升级为
+“可以释放一个有上限 scout 的候选”。该候选已由上方 2026-05-25 bounded scout
+结果覆盖；最新状态是 `active_gpu_question = none`，不是 membership metric、
+不是第二资产，也不是 Platform/Runtime 准入证据。
 
 已完成的判方向事实：
 
@@ -52,15 +53,11 @@ scheduler 或 denoising-loss 矩阵。只有出现公开第三方 STL-10 checkpo
   batch `4` / `20` steps 峰值 `0.833 GB`，batch `64` / `10` steps 峰值
   `4.419 GB`，均未保存 checkpoint、未采样、未产生 MIA 指标。
 
-因此当前 slots 改为：
-`active_gpu_question = ReDiffuse DDPM/STL-10 bounded scout`，
-`next_gpu_candidate = one bounded STL-10 DDPM pipeline scout only`，
-`CPU sidecar = none; split/statistics/resource preflight complete`。
-
-下一步只允许一个带硬上限的 scout：固定 hypothesis、命令、step/时间上限、显存 guard、
-checkpoint/output 位置和停止条件，目标是判断短程 STL-10 DDPM 是否能产生可 score 的
-attack packet。禁止直接跑 full-paper 训练、`800k` step、Tiny-ImageNet 下载、
-Stable Diffusion 下载或同路线超参矩阵。See
+该预检释放过且只释放过一个带硬上限的 scout：固定 hypothesis、命令、step/时间上限、
+显存 guard、checkpoint/output 位置和停止条件，目标是判断短程 STL-10 DDPM 是否能
+产生可 score 的 attack packet。这个 scout 已完成且结果随机级，因此禁止直接跑
+full-paper 训练、`800k` step、Tiny-ImageNet 下载、Stable Diffusion 下载或同路线
+超参矩阵。See
 [docs/evidence/rediffuse-stl10-split-and-microtrain-preflight-20260525.md](docs/evidence/rediffuse-stl10-split-and-microtrain-preflight-20260525.md)。
 
 ## 2026-05-25 Stable Diffusion ReDiffuse source-label 边界审计
@@ -122,7 +119,8 @@ target checkpoint、response/feature cache、score packet、ROC CSV 和 metric a
 划分清单，附 SHA-256 哈希，以及完整的 DDPM 训练和攻击代码。
 同时包含 CIFAR-100 和 Tiny-IN 划分清单。没有 checkpoint，但训练代码已包含在内。
 从零开始在 STL-10 上训练 DDPM 约需 4 GPU-小时（A100），本地 RTX 4070 笔记本约 8-12 小时。
-这是通往第二数据集面的最清晰路径。
+2026-05-25 的本地 bounded scout 已证明短程 fixed-timestep denoising-loss 线路随机级，
+所以它不再是当前通往第二数据集面的执行路径。
 
 ### 候选晋升评估
 
@@ -137,25 +135,26 @@ target checkpoint、response/feature cache、score packet、ROC CSV 和 metric a
 正式 6 关合约已保存至 `docs/evidence/second-asset-contract.md`：
 Target Identity → Split → Score → Metric → Provenance → Surface Delta。
 
-最可达路径：
-1. **ReDiffuse DDPM/STL-10**：同家族不同数据集。划分清单已存在。约 4 GPU-小时训练。
-2. **ReDiffuse DDPM/CIFAR-100**：同路径，CIFAR-100 划分也在补充材料中。
+历史上最可达路径：
+1. **ReDiffuse DDPM/STL-10**：同家族不同数据集。划分清单已存在，但 bounded scout 已关闭该短目标 denoising-loss 线路。
+2. **ReDiffuse DDPM/CIFAR-100**：同路径，CIFAR-100 划分也在补充材料中；没有公开 checkpoint/score packet 前不释放训练。
 3. **MT-MIA Relational Tabular**：18 个公开 score 包，但需要将范围扩展到表格模态。
 4. **Tracing the Roots feature-packet**：需要开通灰盒消费通道。
 
 ### 决策
 
-**立即执行**：下载 ReDiffuse 补充材料，提取 STL-10 划分，开始 CPU 侧预检。
-若划分语义验证通过，进入有界 GPU 训练。这将为 DiffAudit 提供首个真正的
-第二数据集面（DDPM/STL-10），具有可验证的第三方划分溯源。
+**2026-05-25 后续修正**：ReDiffuse 补充材料、STL-10 划分、CPU 侧预检和唯一
+bounded scout 已完成。该线路没有形成第二数据集面或准入证据；只有公开第三方
+STL-10 checkpoint/score packet、真正不同的 membership observable，或被明确批准的
+长训预算与 checkpoint/score 发布合约，才能重新开启。
 
 **中期**：决定 Tracing the Roots feature-packet 通道。若是，设计消费合约并准入。
 若否，作为 Research 侧参考关闭。
 2026-05-25 修正：feature-packet 通道仅定义为候选合约，Tracing the Roots 不进入现有
 Platform/Runtime 五行 admitted bundle；晋升必须另建 schema、bundle、validator、tests 和产品桥接交接。
 
-**ReDiffuse STL-10 路径之外不启动新的 GPU 实验。**
-`active_gpu_question = ReDiffuse DDPM/STL-10 preflight`
+**当前不启动新的 GPU 实验。**
+`active_gpu_question = none`，`next_gpu_candidate = none`
 
 ## 2026-05-23 Lane A Metadata Triage Sync
 
