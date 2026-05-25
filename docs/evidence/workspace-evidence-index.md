@@ -7,7 +7,8 @@ This index separates current track state from archived research history.
 Latest Research update:
 [h2-output-cloud-geometry-20260525.md](h2-output-cloud-geometry-20260525.md)
 records a metric verdict on the H2 response-strength cache plus bounded
-`256 / 256` shared-position order-control and seed-stability scouts.
+`256 / 256` shared-position order-control, seed-stability, and cross-cache
+transfer scouts.
 The output-output geometry scorer is a strong Research-side candidate
 (`AUC = 0.961529`, `TPR@1%FPR = 0.333984`,
 `TPR@0.1%FPR = 0.117188`) and is stable under seed `177`
@@ -18,10 +19,15 @@ The output-output geometry scorer is a strong Research-side candidate
 The same controlled boundary at seed `177` remains strong (`AUC = 0.956192`,
 `TPR@1%FPR = 0.285156`, `TPR@0.1%FPR = 0.109375`) with random-level label
 shuffle (`AUC = 0.484070`).
+The CPU-only fold-disjoint transfer review across the two shared-position
+caches is also strong: seed `176` -> seed `177` gives `AUC = 0.948990`,
+`TPR@1%FPR = 0.375000`, `TPR@0.1%FPR = 0.058594`; seed `177` -> seed `176`
+gives `AUC = 0.970520`, `TPR@1%FPR = 0.390625`,
+`TPR@0.1%FPR = 0.074219`; `mean_auc = 0.959755`.
 It is not admitted because this remains a Research-side H2 response-cache
 geometry candidate, not a second public asset or Platform/Runtime contract.
 Decision: `candidate complementary signal / order-control scout passed / seed-stable /
-no admitted row / no download / no 512/512 rerun selected`.
+cross-cache transfer strong / no admitted row / no download / no 512/512 rerun selected`.
 
 Previous Research update:
 [feature-packet-channel-consumer-verdict-20260525.md](feature-packet-channel-consumer-verdict-20260525.md)
@@ -233,12 +239,13 @@ Previous Research update:
 [discrete-dlm-withdrawn-artifact-gate-20260523.md](discrete-dlm-withdrawn-artifact-gate-20260523.md)
 records a Lane B/watch metadata gate for arXiv `2605.16445` /
 `Membership Inference Attacks on Discrete Diffusion Language Models`. The
-current arXiv record is withdrawn and has no current PDF; repository searches
-for the exact title and for `discrete diffusion language models membership
-inference` returned no GitHub repositories; code search for `2605.16445`
-returned no hits. Decision: `withdrawn arXiv / DLM paper-source-only / no
-official code / no artifact packet / no download / no GPU release / no
-admitted row`.
+current arXiv record is withdrawn and has no current PDF. A 2026-05-25 live
+refresh confirmed the abs page still says withdrawn / `No PDF available`, while
+`/pdf` and `/e-print` return `404`. Repository searches for the exact title,
+arXiv id, author, and topic terms returned no official GitHub repository; code
+search found only unrelated numeric-data hits or a paper-index JSON aggregator.
+Decision: `withdrawn arXiv / DLM paper-source-only / no official code / no
+artifact packet / no download / no GPU release / no admitted row`.
 
 Previous Research update:
 [workspaces/implementation/challenger-queue.md](../../workspaces/implementation/challenger-queue.md)

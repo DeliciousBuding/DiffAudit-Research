@@ -5,7 +5,8 @@
 ## 2026-05-25 H2 output-cloud geometry 候选信号
 
 最新决策：H2 response-strength 的 output-cloud geometry 是 Research-side 强候选，
-并且已通过有界 `256 / 256` shared-position order-control 和 seed-stability scout；
+并且已通过有界 `256 / 256` shared-position order-control、seed-stability scout
+和 cross-cache transfer review；
 但它仍不晋升、
 不释放产品消费、不扩展同 cache 特征工程，也不默认补跑完整 `512 / 512`
 shared-position。第一轮复查读取既有
@@ -33,11 +34,20 @@ logistic 仍为 `AUC = 0.967819`，`ASR = 0.923828`，
 `AUC = 0.956192`，`ASR = 0.896484`，`TPR@1%FPR = 0.285156`，
 `TPR@0.1%FPR = 0.109375`；label-shuffle 回到随机级 `AUC = 0.484070`。
 
+进一步的 CPU-only existing-cache transfer review 在两份 shared-position cache
+之间做 fold-disjoint 迁移：seed `176` -> seed `177` 为 `AUC = 0.948990`，
+`ASR = 0.884766`，`TPR@1%FPR = 0.375000`，`TPR@0.1%FPR = 0.058594`；
+seed `177` -> seed `176` 为 `AUC = 0.970520`，`ASR = 0.935547`，
+`TPR@1%FPR = 0.390625`，`TPR@0.1%FPR = 0.074219`。主结果不用
+same-sample all-train/all-test diagnostic；decision gate 为
+`mean_auc = 0.959755`，`min_tpr_at_1pct_fpr = 0.375000`，
+`min_tpr_at_0_1pct_fpr = 0.058594`。
+
 该结果只能作为 Research-side 强候选；下一步不是同 cache sweep，也不是为了补表格跑
 完整 `512 / 512` shared-position。重新打开只应基于正式机制晋升、第二公开资产或独立消费合约。
 当前 slots 仍为：
 `active_gpu_question = none`，`next_gpu_candidate = none`，
-`CPU sidecar = none selected after H2 output-cloud order-control seed-stability scout`。
+`CPU sidecar = none selected after H2 output-cloud cross-cache transfer review`。
 See
 [docs/evidence/h2-output-cloud-geometry-20260525.md](docs/evidence/h2-output-cloud-geometry-20260525.md)。
 
@@ -595,12 +605,15 @@ Language Model membership metrics, including MIMIR-domain mean `AUC = 0.878`,
 peak `AUC = 0.930` on Pile CC, and `K = 3` shadow-transfer mean `AUC = 0.858`,
 but those claims are abstract-only in the current withdrawn record.
 
-GitHub repository searches for the exact title and for `discrete diffusion
-language models membership inference` returned no repositories; code search
-for `2605.16445` returned no hits; and the local Research index had no prior
-record for this paper. Decision: `withdrawn arXiv / DLM paper-source-only / no
-official code / no artifact packet / no download / no GPU release / no
-admitted row`. Current slots remain `active_gpu_question = none`,
+The 2026-05-25 live refresh confirms this did not become an active executable
+candidate: the arXiv API still points to `2605.16445v2`, the abs page still says
+withdrawn and `No PDF available`, and `/pdf` plus `/e-print` return `404`.
+GitHub repository searches for the exact title, arXiv id, author, and topic
+terms returned no official repository. Code search found only unrelated numeric
+hits or a paper-index JSON aggregator, not implementation or artifacts.
+Decision: `withdrawn arXiv / DLM paper-source-only / no official code / no
+artifact packet / no download / no GPU release / no admitted row`. Current
+slots remain `active_gpu_question = none`,
 `next_gpu_candidate = none`, and
 `CPU sidecar = none selected after Discrete DLM withdrawn artifact gate`. This
 does not reopen the current image/latent-image Lane A asset search, and it does
@@ -1484,6 +1497,13 @@ filelists, a CIFAR HOLD config, and PIA-style attack code. They do not expose
 checkpoint-bound target artifacts, reusable member/nonmember score rows, ROC
 arrays, metric JSON, generated responses, or a ready verifier. AUROC/ROC paths
 are runtime/W&B outputs, not committed replay packets.
+
+The 2026-05-25 related-paper refresh checked arXiv `2605.19170` /
+`Reducing Diffusion Model Memorization with Higher Order Langevin Dynamics`.
+It is same-family HOLD memorization-mitigation context, not a new artifact
+surface: arXiv PDF/source are public, but exact-title, arXiv-id, and phrase
+GitHub repository searches returned no official repository, while code search
+found only unrelated course/index JSON entries.
 
 Decision: `defense-code-public / split-and-attack-code-present /
 score-artifacts-missing / no download / no GPU release / no admitted row`.
