@@ -31,6 +31,16 @@ not a bibliography; it is a claim-control ledger.
 | `docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md` | Public row-binding failure for CopyMark LAION-mi. |
 | `docs/evidence/midst-blending-plus-plus-scout-20260515.md` | Best MIDST result remains below reopen floor. |
 | `docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md` | Public SecMI-style support packet, not official quantile result. |
+| `docs/evidence/identity-focused-inference-extraction-artifact-gate-20260523.md` | Direction C metadata-only no-artifact row. |
+| `docs/evidence/rapta-admcd-copying-mitigation-artifact-gate-20260523.md` | Direction C metadata-only mitigation row. |
+| `docs/evidence/guard-surgical-mitigation-artifact-gate-20260523.md` | Direction C code-public no-packet row. |
+| `docs/evidence/baf-lora-parameter-space-mitigation-gate-20260523.md` | Direction C metadata-only LoRA mitigation row. |
+| `docs/evidence/broken-memories-artifact-gate-20260523.md` | Direction C metadata-only memorization row. |
+| `docs/evidence/iar-privacy-attacks-artifact-gate-20260523.md` | Direction C code-public cross-family row. |
+| `docs/evidence/silent-brush-artarena-artifact-gate-20260523.md` | Direction C metadata-only style-leakage row. |
+| `docs/evidence/trajectory-generation-privacy-artifact-gate-20260523.md` | Direction C metadata-only cross-domain row. |
+| `docs/evidence/model-will-tell-drc-artifact-gate-20260523.md` | Direction C metadata-only restoration-MIA row. |
+| `docs/evidence/discrete-dlm-withdrawn-artifact-gate-20260523.md` | Direction C withdrawn/no-artifact row. |
 | `references/materials/paper-index.md` | Literature positioning and internal reading map. |
 
 ## Forbidden Moves
@@ -43,3 +53,5 @@ not a bibliography; it is a claim-control ledger.
   contract actually attempted full paper reproduction.
 - Do not invent missing checkpoints, split manifests, p-values, confidence
   intervals, or references.
+- Do not present `data/artifact_corpus_v1.csv` as a complete literature survey;
+  it is a structured corpus from existing DiffAudit evidence notes.

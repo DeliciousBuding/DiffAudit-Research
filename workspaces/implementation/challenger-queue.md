@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Paperization active: papers/diffaudit-evidence-paper now contains a multi-direction paper portfolio, direction-specific version briefs, evidence bank, claim register, generated CSV/PDF figures, and a compiled 6-page IEEEtran draft; H2 output-cloud remains a strong Research-side case study, not admitted; no selected heavy CPU/GPU sidecar` |
+| Active work | `Paperization active: papers/diffaudit-evidence-paper now contains a multi-direction paper portfolio, direction-specific version briefs, evidence bank, claim register, generated CSV/PDF figures, a compiled 6-page IEEEtran draft, and Direction C v1 metadata corpus; H2 output-cloud remains a strong Research-side case study, not admitted; no selected heavy CPU/GPU sidecar` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | paper asset generation / metadata-only artifact-corpus expansion only |
@@ -102,6 +102,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   and [`../../papers/diffaudit-evidence-paper/versions/drafts/README.md`](../../papers/diffaudit-evidence-paper/versions/drafts/README.md),
   a metadata-only Direction C v0 corpus protocol under
   [`../../papers/diffaudit-evidence-paper/versions/direction-c-corpus-protocol.md`](../../papers/diffaudit-evidence-paper/versions/direction-c-corpus-protocol.md),
+  a structured Direction C v1 corpus under
+  [`../../papers/diffaudit-evidence-paper/versions/direction-c-corpus-v1.md`](../../papers/diffaudit-evidence-paper/versions/direction-c-corpus-v1.md)
+  and [`../../papers/diffaudit-evidence-paper/data/artifact_corpus_v1.csv`](../../papers/diffaudit-evidence-paper/data/artifact_corpus_v1.csv),
   research-team pitches, figure-generation script, CSV/PDF figure assets,
   IEEEtran `main.tex`, bibliography, build notes, and compiled 6-page
   `paper.pdf`.
@@ -112,15 +115,17 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 - `candidate tracks`: Direction A evidence-contracted auditing is primary;
   Direction B output-cloud geometry is a mechanism short/workshop candidate
   needing a second response asset for full-paper promotion; Direction C
-  reproducibility/claim-support can become a standalone measurement paper after
-  expanding a frozen metadata-only public artifact corpus; Direction D
+  reproducibility/claim-support now has a 21-row structured v1 corpus from
+  existing evidence notes, but still needs an independent fixed-search metadata
+  batch before standalone aggregate claims; Direction D
   consumer-boundary systems paper is later artifact/demo material and needs
   deployment, external-use, user-study, or report-drift evidence.
 - `next action`: Direction A has been expanded from the initial paper skeleton
   to a 6-page draft with stronger method, evidence-state, metric-replay,
   corpus-protocol, and artifact-release framing. Continue toward a fuller
   `6-8` page submission draft by improving venue framing and prose density;
-  expand Direction C beyond the frozen v0 corpus using metadata-only checks. Do not launch
+  use Direction C v1 for gate-matrix drafting, then expand with an independent
+  fixed-search metadata batch. Do not launch
   heavyweight model training or same-family sweeps for paper padding.
 - `stop rule`: every paper claim must pass `claim_register.md`; candidates and
   support-only rows must remain visually and textually distinct from admitted
