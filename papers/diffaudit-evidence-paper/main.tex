@@ -445,12 +445,18 @@ language that states who may use it and what caveat must accompany it. This is
 why admitted rows can coexist with stronger non-admitted candidates: admission
 is about reusable audit semantics, not only metric magnitude.
 
-Table~\ref{tab:admitted} summarizes the admitted rows. Each row is consumed with
-its cost and limitation language; none is treated as a universal benchmark.
+Table~\ref{tab:admitted} summarizes the admitted rows. The bundle is
+deliberately heterogeneous: the black-box row is a consumer-facing
+reconstruction-risk proof, the gray-box rows measure trajectory-statistic risk
+and a provisional defense delta, and the white-box rows bound attack and defense
+extremes. Their shared unit is the admitted evidence contract, not a common
+attack family or leaderboard rank. Each row is consumed with its cost and
+limitation language.
 
 \begin{table*}[t]
 \centering
-\caption{Admitted DiffAudit evidence rows.}
+\caption{Admitted DiffAudit evidence rows. Rows share an evidence contract, not
+a homogeneous threat model or benchmark leaderboard.}
 \label{tab:admitted}
 \begin{tabular}{llrrrrl}
 \toprule
