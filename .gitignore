@@ -152,6 +152,7 @@ workspaces/**/artifacts/**
 !workspaces/black-box/artifacts/h2-output-cloud-geometry-class-ordered-subset-256-20260525.json
 !workspaces/black-box/artifacts/h2-output-cloud-geometry-class-ordered-subset-256-label-shuffle-20260525.json
 !workspaces/black-box/artifacts/h2-output-cloud-transfer-shared-position-256-20260525.json
+!workspaces/black-box/artifacts/h2-img2img-output-cloud-portability-20260525.json
 !workspaces/black-box/artifacts/beans-lora-member-denoising-loss-scout-20260513.json
 !workspaces/black-box/artifacts/clid-image-identity-boundary-20260511.json
 !workspaces/black-box/artifacts/midfreq-same-noise-residual-cache-audit-20260512.json
