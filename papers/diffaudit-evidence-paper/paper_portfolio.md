@@ -28,10 +28,10 @@ plausible route or motivate a sharper research question.
 
 | Field | Plan |
 | --- | --- |
-| Working title | Membership Signals in Diffusion Response Clouds |
+| Working title | Output-Cloud Geometry in a Controlled H2 Diffusion Response Family |
 | Team | Mechanism team: opus for hypothesis and validity threats, haiku for bounded scorer/control scripts, sonnet for visual explanation of response-cloud features |
 | Venue fit | ML security workshop or short paper now; full CCF-B only if a second independent response asset appears |
-| Thesis | Repeated diffusion responses contain output-output geometric signatures that are not reducible to seed-to-output distance, and these signatures survive seed-offset controls on H2 response caches. |
+| Thesis | The audited H2 repeated-response cache contains output-output geometric signatures that are not reducible to seed-to-output distance, and these signatures survive same-family seed-offset controls. |
 | Core contributions | Output-cloud feature family; label-shuffle sanity; shared-position order-control; seed-stability and cross-cache transfer; img2img portability failure as a boundary result. |
 | Main figures | Feature schematic; raw/lowpass/output-cloud comparison; seed/control/label-shuffle bars; portability failure panel. |
 | Extra work needed | A second independent image-diffusion asset or a stronger non-H2 response contract. Without that, write it only as a mechanism short paper with portability failure central. |
@@ -47,8 +47,8 @@ plausible route or motivate a sharper research question.
 | Thesis | Public diffusion MIA artifacts often support some research claim, but not necessarily a portable, row-bound, consumer-safe audit claim. The paper measures artifact availability, scoreability, reproducibility, and auditability as distinct states. |
 | Core contributions | Six-gate second-asset contract; audited candidate corpus; bounded replays/scouts for ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps. |
 | Main figures | Candidate gate heatmap; weak-signal scatter; source-confounding example; artifact availability taxonomy. |
-| Extra work needed | Expand the candidate corpus with a fixed metadata-only search protocol, artifact strata, and at least 10-20 public surfaces; avoid relying only on current project history. |
-| Risk | Needs careful methodology to avoid appearing as anecdotal project notes. |
+| Extra work needed | Run gate-label consistency review over the 21-row v1 corpus plus the 2026-05-26 fixed-search batch; add one broader fixed-source pass only if targeting a standalone reproducibility paper. |
+| Risk | Needs careful methodology to avoid appearing as anecdotal project notes or field-wide prevalence claims. |
 
 ## Direction D: Consumer-Boundary Systems Paper
 
@@ -60,16 +60,18 @@ plausible route or motivate a sharper research question.
 | Thesis | Privacy audit outputs should be consumed only through machine-checkable bundles with boundary language, finite-tail interpretation, and provenance constraints. |
 | Core contributions | Admitted evidence bundle schema; public-surface checks; finite empirical tail semantics; Platform/Runtime bridge; drift/audit validation. |
 | Main figures | Bundle schema; pipeline from experiment to runtime report; consumer drift checks; example risk card. |
-| Extra work needed | Deployment/user-study evidence or external adopter scenario. |
+| Extra work needed | Deployment/user-study evidence, external adopter scenario, or report-drift/fault-injection evidence. |
 | Risk | Too product/system oriented for a mainline research venue unless tied tightly to measurement correctness. |
 
 ## Immediate Choice
 
 Direction A is the best first manuscript because it can honestly absorb all
 current evidence without overclaiming. Direction B is the strongest technical
-mechanism but needs a second asset. Direction C is publishable if expanded into
-a broader reproducibility corpus. Direction D is best as an artifact/demo paper
-after Direction A defines the scientific contract.
+mechanism but needs a second asset or explicit short-paper scope. Direction C
+now has a fixed-search batch, but still needs gate-label consistency before
+standalone aggregate claims. Direction D is best as an artifact/demo paper
+after Direction A defines the scientific contract and report-drift or
+external-use evidence exists.
 
 ## Version Briefs
 
@@ -81,6 +83,7 @@ The direction-specific writing briefs are now the active comparison layer:
 | B | [`versions/direction-b-output-cloud-geometry.md`](versions/direction-b-output-cloud-geometry.md) |
 | C | [`versions/direction-c-artifact-reproducibility.md`](versions/direction-c-artifact-reproducibility.md) |
 | C corpus | [`versions/direction-c-corpus-protocol.md`](versions/direction-c-corpus-protocol.md) |
+| C fixed search | [`versions/direction-c-fixed-search-batch-20260526.md`](versions/direction-c-fixed-search-batch-20260526.md) |
 | D | [`versions/direction-d-audit-systems.md`](versions/direction-d-audit-systems.md) |
 
 The fuller manuscript-level drafts are indexed at

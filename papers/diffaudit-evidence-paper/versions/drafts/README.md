@@ -20,9 +20,9 @@ the go/no-go gate in its draft.
 | Draft | Research team | Intended paper | Current use |
 | --- | --- | --- | --- |
 | [`direction-a-evidence-contract-paper.md`](direction-a-evidence-contract-paper.md) | Evidence Contract Team | Security/privacy measurement paper | Primary full-paper track. |
-| [`direction-b-output-cloud-short-paper.md`](direction-b-output-cloud-short-paper.md) | Response Geometry Team | Mechanism short/workshop paper | Strong case-study track, no full-paper portability claim yet. |
-| [`direction-c-artifact-reproducibility-paper.md`](direction-c-artifact-reproducibility-paper.md) | Artifact Reproducibility Team | Claim-support reproducibility/measurement paper | Promote after metadata-only corpus expansion. |
-| [`direction-d-audit-systems-paper.md`](direction-d-audit-systems-paper.md) | Audit Systems Team | Systems/artifact/demo paper | Hold until deployment or external-use evidence exists. |
+| [`direction-b-output-cloud-short-paper.md`](direction-b-output-cloud-short-paper.md) | Response Geometry Team | H2-limited mechanism short/workshop paper | Strong case-study track, no full-paper portability claim yet. |
+| [`direction-c-artifact-reproducibility-paper.md`](direction-c-artifact-reproducibility-paper.md) | Artifact Reproducibility Team | Claim-support reproducibility/measurement paper | v1 plus fixed-search batch exist; next need gate-label consistency. |
+| [`direction-d-audit-systems-paper.md`](direction-d-audit-systems-paper.md) | Audit Systems Team | Downstream systems/artifact/demo paper | Hold until deployment, report-drift, or external-use evidence exists. |
 
 ## Global Guardrails
 
