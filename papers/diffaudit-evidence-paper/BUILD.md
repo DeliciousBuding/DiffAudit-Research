@@ -3,7 +3,7 @@
 ## Generate Figures
 
 ```powershell
-& 'C:\Users\Ding\miniforge3\envs\diffaudit-research\python.exe' -X utf8 .\scripts\build_paper_assets.py
+python -X utf8 .\scripts\build_paper_assets.py
 ```
 
 This rebuilds:
