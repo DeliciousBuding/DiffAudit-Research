@@ -16,17 +16,19 @@
 
 \begin{abstract}
 Membership inference against diffusion models is often reported as a scalar
-score, yet a deployable privacy audit needs more than a high AUC. The score
-must be tied to a fixed target model, a member/nonmember split, row-level score
-or response coverage, reproducible metrics, provenance, and a clear consumer
-boundary. We present DiffAudit, an evidence-contracted audit methodology for
+score, yet a deployable privacy audit needs more than a high AUC. We treat the
+measurement unit as a claim-bound evidence packet: a fixed target model,
+member/nonmember semantics, row-level score or response coverage, metric
+provenance, consumer boundary, and surface-delta evidence for portability.
+We present DiffAudit, an evidence-contracted audit methodology for
 diffusion-model membership leakage. DiffAudit separates admitted evidence from
 research candidates and watch items, reports finite-tail low-FPR metrics with
-their packet denominators, and rejects attractive results whose artifacts do not
-support the claimed audit semantics. On the current evidence bundle, DiffAudit
-admits five cross-permission rows spanning black-box reconstruction risk,
-gray-box PIA, a stochastic-dropout comparator, white-box GSA, and a DPDM
-defense comparator. We also report a controlled H2 response-cloud case study:
+their packet denominators, and leaves attractive results non-admitted when
+their artifacts do not support the claimed audit semantics. On the current
+evidence bundle, DiffAudit admits five cross-permission rows spanning black-box
+reconstruction risk, gray-box PIA, a stochastic-dropout comparator, white-box
+GSA, and a DPDM defense comparator. We also report a controlled H2
+response-cloud case study:
 an output-output geometry scorer reaches AUC 0.9615 on an existing response
 cache and survives label-shuffle, seed-offset control, seed-stability, and
 cross-cache transfer checks, but fails to cleanly port to an SD/CelebA img2img
@@ -34,8 +36,8 @@ contract. Finally, bounded scouts and a frozen metadata-only search batch over
 GitHub and arXiv show why second-asset claims require artifact contracts rather
 than metric prose: 17 fixed-search rows add selection-process evidence but no
 new admitted audit row. DiffAudit is therefore a measurement framework: it
-exposes verified leakage where evidence supports it and prevents unverified
-portability claims where the public artifact surface is incomplete.
+exposes verified leakage where evidence supports it and marks portability
+claims as non-admitted where the public artifact surface is incomplete.
 \end{abstract}
 
 \section{Introduction}
@@ -52,15 +54,15 @@ was audited, what row IDs define members and nonmembers, whether scores exist
 per sample, how low-FPR tails should be interpreted, and which claims are
 blocked by missing artifacts.
 
-DiffAudit is built around this distinction. We treat a membership score as
-admissible only when it is connected to an evidence contract. The contract
-records target identity, split semantics, score or response coverage, metric
-provenance, consumer boundary, and the surface delta needed for portability
-claims. This paper argues that such evidence contracts are not paperwork; they
-are scientific controls. They prevent source-label confounding, prompt-only
-shortcuts, finite-tail overclaiming, unsupported consumer promotion, and the
-common failure mode where a high-level metric cannot be replayed or consumed by
-a real audit system.
+DiffAudit is built around this distinction. We treat the measured object as an
+evidence packet, not as a method name or a single score. A packet is admissible
+only when it is connected to a contract that records target identity, split
+semantics, score or response coverage, metric provenance, consumer boundary,
+and the surface delta needed for portability claims. This paper argues that
+such evidence contracts are not paperwork; they are scientific controls. They
+expose source-label confounding, prompt-only shortcuts, finite-tail
+overclaiming, unsupported consumer promotion, and the common failure mode where
+a high-level metric cannot be replayed or consumed by a real audit system.
 
 The audit decision problem has three consumers. A model owner needs to know
 whether a deployed or released checkpoint creates measurable membership risk
@@ -88,9 +90,9 @@ positive feature tensors but no raw image-level consumer contract.
 The paper therefore makes the following contributions:
 
 \begin{itemize}
-\item We define an evidence-contracted methodology for diffusion membership
-auditing that separates admitted, candidate, support-only, watch, and negative
-evidence.
+\item We define the claim-bound evidence packet as the measurement unit for
+diffusion membership auditing and specify six gates that separate admitted,
+candidate, support-only, watch, and negative evidence.
 \item We report a five-row admitted evidence bundle with unified AUC, ASR,
 TPR@1\%FPR, TPR@0.1\%FPR, cost, provenance, and boundary language.
 \item We introduce and evaluate an output-cloud geometry case study that
