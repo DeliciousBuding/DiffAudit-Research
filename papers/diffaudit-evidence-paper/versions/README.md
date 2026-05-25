@@ -20,7 +20,7 @@ are met. The shared evidence boundary remains:
 | --- | --- | --- | --- |
 | A | Evidence Contract Team | Security/privacy measurement | Main manuscript now. |
 | B | Response Geometry Team | Mechanism short/workshop paper | Keep as second-track; needs second response asset for full paper. |
-| C | Artifact Reproducibility Team | Claim-support measurement paper | v0 corpus protocol frozen; expand metadata-only beyond project history. |
+| C | Artifact Reproducibility Team | Claim-support measurement paper | v0 protocol plus v1 structured metadata corpus; still needs independent fixed-search expansion before aggregate prevalence claims. |
 | D | Audit Systems Team | Systems/artifact paper | Hold until deployment, user-study, external-use, or report-drift evidence exists. |
 
 ## Manuscript Drafts
@@ -32,16 +32,24 @@ are met. The shared evidence boundary remains:
 | C | [`drafts/direction-c-artifact-reproducibility-paper.md`](drafts/direction-c-artifact-reproducibility-paper.md) |
 | D | [`drafts/direction-d-audit-systems-paper.md`](drafts/direction-d-audit-systems-paper.md) |
 
+## Direction C Corpus
+
+| Artifact | Purpose |
+| --- | --- |
+| [`direction-c-corpus-protocol.md`](direction-c-corpus-protocol.md) | Frozen v0 inclusion rule and six-gate protocol. |
+| [`direction-c-corpus-v1.md`](direction-c-corpus-v1.md) | Structured v1 metadata-only expansion from existing evidence notes. |
+| [`../data/artifact_corpus_v1.csv`](../data/artifact_corpus_v1.csv) | Machine-readable 21-row corpus table for gate-matrix and failure-taxonomy drafting. |
+
 ## Selection Matrix
 
 | Criterion | A: Evidence Contract | B: Output Cloud | C: Artifact Repro | D: Audit Systems |
 | --- | --- | --- | --- | --- |
 | Uses current evidence honestly | Strong | Medium | Medium | Medium |
 | Needs new model/data execution | Low | Medium-high | Low | Low |
-| CCF-B+ plausibility now | Medium | Low unless scoped as short paper | Medium if corpus is expanded under frozen protocol | Low-medium |
-| Biggest missing piece | Stronger venue framing and method detail | Second response asset | Broader frozen corpus beyond v0 | External/deployment evidence |
+| CCF-B+ plausibility now | Medium | Low unless scoped as short paper | Medium if v1 is followed by an independent fixed-search batch | Low-medium |
+| Biggest missing piece | Stronger venue framing and method detail | Second response asset | Independent fixed-search corpus beyond existing notes | External/deployment evidence |
 | Overclaiming risk | Medium | High | Medium | Medium |
-| Current action | Tighten `../main.tex` and add venue-grade corpus framing | Keep as case study or short-paper draft | Expand [`direction-c-corpus-protocol.md`](direction-c-corpus-protocol.md) metadata-only | Hold for artifact/demo |
+| Current action | Tighten `../main.tex` and add venue-grade corpus framing | Keep as case study or short-paper draft | Use v1 for gate-matrix drafting; next add independent fixed-search batch | Hold for artifact/demo |
 
 ## Team Assignment Rule
 
