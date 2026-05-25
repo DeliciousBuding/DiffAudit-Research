@@ -23,8 +23,8 @@
 Membership inference results for diffusion models are usually presented as
 scalar metrics, but audit evidence needs a stronger contract: fixed target
 identity, exact member and nonmember semantics, row-level score or response
-coverage, reproducible metrics, artifact provenance, and consumer-boundary
-language. We propose DiffAudit, an evidence-contracted methodology for
+coverage, reproducible metrics, consumer-boundary language, and surface-delta
+evidence. We propose DiffAudit, an evidence-contracted methodology for
 diffusion membership auditing. DiffAudit admits only rows that satisfy the
 contract, keeps promising signals as candidates when portability is not proven,
 and uses bounded negative results to rule out weak scientific routes. On the

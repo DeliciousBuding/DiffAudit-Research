@@ -5,7 +5,7 @@
 | Role | Owner | Responsibility |
 | --- | --- | --- |
 | Paper PI | opus | Controls thesis, venue fit, contribution language, and rebuttal posture. |
-| Evidence engineer | haiku | Verifies admitted-row metrics, finite-tail denominators, scripts, and artifact provenance. |
+| Evidence engineer | haiku | Verifies admitted-row metrics, finite-tail denominators, scripts, and evidence-source provenance. |
 | Figures editor | sonnet | Owns evidence-contract diagrams, bundle charts, and candidate/admitted visual separation. |
 | Internal area chair | opus | Blocks governance-only prose and unsupported generalization. |
 
@@ -23,8 +23,8 @@
 Membership inference results for diffusion models are often reported as scalar
 attack metrics, but a privacy audit needs more than a high AUC. It needs a
 contract tying each claim to a target identity, member and nonmember semantics,
-score or response coverage, metric provenance, artifact provenance, and
-consumer-boundary language. This paper introduces DiffAudit, an
+score or response coverage, metric provenance, consumer-boundary language, and
+surface-delta evidence. This paper introduces DiffAudit, an
 evidence-contracted methodology for diffusion membership leakage auditing. The
 method separates admitted audit evidence from candidate mechanisms,
 support-only packets, and bounded negative evidence. In the current bundle,
@@ -61,7 +61,7 @@ all have decision value when their boundaries are explicit.
 | --- | --- |
 | Introduction | Open with the gap between attack scores and audit evidence. Explain why high-AUC diffusion MIA results can be unusable when target identity, split semantics, row coverage, or consumer boundary are missing. |
 | Related Work | Position against classical MIA, diffusion MIA, image memorization/copying, and artifact reproducibility. The role is not to claim first attack, but to show why audit consumption needs a contract. |
-| Evidence Contract | Define target identity, split semantics, score/response coverage, metric provenance, artifact provenance, and consumer boundary. Include finite-tail language. |
+| Evidence Contract | Define target identity, split semantics, score/response coverage, metric provenance, consumer boundary, and surface delta. Include finite-tail language. |
 | Measurement Protocol | Explain admitted/candidate/support/blocked states; show how metrics are generated from existing JSON artifacts and why no candidate can bypass gates. |
 | Artifact Corpus | Introduce the current corpus as a controlled evidence set, then state its limits. Use Direction C expansion as future broadening, not as completed broad-literature proof. |
 | Admitted Bundle | Present five admitted rows with metrics, costs if available, access mode, and caveat. |

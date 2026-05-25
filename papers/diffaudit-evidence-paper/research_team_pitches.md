@@ -11,7 +11,7 @@
 | Venue fit | RAID or ACSAC as CCF-B security venues; IMC as measurement-style secondary target if the corpus is expanded. |
 | Core thesis | Diffusion-model privacy auditing is bottlenecked less by missing attacks than by unauditable evidence. Public claims often lack fixed target identity, exact member/nonmember splits, row-level scores, finite-tail interpretation, or consumer-safe provenance. |
 | Contribution claims | Audit evidence contract; taxonomy of verified/candidate/watch/blocked evidence; admitted black/gray/white-box rows; explicit prevention of high-scoring but unsafe candidates becoming headline claims. |
-| Minimum figures/tables | Evidence-gate table; admitted-vs-candidate table; audit pipeline figure; artifact-readiness funnel; case-study comparison with non-admitted labels. |
+| Minimum figures/tables | Evidence-gate table; admitted-vs-candidate table; audit pipeline figure; selected-corpus gate-summary figure; case-study comparison with non-admitted labels. |
 | Additional work | Lightweight measurement only: freeze candidate corpus, count gate-failure modes, recompute stored metric tables, and ensure every plotted point has row-level evidence. |
 | Fatal risks | Looks like internal governance unless artifact-readiness measurement is quantified; admitted rows remain narrow; local-only evidence may be challenged. |
 | Overclaiming guard | Claim auditability and evidence calibration, not SOTA attack performance. Always separate admitted/candidate/watch rows and report finite-tail denominators. |
@@ -45,8 +45,8 @@ symmetry reruns, repeat-count tuning, KDE variants, or input-distance fusion.
 | Venue fit | MLSys, NeurIPS Datasets and Benchmarks, SaTML, FAccT methods track; not a new attack paper. |
 | Core thesis | Public diffusion MIA artifacts often support some research claim, but not necessarily a portable, row-bound, consumer-safe audit claim. Artifact availability, scoreability, reproducibility, and auditability must be measured separately. |
 | Contribution claims | Six-gate second-asset contract; measurement audit across CLiD, Tracing Roots, ReDiffuse, CommonCanvas, MIDST, and Stable Diffusion ReDiffuse; taxonomy of failure modes; negative results as exclusion evidence. |
-| Figures/tables | Six-gate candidate matrix; result matrix; artifact funnel from paper claim to reusable evidence; signal-strength vs artifact-completeness map. |
-| Lightweight additional work | Use the 21-row v1 corpus plus the 2026-05-26 fixed-search batch; next run gate-label consistency review before writing aggregate claims. Add one broader fixed-source pass only for a standalone submission. |
+| Figures/tables | Six-gate candidate matrix; result matrix; selected-corpus gate-summary figure; artifact funnel from paper claim to reusable evidence; signal-strength vs artifact-completeness map. |
+| Lightweight additional work | Use the 21-row v1 corpus plus the 2026-05-26 fixed-search batch and generated gate-summary counts; next run gate-label consistency review before writing aggregate claims. Add one broader fixed-source pass only for a standalone submission. |
 | Fatal risks | Looks anecdotal unless candidate inclusion is preregistered; reviewers may ask for new SOTA performance; negative set can appear cherry-picked. |
 | Framing rule | Do not say papers fail. Say we measure what survives reusable, row-bound, low-FPR, consumer-safe constraints. |
 
@@ -54,11 +54,11 @@ symmetry reruns, repeat-count tuning, KDE variants, or input-distance fusion.
 
 The current primary manuscript should remain Team A's evidence-calibrated
 measurement paper. It can incorporate Team B as a technical case study and Team
-C as its broader reproducibility motivation. Team B becomes the next technical
-paper if a second response asset is acquired or if the scope is explicitly a
-short H2 case study. Team C becomes a standalone measurement paper if the
-artifact corpus passes consistency review and grows without field-wide
-overclaiming.
+C as its broader reproducibility motivation and selected-corpus gate summary.
+Team B becomes the next technical paper if a second response asset is acquired
+or if the scope is explicitly a short H2 case study. Team C becomes a standalone
+measurement paper if the artifact corpus passes consistency review and grows
+without field-wide overclaiming.
 
 ## Team D: Audit Systems and Consumer Boundary
 

@@ -20,7 +20,7 @@ are met. The shared evidence boundary remains:
 | --- | --- | --- | --- |
 | A | Evidence Contract Team | Security/privacy measurement | Main manuscript now. |
 | B | Response Geometry Team | Mechanism short/workshop paper | Keep as second-track; needs second response asset for full paper. |
-| C | Artifact Reproducibility Team | Claim-support measurement paper | v0 protocol plus v1 structured metadata corpus; still needs independent fixed-search expansion before aggregate prevalence claims. |
+| C | Artifact Reproducibility Team | Claim-support measurement paper | v1 corpus plus the 2026-05-26 fixed-search batch and gate summary exist; next gate-label consistency review before standalone aggregate claims. |
 | D | Audit Systems Team | Systems/artifact paper | Downstream brief only; hold until deployment, user-study, external-use, or report-drift evidence exists. |
 
 ## Manuscript Drafts
@@ -41,6 +41,9 @@ are met. The shared evidence boundary remains:
 | [`../data/artifact_corpus_v1.csv`](../data/artifact_corpus_v1.csv) | Machine-readable 21-row corpus table for gate-matrix and failure-taxonomy drafting. |
 | [`direction-c-fixed-search-batch-20260526.md`](direction-c-fixed-search-batch-20260526.md) | Independent fixed-search metadata batch over GitHub and arXiv. |
 | [`../data/artifact_corpus_fixed_search_20260526.csv`](../data/artifact_corpus_fixed_search_20260526.csv) | Machine-readable fixed-search batch table with inclusion, exclusion, and gate labels. |
+| [`../data/artifact_gate_summary.csv`](../data/artifact_gate_summary.csv) | Generated selected-corpus gate counts for Direction C claim-control framing; not prevalence evidence. |
+| [`../data/artifact_strata_summary.csv`](../data/artifact_strata_summary.csv) | Generated selected-corpus stratum and inclusion-decision counts. |
+| [`../figures/artifact_gate_summary.pdf`](../figures/artifact_gate_summary.pdf) | Generated gate-count figure for the active manuscript; selected-corpus only. |
 
 ## Selection Matrix
 
@@ -48,10 +51,10 @@ are met. The shared evidence boundary remains:
 | --- | --- | --- | --- | --- |
 | Uses current evidence honestly | Strong | Medium | Medium | Medium |
 | Needs new model/data execution | Low | Medium-high | Low | Low |
-| CCF-B+ plausibility now | Medium | Low unless scoped as short paper | Medium if v1 is followed by an independent fixed-search batch | Low-medium |
+| CCF-B+ plausibility now | Medium | Low unless scoped as short paper | Medium if gate-label consistency passes and claims stay selected-corpus only | Low-medium |
 | Biggest missing piece | Stronger venue framing and method detail | Second response asset | Gate-label consistency review and one broader fixed-source pass if aiming standalone | External/deployment evidence |
 | Overclaiming risk | Medium | High | Medium | Medium |
-| Current action | Tighten `../main.tex` and add venue-grade corpus framing | Keep as H2-limited short-paper draft | Use v1 plus fixed-search batch for gate-matrix drafting; next add consistency pass | Hold for artifact/demo |
+| Current action | Tighten `../main.tex` and add venue-grade corpus framing | Keep as H2-limited short-paper draft | Use v1, fixed-search, and gate-summary outputs for claim-control drafting; next add consistency pass | Hold for artifact/demo |
 
 ## Team Assignment Rule
 

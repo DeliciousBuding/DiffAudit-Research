@@ -55,11 +55,12 @@ blocked by missing artifacts.
 DiffAudit is built around this distinction. We treat a membership score as
 admissible only when it is connected to an evidence contract. The contract
 records target identity, split semantics, score or response coverage, metric
-provenance, artifact provenance, and the surface delta needed for portability
+provenance, consumer boundary, and the surface delta needed for portability
 claims. This paper argues that such evidence contracts are not paperwork; they
 are scientific controls. They prevent source-label confounding, prompt-only
-shortcuts, finite-tail overclaiming, and the common failure mode where a
-high-level metric cannot be replayed or consumed by a real audit system.
+shortcuts, finite-tail overclaiming, unsupported consumer promotion, and the
+common failure mode where a high-level metric cannot be replayed or consumed by
+a real audit system.
 
 The audit decision problem has three consumers. A model owner needs to know
 whether a deployed or released checkpoint creates measurable membership risk
@@ -179,10 +180,10 @@ checkpoint identity, training provenance, and accessibility. The split contract
 requires precise member and nonmember manifests. The score or response gate
 requires row-level coverage and labels. The metric gate requires AUC, ASR,
 TPR@1\%FPR, TPR@0.1\%FPR, nonmember denominator, and traceability to a score
-array or response packet. The provenance gate requires hashable or repository
-stored artifacts. The surface-delta gate checks whether a claimed second asset
-actually differs in model, data, modality, or response contract rather than
-repeating the same family.
+array or response packet. The consumer-boundary gate requires a stated consumer
+and allowed claim language. The surface-delta gate checks whether a claimed
+second asset actually differs in model, data, modality, or response contract
+rather than repeating the same family.
 
 The gates are intentionally stricter than ordinary artifact availability. A
 repository can contain code without a fixed target checkpoint, a checkpoint can
@@ -218,9 +219,9 @@ Gate & Question answered \\
 Target identity & Which model/checkpoint is being audited? \\
 Split semantics & Which rows are members and nonmembers? \\
 Score/response coverage & Is there row-level evidence for every sample? \\
-Metric provenance & Can headline metrics be traced to rows? \\
-Artifact provenance & Are artifacts hashable or repository-bound? \\
+Metric provenance & Can headline metrics be traced to rows or frozen responses? \\
 Consumer boundary & Who may consume the result and as what claim? \\
+Surface delta & Is a claimed second asset actually non-adjacent? \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -392,6 +393,28 @@ New admitted audit rows & 0 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/artifact_gate_summary.pdf}
+\caption{Gate-label counts for the selected v1 evidence-note corpus and the
+frozen 2026-05-26 fixed-search batch. Counts describe coded rows in these two
+corpora only; they are not field-wide prevalence estimates. The fixed-search
+batch produced no row passing the target, split, evidence, metric, or consumer
+boundary gate, so it supports claim control rather than a standalone
+reproducibility-prevalence claim.}
+\label{fig:artifact-gates}
+\end{figure*}
+
+Figure~\ref{fig:artifact-gates} makes the corpus boundary visible. The v1
+evidence-note corpus contains several scoreable or replayable rows, but most of
+those rows still stop at candidate, support-only, or negative roles once the
+consumer-boundary gate is applied. The fixed-search batch is stricter evidence
+against accidental promotion: metadata search found relevant papers and code
+surfaces, but no new row-bound public artifact that could become an admitted
+audit row. These counts are used only to support the paper's claim-control
+argument; a standalone artifact-reproducibility paper would need a larger frozen
+corpus and gate-label consistency review before making aggregate claims.
 
 \subsection{Artifact Strata}
 

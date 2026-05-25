@@ -34,3 +34,10 @@
 | MIDST Blending++ | AUC `0.598079`, TPR@1%FPR `0.095750` | Related/negative | Best MIDST signal remains below reopen floor. |
 | Tracing Roots feature packet | AUC `0.815826`, TPR@1%FPR `0.134000` | Support | Feature-packet only, not raw image audit. |
 | Collaborator SD ReDiffuse | AUC `0.710319`; source-only AUC `1.000000` | Support/negative | Cross-source confounding blocks same-distribution claim. |
+
+## Direction C Selected-Corpus Gate Counts
+
+| Corpus | Key readout | Paper role | Caveat |
+| --- | --- | --- | --- |
+| v1 evidence-note corpus | 21 coded rows; 10 rows pass score/response and metric gates; 1 row passes consumer-boundary gate. | Claim-control support for artifact-corpus framing. | Selected from existing DiffAudit evidence notes; not field-wide prevalence. |
+| 2026-05-26 fixed-search batch | 17 coded rows; no row passes target, split, score/response, metric, or consumer-boundary gate. | Metadata-only process trace showing no new admitted row in the frozen batch. | Small fixed-search batch; needs consistency review before standalone aggregate claims. |
