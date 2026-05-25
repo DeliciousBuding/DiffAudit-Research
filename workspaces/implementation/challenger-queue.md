@@ -1,6 +1,6 @@
 # Research Task Queue
 
-> Last refreshed: 2026-05-25
+> Last refreshed: 2026-05-26
 
 This file classifies future research tasks by status and priority. It is not a
 timeline. Historical run IDs and dated notes are in `legacy/`.
@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `H2 output-cloud geometry is a strong Research-side candidate after order-control, seed-stability, and cross-cache transfer reviews, but img2img portability is weak or unstable and it is not admitted; ReDiffuse STL-10 bounded denoising-loss and score-norm scouts are weak; feature-packet channel remains deferred; no selected CPU/GPU sidecar` |
+| Active work | `Paperization active: papers/diffaudit-evidence-paper now contains a multi-direction paper portfolio, direction-specific version briefs, evidence bank, claim register, generated CSV/PDF figures, and a compiled 5-page IEEEtran draft; H2 output-cloud remains a strong Research-side case study, not admitted; no selected heavy CPU/GPU sidecar` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after H2 img2img output-cloud portability and ReDiffuse STL-10 weak metric verdicts |
+| CPU sidecar | paper asset generation / metadata-only artifact-corpus expansion only |
 | Gray-box status | PIA remains admitted; feature-packet channel remains deferred; Tracing the Roots is positive Research-only evidence; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
@@ -88,6 +88,42 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 | I-C cross-permission successor | cross-permission | hold | feasibility scout confirms current PIA bridge surface is translated-alias-only with `same_spec_reuse = false` and only a single-pair local score-gap board | no same-spec gray-box evaluator or matched comparator release board | hold until a new same-spec evaluator contract exists |
 
 ## Active
+
+### 2026-05-26 Paperization Mainline
+
+- `mode`: publication packaging / evidence-contracted measurement paper.
+- `status`: first paper workspace created at
+  [`../../papers/diffaudit-evidence-paper/README.md`](../../papers/diffaudit-evidence-paper/README.md).
+  It contains a paper portfolio, source map, claim register, evidence bank,
+  direction-specific version briefs under
+  [`../../papers/diffaudit-evidence-paper/versions/README.md`](../../papers/diffaudit-evidence-paper/versions/README.md),
+  manuscript-level multi-direction drafts under
+  [`../../papers/diffaudit-evidence-paper/multi_direction_paper_drafts.md`](../../papers/diffaudit-evidence-paper/multi_direction_paper_drafts.md)
+  and [`../../papers/diffaudit-evidence-paper/versions/drafts/README.md`](../../papers/diffaudit-evidence-paper/versions/drafts/README.md),
+  a metadata-only Direction C v0 corpus protocol under
+  [`../../papers/diffaudit-evidence-paper/versions/direction-c-corpus-protocol.md`](../../papers/diffaudit-evidence-paper/versions/direction-c-corpus-protocol.md),
+  research-team pitches, figure-generation script, CSV/PDF figure assets,
+  IEEEtran `main.tex`, bibliography, build notes, and compiled 5-page
+  `paper.pdf`.
+- `primary thesis`: DiffAudit should be written as an evidence-calibrated
+  security/privacy measurement paper: strong diffusion MIA scores are useful
+  only when bound to target identity, split, score/response coverage, metric
+  provenance, artifact provenance, and consumer boundary.
+- `candidate tracks`: Direction A evidence-contracted auditing is primary;
+  Direction B output-cloud geometry is a mechanism short/workshop candidate
+  needing a second response asset for full-paper promotion; Direction C
+  reproducibility/claim-support can become a standalone measurement paper after
+  expanding a frozen metadata-only public artifact corpus; Direction D
+  consumer-boundary systems paper is later artifact/demo material and needs
+  deployment, external-use, user-study, or report-drift evidence.
+- `next action`: expand Direction A from the current 5-page paper skeleton into
+  a fuller `6-8` page draft by strengthening venue framing, method detail, and
+  reviewer-facing contribution wording; expand Direction C beyond the frozen
+  v0 corpus using metadata-only checks. Do not launch
+  heavyweight model training or same-family sweeps for paper padding.
+- `stop rule`: every paper claim must pass `claim_register.md`; candidates and
+  support-only rows must remain visually and textually distinct from admitted
+  rows.
 
 ### 2026-05-25 Research Resting State
 

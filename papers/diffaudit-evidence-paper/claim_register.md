@@ -1,0 +1,30 @@
+# Claim Register
+
+## Allowed Main Claims
+
+| ID | Claim | Evidence | Boundary |
+| --- | --- | --- | --- |
+| C1 | DiffAudit can report five admitted diffusion privacy audit rows under a unified metric and boundary contract. | `admitted-results-summary.md`, `admitted-evidence-bundle.json` | Admitted within workspace/runtime-mainline semantics only. |
+| C2 | White-box access exposes a much stronger membership signal than the current admitted black-box and gray-box rows. | GSA AUC `0.998192`; recon AUC `0.837`; PIA AUC `0.841339` | GSA is an upper-bound comparator, not a final benchmark. |
+| C3 | The H2 output-cloud geometry scorer finds a strong Research-side membership signal that is not reducible to seed-to-output distance. | H2 output-cloud AUC `0.961529`, raw H2 AUC `0.905693`, label-shuffle AUC `0.507595` | Candidate only; not admitted or portable by default. |
+| C4 | H2 output-cloud geometry survives shared-position seed-offset control and cross-cache transfer. | Shared-position AUC `0.967819`; seed `177` AUC `0.956192`; transfer mean AUC `0.959755` | Still one response-contract family. |
+| C5 | Several plausible second-asset routes are blocked by missing public artifacts, weak transferred signal, or consumer-boundary mismatch. | ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, SD ReDiffuse evidence notes | Use as measurement/negative evidence, not as a claim that all such methods fail. |
+
+## Candidate or Support-Only Claims
+
+| ID | Claim | Evidence | Required wording |
+| --- | --- | --- | --- |
+| S1 | Tracing the Roots feature tensors contain membership signal. | AUC `0.815826`, TPR@1%FPR `0.134000` | "positive feature-packet evidence", not admitted Platform/Runtime evidence. |
+| S2 | SecMI/NNS support the importance of gray-box trajectory signals. | SecMI stat AUC `0.885833`; NNS AUC `0.946286` | "supporting reference", not admitted row. |
+| S3 | Collaborator SD ReDiffuse is replayable but source-confounded. | AUC `0.710319`; source-only AUC `1.000000` | "cross-source stress test", not same-distribution membership. |
+| S4 | Quantile diffusion public scores are useful same-family support. | CIFAR10 AUC `0.843853`; CIFAR100 AUC `0.782126` | "SecMI-style support packet", not official Quantile Regression result. |
+
+## Prohibited Claims
+
+| ID | Claim not allowed | Reason |
+| --- | --- | --- |
+| P1 | DiffAudit proves general membership inference for all diffusion models. | Current evidence is permission- and asset-bound. |
+| P2 | H2 output-cloud geometry is a new admitted black-box product row. | img2img portability is weak/unstable and no consumer contract exists. |
+| P3 | ReDiffuse STL-10 disproves ReDiffuse. | The local scout is short-budget and intentionally bounded. |
+| P4 | Tracing Roots can be consumed as a raw image audit. | It is feature-packet evidence without raw checkpoint/sample/regeneration assets. |
+| P5 | TPR@0.1%FPR values are calibrated sub-percent rates. | They are finite empirical packet readouts. |
