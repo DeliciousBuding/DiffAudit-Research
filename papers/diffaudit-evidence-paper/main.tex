@@ -133,11 +133,28 @@ stored artifacts. The surface-delta gate checks whether a claimed second asset
 actually differs in model, data, modality, or response contract rather than
 repeating the same family.
 
+The gates are intentionally stricter than ordinary artifact availability. A
+repository can contain code without a fixed target checkpoint, a checkpoint can
+exist without immutable member/nonmember manifests, a score file can be
+scoreable without proving the same consumer boundary, and a strong candidate
+can still be unsafe to expose as a runtime audit row. DiffAudit therefore asks
+what claim an artifact supports, not whether an artifact is globally useful or
+whether the original paper is reproducible in every detail.
+
 Low-FPR metrics are reported as finite empirical packet readouts. For example,
 TPR@0.1\%FPR on 100 nonmembers has a false-positive budget of 0.1 and should
 not be described as a calibrated continuous sub-percent operating point. This
 rule is important because many diffusion MIA packets are small, and strict-tail
 claims can otherwise sound stronger than the evidence permits.
+
+The consumer-boundary gate is the most conservative part of the contract. It
+records who may consume the result and what language must accompany it. A
+white-box gradient attack may be a valid upper-bound comparator but not a
+black-box product result; a feature-packet replay may be useful evidence for
+temporal trajectory leakage but not a raw image audit; a cross-source Stable
+Diffusion packet may be a stress test but not same-distribution membership
+evidence. These distinctions are enforced before writing the paper, not added
+as defensive caveats after a claim is made.
 
 \begin{table}[t]
 \centering
@@ -172,6 +189,41 @@ TPR@0.1\%FPR, but we do not treat all four values equally. Low-FPR values are
 interpreted through the nonmember denominator: on a packet with 25 nonmembers,
 TPR@0.1\%FPR has no continuous sub-percent meaning. This is why DiffAudit
 records both metrics and packet boundaries instead of publishing a leaderboard.
+
+\subsection{Evidence States}
+
+The evidence state is part of the measurement result. It is not a project
+management label. The same numerical score can be admitted in one setting,
+candidate-only in another, and support-only in a third if its target identity,
+split, row coverage, or consumer boundary changes.
+
+\begin{table}[t]
+\centering
+\caption{Evidence states used by DiffAudit.}
+\label{tab:states}
+\begin{tabular}{p{0.23\linewidth}p{0.67\linewidth}}
+\toprule
+State & Meaning \\
+\midrule
+Admitted & All gates pass for the stated consumer boundary; row may appear in audit reports. \\
+Candidate & Scientifically useful signal, but at least one portability or consumer gate remains open. \\
+Support-only & Useful context or mechanism evidence, but not a direct benchmark row. \\
+Watch & Public signal worth tracking, with no row-bound evidence yet. \\
+Negative & Bounded route-selection result that closes or narrows a hypothesis. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Metric Replay}
+
+DiffAudit treats metric replay as a provenance check. When a score array exists,
+metrics are recomputed from row labels rather than copied from prose. When only
+responses exist, the scorer and response manifest must be fixed before the
+metric can be used. For a nonmember packet of size $n_0$, FPR takes values on a
+discrete grid of $1/n_0$. Thus TPR@0.1\%FPR is a strict empirical tail whenever
+$0.001n_0 < 1$. We still report the readout because it is useful for comparing
+packets, but the text must retain the denominator and avoid calibrated-risk
+language.
 
 Table~\ref{tab:gate-matrix} summarizes how current non-admitted routes are used
 in the paper. The matrix is deliberately coarse: it is a claim-control device,
@@ -233,6 +285,45 @@ next corpus expansion should be metadata-first: freeze inclusion criteria, check
 public target identity, inspect split and score/response availability, and only
 then decide whether any execution is justified. This keeps the measurement
 paper from turning artifact triage into uncontrolled engineering work.
+
+\subsection{Corpus Protocol}
+
+The current corpus was built from DiffAudit's audited evidence surface. A
+standalone reproducibility paper would require an independent metadata-only
+expansion before making prevalence claims. The protocol is deliberately
+lightweight: freeze the search date, sources, and keywords; record public
+metadata only; label each artifact with the six gates; and separate public
+artifacts from internal controls and collaborator-local packets. No large model
+or dataset download is justified until the metadata gate shows that a row-bound
+claim could change.
+
+\begin{table}[t]
+\centering
+\caption{Metadata-only corpus expansion protocol.}
+\label{tab:corpus-protocol}
+\begin{tabular}{p{0.32\linewidth}p{0.58\linewidth}}
+\toprule
+Field & Rule \\
+\midrule
+Search cutoff & Use an absolute date before outcome coding. \\
+Sources & arXiv, OpenReview, venue pages, GitHub, Zenodo, Hugging Face, Papers with Code. \\
+Keywords & Diffusion MIA, generative MIA, diffusion memorization, data identification, synthetic-data MIA. \\
+Recorded metadata & Paper URL, artifact URL, modality, target type, artifact type, public surface, gate labels. \\
+Execution policy & No large downloads or GPU runs during metadata coding. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Artifact Strata}
+
+We separate artifact strata before drawing conclusions. Admitted controls show
+what consumer-ready evidence looks like. Research candidates show where a
+strong signal exists but portability is open. Positive non-admitted packets
+show that scoreability and auditability differ. Bounded negatives show which
+routes are not worth expanding under the current hypothesis. Source-confounded
+packets show why row semantics cannot be inferred from a headline AUC. This
+stratification prevents two common errors: treating all public artifacts as
+failed audits, and treating all positive scores as portable audit evidence.
 
 \section{Admitted Evidence Bundle}
 
@@ -346,6 +437,41 @@ scientific step for a full CCF-B+ submission is to add either a second
 checkpoint-bound response asset for the output-cloud mechanism or a larger,
 pre-registered public-artifact audit corpus for the evidence-contract
 methodology.
+
+\subsection{Why Contracts Are Measurement}
+
+The central methodological claim is that membership leakage is not measured by
+a metric alone. It is measured by a metric together with the identity and
+provenance conditions that make the metric meaningful. This is especially
+important for diffusion models, where the same paper may involve a base model,
+fine-tuned checkpoint, prompt set, stochastic generation policy, intermediate
+trajectory tensor, and several possible member definitions. A score detached
+from these conditions cannot answer the audit question even if it is
+statistically strong.
+
+DiffAudit therefore treats the evidence contract as an experimental control. It
+is analogous to fixing a split, declaring a threat model, or publishing a
+random seed: the contract restricts what can be inferred from the observation.
+The H2 result illustrates the payoff. The output-cloud signal is strong enough
+to motivate a mechanism paper, but the contract prevents it from becoming a
+runtime claim until a second response asset or a successful portability check
+exists. Conversely, the admitted GSA row is extremely strong, but the contract
+keeps it an upper-bound white-box comparator rather than a black-box audit
+result.
+
+\subsection{Artifact Release Checklist}
+
+For diffusion MIA results to become reusable audit evidence, future artifacts
+should publish more than code and headline tables. A reusable packet should
+include: target model and checkpoint identity; immutable member and nonmember
+manifests; row-level scores or response manifests; metric code or metric JSON;
+nonmember denominators for low-FPR tails; artifact hashes or repository commit
+IDs; and a statement of the intended consumer boundary. If a result depends on
+intermediate trajectories, feature tensors, prompt sources, or regenerated
+samples, those surfaces should be named explicitly. This checklist is not meant
+to penalize prior work; it describes the minimum information needed for a
+third party to decide whether a score supports an audit claim, a mechanism
+claim, or only a paper-local comparison.
 
 \subsection{Threats to Validity}
 

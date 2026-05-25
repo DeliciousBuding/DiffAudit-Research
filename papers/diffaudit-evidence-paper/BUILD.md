@@ -28,4 +28,4 @@ pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.te
 Copy-Item -LiteralPath .\build\main.pdf -Destination .\paper.pdf -Force
 ```
 
-The current verified compile path produced a 5-page `paper.pdf` on 2026-05-26.
+The current verified compile path produced a 6-page `paper.pdf` on 2026-05-26.
