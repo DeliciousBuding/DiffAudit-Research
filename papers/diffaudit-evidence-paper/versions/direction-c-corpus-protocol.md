@@ -5,7 +5,7 @@
 > repository clones.
 
 This protocol turns Direction C from a paper idea into an auditable measurement
-plan. It is intentionally narrower than a standalone reproducibility paper. Its
+plan. It is intentionally narrower than a standalone artifact-claim paper. Its
 job is to define what can be counted from existing evidence without cherry
 picking or inventing missing artifacts.
 

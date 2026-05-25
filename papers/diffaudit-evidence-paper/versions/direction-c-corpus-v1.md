@@ -12,7 +12,7 @@ records two strata:
   paper.
 - `v1`: ten metadata-only public-surface gates already present in
   `docs/evidence/`, added to reduce DiffAudit-history bias before a standalone
-  reproducibility paper is attempted.
+  standalone artifact-claim paper is attempted.
 
 The machine-readable table is
 [`../data/artifact_corpus_v1.csv`](../data/artifact_corpus_v1.csv).
