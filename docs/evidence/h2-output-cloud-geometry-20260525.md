@@ -1,7 +1,7 @@
 # H2 Output-Cloud Geometry Cache Review
 
 > Date: 2026-05-25
-> Status: candidate complementary signal / order-control scout passed / shared-position seed-stable / no admitted row / no 512/512 rerun selected
+> Status: candidate complementary signal / order-control scout passed / shared-position seed-stable / cross-cache transfer strong / no admitted row / no 512/512 rerun selected
 
 ## Question
 
@@ -12,8 +12,11 @@ seed-to-output distance 的 membership 信号？
 `workspaces/black-box/runs/h2-response-strength-512-20260501-r1/response-cache.npz`。
 随后只释放一个有界 `256 / 256` shared-position order-control scout，用来回答
 class-ordered seed-offset caveat；再释放一个同边界的 seed `177` 稳定性 scout，
-用来判断 order-control 后的强信号是否只是单 seed 现象。没有下载资产，也没有扩展
-同一路线的 KDE、shadow density、repeat-count 或特征 sweep。
+用来判断 order-control 后的强信号是否只是单 seed 现象。最后只做一次
+CPU-only existing-cache transfer review，用来检查 seed `176` 和 seed `177`
+两份 shared-position response cache 之间的 output-cloud logistic 是否能迁移。
+没有下载资产，也没有扩展同一路线的 KDE、shadow density、repeat-count 或特征
+sweep。
 
 ## Contract
 
@@ -202,9 +205,43 @@ supports the narrower conclusion that output-cloud geometry is a stable H2
 mechanism candidate after seed-offset control. It still does not create a
 second public asset, a product contract, or an admitted row.
 
+## Cross-Cache Transfer Review
+
+脚本：
+`scripts/review_h2_output_cloud_transfer.py`
+
+主结果：
+`workspaces/black-box/artifacts/h2-output-cloud-transfer-shared-position-256-20260525.json`
+
+该 review 只读取现有两份 `256 / 256` shared-position response cache：
+
+| Cache | Path |
+| --- | --- |
+| Seed `176` | `workspaces/black-box/runs/h2-response-strength-256-shared-position-20260525-r1/response-cache.npz` |
+| Seed `177` | `workspaces/black-box/runs/h2-response-strength-256-shared-position-seed177-20260525-r1/response-cache.npz` |
+
+Primary transfer 使用 repeated stratified folds：在 source cache 的 train fold
+训练 logistic scorer，然后只在 target cache 中对应 held-out sample identities 上
+打分。这样避免把两份 cache 中相同 sample identities 的 all-train/all-test
+diagnostic 误当成主结论。same-sample 全量迁移只写入 JSON 的 diagnostic 区块。
+
+| Direction | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR |
+| --- | ---: | ---: | ---: | ---: |
+| seed `176` -> seed `177` | `0.948990` | `0.884766` | `0.375000` | `0.058594` |
+| seed `177` -> seed `176` | `0.970520` | `0.935547` | `0.390625` | `0.074219` |
+
+Decision gate：`mean_auc = 0.959755`，`min_tpr_at_1pct_fpr = 0.375000`，
+`min_tpr_at_0_1pct_fpr = 0.058594`，verdict =
+`cross_cache_transfer_strong_candidate`。
+
+Interpretation: 这不是新资产，也不是产品消费合约，但它比单 cache review 更强：
+output-cloud geometry 在两个独立生成的 shared-position response cache 之间保持可迁移，
+并且主结果不依赖 same-sample 全量训练/测试诊断。该结论只支持 Research-side
+机制候选更稳，不释放新的 GPU、大下载、Platform/Runtime schema 或 bundle row。
+
 ## Decision
 
-`candidate complementary signal / order-control scout passed / seed-stable / no admitted row`。
+`candidate complementary signal / order-control scout passed / seed-stable / cross-cache transfer strong / no admitted row`。
 
 保留为 Research-side 强候选，因为它满足三个有价值条件：
 
@@ -213,14 +250,17 @@ second public asset, a product contract, or an admitted row.
 - 它通过了 seed-177 稳定性和 label-shuffle sanity。
 - 它在 `256 / 256` shared-position order-control scout 中没有因 seed-offset 控制而坍塌。
 - 它在 shared-position seed `177` scout 中仍保持强 AUC 和非零严格尾部恢复。
+- 它在 seed `176` / seed `177` 两份 shared-position response cache 之间通过了
+  fold-disjoint transfer review，主结果 `mean_auc = 0.959755`，严格尾部非零。
 
 但当前不做以下事情：
 
 - 不升级到 Platform/Runtime admitted bundle。
 - 不新增产品 schema、Runtime runner、UI 类型或 bundle row。
 - 不在同一 cache 上展开 KDE、shadow density、repeat-count、特征族或融合 sweep。
+- 不把 same-sample all-train/all-test transfer diagnostic 当成 headline 结果。
 - 不释放完整 `512 / 512` shared-position GPU rerun 或大下载；当前 `256 / 256`
-  order-control 已经回答了会改变路线的 caveat。
+  order-control 与 cross-cache transfer 已经回答了会改变路线的 caveat。
 
 下一次重新评估不应是同 cache feature sweep 或为了表格好看的 `512 / 512` 补跑。
 只有在需要正式晋升机制线、发现第二公开资产、或要建立独立消费合约时，才重新定义
