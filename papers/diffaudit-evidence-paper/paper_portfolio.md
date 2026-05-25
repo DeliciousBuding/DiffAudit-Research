@@ -47,7 +47,7 @@ plausible route or motivate a sharper research question.
 | Thesis | Public diffusion MIA artifacts often support some research claim, but not necessarily a portable, row-bound, consumer-safe audit claim. The paper measures artifact availability, scoreability, reproducibility, and auditability as distinct states. |
 | Core contributions | Six-gate second-asset contract; audited candidate corpus; bounded replays/scouts for ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps. |
 | Main figures | Candidate gate heatmap; weak-signal scatter; source-confounding example; artifact availability taxonomy. |
-| Extra work needed | Run gate-label consistency review over the 21-row v1 corpus plus the 2026-05-26 fixed-search batch and generated gate-summary outputs; add one broader fixed-source pass only if targeting a standalone reproducibility paper. |
+| Extra work needed | Selected-corpus gate-label consistency now passes without CSV label changes; add one broader fixed-source pass or a second independent label review only if targeting a standalone reproducibility paper. |
 | Risk | Needs careful methodology to avoid appearing as anecdotal project notes or field-wide prevalence claims. |
 
 ## Direction D: Consumer-Boundary Systems Paper
@@ -68,10 +68,11 @@ plausible route or motivate a sharper research question.
 Direction A is the best first manuscript because it can honestly absorb all
 current evidence without overclaiming. Direction B is the strongest technical
 mechanism but needs a second asset or explicit short-paper scope. Direction C
-now has a v1 corpus, a fixed-search batch, and selected-corpus gate-summary
-outputs, but still needs gate-label consistency before standalone aggregate
-claims. Direction D is best as an artifact/demo paper after Direction A defines
-the scientific contract and report-drift or external-use evidence exists.
+now has a v1 corpus, a fixed-search batch, selected-corpus gate-summary outputs,
+and a selected-corpus consistency pass with no CSV label changes, but standalone
+aggregate claims still need a broader frozen corpus or second label review.
+Direction D is best as an artifact/demo paper after Direction A defines the
+scientific contract and report-drift or external-use evidence exists.
 
 ## Version Briefs
 

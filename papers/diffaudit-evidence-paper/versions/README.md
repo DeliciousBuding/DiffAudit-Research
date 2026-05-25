@@ -20,7 +20,7 @@ are met. The shared evidence boundary remains:
 | --- | --- | --- | --- |
 | A | Evidence Contract Team | Security/privacy measurement | Main manuscript now. |
 | B | Response Geometry Team | Mechanism short/workshop paper | Keep as second-track; needs second response asset for full paper. |
-| C | Artifact Reproducibility Team | Claim-support measurement paper | v1 corpus plus the 2026-05-26 fixed-search batch and gate summary exist; next gate-label consistency review before standalone aggregate claims. |
+| C | Artifact Reproducibility Team | Claim-support measurement paper | v1 corpus, fixed-search batch, gate summary, and selected-corpus consistency pass exist; standalone aggregate claims need a broader corpus or second label review. |
 | D | Audit Systems Team | Systems/artifact paper | Downstream brief only; hold until deployment, user-study, external-use, or report-drift evidence exists. |
 
 ## Manuscript Drafts
@@ -51,10 +51,10 @@ are met. The shared evidence boundary remains:
 | --- | --- | --- | --- | --- |
 | Uses current evidence honestly | Strong | Medium | Medium | Medium |
 | Needs new model/data execution | Low | Medium-high | Low | Low |
-| CCF-B+ plausibility now | Medium | Low unless scoped as short paper | Medium if gate-label consistency passes and claims stay selected-corpus only | Low-medium |
-| Biggest missing piece | Stronger venue framing and method detail | Second response asset | Gate-label consistency review and one broader fixed-source pass if aiming standalone | External/deployment evidence |
+| CCF-B+ plausibility now | Medium | Low unless scoped as short paper | Medium if claims stay selected-corpus only; higher needs broader corpus or second label review | Low-medium |
+| Biggest missing piece | Stronger venue framing and method detail | Second response asset | Broader fixed-source pass or second independent label review if aiming standalone | External/deployment evidence |
 | Overclaiming risk | Medium | High | Medium | Medium |
-| Current action | Tighten `../main.tex` and add venue-grade corpus framing | Keep as H2-limited short-paper draft | Use v1, fixed-search, and gate-summary outputs for claim-control drafting; next add consistency pass | Hold for artifact/demo |
+| Current action | Tighten `../main.tex` and add venue-grade corpus framing | Keep as H2-limited short-paper draft | Use v1, fixed-search, gate-summary outputs, and selected-corpus consistency pass for claim-control drafting | Hold for artifact/demo |
 
 ## Team Assignment Rule
 

@@ -40,4 +40,4 @@
 | Corpus | Key readout | Paper role | Caveat |
 | --- | --- | --- | --- |
 | v1 evidence-note corpus | 21 coded rows; 10 rows pass score/response and metric gates; 1 row passes consumer-boundary gate. | Claim-control support for artifact-corpus framing. | Selected from existing DiffAudit evidence notes; not field-wide prevalence. |
-| 2026-05-26 fixed-search batch | 17 coded rows; no row passes target, split, score/response, metric, or consumer-boundary gate. | Metadata-only process trace showing no new admitted row in the frozen batch. | Small fixed-search batch; needs consistency review before standalone aggregate claims. |
+| 2026-05-26 fixed-search batch | 17 coded rows; no row passes target, split, score/response, metric, or consumer-boundary gate. | Metadata-only process trace showing no new admitted row in the frozen batch. | Small fixed-search batch; selected-corpus consistency pass made no CSV label changes, but standalone aggregate claims need broader or second-review evidence. |
