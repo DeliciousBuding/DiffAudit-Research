@@ -16,7 +16,7 @@
 | Title | When Diffusion MIA Scores Are Not Audit Evidence: A Claim-Support Study of Public Artifacts |
 | Target type | Reproducibility/measurement paper |
 | Venue posture | Reproducibility, measurement, ML systems, or security/privacy methods venue |
-| Current artifact | Draft plus v0/v1 corpus files: [`../direction-c-corpus-protocol.md`](../direction-c-corpus-protocol.md), [`../direction-c-corpus-v1.md`](../direction-c-corpus-v1.md), and [`../../data/artifact_corpus_v1.csv`](../../data/artifact_corpus_v1.csv) |
+| Current artifact | Draft plus v0/v1 corpus files and fixed-search batch: [`../direction-c-corpus-protocol.md`](../direction-c-corpus-protocol.md), [`../direction-c-corpus-v1.md`](../direction-c-corpus-v1.md), [`../direction-c-fixed-search-batch-20260526.md`](../direction-c-fixed-search-batch-20260526.md), [`../../data/artifact_corpus_v1.csv`](../../data/artifact_corpus_v1.csv), and [`../../data/artifact_corpus_fixed_search_20260526.csv`](../../data/artifact_corpus_fixed_search_20260526.csv) |
 
 ## Abstract
 
@@ -58,7 +58,7 @@ scientific objects.
 
 | Claim | Evidence anchor | Boundary |
 | --- | --- | --- |
-| C-C1: Artifact availability, scoreability, reproducibility, and auditability are distinct. | Six-gate protocol and v1 corpus | Needs independent fixed-search expansion before aggregate prevalence claims. |
+| C-C1: Artifact availability, scoreability, reproducibility, and auditability are distinct. | Six-gate protocol, v1 corpus, and 2026-05-26 fixed-search batch | Supports selected-corpus claims only; no field-wide prevalence claims. |
 | C-C2: Positive packets can be scientifically useful but non-admitted. | Tracing Roots AUC `0.815826` | Feature-packet evidence only, not raw image audit evidence. |
 | C-C3: Bounded weak scouts are useful exclusions. | ReDiffuse `0.4996/0.5053`, CommonCanvas `0.5148`, MIDST `0.598079` | Does not disprove original methods. |
 | C-C4: Source confounding must be audited. | SD ReDiffuse AUC `0.710319`, source-only AUC `1.0` | Cross-source stress test, not same-distribution MIA. |
@@ -91,7 +91,7 @@ scientific objects.
 
 | Risk | Fix |
 | --- | --- |
-| Looks anecdotal or DiffAudit-history-biased. | v1 adds 10 metadata-only surfaces from existing notes; next add an independent fixed-search batch before aggregate claims. |
+| Looks anecdotal or DiffAudit-history-biased. | v1 adds 10 metadata-only surfaces from existing notes; the 2026-05-26 fixed-search batch adds an independent selection layer; next run gate-label consistency. |
 | Sounds hostile to other papers. | Use claim-support language; do not say papers "fail." |
 | Mixes public artifacts with internal controls. | Explicit artifact strata in table and prose. |
 | Consumer boundary looks project-specific. | Generalize as audit-consumer requirements and keep DiffAudit as one implementation. |
@@ -101,6 +101,6 @@ scientific objects.
 | Decision | Condition |
 | --- | --- |
 | Keep as draft | Current v0 supports a structured plan. |
-| Promote to standalone paper | Requires v1 plus an independent fixed-search batch with fixed sources, keywords, and artifact strata. |
-| Fork LaTeX | Allowed only after v1 is reviewed and a second fixed-search batch produces a defensible gate matrix and failure-taxonomy table. |
+| Promote to standalone paper | Requires gate-label consistency review over v1 plus the fixed-search batch, and preferably one broader source pass if making aggregate claims beyond this corpus. |
+| Fork LaTeX | Allowed only after consistency review produces a defensible gate matrix and failure-taxonomy table. |
 | Stop | If expansion remains only existing DiffAudit history; that would be a section in Direction A, not a standalone paper. |

@@ -16,7 +16,7 @@
 | Working title | From Membership Scores to Auditable Evidence: A Runtime Contract for Diffusion Privacy Reports |
 | Paper type | Systems / artifact / demo paper |
 | Venue posture | Applied security systems, demo/artifact track, software-engineering-for-ML venue |
-| Current status | Hold until deployment, user-study, or external-adopter evidence exists |
+| Current status | Downstream brief only; hold until deployment, user-study, report-drift, or external-adopter evidence exists |
 
 ## Abstract Draft
 
@@ -37,8 +37,10 @@ claims.
 ## Core Thesis
 
 Research metrics become user-facing audit evidence only through a runtime
-contract. This is a systems paper if we can show that the contract prevents real
-consumer drift and improves report correctness.
+contract. This is a systems paper only if we can show that the contract prevents
+real consumer drift and improves report correctness. Until then, the contract
+fields and admitted/candidate taxonomy belong in Direction A, while Direction D
+records the downstream evaluation plan.
 
 ## Main Claims
 
@@ -67,6 +69,7 @@ consumer drift and improves report correctness.
 | Add one external-adopter or competition-report usage case. | Turns internal contract into systems evidence. |
 | Measure report drift before/after guardrails. | Provides a systems evaluation beyond schema description. |
 | Produce one clean architecture diagram. | Makes the bridge understandable to non-Research reviewers. |
+| Produce one public-safe risk-card example. | Shows finite-tail and boundary language without leaking private topology. |
 
 ## Refused Work
 

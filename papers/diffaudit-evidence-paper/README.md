@@ -14,6 +14,7 @@ workspaces.
 | `versions/drafts/` | Full Markdown paper-version drafts for Directions A-D; only Direction A currently has LaTeX. |
 | `versions/direction-c-corpus-protocol.md` | Frozen v0 metadata-only corpus protocol for the artifact reproducibility paper direction. |
 | `versions/direction-c-corpus-v1.md` | Structured Direction C corpus expansion from existing metadata-gate evidence notes. |
+| `versions/direction-c-fixed-search-batch-20260526.md` | Independent fixed-search metadata batch for Direction C; no downloads, no clone, no model/data execution. |
 | `source_map.md` | Authoritative evidence sources and forbidden moves. |
 | `claim_register.md` | Allowed, support-only, and prohibited claims. |
 | `evidence_bank.md` | Human-readable metric ledger for manuscript drafting. |
@@ -22,6 +23,7 @@ workspaces.
 | `scripts/build_paper_assets.py` | Rebuilds paper CSV/PDF figure assets from repository JSON artifacts. |
 | `data/` | Generated CSV tables used by figures and LaTeX. |
 | `data/artifact_corpus_v1.csv` | Direction C metadata-only corpus table; not a generated metric table. |
+| `data/artifact_corpus_fixed_search_20260526.csv` | Direction C fixed-search corpus batch; curated metadata, not a generated metric table. |
 | `figures/` | Generated PDF figures. |
 | `main.tex` | Primary Direction A manuscript draft. |
 | `refs.bib` | Initial bibliography for the manuscript draft. |
@@ -39,10 +41,11 @@ The current paper-version drafts are:
 - Direction A: evidence-contracted security/privacy measurement paper.
 - Direction B: output-cloud geometry short/workshop paper; full-paper promotion
   requires a second independent response asset.
-- Direction C: claim-support artifact reproducibility paper; promotion requires
-  metadata-only corpus expansion beyond the initial active-route evidence.
-- Direction D: audit systems/artifact paper; promotion requires deployment,
-  external-use, user-study, or report-drift evidence.
+- Direction C: claim-support artifact reproducibility paper; it now has a
+  21-row v1 corpus plus a fixed-search metadata batch, but still needs
+  gate-label consistency review before standalone aggregate claims.
+- Direction D: audit systems/artifact paper; it remains downstream material
+  until deployment, external-use, user-study, or report-drift evidence exists.
 
 ## Academic Discipline
 
@@ -52,3 +55,5 @@ The current paper-version drafts are:
 - Do not turn bounded negative scouts into universal negative claims.
 - Treat the v1 artifact corpus as a structured starter corpus, not a complete
   survey of all diffusion or generative privacy papers.
+- Treat the fixed-search batch as selection-process evidence, not prevalence
+  evidence over the field.
