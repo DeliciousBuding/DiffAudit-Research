@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Paperization active: papers/diffaudit-evidence-paper now contains a multi-direction paper portfolio, direction-specific version briefs, evidence bank, claim register, generated CSV/PDF figures, a compiled 6-page IEEEtran draft, Direction C v1 metadata corpus, and a 2026-05-26 fixed-search metadata batch; H2 output-cloud remains a strong Research-side case study, not admitted; no selected heavy CPU/GPU sidecar` |
+| Active work | `Paperization active: papers/diffaudit-evidence-paper now contains a multi-direction paper portfolio, direction-specific version briefs, evidence bank, claim register, generated CSV/PDF figures, a compiled 7-page IEEEtran draft, Direction C v1 metadata corpus, and a 2026-05-26 fixed-search metadata batch; H2 output-cloud remains a strong Research-side case study, not admitted; no selected heavy CPU/GPU sidecar` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | paper asset generation / metadata-only artifact-corpus expansion only |
@@ -109,7 +109,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   [`../../papers/diffaudit-evidence-paper/versions/direction-c-fixed-search-batch-20260526.md`](../../papers/diffaudit-evidence-paper/versions/direction-c-fixed-search-batch-20260526.md)
   and [`../../papers/diffaudit-evidence-paper/data/artifact_corpus_fixed_search_20260526.csv`](../../papers/diffaudit-evidence-paper/data/artifact_corpus_fixed_search_20260526.csv),
   research-team pitches, figure-generation script, CSV/PDF figure assets,
-  IEEEtran `main.tex`, bibliography, build notes, and compiled 6-page
+  IEEEtran `main.tex`, bibliography, build notes, and compiled 7-page
   `paper.pdf`.
 - `primary thesis`: DiffAudit should be written as an evidence-calibrated
   security/privacy measurement paper: strong diffusion MIA scores are useful
@@ -125,11 +125,12 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   paper is later artifact/demo material and needs deployment, external-use,
   user-study, or report-drift evidence.
 - `next action`: Direction A has been expanded from the initial paper skeleton
-  to a 6-page draft with stronger method, evidence-state, metric-replay,
-  corpus-protocol, and artifact-release framing. Continue toward a fuller
-  `6-8` page submission draft by improving venue framing and prose density;
-  use Direction C v1 plus the fixed-search batch for gate-matrix drafting, then
-  run gate-label consistency review. Do not launch
+  to a 7-page draft with stronger method, evidence-state, metric-replay,
+  audit-surface framing, corpus-protocol, fixed-search integration, H2
+  admission decision, non-admitted decision-value table, and artifact-release
+  framing. Continue polishing venue framing and prose density; use Direction C
+  v1 plus the fixed-search batch for gate-matrix drafting, then run gate-label
+  consistency review. Do not launch
   heavyweight model training or same-family sweeps for paper padding.
 - `stop rule`: every paper claim must pass `claim_register.md`; candidates and
   support-only rows must remain visually and textually distinct from admitted
