@@ -33,4 +33,4 @@
 | P5 | TPR@0.1%FPR values are calibrated sub-percent rates. | They are finite empirical packet readouts. |
 | P6 | Direction C v1 proves that most public diffusion MIA artifacts fail. | v1 is selected from existing DiffAudit notes and is not a complete fixed-search corpus. |
 | P7 | The fixed-search batch proves the field lacks audit-ready artifacts. | The batch is small, metadata-only, and selected to support claim-boundary measurement, not prevalence estimation. |
-| P8 | Gate-summary counts prove public artifact prevalence or reproducibility rates. | The counts summarize selected coded rows only and still require consistency review before standalone aggregate claims. |
+| P8 | Gate-summary counts prove public artifact prevalence or reproducibility rates. | The counts summarize selected coded rows only; standalone aggregate claims still require broader or second-review evidence. |

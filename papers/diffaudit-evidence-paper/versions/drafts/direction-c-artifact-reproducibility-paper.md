@@ -91,7 +91,7 @@ scientific objects.
 
 | Risk | Fix |
 | --- | --- |
-| Looks anecdotal or DiffAudit-history-biased. | v1 adds 10 metadata-only surfaces from existing notes; the 2026-05-26 fixed-search batch adds an independent selection layer; next run gate-label consistency. |
+| Looks anecdotal or DiffAudit-history-biased. | v1 adds 10 metadata-only surfaces from existing notes; the 2026-05-26 fixed-search batch adds an independent selection layer; the selected-corpus consistency pass made no CSV label changes. |
 | Sounds hostile to other papers. | Use claim-support language; do not say papers "fail." |
 | Mixes public artifacts with internal controls. | Explicit artifact strata in table and prose. |
 | Consumer boundary looks project-specific. | Generalize as audit-consumer requirements and keep DiffAudit as one implementation. |
@@ -101,6 +101,6 @@ scientific objects.
 | Decision | Condition |
 | --- | --- |
 | Keep as draft | Current v0 supports a structured plan. |
-| Promote to standalone paper | Requires gate-label consistency review over v1 plus the fixed-search batch, and preferably one broader source pass if making aggregate claims beyond this corpus. |
-| Fork LaTeX | Allowed only after consistency review produces a defensible gate matrix and failure-taxonomy table. |
+| Promote to standalone paper | Requires one broader source pass or a second independent label review if making aggregate claims beyond this corpus. |
+| Fork LaTeX | Allowed only after the selected-corpus gate matrix and failure taxonomy are kept scoped, or after broader/second-review evidence is added. |
 | Stop | If expansion remains only existing DiffAudit history; that would be a section in Direction A, not a standalone paper. |

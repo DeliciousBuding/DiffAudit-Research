@@ -99,9 +99,17 @@ It does not support these claims:
 
 ## Next Direction C Gate
 
-Before forking a standalone Direction C LaTeX paper, add one more frozen batch
-or run an inter-rater-style consistency pass over the existing 21 rows. The
-next batch should be selected by fixed sources and keywords rather than
-DiffAudit history. If no new row-bound public packet appears, Direction C can
-still be written as a claim-support measurement paper, but its aggregate claims
-must remain about this structured corpus only.
+The 2026-05-26 selected-corpus consistency pass reviewed this 21-row table plus
+the 17-row fixed-search batch without changing CSV labels. The pass checked that
+all gate labels use only `Pass`, `Partial`, or `Fail`; that bounded-negative
+rows with passing evidence/metric gates but failing consumer-boundary gates are
+intentional route-decision rows; and that fixed-search arXiv metadata rows with
+partial target/boundary labels but failing evidence/metric gates remain
+metadata-only rows, not scoreable artifacts.
+
+This is a single-reviewer selected-corpus consistency pass, not inter-rater
+reliability and not field-wide prevalence evidence. Before forking a standalone
+Direction C LaTeX paper, add one more frozen source batch or a second independent
+label review. If no new row-bound public packet appears, Direction C can still
+be written as a claim-support measurement paper, but its aggregate claims must
+remain about this structured corpus only.
