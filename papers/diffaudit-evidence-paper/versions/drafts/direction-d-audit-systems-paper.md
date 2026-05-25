@@ -14,9 +14,9 @@
 | Field | Draft choice |
 | --- | --- |
 | Title | From Membership Scores to Auditable Evidence: Runtime Contracts for Diffusion Privacy Reports |
-| Target type | Systems/artifact/demo paper |
+| Target type | Downstream systems/artifact/demo paper |
 | Venue posture | Applied security systems, artifact track, demo track, software-engineering-for-ML venue |
-| Current artifact | Hold as downstream paper after Direction A |
+| Current artifact | Downstream brief after Direction A; not a standalone full-paper track yet |
 
 ## Abstract
 
@@ -37,7 +37,9 @@ from research artifacts into user-facing privacy reports.
 The system contribution is safe consumption. A runtime or product report should
 not decide from AUC alone. It should decide from a bundle that encodes whether a
 claim is admitted, candidate, support-only, or blocked, and what finite-tail
-and provenance caveats must be shown to users.
+and provenance caveats must be shown to users. Without external use,
+deployment evaluation, or report-drift measurements, this remains a downstream
+systems brief rather than an independent full paper.
 
 ## Contribution Claims
 
@@ -70,6 +72,15 @@ and provenance caveats must be shown to users.
 | Admission-state state machine | Shows admitted, candidate, support-only, blocked, and watch-only transitions. |
 | Drift-guard evaluation table | Counts checks that prevent unsupported public/report claims. |
 | Risk-card example | Demonstrates finite-tail and boundary language in a consumer report. |
+
+## Evidence Required Before Standalone Submission
+
+| Evidence | Minimum acceptable form |
+| --- | --- |
+| External or semi-external use | A competition report, third-party review, or non-Research author using a bundle to produce a report and recording allowed vs blocked claims. |
+| Report-drift evaluation | Before/after or fault-injection table showing blocked candidate promotion, finite-tail miswording, row-count drift, candidate insertion into admitted bundle, or UI/report overclaiming. |
+| Public-safe report example | A risk card that contains admitted rows, boundary language, and finite-tail caveats without private topology or local paths. |
+| Abstract deployment evidence | Schema, export, validation flow, and report surface only; no real domains, SSH aliases, secrets, or private machine topology. |
 
 ## Review Risks and Fixes
 

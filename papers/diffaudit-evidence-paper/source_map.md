@@ -41,6 +41,10 @@ not a bibliography; it is a claim-control ledger.
 | `docs/evidence/trajectory-generation-privacy-artifact-gate-20260523.md` | Direction C metadata-only cross-domain row. |
 | `docs/evidence/model-will-tell-drc-artifact-gate-20260523.md` | Direction C metadata-only restoration-MIA row. |
 | `docs/evidence/discrete-dlm-withdrawn-artifact-gate-20260523.md` | Direction C withdrawn/no-artifact row. |
+| `docs/evidence/ronketer-dreambooth-asset-verdict-20260514.md` | Fixed-search batch re-found DreamBooth/LoRA course-notebook artifact gap. |
+| `docs/evidence/fseclab-mia-diffusion-code-artifact-gate-20260515.md` | Fixed-search batch re-found official code-public but no replay-packet artifact gap. |
+| `versions/direction-c-fixed-search-batch-20260526.md` | Direction C fixed-search protocol, flow summary, and no-download decision. |
+| `data/artifact_corpus_fixed_search_20260526.csv` | Machine-readable fixed-search rows and six-gate labels. |
 | `references/materials/paper-index.md` | Literature positioning and internal reading map. |
 
 ## Forbidden Moves
@@ -55,3 +59,5 @@ not a bibliography; it is a claim-control ledger.
   intervals, or references.
 - Do not present `data/artifact_corpus_v1.csv` as a complete literature survey;
   it is a structured corpus from existing DiffAudit evidence notes.
+- Do not present `data/artifact_corpus_fixed_search_20260526.csv` as a field
+  prevalence estimate; it is a small metadata-only fixed-search batch.

@@ -13,7 +13,7 @@
 
 | Field | Draft choice |
 | --- | --- |
-| Title | Output Clouds Remember: Membership Signals in Diffusion Response Geometry |
+| Title | Output-Cloud Geometry in a Controlled H2 Diffusion Response Family |
 | Target type | Mechanism-focused short paper or workshop paper |
 | Venue posture | Strong workshop/short-paper candidate now; full CCF-B only after second independent response asset |
 | Current artifact | Markdown draft only; no LaTeX fork unless go/no-go passes |
@@ -22,7 +22,8 @@
 
 Repeated diffusion queries produce a cloud of outputs rather than a single
 distance measurement. This paper studies whether membership signal can appear
-in the geometry among repeated responses. On the H2 response-strength cache,
+in output-output geometry inside an audited H2 repeated-response cache. On the
+H2 response-strength cache,
 output-output features such as within-step repeat distance, timestep centroid
 movement, and response-cloud spectra reach AUC `0.961529`, outperforming raw
 and lowpass H2 distance baselines. Label-shuffle controls return random-level
@@ -31,21 +32,22 @@ strong, and fold-disjoint cross-cache transfer reaches mean AUC `0.959755`.
 These results make response-cloud geometry a distinct membership observable in
 one controlled H2 response family. However, an SD/CelebA img2img portability
 check is weaker, has zero strict-tail recovery, and does not beat simple
-distance. We therefore present output-cloud geometry as a mechanism candidate,
-not a broadly portable or product-ready attack.
+distance. We therefore present output-cloud geometry as a Research-side H2
+mechanism candidate, not a broadly portable or product-ready attack.
 
 ## Controlling Thesis
 
-Membership leakage can be visible in relationships among repeated diffusion
-responses, not only in direct query-to-output or seed-to-output similarity. The
-current evidence supports a strong controlled H2 mechanism candidate. It does
-not yet support a full portability claim.
+In the audited H2 repeated-response cache, membership signal is recoverable
+from relationships among repeated responses, not only from direct
+query-to-output or seed-to-output similarity. The current evidence supports a
+strong controlled H2 mechanism candidate. It does not support broad portability,
+cross-model transfer, or product admission.
 
 ## Contribution Claims
 
 | Claim | Evidence anchor | Boundary |
 | --- | --- | --- |
-| B-C1: Output-output geometry is a distinct observable. | H2 feature family excludes direct seed-to-output distance. | Still engineered features and logistic scoring. |
+| B-C1: Output-output geometry is an operationally distinct H2 feature family. | H2 feature family excludes direct seed-to-output distance. | Still engineered features and logistic scoring; not a causal mechanism claim. |
 | B-C2: H2 evidence is strong under controls. | Main AUC `0.961529`, label shuffle `0.507595`, shared-position `0.967819` | One response-contract family. |
 | B-C3: Same-family cache transfer is strong. | Transfer mean AUC `0.959755` | Not cross-model or cross-dataset transfer. |
 | B-C4: Portability is unresolved and partly negative. | SD/CelebA img2img AUC `0.7888`, strict tail `0.0`, weaker than simple distance | Blocks full-paper portability claim. |
@@ -58,7 +60,7 @@ not yet support a full portability claim.
 | Observable | Define output-cloud geometry and contrast it with direct image distance, seed-distance, and response consistency. |
 | Bounded Scorer | Describe feature families: within-timestep repeat RMSE, timestep centroid movement, Gram/PCA spectral summaries, and logistic metric reporting. |
 | H2 Main Result | Compare output-cloud features with raw H2 and lowpass baselines. |
-| Controls | Present label shuffle, shared-position seed-offset control, seed `177` stability, and fold-disjoint cross-cache transfer. |
+| Controls | Present label shuffle, shared-position seed-offset control, seed `177` stability, and fold-disjoint same-family cross-cache transfer. |
 | Portability Boundary | Put SD/CelebA img2img failure in the main text, not an appendix. It is the scientific boundary. |
 | Promotion Criteria | State what a second response asset must prove. |
 | Limitations | Single-family H2 evidence, finite tails, feature-engineering risk, no product admission. |
@@ -73,6 +75,14 @@ not yet support a full portability claim.
 | Control panel | Shows shared-position seed policy, seed `177`, and transfer metrics. |
 | Portability boundary panel | Contrasts H2 success with SD/CelebA img2img weakness. |
 | Claim-boundary table | Prevents "mechanism candidate" from reading as "new admitted black-box row." |
+
+## Allowed Wording
+
+| Allowed | Evidence | Prohibited |
+| --- | --- | --- |
+| "strong Research-side H2 mechanism candidate" | H2 main, controls, and same-family transfer rows | "general diffusion membership attack" |
+| "same-family cross-cache robustness" | seed `176 -> 177` and `177 -> 176` transfer | "cross-model transfer" or "cross-dataset transfer" |
+| "portability boundary" | SD/CelebA img2img weakness and zero strict-tail recovery | "product-ready attack" or "admitted black-box row" |
 
 ## Review Risks and Fixes
 
