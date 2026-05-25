@@ -192,25 +192,72 @@ def build_artifact_gate_summaries() -> tuple[list[dict], list[dict]]:
     return gate_rows, strata_rows
 
 
-def plot_metric_bars(rows: list[dict], path: Path, title: str) -> None:
-    labels = [row.get("label", row.get("attack", "row")) for row in rows]
+def metric_plot_label(row: dict) -> str:
+    label = row.get("label", row.get("attack", "row"))
+    source = row.get("source", "")
+
+    admitted_labels = {
+        "black-box: recon DDIM public-100 step30 / none": "black-box recon",
+        "gray-box: PIA GPU512 baseline / none": "gray-box PIA",
+        "gray-box: PIA GPU512 baseline / provisional G-1 = stochastic-dropout (all_steps)": "PIA + G-1 dropout",
+        "white-box: GSA 1k-3shadow / none": "white-box GSA",
+        "white-box: GSA 1k-3shadow / W-1 strong-v3 full-scale": "DPDM W-1",
+    }
+    if label in admitted_labels:
+        return admitted_labels[label]
+
+    if source == "rediffuse-stl10" and label == "denoising-loss scout":
+        return "ReDiffuse loss"
+    if source == "rediffuse-stl10" and label == "score-norm scout":
+        return "ReDiffuse norm"
+    if source == "commoncanvas":
+        return "CommonCanvas loss"
+    if source == "tracing-roots":
+        return "Tracing Roots features"
+
+    h2_labels = {
+        "output-cloud 512/512": "output-cloud",
+        "raw H2 logistic": "raw H2",
+        "lowpass H2 logistic": "lowpass H2",
+        "label shuffle": "label shuffle",
+        "shared-position seed 176": "seed176 control",
+        "shared-position label shuffle": "seed176 shuffle",
+        "shared-position seed 177": "seed177 control",
+        "seed 177 label shuffle": "seed177 shuffle",
+        "shared_position_seed176 to shared_position_seed177": "176 -> 177 transfer",
+        "shared_position_seed177 to shared_position_seed176": "177 -> 176 transfer",
+    }
+    return h2_labels.get(label, label.replace("_", " "))
+
+
+def plot_metric_bars(rows: list[dict], path: Path, title: str, figsize: tuple[float, float]) -> None:
+    labels = [metric_plot_label(row) for row in rows]
     auc = [float(row["auc"]) for row in rows]
     tpr = [float(row["tpr_at_1pct_fpr"]) for row in rows]
 
-    fig, ax = plt.subplots(figsize=(max(7, len(rows) * 0.9), 4.5))
-    x = range(len(rows))
-    width = 0.38
-    ax.bar([i - width / 2 for i in x], auc, width, label="AUC", color="#3b6ea8")
-    ax.bar([i + width / 2 for i in x], tpr, width, label="TPR@1%FPR", color="#d08b32")
-    ax.axhline(0.5, color="#666666", linewidth=0.8, linestyle="--", label="random AUC")
-    ax.set_ylim(0, 1.05)
-    ax.set_ylabel("metric value")
-    ax.set_title(title)
-    ax.set_xticks(list(x))
-    ax.set_xticklabels(labels, rotation=35, ha="right")
-    ax.legend(frameon=False, ncol=3)
-    fig.tight_layout()
-    fig.savefig(path, metadata=PDF_METADATA)
+    fig, ax = plt.subplots(figsize=figsize)
+    y = list(range(len(rows)))
+    height = 0.36
+    ax.barh([i - height / 2 for i in y], auc, height, label="AUC", color="#376da6")
+    ax.barh([i + height / 2 for i in y], tpr, height, label="TPR@1%", color="#d58f2f")
+    ax.axvline(0.5, color="#666666", linewidth=0.8, linestyle="--", label="random")
+    ax.set_xlim(0, 1.05)
+    ax.set_xlabel("metric value")
+    ax.set_title(title, pad=18)
+    ax.set_yticks(y)
+    ax.set_yticklabels(labels, fontsize=8)
+    ax.invert_yaxis()
+    ax.grid(axis="x", alpha=0.2)
+    ax.legend(
+        frameon=False,
+        ncol=3,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 1.01),
+        borderaxespad=0,
+        fontsize=8,
+    )
+    fig.tight_layout(pad=0.6)
+    fig.savefig(path, metadata=PDF_METADATA, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -242,10 +289,10 @@ def plot_artifact_gate_summary(rows: list[dict], path: Path) -> None:
 
     axes[-1].set_xlabel("evidence-contract gate")
     axes[-1].tick_params(axis="x", rotation=20)
-    fig.suptitle("Artifact corpus gate labels (counts, not prevalence estimates)")
+    fig.suptitle("Selected-corpus gate labels", y=0.98)
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper right", frameon=False, ncol=3)
-    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 0.94), frameon=False, ncol=3)
+    fig.tight_layout(rect=(0, 0, 1, 0.88))
     fig.savefig(path, metadata=PDF_METADATA)
     plt.close(fig)
 
@@ -265,10 +312,10 @@ def main() -> None:
     write_csv(DATA / "artifact_gate_summary.csv", artifact_gate_summary)
     write_csv(DATA / "artifact_strata_summary.csv", artifact_strata_summary)
 
-    plot_metric_bars(admitted, FIGURES / "admitted_rows_metrics.pdf", "Admitted evidence bundle")
+    plot_metric_bars(admitted, FIGURES / "admitted_rows_metrics.pdf", "Admitted evidence bundle", (3.9, 2.55))
     h2_plot_rows = [row for row in h2 if row["role"] in {"candidate", "baseline", "sanity", "control", "stability", "transfer"}]
-    plot_metric_bars(h2_plot_rows, FIGURES / "h2_output_cloud_controls.pdf", "H2 output-cloud geometry controls")
-    plot_metric_bars(negative, FIGURES / "negative_and_support_rows.pdf", "Negative and support evidence")
+    plot_metric_bars(h2_plot_rows, FIGURES / "h2_output_cloud_controls.pdf", "H2 output-cloud geometry controls", (7.1, 4.15))
+    plot_metric_bars(negative, FIGURES / "negative_and_support_rows.pdf", "Negative/support evidence", (3.9, 2.3))
     plot_artifact_gate_summary(artifact_gate_summary, FIGURES / "artifact_gate_summary.pdf")
 
     manifest_path = PAPER / "asset_manifest.json"
