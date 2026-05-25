@@ -11,9 +11,12 @@ This rebuilds:
 - `data/admitted_rows.csv`
 - `data/h2_output_cloud_rows.csv`
 - `data/negative_support_rows.csv`
+- `data/artifact_gate_summary.csv`
+- `data/artifact_strata_summary.csv`
 - `figures/admitted_rows_metrics.pdf`
 - `figures/h2_output_cloud_controls.pdf`
 - `figures/negative_and_support_rows.pdf`
+- `figures/artifact_gate_summary.pdf`
 
 ## Compile Paper
 
@@ -28,4 +31,4 @@ pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.te
 Copy-Item -LiteralPath .\build\main.pdf -Destination .\paper.pdf -Force
 ```
 
-The current verified compile path produced a 7-page `paper.pdf` on 2026-05-26.
+The current verified compile path produced an 8-page `paper.pdf` on 2026-05-26.

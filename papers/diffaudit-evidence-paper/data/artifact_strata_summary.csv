@@ -1,0 +1,18 @@
+corpus,group_type,group,count
+v1 evidence-note corpus,stratum,artifact-rich-partial,1
+v1 evidence-note corpus,stratum,boundary-negative,1
+v1 evidence-note corpus,stratum,bounded-negative,3
+v1 evidence-note corpus,stratum,code-public-no-packet,2
+v1 evidence-note corpus,stratum,mechanism-candidate,1
+v1 evidence-note corpus,stratum,metadata-only-no-artifact,7
+v1 evidence-note corpus,stratum,positive-control,1
+v1 evidence-note corpus,stratum,positive-non-admitted,2
+v1 evidence-note corpus,stratum,source-confounded,1
+v1 evidence-note corpus,stratum,support-only,1
+v1 evidence-note corpus,stratum,withdrawn-no-artifact,1
+fixed-search batch,inclusion_decision,excluded_no_result,4
+fixed-search batch,inclusion_decision,excluded_query_noise,1
+fixed-search batch,inclusion_decision,included_existing_gate,3
+fixed-search batch,inclusion_decision,included_existing_watch,1
+fixed-search batch,inclusion_decision,included_metadata_only,7
+fixed-search batch,inclusion_decision,included_new_metadata,1

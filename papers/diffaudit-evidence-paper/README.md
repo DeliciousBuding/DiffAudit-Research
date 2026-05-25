@@ -24,7 +24,10 @@ workspaces.
 | `data/` | Generated CSV tables used by figures and LaTeX. |
 | `data/artifact_corpus_v1.csv` | Direction C metadata-only corpus table; not a generated metric table. |
 | `data/artifact_corpus_fixed_search_20260526.csv` | Direction C fixed-search corpus batch; curated metadata, not a generated metric table. |
+| `data/artifact_gate_summary.csv` | Generated selected-corpus gate counts for Direction C claim-control framing; not prevalence evidence. |
+| `data/artifact_strata_summary.csv` | Generated selected-corpus stratum and inclusion-decision counts. |
 | `figures/` | Generated PDF figures. |
+| `figures/artifact_gate_summary.pdf` | Generated gate-count figure used in `main.tex`; selected-corpus only, not field-wide prevalence. |
 | `main.tex` | Primary Direction A manuscript draft. |
 | `refs.bib` | Initial bibliography for the manuscript draft. |
 | `paper.pdf` | Current compiled PDF snapshot when built locally. |

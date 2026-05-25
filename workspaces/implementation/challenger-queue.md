@@ -9,7 +9,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `Paperization active: papers/diffaudit-evidence-paper now contains a multi-direction paper portfolio, direction-specific version briefs, evidence bank, claim register, generated CSV/PDF figures, a compiled 7-page IEEEtran draft, Direction C v1 metadata corpus, and a 2026-05-26 fixed-search metadata batch; H2 output-cloud remains a strong Research-side case study, not admitted; no selected heavy CPU/GPU sidecar` |
+| Active work | `Paperization active: papers/diffaudit-evidence-paper now contains a multi-direction paper portfolio, direction-specific version briefs, evidence bank, claim register, generated CSV/PDF figures, a compiled 8-page IEEEtran draft, Direction C v1 metadata corpus, a 2026-05-26 fixed-search metadata batch, and selected-corpus gate-summary assets; H2 output-cloud remains a strong Research-side case study, not admitted; no selected heavy CPU/GPU sidecar` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
 | CPU sidecar | paper asset generation / metadata-only artifact-corpus expansion only |
@@ -109,27 +109,29 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   [`../../papers/diffaudit-evidence-paper/versions/direction-c-fixed-search-batch-20260526.md`](../../papers/diffaudit-evidence-paper/versions/direction-c-fixed-search-batch-20260526.md)
   and [`../../papers/diffaudit-evidence-paper/data/artifact_corpus_fixed_search_20260526.csv`](../../papers/diffaudit-evidence-paper/data/artifact_corpus_fixed_search_20260526.csv),
   research-team pitches, figure-generation script, CSV/PDF figure assets,
-  IEEEtran `main.tex`, bibliography, build notes, and compiled 7-page
+  selected-corpus Direction C gate-summary outputs, IEEEtran `main.tex`,
+  bibliography, build notes, and compiled 8-page
   `paper.pdf`.
 - `primary thesis`: DiffAudit should be written as an evidence-calibrated
   security/privacy measurement paper: strong diffusion MIA scores are useful
   only when bound to target identity, split, score/response coverage, metric
-  provenance, artifact provenance, and consumer boundary.
+  provenance, consumer boundary, and surface delta.
 - `candidate tracks`: Direction A evidence-contracted auditing is primary;
   Direction B output-cloud geometry is a mechanism short/workshop candidate
   needing a second response asset or explicit H2-short-paper scope for
   standalone promotion; Direction C reproducibility/claim-support now has a
   21-row structured v1 corpus from existing evidence notes plus a 17-row
-  fixed-search metadata batch, but still needs gate-label consistency review
-  before standalone aggregate claims; Direction D consumer-boundary systems
-  paper is later artifact/demo material and needs deployment, external-use,
-  user-study, or report-drift evidence.
+  fixed-search metadata batch plus selected-corpus gate-summary outputs, but
+  still needs gate-label consistency review before standalone aggregate claims;
+  Direction D consumer-boundary systems paper is later artifact/demo material
+  and needs deployment, external-use, user-study, or report-drift evidence.
 - `next action`: Direction A has been expanded from the initial paper skeleton
-  to a 7-page draft with stronger method, evidence-state, metric-replay,
-  audit-surface framing, corpus-protocol, fixed-search integration, H2
-  admission decision, non-admitted decision-value table, and artifact-release
-  framing. Continue polishing venue framing and prose density; use Direction C
-  v1 plus the fixed-search batch for gate-matrix drafting, then run gate-label
+  to an 8-page draft with stronger method, evidence-state, metric-replay,
+  audit-surface framing, corpus-protocol, fixed-search integration,
+  selected-corpus gate-summary figure, H2 admission decision, non-admitted
+  decision-value table, and artifact-release framing. Continue polishing venue
+  framing and prose density; use Direction C v1 plus the fixed-search batch and
+  gate-summary assets for claim-control drafting, then run gate-label
   consistency review. Do not launch
   heavyweight model training or same-family sweeps for paper padding.
 - `stop rule`: every paper claim must pass `claim_register.md`; candidates and
