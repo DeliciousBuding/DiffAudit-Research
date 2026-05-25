@@ -1,0 +1,352 @@
+{
+  "status": "ready",
+  "track": "black-box",
+  "method": "H2 img2img output-cloud portability review",
+  "mode": "cpu-existing-cache-review",
+  "packets": [
+    {
+      "name": "img2img_admission_25_25_strength_0p75",
+      "response_cache": "workspaces\\black-box\\runs\\h2-img2img-simple-distance-admission-20260501-r1\\response-cache.npz",
+      "inputs": {
+        "sample_count": 50,
+        "member_count": 25,
+        "nonmember_count": 25,
+        "strengths": [
+          0.75
+        ],
+        "repeat_count": 2,
+        "raw_feature_count": 6,
+        "feature_count": 2,
+        "feature_names": [
+          "within_strength_pair_rmse_0p75",
+          "cloud_pca_trace"
+        ],
+        "dropped_features": [
+          {
+            "name": "within_strength_pair_rmse_mean",
+            "reason": "duplicate",
+            "duplicate_of": "within_strength_pair_rmse_0p75"
+          },
+          {
+            "name": "within_strength_pair_rmse_std",
+            "reason": "constant",
+            "span": 0.0
+          },
+          {
+            "name": "within_strength_pair_rmse_slope",
+            "reason": "constant",
+            "span": 0.0
+          },
+          {
+            "name": "cloud_pca_top_share",
+            "reason": "constant",
+            "span": 0.0
+          }
+        ]
+      },
+      "simple": {
+        "best_by_auc": {
+          "name": "within_strength_pair_rmse_0p75",
+          "orientation": "negative_higher_is_member",
+          "metrics": {
+            "auc": 0.7984,
+            "asr": 0.8,
+            "tpr_at_1pct_fpr": 0.0,
+            "tpr_at_0_1pct_fpr": 0.0,
+            "member_score_mean": -0.289586,
+            "nonmember_score_mean": -0.324418
+          }
+        },
+        "best_by_low_fpr": {
+          "name": "within_strength_pair_rmse_0p75",
+          "orientation": "negative_higher_is_member",
+          "metrics": {
+            "auc": 0.7984,
+            "asr": 0.8,
+            "tpr_at_1pct_fpr": 0.0,
+            "tpr_at_0_1pct_fpr": 0.0,
+            "member_score_mean": -0.289586,
+            "nonmember_score_mean": -0.324418
+          }
+        }
+      },
+      "logistic": {
+        "aggregate_metrics": {
+          "auc": 0.7888,
+          "asr": 0.8,
+          "tpr_at_1pct_fpr": 0.0,
+          "tpr_at_0_1pct_fpr": 0.0,
+          "member_score_mean": 0.611939,
+          "nonmember_score_mean": 0.386206
+        },
+        "aggregate_ci95": {
+          "auc": {
+            "p025": 0.66124,
+            "p975": 0.90964
+          },
+          "asr": {
+            "p025": 0.7,
+            "p975": 0.9
+          },
+          "tpr_at_1pct_fpr": {
+            "p025": 0.0,
+            "p975": 0.561
+          },
+          "tpr_at_0_1pct_fpr": {
+            "p025": 0.0,
+            "p975": 0.561
+          }
+        },
+        "prediction_count": {
+          "min": 7,
+          "max": 7,
+          "mean": 7.0
+        },
+        "top_mean_coefficients": [
+          {
+            "feature": "cloud_pca_trace",
+            "coefficient": -0.688557,
+            "abs_coefficient": 0.688557
+          },
+          {
+            "feature": "within_strength_pair_rmse_0p75",
+            "coefficient": -0.435199,
+            "abs_coefficient": 0.435199
+          }
+        ]
+      },
+      "references": {
+        "raw_h2_logistic": {
+          "auc": 0.8656,
+          "asr": 0.84,
+          "tpr_at_1pct_fpr": 0.4,
+          "tpr_at_0_1pct_fpr": 0.4,
+          "member_score_mean": 0.676535,
+          "nonmember_score_mean": 0.322001
+        },
+        "lowpass_h2_logistic": {
+          "auc": 0.8656,
+          "asr": 0.84,
+          "tpr_at_1pct_fpr": 0.4,
+          "tpr_at_0_1pct_fpr": 0.4,
+          "member_score_mean": 0.677194,
+          "nonmember_score_mean": 0.323417
+        },
+        "best_simple_distance": {
+          "auc": 0.8768,
+          "asr": 0.84,
+          "tpr_at_1pct_fpr": 0.44,
+          "tpr_at_0_1pct_fpr": 0.44,
+          "member_score_mean": -0.238433,
+          "nonmember_score_mean": -0.275017,
+          "zero_fp_tp_count": 11,
+          "zero_fp_tpr_empirical": 0.44,
+          "zero_fp_nonmember_count": 25
+        }
+      },
+      "comparison": {
+        "output_cloud_minus_best_simple_distance": {
+          "auc": -0.088,
+          "asr": -0.04,
+          "tpr_at_1pct_fpr": -0.44,
+          "tpr_at_0_1pct_fpr": -0.44
+        },
+        "output_cloud_minus_raw_h2_logistic": {
+          "auc": -0.0768,
+          "asr": -0.04,
+          "tpr_at_1pct_fpr": -0.4,
+          "tpr_at_0_1pct_fpr": -0.4
+        },
+        "output_cloud_minus_lowpass_h2_logistic": {
+          "auc": -0.0768,
+          "asr": -0.04,
+          "tpr_at_1pct_fpr": -0.4,
+          "tpr_at_0_1pct_fpr": -0.4
+        }
+      },
+      "verdict": "img2img_output_cloud_weak"
+    },
+    {
+      "name": "img2img_stability_10_10_strength_0p75",
+      "response_cache": "workspaces\\black-box\\runs\\h2-img2img-simple-distance-stability-20260501-r1\\response-cache.npz",
+      "inputs": {
+        "sample_count": 20,
+        "member_count": 10,
+        "nonmember_count": 10,
+        "strengths": [
+          0.75
+        ],
+        "repeat_count": 2,
+        "raw_feature_count": 6,
+        "feature_count": 2,
+        "feature_names": [
+          "within_strength_pair_rmse_0p75",
+          "cloud_pca_trace"
+        ],
+        "dropped_features": [
+          {
+            "name": "within_strength_pair_rmse_mean",
+            "reason": "duplicate",
+            "duplicate_of": "within_strength_pair_rmse_0p75"
+          },
+          {
+            "name": "within_strength_pair_rmse_std",
+            "reason": "constant",
+            "span": 0.0
+          },
+          {
+            "name": "within_strength_pair_rmse_slope",
+            "reason": "constant",
+            "span": 0.0
+          },
+          {
+            "name": "cloud_pca_top_share",
+            "reason": "constant",
+            "span": 0.0
+          }
+        ]
+      },
+      "simple": {
+        "best_by_auc": {
+          "name": "within_strength_pair_rmse_0p75",
+          "orientation": "negative_higher_is_member",
+          "metrics": {
+            "auc": 0.97,
+            "asr": 0.95,
+            "tpr_at_1pct_fpr": 0.9,
+            "tpr_at_0_1pct_fpr": 0.9,
+            "member_score_mean": -0.290123,
+            "nonmember_score_mean": -0.345106
+          }
+        },
+        "best_by_low_fpr": {
+          "name": "within_strength_pair_rmse_0p75",
+          "orientation": "negative_higher_is_member",
+          "metrics": {
+            "auc": 0.97,
+            "asr": 0.95,
+            "tpr_at_1pct_fpr": 0.9,
+            "tpr_at_0_1pct_fpr": 0.9,
+            "member_score_mean": -0.290123,
+            "nonmember_score_mean": -0.345106
+          }
+        }
+      },
+      "logistic": {
+        "aggregate_metrics": {
+          "auc": 0.96,
+          "asr": 0.9,
+          "tpr_at_1pct_fpr": 0.8,
+          "tpr_at_0_1pct_fpr": 0.8,
+          "member_score_mean": 0.779368,
+          "nonmember_score_mean": 0.215138
+        },
+        "aggregate_ci95": {
+          "auc": {
+            "p025": 0.8595,
+            "p975": 1.0
+          },
+          "asr": {
+            "p025": 0.84875,
+            "p975": 1.0
+          },
+          "tpr_at_1pct_fpr": {
+            "p025": 0.5,
+            "p975": 1.0
+          },
+          "tpr_at_0_1pct_fpr": {
+            "p025": 0.5,
+            "p975": 1.0
+          }
+        },
+        "prediction_count": {
+          "min": 7,
+          "max": 7,
+          "mean": 7.0
+        },
+        "top_mean_coefficients": [
+          {
+            "feature": "within_strength_pair_rmse_0p75",
+            "coefficient": -1.056942,
+            "abs_coefficient": 1.056942
+          },
+          {
+            "feature": "cloud_pca_trace",
+            "coefficient": -1.041053,
+            "abs_coefficient": 1.041053
+          }
+        ]
+      },
+      "references": {
+        "raw_h2_logistic": {
+          "auc": 0.99,
+          "asr": 0.95,
+          "tpr_at_1pct_fpr": 0.9,
+          "tpr_at_0_1pct_fpr": 0.9,
+          "member_score_mean": 0.772985,
+          "nonmember_score_mean": 0.226756
+        },
+        "lowpass_h2_logistic": {
+          "auc": 0.97,
+          "asr": 0.95,
+          "tpr_at_1pct_fpr": 0.9,
+          "tpr_at_0_1pct_fpr": 0.9,
+          "member_score_mean": 0.773942,
+          "nonmember_score_mean": 0.229482
+        },
+        "best_simple_distance": {
+          "auc": 0.99,
+          "asr": 0.95,
+          "tpr_at_1pct_fpr": 0.9,
+          "tpr_at_0_1pct_fpr": 0.9,
+          "member_score_mean": -0.234006,
+          "nonmember_score_mean": -0.287763,
+          "zero_fp_tp_count": 9,
+          "zero_fp_tpr_empirical": 0.9,
+          "zero_fp_nonmember_count": 10
+        }
+      },
+      "comparison": {
+        "output_cloud_minus_best_simple_distance": {
+          "auc": -0.03,
+          "asr": -0.05,
+          "tpr_at_1pct_fpr": -0.1,
+          "tpr_at_0_1pct_fpr": -0.1
+        },
+        "output_cloud_minus_raw_h2_logistic": {
+          "auc": -0.03,
+          "asr": -0.05,
+          "tpr_at_1pct_fpr": -0.1,
+          "tpr_at_0_1pct_fpr": -0.1
+        },
+        "output_cloud_minus_lowpass_h2_logistic": {
+          "auc": -0.01,
+          "asr": -0.05,
+          "tpr_at_1pct_fpr": -0.1,
+          "tpr_at_0_1pct_fpr": -0.1
+        }
+      },
+      "verdict": "img2img_output_cloud_positive_but_not_distinct"
+    }
+  ],
+  "decision_gate": {
+    "uses_existing_response_caches_only": true,
+    "generates_new_responses": false,
+    "uses_only_output_output_geometry": true,
+    "excludes_input_to_output_distance": true,
+    "admission_auc": 0.7888,
+    "stability_auc": 0.96,
+    "min_auc": 0.7888,
+    "min_tpr_at_0_1pct_fpr": 0.0,
+    "max_auc_delta_vs_best_simple_distance": -0.03,
+    "reopen_allowed": false,
+    "requires_second_public_asset_before_product_promotion": true
+  },
+  "verdict": "img2img_output_cloud_weak_or_unstable",
+  "notes": [
+    "This review tests whether output-output cloud geometry remains useful in the existing SD/CelebA img2img caches.",
+    "It intentionally excludes input-to-output simple distance, which is the known stronger img2img baseline.",
+    "A positive-but-not-distinct result does not expand H2; it narrows output-cloud geometry to a Research-side diagnostic.",
+    "No response generation, model download, or GPU work is performed."
+  ]
+}
