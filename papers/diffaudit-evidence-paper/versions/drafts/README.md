@@ -21,8 +21,8 @@ the go/no-go gate in its draft.
 | --- | --- | --- | --- |
 | [`direction-a-evidence-contract-paper.md`](direction-a-evidence-contract-paper.md) | Evidence Contract Team | Security/privacy measurement paper | Primary full-paper track. |
 | [`direction-b-output-cloud-short-paper.md`](direction-b-output-cloud-short-paper.md) | Response Geometry Team | H2-limited mechanism short/workshop paper | Strong case-study track, no full-paper portability claim yet. |
-| [`direction-c-artifact-reproducibility-paper.md`](direction-c-artifact-reproducibility-paper.md) | Artifact Reproducibility Team | Claim-support reproducibility/measurement paper | v1 plus fixed-search batch and selected-corpus consistency pass exist; standalone claims need broader corpus or second review. |
-| [`direction-d-audit-systems-paper.md`](direction-d-audit-systems-paper.md) | Audit Systems Team | Downstream systems/artifact/demo paper | Hold until deployment, report-drift, or external-use evidence exists. |
+| [`direction-c-artifact-reproducibility-paper.md`](direction-c-artifact-reproducibility-paper.md) | Artifact Claim-Support Team | Selected-corpus claim-support measurement paper | v1 plus GitHub/arXiv fixed-search batch and selected-corpus consistency pass exist; standalone aggregate claims need broader corpus or second review. |
+| [`direction-d-audit-systems-paper.md`](direction-d-audit-systems-paper.md) | Artifact Contract Team | Downstream artifact/demo contract paper | Hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
 
 ## Global Guardrails
 
