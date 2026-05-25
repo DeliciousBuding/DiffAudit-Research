@@ -29,6 +29,16 @@ geometry candidate, not a second public asset or Platform/Runtime contract.
 Decision: `candidate complementary signal / order-control scout passed / seed-stable /
 cross-cache transfer strong / no admitted row / no download / no 512/512 rerun selected`.
 
+Latest portability check:
+[h2-img2img-output-cloud-portability-20260525.md](h2-img2img-output-cloud-portability-20260525.md)
+records a CPU-only existing-cache review on the SD/CelebA img2img packets.
+The admission `25 / 25` cache is weak or unstable for output-cloud geometry
+(`AUC = 0.7888`, `TPR@1%FPR = 0.0`, `TPR@0.1%FPR = 0.0`) and underperforms the
+existing simple-distance comparator (`AUC -0.0880`). The stability `10 / 10`
+cache is positive (`AUC = 0.9600`) but still not distinct from simple distance
+(`AUC -0.0300`). Decision: `img2img output-cloud weak-or-unstable /
+not distinct from simple distance / no Runtime runner / no Platform row`.
+
 Previous Research update:
 [feature-packet-channel-consumer-verdict-20260525.md](feature-packet-channel-consumer-verdict-20260525.md)
 records a consumer-boundary verdict for the gray-box feature-packet lane.

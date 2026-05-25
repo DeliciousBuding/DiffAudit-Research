@@ -43,13 +43,26 @@ same-sample all-train/all-test diagnostic；decision gate 为
 `mean_auc = 0.959755`，`min_tpr_at_1pct_fpr = 0.375000`，
 `min_tpr_at_0_1pct_fpr = 0.058594`。
 
+同日完成的 img2img portability review 只读取现有 SD/CelebA img2img response
+caches，不生成新响应、不下载模型、不释放 GPU。结果没有扩展 H2：admission
+`25 / 25` cache 上 output-cloud logistic 只有 `AUC = 0.7888`，
+`TPR@1%FPR = 0.0`，`TPR@0.1%FPR = 0.0`，且比 best simple-distance
+低 `AUC -0.0880`；stability `10 / 10` cache 虽为 `AUC = 0.9600`，
+但仍低于 simple-distance `AUC = 0.9900`。decision gate 为
+`img2img_output_cloud_weak_or_unstable`，所以该 review 只把 output-cloud
+geometry 限定为 H2 response-strength Research-side diagnostic，不打开
+img2img Runtime runner、Platform row、strength/seed/repeat/feature sweep 或
+input-distance fusion。
+
 该结果只能作为 Research-side 强候选；下一步不是同 cache sweep，也不是为了补表格跑
 完整 `512 / 512` shared-position。重新打开只应基于正式机制晋升、第二公开资产或独立消费合约。
 当前 slots 仍为：
 `active_gpu_question = none`，`next_gpu_candidate = none`，
-`CPU sidecar = none selected after H2 output-cloud cross-cache transfer review`。
+`CPU sidecar = none selected after H2 img2img output-cloud portability review`。
 See
-[docs/evidence/h2-output-cloud-geometry-20260525.md](docs/evidence/h2-output-cloud-geometry-20260525.md)。
+[docs/evidence/h2-output-cloud-geometry-20260525.md](docs/evidence/h2-output-cloud-geometry-20260525.md)
+and
+[docs/evidence/h2-img2img-output-cloud-portability-20260525.md](docs/evidence/h2-img2img-output-cloud-portability-20260525.md)。
 
 ## 2026-05-25 Feature-Packet 通道消费者裁决
 
