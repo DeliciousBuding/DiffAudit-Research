@@ -25,28 +25,31 @@ image-to-image distance. This paper studies whether geometry within an audited
 H2 response cloud can reveal training membership. On the H2 response-strength
 cache, output-output features such as within-step repeat distance, timestep
 centroid movement, and response-cloud Gram spectra reach AUC `0.961529`,
-outperforming raw and lowpass H2 distance baselines. Label-shuffle controls
-return random-level behavior, shared-position seed-offset controls preserve the
-signal, seed `177` remains strong, and fold-disjoint cross-cache transfer
-reaches mean AUC `0.959755`. The mechanism is therefore not explained by a
-trivial label leak or class-ordered seed offset. However, an SD/CelebA img2img
-portability check is weaker and not distinct from simple distance. We present
-output-cloud geometry as a promising H2 membership observable with an explicit
-portability boundary rather than as a product-ready attack.
+outperforming the tested raw and lowpass H2 distance baselines. Label-shuffle
+controls return random-level behavior, shared-position seed-offset controls
+preserve the signal, seed `177` remains strong, and fold-disjoint same-family
+cross-cache transfer reaches mean AUC `0.959755`. The signal is therefore not
+explained by a trivial label leak or class-ordered seed offset inside this
+response family. However, an SD/CelebA img2img portability check is weaker and
+not distinct from simple distance. We present output-cloud geometry as a
+promising H2 membership observable with an explicit portability boundary rather
+than as a product-ready attack.
 
 ## Core Thesis
 
-In the audited H2 repeated-response cache, membership signal can live in the
-geometry among repeated diffusion outputs, not only in direct query-to-output
-similarity. The current evidence is strong inside one controlled response
-family, but the paper cannot claim broad portability until a second asset
-confirms the observable.
+Output-cloud geometry is a strong controlled H2 response-family signal with an
+explicit failed portability boundary. In the audited H2 repeated-response
+cache, membership signal can live in the geometry among repeated diffusion
+outputs, not only in the tested direct query-to-output similarity baselines.
+The current evidence is strong inside one controlled response family, but the
+paper cannot claim broad portability until a second asset confirms the
+observable.
 
 ## Main Claims
 
 | Claim | Evidence | Boundary |
 | --- | --- | --- |
-| B1: Output-output geometry is an operationally distinct H2 feature family. | Feature design excludes seed-to-output distance. | Still learned logistic fusion over engineered features; not a causal mechanism claim. |
+| B1: Output-output geometry is operationally separated from tested H2 distance baselines. | Feature design excludes seed-to-output distance and is compared with raw/lowpass H2 baselines. | Still learned logistic fusion over engineered features; not a causal mechanism claim. |
 | B2: H2 evidence is strong and controlled. | AUC `0.961529`, label-shuffle `0.507595`, shared-position `0.967819` | One response-contract family. |
 | B3: Signal is robust across controlled same-family caches. | 176 -> 177 AUC `0.948990`, 177 -> 176 AUC `0.970520` | Same-family cache robustness, not cross-model or cross-dataset transfer. |
 | B4: Portability is unresolved. | SD/CelebA img2img AUC `0.7888`, strict-tail `0.0`, below simple distance | Blocks full-paper claim unless a second asset appears. |
@@ -58,7 +61,7 @@ confirms the observable.
 | Introduction | Motivate response clouds as a different black-box observable. |
 | Method | Define output-cloud features and the bounded scorer. |
 | H2 Results | Report main metrics and simple-feature insufficiency. |
-| Controls | Label shuffle, shared-position seed policy, seed stability, transfer. |
+| Controls | Label shuffle, shared-position seed policy, seed stability, same-family cross-cache transfer. |
 | Portability Boundary | Explain SD/CelebA img2img failure and why it matters. |
 | Implications | State what a second-asset confirmation would need to prove. |
 

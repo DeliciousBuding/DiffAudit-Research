@@ -11,14 +11,24 @@ D as manuscript-level Markdown drafts until their go/no-go gates justify a TeX
 fork. This gives the project several paper options while protecting the shared
 claim boundary.
 
+The versions are intentionally different papers, not four wordings of the same
+paper:
+
+| Version | Primary reader question | Scientific object | Why it is distinct |
+| --- | --- | --- | --- |
+| A | When is a diffusion MIA score reusable audit evidence? | Evidence contract and admitted/candidate taxonomy | Turns the whole workspace into a measurement-methodology paper. |
+| B | Is repeated-response geometry a real membership observable? | H2 response-cloud mechanism candidate | Treats one strong technical signal as a bounded mechanism short paper. |
+| C | What do selected diffusion MIA artifact surfaces actually support? | Selected-corpus claim-support audit | Makes claim support the empirical object without field-wide prevalence claims. |
+| D | How should downstream reports consume privacy evidence safely? | Artifact contract and report-correctness checks | Turns the evidence boundary into an artifact/demo paper before any systems claim. |
+
 ## Version Set
 
 | Direction | Research team | Paper identity | Current decision |
 | --- | --- | --- | --- |
 | A | Evidence Contract Team | Full security/privacy measurement paper | Primary. Expand the existing LaTeX draft to 6-8 pages. |
 | B | Response Geometry Team | H2-limited mechanism short/workshop paper | Strong technical case study; no full-paper portability claim until a second response asset appears. |
-| C | Artifact Reproducibility Team | Claim-support reproducibility/measurement paper | v1 metadata corpus, fixed-search batch, gate-summary assets, and selected-corpus consistency pass now exist; standalone aggregate claims need a larger corpus or second label review. |
-| D | Audit Systems Team | Downstream systems/artifact/demo paper | Hold until deployment, user study, external adopter, or report-drift evidence exists. |
+| C | Artifact Claim-Support Team | Selected-corpus claim-support measurement paper | v1 metadata corpus, fixed GitHub/arXiv batch, gate-summary assets, and selected-corpus consistency pass now exist; standalone aggregate claims need a larger corpus or second label review. |
+| D | Artifact Contract Team | Artifact/demo contract paper | Hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
 
 ## Draft Files
 
@@ -35,8 +45,21 @@ claim boundary.
 | --- | --- | --- | --- |
 | Evidence Contract Team | When does a diffusion MIA score become reusable audit evidence? | Strengthen [`main.tex`](main.tex) with corpus framing, method detail, and reviewer-facing claims. | Stop any claim that bypasses [`claim_register.md`](claim_register.md). |
 | Response Geometry Team | Does repeated-response geometry expose membership beyond direct distance? | Keep H2 as a bounded case study and prepare short-paper draft language with same-family wording. | Stop unless a second response asset or explicit short-paper scope exists. |
-| Artifact Reproducibility Team | What claims do public diffusion MIA artifacts actually support? | Use v1, the 2026-05-26 fixed-search batch, generated gate-summary counts, and the completed selected-corpus consistency pass for claim-control drafting. | Stop if aggregate claims exceed the selected corpus. |
-| Audit Systems Team | How can runtime/report consumers avoid unsupported claim promotion? | Keep as downstream brief and collect report-drift or external-use evidence. | Stop if the paper only describes schema without measurable report-correctness benefit. |
+| Artifact Claim-Support Team | What claims do selected diffusion MIA artifact surfaces actually support? | Use v1, the 2026-05-26 GitHub/arXiv fixed-search batch, generated gate-summary counts, and the completed selected-corpus consistency pass for claim-control drafting. | Stop if aggregate claims exceed the selected corpus. |
+| Artifact Contract Team | How can report consumers avoid unsupported claim promotion? | Keep as artifact/demo brief and collect fault-injection, report-drift, or external-use evidence. | Stop if the paper only describes schema without measurable report-correctness benefit. |
+
+## Team Deliverable Contract
+
+Each team is allowed to produce only three deliverables before a TeX fork:
+
+| Deliverable | Required content | Anti-sprawl rule |
+| --- | --- | --- |
+| One-page pitch | title, thesis, venue posture, three contributions, one fatal risk | Must cite existing evidence files; no new source of truth. |
+| Manuscript skeleton | abstract, section plan, figure/table plan, claim boundaries | Markdown only until go/no-go passes. |
+| Go/no-go memo | what new evidence would change the decision | No new CLI, validator, crawler, or GPU run unless it changes promotion. |
+
+This keeps the "multiple paper versions" work as scientific strategy rather
+than documentation inflation.
 
 ## Shared Evidence Boundary
 
@@ -53,10 +76,11 @@ from candidate/support evidence into admitted evidence.
 ## Next Work Order
 
 1. Expand Direction A's LaTeX draft first.
-2. Use Direction C v1 plus the fixed-search metadata batch, gate-summary
-   assets, and selected-corpus consistency pass for claim-control drafting; add
-   a broader source batch or second label review only for standalone submission.
+2. Use Direction C v1 plus the GitHub/arXiv fixed-search metadata batch,
+   gate-summary assets, and selected-corpus consistency pass for claim-control
+   drafting; add a broader source batch or second label review only for
+   standalone aggregate claims.
 3. Keep Direction B as a short-paper-ready H2 mechanism draft until a second
    response asset exists.
-4. Keep Direction D as an artifact/demo brief until external-use or report-drift
-   evidence exists.
+4. Keep Direction D as an artifact/demo contract brief until fault-injection,
+   report-drift, external-use, or deployment evidence exists.

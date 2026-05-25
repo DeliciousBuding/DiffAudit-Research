@@ -1,4 +1,4 @@
-# Direction C Draft: Artifact Reproducibility and Claim Support
+# Direction C Draft: Selected-Corpus Artifact Claim Support
 
 ## Assigned Research Team
 
@@ -13,27 +13,26 @@
 
 | Field | Draft choice |
 | --- | --- |
-| Title | When Diffusion MIA Scores Are Not Audit Evidence: A Claim-Support Study of Public Artifacts |
-| Target type | Reproducibility/measurement paper |
-| Venue posture | Reproducibility, measurement, ML systems, or security/privacy methods venue |
+| Title | When Diffusion MIA Scores Are Not Audit Evidence: A Selected-Corpus Claim-Support Study |
+| Target type | Selected-corpus artifact claim-support measurement paper |
+| Venue posture | Measurement, ML systems, or security/privacy methods venue; reproducibility venue only if replay evidence is separated from metadata-only rows |
 | Current artifact | Draft plus v0/v1 corpus files and fixed-search batch: [`../direction-c-corpus-protocol.md`](../direction-c-corpus-protocol.md), [`../direction-c-corpus-v1.md`](../direction-c-corpus-v1.md), [`../direction-c-fixed-search-batch-20260526.md`](../direction-c-fixed-search-batch-20260526.md), [`../../data/artifact_corpus_v1.csv`](../../data/artifact_corpus_v1.csv), and [`../../data/artifact_corpus_fixed_search_20260526.csv`](../../data/artifact_corpus_fixed_search_20260526.csv) |
 
 ## Abstract
 
-Public diffusion membership-inference artifacts often expose code,
-checkpoints, score packets, or supplementary materials, but artifact
-availability is not the same as auditability. This paper studies what claims
-public artifacts can safely support. We evaluate artifacts through six gates:
-target identity, member split, nonmember split, score or response coverage,
-metric provenance, and consumer-boundary fit. The current DiffAudit starter
-corpus shows several distinct outcomes. Some packets are positive but
-non-admitted because they expose feature-level rather than image-level evidence.
-Some bounded scouts are scoreable but weak under the audited observable. Some
-local or collaborator packets are replayable but source-confounded. These are
-not failures of the original papers; they are claim-boundary measurements. The
-paper's central result is a taxonomy of artifact claim support: what can be
-replayed, what can be scored, what can be audited, and what can be safely
-consumed.
+In a frozen selected corpus of DiffAudit evidence notes and a small fixed
+GitHub/arXiv metadata search, we study which claims each diffusion MIA artifact
+surface can support. Artifact availability is not the same as auditability, and
+metadata-only evidence is not the same as reproduction. We code each row through
+six gates: target identity, split semantics, score or response coverage, metric
+provenance, consumer boundary, and surface delta. The selected corpus contains
+several distinct outcomes: positive but non-admitted feature packets, scoreable
+but weak bounded scouts, source-confounded collaborator/local packets,
+metadata-only public surfaces, and internal admitted controls. These are not
+failures of the original papers; they are claim-boundary measurements. The
+paper's central result is a selected-corpus taxonomy of artifact claim support:
+what can be inspected, what can be replayed, what can be scored, what can be
+audited, and what can be safely consumed.
 
 ## Controlling Thesis
 
@@ -43,16 +42,43 @@ availability or scoreability. A public artifact can support a paper claim, a
 research-side replay, or a consumer-safe audit claim, and those are different
 scientific objects.
 
-## Corpus Protocol Required Before Full Claims
+## Standalone Version Definition
+
+This version is a claim-support measurement paper. It should read as:
+
+> We measured what kinds of claims selected diffusion MIA artifacts can support
+> under a reusable audit contract.
+
+It should not read as:
+
+> We surveyed the whole field and found that diffusion MIA artifacts fail.
+
+The current corpus supports selected-corpus reasoning only. A standalone paper
+can be written now as a scoped measurement note, but any CCF-B-style aggregate
+claim needs either a broader frozen source pass or a second independent label
+review.
+
+## Selected-Corpus Protocol Required Before Full Claims
 
 | Protocol item | Required decision |
 | --- | --- |
-| Search date | Freeze at an absolute cutoff, e.g. 2026-05-26 for the first corpus expansion. |
-| Sources | arXiv, OpenReview, major venue proceedings, GitHub, Zenodo, Hugging Face, Papers with Code. |
+| Current search date | Frozen at 2026-05-26 for the fixed GitHub/arXiv metadata batch. |
+| Current covered sources | GitHub search and arXiv metadata search only, plus existing DiffAudit evidence notes. |
+| Explicitly excluded from the current fixed batch | OpenReview, Hugging Face, Papers with Code, Zenodo, major-venue manual chasing, full artifact downloads, and full upstream replays. |
+| Broader standalone sources | arXiv, OpenReview, major venue proceedings, GitHub, Zenodo, Hugging Face, Papers with Code. |
 | Keywords | diffusion membership inference; generative model membership inference; diffusion memorization; copyright/data identification diffusion; synthetic data MIA. |
 | Metadata only | Record URLs, modality, target type, artifact type, public surface, six-gate labels, and no large downloads. |
 | Target size | Add 10-20 papers or artifact surfaces before making aggregate claims. |
 | Strata | Separate audit-ready controls, positive-but-non-admitted packets, bounded negatives, source-confounded cases, no/partial-artifact cases, and internal controls. |
+
+## Current Evidence Snapshot
+
+| Evidence item | What it supports | What it does not support |
+| --- | --- | --- |
+| 21-row v1 corpus | Controlled selected-corpus gate taxonomy and stratum separation. | Field-wide prevalence or venue-wide artifact quality. |
+| 17-row fixed-search batch from 2026-05-26 | Independent metadata-only search layer over a frozen query set. | Full reproducibility judgment without downloads or replays. |
+| Generated gate-summary CSV/PDF | Counts of pass/partial/fail gate labels inside the selected corpus. | Statistical estimates of public artifact availability. |
+| Selected-corpus consistency pass | Internal label coherence; no CSV label changes required. | Independent inter-rater reliability. |
 
 ## Contribution Claims
 
@@ -69,13 +95,24 @@ scientific objects.
 | Section | Draft content |
 | --- | --- |
 | Introduction | Distinguish artifact availability, scoreability, reproducibility, and auditability. |
-| Corpus Protocol | Present fixed search window, sources, keywords, metadata fields, and exclusion rules before any results. |
+| Selected-Corpus Protocol | Present fixed search window, covered sources, excluded sources, keywords, metadata fields, and exclusion rules before any results. |
 | Six-Gate Method | Define pass/partial/fail for target identity, member split, nonmember split, score/response coverage, metric provenance, and consumer-boundary fit. |
 | Artifact Strata | Separate public artifacts, collaborator/local packets, internal admitted controls, and internal candidate controls. |
-| Results | Report gate matrix and failure taxonomy; avoid ranking papers by "failure." |
-| Case Studies | Tracing Roots feature packet, ReDiffuse STL-10 bounded scouts, CommonCanvas, MIDST, SD ReDiffuse source confounding, H2 as internal candidate control. |
+| Results | Report gate matrix and failure taxonomy as coded rows in this corpus; avoid ranking papers by "failure." |
+| Case Studies | Split by stratum: public metadata/code surfaces, public score/feature packets, bounded local scouts, collaborator/local packets, and internal controls. |
 | Lessons for Authors | State what future artifacts should publish: manifests, hashes, score rows, ROC arrays, metric JSON, finite-tail denominators, boundary language. |
 | Threats to Validity | Cherry-picking, local-only evidence, metadata-only inspection limits, DiffAudit-specific consumer boundary, finite tails. |
+
+## Section-Level Draft Skeleton
+
+| Section | Claim to make | Required evidence | Text boundary |
+| --- | --- | --- | --- |
+| 1. Introduction | Auditability is a stricter object than artifact availability. | Six-gate contract and examples of distinct strata. | Avoid hostile "artifact failure" framing. |
+| 2. Corpus Construction | The corpus is frozen and selected by explicit rules. | v1 corpus, fixed-search batch, protocol docs. | State selected-corpus only. |
+| 3. Six-Gate Method | Gates define what claim an artifact can support. | target identity, split semantics, score/response coverage, metric provenance, consumer boundary, surface delta. | Gates are audit-consumer requirements, not moral judgments. |
+| 4. Gate Results | Selected artifacts occupy multiple support states. | gate-summary CSV/PDF and strata table. | Counts are not prevalence estimates. |
+| 5. Case Studies | Positive, weak, and confounded packets reveal different claim boundaries. | Tracing Roots, ReDiffuse, CommonCanvas, MIDST, SD ReDiffuse, H2. | Weak scouts do not disprove original papers. |
+| 6. Author Checklist | Future artifacts can make claims reusable by publishing row-bound evidence. | release checklist from Direction A. | Checklist is prescriptive, not a pass/fail ranking of papers. |
 
 ## Figure and Table Plan
 
@@ -86,6 +123,15 @@ scientific objects.
 | Artifact stratum table | Prevents internal controls and public artifacts from being mixed. |
 | Signal-vs-completeness scatter | Shows that high or positive scores are not sufficient for auditability. |
 | Failure-taxonomy chart | Counts target-identity, split, score, provenance, and boundary gaps. |
+
+## Team Work Order
+
+| Team member | Next useful action | Explicit non-action |
+| --- | --- | --- |
+| Measurement lead | Write the method as a claim-support audit, with inclusion rules before results. | Do not state field-wide artifact prevalence. |
+| Artifact engineer | Keep gate labels tied to existing CSV rows and generated summaries. | Do not download large models or rerun upstream training for narrative symmetry. |
+| Table lead | Produce a heatmap and stratum table from existing selected-corpus data. | Do not merge internal controls with public metadata-only rows. |
+| Cherry-pick auditor | Decide whether a broader source pass or second label review is needed before standalone submission. | Do not approve standalone aggregate claims from the selected corpus alone. |
 
 ## Review Risks and Fixes
 
