@@ -9,10 +9,10 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 | Field | Value |
 | --- | --- |
-| Active work | `H2 output-cloud geometry is a strong Research-side candidate after order-control, seed-stability, and cross-cache transfer reviews, but it is not admitted; ReDiffuse STL-10 bounded denoising-loss and score-norm scouts are weak; feature-packet channel remains deferred; no selected CPU/GPU sidecar` |
+| Active work | `H2 output-cloud geometry is a strong Research-side candidate after order-control, seed-stability, and cross-cache transfer reviews, but img2img portability is weak or unstable and it is not admitted; ReDiffuse STL-10 bounded denoising-loss and score-norm scouts are weak; feature-packet channel remains deferred; no selected CPU/GPU sidecar` |
 | Active GPU task | none running |
 | Next GPU candidate | none selected |
-| CPU sidecar | none selected after H2 output-cloud cross-cache transfer and ReDiffuse STL-10 weak metric verdicts |
+| CPU sidecar | none selected after H2 img2img output-cloud portability and ReDiffuse STL-10 weak metric verdicts |
 | Gray-box status | PIA remains admitted; feature-packet channel remains deferred; Tracing the Roots is positive Research-only evidence; FMIA, Rectified Flow, SimA, VAE2Diffusion, DME, and FreMIA remain watch-plus or paper/stub-only; Fashion-MNIST SimA score-norm and score-Jacobian sensitivity remain weak |
 | Non-gray-box GPU | none selected |
 
@@ -91,14 +91,14 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
 
 ### 2026-05-25 Research Resting State
 
-- `mode`: post-H2 output-cloud cross-cache transfer / post-ReDiffuse STL-10 weak scout / post-feature-packet consumer verdict.
-- `status`: H2 output-cloud geometry is the latest strong Research-side candidate, with the existing `512 / 512` response-cache review, two `256 / 256` shared-position order-control scouts, and a CPU-only fold-disjoint transfer review retaining strong signal while label-shuffle stays random-level. The transfer review gives seed `176` -> `177` `AUC = 0.948990`, `TPR@1%FPR = 0.375000`, `TPR@0.1%FPR = 0.058594`, and seed `177` -> `176` `AUC = 0.970520`, `TPR@1%FPR = 0.390625`, `TPR@0.1%FPR = 0.074219`. It is not admitted because it is still a single H2 response-cache geometry candidate, not a second public asset or Platform/Runtime contract.
+- `mode`: post-H2 output-cloud cross-cache transfer and img2img portability review / post-ReDiffuse STL-10 weak scout / post-feature-packet consumer verdict.
+- `status`: H2 output-cloud geometry is the latest strong Research-side candidate, with the existing `512 / 512` response-cache review, two `256 / 256` shared-position order-control scouts, and a CPU-only fold-disjoint transfer review retaining strong signal while label-shuffle stays random-level. The transfer review gives seed `176` -> `177` `AUC = 0.948990`, `TPR@1%FPR = 0.375000`, `TPR@0.1%FPR = 0.058594`, and seed `177` -> `176` `AUC = 0.970520`, `TPR@1%FPR = 0.390625`, `TPR@0.1%FPR = 0.074219`. The SD/CelebA img2img portability review is weak or unstable on the admission cache (`AUC = 0.7888`, strict-tail recovery `0.0`) and not distinct from simple distance, so it does not release img2img sweeps or product work. It is not admitted because it is still a single H2 response-cache geometry candidate, not a second public asset or Platform/Runtime contract.
 - `status`: ReDiffuse STL-10 is closed by default. The official split and local CUDA path are executable, but the bounded `300`-step target produced random-level fixed-timestep denoising-loss metrics, and the same checkpoint/split also failed a SimA-style denoiser-output score-norm scorer.
 - `status`: Feature-packet consumption remains deferred. Tracing the Roots is positive Research-only evidence, but there is no second public non-source-equivalent feature packet and no raw target/sample/regeneration asset.
 - `goal`: next cycle must select exactly one high-information task. Valid reopen triggers are a public third-party checkpoint/score packet, a genuinely different membership observable with bounded preflight, an explicit cross-modal/feature-level consumer-boundary decision, or an approved long-train checkpoint/score publication contract.
 - `stop rule`: if a candidate cannot pass target identity, exact split, query/response or score coverage, provenance, and non-adjacent mechanism gates, stop rather than writing another scope/audit/reselection chain.
 - `GPU cap`: none selected.
-- `CPU sidecar`: none selected after H2 output-cloud cross-cache transfer review.
+- `CPU sidecar`: none selected after H2 img2img output-cloud portability review.
 - `integration`: no schema change; admitted five-row consumer set remains intact; H2 output-cloud, H2 simple-distance, ReDiffuse, CLiD, Tracing Roots, SecMI stat/NNS, and MT-MIA remain outside Platform/Runtime admitted rows.
 
 Current evidence:
