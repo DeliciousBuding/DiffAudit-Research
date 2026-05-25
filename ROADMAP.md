@@ -1,6 +1,77 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-05-25
+> Last updated: 2026-05-26
+
+## 2026-05-26 可发表论文组合与主推稿件
+
+最新决策：Research 主线从零散实验推进切到“可发表科研成果”沉淀。已新建
+[`papers/diffaudit-evidence-paper/`](papers/diffaudit-evidence-paper/)，把当前证据
+组织成一个多论文组合和一个可编译主稿。主推方向是 security/privacy measurement
+论文，而不是单点 SOTA attack 论文：DiffAudit 的核心 thesis 是
+evidence-contracted / evidence-calibrated auditing，即扩散模型 membership
+审计必须把分数绑定到 target identity、split、score/response coverage、metric
+provenance、artifact provenance 和 consumer boundary，才能从“看起来强的 AUC”
+变成可复用、可消费、可发表的科学证据。
+
+已落地资产：
+
+- `paper_portfolio.md`：四个候选论文方向和研究团队分工。Direction A
+  evidence-contracted auditing 是当前主推；Direction B output-cloud geometry
+  是技术机制短文候选；Direction C public-artifact reproducibility / negative
+  results 是可扩展测量论文候选；Direction D consumer-boundary systems paper
+  是后续 artifact/demo 方向。
+- `versions/`：四个方向的 writing-ready brief，分别记录研究团队、abstract
+  draft、section spine、证据边界、最小下一步和拒绝事项。当前不 fork 四套
+  LaTeX，所有方向继续共享 `source_map.md`、`claim_register.md` 和
+  `evidence_bank.md`。Direction C 已补 `direction-c-corpus-protocol.md`，
+  冻结 metadata-only v0 corpus 和初始六关矩阵。
+- `multi_direction_paper_drafts.md` 和 `versions/drafts/`：已把四个方向扩成
+  manuscript-level Markdown drafts。Direction A 是主推完整论文；Direction B
+  是机制 short/workshop paper，不能声称跨模型/跨数据集 portability；Direction C
+  是 claim-support artifact reproducibility paper，必须先扩展 metadata-only
+  corpus；Direction D 是 systems/artifact/demo paper，等待 deployment /
+  external-use / user-study / report-drift 证据。
+- `source_map.md`、`claim_register.md`、`evidence_bank.md`：把 admitted、
+  candidate、support-only、negative 和 prohibited claims 分开，避免把 H2、
+  Tracing Roots、ReDiffuse、CommonCanvas、MIDST 或 collaborator SD ReDiffuse
+  写成超出证据边界的结论。
+- `scripts/build_paper_assets.py`：从现有 JSON artifacts 生成论文 CSV 和 PDF
+  图，不手填指标。
+- `main.tex`、`refs.bib` 和 `paper.pdf`：第一版 IEEEtran 会议格式稿件已通过
+  `pdflatex + bibtex + pdflatex + pdflatex` 手动链路编译，当前为 `5` 页 draft。
+  正文已包含 Related Work、Evidence Contract、Measurement Protocol、
+  candidate gate matrix、Artifact Corpus、Admitted Bundle、H2 case study、
+  Negative/Support Evidence、Threats to Validity 和 Discussion/Conclusion。
+  `latexmk` 因本机 MiKTeX 缺 Perl 不能运行，见 `BUILD.md`。
+
+当前论文主线使用三类证据：
+
+- admitted evidence bundle：`recon`、`PIA baseline`、`PIA defended`、`GSA`、
+  `DPDM W-1` 五行，统一报告 AUC / ASR / TPR@1%FPR / TPR@0.1%FPR / cost /
+  boundary。
+- H2 output-cloud geometry：作为 Research-side 机制 case study，保留强候选和
+  controls，但不晋升为产品 row，也不声称跨 SD/CelebA img2img 泛化。
+- negative/support evidence：ReDiffuse STL-10、CommonCanvas、MIDST、Tracing
+  Roots、CopyMark、Stable Diffusion ReDiffuse collaborator artifact 等用于说明
+  为什么第二资产和消费者边界不能靠 headline metric 直接成立。
+
+下一步科研动作不是重型跑模型，而是补齐可投稿性：
+
+1. 把 Direction A 从当前 `5` 页骨架扩成更完整的 `6-8` 页会议论文：强化
+   artifact corpus protocol、venue framing、method detail 和 reviewer-facing
+   contribution wording。
+2. 为 Direction C 在已冻结 v0 corpus 基础上扩展公开 artifact corpus 和
+   gate-failure taxonomy。扩展前必须先冻结搜索窗口、来源、关键词和 artifact
+   strata，再加入约 `10-20` 个 metadata-only public surfaces；写法必须是
+   claim-support measurement，不能写成“这些论文失败了”。
+3. Direction B 只在出现第二个独立 response asset 或明确批准 bounded
+   response-contract experiment 时继续；否则保持为主稿 case study。
+4. 所有论文 claim 必须继续遵守 `claim_register.md`，不得把 finite empirical
+   low-FPR tail 写成连续校准，不能把 candidate 写成 admitted。
+
+当前 slots 仍不释放重型实验：
+`active_gpu_question = none`，`next_gpu_candidate = none`，
+`CPU sidecar = paper asset generation / metadata-only corpus expansion only`。
 
 ## 2026-05-25 H2 output-cloud geometry 候选信号
 
