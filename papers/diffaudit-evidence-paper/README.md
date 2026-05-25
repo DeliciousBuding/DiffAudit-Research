@@ -12,13 +12,13 @@ workspaces.
 | `multi_direction_paper_drafts.md` | Manuscript-level comparison of four paper versions and their research teams. |
 | `versions/` | Direction-specific paper briefs with team assignment, abstract, outline, evidence boundary, and go/no-go criteria. |
 | `versions/drafts/` | Full Markdown paper-version drafts for Directions A-D; only Direction A currently has LaTeX. |
-| `versions/direction-c-corpus-protocol.md` | Frozen v0 metadata-only corpus protocol for the artifact reproducibility paper direction. |
+| `versions/direction-c-corpus-protocol.md` | Frozen v0 metadata-only corpus protocol for the artifact claim-support paper direction. |
 | `versions/direction-c-corpus-v1.md` | Structured Direction C corpus expansion from existing metadata-gate evidence notes. |
 | `versions/direction-c-fixed-search-batch-20260526.md` | Independent fixed-search metadata batch for Direction C; no downloads, no clone, no model/data execution. |
 | `source_map.md` | Authoritative evidence sources and forbidden moves. |
 | `claim_register.md` | Allowed, support-only, and prohibited claims. |
 | `evidence_bank.md` | Human-readable metric ledger for manuscript drafting. |
-| `research_team_pitches.md` | A/B/C paper-team pitches and risks from read-only subagent review. |
+| `research_team_pitches.md` | A-D paper-team pitches and risks from read-only subagent review. |
 | `BUILD.md` | Figure generation and LaTeX compile commands. |
 | `scripts/build_paper_assets.py` | Rebuilds paper CSV/PDF figure assets from repository JSON artifacts. |
 | `data/` | Generated CSV tables used by figures and LaTeX. |
@@ -44,7 +44,7 @@ The current paper-version drafts are:
 - Direction A: evidence-contracted security/privacy measurement paper.
 - Direction B: output-cloud geometry short/workshop paper; full-paper promotion
   requires a second independent response asset.
-- Direction C: claim-support artifact reproducibility paper; it now has a
+- Direction C: selected-corpus claim-support measurement paper; it now has a
   21-row v1 corpus, a fixed-search metadata batch, gate-summary outputs, and a
   selected-corpus consistency pass with no CSV label changes. Standalone
   aggregate claims still require a larger frozen corpus or a second independent

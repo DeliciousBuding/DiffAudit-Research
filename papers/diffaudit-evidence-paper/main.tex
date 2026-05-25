@@ -4,8 +4,10 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{amsmath}
+\usepackage{array}
 \usepackage{xcolor}
 \usepackage{url}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
 \title{DiffAudit: Evidence-Contracted Membership Leakage Auditing for Diffusion Models}
 
@@ -81,10 +83,11 @@ already demonstrate meaningful diffusion privacy risk across access levels:
 black-box reconstruction risk reaches AUC 0.837, gray-box PIA reaches AUC
 0.841, and white-box GSA reaches AUC 0.998 under their stated contracts.
 Second, a new H2 response-cloud analysis suggests that repeated output geometry
-contains membership signal beyond simple seed-to-output distance. This signal is
-strong and controlled inside the H2 response-strength setting, but it remains a
-research candidate because the SD/CelebA img2img portability check is weak or
-not distinct from simpler distance features. Third, many plausible second-asset
+can expose membership signal without reading seed-to-output distance and is
+stronger than the tested raw/lowpass H2 baselines. This signal is strong and
+controlled inside the H2 response-strength setting, but it remains a research
+candidate because the SD/CelebA img2img portability check is weak or not
+distinct from simpler distance features. Third, many plausible second-asset
 routes are scientifically useful precisely because they fail: ReDiffuse STL-10
 has a clean split and scoreable short target but random-level metrics;
 CommonCanvas has a real response packet but weak scorers; Tracing the Roots has
@@ -96,8 +99,9 @@ The paper therefore makes the following contributions:
 \item We define the claim-bound evidence packet as the measurement unit for
 diffusion membership auditing and specify six gates that separate admitted,
 candidate, support-only, watch, and negative evidence.
-\item We report a five-row admitted evidence bundle with unified AUC, ASR,
-TPR@1\%FPR, TPR@0.1\%FPR, cost, provenance, and boundary language.
+\item We report a five-row admitted evidence bundle with shared metric fields
+(AUC, ASR, TPR@1\%FPR, and TPR@0.1\%FPR) plus source-retained cost,
+provenance, and boundary language.
 \item We introduce and evaluate an output-cloud geometry case study that
 survives several bounded controls while remaining honestly limited to its
 current response-contract family.
@@ -374,7 +378,8 @@ prevalence.
 Field & Rule \\
 \midrule
 Search cutoff & Use an absolute date before outcome coding. \\
-Sources & arXiv, OpenReview, venue pages, GitHub, Zenodo, Hugging Face, Papers with Code. \\
+Instantiated sources & GitHub repository search and arXiv API metadata search. \\
+Future expansion sources & OpenReview, venue pages, Zenodo, Hugging Face, Papers with Code. \\
 Keywords & Diffusion MIA, generative MIA, diffusion memorization, data identification, synthetic-data MIA. \\
 Recorded metadata & Paper URL, artifact URL, modality, target type, artifact type, public surface, gate labels. \\
 Execution policy & No large downloads or GPU runs during metadata coding. \\
@@ -458,15 +463,16 @@ limitation language.
 \caption{Admitted DiffAudit evidence rows. Rows share an evidence contract, not
 a homogeneous threat model or benchmark leaderboard.}
 \label{tab:admitted}
-\begin{tabular}{llrrrrl}
+\footnotesize
+\begin{tabular}{@{}L{0.09\linewidth}L{0.23\linewidth}rrrrL{0.21\linewidth}@{}}
 \toprule
-Track & Method & AUC & ASR & TPR@1\%FPR & TPR@0.1\%FPR & Role \\
+Track & Method & AUC & ASR & TPR@1\%FPR & TPR@0.1\%FPR & Boundary/caveat \\
 \midrule
-Black-box & recon DDIM public-100 step30 & 0.837 & 0.740 & 0.220 & 0.110 & controlled risk proof \\
-Gray-box & PIA GPU512 baseline & 0.841 & 0.786 & 0.059 & 0.012 & baseline \\
-Gray-box & PIA + stochastic dropout & 0.828 & 0.768 & 0.053 & 0.010 & provisional comparator \\
-White-box & GSA 1k-3shadow & 0.998 & 0.990 & 0.987 & 0.432 & upper-bound attack \\
-White-box & GSA against DPDM W-1 & 0.489 & 0.499 & 0.009 & 0.000 & defense comparator \\
+Black-box & recon DDIM public-100 step30 & 0.837 & 0.740 & 0.220 & 0.110 & runtime-mainline; public proxy risk proof \\
+Gray-box & PIA GPU512 baseline & 0.841 & 0.786 & 0.059 & 0.012 & runtime-mainline; provenance caveat \\
+Gray-box & PIA + stochastic dropout & 0.828 & 0.768 & 0.053 & 0.010 & provisional defense comparator \\
+White-box & GSA 1k-3shadow & 0.998 & 0.990 & 0.987 & 0.432 & upper-bound white-box comparator \\
+White-box & GSA against DPDM W-1 & 0.489 & 0.499 & 0.009 & 0.000 & defense bridge frozen \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -498,11 +504,14 @@ shared-position controls: with identical per-position seed offsets for members
 and nonmembers, the scorer still reaches AUC 0.9678 at seed 176 and 0.9562 at
 seed 177. A fold-disjoint same-family cross-cache transfer review gives AUC
 0.9490 from seed 176 to 177 and AUC 0.9705 from seed 177 to 176.
+These controls do not exhaust every simple shortcut explanation or establish
+cross-model portability; they only support the bounded H2-family candidate
+claim.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/h2_output_cloud_controls.pdf}
-\caption{H2 output-cloud geometry controls. The signal beats raw/lowpass
+\caption{H2 output-cloud geometry controls. The signal beats tested raw/lowpass
 baselines and survives label-shuffle, seed-offset control, seed stability, and
 same-family cross-cache transfer. It remains a research candidate because
 portability to the SD/CelebA img2img contract is weak or not distinct from
@@ -654,12 +663,13 @@ therefore report them as finite empirical readouts and keep packet size and
 nonmember denominators attached to the claim.
 
 \textbf{Publication bias.} Negative routes were selected because they affected
-DiffAudit route decisions. The 2026-05-26 fixed-search batch reduces
-project-history bias, and the selected-corpus consistency pass catches internal
-label inconsistencies, but both remain single-review, metadata-light process
-traces rather than prevalence estimates. A standalone artifact-claim paper would
-need a larger frozen corpus or a second independent label review before drawing
-broader conclusions about public artifact availability.
+DiffAudit route decisions. The 2026-05-26 fixed-search batch partially reduces
+project-history bias for this selected-corpus draft, and the selected-corpus
+consistency pass catches internal label inconsistencies, but both remain
+single-review, metadata-light process traces rather than prevalence estimates.
+A standalone artifact-claim paper would need a larger frozen corpus or a second
+independent label review before drawing broader conclusions about public
+artifact availability.
 
 \section{Conclusion}
 
