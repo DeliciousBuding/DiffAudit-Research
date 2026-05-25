@@ -105,7 +105,7 @@ arXiv API metadata queries:
   weights, generated images, or repository payloads.
 - It does not promote Direction C to a standalone full paper by itself; it
   promotes Direction C from anecdotal starter corpus to a stronger
-  claim-support section and a plausible reproducibility-paper plan.
+  claim-support section and a plausible artifact-claim paper plan.
 
 ## Consistency Status
 
