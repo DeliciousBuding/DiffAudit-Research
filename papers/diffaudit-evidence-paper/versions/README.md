@@ -20,8 +20,8 @@ are met. The shared evidence boundary remains:
 | --- | --- | --- | --- |
 | A | Evidence Contract Team | Security/privacy measurement | Main manuscript now. |
 | B | Response Geometry Team | Mechanism short/workshop paper | Keep as second-track; needs second response asset for full paper. |
-| C | Artifact Reproducibility Team | Claim-support measurement paper | v1 corpus, fixed-search batch, gate summary, and selected-corpus consistency pass exist; standalone aggregate claims need a broader corpus or second label review. |
-| D | Audit Systems Team | Systems/artifact paper | Downstream brief only; hold until deployment, user-study, external-use, or report-drift evidence exists. |
+| C | Artifact Claim-Support Team | Selected-corpus claim-support measurement paper | v1 corpus, GitHub/arXiv fixed-search batch, gate summary, and selected-corpus consistency pass exist; standalone aggregate claims need a broader corpus or second label review. |
+| D | Artifact Contract Team | Artifact/demo contract paper | Downstream brief only; hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
 
 ## Manuscript Drafts
 
@@ -47,14 +47,14 @@ are met. The shared evidence boundary remains:
 
 ## Selection Matrix
 
-| Criterion | A: Evidence Contract | B: Output Cloud | C: Artifact Repro | D: Audit Systems |
+| Criterion | A: Evidence Contract | B: Output Cloud | C: Claim Support | D: Artifact Contract |
 | --- | --- | --- | --- | --- |
 | Uses current evidence honestly | Strong | Medium | Medium | Medium |
 | Needs new model/data execution | Low | Medium-high | Low | Low |
 | CCF-B+ plausibility now | Medium | Low unless scoped as short paper | Medium if claims stay selected-corpus only; higher needs broader corpus or second label review | Low-medium |
-| Biggest missing piece | Stronger venue framing and method detail | Second response asset | Broader fixed-source pass or second independent label review if aiming standalone | External/deployment evidence |
+| Biggest missing piece | Stronger venue framing and method detail | Second response asset | Broader fixed-source pass or second independent label review if aiming standalone | Fault-injection, report-drift, external-use, or deployment evidence |
 | Overclaiming risk | Medium | High | Medium | Medium |
-| Current action | Tighten `../main.tex` and add venue-grade corpus framing | Keep as H2-limited short-paper draft | Use v1, fixed-search, gate-summary outputs, and selected-corpus consistency pass for claim-control drafting | Hold for artifact/demo |
+| Current action | Tighten `../main.tex` and add venue-grade corpus framing | Keep as H2-limited short-paper draft | Use v1, GitHub/arXiv fixed-search, gate-summary outputs, and selected-corpus consistency pass for claim-control drafting | Hold for artifact/demo contract |
 
 ## Team Assignment Rule
 
