@@ -45,8 +45,10 @@ The current paper-version drafts are:
 - Direction B: output-cloud geometry short/workshop paper; full-paper promotion
   requires a second independent response asset.
 - Direction C: claim-support artifact reproducibility paper; it now has a
-  21-row v1 corpus plus a fixed-search metadata batch, but still needs
-  gate-label consistency review before standalone aggregate claims.
+  21-row v1 corpus, a fixed-search metadata batch, gate-summary outputs, and a
+  selected-corpus consistency pass with no CSV label changes. Standalone
+  aggregate claims still require a larger frozen corpus or a second independent
+  label review.
 - Direction D: audit systems/artifact paper; it remains downstream material
   until deployment, external-use, user-study, or report-drift evidence exists.
 

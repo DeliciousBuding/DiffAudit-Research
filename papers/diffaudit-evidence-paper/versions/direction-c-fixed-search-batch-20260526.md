@@ -107,9 +107,13 @@ arXiv API metadata queries:
   promotes Direction C from anecdotal starter corpus to a stronger
   claim-support section and a plausible reproducibility-paper plan.
 
-## Next Gate
+## Consistency Status
 
-Before Direction C becomes a standalone LaTeX manuscript, run one
-gate-label-consistency pass over `artifact_corpus_v1.csv` and
-`artifact_corpus_fixed_search_20260526.csv`. The consistency pass should
-record disagreements and resolutions, not create a new crawler or downloader.
+The 2026-05-26 selected-corpus consistency pass reviewed
+`artifact_corpus_v1.csv` and `artifact_corpus_fixed_search_20260526.csv`
+without changing CSV labels. It confirmed that fixed-search metadata rows remain
+metadata-only even when target or boundary labels are `Partial`, because they
+still fail the evidence and metric gates. Before Direction C becomes a
+standalone LaTeX manuscript with aggregate claims beyond this selected corpus,
+add a broader frozen source batch or a second independent label review. Do not
+create a crawler, downloader, or GPU/CPU replay task for this gate.

@@ -121,8 +121,9 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   needing a second response asset or explicit H2-short-paper scope for
   standalone promotion; Direction C reproducibility/claim-support now has a
   21-row structured v1 corpus from existing evidence notes plus a 17-row
-  fixed-search metadata batch plus selected-corpus gate-summary outputs, but
-  still needs gate-label consistency review before standalone aggregate claims;
+  fixed-search metadata batch plus selected-corpus gate-summary outputs and a
+  selected-corpus consistency pass with no CSV label changes, but standalone
+  aggregate claims still need a broader corpus or second independent label review;
   Direction D consumer-boundary systems paper is later artifact/demo material
   and needs deployment, external-use, user-study, or report-drift evidence.
 - `next action`: Direction A has been expanded from the initial paper skeleton
@@ -131,8 +132,7 @@ timeline. Historical run IDs and dated notes are in `legacy/`.
   selected-corpus gate-summary figure, H2 admission decision, non-admitted
   decision-value table, and artifact-release framing. Continue polishing venue
   framing and prose density; use Direction C v1 plus the fixed-search batch and
-  gate-summary assets for claim-control drafting, then run gate-label
-  consistency review. Do not launch
+  gate-summary assets for selected-corpus claim-control drafting. Do not launch
   heavyweight model training or same-family sweeps for paper padding.
 - `stop rule`: every paper claim must pass `claim_register.md`; candidates and
   support-only rows must remain visually and textually distinct from admitted

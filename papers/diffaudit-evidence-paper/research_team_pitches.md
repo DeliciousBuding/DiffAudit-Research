@@ -46,7 +46,7 @@ symmetry reruns, repeat-count tuning, KDE variants, or input-distance fusion.
 | Core thesis | Public diffusion MIA artifacts often support some research claim, but not necessarily a portable, row-bound, consumer-safe audit claim. Artifact availability, scoreability, reproducibility, and auditability must be measured separately. |
 | Contribution claims | Six-gate second-asset contract; measurement audit across CLiD, Tracing Roots, ReDiffuse, CommonCanvas, MIDST, and Stable Diffusion ReDiffuse; taxonomy of failure modes; negative results as exclusion evidence. |
 | Figures/tables | Six-gate candidate matrix; result matrix; selected-corpus gate-summary figure; artifact funnel from paper claim to reusable evidence; signal-strength vs artifact-completeness map. |
-| Lightweight additional work | Use the 21-row v1 corpus plus the 2026-05-26 fixed-search batch and generated gate-summary counts; next run gate-label consistency review before writing aggregate claims. Add one broader fixed-source pass only for a standalone submission. |
+| Lightweight additional work | Use the 21-row v1 corpus, the 2026-05-26 fixed-search batch, generated gate-summary counts, and the completed selected-corpus consistency pass. Add one broader fixed-source pass or a second independent label review only for a standalone submission. |
 | Fatal risks | Looks anecdotal unless candidate inclusion is preregistered; reviewers may ask for new SOTA performance; negative set can appear cherry-picked. |
 | Framing rule | Do not say papers fail. Say we measure what survives reusable, row-bound, low-FPR, consumer-safe constraints. |
 
@@ -57,8 +57,8 @@ measurement paper. It can incorporate Team B as a technical case study and Team
 C as its broader reproducibility motivation and selected-corpus gate summary.
 Team B becomes the next technical paper if a second response asset is acquired
 or if the scope is explicitly a short H2 case study. Team C becomes a standalone
-measurement paper if the artifact corpus passes consistency review and grows
-without field-wide overclaiming.
+measurement paper only if the selected corpus grows or receives a second
+independent label review without field-wide overclaiming.
 
 ## Team D: Audit Systems and Consumer Boundary
 
