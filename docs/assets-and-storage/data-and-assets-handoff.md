@@ -98,7 +98,7 @@ New machines should prepare these assets first. They cover most current verifica
 | `SH-WT-02` | CLIP ViT-L/14 | https://huggingface.co/openai/clip-vit-large-patch14 | `Download\shared\weights\clip-vit-large-patch14\` |
 | `SH-WT-03` | BLIP large | https://huggingface.co/Salesforce/blip-image-captioning-large | `Download\shared\weights\blip-image-captioning-large\` |
 | `SH-WT-04` | DDPM CIFAR-10 32 | https://huggingface.co/google/ddpm-cifar10-32 | `Download\shared\weights\google-ddpm-cifar10-32\` |
-| `GB-WT-01` | SecMI CIFAR bundle | see [research-download-master-list.md](../assets-and-storage/research-download-master-list.md) | `Download\gray-box\weights\secmi-cifar-bundle\` |
+| `GB-WT-01` | SecMI CIFAR bundle | project asset mirror first; otherwise see [research-download-master-list.md](../assets-and-storage/research-download-master-list.md) for the manual upstream path | `Download\gray-box\weights\secmi-cifar-bundle\` |
 | `GB-SUP-02` | SecMI member split `.npz` files | full SecMI clone or team asset mirror | `Download\gray-box\supplementary\secmi-member-splits\` |
 | `BB-SUP-02` | CLiD supplementary mirror | paper supplementary / manual bundle | `Download\black-box\supplementary\clid-mia-supplementary\` |
 

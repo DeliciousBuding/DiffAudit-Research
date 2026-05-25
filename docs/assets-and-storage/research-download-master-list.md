@@ -86,7 +86,7 @@ and integrity metadata before any GPU packet is released.
 
 | ID | Asset | Why We Need It | Source | Login / Gated | Est. Size | Download To |
 |---|---|---|---|---|---|---|
-| `GB-WT-01` | SecMI official CIFAR10/CIFAR100 checkpoint bundle | Already validated locally; keep external copy staged for rebuilds or refresh | [SecMI OneDrive bundle](https://drexel0-my.sharepoint.com/:f:/g/personal/jd3734_drexel_edu/EnVid-empkpNvzC_mOfHwv0BpgkDsB_C4RmHO4rIH8BSzw?e=c17NjE) | Yes, browser/manual | unknown | `<DIFFAUDIT_ROOT>/Download/gray-box/weights/secmi-cifar-bundle/` |
+| `GB-WT-01` | SecMI official CIFAR10/CIFAR100 checkpoint bundle | Already validated locally; keep external copy staged for rebuilds or refresh | project asset mirror or upstream SecMI release material, handled manually if access is required | Yes, browser/manual | unknown | `<DIFFAUDIT_ROOT>/Download/gray-box/weights/secmi-cifar-bundle/` |
 | `GB-SUP-01` | PIA upstream non-GitHub checkpoints or release artifacts | Needed if we need to tighten provenance or compare against upstream weights | author release / paper supplement if available | maybe manual | unknown | `<DIFFAUDIT_ROOT>/Download/gray-box/supplementary/pia-upstream-assets/` |
 | `GB-SUP-02` | SecMI member split `.npz` files | Required for SecMI probes and paired-surface checks; keep out of `third_party/` because they are data artifacts | full SecMI clone or team asset mirror | no / team mirror | small | `<DIFFAUDIT_ROOT>/Download/gray-box/supplementary/secmi-member-splits/` |
 | `GB-PAP-01` | SIMA paper / supplement if local copy is missing details | Needed if we implement SIMA | paper page / supplement | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/gray-box/papers/sima/` |

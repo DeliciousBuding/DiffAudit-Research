@@ -20,10 +20,9 @@
   - `flagfile.txt`
 - Status: `ready`
 
-Official link (already obtained, no re-download needed):
+Source handling note:
 
-- SecMI OneDrive bundle:
-  `https://drexel0-my.sharepoint.com/:f:/g/personal/jd3734_drexel_edu/EnVid-empkpNvzC_mOfHwv0BpgkDsB_C4RmHO4rIH8BSzw?e=c17NjE`
+- The SecMI bundle is already archived locally. New teammates should restore it from the project asset mirror or follow the upstream SecMI release material/manual retrieval path if access is ever needed again.
 
 ### 1.2 CLID_MIA Supplementary Files
 
