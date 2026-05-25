@@ -30,11 +30,12 @@ defense comparator. We also report a controlled H2 response-cloud case study:
 an output-output geometry scorer reaches AUC 0.9615 on an existing response
 cache and survives label-shuffle, seed-offset control, seed-stability, and
 cross-cache transfer checks, but fails to cleanly port to an SD/CelebA img2img
-contract. Finally, bounded scouts on ReDiffuse STL-10, CommonCanvas, MIDST, and
-feature-packet artifacts show why second-asset claims require artifact
-contracts rather than metric prose. DiffAudit is therefore a measurement
-framework: it exposes verified leakage where evidence supports it and prevents
-unverified portability claims where the public artifact surface is incomplete.
+contract. Finally, bounded scouts and a frozen metadata-only search batch over
+GitHub and arXiv show why second-asset claims require artifact contracts rather
+than metric prose: 17 fixed-search rows add selection-process evidence but no
+new admitted audit row. DiffAudit is therefore a measurement framework: it
+exposes verified leakage where evidence supports it and prevents unverified
+portability claims where the public artifact surface is incomplete.
 \end{abstract}
 
 \section{Introduction}
@@ -59,6 +60,15 @@ claims. This paper argues that such evidence contracts are not paperwork; they
 are scientific controls. They prevent source-label confounding, prompt-only
 shortcuts, finite-tail overclaiming, and the common failure mode where a
 high-level metric cannot be replayed or consumed by a real audit system.
+
+The audit decision problem has three consumers. A model owner needs to know
+whether a deployed or released checkpoint creates measurable membership risk
+under a stated access mode. An independent auditor needs row-bound artifacts
+that allow metric replay and low-FPR interpretation without retraining the
+target. A downstream runtime or report generator needs machine-checkable
+boundary language so that candidate mechanisms do not become user-facing audit
+claims. DiffAudit is therefore not an attack-SOTA paper: it studies when a
+diffusion MIA result is safe to consume as audit evidence.
 
 Our current evidence supports three findings. First, a small admitted bundle can
 already demonstrate meaningful diffusion privacy risk across access levels:
@@ -119,6 +129,47 @@ variation-query attacks~\cite{rediffuse2025}; and GSA uses gradient statistics
 as a strong white-box signal~\cite{gsa2025whitebox}. DiffAudit does not replace
 these methods. It asks which method outputs can be safely compared, replayed,
 and consumed as audit evidence.
+
+\subsection{Reporting and Reproducibility Artifacts}
+
+DiffAudit is also related to broader reporting and reproducibility work in
+machine learning. Reproducibility checklists and the NeurIPS reproducibility
+program emphasize reporting the data, code, hyperparameters, and evaluation
+conditions needed to interpret machine-learning results~\cite{pineau2021reproducibility}.
+Datasheets and model cards similarly argue that downstream consumers need
+structured documentation about the origin, intended use, and limitations of
+datasets and models~\cite{gebru2021datasheets,mitchell2019modelcards}. DiffAudit
+adapts this documentation logic to diffusion privacy audits: the artifact is
+not only a model or dataset, but a row-bound membership-evidence packet with an
+explicit consumer boundary.
+
+\section{Audit Surfaces}
+
+Diffusion MIA results are not interchangeable because they observe different
+audit surfaces. A black-box response packet can support an output-consumer
+claim if target identity and query rows are fixed. A gray-box trajectory or
+posterior-statistics packet can support a mechanism or evaluator claim, but
+requires a different consumer boundary. A white-box gradient packet is useful
+as an upper-bound risk comparator, not as a black-box report. Feature packets
+and collaborator-local scores can be scientifically useful while remaining
+support-only. Table~\ref{tab:surfaces} records the surfaces used in this paper.
+
+\begin{table}[t]
+\centering
+\caption{Audit surfaces and allowed evidence roles.}
+\label{tab:surfaces}
+\begin{tabular}{p{0.31\linewidth}p{0.59\linewidth}}
+\toprule
+Surface & Allowed role in DiffAudit \\
+\midrule
+Black-box responses & Admitted only with fixed target, split, response coverage, and metric replay. \\
+Gray-box trajectory/statistics & Admitted or candidate depending on provenance and consumer semantics. \\
+White-box gradients & Upper-bound comparator unless the audit consumer has white-box access. \\
+Feature packets & Support-only unless raw target/sample provenance and regeneration assets are available. \\
+Collaborator/local packets & Stress tests unless public row binding and source-confounding checks pass. \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Evidence Contract}
 
@@ -297,6 +348,16 @@ artifacts from internal controls and collaborator-local packets. No large model
 or dataset download is justified until the metadata gate shows that a row-bound
 claim could change.
 
+We instantiated this protocol once as a frozen Direction-C search batch on
+2026-05-26. The batch used seven fixed GitHub repository queries and five arXiv
+API metadata queries. It recorded direct hits, empty result sets, duplicate
+known surfaces, metadata-only paper rows, and one noisy title-query result
+before drawing any aggregate claim. The outcome is intentionally modest:
+metadata discovery is easy, but no new row-bound public target/split/score or
+response packet appeared. This strengthens the paper's claim-support argument
+without pretending that a small metadata batch estimates field-wide artifact
+prevalence.
+
 \begin{table}[t]
 \centering
 \caption{Metadata-only corpus expansion protocol.}
@@ -314,6 +375,24 @@ Execution policy & No large downloads or GPU runs during metadata coding. \\
 \end{tabular}
 \end{table}
 
+\begin{table}[t]
+\centering
+\caption{Frozen fixed-search batch used for Direction-C claim support.}
+\label{tab:fixed-search}
+\begin{tabular}{p{0.50\linewidth}r}
+\toprule
+Recorded outcome & Rows \\
+\midrule
+Direct GitHub/arXiv surfaces already covered by prior gates & 3 \\
+New code-public surface with no audit-ready packet & 1 \\
+Relevant arXiv metadata-only paper rows & 8 \\
+Empty fixed-query repository result sets & 4 \\
+Query-noise example retained for auditability & 1 \\
+New admitted audit rows & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Artifact Strata}
 
 We separate artifact strata before drawing conclusions. Admitted controls show
@@ -326,6 +405,15 @@ stratification prevents two common errors: treating all public artifacts as
 failed audits, and treating all positive scores as portable audit evidence.
 
 \section{Admitted Evidence Bundle}
+
+Rows are admitted through a fixed path. First, a score array or response packet
+must bind every sample to a member/nonmember label under a stated target.
+Second, the metrics in Table~\ref{tab:admitted} are replayed from those rows or
+from a frozen response scorer. Third, low-FPR readouts are attached to their
+finite nonmember denominator. Finally, the row receives consumer-boundary
+language that states who may use it and what caveat must accompany it. This is
+why admitted rows can coexist with stronger non-admitted candidates: admission
+is about reusable audit semantics, not only metric magnitude.
 
 Table~\ref{tab:admitted} summarizes the admitted rows. Each row is consumed with
 its cost and limitation language; none is treated as a universal benchmark.
@@ -392,6 +480,24 @@ tail recovery and underperforms the existing best simple-distance comparator by
 distance. Thus the paper reports output-cloud geometry as a controlled
 mechanism candidate, not as an admitted black-box row.
 
+\begin{table}[t]
+\centering
+\caption{Why H2 output-cloud geometry is not admitted.}
+\label{tab:h2-decision}
+\begin{tabular}{p{0.45\linewidth}p{0.45\linewidth}}
+\toprule
+Check & Measurement decision \\
+\midrule
+H2 main cache & Strong positive candidate signal. \\
+Label shuffle & Random-level sanity check supports nontrivial signal. \\
+Shared-position controls & Same-family seed-offset explanation is insufficient. \\
+Cross-cache transfer & Same-family robustness, not cross-model portability. \\
+SD/CelebA img2img & Weak or not distinct from simple distance. \\
+Admission decision & Research candidate only; no product/runtime row. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Negative and Support Evidence}
 
 DiffAudit treats failed routes as measurement evidence when they answer a
@@ -416,6 +522,24 @@ audit framework; they are examples of why scoreability, portability, and
 consumer semantics must be separated.}
 \label{fig:negative}
 \end{figure}
+
+\begin{table*}[t]
+\centering
+\caption{Decision value of non-admitted evidence.}
+\label{tab:decision-value}
+\begin{tabular}{p{0.26\linewidth}p{0.31\linewidth}p{0.33\linewidth}}
+\toprule
+Route & Decision question & Overclaim blocked \\
+\midrule
+ReDiffuse STL-10 & Does a clean split plus bounded denoising-loss/score-norm scout release a larger run? & It does not justify a same-family expansion or a failed-reproduction claim. \\
+CommonCanvas response packet & Does a second response contract support current scorers? & A real response packet alone is not a portability result. \\
+MIDST Blending++ & Does tabular diffusion evidence reopen an image/latent audit row? & Cross-domain scoreability is not an admitted image-diffusion claim. \\
+Tracing Roots feature tensors & Does a positive feature packet support raw image audit consumption? & Feature-level replay is not a raw checkpoint/sample audit. \\
+SD ReDiffuse collaborator packet & Does replayability imply same-distribution membership evidence? & Source confounding blocks a same-distribution claim. \\
+Fixed-search batch & Does metadata discovery produce a new admitted row? & Small metadata search is not field-wide artifact prevalence. \\
+\bottomrule
+\end{tabular}
+\end{table*}
 
 \section{Discussion and Limitations}
 
@@ -461,6 +585,10 @@ result.
 
 \subsection{Artifact Release Checklist}
 
+The following release recommendations are derived from the observed gate
+failures in the v1 corpus, the fixed-search batch in
+Table~\ref{tab:fixed-search}, and the decision-value cases in
+Table~\ref{tab:decision-value}.
 For diffusion MIA results to become reusable audit evidence, future artifacts
 should publish more than code and headline tables. A reusable packet should
 include: target model and checkpoint identity; immutable member and nonmember
@@ -490,8 +618,10 @@ nonmember denominators attached to the claim.
 
 \textbf{Publication bias.} Negative routes were selected because they affected
 DiffAudit route decisions. A standalone reproducibility paper would need a
-frozen corpus protocol before drawing broader conclusions about public artifact
-availability.
+larger frozen corpus protocol and gate-label consistency review before drawing
+broader conclusions about public artifact availability. The 2026-05-26
+fixed-search batch reduces project-history bias, but it remains a small
+metadata-only process trace rather than a prevalence estimate.
 
 \section{Conclusion}
 
