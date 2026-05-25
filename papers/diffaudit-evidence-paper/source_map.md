@@ -45,6 +45,9 @@ not a bibliography; it is a claim-control ledger.
 | `docs/evidence/fseclab-mia-diffusion-code-artifact-gate-20260515.md` | Fixed-search batch re-found official code-public but no replay-packet artifact gap. |
 | `versions/direction-c-fixed-search-batch-20260526.md` | Direction C fixed-search protocol, flow summary, and no-download decision. |
 | `data/artifact_corpus_fixed_search_20260526.csv` | Machine-readable fixed-search rows and six-gate labels. |
+| `data/artifact_gate_summary.csv` | Generated selected-corpus gate-label counts for claim-control drafting. |
+| `data/artifact_strata_summary.csv` | Generated selected-corpus stratum and inclusion-decision counts. |
+| `figures/artifact_gate_summary.pdf` | Generated gate-count figure used in the active manuscript. |
 | `references/materials/paper-index.md` | Literature positioning and internal reading map. |
 
 ## Forbidden Moves
@@ -61,3 +64,6 @@ not a bibliography; it is a claim-control ledger.
   it is a structured corpus from existing DiffAudit evidence notes.
 - Do not present `data/artifact_corpus_fixed_search_20260526.csv` as a field
   prevalence estimate; it is a small metadata-only fixed-search batch.
+- Do not present `data/artifact_gate_summary.csv` or
+  `figures/artifact_gate_summary.pdf` as public artifact prevalence or
+  reproducibility rates; they summarize selected coded rows only.
