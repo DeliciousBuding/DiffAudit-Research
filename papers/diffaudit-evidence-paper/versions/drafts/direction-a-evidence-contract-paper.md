@@ -63,7 +63,7 @@ all have decision value when their boundaries are explicit.
 | Related Work | Position against classical MIA, diffusion MIA, image memorization/copying, and artifact reproducibility. The role is not to claim first attack, but to show why audit consumption needs a contract. |
 | Evidence Contract | Define target identity, split semantics, score/response coverage, metric provenance, consumer boundary, and surface delta. Include finite-tail language. |
 | Measurement Protocol | Explain admitted/candidate/support/blocked states; show how metrics are generated from existing JSON artifacts and why no candidate can bypass gates. |
-| Artifact Corpus | Introduce the current corpus as a controlled evidence set, then state its limits. Use Direction C expansion as future broadening, not as completed broad-literature proof. |
+| Artifact Corpus | Introduce the current corpus as a controlled evidence set, then state its limits. Keep fixed-search rows inspectable and non-pooled with replay rows; use Direction C expansion as future broadening, not as completed broad-literature proof. |
 | Admitted Bundle | Present five admitted rows with metrics, costs if available, access mode, and caveat. |
 | H2 Case Study | Show output-cloud geometry as a positive candidate and explain the controls: label shuffle, shared-position seed policy, seed stability, and cross-cache transfer. |
 | Negative and Support Evidence | Use weak scouts and feature packets to show why second-asset claims require more than scoreability. |
@@ -88,6 +88,7 @@ all have decision value when their boundaries are explicit.
 | Admitted bundle is narrow. | State it as a controlled admitted bundle and use candidate/negative evidence to show why admission is hard. |
 | H2 looks like the real paper. | Keep H2 as a case study inside the contract paper unless a second response asset appears. |
 | Negative evidence looks cherry-picked. | Use Direction C as selected-corpus claim-control evidence now; require broader corpus or a second independent label review before standalone aggregate claims. |
+| Contract looks descriptive rather than scientific. | Preserve a claim-first protocol: define the unsafe consumer claim, bind the minimum evidence packet, replay or record metrics, assign gates, and choose the strongest allowed state. |
 
 ## Go / No-Go
 
