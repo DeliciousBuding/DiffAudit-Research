@@ -15,6 +15,7 @@ workspaces.
 | `versions/direction-c-corpus-protocol.md` | Frozen v0 metadata-only corpus protocol for the artifact claim-support paper direction. |
 | `versions/direction-c-corpus-v1.md` | Structured Direction C corpus expansion from existing metadata-gate evidence notes. |
 | `versions/direction-c-fixed-search-batch-20260526.md` | Independent fixed-search metadata batch for Direction C; no downloads, no clone, no model/data execution. |
+| `versions/direction-c-second-pass-label-review-20260526.md` | Bounded Direction C agent second-pass label review; label hygiene only, not independent human reliability. |
 | `source_map.md` | Authoritative evidence sources and forbidden moves. |
 | `claim_register.md` | Allowed, support-only, and prohibited claims. |
 | `evidence_bank.md` | Human-readable metric ledger for manuscript drafting. |
@@ -25,6 +26,7 @@ workspaces.
 | `data/metric_uncertainty.csv` | Generated AUC uncertainty sidecar for rows with direct score arrays or recorded H2 aggregate CIs; not all rows have intervals. |
 | `data/artifact_corpus_v1.csv` | Direction C metadata-only corpus table; not a generated metric table. |
 | `data/artifact_corpus_fixed_search_20260526.csv` | Direction C fixed-search corpus batch; curated metadata, not a generated metric table. |
+| `data/artifact_second_pass_label_review_20260526.csv` | Direction C second-pass disagreements and adjudications; not a generated metric table. |
 | `data/artifact_gate_summary.csv` | Generated selected-corpus gate counts for Direction C claim-control framing; not prevalence evidence. |
 | `data/artifact_strata_summary.csv` | Generated selected-corpus stratum and inclusion-decision counts. |
 | `figures/` | Generated PDF figures. |
@@ -46,11 +48,12 @@ The current paper-version drafts are:
 - Direction B: output-cloud geometry short/workshop paper; full-paper promotion
   requires a second independent response asset.
 - Direction C: selected-corpus claim-support measurement paper; it now has a
-  21-row v1 corpus, a fixed-search metadata batch, gate-summary outputs, and a
-  selected-corpus consistency pass with no invalid labels or label promotions;
-  four empty-result `delta_gate` labels were demoted from `Partial` to `Fail`.
-  Standalone aggregate claims still require a larger frozen corpus or a second
-  independent label review.
+  21-row v1 corpus, a fixed-search metadata batch, gate-summary outputs, and
+  label-hygiene review. The consistency pass found no invalid labels or
+  route-changing contradictions; the bounded agent second-pass review found no
+  admitted-like fixed-search row or metadata-batch evidence/metric promotion and
+  adopted two gate tightenings. Standalone aggregate claims still require a
+  larger frozen corpus or an external independent label review.
 - Direction D: audit systems/artifact paper; it remains downstream material
   until deployment, external-use, user-study, or report-drift evidence exists.
 

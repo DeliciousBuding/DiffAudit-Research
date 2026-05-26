@@ -16,7 +16,7 @@
 | Working title | From Artifact Surfaces to Audit Claims: A Selected-Corpus Measurement of Diffusion MIA Claim Support |
 | Paper type | Selected-corpus artifact claim-support measurement paper |
 | Venue posture | SaTML, MLSys, FAccT methods, or reproducibility venue only if L0 metadata, L1 inspection, L2 scoreable/replay, and L3 admitted-control rows are reported as separate strata |
-| Current status | v0/v1 corpus, 2026-05-26 fixed-search batch, and selected-corpus gate-label consistency pass exist; plausible second manuscript only under selected-corpus claim-support language, not field-wide prevalence or independent inter-rater language |
+| Current status | v0/v1 corpus, 2026-05-26 fixed-search batch, selected-corpus gate-label consistency pass, and bounded second-pass agent review exist; plausible second manuscript only under selected-corpus claim-support language, not field-wide prevalence or independent inter-rater language |
 
 ## Abstract Draft
 
@@ -71,7 +71,7 @@ useful while still failing the consumer boundary needed for L3 admission.
 | 17-row 2026-05-26 fixed-search batch | Frozen metadata/search observations, including duplicates, empty results, query noise, and metadata-only hits. | Replay, reproduction, scoreability, or auditability denominator. |
 | L2 scoreable/replayed rows | Bounded packet measurements with row-level meaning. | L3 admitted evidence unless consumer-boundary and surface-delta gates pass. |
 | L3 admitted controls | Consumer-safe positive controls for current DiffAudit admission. | Evidence that all scoreable packets are audit-ready. |
-| Selected-corpus consistency pass | Internal label coherence and contradiction checks. | Independent inter-rater reliability or external validation. |
+| Selected-corpus consistency and second-pass review | Internal label coherence, contradiction checks, and bounded agent adjudication. | Independent human inter-rater reliability or external validation. |
 
 All figures and tables must keep these denominators separate. The v1 corpus and
 fixed-search batch may be shown side by side, but any pooled "reproducibility
@@ -81,12 +81,12 @@ rate" across metadata-only and replay rows is invalid.
 
 | Claim | Evidence | Boundary |
 | --- | --- | --- |
-| C1: Artifact availability, inspectability, scoreability, replayability, auditability, and consumer-safe reporting are distinct claim levels in the selected corpus. | v1 corpus, fixed-search batch, gate-summary assets, and consistency pass | Selected-corpus taxonomy only; not a field-wide prevalence claim. |
+| C1: Artifact availability, inspectability, scoreability, replayability, auditability, and consumer-safe reporting are distinct claim levels in the selected corpus. | v1 corpus, fixed-search batch, gate-summary assets, consistency pass, and second-pass adjudication | Selected-corpus taxonomy only; not a field-wide prevalence claim. |
 | C2: Metadata-only fixed-search rows must not be pooled with replay rows. | 17-row 2026-05-26 fixed-search batch with zero evidence+metric-pass rows versus v1 evidence-note rows | Metadata rows support discovery/surface-inspection claims, not reproduction or auditability rates. |
 | C3: Positive feature packets can still be non-admitted. | Tracing Roots AUC `0.815826` | Feature-packet evidence only; no promotion to raw image/checkpoint audit evidence. |
 | C4: Weak bounded scouts are useful route exclusions. | ReDiffuse `0.4996/0.5053`, CommonCanvas `0.5148`, MIDST `0.598079` | Excludes tested routes only; does not disprove original methods or unreleased settings. |
 | C5: Source confounding must be audited before membership claims. | SD ReDiffuse AUC `0.710319`, source-only AUC `1.0` | Cross-source stress test, not same-distribution MIA. |
-| C6: A consistency pass can support label hygiene but not reliability claims. | No invalid gate values, contradictions, promotions, or fixed-search admitted-like rows after the 2026-05-26 pass | Same-team consistency check only; not independent inter-rater reliability. |
+| C6: A consistency and bounded second-pass review can support label hygiene but not reliability claims. | The consistency pass found no invalid gate values or route-changing contradictions; the bounded second-pass review found no fixed-search admitted-like row or metadata-batch evidence/metric promotion; two adopted label tightenings | Same-team and agent second-pass check only; not independent human inter-rater reliability. |
 
 ## Section Spine
 
@@ -104,9 +104,9 @@ rate" across metadata-only and replay rows is invalid.
 
 | Work | Why it matters |
 | --- | --- |
-| Use the completed selected-corpus consistency pass as label-hygiene evidence. | Prevents gate contradictions, but must not be described as independent reliability. |
+| Use the completed selected-corpus consistency pass and bounded second-pass adjudication as label-hygiene evidence. | Prevents gate contradictions, but must not be described as independent reliability. |
 | Write all results with stratified denominators and L0-L3 labels. | Prevents metadata-only rows from becoming false reproduction or replay rates. |
-| Add one broader fixed-source pass or a second independent reviewer only if targeting stronger standalone aggregate claims. | Prevents selected-corpus claims from becoming field-wide prevalence claims or inter-rater claims. |
+| Add one broader fixed-source pass or external independent reviewer only if targeting stronger standalone aggregate claims. | Prevents selected-corpus claims from becoming field-wide prevalence claims or inter-rater claims. |
 | Add checksums/URLs only where already recorded or easily verified. | Keeps the paper reproducible without downloading large assets. |
 | Add a result-reporting paragraph before any table. | Forces readers to see that the empirical claim is claim-support measurement, not a survey of all diffusion MIA papers. |
 
@@ -125,16 +125,17 @@ rate" across metadata-only and replay rows is invalid.
 | --- | --- |
 | Go as Direction A companion section | Current selected-corpus gate matrix and fixed-search metadata batch are enough if all counts stay stratified. |
 | Go as scoped standalone measurement note | Allowed if the title, abstract, methods, results, and figures explicitly say selected corpus, use L0-L3 labels, and never report a pooled reproducibility rate. |
-| Go as CCF-B-style standalone paper | Requires either a broader frozen source pass or a second independent label review, plus unchanged metadata/replay/admitted separation. |
-| No-go | Any version that ranks papers by failure, claims field-wide prevalence, treats weak scouts as disproof, treats consistency pass as inter-rater reliability, or pools metadata-only rows with replay rows. |
+| Go as CCF-B-style standalone paper | Requires either a broader frozen source pass or external independent label review, plus unchanged metadata/replay/admitted separation. |
+| No-go | Any version that ranks papers by failure, claims field-wide prevalence, treats weak scouts as disproof, treats consistency/second-pass review as inter-rater reliability, or pools metadata-only rows with replay rows. |
 
 ## Decision
 
-The v1 corpus and fixed-search rows now pass a selected-corpus consistency
-review with no invalid gate values, evidence/metric contradictions, label
-promotions, fixed-search admitted-like rows, or fixed-search rows with both
-evidence and metric gates passing; four empty-result `delta_gate` labels were
-demoted from `Partial` to `Fail`. Direction C is viable as a selected-corpus
+The v1 corpus and fixed-search rows now have a selected-corpus consistency
+review plus bounded second-pass adjudication. The consistency pass found no
+invalid gate values or route-changing contradictions; the bounded second-pass
+review found no fixed-search admitted-like row or metadata-batch evidence/metric
+promotion. The second pass adopted two extra label tightenings and recorded a non-adopted
+mixed-replay admitted-bundle caveat. Direction C is viable as a selected-corpus
 claim-support measurement package. Its boundary is precise: it can claim that
 selected artifact surfaces occupy different L0-L3 support states under a frozen
 protocol. It cannot claim field-wide artifact prevalence, general
