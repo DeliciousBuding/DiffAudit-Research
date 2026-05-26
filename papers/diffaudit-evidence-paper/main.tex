@@ -72,18 +72,19 @@ The audit decision problem has three consumers: model owners deciding whether a
 checkpoint creates measurable risk, auditors replaying row-bound metrics, and
 downstream reports that must not promote candidates into user-facing claims.
 DiffAudit is therefore not an attack-SOTA paper: it studies when a diffusion
-MIA result is safe to consume as audit evidence.
+MIA result is eligible to support a stated audit claim.
 
 In this case-study evidence bank, four observations guide the paper. First, a
 small admitted bundle provides permission-bound evidence of diffusion privacy
 risk under heterogeneous admitted contracts:
 black-box reconstruction risk reaches AUC 0.837, gray-box PIA reaches AUC
 0.841, and white-box GSA reaches AUC 0.998 under their stated contracts.
-Second, a new repeated-response output-cloud analysis suggests that geometry
-among outputs can expose membership signal without reading seed-to-output
-distance and has higher point-estimate AUC than the tested raw/lowpass
-response-strength baselines. This signal is strong and controlled inside its
-response-strength setting, but it remains a research candidate because the SD/CelebA img2img
+Second, a new repeated-response output-cloud analysis finds a candidate
+membership signal inside the H2 response-strength cache without reading
+seed-to-output distance, with higher point-estimate AUC than the tested
+raw/lowpass response-strength baselines. This signal is strong and controlled
+inside its response-strength setting, but it remains a research candidate
+because the SD/CelebA img2img
 portability check is weak or not distinct from simpler distance features.
 Third, many plausible second-asset
 routes are scientifically useful precisely because they stop at bounded
@@ -162,14 +163,26 @@ an admitted audit row.
 
 \section{Audit Surfaces}
 
+The membership game in this paper is binary: for a fixed target and frozen
+member/nonmember split, an evidence packet scores whether each labeled sample
+row belonged to the target's training set under a stated access mode. The
+statistical unit is the row; the audit unit is the row-bound packet represented
+as claim, target, split, observable, metric, and consumer. Query budgets, sample
+counts, and auxiliary access are packet-specific and are not normalized into a
+universal leaderboard. DiffAudit also excludes three claims from scope: proving
+that an individual datum trained a model, estimating field-wide artifact
+prevalence, and exposing candidate rows as product-ready audit reports.
+
 Diffusion MIA results are not interchangeable because they observe different
-audit surfaces. A black-box response packet can support an output-consumer
-claim if target identity and query rows are fixed. A gray-box trajectory or
+surfaces. A black-box response packet can support an output-consumer claim if
+target identity and query rows are fixed. A gray-box trajectory or
 posterior-statistics packet can support a mechanism or evaluator claim, but
 requires a different consumer boundary. A white-box gradient packet is useful
 as an upper-bound risk comparator, not as a black-box report. Feature packets
 and collaborator-local scores can be scientifically useful while remaining
 support-only. Table~\ref{tab:surfaces} records the surfaces used in this paper.
+Access mode is not interchangeable: a row admitted under one surface is not
+automatically admitted under another.
 
 \begin{table}[t]
 \centering
@@ -461,7 +474,8 @@ and a provisional defense delta, and the white-box rows bound attack and defense
 extremes. Their shared unit is the admitted evidence contract, not a common
 attack family or leaderboard rank. The compact paper table lists caveats and a
 finite-tail basis; the machine-readable bundle retains quality/cost metadata
-for replay.
+for replay. We do not pool these rows into a single leakage estimate; each row
+supports only the consumer claim named by its boundary or caveat.
 
 \begin{table*}[t]
 \centering
