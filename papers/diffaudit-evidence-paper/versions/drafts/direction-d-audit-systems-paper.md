@@ -49,7 +49,7 @@ full systems paper.
 | D-C1: Machine-checkable bundles can encode admitted/candidate separation. | `admitted-evidence-bundle.json`, public-surface checks | Current admitted set has five rows only; enforcement is not evaluated. |
 | D-C2: Candidate visibility and product admission must be separate states. | H2 and Tracing Roots boundary notes | No Runtime row promotion. |
 | D-C3: Finite-tail semantics require report language. | TPR@0.1%FPR denominators | Not calibrated sub-percent risk. |
-| D-C4: Drift guards can be tested as report-correctness checks. | Existing validation/check scripts | Prevention claims need fault-injection, before/after, or external-use evidence. |
+| D-C4: Drift guards can be evaluated through report-correctness checks. | Existing validation/check scripts | Until fault-injection exists, this is an evaluation plan rather than a demonstrated systems benefit. |
 
 ## Manuscript Spine
 
@@ -69,7 +69,7 @@ full systems paper.
 This version should read as:
 
 > We package the evidence-contract methodology as a machine-readable artifact
-> contract and show what report-correctness checks it enables.
+> contract and specify the report-correctness checks that need fault injection.
 
 It should not read as:
 

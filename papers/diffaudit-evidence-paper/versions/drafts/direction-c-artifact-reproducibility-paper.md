@@ -88,7 +88,7 @@ review.
 | C-C2: Positive packets can be scientifically useful but non-admitted. | Tracing Roots AUC `0.815826` | Feature-packet evidence only, not raw image audit evidence. |
 | C-C3: Bounded weak scouts are useful exclusions. | ReDiffuse `0.4996/0.5053`, CommonCanvas `0.5148`, MIDST `0.598079` | Does not disprove original methods. |
 | C-C4: Source confounding must be audited. | SD ReDiffuse AUC `0.710319`, source-only AUC `1.0` | Cross-source stress test, not same-distribution MIA. |
-| C-C5: Consumer-boundary gates can be generalized beyond DiffAudit. | Gate definitions in source/claim maps | Must be written as audit-consumer requirements, not project policy. |
+| C-C5: Consumer-boundary gates can be proposed as reusable audit-consumer requirements. | Gate definitions in source/claim maps | Proposal derived from DiffAudit evidence; external validation is needed before a general adoption claim. |
 
 ## Manuscript Spine
 
@@ -119,7 +119,7 @@ review.
 | Asset | Purpose |
 | --- | --- |
 | Corpus flow diagram | Shows fixed search, screening, metadata-only extraction, and gate assignment. |
-| Six-gate heatmap | Main empirical figure after expansion. |
+| Six-gate heatmap | Main selected-corpus empirical figure; caption must state that counts are not prevalence estimates. |
 | Artifact stratum table | Prevents internal controls and public artifacts from being mixed. |
 | Signal-vs-completeness scatter | Shows that high or positive scores are not sufficient for auditability. |
 | Failure-taxonomy chart | Counts target-identity, split, score, provenance, and boundary gaps. |

@@ -29,7 +29,7 @@ rule out a plausible route or motivate a sharper research question.
 | Field | Plan |
 | --- | --- |
 | Working title | Output-Cloud Geometry in a Controlled H2 Diffusion Response Family |
-| Team | Mechanism team: opus for hypothesis and validity threats, haiku for bounded scorer/control scripts, sonnet for visual explanation of response-cloud features |
+| Team | Response Geometry Team: opus for hypothesis and validity threats, haiku for bounded scorer/control scripts, sonnet for visual explanation of response-cloud features |
 | Venue fit | ML security workshop or short paper now; full CCF-B only if a second independent response asset appears |
 | Thesis | The audited H2 repeated-response cache contains an operationally distinct output-output geometry signal relative to the tested raw/lowpass H2 distance baselines, and the same-family controls plus failed img2img portability define its boundary. |
 | Core contributions | Output-cloud feature family; label-shuffle sanity; shared-position order-control; seed-stability and same-family cross-cache transfer; img2img portability failure as a boundary result. |
@@ -45,7 +45,7 @@ rule out a plausible route or motivate a sharper research question.
 | Team | Artifact Claim-Support Team: opus for gate design, haiku for metadata/replay scripts, sonnet for candidate taxonomy and tables |
 | Venue fit | Security/privacy measurement, ML systems workshop, or reproducibility venue only if replay evidence is separated from metadata-only rows; CCF-B possible if corpus is expanded and preregistered |
 | Thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata inspection, scoreability, replay, auditability, and consumer-safe reporting. |
-| Core contributions | Six-gate second-asset contract; audited candidate corpus; bounded replays/scouts for ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps. |
+| Core contributions | Six-gate second-asset contract; audited candidate corpus; bounded replays, weak scouts, feature packets, score-artifact gates, and collaborator/local stress tests across ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps. |
 | Main figures | Selected-corpus gate heatmap; weak-signal scatter; source-confounding example; artifact claim-support taxonomy. |
 | Extra work needed | Selected-corpus gate-label consistency now passes without CSV label changes; add one broader fixed-source pass or a second independent label review only if targeting standalone aggregate claims. |
 | Risk | Needs careful methodology to avoid appearing as anecdotal project notes or field-wide prevalence claims. |
@@ -55,10 +55,10 @@ rule out a plausible route or motivate a sharper research question.
 | Field | Plan |
 | --- | --- |
 | Working title | An Artifact Contract for Safe Consumption of Diffusion Privacy Evidence |
-| Team | Systems team: opus for architecture and threat model, haiku for bundle/export validation, sonnet for report/UI diagrams |
+| Team | Artifact Contract Team: opus for architecture and threat model, haiku for bundle/export validation, sonnet for report/UI diagrams |
 | Venue fit | Artifact/demo track or software-engineering-for-ML venue now; applied systems only after measured prevention evidence |
 | Thesis | Privacy audit outputs should be consumed through machine-checkable bundles that encode admission state, boundary language, finite-tail interpretation, and provenance constraints; current evidence supports contract encoding, not deployed enforcement. |
-| Core contributions | Admitted evidence bundle schema; public-surface checks; finite empirical tail semantics; validator/report-correctness checks; blocked-promotion examples. |
+| Core contributions | Admitted evidence bundle schema; public-surface checks; finite empirical tail semantics; report-correctness threat model and validation hooks; blocked-promotion examples. |
 | Main figures | Artifact-contract architecture; bundle schema; admission-state machine; fault-injection table; public-safe risk card. |
 | Extra work needed | Fault-injection/report-drift evidence, external adopter scenario, deployment evidence, or user-study evidence before systems-paper promotion. |
 | Risk | Too product/system oriented for a mainline research venue unless tied tightly to measurable report correctness. |
