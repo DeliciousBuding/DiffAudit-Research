@@ -16,7 +16,7 @@
 | Title | From Artifact Surfaces to Audit Claims: A Selected-Corpus Measurement of Diffusion MIA Claim Support |
 | Target type | Selected-corpus artifact claim-support measurement paper |
 | Venue posture | Measurement, ML systems, or security/privacy methods venue; reproducibility venue only if L0 metadata, L1 inspection, L2 scoreable/replay, feature-packet, source-confounded, and L3 admitted-control rows are separated |
-| Current artifact | Draft plus v0/v1 corpus files and fixed-search batch: [`../direction-c-corpus-protocol.md`](../direction-c-corpus-protocol.md), [`../direction-c-corpus-v1.md`](../direction-c-corpus-v1.md), [`../direction-c-fixed-search-batch-20260526.md`](../direction-c-fixed-search-batch-20260526.md), [`../../data/artifact_corpus_v1.csv`](../../data/artifact_corpus_v1.csv), and [`../../data/artifact_corpus_fixed_search_20260526.csv`](../../data/artifact_corpus_fixed_search_20260526.csv) |
+| Current artifact | Draft plus v0/v1 corpus files, fixed-search batch, and second-pass label review: [`../direction-c-corpus-protocol.md`](../direction-c-corpus-protocol.md), [`../direction-c-corpus-v1.md`](../direction-c-corpus-v1.md), [`../direction-c-fixed-search-batch-20260526.md`](../direction-c-fixed-search-batch-20260526.md), [`../direction-c-second-pass-label-review-20260526.md`](../direction-c-second-pass-label-review-20260526.md), [`../../data/artifact_corpus_v1.csv`](../../data/artifact_corpus_v1.csv), [`../../data/artifact_corpus_fixed_search_20260526.csv`](../../data/artifact_corpus_fixed_search_20260526.csv), and [`../../data/artifact_second_pass_label_review_20260526.csv`](../../data/artifact_second_pass_label_review_20260526.csv) |
 
 ## Abstract
 
@@ -74,7 +74,7 @@ L0 metadata rows, L1 artifact-inspectable rows, L2 scoreable/replayed rows,
 source-confounded packets, feature packets, and L3 admitted controls. Its
 independent-paper value comes from the measurement object and denominator
 discipline, not from broad coverage. Any CCF-B-style aggregate claim needs
-either a broader frozen source pass or a second independent label review, and
+either a broader frozen source pass or an external independent label review, and
 even then it must not pool metadata-only rows into a reproduction denominator.
 
 ## Standalone Claim-Support Gate
@@ -86,7 +86,7 @@ even then it must not pool metadata-only rows into a reproduction denominator.
 | Denominators | Report metadata-only, artifact-inspectable, scoreable/replayed, feature-packet, source-confounded, and admitted-control rows separately. |
 | Weak scouts | Use as bounded exclusions for tested contracts only; never as disproof of original papers. |
 | Positive packets | Treat positive scores as claim support only at the available surface level; do not promote feature packets to raw-image audit evidence. |
-| Consistency language | The 2026-05-26 pass supports internal label coherence only; independent inter-rater reliability requires a separate reviewer protocol. |
+| Consistency language | The 2026-05-26 consistency pass plus bounded second-pass agent review supports internal label hygiene only; independent inter-rater reliability requires an external reviewer protocol. |
 | Aggregate language | Selected-corpus taxonomy is allowed; field-wide prevalence and venue-wide quality require new evidence. |
 | Consumer language | Consumer-safe audit claims require target identity, split semantics, row-bound score/response coverage, metric provenance, boundary fit, and surface delta. |
 
@@ -111,7 +111,7 @@ even then it must not pool metadata-only rows into a reproduction denominator.
 | 21-row v1 corpus | Controlled selected-corpus gate taxonomy and stratum separation. | Field-wide prevalence or venue-wide artifact quality. |
 | 17-row fixed-search batch from 2026-05-26 | Independent metadata/search layer over a frozen query set; zero rows pass both evidence and metric gates. | Full reproducibility, replayability, or auditability judgment without downloads or replays. |
 | Generated gate-summary CSV/PDF | Counts of pass/partial/fail gate labels inside the selected corpus and within declared strata. | Statistical estimates of public artifact availability or pooled reproducibility rates. |
-| Selected-corpus consistency pass | Internal label coherence; no invalid labels, contradictions, or promotions after four empty-result `delta_gate` demotions. | Independent inter-rater reliability. |
+| Selected-corpus consistency pass plus bounded second-pass review | Internal label hygiene; the consistency pass found no invalid labels or route-changing contradictions, and the bounded second-pass review found no admitted-like fixed-search row or metadata-batch evidence/metric promotion; two additional gate labels tightened after adjudication. | Independent inter-rater reliability. |
 
 ## Claim-Support Levels
 
@@ -132,7 +132,7 @@ even then it must not pool metadata-only rows into a reproduction denominator.
 | C-C4: Bounded weak scouts are useful route exclusions. | ReDiffuse `0.4996/0.5053`, CommonCanvas `0.5148`, MIDST `0.598079` | Excludes tested routes only; does not disprove original methods or unreleased settings. |
 | C-C5: Source confounding must be audited. | SD ReDiffuse AUC `0.710319`, source-only AUC `1.0` | Cross-source stress test, not same-distribution MIA. |
 | C-C6: Consumer-boundary gates can be proposed as reusable audit-consumer requirements. | Gate definitions in source/claim maps | Proposal derived from DiffAudit evidence; external validation is needed before a general adoption claim. |
-| C-C7: Same-team consistency review is useful but not reliability evidence. | 2026-05-26 consistency pass with no invalid labels, contradictions, promotions, or fixed-search admitted-like rows | Do not call it independent inter-rater reliability. |
+| C-C7: Same-team consistency and bounded second-pass review are useful but not reliability evidence. | 2026-05-26 consistency pass found no invalid labels or route-changing contradictions; bounded second-pass review found no admitted-like fixed-search row or metadata-batch evidence/metric promotion; adopted tightenings: `v1-10.delta_gate=Fail` and `fs20260526-arxiv-03.target_gate=Fail` | Do not call it independent inter-rater reliability. |
 
 ## Result Reporting Contract
 
@@ -142,7 +142,7 @@ even then it must not pool metadata-only rows into a reproduction denominator.
 | v1 gate matrix | The 21 selected evidence-note rows, reported by stratum. | All diffusion MIA papers or all public artifacts. |
 | L2 measurement results | Rows with row-level score, response, feature, metric JSON, or bounded local packets. | L0 metadata-only rows or L1 inspection-only rows. |
 | L3 admitted evidence | Rows admitted under the consumer-boundary contract. | Positive feature packets or candidate metrics without admission. |
-| Consistency status | Same-team label-hygiene pass. | Independent inter-rater reliability, external validity, or field prevalence. |
+| Consistency status | Same-team label-hygiene pass plus bounded second-pass agent review. | Independent inter-rater reliability, external validity, or field prevalence. |
 
 Every results paragraph should name the denominator before the count or rate.
 If a figure mixes strata visually, its caption must state that the groups are
@@ -202,17 +202,17 @@ not pooled into a reproduction, replayability, or auditability rate.
 | Measurement lead | Write the method as a claim-support audit, with inclusion rules and support levels before results. | Do not state field-wide artifact prevalence. |
 | Artifact engineer | Keep gate labels tied to existing CSV rows and generated summaries. | Do not download large models or rerun upstream training for narrative symmetry. |
 | Table lead | Produce a heatmap and stratum table from existing selected-corpus data. | Do not merge metadata-only, replay, feature-packet, source-confounded, and admitted rows. |
-| Cherry-pick auditor | Decide whether a broader source pass or second label review is needed before standalone aggregate claims. | Do not approve standalone aggregate or inter-rater claims from the selected corpus alone. |
+| Cherry-pick auditor | Decide whether a broader source pass or external label review is needed before standalone aggregate claims. | Do not approve standalone aggregate or inter-rater claims from the selected corpus alone. |
 
 ## Review Risks and Fixes
 
 | Risk | Fix |
 | --- | --- |
-| Looks anecdotal or DiffAudit-history-biased. | v1 adds 10 metadata-only surfaces from existing notes; the 2026-05-26 fixed-search batch adds an independent selection layer; the selected-corpus consistency pass found no invalid labels or promotions and demoted four empty-result `delta_gate` labels. |
+| Looks anecdotal or DiffAudit-history-biased. | v1 adds 10 metadata-only surfaces from existing notes; the 2026-05-26 fixed-search batch adds an independent metadata/search layer; the selected-corpus consistency pass found no invalid labels or route-changing contradictions, and the bounded second-pass review found no admitted-like fixed-search row or metadata-batch evidence/metric promotion while adopting only two further gate tightenings. |
 | Sounds hostile to other papers. | Use claim-support language; do not say papers "fail." |
 | Mixes metadata-only rows with replay rows. | Use stratified denominators and never report a pooled reproducibility rate. |
 | Mixes public artifacts with internal controls. | Explicit artifact strata in table and prose. |
-| Gate labels look subjective. | State that labels are protocol labels from a same-team consistency pass; do not claim independent inter-rater reliability unless a second review is added. |
+| Gate labels look subjective. | State that labels are protocol labels from same-team consistency plus bounded agent second-pass review; do not claim independent inter-rater reliability unless an external reviewer protocol is added. |
 | L0 fixed-search rows look like negative reproductions. | Describe them as metadata/search observations with no downloads, no replays, and no evidence+metric-pass rows. |
 | Weak scouts are overread. | Put the tested route and contract in the case-study boundary sentence. |
 | Consumer boundary looks project-specific. | Generalize as audit-consumer requirements and keep DiffAudit as one implementation. |
@@ -223,6 +223,6 @@ not pooled into a reproduction, replayability, or auditability rate.
 | --- | --- |
 | Keep as Direction A companion draft | Current selected-corpus matrix is enough for a scoped support section. |
 | Promote to scoped standalone measurement note | Allowed if title, abstract, results, and figures all say selected corpus and use stratified denominators. |
-| Promote to CCF-B-style standalone paper | Requires one broader frozen source pass or a second independent label review, plus unchanged metadata/replay/admitted separation. |
-| Fork LaTeX | Not in this worker; later allowed only after the selected-corpus gate matrix and taxonomy stay scoped, or after broader/second-review evidence is added. |
+| Promote to CCF-B-style standalone paper | Requires one broader frozen source pass or an external independent label review, plus unchanged metadata/replay/admitted separation. |
+| Fork LaTeX | Not in this worker; later allowed only after the selected-corpus gate matrix and taxonomy stay scoped, or after broader corpus or external-review evidence is added. |
 | Stop | Stop if the draft needs field-wide prevalence, paper-failure ranking, weak-scout disproof, inter-rater claims from the consistency pass, or pooled metadata/replay denominators to sound important. |

@@ -66,7 +66,7 @@ scientific measurement framework.
 
 | Work | Why it matters |
 | --- | --- |
-| Use the current Direction C corpus and fixed-search batch carefully, and add broader corpus or second-review evidence only for standalone aggregate claims. | Prevents reviewer objection that negative/support routes are anecdotal without pretending the current corpus is field-wide. |
+| Use the current Direction C corpus and fixed-search batch carefully, and add broader corpus or external-review evidence only for standalone aggregate claims. | Prevents reviewer objection that negative/support routes are anecdotal without pretending the current corpus is field-wide. |
 | Keep strengthening venue framing and reviewer-facing contribution wording. | Keeps the paper from reading like internal governance. |
 | Preserve the claim-first admission protocol in the LaTeX draft: state the unsafe consumer claim, bind the minimum evidence packet, replay or record metrics, assign gates, then choose the strongest allowed state. | Makes the measurement method reproducible and falsifiable rather than a descriptive taxonomy. |
 | Keep selected-corpus search rows inspectable but non-pooled with replay rows. | Lets Direction C support claim-control framing without becoming a weak prevalence claim. |

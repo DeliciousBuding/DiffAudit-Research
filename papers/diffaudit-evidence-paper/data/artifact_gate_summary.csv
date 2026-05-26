@@ -15,11 +15,11 @@ v1 evidence-note corpus,Boundary,Pass,1
 v1 evidence-note corpus,Boundary,Partial,7
 v1 evidence-note corpus,Boundary,Fail,13
 v1 evidence-note corpus,Surface delta,Pass,17
-v1 evidence-note corpus,Surface delta,Partial,4
-v1 evidence-note corpus,Surface delta,Fail,0
+v1 evidence-note corpus,Surface delta,Partial,3
+v1 evidence-note corpus,Surface delta,Fail,1
 fixed-search batch,Target,Pass,0
-fixed-search batch,Target,Partial,5
-fixed-search batch,Target,Fail,12
+fixed-search batch,Target,Partial,4
+fixed-search batch,Target,Fail,13
 fixed-search batch,Split,Pass,0
 fixed-search batch,Split,Partial,2
 fixed-search batch,Split,Fail,15

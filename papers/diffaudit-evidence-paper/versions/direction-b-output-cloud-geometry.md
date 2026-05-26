@@ -13,8 +13,8 @@
 
 | Field | Choice |
 | --- | --- |
-| Working title | Response-Cloud Geometry Has an H2 Membership Signal, But Does Not Port to Img2img |
-| One-line hook | A controlled H2 response cloud leaks membership through output-output geometry; the same observable fails to become a portable img2img attack. |
+| Working title | Response-Cloud Geometry Reveals an H2 Membership Signal, But Fails the Img2img Portability Gate |
+| One-line hook | A controlled H2 response cloud carries a membership-separating output-output geometry signal; the same observable fails to become a portable img2img attack. |
 | Paper type | Mechanism-focused ML security short/workshop paper |
 | Venue posture | Standalone short paper now; full CCF-B mechanism paper only with a second independent response asset |
 | Current status | Candidate paper, not active main manuscript |

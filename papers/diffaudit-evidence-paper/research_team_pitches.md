@@ -30,7 +30,7 @@ plan, review risks, and a go/no-go gate.
 
 | Field | Pitch |
 | --- | --- |
-| Title | Response-Cloud Geometry Has an H2 Membership Signal, But Does Not Port to Img2img |
+| Title | Response-Cloud Geometry Reveals an H2 Membership Signal, But Fails the Img2img Portability Gate |
 | Venue fit | Strong privacy/ML security workshop or short paper candidate; full CCF-B mechanism paper only if a second independent response asset appears. |
 | Scientific question | Does the audited H2 repeated-response cache expose membership through geometry among repeated outputs, rather than only through query-to-output or seed-to-output distance? |
 | Contribution claims | Output-output geometry as an operationally separated H2 observable relative to tested raw/lowpass baselines; strong H2 DDPM/CIFAR10 signal; label-shuffle and shared-position controls; same-family cross-cache stability; negative SD/CelebA img2img portability boundary. |
@@ -56,7 +56,7 @@ symmetry reruns, repeat-count tuning, KDE variants, or input-distance fusion.
 | Core thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different L0-L3 claim levels: metadata discovery, artifact inspection, bounded score/replay, audit-ready evidence, and consumer-safe reporting. |
 | Contribution claims | L0-L3 claim-support levels; six-gate second-asset contract; selected-corpus claim-support audit across CLiD, Tracing Roots, ReDiffuse, CommonCanvas, MIDST, Stable Diffusion ReDiffuse, and fixed GitHub/arXiv search records; taxonomy of support states; weak results as tested-route exclusions only. |
 | Figures/tables | Claim-support ladder; stratified six-gate matrix; selected-corpus gate-summary figure; artifact funnel from paper claim to reusable evidence; signal-strength vs artifact-completeness map. |
-| Lightweight additional work | Use the 21-row v1 corpus, the 2026-05-26 fixed-search batch, generated gate-summary counts, and the completed selected-corpus consistency pass with stratified denominators. Add one broader fixed-source pass or a second independent label review only for standalone aggregate claims. |
+| Lightweight additional work | Use the 21-row v1 corpus, the 2026-05-26 fixed-search batch, generated gate-summary counts, completed selected-corpus consistency pass, and bounded second-pass adjudication with stratified denominators. Add one broader fixed-source pass or an external independent label review only for standalone aggregate claims. |
 | Fatal risks | Looks anecdotal unless candidate inclusion is preregistered; metadata-only rows can be mistaken for reproductions; mixed strata can create false equivalence. |
 | Framing rule | Do not say papers fail, do not pool metadata-only rows with replay rows, and do not treat weak scouts as disproof. Say we measure what claim level survives reusable, row-bound, low-FPR, consumer-safe constraints. |
 
@@ -68,7 +68,7 @@ C as its broader claim-support motivation and selected-corpus gate summary.
 Team B becomes the next technical paper if a second response asset is acquired
 or if the scope is explicitly a short H2 case study with portability failure
 central. Team C becomes a standalone measurement paper only if the selected
-corpus grows or receives a second independent label review while preserving
+corpus grows or receives an external independent label review while preserving
 stratified denominators and no field-wide overclaiming.
 
 ## Multi-Team Execution Board

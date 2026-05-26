@@ -80,10 +80,13 @@ denominator.
 | Corpus | Key readout | Paper role | Caveat |
 | --- | --- | --- | --- |
 | v1 evidence-note corpus | 21 coded rows; 10 rows pass score/response and metric gates; 1 row passes consumer-boundary gate. | Claim-control support for selected claim-support framing. | Selected from existing DiffAudit evidence notes; not field-wide prevalence. |
-| 2026-05-26 fixed-search batch | 17 coded rows; no row passes target, split, score/response, metric, or consumer-boundary gate. | Metadata-only process trace showing no new admitted row in the frozen batch. | Small fixed-search batch; selected-corpus consistency pass found no invalid labels, contradictions, or promotions, but demoted four empty-result `delta_gate` labels from `Partial` to `Fail`. Standalone aggregate claims need broader or second-review evidence. |
+| 2026-05-26 fixed-search batch | 17 coded rows; no row passes target, split, score/response, metric, or consumer-boundary gate. | Metadata-only process trace showing no new admitted row in the frozen batch. | Small fixed-search batch; the selected-corpus consistency pass found no invalid labels or route-changing contradictions, and the bounded second-pass agent review found no admitted-like fixed-search row or metadata-batch evidence/metric promotion. Two extra tightenings were adopted: `v1-10.delta_gate=Fail` and `fs20260526-arxiv-03.target_gate=Fail`. Standalone aggregate claims need broader or external-review evidence. |
 
-Second internal label audit on 2026-05-26: no invalid gate labels, no
-evidence/metric contradictions, no admitted-like fixed-search row, and no CSV
-label promotion. It changed four fixed-search empty-result rows from
-`delta_gate=Partial` to `delta_gate=Fail`. This is consistency evidence only,
-not independent inter-rater reliability.
+Second internal label audit plus bounded agent second-pass review on 2026-05-26:
+the consistency pass found no invalid gate labels or route-changing
+contradictions, and the bounded second pass found no admitted-like fixed-search
+row or metadata-batch evidence/metric promotion. The second pass recorded four
+reviewer disagreements, adopted two tightenings, and explicitly did not adopt
+the admitted-bundle `Pass -> Partial` proposal because the row is a mixed-replay
+positive control. This is label-hygiene evidence only, not independent
+inter-rater reliability.

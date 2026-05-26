@@ -13,8 +13,8 @@
 
 | Field | Draft choice |
 | --- | --- |
-| Title | Output-Cloud Geometry as an H2-Only Membership Observable |
-| Subtitle | A strong controlled response-family signal with a failed img2img portability gate |
+| Title | Response-Cloud Geometry Reveals an H2 Membership Signal |
+| Subtitle | A bounded H2 response-family observable with a failed img2img portability gate |
 | Target type | Mechanism-focused short paper or workshop paper |
 | Venue posture | Strong workshop/short-paper candidate now; full CCF-B only after second independent response asset |
 | Current artifact | Markdown draft only; no LaTeX fork unless go/no-go passes |
@@ -76,7 +76,7 @@ positive within-family controls and negative portability evidence.
 
 | Section | Draft content |
 | --- | --- |
-| Introduction | State the narrow question: whether repeated H2 responses leak through geometry. |
+| Introduction | State the narrow question: whether repeated H2 responses separate through geometry. |
 | Observable | Define output-cloud geometry and contrast it with direct image distance, seed-distance, and response consistency. |
 | Bounded Scorer | Describe only frozen feature families: within-timestep repeat RMSE, timestep centroid movement, Gram/PCA spectral summaries, and logistic metric reporting. |
 | H2 Positive Result | Compare output-cloud features with raw H2 and lowpass baselines inside H2 only. |

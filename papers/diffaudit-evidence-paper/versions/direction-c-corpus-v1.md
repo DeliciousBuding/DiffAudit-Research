@@ -67,7 +67,7 @@ Excluded from this v1 table:
 | v1-07 | Fail | Fail | Fail | Fail | Fail | Pass |
 | v1-08 | Fail | Fail | Fail | Fail | Fail | Pass |
 | v1-09 | Partial | Fail | Fail | Fail | Partial | Pass |
-| v1-10 | Fail | Fail | Fail | Fail | Fail | Partial |
+| v1-10 | Fail | Fail | Fail | Fail | Fail | Fail |
 
 ## What v1 Adds
 
@@ -107,18 +107,23 @@ route-decision rows; and that fixed-search arXiv metadata rows with partial
 target/boundary labels but failing evidence/metric gates remain metadata-only
 rows, not scoreable artifacts.
 
-A second internal label audit on 2026-05-26 rechecked both CSVs against four
-invariants: no gate value outside `Pass`/`Partial`/`Fail`; no row with
-`evidence_gate=Pass` and `metric_gate!=Pass`; no row with `metric_gate=Pass`
-and `evidence_gate=Fail`; and no admitted-like row outside `v0-01` in the v1
-corpus. The fixed-search batch still has zero admitted-like rows and zero rows
-with both evidence and metric gates passing. The only CSV changes were four
-fixed-search empty-result rows whose `delta_gate` changed from `Partial` to
-`Fail`, because an empty result has no artifact/surface delta to compare.
+A second internal label audit and bounded agent second-pass review on
+2026-05-26 rechecked both CSVs against four invariants: no gate value outside
+`Pass`/`Partial`/`Fail`; no row with `evidence_gate=Pass` and
+`metric_gate!=Pass`; no row with `metric_gate=Pass` and `evidence_gate=Fail`;
+and no admitted-like row outside `v0-01` in the v1 corpus. The fixed-search
+batch still has zero admitted-like rows and zero rows with both evidence and
+metric gates passing. The second pass adopted two additional tightenings:
+`v1-10.delta_gate=Fail` for the withdrawn DLM record and
+`fs20260526-arxiv-03.target_gate=Fail` for Noise Aggregation paper-source-only
+metadata. It also recorded but did not adopt an admitted-bundle
+`Pass -> Partial` proposal because `v0-01` is a mixed-replay positive control
+under its stated bundle role.
 
-These are internal consistency audits, not inter-rater reliability and not
-field-wide prevalence evidence. Before forking a standalone Direction C LaTeX
-paper, add one more frozen source batch or a second independent label review.
+These are internal consistency and agent second-pass audits, not human
+inter-rater reliability and not field-wide prevalence evidence. Before forking
+a standalone Direction C LaTeX paper, add one more frozen source batch or an
+external independent label review.
 If no new row-bound public packet appears, Direction C can still be written as
 a claim-support measurement paper, but its aggregate claims must remain about
 this structured corpus only.

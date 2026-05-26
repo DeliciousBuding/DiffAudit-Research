@@ -15,8 +15,10 @@
     "data/negative_support_curated_metrics.csv",
     "data/artifact_corpus_v1.csv",
     "data/artifact_corpus_fixed_search_20260526.csv",
+    "data/artifact_second_pass_label_review_20260526.csv",
     "versions/direction-c-corpus-v1.md",
-    "versions/direction-c-fixed-search-batch-20260526.md"
+    "versions/direction-c-fixed-search-batch-20260526.md",
+    "versions/direction-c-second-pass-label-review-20260526.md"
   ],
   "source_policy": "All numbers are read from existing DiffAudit Research JSON artifacts or frozen evidence notes."
 }
