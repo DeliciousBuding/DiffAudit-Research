@@ -55,3 +55,9 @@ metadata without adding a wide cost column to the paper table.
 | --- | --- | --- | --- |
 | v1 evidence-note corpus | 21 coded rows; 10 rows pass score/response and metric gates; 1 row passes consumer-boundary gate. | Claim-control support for artifact-corpus framing. | Selected from existing DiffAudit evidence notes; not field-wide prevalence. |
 | 2026-05-26 fixed-search batch | 17 coded rows; no row passes target, split, score/response, metric, or consumer-boundary gate. | Metadata-only process trace showing no new admitted row in the frozen batch. | Small fixed-search batch; selected-corpus consistency pass made no CSV label changes, but standalone aggregate claims need broader or second-review evidence. |
+
+Second internal label audit on 2026-05-26: no invalid gate labels, no
+evidence/metric contradictions, no admitted-like fixed-search row, and no CSV
+label promotion. It changed four fixed-search empty-result rows from
+`delta_gate=Partial` to `delta_gate=Fail`. This is consistency evidence only,
+not independent inter-rater reliability.
