@@ -99,15 +99,18 @@ def _tail_nonmember_count(row: dict[str, Any]) -> int:
             return sample_count
 
     quality_cost = str(row.get("quality_cost", ""))
-    for pattern in (
-        r"(?P<count>\d+)\s+public samples per split",
-        r"target_eval_size=(?P<count>\d+)",
-    ):
-        match = re.search(pattern, quality_cost)
-        if match:
-            count = int(match.group("count"))
-            if count > 0:
-                return count
+    public_split_match = re.search(r"(?P<count>\d+)\s+public samples per split", quality_cost)
+    if public_split_match:
+        count = int(public_split_match.group("count"))
+        if count > 0:
+            return count
+
+    target_eval_match = re.search(r"target_eval_size=(?P<count>\d+)", quality_cost)
+    if target_eval_match:
+        count = int(target_eval_match.group("count"))
+        if count > 0 and count % 2 == 0:
+            # White-box summaries encode total target rows as member + nonmember.
+            return count // 2
 
     raise ValueError(
         f"admitted evidence row {row_label} needs a recoverable nonmember denominator for low-FPR interpretation"
