@@ -1,8 +1,8 @@
 {
   "schema": "diffaudit.attack_defense_table.v1",
   "updated_at": "2026-05-01T00:00:00+08:00",
-  "dataset": "CIFAR-10",
-  "model_family": "DDPM",
+  "dataset": "mixed",
+  "model_family": "mixed",
   "rows": [
     {
       "track": "black-box",

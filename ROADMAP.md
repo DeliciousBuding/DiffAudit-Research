@@ -52,6 +52,13 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
   claim-admission framing，Measurement Protocol 已补 evidence-packet /
   gate-vector 形式化定义，Related Work 已改成 access-surface taxonomy 并加入
   CDI 作为 dataset-level auditing 对照，H2 明确作为 contract stress test 而非隐藏主贡献。
+  后续 publishability pass 又把重复的防御性边界说明压缩掉，补成可复核的
+  claim-first gate adjudication 流程、admitted row 的 main/comparator/bridge
+  角色标注；`admitted-evidence-bundle.json` 也补了 `required_access` 和
+  `report_role`，避免白盒 comparator 被读成同权限主风险行。正文同步把已有
+  `metric_uncertainty.csv` 的 AUC interval 边界写清楚：
+  只有 PIA baseline、PIA-dropout 和 DPDM W-1 使用 row-score bootstrap 区间，
+  recon/GSA 仍是 point estimate，H2 interval 只作为 candidate-side control。
   正文已包含 Related Work、Reporting/Reproducibility positioning、Audit
   Surfaces、Evidence Contract、Measurement Protocol、candidate gate matrix、
   Artifact Corpus、fixed-search batch summary、selected-corpus gate-summary

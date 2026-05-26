@@ -10,7 +10,7 @@ All paths are relative to the Research repository root.
 | Source | Role |
 | --- | --- |
 | `docs/evidence/admitted-results-summary.md` | Five admitted rows and their limitations. |
-| `workspaces/implementation/artifacts/admitted-evidence-bundle.json` | Machine-readable admitted bundle for metrics, costs, boundaries, and finite-tail semantics. |
+| `workspaces/implementation/artifacts/admitted-evidence-bundle.json` | Machine-readable admitted bundle for metrics, costs, required access, report roles, boundaries, and finite-tail semantics. |
 | `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/adaptive-scores.json` | Row-level score source for admitted PIA AUC uncertainty. |
 | `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/adaptive-scores.json` | Row-level score source for admitted PIA dropout-comparator AUC uncertainty. |
 | `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/scores.json` | Row-level target score source for admitted DPDM W-1 AUC uncertainty. |

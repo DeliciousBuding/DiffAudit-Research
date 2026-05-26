@@ -67,6 +67,16 @@ class ExportAdmittedEvidenceBundleTests(unittest.TestCase):
         for row in bundle["rows"]:
             self.assertEqual(row["status"], "admitted")
             self.assertEqual(row["audience"], "platform-runtime")
+            self.assertIn(row["required_access"], {"black-box", "gray-box", "white-box"})
+            self.assertIn(
+                row["report_role"],
+                {
+                    "primary-risk-evidence",
+                    "defense-comparator",
+                    "upper-bound-comparator",
+                    "defense-bridge",
+                },
+            )
             for metric in ("auc", "asr", "tpr_at_1pct_fpr", "tpr_at_0_1pct_fpr"):
                 value = row["metrics"][metric]
                 self.assertIsInstance(value, (int, float))
@@ -143,6 +153,40 @@ class ExportAdmittedEvidenceBundleTests(unittest.TestCase):
                 tail["false_positive_budget"]["at_0_1pct_fpr"],
                 tail["nonmember_denominator"] * 0.001,
             )
+
+    def test_bundle_separates_primary_and_comparator_roles(self) -> None:
+        research_root = Path(__file__).resolve().parents[1]
+        bundle = json.loads(
+            (
+                research_root
+                / "workspaces"
+                / "implementation"
+                / "artifacts"
+                / "admitted-evidence-bundle.json"
+            ).read_text(encoding="utf-8")
+        )
+
+        roles = {row["id"]: (row["required_access"], row["report_role"]) for row in bundle["rows"]}
+        self.assertEqual(
+            roles["black-box::recon DDIM public-100 step30::none::runtime-mainline"],
+            ("black-box", "primary-risk-evidence"),
+        )
+        self.assertEqual(
+            roles["gray-box::PIA GPU512 baseline::none::runtime-mainline"],
+            ("gray-box", "primary-risk-evidence"),
+        )
+        self.assertEqual(
+            roles["gray-box::PIA GPU512 baseline::provisional G-1 = stochastic-dropout (all_steps)::runtime-mainline"],
+            ("gray-box", "defense-comparator"),
+        )
+        self.assertEqual(
+            roles["white-box::GSA 1k-3shadow::none::runtime-mainline"],
+            ("white-box", "upper-bound-comparator"),
+        )
+        self.assertEqual(
+            roles["white-box::GSA 1k-3shadow::W-1 strong-v3 full-scale::runtime-smoke"],
+            ("white-box", "defense-bridge"),
+        )
 
     def test_export_rejects_missing_admitted_row(self) -> None:
         module = load_export_module()
