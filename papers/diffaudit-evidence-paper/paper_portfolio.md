@@ -24,40 +24,40 @@ rule out a plausible route or motivate a sharper research question.
 | Status | Primary track for the first LaTeX draft. |
 | Risk | Reviewers may see it as engineering governance unless the paper frames contracts as a measurement methodology and uses H2 plus negative gates as scientific evidence. |
 
-## Direction B: Output-Cloud Geometry Mechanism
+## Direction B: Response-Cloud Geometry and Portability Boundary
 
 | Field | Plan |
 | --- | --- |
-| Working title | Output-Cloud Geometry as an H2-Only Membership Observable |
+| Working title | Response-Cloud Geometry Has an H2 Membership Signal, But Does Not Port to Img2img |
 | Team | Response Geometry Team: mechanism lead for hypothesis and validity threats, scorer lead for bounded controls, visual editor for response-cloud explanation |
 | Venue fit | ML security workshop or short paper now; full CCF-B only if a second independent response asset appears |
-| Thesis | The audited H2 repeated-response cache contains an operationally distinct output-output geometry signal relative to the tested raw/lowpass H2 distance baselines, and the negative SD/CelebA img2img portability result defines the boundary rather than a caveat. |
+| Thesis | The audited H2 repeated-response cache contains an operationally distinct output-output geometry signal relative to the tested raw/lowpass H2 distance baselines, and the negative SD/CelebA img2img portability result is the central boundary result rather than a caveat. |
 | Core contributions | H2-only output-cloud observable; label-shuffle sanity; shared-position order-control; seed-stability and same-family cross-cache transfer; img2img portability failure as a central boundary result. |
 | Main figures | Feature schematic; raw/lowpass/output-cloud comparison; seed/control/label-shuffle bars; portability failure panel. |
 | Extra work needed | A second independent image-diffusion asset or a stronger non-H2 response contract. Without that, write it only as a mechanism short paper with portability failure central. |
 | Risk | Single-family H2 evidence and weak img2img portability make this hard to defend as a full paper alone. |
 
-## Direction C: Selected-Corpus Artifact Claim Support
+## Direction C: Selected-Corpus Artifact Claim-Support Measurement
 
 | Field | Plan |
 | --- | --- |
 | Working title | From Artifact Surfaces to Audit Claims: A Selected-Corpus Measurement of Diffusion MIA Claim Support |
 | Team | Artifact Claim-Support Team: measurement lead for gate design, artifact audit lead for metadata and replay checks, table lead for taxonomy and figures |
-| Venue fit | Security/privacy measurement, ML systems workshop, or reproducibility venue only if metadata-only, scoreable/replay, feature-packet, source-confounded, and admitted-control rows are separated; CCF-B possible only with broader frozen source pass or second independent label review |
-| Thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata-only inspection, artifact inspection, bounded score/replay, audit-ready evidence, and consumer-safe reporting. |
+| Venue fit | Security/privacy measurement, ML systems workshop, or reproducibility venue only if L0 metadata, L1 inspection, L2 scoreable/replay, feature-packet, source-confounded, and L3 admitted-control rows are separated; CCF-B possible only with broader frozen source pass or second independent label review |
+| Thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different L0-L3 claim levels: metadata discovery, artifact inspection, bounded score/replay, audit-ready evidence, and consumer-safe reporting. |
 | Core contributions | L0-L3 claim-support levels; six-gate second-asset contract; audited candidate corpus; bounded replays, weak scouts, feature packets, score-artifact gates, and collaborator/local stress tests across ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps and pooled false denominators. |
 | Main figures | Selected-corpus gate heatmap; claim-support ladder; stratified artifact table; weak-signal scatter; source-confounding example. |
 | Extra work needed | Selected-corpus gate-label consistency now passes with no invalid gate values, contradictions, or label promotions; four empty-result `delta_gate` labels were demoted from `Partial` to `Fail`. Add one broader fixed-source pass or a second independent label review only if targeting standalone aggregate claims; never pool metadata-only rows with replay rows. |
 | Risk | Needs careful methodology to avoid appearing as anecdotal project notes or field-wide prevalence claims. |
 
-## Direction D: Artifact Contract for Safe Consumption
+## Direction D: Independent Artifact Contract and Consumer Boundary
 
 | Field | Plan |
 | --- | --- |
 | Working title | An Artifact Contract for Safe Consumption of Diffusion Privacy Evidence |
 | Team | Artifact Contract Team: systems lead for architecture and threat model, contract lead for bundle validation, report lead for consumer-facing diagrams |
-| Venue fit | Artifact/demo or report-correctness venue now; applied systems only after fault-injection, report-drift, external-use, or deployment evidence |
-| Thesis | Privacy audit outputs should be consumed through machine-checkable bundles that encode admission state, boundary language, finite-tail interpretation, and provenance constraints; current evidence supports artifact/demo packaging, not deployed enforcement or measured report-drift prevention. |
+| Venue fit | Independent artifact-contract/demo/report-correctness package now; applied systems only after fault-injection, report-drift, external-use, or deployment evidence |
+| Thesis | Privacy audit outputs should be consumed through machine-checkable bundles that encode admission state, boundary language, finite-tail interpretation, and provenance constraints; current evidence supports an independent artifact-contract package, not deployed enforcement, external adoption, or measured report-drift prevention. |
 | Core contributions | Admitted evidence bundle schema; public-surface checks; finite empirical tail semantics; report-correctness threat model and validation hooks; blocked-promotion examples. |
 | Main figures | Artifact-contract architecture; bundle schema; admission-state machine; fault-injection table; public-safe risk card. |
 | Extra work needed | Fault-injection/report-drift evidence, external adopter scenario, public-safe deployment evidence, or user-study evidence before systems-paper promotion. |

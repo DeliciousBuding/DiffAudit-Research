@@ -26,9 +26,9 @@ paper:
 | Direction | Research team | Paper identity | Current decision |
 | --- | --- | --- | --- |
 | A | Evidence Contract Team | Full security/privacy measurement paper | Primary 8-page LaTeX draft; continue reviewer-facing tightening without forking other TeX manuscripts. |
-| B | Response Geometry Team | H2-limited mechanism short/workshop paper | Strong technical case study; no full-paper portability claim until a second response asset appears. |
-| C | Artifact Claim-Support Team | Selected-corpus claim-support measurement paper | v1 metadata corpus, fixed GitHub/arXiv batch, gate-summary assets, and selected-corpus consistency pass now exist; standalone aggregate claims need stratified denominators plus a larger corpus or second label review. |
-| D | Artifact Contract Team | Artifact/demo/report-correctness package | Hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
+| B | Response Geometry Team | Response-cloud mechanism short/workshop paper | Strong H2 case study with negative img2img portability as a main result; no full-paper portability claim until a second response asset appears. |
+| C | Artifact Claim-Support Team | Selected-corpus L0-L3 claim-support measurement paper | v1 metadata corpus, fixed GitHub/arXiv batch, gate-summary assets, and selected-corpus consistency pass now exist; standalone aggregate claims need stratified denominators plus a larger corpus or second label review. |
+| D | Artifact Contract Team | Independent artifact-contract/report-correctness package | Hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
 
 ## Draft Files
 
@@ -80,7 +80,7 @@ from candidate/support evidence into admitted evidence.
    gate-summary assets, and selected-corpus consistency pass for L0-L3
    claim-support drafting; add a broader source batch or second label review
    only for standalone aggregate claims.
-3. Keep Direction B as a short-paper-ready H2 mechanism draft until a second
-   response asset exists.
-4. Keep Direction D as an artifact/demo/report-correctness package until
+3. Keep Direction B as a short-paper-ready response-cloud draft with negative
+   img2img portability central until a second response asset exists.
+4. Keep Direction D as an independent artifact-contract/report-correctness package until
    fault-injection, report-drift, external-use, or deployment evidence exists.
