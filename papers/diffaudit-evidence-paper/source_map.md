@@ -69,6 +69,21 @@ All paths are relative to the Research repository root.
 | `papers/diffaudit-evidence-paper/figures/artifact_gate_summary.pdf` | Generated gate-count figure used in the active manuscript. |
 | `references/materials/paper-index.md` | Literature positioning and internal reading map. |
 
+## Replay and Availability Matrix
+
+This matrix is the paper workspace's public reproducibility boundary. It records
+what can be replayed from row-level scores or frozen response artifacts, and
+what remains a point-estimate or internal-workspace dependency.
+
+| Row or packet | Replay surface in this workspace | Paper use | Availability boundary |
+| --- | --- | --- | --- |
+| Recon DDIM public-100 step30 | Unified/admitted bundle metric row plus `docs/evidence/recon-product-validation-result.md`. | Admitted black-box risk evidence. | No separate row-level score array is committed in the paper workspace; report as a controlled public-subset/proxy-shadow risk signal, not a full exploit or public benchmark. |
+| PIA GPU512 baseline | `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/adaptive-scores.json`. | Admitted gray-box baseline with bootstrap AUC sidecar. | Checkpoint/source provenance caveat remains attached; no statistical dominance claim. |
+| PIA + stochastic dropout | `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/adaptive-scores.json`. | Admitted provisional defense comparator with bootstrap AUC sidecar. | Not validated privacy protection. |
+| GSA 1k-3shadow | Unified/admitted bundle metric row plus GSA summary/gradient artifacts. | Admitted white-box upper-bound comparator. | Direct row-level score array is not committed in the paper workspace; keep as point estimate and upper-bound/comparator evidence. |
+| GSA against DPDM W-1 | `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/scores.json`. | Runtime-smoke defended comparator with bootstrap AUC sidecar. | Target score arrays are `1000/1000`; `target_eval_size=2000` is total target evaluation size, not a nonmember denominator. |
+| H2 output-cloud 512/512 and controls | Frozen H2 JSON artifacts listed above plus recorded aggregate CIs. | Non-admitted response-geometry candidate and stress test. | Same response-contract family only; img2img portability and runtime-consumer gates fail. |
+
 ## Forbidden Moves
 
 - Do not cite candidate metrics as admitted evidence.
