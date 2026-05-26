@@ -20,7 +20,7 @@ The machine-readable table is
 | --- | --- |
 | Batch ID | `fs20260526` |
 | Frozen date | 2026-05-26 |
-| Reviewer | `opus` |
+| Reviewer | Direction C review lead |
 | Sources | GitHub repository search; arXiv API metadata search |
 | Excluded sources | OpenReview, Hugging Face, Papers with Code, and Zenodo were not added in this batch because the goal was a small fixed pass, not a crawler. |
 | Download policy | Metadata/tree/API only; no clone, no large file, no model, no dataset, no generated image packet, no e-print tarball, no experiment. |

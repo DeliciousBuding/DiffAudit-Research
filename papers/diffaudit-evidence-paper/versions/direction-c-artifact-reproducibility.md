@@ -4,10 +4,10 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Measurement lead | opus | Define candidate-inclusion protocol and failure taxonomy. |
-| Artifact engineer | haiku | Check manifests, hashes, row binding, replay commands, and metrics. |
-| Table/figure lead | sonnet | Build gate heatmap, artifact funnel, and signal-vs-completeness plot. |
-| Cherry-pick auditor | opus | Ensure corpus selection is frozen before conclusions. |
+| Measurement lead | Claim-support lead | Define candidate-inclusion protocol and failure taxonomy. |
+| Artifact engineer | Provenance audit lead | Check manifests, hashes, row binding, replay commands, and metrics. |
+| Table/figure lead | Corpus visualization lead | Build gate heatmap, artifact funnel, and signal-vs-completeness plot. |
+| Cherry-pick auditor | Selection-bias critic | Ensure corpus selection is frozen before conclusions. |
 
 ## Target Paper
 

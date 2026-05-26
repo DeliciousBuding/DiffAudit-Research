@@ -4,10 +4,10 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Lead PI | opus | Thesis, venue fit, claim boundaries, rebuttal posture. |
-| Evidence engineer | haiku | Recompute admitted rows, check finite-tail denominators, verify scripts. |
-| Figures editor | sonnet | Evidence-contract diagram, admitted-row plots, candidate boundary visuals. |
-| Internal critic | opus | Reject governance-only writing and require measurement insight. |
+| Lead PI | Framework lead | Thesis, venue fit, claim boundaries, rebuttal posture. |
+| Evidence engineer | Metric audit lead | Recompute admitted rows, check finite-tail denominators, verify scripts. |
+| Figures editor | Visualization lead | Evidence-contract diagram, admitted-row plots, candidate boundary visuals. |
+| Internal critic | Validity critic | Reject governance-only writing and require measurement insight. |
 
 ## Target Paper
 
