@@ -47,7 +47,7 @@ scientific measurement framework.
 | Claim | Evidence | Boundary |
 | --- | --- | --- |
 | A1: Five admitted rows can be compared under one audit contract. | `../evidence_bank.md`, admitted bundle JSON | Only within recorded workspace/runtime semantics. |
-| A2: Access level matters. | recon AUC `0.837`, PIA AUC `0.841339`, GSA AUC `0.998192` | Not a universal benchmark across all diffusion models. |
+| A2: The admitted white-box GSA row is numerically stronger under its own contract than the current admitted black-box and gray-box rows. | recon AUC `0.837`, PIA AUC `0.841339`, GSA AUC `0.998192` | Upper-bound comparator only; not an access-level leaderboard or universal benchmark. |
 | A3: Output-cloud geometry is promising but not yet portable. | H2 AUC `0.961529`, transfer mean `0.959755`, img2img AUC `0.7888` | Candidate only. |
 | A4: Negative gates are evidence, not filler. | ReDiffuse, CommonCanvas, MIDST, Tracing Roots, SD ReDiffuse | Use to explain exclusions, not to attack original papers. |
 
@@ -66,7 +66,7 @@ scientific measurement framework.
 
 | Work | Why it matters |
 | --- | --- |
-| Freeze a broader artifact-corpus protocol for Direction C reuse. | Prevents reviewer objection that negative/support routes are anecdotal. |
+| Use the current Direction C corpus and fixed-search batch carefully, and add broader corpus or second-review evidence only for standalone aggregate claims. | Prevents reviewer objection that negative/support routes are anecdotal without pretending the current corpus is field-wide. |
 | Strengthen venue framing and reviewer-facing contribution wording. | Keeps the paper from reading like internal governance. |
 | Add more method detail for admitted bundle generation and finite-tail metrics. | Makes the measurement protocol easier to reproduce. |
 
