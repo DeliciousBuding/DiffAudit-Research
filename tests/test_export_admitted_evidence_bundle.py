@@ -130,11 +130,11 @@ class ExportAdmittedEvidenceBundleTests(unittest.TestCase):
         )
         self.assertEqual(
             denominators["white-box::GSA 1k-3shadow::none::runtime-mainline"],
-            2000,
+            1000,
         )
         self.assertEqual(
             denominators["white-box::GSA 1k-3shadow::W-1 strong-v3 full-scale::runtime-smoke"],
-            2000,
+            1000,
         )
         for row in bundle["rows"]:
             tail = row["low_fpr_interpretation"]

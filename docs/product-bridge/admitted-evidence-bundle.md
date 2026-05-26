@@ -56,7 +56,10 @@ Per row, the bundle carries:
 
 `low_fpr_interpretation.nonmember_denominator` is the finite packet denominator
 used to interpret the strict-tail readout. It does not convert the value into a
-calibrated continuous FPR estimate. For admitted rows, the bundle also exposes:
+calibrated continuous FPR estimate. When a white-box source row records
+`target_eval_size`, that value is total target evaluation size
+(`member + nonmember`), so the exported denominator is the nonmember half. For
+admitted rows, the bundle also exposes:
 
 | Field | Meaning |
 | --- | --- |

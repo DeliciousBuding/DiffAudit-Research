@@ -4,7 +4,7 @@
 
 | Track | Method | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR | Paper role | Caveat |
 | --- | --- | ---: | ---: | ---: | ---: | --- | --- |
-| Black-box | recon DDIM public-100 step30 | 0.837000 | 0.740000 | 0.220000 | 0.110000 | Main | Controlled public-subset/proxy-shadow-member risk proof. |
+| Black-box | recon DDIM public-100 step30 | 0.837000 | 0.740000 | 0.220000 | 0.110000 | Main | Controlled public-subset/proxy-shadow-member risk evidence. |
 | Gray-box | PIA GPU512 baseline | 0.841339 | 0.786133 | 0.058594 | 0.011719 | Main | Workspace-verified with adaptive repeats; paper-alignment provenance blocked. |
 | Gray-box | PIA with stochastic-dropout | 0.828075 | 0.767578 | 0.052734 | 0.009766 | Defense comparator | Provisional defense, not validated privacy protection. |
 | White-box | GSA 1k-3shadow | 0.998192 | 0.989500 | 0.987000 | 0.432000 | Main upper bound | White-box upper-bound comparator. |
@@ -21,8 +21,8 @@ metadata without adding a wide cost column to the paper table.
 | Black-box | recon DDIM public-100 step30 | 100 public samples per split; DDIM step30; runtime mainline plus unified artifact threshold replay; cuda runtime. |
 | Gray-box | PIA GPU512 baseline | attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=212.993833s. |
 | Gray-box | PIA with stochastic-dropout | attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=223.128438s. |
-| White-box | GSA 1k-3shadow | target_eval_size=2000; shadow_train_size=4200; 3 shadows; cuda. |
-| White-box | GSA against DPDM W-1 | target_eval_size=2000; shadow_train_size=6000; classifier=logistic-regression-1d. |
+| White-box | GSA 1k-3shadow | target_eval_size=2000 (1000 member + 1000 nonmember); shadow_train_size=4200; 3 shadows; cuda. |
+| White-box | GSA against DPDM W-1 | target_eval_size=2000 (1000 member + 1000 nonmember); shadow_train_size=6000; classifier=logistic-regression-1d. |
 
 ## H2 Output-Cloud Candidate
 

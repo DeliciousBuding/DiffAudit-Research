@@ -233,12 +233,12 @@
       },
       "low_fpr_interpretation": {
         "type": "finite_empirical_tail",
-        "nonmember_denominator": 2000,
+        "nonmember_denominator": 1000,
         "false_positive_budget": {
-          "at_1pct_fpr": 20.0,
-          "at_0_1pct_fpr": 2.0
+          "at_1pct_fpr": 10.0,
+          "at_0_1pct_fpr": 1.0
         },
-        "minimum_nonzero_fpr": 0.0005,
+        "minimum_nonzero_fpr": 0.001,
         "summary": "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. They must not be treated as calibrated continuous sub-percent FPR estimates."
       },
       "provenance": {
@@ -281,12 +281,12 @@
       },
       "low_fpr_interpretation": {
         "type": "finite_empirical_tail",
-        "nonmember_denominator": 2000,
+        "nonmember_denominator": 1000,
         "false_positive_budget": {
-          "at_1pct_fpr": 20.0,
-          "at_0_1pct_fpr": 2.0
+          "at_1pct_fpr": 10.0,
+          "at_0_1pct_fpr": 1.0
         },
-        "minimum_nonzero_fpr": 0.0005,
+        "minimum_nonzero_fpr": 0.001,
         "summary": "TPR@1%FPR and TPR@0.1%FPR are finite packet readouts. They must not be treated as calibrated continuous sub-percent FPR estimates."
       },
       "provenance": {
