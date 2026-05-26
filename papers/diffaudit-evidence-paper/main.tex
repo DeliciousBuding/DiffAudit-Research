@@ -121,31 +121,33 @@ pipelines~\cite{ho2020ddpm,rombach2022ldm}. They expose privacy risk through
 both memorized generations and membership signals. Extraction and replication
 studies show that training examples or near-duplicates can appear in
 outputs~\cite{carlini2023extracting,somepalli2023replication}.
-Diffusion MIA then spans posterior-error statistics~\cite{duan2023secmi},
-proximal initialization~\cite{kong2024pia}, conditional likelihood
-discrepancy~\cite{zha2024clid}, black-box variation queries~\cite{rediffuse2025},
-fine-tuned reconstruction attacks~\cite{reconstruction2025blackbox}, temporal
-trajectory features~\cite{tracingroots2025}, and white-box gradient
-statistics~\cite{gsa2025whitebox}. Differential privacy and realistic
-benchmarks add further boundaries: DPDM is a defended generation
-target~\cite{dockhorn2023private}, while CopyMark and MIDST show that realistic
-image and tabular settings can change what an MIA result supports~\cite{liang2024copymark,midst2026challenge}.
-DiffAudit asks which outputs from these lines can be safely compared, replayed,
-and consumed as audit evidence.
+Diffusion MIA is already split by access surface. Gray-box posterior,
+trajectory, and conditional-likelihood methods expose intermediate statistics
+or likelihood surrogates~\cite{duan2023secmi,kong2024pia,zha2024clid,tracingroots2025}.
+Black-box response and reconstruction methods compare queries with returned or
+regenerated outputs~\cite{rediffuse2025,reconstruction2025blackbox}. White-box
+gradient attacks require stronger evaluator access~\cite{gsa2025whitebox}.
+Defended and realistic benchmark settings add further boundaries:
+DPDM changes the target through differential privacy~\cite{dockhorn2023private},
+CopyMark and MIDST show that image and tabular benchmark contracts affect what
+an MIA result supports~\cite{liang2024copymark,midst2026challenge}, and
+dataset-level owner auditing such as CDI aggregates evidence across many images
+rather than proving an individual row~\cite{dubinski2025cdi}. DiffAudit does
+not rank these attacks; it asks when their artifacts expose enough target,
+split, row, metric, and consumer context to become reusable audit evidence.
 
 \subsection{Reporting and Reproducibility Artifacts}
 
 DiffAudit is closest to reporting and reproducibility work in machine learning,
-but it measures a different object. Reproducibility checklists emphasize the
-data, code, hyperparameters, and evaluation conditions needed to interpret
-results~\cite{pineau2021reproducibility}; datasheets and model cards document
-dataset and model origins, uses, and limitations~\cite{gebru2021datasheets,mitchell2019modelcards}.
-DiffAudit adapts this logic to privacy evidence: the artifact is not merely a
-released repository or a reproducible training run, but a row-bound
-membership-evidence packet tied to an allowed consumer claim. Thus an incomplete
-artifact is not automatically a failed reproduction; it may still support a
-metadata-only watch item, a support-only mechanism claim, a bounded negative, or
-an admitted audit row.
+but it measures a different object. Reproducibility checklists emphasize data,
+code, hyperparameters, and evaluation conditions~\cite{pineau2021reproducibility};
+datasheets and model cards document dataset and model origins, uses, and
+limitations~\cite{gebru2021datasheets,mitchell2019modelcards}. Privacy audit
+admission additionally needs a threat model, row-level membership labels or
+responses, metric provenance, finite-tail denominators, and an allowed consumer
+claim. DiffAudit therefore adapts reporting artifacts into a measurement-validity
+test: an incomplete artifact is not automatically a failed reproduction, but it
+cannot support a stronger audit claim than its packet exposes.
 
 \section{Audit Surfaces}
 
@@ -259,12 +261,15 @@ or contextualize a mechanism but cannot serve as a direct benchmark. A watch
 item is tracked for future artifacts. A negative row answers a bounded decision
 question and usually closes a low-value expansion.
 
-The protocol is applied claim-first. For each artifact we write the consumer
-claim that would be unsafe if over-promoted, bind the smallest packet that
-could support it, replay or record metrics, assign gate labels for that claim,
-and select the strongest allowed state. A future artifact changes the state
-only by adding the missing target, split, row-level evidence, metric, consumer,
-or non-adjacent surface.
+The protocol is applied claim-first. Formally, an evidence packet
+$p=(T,S,O,M,C,\Delta)$ binds a target $T$, split $S$, row-level observable $O$,
+metric provenance $M$, consumer boundary $C$, and optional surface delta
+$\Delta$. For a proposed claim $c$, DiffAudit records a gate vector
+$G(p,c)\in\{\mathrm{Pass},\mathrm{Partial},\mathrm{Fail},\mathrm{N/A}\}^6$.
+The pair $(p,c)$ is contract-admitted only when target, split, evidence, metric,
+and consumer gates pass and the delta gate either passes or is not applicable.
+Otherwise, the first Partial/Fail gate selects the strongest narrower state and
+records the missing surface that would change the decision.
 
 Metrics are recomputed from row-level scores or frozen response packets when
 available. We report AUC, attack success rate (ASR), TPR@1\%FPR, and
@@ -364,9 +369,12 @@ Diffusion ReDiffuse. These rows exercise the evidence contract across admitted,
 candidate, support-only, and negative states, but they do not estimate artifact
 prevalence in the field.
 
-The counts below are diagnostic examples for claim control. They should be read
-as evidence that DiffAudit prevents accidental promotion under a declared set,
-not as a claim that public diffusion MIA artifacts generally fail.
+Within this case study, protocol validity is evaluated as claim-promotion
+control, not as independent inter-rater reliability. If a row lacks target
+identity, row-level evidence, metric replay, or a consumer boundary, the gate
+vector should block admission even when the headline signal is strong. The
+counts below are diagnostic examples under a declared set, not evidence that
+public diffusion MIA artifacts generally fail.
 
 \subsection{Selection Trace}
 
@@ -384,27 +392,10 @@ The selection trace makes the claim boundary inspectable rather than enlarging
 the denominator opportunistically. Fixed-search rows record the query, observed
 surface, no-download policy, inclusion/exclusion reason, gate labels, reviewer,
 and date. Empty-result queries constrain the search process, but they remain
-metadata-only and are never pooled with replayed score packets.
-
-\begin{table}[t]
-\centering
-\caption{Frozen fixed-search batch used for supplementary claim support. The
-batch guards against accidental promotion; it is excluded from prevalence or
-ecosystem-quality claims.}
-\label{tab:fixed-search}
-\begin{tabular}{p{0.50\linewidth}r}
-\toprule
-Recorded outcome & Rows \\
-\midrule
-Direct GitHub/arXiv surfaces already covered by prior gates & 3 \\
-New code-public surface with no audit-ready packet & 1 \\
-Relevant arXiv metadata-only paper rows & 8 \\
-Empty fixed-query repository result sets & 4 \\
-Query-noise example retained for auditability & 1 \\
-New admitted audit rows & 0 \\
-\bottomrule
-\end{tabular}
-\end{table}
+metadata-only and are never pooled with replayed score packets. The frozen batch
+records three re-found surfaces, one new code-public no-packet surface, eight
+relevant metadata-only rows, four empty fixed-query rows, one noisy query row,
+and zero new admitted audit rows.
 
 \begin{figure*}[t]
 \centering
@@ -430,14 +421,6 @@ evidence/metric contradictions, and no label promotions; it only demoted four
 empty-result \texttt{delta\_gate} labels from Partial to Fail. A standalone
 artifact-claim paper would still need a larger frozen corpus or a second
 independent label review before making aggregate claims.
-
-\subsection{Artifact Strata}
-
-We separate artifact strata before drawing conclusions. Admitted controls show
-consumer-ready evidence; research candidates show strong but non-portable
-signals; positive non-admitted packets separate scoreability from auditability;
-bounded negatives close low-value routes; and source-confounded packets show why
-row semantics cannot be inferred from headline AUC.
 
 \section{Admitted Evidence Bundle}
 
@@ -508,6 +491,11 @@ repeat RMSE, cross-timestep centroid RMSE, and small response-cloud PCA/Gram
 features. This design asks whether the response cloud itself carries
 membership information. The section also reports the negative portability gate:
 this is a candidate observable, not an admitted attack.
+Relative to black-box variation and reconstruction attacks that compare a query
+with returned or averaged outputs~\cite{rediffuse2025,reconstruction2025blackbox},
+H2 removes query-to-output distance and scores output-output geometry. We
+therefore treat it as a response-contract mechanism probe, not a new black-box
+SOTA claim.
 
 On the existing 512/512 cache, output-cloud logistic scoring reaches AUC
 0.9615, ASR 0.9004, TPR@1\%FPR 0.3340, and TPR@0.1\%FPR 0.1172. It improves on
