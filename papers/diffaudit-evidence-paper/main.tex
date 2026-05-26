@@ -75,15 +75,15 @@ DiffAudit is therefore not an attack-SOTA paper: it studies when a diffusion
 MIA result is safe to consume as audit evidence.
 
 In this case-study evidence bank, four observations guide the paper. First, a
-small admitted bundle can already demonstrate meaningful diffusion privacy risk
-under heterogeneous admitted contracts:
+small admitted bundle provides permission-bound evidence of diffusion privacy
+risk under heterogeneous admitted contracts:
 black-box reconstruction risk reaches AUC 0.837, gray-box PIA reaches AUC
 0.841, and white-box GSA reaches AUC 0.998 under their stated contracts.
 Second, a new repeated-response output-cloud analysis suggests that geometry
 among outputs can expose membership signal without reading seed-to-output
-distance and is stronger than the tested raw/lowpass response-strength
-baselines. This signal is strong and controlled inside its response-strength
-setting, but it remains a research candidate because the SD/CelebA img2img
+distance and has higher point-estimate AUC than the tested raw/lowpass
+response-strength baselines. This signal is strong and controlled inside its
+response-strength setting, but it remains a research candidate because the SD/CelebA img2img
 portability check is weak or not distinct from simpler distance features.
 Third, many plausible second-asset
 routes are scientifically useful precisely because they stop at bounded
@@ -451,8 +451,8 @@ available finite-tail basis: the nonmember denominator when recorded, otherwise
 the evaluation-size metadata retained in the evidence bundle. Finally, the row
 receives consumer-boundary language that states who may use it and what caveat
 must accompany it. This is
-why admitted rows can coexist with stronger non-admitted candidates: admission
-is about reusable audit semantics, not only metric magnitude.
+why admitted rows can coexist with higher-scoring non-admitted candidates:
+admission is about reusable audit semantics, not only metric magnitude.
 
 Table~\ref{tab:admitted} summarizes the admitted rows. The bundle is
 deliberately heterogeneous: the black-box row is a consumer-facing
