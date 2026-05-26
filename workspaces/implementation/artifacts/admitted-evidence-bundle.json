@@ -10,6 +10,8 @@
       "id": "black-box::recon DDIM public-100 step30::none::runtime-mainline",
       "status": "admitted",
       "audience": "platform-runtime",
+      "required_access": "black-box",
+      "report_role": "primary-risk-evidence",
       "track": "black-box",
       "method": {
         "attack": "recon DDIM public-100 step30",
@@ -58,6 +60,8 @@
       "id": "gray-box::PIA GPU512 baseline::none::runtime-mainline",
       "status": "admitted",
       "audience": "platform-runtime",
+      "required_access": "gray-box",
+      "report_role": "primary-risk-evidence",
       "track": "gray-box",
       "method": {
         "attack": "PIA GPU512 baseline",
@@ -130,6 +134,8 @@
       "id": "gray-box::PIA GPU512 baseline::provisional G-1 = stochastic-dropout (all_steps)::runtime-mainline",
       "status": "admitted",
       "audience": "platform-runtime",
+      "required_access": "gray-box",
+      "report_role": "defense-comparator",
       "track": "gray-box",
       "method": {
         "attack": "PIA GPU512 baseline",
@@ -202,6 +208,8 @@
       "id": "white-box::GSA 1k-3shadow::none::runtime-mainline",
       "status": "admitted",
       "audience": "platform-runtime",
+      "required_access": "white-box",
+      "report_role": "upper-bound-comparator",
       "track": "white-box",
       "method": {
         "attack": "GSA 1k-3shadow",
@@ -250,6 +258,8 @@
       "id": "white-box::GSA 1k-3shadow::W-1 strong-v3 full-scale::runtime-smoke",
       "status": "admitted",
       "audience": "platform-runtime",
+      "required_access": "white-box",
+      "report_role": "defense-bridge",
       "track": "white-box",
       "method": {
         "attack": "GSA 1k-3shadow",
