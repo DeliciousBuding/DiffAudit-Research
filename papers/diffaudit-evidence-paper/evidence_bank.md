@@ -10,6 +10,20 @@
 | White-box | GSA 1k-3shadow | 0.998192 | 0.989500 | 0.987000 | 0.432000 | Main upper bound | White-box upper-bound comparator. |
 | White-box | GSA against DPDM W-1 | 0.488783 | 0.498500 | 0.009000 | 0.000000 | Defense comparator | Bridge frozen; not final benchmark. |
 
+## Admitted Quality/Cost Metadata
+
+These strings are retained in `data/admitted_rows.csv` and the admitted bundle.
+They are summarized here so the manuscript can claim retained quality/cost
+metadata without adding a wide cost column to the paper table.
+
+| Track | Method | Quality/cost readout |
+| --- | --- | --- |
+| Black-box | recon DDIM public-100 step30 | 100 public samples per split; DDIM step30; runtime mainline plus unified artifact threshold replay; cuda runtime. |
+| Gray-box | PIA GPU512 baseline | attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=212.993833s. |
+| Gray-box | PIA with stochastic-dropout | attack_num=30; interval=10; batch_size=8; 512 samples per split; single GPU serial; adaptive repeats=3; wall-clock=223.128438s. |
+| White-box | GSA 1k-3shadow | target_eval_size=2000; shadow_train_size=4200; 3 shadows; cuda. |
+| White-box | GSA against DPDM W-1 | target_eval_size=2000; shadow_train_size=6000; classifier=logistic-regression-1d. |
+
 ## H2 Output-Cloud Candidate
 
 | Packet | AUC | ASR | TPR@1%FPR | TPR@0.1%FPR | Role |
