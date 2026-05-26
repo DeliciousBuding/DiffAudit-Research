@@ -18,30 +18,26 @@
 \maketitle
 
 \begin{abstract}
-Membership inference against diffusion models is often reported as a scalar
-score, yet a deployable privacy audit needs more than a high AUC. We treat the
-measurement unit as a claim-bound evidence packet: a fixed target model,
+Membership inference against diffusion models is usually reported as an attack
+score, but a privacy audit needs a stronger measurement unit: target identity,
 member/nonmember semantics, row-level score or response coverage, metric
-provenance, consumer boundary, and surface-delta evidence for portability.
-We present DiffAudit, an evidence-contracted audit methodology for
-diffusion-model membership leakage. DiffAudit separates admitted evidence from
-research candidates and watch items, reports finite-tail low-FPR metrics with
-their packet denominators, and leaves attractive results non-admitted when
-their artifacts do not support the claimed audit semantics. On the current
-evidence bundle, DiffAudit admits five rows under black-box, gray-box, and
-white-box contracts, spanning reconstruction risk, PIA, a stochastic-dropout
-comparator, GSA, and a DPDM defense comparator. We also report a controlled H2
-response-cloud case study:
-an output-output geometry scorer reaches AUC 0.9615 on an existing response
-cache and survives label-shuffle, seed-offset control, seed-stability, and
-same-family cross-cache transfer checks, but fails to cleanly port to an
-SD/CelebA img2img contract. Finally, a selected claim-control corpus---21
-evidence-note rows plus 17 frozen GitHub/arXiv metadata rows---shows why
-second-asset claims require artifact contracts rather than metric prose:
-selection adds process evidence but no new admitted audit row. DiffAudit is
-therefore a measurement framework: it
-exposes verified leakage where evidence supports it and marks portability
-claims as non-admitted where the public artifact surface is incomplete.
+provenance, consumer boundary, and evidence for portability. We present
+DiffAudit, an evidence-contracted methodology for diffusion-model membership
+leakage auditing. DiffAudit admits only claim-bound evidence packets, reports
+finite-tail low-FPR metrics with their denominators, and keeps attractive
+signals non-admitted when the artifact surface does not support the claimed
+audit semantics. The current bundle admits five heterogeneous rows across
+black-box reconstruction risk, gray-box PIA, a stochastic-dropout comparator,
+white-box GSA, and a DPDM defense comparator. It also finds a controlled H2
+output-cloud geometry candidate with AUC 0.9615 that survives label-shuffle,
+seed-offset, seed-stability, and same-family transfer checks, but remains
+non-admitted after a weak SD/CelebA img2img portability check. Finally, a
+selected claim-control corpus---21 evidence-note rows plus 17 frozen
+GitHub/arXiv metadata rows---adds selection-process evidence but no new
+admitted audit row. DiffAudit therefore reframes diffusion MIA as claim-bound
+measurement: verified leakage where evidence supports it, and explicit
+candidate, support, or negative states where portability or consumer boundaries
+are not yet satisfied.
 \end{abstract}
 
 \section{Introduction}
