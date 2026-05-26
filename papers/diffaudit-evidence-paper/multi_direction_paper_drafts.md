@@ -19,7 +19,7 @@ paper:
 | A | When is a diffusion MIA score reusable audit evidence? | Evidence contract and admitted/candidate taxonomy | Turns the whole workspace into a measurement-methodology paper. |
 | B | Is repeated-response geometry a real membership observable? | H2 response-cloud mechanism candidate | Treats one strong technical signal as a bounded mechanism short paper. |
 | C | What do selected diffusion MIA artifact surfaces actually support? | Selected-corpus claim-support audit | Makes claim support the empirical object without field-wide prevalence claims. |
-| D | How should downstream reports consume privacy evidence safely? | Artifact contract and report-correctness checks | Turns the evidence boundary into an artifact/demo paper before any systems claim. |
+| D | How should downstream reports consume privacy evidence safely? | Artifact contract and report-correctness threat model | Turns the evidence boundary into an artifact/demo paper before any systems claim. |
 
 ## Version Set
 
