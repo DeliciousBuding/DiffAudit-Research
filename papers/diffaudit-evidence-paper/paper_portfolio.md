@@ -47,7 +47,7 @@ rule out a plausible route or motivate a sharper research question.
 | Thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata inspection, scoreability, replay, auditability, and consumer-safe reporting. |
 | Core contributions | Six-gate second-asset contract; audited candidate corpus; bounded replays, weak scouts, feature packets, score-artifact gates, and collaborator/local stress tests across ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps. |
 | Main figures | Selected-corpus gate heatmap; weak-signal scatter; source-confounding example; artifact claim-support taxonomy. |
-| Extra work needed | Selected-corpus gate-label consistency now passes without CSV label changes; add one broader fixed-source pass or a second independent label review only if targeting standalone aggregate claims. |
+| Extra work needed | Selected-corpus gate-label consistency now passes with no invalid gate values, contradictions, or label promotions; four empty-result `delta_gate` labels were demoted from `Partial` to `Fail`. Add one broader fixed-source pass or a second independent label review only if targeting standalone aggregate claims. |
 | Risk | Needs careful methodology to avoid appearing as anecdotal project notes or field-wide prevalence claims. |
 
 ## Direction D: Artifact Contract for Safe Consumption
@@ -69,9 +69,10 @@ Direction A is the best first manuscript because it can honestly absorb all
 current evidence without overclaiming. Direction B is the strongest technical
 mechanism but needs a second asset or explicit short-paper scope. Direction C
 now has a v1 corpus, a fixed GitHub/arXiv metadata batch, selected-corpus
-gate-summary outputs, and a selected-corpus consistency pass with no CSV label
-changes, but standalone aggregate claims still need a broader frozen corpus or
-second label review. Direction D is best as an artifact/demo contract paper
+gate-summary outputs, and a selected-corpus consistency pass with only four
+empty-result `delta_gate` demotions, but standalone aggregate claims still need
+a broader frozen corpus or second label review. Direction D is best as an
+artifact/demo contract paper
 after Direction A defines the scientific contract, and it needs fault-injection,
 report-drift, or external-use evidence before becoming a full systems paper.
 
