@@ -90,6 +90,29 @@ def _blocked_claims(row: dict[str, Any]) -> list[str]:
     return blocked
 
 
+def _required_access(row: dict[str, Any]) -> str:
+    access_by_track = {
+        "black-box": "black-box",
+        "gray-box": "gray-box",
+        "white-box": "white-box",
+    }
+    return access_by_track.get(str(row["track"]), "declared-track")
+
+
+def _report_role(row: dict[str, Any]) -> str:
+    track = row["track"]
+    defense = row["defense"]
+    if track in {"black-box", "gray-box"} and defense == "none":
+        return "primary-risk-evidence"
+    if track == "gray-box":
+        return "defense-comparator"
+    if track == "white-box" and defense == "none":
+        return "upper-bound-comparator"
+    if track == "white-box":
+        return "defense-bridge"
+    return "admitted-evidence"
+
+
 def _tail_nonmember_count(row: dict[str, Any]) -> int:
     row_label = f"{row.get('track')}::{row.get('attack')}::{row.get('defense')}::{row.get('evidence_level')}"
     cost = row.get("cost")
@@ -140,6 +163,8 @@ def _build_card(row: dict[str, Any], *, table_path: Path, root: Path) -> dict[st
         "id": f"{row['track']}::{row['attack']}::{row['defense']}::{row['evidence_level']}",
         "status": "admitted",
         "audience": "platform-runtime",
+        "required_access": _required_access(row),
+        "report_role": _report_role(row),
         "track": row["track"],
         "method": {
             "attack": row["attack"],
