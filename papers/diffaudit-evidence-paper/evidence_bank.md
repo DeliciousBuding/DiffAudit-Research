@@ -51,9 +51,15 @@ metadata without adding a wide cost column to the paper table.
 
 ## Direction C Selected-Corpus Gate Counts
 
+Direction C separates claim-support levels before interpreting counts:
+metadata-only discovery, artifact inspection, scoreable or replayed
+research-side measurement, and audit-ready/admitted evidence. Metadata-only
+fixed-search rows are not pooled with replay rows as a reproducibility
+denominator.
+
 | Corpus | Key readout | Paper role | Caveat |
 | --- | --- | --- | --- |
-| v1 evidence-note corpus | 21 coded rows; 10 rows pass score/response and metric gates; 1 row passes consumer-boundary gate. | Claim-control support for artifact-corpus framing. | Selected from existing DiffAudit evidence notes; not field-wide prevalence. |
+| v1 evidence-note corpus | 21 coded rows; 10 rows pass score/response and metric gates; 1 row passes consumer-boundary gate. | Claim-control support for selected claim-support framing. | Selected from existing DiffAudit evidence notes; not field-wide prevalence. |
 | 2026-05-26 fixed-search batch | 17 coded rows; no row passes target, split, score/response, metric, or consumer-boundary gate. | Metadata-only process trace showing no new admitted row in the frozen batch. | Small fixed-search batch; selected-corpus consistency pass found no invalid labels, contradictions, or promotions, but demoted four empty-result `delta_gate` labels from `Partial` to `Fail`. Standalone aggregate claims need broader or second-review evidence. |
 
 Second internal label audit on 2026-05-26: no invalid gate labels, no
