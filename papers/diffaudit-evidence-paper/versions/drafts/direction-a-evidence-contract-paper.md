@@ -51,7 +51,7 @@ all have decision value when their boundaries are explicit.
 | --- | --- | --- |
 | A-C1: A six-gate contract can separate admitted diffusion audit evidence from candidate/support evidence. | [`../../claim_register.md`](../../claim_register.md), [`../../source_map.md`](../../source_map.md) | Methodological claim, not a claim that all public papers fail the gates. |
 | A-C2: Five admitted rows can be reported under one contract. | [`../../evidence_bank.md`](../../evidence_bank.md) admitted rows | Workspace/runtime semantics only; finite tails are packet readouts. |
-| A-C3: Permission level changes signal strength. | recon AUC `0.837`, PIA AUC `0.841339`, GSA AUC `0.998192` | Not a universal benchmark across architectures or datasets. |
+| A-C3: The admitted white-box GSA row is numerically stronger under its own contract than the current admitted black-box and gray-box rows. | recon AUC `0.837`, PIA AUC `0.841339`, GSA AUC `0.998192` | Upper-bound comparator only; not an access-level leaderboard or universal benchmark. |
 | A-C4: Strong candidates can be scientifically useful even when non-admitted. | H2 AUC `0.961529`, transfer mean `0.959755`, img2img AUC `0.7888` | H2 remains Research-side, not product/admitted evidence. |
 | A-C5: Negative gates prevent false portability claims. | ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, SD ReDiffuse notes | Does not disprove original methods. |
 
@@ -87,13 +87,13 @@ all have decision value when their boundaries are explicit.
 | Reads like internal governance. | Put measurement problem first: score-only claims are not reusable evidence. |
 | Admitted bundle is narrow. | State it as a controlled admitted bundle and use candidate/negative evidence to show why admission is hard. |
 | H2 looks like the real paper. | Keep H2 as a case study inside the contract paper unless a second response asset appears. |
-| Negative evidence looks cherry-picked. | Expand Direction C metadata-only corpus before making broad artifact claims. |
+| Negative evidence looks cherry-picked. | Use Direction C as selected-corpus claim-control evidence now; require broader corpus or a second independent label review before standalone aggregate claims. |
 
 ## Go / No-Go
 
 | Decision | Condition |
 | --- | --- |
 | Continue as main LaTeX | Already satisfied: uses all evidence without overclaiming. |
-| Expand to 6-8 pages | Add stronger corpus protocol, method detail, and reviewer-facing contribution wording. |
+| Continue tightening the 8-page LaTeX draft | Preserve the page budget while improving motivation, method detail, and reviewer-facing contribution wording. |
 | Submit as CCF-B-style measurement paper | Needs broader artifact-corpus framing and a final claim audit. |
 | Stop | If it cannot be framed as measurement science rather than project documentation. |
