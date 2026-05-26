@@ -49,7 +49,9 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
 - `main.tex`、`refs.bib` 和 `paper.pdf`：IEEEtran 会议格式稿件已通过
   `pdflatex + bibtex + pdflatex + pdflatex` 手动链路编译，当前为 `8` 页 draft。
   2026-05-26 reviewer-hardening 后，abstract/introduction 已改为 RQ 和
-  claim-admission framing，H2 明确作为 contract stress test 而非隐藏主贡献。
+  claim-admission framing，Measurement Protocol 已补 evidence-packet /
+  gate-vector 形式化定义，Related Work 已改成 access-surface taxonomy 并加入
+  CDI 作为 dataset-level auditing 对照，H2 明确作为 contract stress test 而非隐藏主贡献。
   正文已包含 Related Work、Reporting/Reproducibility positioning、Audit
   Surfaces、Evidence Contract、Measurement Protocol、candidate gate matrix、
   Artifact Corpus、fixed-search batch summary、selected-corpus gate-summary
