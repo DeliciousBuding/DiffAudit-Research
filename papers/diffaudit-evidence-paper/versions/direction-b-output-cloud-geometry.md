@@ -4,84 +4,92 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Mechanism lead | Response geometry lead | State the scientific hypothesis and portability boundary. |
-| Scorer engineer | Control implementation lead | Keep scorer/control code bounded and auditable. |
-| Visual explanation lead | Mechanism visualization lead | Draw response-cloud geometry, controls, and portability panels. |
-| Skeptical reviewer | Portability critic | Block feature-sweep inflation and single-cache overclaiming. |
+| Mechanism lead | Response geometry lead | Define the H2-only observable and keep the portability boundary in the thesis. |
+| Scorer engineer | Control implementation lead | Freeze the bounded scorer description and map every metric to existing evidence. |
+| Visual explanation lead | Mechanism visualization lead | Build one geometry/control/boundary figure plan from existing metrics only. |
+| Skeptical reviewer | Portability critic | Block cross-model wording, product admission, and same-cache feature-sweep inflation. |
 
-## Target Paper
+## Short-Paper Package
 
 | Field | Choice |
 | --- | --- |
-| Working title | Output-Cloud Geometry in a Controlled H2 Diffusion Response Family |
-| Paper type | Mechanism-focused ML security paper |
-| Venue posture | Strong workshop or short paper now; full CCF-B only with a second independent response asset |
+| Working title | Output-Cloud Geometry as an H2-Only Membership Observable |
+| One-line hook | Repeated H2 responses leak through response-cloud geometry, but the same observable fails an img2img portability gate. |
+| Paper type | Mechanism-focused ML security short/workshop paper |
+| Venue posture | Standalone short paper now; full CCF-B mechanism paper only with a second independent response asset |
 | Current status | Candidate paper, not active main manuscript |
 
 ## Abstract Draft
 
 Repeated diffusion queries produce a cloud of responses, not just a single
-image-to-image distance. This paper studies whether geometry within an audited
-H2 response cloud can reveal training membership. On the H2 response-strength
-cache, output-output features such as within-step repeat distance, timestep
-centroid movement, and response-cloud Gram spectra reach AUC `0.961529`,
-outperforming the tested raw and lowpass H2 distance baselines. Label-shuffle
-controls return random-level behavior, shared-position seed-offset controls
-preserve the signal, seed `177` remains strong, and fold-disjoint same-family
-cross-cache transfer reaches mean AUC `0.959755`. The signal is therefore not
-explained by a trivial label leak or class-ordered seed offset inside this
-response family. However, an SD/CelebA img2img portability check is weaker and
-not distinct from simple distance. We present output-cloud geometry as a
-promising H2 membership observable with an explicit portability boundary rather
-than as a product-ready attack.
+image-to-image distance. This short paper asks whether geometry inside an
+audited H2 response cloud is itself a membership observable. On the H2
+response-strength cache, output-output features such as within-step repeat
+distance, timestep centroid movement, and response-cloud Gram spectra reach
+AUC `0.961529`, outperforming the tested raw and lowpass H2 distance
+baselines. Label-shuffle controls return random-level behavior,
+shared-position seed-offset controls preserve the signal, seed `177` remains
+strong, and fold-disjoint same-family cross-cache transfer reaches mean AUC
+`0.959755`. These controls make the signal hard to dismiss as a trivial label
+leak, class-ordered seed artifact, or single-seed accident inside this H2
+response family. The same observable does not port cleanly to an SD/CelebA
+img2img cache, where strict-tail recovery is zero and simple distance is
+stronger. We therefore present output-cloud geometry as an H2-only mechanism
+candidate with a negative portability result, not as a broadly portable or
+product-ready diffusion MIA.
 
 ## Core Thesis
 
-Output-cloud geometry is a strong controlled H2 response-family signal with an
-explicit failed portability boundary. In the audited H2 repeated-response
-cache, membership signal can live in the geometry among repeated diffusion
-outputs, not only in the tested direct query-to-output similarity baselines.
-The current evidence is strong inside one controlled response family, but the
-paper cannot claim broad portability until a second asset confirms the
-observable.
+Membership signal can be recoverable from relationships among repeated H2
+responses, not only from tested direct query-to-output distance baselines.
+The claim stops there: current evidence supports a controlled H2 response-family
+observable and a failed img2img portability boundary. It does not support
+cross-model portability, cross-dataset portability, product admission, or a new
+general diffusion membership attack.
 
-## Main Claims
+## Contribution Claims
 
 | Claim | Evidence | Boundary |
 | --- | --- | --- |
-| B1: Output-output geometry is operationally separated from tested H2 distance baselines. | Feature design excludes seed-to-output distance and is compared with raw/lowpass H2 baselines. | Still learned logistic fusion over engineered features; not a causal mechanism claim. |
-| B2: H2 evidence is strong and controlled. | AUC `0.961529`, label-shuffle `0.507595`, shared-position `0.967819` | One response-contract family. |
-| B3: Signal is robust across controlled same-family caches. | 176 -> 177 AUC `0.948990`, 177 -> 176 AUC `0.970520` | Same-family cache robustness, not cross-model or cross-dataset transfer. |
-| B4: Portability is unresolved. | SD/CelebA img2img AUC `0.7888`, strict-tail `0.0`, below simple distance | Blocks full-paper claim unless a second asset appears. |
+| B1: A response-cloud observable. | Feature design excludes direct seed-to-output distance and uses output-output geometry: repeat distances, centroid motion, and cloud spectra. | Operational separation only; no causal mechanism claim. |
+| B2: A controlled H2 positive result. | Main AUC `0.961529`, label-shuffle `0.507595`, shared-position AUC `0.967819`, seed `177` stability. | One H2 response-contract family; finite empirical tails. |
+| B3: Same-family transfer, not portability. | 176 -> 177 AUC `0.948990`, 177 -> 176 AUC `0.970520`, mean `0.959755`. | Same H2 response family only; not cross-model or cross-dataset transfer. |
+| B4: A negative portability boundary. | SD/CelebA img2img AUC `0.7888`, TPR@1%FPR `0.0`, TPR@0.1%FPR `0.0`, weaker than simple distance. | Blocks admitted/product/full-paper portability claims. |
 
 ## Section Spine
 
 | Section | Job |
 | --- | --- |
-| Introduction | Motivate response clouds as a different black-box observable. |
-| Method | Define output-cloud features and the bounded scorer. |
-| H2 Results | Report main metrics and simple-feature insufficiency. |
-| Controls | Label shuffle, shared-position seed policy, seed stability, same-family cross-cache transfer. |
-| Portability Boundary | Explain SD/CelebA img2img failure and why it matters. |
-| Implications | State what a second-asset confirmation would need to prove. |
+| Introduction | State the narrow question: can repeated H2 responses leak through their geometry? |
+| Observable | Define output-cloud geometry and separate it from direct input/output distance. |
+| Bounded Scorer | Freeze the feature families and logistic reporting without adding new sweeps. |
+| H2 Positive Result | Report AUC/tail metrics and distance-baseline comparison inside H2 only. |
+| Controls | Present label shuffle, shared-position seed policy, seed `177`, and same-family cross-cache transfer. |
+| Portability Boundary | Put the SD/CelebA img2img weakness in the main argument as a result, not a caveat. |
+| Go/No-Go | Define the second-asset gate required before any full-paper or admitted claim. |
 
-## Minimum Next Work
+## Figure/Table Spine
 
-| Work | Why it matters |
+| Asset | Purpose |
 | --- | --- |
-| Find one second independent response asset with exact member/nonmember semantics. | Converts this from strong case study to full mechanism paper. |
-| Add a method schematic and feature table. | Makes the mechanism reviewer-legible. |
-| Pre-register one repeat-count or response-budget sensitivity only after second asset exists. | Avoids single-family feature tuning. |
+| One response-cloud schematic | Shows repeated responses as the object of measurement, not decorative model art. |
+| One feature-family table | Makes the bounded scorer inspectable and limits hidden feature-sweep suspicion. |
+| One H2/control table | Combines main AUC/tails, label shuffle, seed policy, seed `177`, and same-family transfer. |
+| One portability panel | Places SD/CelebA img2img weakness beside H2 success to define scope. |
 
-## Refused Work
+## Go / No-Go
 
-| Refused | Reason |
+| Decision | Condition |
 | --- | --- |
-| Same-cache feature-family sweeps | Will look like overfit feature engineering. |
-| Full 512/512 rerun just for symmetry | Does not resolve portability. |
-| Product admission | Current consumer contract is absent. |
+| Go as short/workshop paper | Current H2 positive result, controls, same-family transfer, and negative portability boundary are enough if written as a bounded mechanism case study. |
+| Do not fork as full mechanism paper | No second independent response asset has validated the observable. |
+| Promote to full paper | Requires a second response asset with fixed target identity, exact member/nonmember split, row-level response or score coverage, metric provenance, hashable provenance/replay, and a real surface delta over simple distance. |
+| Product/admitted claim | Not allowed; H2 output-cloud remains Research-side candidate-only. |
+| Refuse more H2 polishing experiments | Same-cache feature sweeps, 512/512 symmetry reruns, repeat-count tuning, KDE/shadow variants, and input-distance fusion do not resolve portability. |
 
 ## Decision
 
-Keep as the strongest technical follow-up. Do not make it the main paper until
-a second response asset exists.
+Keep Direction B as the sharpest technical short-paper candidate. Its publishable
+unit is the honest contrast: strong controlled H2 response-cloud signal plus
+failed img2img portability. Do not make it the main/full paper until a second
+independent response asset exists.

@@ -31,10 +31,10 @@ GSA, and a DPDM defense comparator. DiffAudit also evaluates a controlled H2
 output-cloud geometry candidate with AUC 0.9615 that survives label-shuffle,
 seed-offset, seed-stability, and same-family transfer checks, but remains
 non-admitted after a weak SD/CelebA img2img portability check. A selected
-claim-control corpus---21 evidence-note rows plus 17 frozen GitHub/arXiv search
-records---adds selection-process evidence but no new admitted audit row.
+claim-control set---21 evidence-note rows plus 17 frozen GitHub/arXiv search
+records---adds selection-trace evidence but no new admitted audit row.
 DiffAudit therefore reframes diffusion MIA as claim-bound measurement:
-verified leakage where evidence supports it, and explicit candidate, support,
+leakage claims where evidence supports them, and explicit candidate, support,
 or negative states where portability or consumer boundaries are not yet
 satisfied.
 \end{abstract}
@@ -77,7 +77,7 @@ diffusion MIA result is safe to consume as audit evidence.
 
 In this case-study evidence bank, four observations guide the paper. First, a
 small admitted bundle can already demonstrate meaningful diffusion privacy risk
-across access levels:
+under heterogeneous admitted contracts:
 black-box reconstruction risk reaches AUC 0.837, gray-box PIA reaches AUC
 0.841, and white-box GSA reaches AUC 0.998 under their stated contracts.
 Second, a new H2 response-cloud analysis suggests that repeated output geometry
@@ -91,7 +91,7 @@ negative or support-only states: ReDiffuse STL-10 has a clean split and
 scoreable short target but random-level metrics;
 CommonCanvas has a real response packet but weak scorers; Tracing the Roots has
 positive feature tensors but no raw image-level consumer contract.
-Fourth, a 21-row evidence-note corpus and a 17-row fixed-search batch show how
+Fourth, a 21-row selected evidence-note set and a 17-row fixed-search batch show how
 gate counts can support claim-control drafting without becoming prevalence
 estimates.
 
@@ -108,7 +108,7 @@ denominators, provenance, quality/cost metadata, and boundary language.
 survives several bounded controls while remaining honestly limited to its
 current response-contract family.
 \item We document negative and support evidence from public artifacts, fixed
-packets, collaborator/local stress tests, and a selected-corpus gate-count
+packets, collaborator/local stress tests, and a selected-set gate-count
 protocol, showing how missing checkpoints, broken row bindings, weak
 transferred signals, and consumer-boundary mismatches block overbroad
 portability claims without becoming prevalence estimates.
@@ -337,7 +337,11 @@ consumer semantics.}
 
 \begin{table*}[t]
 \centering
-\caption{Candidate and support evidence gate matrix. `Pass' means sufficient for the stated internal evidence role, not automatic product admission. Surface delta is evaluated for portability or second-asset claims; the admitted bundle is the primary audit bundle rather than a second-asset claim.}
+\caption{Candidate and support evidence gate matrix. `Pass' is a role-pass:
+sufficient for the stated internal evidence role, not route success or automatic
+product admission. Surface delta is evaluated for portability or second-asset
+claims; the admitted bundle is the primary audit bundle rather than a
+second-asset claim.}
 \label{tab:gate-matrix}
 \begin{tabular}{llllllll}
 \toprule
@@ -354,9 +358,9 @@ SD ReDiffuse collaborator & Partial & Partial & Pass & Pass & Fail & Pass & Sour
 \end{tabular}
 \end{table*}
 
-\section{Claim-Control Corpus}
+\section{Selected Claim-Control Evidence}
 
-The current claim-control corpus is intentionally small but heterogeneous. The
+The current selected claim-control set is intentionally small but heterogeneous. The
 admitted bundle contains five rows that already pass the consumer boundary. H2
 output-cloud geometry contributes a mechanism candidate with strong internal
 controls. ReDiffuse STL-10, CommonCanvas, and MIDST contribute bounded negative
@@ -364,7 +368,7 @@ results because each answers a specific route-selection question. Tracing the
 Roots contributes positive feature-packet evidence, while the collaborator
 Stable Diffusion ReDiffuse packet contributes a source-confounding stress test.
 
-This corpus is not a broad survey of every diffusion MIA artifact. It is the
+This set is not a broad survey of every diffusion MIA artifact. It is the
 evidence surface available under strict row-binding and no-overclaim rules. The
 counts below are diagnostic examples for claim control, not estimates of public
 artifact prevalence. The next expansion should freeze inclusion criteria, check
@@ -372,9 +376,9 @@ public target identity, inspect split and score/response availability, and only
 then decide whether any execution is justified. This keeps the measurement paper
 from turning artifact triage into uncontrolled engineering work.
 
-\subsection{Corpus Protocol}
+\subsection{Selection Trace}
 
-The current corpus was built from DiffAudit's audited evidence surface. A
+The current set was built from DiffAudit's audited evidence surface. A
 standalone artifact-claim paper would require a larger frozen corpus or a
 second independent label review before making aggregate claims. We also
 instantiated a frozen 2026-05-26 Direction-C search batch with seven GitHub
@@ -406,7 +410,7 @@ New admitted audit rows & 0 \\
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.92\linewidth]{figures/artifact_gate_summary.pdf}
-\caption{Gate-label counts for the selected v1 evidence-note corpus and the
+\caption{Gate-label counts for the selected v1 evidence-note set and the
 frozen 2026-05-26 fixed-search batch. Counts describe only these coded rows. The
 fixed-search batch produced no row passing the target, split, evidence, metric,
 or consumer-boundary gate, so it supports claim control rather than an
@@ -414,8 +418,8 @@ artifact-prevalence claim.}
 \label{fig:artifact-gates}
 \end{figure*}
 
-Figure~\ref{fig:artifact-gates} makes the corpus boundary visible. The v1
-evidence-note corpus contains several scoreable or replayable rows, but most of
+Figure~\ref{fig:artifact-gates} makes the selection boundary visible. The v1
+evidence-note set contains several scoreable or replayable rows, but most of
 those rows still stop at candidate, support-only, or negative roles once the
 consumer-boundary gate is applied. The fixed-search batch is stricter evidence
 against accidental promotion: metadata search found relevant papers and code
@@ -485,7 +489,7 @@ leaderboard.}
 \label{fig:admitted}
 \end{figure}
 
-\section{Output-Cloud Geometry Case Study}
+\section{Non-Admitted H2 Output-Cloud Candidate}
 
 The H2 response-strength cache contains repeated diffusion responses at
 timesteps 40, 80, 120, and 160. Instead of comparing a query image directly to
@@ -634,6 +638,11 @@ at the same level, nor that one method dominates across modalities.
 therefore report them as finite empirical readouts and keep packet size and
 nonmember denominators attached to the claim.
 
+\textbf{Label and protocol validity.} The gate labels are same-team
+adjudications, not independent inter-rater measurements. We therefore use them
+for claim control and route decisions, not as prevalence estimates or
+field-quality rankings.
+
 \textbf{Publication bias.} Negative routes were selected because they affected
 DiffAudit route decisions. The fixed-search batch and selected-corpus
 consistency pass reduce selection-history and label-coherence risk, but remain
@@ -643,9 +652,9 @@ frozen corpus or a second independent label review.
 \section{Conclusion}
 
 DiffAudit turns diffusion membership inference from isolated score reporting
-into evidence-contracted auditing. The current results show verified leakage
-under admitted black-box, gray-box, and white-box contracts; reveal a promising
-output-cloud response geometry signal; and document why many public artifacts,
+into evidence-contracted auditing. The current results combine leakage-positive
+rows with admitted comparator and defense evidence; reveal a promising
+non-admitted output-cloud response geometry signal; and document why many public artifacts,
 fixed packets, and collaborator/local stress tests remain scientifically useful
 but non-admissible. This combination is the paper's
 central point: publishable diffusion privacy evidence requires both strong
