@@ -87,7 +87,7 @@ all have decision value when their boundaries are explicit.
 | Reads like internal governance. | Put measurement problem first: score-only claims are not reusable evidence. |
 | Admitted bundle is narrow. | State it as a controlled admitted bundle and use candidate/negative evidence to show why admission is hard. |
 | H2 looks like the real paper. | Keep H2 as a case study inside the contract paper unless a second response asset appears. |
-| Negative evidence looks cherry-picked. | Use Direction C as selected-corpus claim-control evidence now; require broader corpus or a second independent label review before standalone aggregate claims. |
+| Negative evidence looks cherry-picked. | Use Direction C as selected-corpus claim-control evidence now; require broader corpus or external independent label review before standalone aggregate claims. |
 | Contract looks descriptive rather than scientific. | Preserve a claim-first protocol: define the unsafe consumer claim, bind the minimum evidence packet, replay or record metrics, assign gates, and choose the strongest allowed state. |
 
 ## Go / No-Go

@@ -111,18 +111,24 @@ arXiv API metadata queries:
 
 The 2026-05-26 selected-corpus consistency pass reviewed
 `artifact_corpus_v1.csv` and `artifact_corpus_fixed_search_20260526.csv`. It
-found no invalid gate values, evidence/metric contradictions, label promotions,
+found no invalid gate values, route-changing evidence/metric contradictions, label promotions,
 or fixed-search admitted-like rows. It also confirmed that fixed-search metadata
 rows remain metadata-only even when target or boundary labels are `Partial`,
 because they do not pass both the evidence and metric gates. Before Direction C
 becomes a standalone LaTeX manuscript with aggregate claims beyond this selected
-corpus, add a broader frozen source batch or a second independent label review.
+corpus, add a broader frozen source batch or an external independent label
+review.
 Do not create a crawler, downloader, or GPU/CPU replay task for this gate.
 
-The second internal label audit on 2026-05-26 found no invalid gate vocabulary,
-no evidence/metric contradictions, no fixed-search admitted-like rows, and no
-fixed-search row with both evidence and metric gates passing. It changed the
-four empty-result GitHub rows from `delta_gate=Partial` to `delta_gate=Fail`,
-because an empty result has no artifact/surface delta to compare. This supports
-the claim-control use of the batch, but it still does not upgrade the batch to
-field-wide artifact prevalence evidence.
+The second internal label audit and bounded agent second-pass review on
+2026-05-26 separated two checks: the internal consistency audit found no invalid
+gate vocabulary or route-changing evidence/metric contradiction, while the
+bounded second pass found no fixed-search admitted-like row and no
+metadata-batch evidence/metric promotion. The internal audit changed the four empty-result
+GitHub rows from `delta_gate=Partial` to `delta_gate=Fail`, because an empty
+result has no artifact/surface delta to compare. The agent second pass adopted
+one fixed-search tightening: `fs20260526-arxiv-03.target_gate=Fail` because the
+local Noise Aggregation gate is paper-source-only with no public target
+checkpoint, hash, or released target packet. This supports the claim-control use
+of the batch, but it still does not upgrade the batch to field-wide artifact
+prevalence evidence or independent human reliability.

@@ -27,9 +27,10 @@ evidence packet rather than a method name or headline AUC. A packet is admitted
 only when the target, split, row-level observable, metric provenance,
 finite-tail basis, and consumer boundary are fixed; portability claims also
 require a non-adjacent surface. Applied to the current evidence bank, DiffAudit
-admits five heterogeneous contract rows and isolates a high-AUC repeated-response
-H2 output-cloud signal as a controlled candidate rather than an admitted result,
-because img2img portability and runtime-consumer gates fail. Selected artifact
+classifies five existing rows as contract-admitted under bounded roles and
+isolates a high-AUC repeated-response H2 output-cloud signal as a controlled
+candidate rather than an admitted result, because img2img portability and
+runtime-consumer gates fail. Selected artifact
 and search records are used only to audit claim promotion, not to estimate
 field-wide prevalence. DiffAudit therefore reframes diffusion MIA as
 claim-bound audit consumption: leakage claims are retained where the contract
@@ -250,8 +251,8 @@ Surface delta & Is a claimed second asset actually non-adjacent? \\
 
 \section{Measurement Protocol}
 
-DiffAudit stores each result as one of five states. An admitted row can be
-reported to downstream consumers under its stated boundary. A candidate row is
+DiffAudit stores each result as one of five states. An admitted row is eligible
+for DiffAudit-style reporting only under its stated boundary and caveat. A candidate row is
 scientifically useful but not consumer-ready. A support-only row can motivate
 or contextualize a mechanism but cannot serve as a direct benchmark. A watch
 item is tracked for future artifacts. A negative row answers a bounded decision
@@ -341,7 +342,7 @@ source-documented point estimates otherwise.}
 \toprule
 Route & Target & Split & Evidence & Metric & Boundary & Delta & Paper use \\
 \midrule
-Admitted bundle (mixed replay) & Pass & Pass & Pass & Pass & Pass & N/A & Main audit rows \\
+Admitted bundle (mixed replay/point estimate) & Pass & Pass & Pass & Pass & Pass & N/A & Bounded audit/comparator rows \\
 H2 output-cloud & Pass & Pass & Pass & Pass & Partial & Partial & Candidate mechanism \\
 H2 img2img portability & Pass & Pass & Pass & Pass & Fail & Pass & Portability limit \\
 ReDiffuse STL-10 scout & Pass & Pass & Pass & Pass & Fail & Pass & Bounded negative \\
@@ -377,8 +378,8 @@ public diffusion MIA artifacts generally fail.
 \subsection{Selection Trace}
 
 The current set was built from DiffAudit's audited evidence surface. A
-standalone artifact-claim paper would require a larger frozen corpus or a
-second independent label review before making aggregate claims. We also
+standalone artifact-claim paper would require a larger frozen corpus or an
+external independent label review before making aggregate claims. We also
 instantiated a frozen supplementary metadata search on 2026-05-26, covering
 seven GitHub repository queries and five arXiv API metadata queries, including
 one noisy title-only query retained for auditability. The search was coded
@@ -411,11 +412,13 @@ separate claim-support levels before reading counts: L0 metadata discovery, L1
 artifact inspection, L2 scoreable or replayed packets, and L3 admitted audit
 evidence. The fixed-search batch is metadata-only and is not pooled with replay
 rows as a reproduction denominator. A selected-corpus consistency pass found no
-invalid gate labels, no evidence/metric contradictions, and no label
-promotions; it only demoted four empty-result \texttt{delta\_gate} labels from
-Partial to Fail. A standalone artifact-claim paper would still need a larger
-frozen corpus or a second independent label review before making aggregate
-claims.
+invalid gate labels or route-changing contradictions, and a bounded second-pass
+agent review found no admitted-like fixed-search row or metadata-batch
+evidence/metric promotion. The review adopted two further tightenings: a
+withdrawn DLM row now fails the delta gate, and the Noise Aggregation
+fixed-search row now fails the target gate. A
+standalone artifact-claim paper would still need a larger frozen corpus or an
+external independent label review before making aggregate claims.
 
 \section{Admitted Evidence Bundle}
 
@@ -543,8 +546,8 @@ separate members and nonmembers perfectly, so it remains a cross-source stress
 test.
 
 The decision value is route-specific. ReDiffuse STL-10 closes same-family
-expansion rather than refuting ReDiffuse; CommonCanvas shows that a second
-response contract alone is not portability; MIDST prevents cross-domain
+expansion rather than refuting ReDiffuse; in the current CommonCanvas 50/50
+packet, a second response contract did not establish portability; MIDST prevents cross-domain
 scoreability from becoming image-diffusion evidence; Tracing Roots remains
 feature-level support; the collaborator packet exposes source confounding; and
 the fixed-search batch records metadata discovery without field-wide prevalence.
@@ -608,16 +611,18 @@ for claim control and route decisions, not as prevalence estimates or
 field-quality rankings.
 
 \textbf{Publication bias.} Negative routes were selected because they affected
-DiffAudit route decisions. The fixed-search batch and selected-corpus
-consistency pass reduce selection-history and label-coherence risk, but remain
-single-review, metadata-light traces. Standalone aggregate claims need a larger
-frozen corpus or a second independent label review.
+DiffAudit route decisions. The fixed-search batch, selected-corpus consistency
+pass, and bounded second-pass agent review reduce selection-history and
+label-coherence risk, but remain metadata-light project-team traces rather than
+external reliability evidence. Standalone aggregate claims need a larger frozen
+corpus or an external independent label review.
 
 \section{Conclusion}
 
 DiffAudit shows that diffusion MIA evidence is not exhausted by attack score.
-On the current evidence bank, the same contract admits five bounded contract
-rows, keeps a high-AUC H2 response-cloud signal candidate-only, and turns weak
+On the current evidence bank, the same contract classifies five existing rows as
+bounded contract-admitted roles, keeps a high-AUC H2 response-cloud signal
+candidate-only, and turns weak
 scouts, feature packets, fixed-search records, and source-confounded packets
 into claim-control evidence rather than overbroad conclusions. The reusable
 result is a reporting target for diffusion privacy work: publish the target,

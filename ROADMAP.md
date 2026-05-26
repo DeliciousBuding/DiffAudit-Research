@@ -84,10 +84,13 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
    artifact-corpus framing、method detail、reviewer-facing contribution wording
    和 related-work 对照。
 2. Direction C 已有 `21` 行 v1 corpus 和 `17` 行 2026-05-26 fixed-search
-   metadata batch，并已完成 selected-corpus gate-label consistency pass：无非法
-   gate 值、无 evidence/metric 矛盾、无 label promotion，且将四个 empty-result
-   `delta_gate` 从 `Partial` 降为 `Fail`。写法必须是 claim-support measurement，不能写成“这些论文失败了”；
-   若要独立成稿，再补更大固定 corpus 或第二独立标签审查。
+   metadata batch，并已完成 selected-corpus gate-label consistency pass 和
+   bounded agent second-pass review：consistency pass 未发现非法 gate 值或会改变路线的
+   contradiction；bounded second-pass 未发现 fixed-search admitted-like row 或
+   metadata-batch evidence/metric promotion；已额外收紧 `v1-10.delta_gate=Fail` 和
+   `fs20260526-arxiv-03.target_gate=Fail`。写法必须是 claim-support
+   measurement，不能写成“这些论文失败了”；若要独立成稿，再补更大固定 corpus
+   或外部独立标签审查。
 3. Direction B 只在出现第二个独立 response asset 或明确批准 bounded
    response-contract experiment 时继续；否则保持为主稿 case study。
 4. 所有论文 claim 必须继续遵守 `claim_register.md`，不得把 finite empirical
