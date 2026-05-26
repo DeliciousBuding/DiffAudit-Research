@@ -313,18 +313,7 @@ quality.
 
 \begin{figure*}[t]
 \centering
-\fbox{\begin{minipage}{0.94\linewidth}
-\centering
-\textbf{Experiment or public artifact}
-$\rightarrow$ target/split check
-$\rightarrow$ row-level score or response packet
-$\rightarrow$ metric replay
-$\rightarrow$ evidence state
-$\rightarrow$ consumer boundary\\[0.4em]
-\small
-Admitted rows can flow to audit reports. Candidate, support-only, watch, and
-negative rows remain in Research unless a later review changes the contract.
-\end{minipage}}
+\includegraphics[width=0.94\linewidth]{figures/evidence_contract_pipeline.pdf}
 \caption{DiffAudit evidence-contract pipeline. The pipeline is intentionally
 claim-oriented: the same metric can become admitted evidence, a candidate case
 study, support-only context, or a bounded negative depending on provenance and

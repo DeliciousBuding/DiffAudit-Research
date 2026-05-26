@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -269,6 +270,89 @@ def plot_metric_bars(rows: list[dict], path: Path, title: str, figsize: tuple[fl
     plt.close(fig)
 
 
+def draw_box(ax, center: tuple[float, float], text: str, width: float, height: float, facecolor: str) -> None:
+    x = center[0] - width / 2
+    y = center[1] - height / 2
+    box = FancyBboxPatch(
+        (x, y),
+        width,
+        height,
+        boxstyle="round,pad=0.02,rounding_size=0.045",
+        linewidth=1.05,
+        edgecolor="#25303b",
+        facecolor=facecolor,
+    )
+    ax.add_patch(box)
+    ax.text(center[0], center[1], text, ha="center", va="center", fontsize=9, color="#16202a", linespacing=1.15)
+
+
+def draw_arrow(ax, start: tuple[float, float], end: tuple[float, float], color: str = "#4b5965") -> None:
+    arrow = FancyArrowPatch(
+        start,
+        end,
+        arrowstyle="-|>",
+        mutation_scale=12,
+        linewidth=1.05,
+        color=color,
+        shrinkA=4,
+        shrinkB=4,
+    )
+    ax.add_patch(arrow)
+
+
+def plot_evidence_contract_pipeline(path: Path) -> None:
+    fig, ax = plt.subplots(figsize=(7.1, 2.35))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    top_y = 0.64
+    centers = [0.08, 0.25, 0.42, 0.59, 0.76, 0.92]
+    labels = [
+        "Experiment\nor artifact",
+        "Target +\nsplit check",
+        "Row-level\nscores/responses",
+        "Metric\nreplay",
+        "Evidence\nstate",
+        "Consumer\nboundary",
+    ]
+    colors = ["#e8eef7", "#e8eef7", "#e8eef7", "#e8eef7", "#fff1d6", "#e3f1e6"]
+    width = 0.135
+    height = 0.22
+    for x, label, color in zip(centers, labels, colors):
+        draw_box(ax, (x, top_y), label, width, height, color)
+    for left, right in zip(centers[:-1], centers[1:]):
+        draw_arrow(ax, (left + width / 2, top_y), (right - width / 2, top_y))
+
+    draw_box(ax, (0.55, 0.25), "Candidate / support /\nwatch / negative\nstays in Research", 0.29, 0.22, "#f4e4e4")
+    draw_box(ax, (0.86, 0.25), "Admitted rows\nenter audit reports", 0.22, 0.22, "#dcefdc")
+    draw_arrow(ax, (0.75, top_y - height / 2), (0.62, 0.37), "#8a5b5b")
+    draw_arrow(ax, (0.92, top_y - height / 2), (0.86, 0.37), "#3f6f45")
+
+    ax.text(
+        0.5,
+        0.93,
+        "DiffAudit evidence-contract pipeline",
+        ha="center",
+        va="center",
+        fontsize=12,
+        fontweight="bold",
+        color="#16202a",
+    )
+    ax.text(
+        0.5,
+        0.06,
+        "A metric is consumed only after provenance, finite-tail semantics, and boundary language are fixed.",
+        ha="center",
+        va="center",
+        fontsize=8.5,
+        color="#4b5965",
+    )
+    fig.tight_layout(pad=0.25)
+    fig.savefig(path, metadata=PDF_METADATA, bbox_inches="tight")
+    plt.close(fig)
+
+
 def plot_artifact_gate_summary(rows: list[dict], path: Path) -> None:
     corpora = []
     for row in rows:
@@ -329,6 +413,7 @@ def main() -> None:
     plot_metric_bars(admitted, FIGURES / "admitted_rows_metrics.pdf", "Admitted evidence bundle", (3.9, 2.55))
     h2_plot_rows = [row for row in h2 if row["role"] in {"candidate", "baseline", "sanity", "control", "stability", "transfer"}]
     plot_metric_bars(h2_plot_rows, FIGURES / "h2_output_cloud_controls.pdf", "H2 output-cloud geometry controls", (7.1, 4.15))
+    plot_evidence_contract_pipeline(FIGURES / "evidence_contract_pipeline.pdf")
     plot_artifact_gate_summary(artifact_gate_summary, FIGURES / "artifact_gate_summary.pdf")
 
     manifest_path = PAPER / "asset_manifest.json"
@@ -344,6 +429,7 @@ def main() -> None:
             "data/artifact_strata_summary.csv",
             "figures/admitted_rows_metrics.pdf",
             "figures/h2_output_cloud_controls.pdf",
+            "figures/evidence_contract_pipeline.pdf",
             "figures/artifact_gate_summary.pdf",
         ],
         "curated": previous_manifest.get("curated", []),
