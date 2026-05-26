@@ -4,10 +4,10 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Systems lead | opus | Architecture, threat model, consumer-boundary semantics. |
-| Contract engineer | haiku | Bundle schema, export checks, public-surface checks, reproducibility hooks. |
-| Product/report lead | sonnet | UI/report diagrams, risk-card language, bilingual copy alignment. |
-| Deployment critic | opus | Block private topology and unsupported product claims. |
+| Systems lead | Contract architecture lead | Architecture, threat model, consumer-boundary semantics. |
+| Contract engineer | Bundle validation lead | Bundle schema, export checks, public-surface checks, reproducibility hooks. |
+| Product/report lead | Report correctness lead | UI/report diagrams, risk-card language, bilingual copy alignment. |
+| Deployment critic | Public-boundary critic | Block private topology and unsupported product claims. |
 
 ## Target Paper
 
