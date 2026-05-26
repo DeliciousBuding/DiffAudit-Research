@@ -68,14 +68,11 @@ The measurement instrument is therefore the gate outcome itself: it records
 which claim survives, which claim is blocked, and which missing surface caused
 the boundary.
 
-The audit decision problem has three consumers. A model owner needs to know
-whether a deployed or released checkpoint creates measurable membership risk
-under a stated access mode. An independent auditor needs row-bound artifacts
-that allow metric replay and low-FPR interpretation without retraining the
-target. A downstream runtime or report generator needs machine-checkable
-boundary language so that candidate mechanisms do not become user-facing audit
-claims. DiffAudit is therefore not an attack-SOTA paper: it studies when a
-diffusion MIA result is safe to consume as audit evidence.
+The audit decision problem has three consumers: model owners deciding whether a
+checkpoint creates measurable risk, auditors replaying row-bound metrics, and
+downstream reports that must not promote candidates into user-facing claims.
+DiffAudit is therefore not an attack-SOTA paper: it studies when a diffusion
+MIA result is safe to consume as audit evidence.
 
 In this case-study evidence bank, four observations guide the paper. First, a
 small admitted bundle can already demonstrate meaningful diffusion privacy risk
@@ -230,9 +227,10 @@ as defensive caveats after a claim is made.
 Gate labels are operational. \emph{Pass} means the artifact is frozen,
 row-bound, and sufficient for the stated claim; \emph{Partial} means a useful
 surface exists but lacks identity, provenance, or consumer binding for a
-stronger claim; and \emph{Fail} means a decisive missing or contradictory
-surface blocks that claim. Partial/Fail labels select the strongest safe claim;
-they do not rank paper quality.
+stronger claim; \emph{Fail} means a decisive missing or contradictory surface
+blocks that claim; and \emph{N/A} means the gate is not part of that claim type.
+Partial/Fail labels select the strongest safe claim; they do not rank paper
+quality.
 
 \begin{table}[t]
 \centering
@@ -260,6 +258,13 @@ scientifically useful but not consumer-ready. A support-only row can motivate
 or contextualize a mechanism but cannot serve as a direct benchmark. A watch
 item is tracked for future artifacts. A negative row answers a bounded decision
 question and usually closes a low-value expansion.
+
+The protocol is applied claim-first. For each artifact we write the consumer
+claim that would be unsafe if over-promoted, bind the smallest packet that
+could support it, replay or record metrics, assign gate labels for that claim,
+and select the strongest allowed state. A future artifact changes the state
+only by adding the missing target, split, row-level evidence, metric, consumer,
+or non-adjacent surface.
 
 Metrics are recomputed from row-level scores or frozen response packets when
 available. We report AUC, attack success rate (ASR), TPR@1\%FPR, and
@@ -331,13 +336,13 @@ consumer semantics.}
 sufficient for the stated internal evidence role, not route success or automatic
 product admission. Surface delta is evaluated for portability or second-asset
 claims; the admitted bundle is the primary audit bundle rather than a
-second-asset claim.}
+second-asset claim, so its delta gate is N/A.}
 \label{tab:gate-matrix}
 \begin{tabular}{llllllll}
 \toprule
 Route & Target & Split & Evidence & Metric & Boundary & Delta & Paper use \\
 \midrule
-Admitted bundle & Pass & Pass & Pass & Pass & Pass & Partial & Main audit rows \\
+Admitted bundle & Pass & Pass & Pass & Pass & Pass & N/A & Main audit rows \\
 H2 output-cloud & Pass & Pass & Pass & Pass & Partial & Partial & Candidate mechanism \\
 H2 img2img portability & Pass & Pass & Pass & Pass & Fail & Pass & Portability limit \\
 ReDiffuse STL-10 scout & Pass & Pass & Pass & Pass & Fail & Pass & Bounded negative \\
@@ -373,6 +378,12 @@ repository queries and four distinct arXiv metadata queries, coded before aggreg
 claims and with no downloads or GPU runs. The outcome is modest but useful:
 metadata discovery is easy, while no new row-bound public target/split/score or
 response packet appeared.
+
+The selection trace makes the claim boundary inspectable rather than enlarging
+the denominator opportunistically. Fixed-search rows record the query, observed
+surface, no-download policy, inclusion/exclusion reason, gate labels, reviewer,
+and date. Empty-result queries constrain the search process, but they remain
+metadata-only and are never pooled with replayed score packets.
 
 \begin{table}[t]
 \centering
@@ -429,8 +440,11 @@ row semantics cannot be inferred from headline AUC.
 
 \section{Admitted Evidence Bundle}
 
-Rows are admitted through a fixed path. First, a score array or response packet
-must bind every sample to a member/nonmember label under a stated target.
+Rows are admitted through a fixed path. In this paper, admitted means
+contract-admitted under the recorded workspace/runtime evidence level, not
+third-party full training-pipeline reproduction. First, a score array or
+response packet must bind every sample to a member/nonmember label under a
+stated target.
 Second, the metrics in Table~\ref{tab:admitted} are replayed from those rows or
 from a frozen response scorer. Third, low-FPR readouts are attached to their
 available finite-tail basis: the nonmember denominator when recorded, otherwise
@@ -559,17 +573,14 @@ Fixed-search batch & Does metadata discovery produce a new admitted row? & Small
 
 \section{Discussion and Limitations}
 
-DiffAudit treats evidence contracts as measurement-validity conditions, not as
+DiffAudit treats evidence contracts as measurement-validity conditions, not
 administrative metadata. For diffusion MIA, target identity, split semantics,
 row coverage, metric provenance, finite-tail denominator, and consumer boundary
 define what a score can mean as an audit claim. Without these controls, high
-AUC can come from a source-label shortcut, prompt-conditioned auxiliary feature,
-non-replayable score array, or finite-tail artifact. The H2 case study shows
-that DiffAudit can still discover technical signals; the contract controls how
-far those signals may travel. This framing combines first-principles caution
-about MIA metrics with artifact-reporting discipline and the warning that
-membership inference alone should not be overstated as definitive proof of
-training-data use~\cite{carlini2022firstprinciples,pineau2021reproducibility,zhang2025cannotprove}.
+AUC can come from source-label shortcuts, prompt-conditioned auxiliary
+features, non-replayable scores, or finite-tail artifacts. The H2 case study
+shows that DiffAudit can still discover technical signals; the contract
+controls how far those signals may travel.
 
 This paper does not claim broad generalization across all diffusion models. It
 does not claim that H2 output-cloud geometry is ready for downstream audit
@@ -581,16 +592,13 @@ claims without a separate frozen protocol.
 
 \subsection{Artifact Release Checklist}
 
-For diffusion MIA results to become reusable audit evidence, future artifacts
-should publish more than code and headline tables: target/checkpoint identity,
-immutable member and nonmember manifests, row-level scores or responses, metric
-code or JSON, nonmember denominators, hashes or commit IDs, and the intended
-consumer boundary. Trajectories, feature tensors, prompt sources, and
-regenerated samples should be named explicitly when they define the claim. The
-checklist describes what a third party needs to decide whether a score supports
-an audit claim, a mechanism claim, or only a paper-local comparison. It adapts
-general reproducibility, datasheet, and model-card reporting norms to
-row-bound privacy evidence~\cite{pineau2021reproducibility,gebru2021datasheets,mitchell2019modelcards}.
+Reusable diffusion MIA artifacts should publish more than code and headline
+tables: target/checkpoint identity, immutable member and nonmember manifests,
+row-level scores or responses, metric code or JSON, nonmember denominators,
+hashes or commit IDs, and the intended consumer boundary. Trajectories, feature
+tensors, prompt sources, and regenerated samples should be named when they
+define the claim. This adapts reproducibility, datasheet, and model-card norms
+to row-bound privacy evidence~\cite{pineau2021reproducibility,gebru2021datasheets,mitchell2019modelcards}.
 
 \subsection{Threats to Validity}
 

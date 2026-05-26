@@ -17,8 +17,8 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
 
 - `paper_portfolio.md`：四个候选论文方向和研究团队分工。Direction A
   evidence-contracted auditing 是当前主推；Direction B output-cloud geometry
-  是技术机制短文候选；Direction C public-artifact reproducibility / negative
-  results 是可扩展测量论文候选；Direction D consumer-boundary systems paper
+  是技术机制短文候选；Direction C artifact claim-support / negative
+  results 是可扩展测量论文候选，不写成 pooled reproducibility rate；Direction D consumer-boundary systems paper
   是后续 artifact/demo 方向。
 - `versions/`：四个方向的 writing-ready brief，分别记录研究团队、abstract
   draft、section spine、证据边界、最小下一步和拒绝事项。当前不 fork 四套
@@ -28,16 +28,16 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
 - `multi_direction_paper_drafts.md` 和 `versions/drafts/`：已把四个方向扩成
   manuscript-level Markdown drafts。Direction A 是主推完整论文；Direction B
   是机制 short/workshop paper，不能声称跨模型/跨数据集 portability；Direction C
-  是 claim-support artifact reproducibility paper，当前已有 v1 corpus、fixed-search
+  是 selected-corpus claim-support paper，当前已有 v1 corpus、fixed-search
   batch 和 gate-summary 资产，若要独立投稿还需更大冻结 corpus 或第二标签审查；
   Direction D 是 systems/artifact/demo paper，等待 deployment / external-use /
   user-study / report-drift 证据。
 - `source_map.md`、`claim_register.md`、`evidence_bank.md`：把 admitted、
   candidate、support-only、negative 和 prohibited claims 分开，避免把 H2、
   Tracing Roots、ReDiffuse、CommonCanvas、MIDST 或 collaborator SD ReDiffuse
-  写成超出证据边界的结论。
-- `scripts/build_paper_assets.py`：从现有 JSON artifacts 生成论文 CSV 和 PDF
-  图，不手填指标。
+  写成超出证据边界的结论。路径基准已统一为 Research repository root。
+- `scripts/build_paper_assets.py`：从现有 JSON artifacts 和带 evidence-source
+  的 curated CSV 生成论文 CSV 和 PDF 图，不在脚本里散落手填指标。
 - `main.tex`、`refs.bib` 和 `paper.pdf`：IEEEtran 会议格式稿件已通过
   `pdflatex + bibtex + pdflatex + pdflatex` 手动链路编译，当前为 `8` 页 draft。
   正文已包含 Related Work、Reporting/Reproducibility positioning、Audit
@@ -46,7 +46,7 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
   figure、Admitted Bundle、H2 case study、H2 admission-decision table、
   Negative/Support Evidence、decision-value table、Threats to Validity 和
   Discussion/Conclusion。
-  `latexmk` 因本机 MiKTeX 缺 Perl 不能运行，见 `BUILD.md`。
+  `BUILD.md` 记录了 `latexmk` 不可用时的手动编译链路。
 
 当前论文主线使用三类证据：
 

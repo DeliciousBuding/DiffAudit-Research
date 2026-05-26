@@ -126,24 +126,27 @@ def build_h2_rows() -> list[dict]:
 
 
 def build_negative_rows() -> list[dict]:
-    rediffuse = {
-        "auc": 0.4996337890625,
-        "asr": 0.509765625,
-        "tpr_at_1pct_fpr": 0.01171875,
-        "tpr_at_0_1pct_fpr": 0.0,
-    }
-    rediffuse_norm = {
-        "auc": 0.5052947998046875,
-        "asr": 0.525390625,
-        "tpr_at_1pct_fpr": 0.03125,
-        "tpr_at_0_1pct_fpr": 0.01953125,
-    }
+    curated_rows = []
+    for row in read_csv(DATA / "negative_support_curated_metrics.csv"):
+        curated_rows.append(
+            {
+                "source": row["source"],
+                "label": row["label"],
+                "role": row["role"],
+                "auc": float(row["auc"]),
+                "asr": float(row["asr"]),
+                "tpr_at_1pct_fpr": float(row["tpr_at_1pct_fpr"]),
+                "tpr_at_0_1pct_fpr": float(row["tpr_at_0_1pct_fpr"]),
+                "evidence_source": row["evidence_source"],
+            }
+        )
     commoncanvas = read_json("workspaces/black-box/artifacts/commoncanvas-denoising-loss-20260513.json")["metric"]
     tracing = read_json("workspaces/gray-box/artifacts/tracing-roots-feature-packet-mia-20260515.json")["eval"]
-    return [
-        metric_row("rediffuse-stl10", "denoising-loss scout", "negative", rediffuse),
-        metric_row("rediffuse-stl10", "score-norm scout", "negative", rediffuse_norm),
-        metric_row("commoncanvas", "conditional denoising loss", "negative", commoncanvas),
+    return curated_rows + [
+        {
+            **metric_row("commoncanvas", "conditional denoising loss", "negative", commoncanvas),
+            "evidence_source": "workspaces/black-box/artifacts/commoncanvas-denoising-loss-20260513.json",
+        },
         {
             "source": "tracing-roots",
             "label": "feature-packet replay",
@@ -152,6 +155,7 @@ def build_negative_rows() -> list[dict]:
             "asr": tracing["accuracy"],
             "tpr_at_1pct_fpr": tracing["tpr_at_1pct_fpr"],
             "tpr_at_0_1pct_fpr": tracing["tpr_at_0_1pct_fpr"],
+            "evidence_source": "workspaces/gray-box/artifacts/tracing-roots-feature-packet-mia-20260515.json",
         },
     ]
 
