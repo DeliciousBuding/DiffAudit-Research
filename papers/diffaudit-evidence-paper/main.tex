@@ -28,10 +28,11 @@ coverage, metric provenance, finite-tail denominator, consumer boundary, and
 surface-delta evidence for portability claims. On the current evidence bank,
 DiffAudit admits five heterogeneous rows across black-box reconstruction risk,
 gray-box PIA, a stochastic-dropout comparator, white-box GSA, and a DPDM defense
-comparator. It also treats H2 output-cloud geometry as a strong but non-admitted
-candidate after label-shuffle, seed-control, seed-stability, same-family
-transfer, and negative img2img portability checks: the admission cache has zero
-strict-tail recovery, and the stability cache does not beat simple distance.
+comparator. It also treats repeated-response output-cloud geometry as a strong
+but non-admitted candidate after label-shuffle, seed-control, seed-stability,
+same-family transfer, and negative img2img portability checks: the admission
+cache has zero strict-tail recovery, and the stability cache does not beat
+simple distance.
 Finally, 21 evidence-note rows and 17 frozen GitHub/arXiv search records are
 used only as claim-control evidence, not prevalence or reproduction evidence.
 DiffAudit therefore reframes diffusion MIA as claim-bound audit consumption:
@@ -81,12 +82,13 @@ small admitted bundle can already demonstrate meaningful diffusion privacy risk
 under heterogeneous admitted contracts:
 black-box reconstruction risk reaches AUC 0.837, gray-box PIA reaches AUC
 0.841, and white-box GSA reaches AUC 0.998 under their stated contracts.
-Second, a new H2 response-cloud analysis suggests that repeated output geometry
-can expose membership signal without reading seed-to-output distance and is
-stronger than the tested raw/lowpass H2 baselines. This signal is strong and
-controlled inside the H2 response-strength setting, but it remains a research
-candidate because the SD/CelebA img2img portability check is weak or not
-distinct from simpler distance features. Third, many plausible second-asset
+Second, a new repeated-response output-cloud analysis suggests that geometry
+among outputs can expose membership signal without reading seed-to-output
+distance and is stronger than the tested raw/lowpass response-strength
+baselines. This signal is strong and controlled inside its response-strength
+setting, but it remains a research candidate because the SD/CelebA img2img
+portability check is weak or not distinct from simpler distance features.
+Third, many plausible second-asset
 routes are scientifically useful precisely because they stop at bounded
 negative or support-only states: ReDiffuse STL-10 has a clean split and
 scoreable short target but random-level metrics;
@@ -105,9 +107,10 @@ for claim-bound evidence packets.
 \item We instantiate the contract on five admitted rows with shared metric
 fields (AUC, ASR, TPR@1\%FPR, and TPR@0.1\%FPR), finite-tail denominators,
 provenance, quality/cost metadata, and consumer-boundary language.
-\item We use H2 output-cloud geometry as a contract stress test: the signal is
-strong under bounded controls, but remains non-admitted because the current
-evidence does not establish a portable or consumer-ready black-box audit row.
+\item We use repeated-response output-cloud geometry as a contract stress test:
+the signal is strong under bounded controls, but remains non-admitted because
+the current evidence does not establish a portable or consumer-ready black-box
+audit row.
 \item We show how bounded negative and support evidence, plus selected
 claim-control records, block overbroad portability and artifact-availability
 claims without becoming method refutations or field-wide prevalence estimates.
@@ -304,12 +307,13 @@ Table~\ref{tab:gate-matrix} summarizes how current non-admitted routes are used
 in the paper. The matrix is deliberately coarse: it is a claim-control device,
 not a new scoring system.
 
-For the current rows, the blockers are concrete: no downstream H2 admission or
-independent response asset, no distance-distinct img2img portability, weak
-CommonCanvas scorers under a partial target boundary, feature-packet rather
-than raw-image Tracing Roots evidence, and source-confounded collaborator SD
-ReDiffuse labels. These blockers explain paper use, not field-wide artifact
-quality.
+For the current rows, H2 denotes the black-box response-strength protocol used
+by the repeated-response cache. The blockers are concrete: no downstream H2
+admission or independent response asset, no distance-distinct img2img
+portability, weak CommonCanvas scorers under a partial target boundary,
+feature-packet rather than raw-image Tracing Roots evidence, and
+source-confounded collaborator SD ReDiffuse labels. These blockers explain
+paper use, not field-wide artifact quality.
 
 \begin{figure*}[t]
 \centering
@@ -476,7 +480,9 @@ leaderboard.}
 
 \section{Non-Admitted H2 Output-Cloud Candidate}
 
-The H2 response-strength cache contains repeated diffusion responses at
+Under this protocol, the target is queried repeatedly at multiple denoising
+timesteps/strengths, and only the returned responses are scored. The H2
+response-strength cache contains repeated diffusion responses at
 timesteps 40, 80, 120, and 160. Instead of comparing a query image directly to
 outputs, the output-cloud scorer uses only geometry among outputs: within-step
 repeat RMSE, cross-timestep centroid RMSE, and small response-cloud PCA/Gram
