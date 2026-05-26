@@ -553,24 +553,25 @@ Fixed-search batch & Does metadata discovery produce a new admitted row? & Small
 
 \section{Discussion and Limitations}
 
-The strongest criticism of DiffAudit is that evidence contracts may look like
-engineering governance rather than research. We argue the opposite: for
-diffusion MIA, a metric detached from target identity, provenance, and consumer
-boundary does not measure an audit claim. Without these controls, high AUC can
-come from a source-label shortcut, prompt-conditioned auxiliary feature,
+DiffAudit treats evidence contracts as measurement-validity conditions, not as
+administrative metadata. For diffusion MIA, target identity, split semantics,
+row coverage, metric provenance, finite-tail denominator, and consumer boundary
+define what a score can mean as an audit claim. Without these controls, high
+AUC can come from a source-label shortcut, prompt-conditioned auxiliary feature,
 non-replayable score array, or finite-tail artifact. The H2 case study shows
 that DiffAudit can still discover technical signals; the contract controls how
-far those signals may travel. This is consistent with broader caution that
+far those signals may travel. This framing combines first-principles caution
+about MIA metrics with artifact-reporting discipline and the warning that
 membership inference alone should not be overstated as definitive proof of
-training-data use~\cite{zhang2025cannotprove}.
+training-data use~\cite{carlini2022firstprinciples,pineau2021reproducibility,zhang2025cannotprove}.
 
 This paper does not claim broad generalization across all diffusion models. It
 does not claim that H2 output-cloud geometry is ready for downstream audit
 consumption. It does not claim that bounded weak scouts refute the original
-methods they resemble. The next scientific step is to add either a second
-checkpoint-bound response asset for the output-cloud mechanism or a larger,
-pre-registered public-artifact audit corpus for the evidence-contract
-methodology.
+methods they resemble. The current evidence supports a case-study measurement
+result: H2 is a controlled candidate, fixed-search records are claim-control
+evidence, and neither supports portability, prevalence, or field-wide artifact
+claims without a separate frozen protocol.
 
 \subsection{Artifact Release Checklist}
 
@@ -581,14 +582,18 @@ code or JSON, nonmember denominators, hashes or commit IDs, and the intended
 consumer boundary. Trajectories, feature tensors, prompt sources, and
 regenerated samples should be named explicitly when they define the claim. The
 checklist describes what a third party needs to decide whether a score supports
-an audit claim, a mechanism claim, or only a paper-local comparison.
+an audit claim, a mechanism claim, or only a paper-local comparison. It adapts
+general reproducibility, datasheet, and model-card reporting norms to
+row-bound privacy evidence~\cite{pineau2021reproducibility,gebru2021datasheets,mitchell2019modelcards}.
 
 \subsection{Threats to Validity}
 
 \textbf{Internal validity.} Some results are produced by local replay scripts
 and repository artifacts rather than by re-running complete upstream training
-pipelines. DiffAudit mitigates this by recording row-level provenance and by
-refusing to call bounded scouts full reproductions.
+pipelines. The paper therefore claims score/response-level audit replay, not
+full upstream training-pipeline reproduction. DiffAudit mitigates this by
+recording row-level provenance and by refusing to call bounded scouts full
+reproductions or method refutations.
 
 \textbf{External validity.} The admitted bundle is permission- and
 asset-bound. It should not be read as evidence that every diffusion model leaks
@@ -597,6 +602,13 @@ at the same level, nor that one method dominates across modalities.
 \textbf{Metric validity.} Low-FPR tails can be misleading on small packets. We
 therefore report them as finite empirical readouts and keep packet size and
 nonmember denominators attached to the claim.
+
+\textbf{Construct validity.} DiffAudit measures whether a diffusion MIA result
+can be consumed as audit evidence under a stated contract. It does not measure
+all privacy harm, rank attack families globally, or prove training-data use for
+an individual datum. A high score may therefore remain non-admitted, and a weak
+bounded scout may still be scientifically useful if it closes a route-selection
+question.
 
 \textbf{Label and protocol validity.} The gate labels are same-team
 adjudications, not independent inter-rater measurements. We therefore use them
@@ -611,14 +623,14 @@ frozen corpus or a second independent label review.
 
 \section{Conclusion}
 
-DiffAudit turns diffusion membership inference from isolated score reporting
-into evidence-contracted auditing. The current results combine leakage-positive
-rows with admitted comparator and defense evidence; reveal a promising
-non-admitted output-cloud response geometry signal; and document why many public artifacts,
-fixed packets, and collaborator/local stress tests remain scientifically useful
-but non-admissible. This combination is the paper's
-central point: publishable diffusion privacy evidence requires both strong
-signals and strict claim boundaries.
+On this evidence bank, DiffAudit demonstrates how diffusion membership
+inference scores can be turned into evidence-contracted audit claims. The
+current results combine leakage-positive rows with admitted comparator and
+defense evidence; reveal a promising non-admitted output-cloud response
+geometry signal; and document why public artifacts, fixed packets, and
+collaborator/local stress tests can remain scientifically useful but
+non-admissible. The case-study measurement result is that strong signals need
+explicit claim boundaries before they enter audit consumption.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
