@@ -4,10 +4,10 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Paper PI | opus | Controls thesis, venue fit, contribution language, and rebuttal posture. |
-| Evidence engineer | haiku | Verifies admitted-row metrics, finite-tail denominators, scripts, and evidence-source provenance. |
-| Figures editor | sonnet | Owns evidence-contract diagrams, bundle charts, and candidate/admitted visual separation. |
-| Internal area chair | opus | Blocks governance-only prose and unsupported generalization. |
+| Paper PI | Framework lead | Controls thesis, venue fit, contribution language, and rebuttal posture. |
+| Evidence engineer | Metric audit lead | Verifies admitted-row metrics, finite-tail denominators, scripts, and evidence-source provenance. |
+| Figures editor | Visualization lead | Owns evidence-contract diagrams, bundle charts, and candidate/admitted visual separation. |
+| Internal area chair | Validity critic | Blocks governance-only prose and unsupported generalization. |
 
 ## Working Paper
 
