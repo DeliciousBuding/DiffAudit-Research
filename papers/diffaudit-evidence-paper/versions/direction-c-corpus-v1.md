@@ -107,9 +107,18 @@ intentional route-decision rows; and that fixed-search arXiv metadata rows with
 partial target/boundary labels but failing evidence/metric gates remain
 metadata-only rows, not scoreable artifacts.
 
-This is a single-reviewer selected-corpus consistency pass, not inter-rater
-reliability and not field-wide prevalence evidence. Before forking a standalone
-Direction C LaTeX paper, add one more frozen source batch or a second independent
-label review. If no new row-bound public packet appears, Direction C can still
-be written as a claim-support measurement paper, but its aggregate claims must
-remain about this structured corpus only.
+A second internal label audit on 2026-05-26 rechecked both CSVs against four
+invariants: no gate value outside `Pass`/`Partial`/`Fail`; no row with
+`evidence_gate=Pass` and `metric_gate!=Pass`; no row with `metric_gate=Pass`
+and `evidence_gate=Fail`; and no admitted-like row outside `v0-01` in the v1
+corpus. The fixed-search batch still has zero admitted-like rows and zero rows
+with both evidence and metric gates passing. The only CSV changes were four
+fixed-search empty-result rows whose `delta_gate` changed from `Partial` to
+`Fail`, because an empty result has no artifact/surface delta to compare.
+
+These are internal consistency audits, not inter-rater reliability and not
+field-wide prevalence evidence. Before forking a standalone Direction C LaTeX
+paper, add one more frozen source batch or a second independent label review.
+If no new row-bound public packet appears, Direction C can still be written as
+a claim-support measurement paper, but its aggregate claims must remain about
+this structured corpus only.

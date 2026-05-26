@@ -33,5 +33,5 @@ fixed-search batch,Boundary,Pass,0
 fixed-search batch,Boundary,Partial,8
 fixed-search batch,Boundary,Fail,9
 fixed-search batch,Surface delta,Pass,11
-fixed-search batch,Surface delta,Partial,5
-fixed-search batch,Surface delta,Fail,1
+fixed-search batch,Surface delta,Partial,1
+fixed-search batch,Surface delta,Fail,5
