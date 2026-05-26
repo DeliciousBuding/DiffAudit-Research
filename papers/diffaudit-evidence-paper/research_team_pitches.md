@@ -67,7 +67,7 @@ independent label review without field-wide overclaiming.
 | Title | An Artifact Contract for Safe Consumption of Diffusion Privacy Evidence |
 | Venue fit | Artifact/demo track or software-engineering-for-ML venue now; applied systems only after fault-injection, report-drift, external-use, or deployment evidence exists. |
 | Core thesis | Report consumers should not use diffusion MIA scores directly. They should consume machine-checkable evidence bundles that encode admission state, provenance, finite-tail semantics, and boundary language. Current evidence supports encoding and validation, not deployed enforcement. |
-| Contribution claims | Bundle schema; admitted/candidate/support/blocked separation; public-surface guards; report-correctness checks; public-safe risk-card language; blocked-promotion examples. |
+| Contribution claims | Bundle schema; admitted/candidate/support/blocked separation; public-surface guards; report-correctness threat model and planned fault-injection checks; public-safe risk-card language; blocked-promotion examples. |
 | Minimum figures/tables | Contract architecture diagram; bundle schema table; admission-state state machine; drift/fault-injection table; public-safe risk-card example. |
 | Additional work | Collect external or semi-external report usage, or run a fault-injection/report-drift evaluation showing that guardrails block candidate promotion and finite-tail miswording. |
 | Fatal risks | Without fault-injection, external-use, deployment, or report-drift evidence, this reads as product documentation rather than a systems paper. |
