@@ -21,6 +21,14 @@ GATE_COLUMNS = [
     ("boundary_gate", "Boundary"),
     ("delta_gate", "Surface delta"),
 ]
+GATE_PLOT_LABELS = {
+    "Target": "Target",
+    "Split": "Split",
+    "Evidence": "Rows",
+    "Metric": "Metric",
+    "Boundary": "Boundary",
+    "Surface delta": "Delta",
+}
 GATE_OUTCOMES = ["Pass", "Partial", "Fail"]
 PDF_METADATA = {
     "Creator": "DiffAudit build_paper_assets.py",
@@ -275,25 +283,31 @@ def plot_artifact_gate_summary(rows: list[dict], path: Path) -> None:
     for ax, corpus in zip(axes, corpora):
         corpus_rows = [row for row in rows if row["corpus"] == corpus]
         gates = [label for _, label in GATE_COLUMNS]
+        x_positions = list(range(len(gates)))
         bottoms = [0] * len(gates)
         for outcome in GATE_OUTCOMES:
             values = []
             for gate in gates:
                 match = next(row for row in corpus_rows if row["gate"] == gate and row["outcome"] == outcome)
                 values.append(int(match["count"]))
-            ax.bar(gates, values, bottom=bottoms, label=outcome, color=colors[outcome])
+            ax.bar(x_positions, values, bottom=bottoms, label=outcome, color=colors[outcome])
             bottoms = [bottom + value for bottom, value in zip(bottoms, values)]
         ax.set_title(corpus)
         ax.set_ylabel("rows")
         ax.grid(axis="y", alpha=0.2)
 
     axes[-1].set_xlabel("evidence-contract gate")
-    axes[-1].tick_params(axis="x", rotation=20)
+    axes[-1].set_xticks(x_positions)
+    axes[-1].set_xticklabels(
+        [GATE_PLOT_LABELS.get(gate, gate) for gate in gates],
+        rotation=35,
+        ha="right",
+    )
     fig.suptitle("Selected-corpus gate labels", y=0.98)
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 0.94), frameon=False, ncol=3)
     fig.tight_layout(rect=(0, 0, 1, 0.88))
-    fig.savefig(path, metadata=PDF_METADATA)
+    fig.savefig(path, metadata=PDF_METADATA, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -315,7 +329,6 @@ def main() -> None:
     plot_metric_bars(admitted, FIGURES / "admitted_rows_metrics.pdf", "Admitted evidence bundle", (3.9, 2.55))
     h2_plot_rows = [row for row in h2 if row["role"] in {"candidate", "baseline", "sanity", "control", "stability", "transfer"}]
     plot_metric_bars(h2_plot_rows, FIGURES / "h2_output_cloud_controls.pdf", "H2 output-cloud geometry controls", (7.1, 4.15))
-    plot_metric_bars(negative, FIGURES / "negative_and_support_rows.pdf", "Negative/support evidence", (3.9, 2.3))
     plot_artifact_gate_summary(artifact_gate_summary, FIGURES / "artifact_gate_summary.pdf")
 
     manifest_path = PAPER / "asset_manifest.json"
@@ -331,7 +344,6 @@ def main() -> None:
             "data/artifact_strata_summary.csv",
             "figures/admitted_rows_metrics.pdf",
             "figures/h2_output_cloud_controls.pdf",
-            "figures/negative_and_support_rows.pdf",
             "figures/artifact_gate_summary.pdf",
         ],
         "curated": previous_manifest.get("curated", []),

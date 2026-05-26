@@ -29,6 +29,8 @@ not a bibliography; it is a claim-control ledger.
 | `workspaces/gray-box/artifacts/tracing-roots-feature-packet-mia-20260515.json` | Positive feature-packet metrics with provenance caveat. |
 | `docs/evidence/copymark-official-score-artifact-gate-20260515.md` | Official score artifacts and row-binding caveats. |
 | `docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md` | Public row-binding failure for CopyMark LAION-mi. |
+| `docs/evidence/commoncanvas-denoising-loss-20260513.md` | CommonCanvas conditional denoising-loss scout and stop rule. |
+| `workspaces/black-box/artifacts/commoncanvas-denoising-loss-20260513.json` | CommonCanvas 50/50 score packet used for the negative row. |
 | `docs/evidence/midst-blending-plus-plus-scout-20260515.md` | Best MIDST result remains below reopen floor. |
 | `docs/evidence/quantile-diffusion-mia-secmia-terror-replay-20260515.md` | Public SecMI-style support packet, not official quantile result. |
 | `docs/evidence/identity-focused-inference-extraction-artifact-gate-20260523.md` | Direction C metadata-only no-artifact row. |
