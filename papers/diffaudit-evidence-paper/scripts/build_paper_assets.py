@@ -3,7 +3,9 @@ from __future__ import annotations
 import csv
 from datetime import datetime, timezone
 import json
+import math
 from pathlib import Path
+import random
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
@@ -70,6 +72,83 @@ def read_csv(path: Path) -> list[dict]:
         return list(csv.DictReader(f))
 
 
+def auc_from_scores(member_scores: list[float], nonmember_scores: list[float]) -> float:
+    ranked = [(score, 1) for score in member_scores] + [(score, 0) for score in nonmember_scores]
+    ranked.sort(key=lambda item: item[0])
+    rank_sum = 0.0
+    idx = 0
+    while idx < len(ranked):
+        end = idx + 1
+        while end < len(ranked) and ranked[end][0] == ranked[idx][0]:
+            end += 1
+        avg_rank = (idx + 1 + end) / 2.0
+        for row in ranked[idx:end]:
+            if row[1] == 1:
+                rank_sum += avg_rank
+        idx = end
+    n_pos = len(member_scores)
+    n_neg = len(nonmember_scores)
+    return (rank_sum - n_pos * (n_pos + 1) / 2.0) / (n_pos * n_neg)
+
+
+def percentile(values: list[float], q: float) -> float:
+    if not values:
+        raise ValueError("cannot compute percentile of empty values")
+    ordered = sorted(values)
+    pos = (len(ordered) - 1) * q
+    low = math.floor(pos)
+    high = math.ceil(pos)
+    if low == high:
+        return ordered[low]
+    weight = pos - low
+    return ordered[low] * (1 - weight) + ordered[high] * weight
+
+
+def bootstrap_auc_ci(
+    member_scores: list[float],
+    nonmember_scores: list[float],
+    *,
+    seed: int,
+    iterations: int = 2000,
+) -> tuple[float, float]:
+    rng = random.Random(seed)
+    n_member = len(member_scores)
+    n_nonmember = len(nonmember_scores)
+    boot = []
+    for _ in range(iterations):
+        member_sample = [member_scores[rng.randrange(n_member)] for _ in range(n_member)]
+        nonmember_sample = [nonmember_scores[rng.randrange(n_nonmember)] for _ in range(n_nonmember)]
+        boot.append(auc_from_scores(member_sample, nonmember_sample))
+    return percentile(boot, 0.025), percentile(boot, 0.975)
+
+
+def uncertainty_row(
+    label: str,
+    role: str,
+    source: str,
+    point: float,
+    p025: float,
+    p975: float,
+    method: str,
+    member_count: int | str,
+    nonmember_count: int | str,
+    note: str,
+) -> dict:
+    return {
+        "label": label,
+        "role": role,
+        "metric": "auc",
+        "point": round(float(point), 6),
+        "p025": round(float(p025), 6),
+        "p975": round(float(p975), 6),
+        "ci_method": method,
+        "member_count": member_count,
+        "nonmember_count": nonmember_count,
+        "evidence_source": source,
+        "note": note,
+    }
+
+
 def build_admitted_rows() -> list[dict]:
     bundle = read_json("workspaces/implementation/artifacts/admitted-evidence-bundle.json")
     rows = []
@@ -89,6 +168,125 @@ def build_admitted_rows() -> list[dict]:
                 "quality_cost": item["quality_cost"],
             }
         )
+    return rows
+
+
+def build_metric_uncertainty_rows() -> list[dict]:
+    rows: list[dict] = []
+
+    score_sources = [
+        (
+            "gray-box PIA",
+            "admitted",
+            "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/adaptive-scores.json",
+            False,
+            2026052601,
+            "row-score bootstrap over adaptive mean scores; other admitted rows remain point estimates unless direct score arrays are available",
+        ),
+        (
+            "PIA + G-1 dropout",
+            "admitted",
+            "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/adaptive-scores.json",
+            False,
+            2026052602,
+            "row-score bootstrap over adaptive mean scores; defense-comparator interval only",
+        ),
+        (
+            "DPDM W-1",
+            "admitted",
+            "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/scores.json",
+            True,
+            2026052603,
+            "row-score bootstrap over target scores with orientation matching the recorded admitted AUC",
+        ),
+    ]
+    for label, role, source, invert_scores, seed, note in score_sources:
+        data = read_json(source)
+        if "target_member_scores" in data:
+            member_scores = [float(value) for value in data["target_member_scores"]]
+            nonmember_scores = [float(value) for value in data["target_nonmember_scores"]]
+        else:
+            member_scores = [float(value) for value in data["member_scores"]]
+            nonmember_scores = [float(value) for value in data["nonmember_scores"]]
+        if invert_scores:
+            member_scores = [-value for value in member_scores]
+            nonmember_scores = [-value for value in nonmember_scores]
+        point = auc_from_scores(member_scores, nonmember_scores)
+        p025, p975 = bootstrap_auc_ci(member_scores, nonmember_scores, seed=seed)
+        rows.append(
+            uncertainty_row(
+                label,
+                role,
+                source,
+                point,
+                p025,
+                p975,
+                "stratified row bootstrap, 2000 iterations",
+                len(member_scores),
+                len(nonmember_scores),
+                note,
+            )
+        )
+
+    h2_sources = [
+        (
+            "H2 output-cloud 512/512",
+            "candidate",
+            "workspaces/black-box/artifacts/h2-output-cloud-geometry-20260525.json",
+            "logistic",
+        ),
+        (
+            "H2 shared-position seed176",
+            "control",
+            "workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-256-20260525.json",
+            "logistic",
+        ),
+        (
+            "H2 shared-position seed177",
+            "stability",
+            "workspaces/black-box/artifacts/h2-output-cloud-geometry-shared-position-seed177-256-20260525.json",
+            "logistic",
+        ),
+    ]
+    for label, role, source, block in h2_sources:
+        data = read_json(source)
+        metrics = data[block]["aggregate_metrics"]
+        ci95 = data[block]["aggregate_ci95"]["auc"]
+        inputs = data["inputs"]
+        rows.append(
+            uncertainty_row(
+                label,
+                role,
+                source,
+                metrics["auc"],
+                ci95["p025"],
+                ci95["p975"],
+                "recorded artifact aggregate_ci95",
+                inputs["member_count"],
+                inputs["nonmember_count"],
+                "candidate-side interval; does not change admission state",
+            )
+        )
+
+    transfer = read_json("workspaces/black-box/artifacts/h2-output-cloud-transfer-shared-position-256-20260525.json")
+    for item in transfer["primary_transfer"]:
+        metrics = item["aggregate_metrics"]
+        ci95 = item["aggregate_ci95"]["auc"]
+        rows.append(
+            uncertainty_row(
+                f"H2 transfer {item['source']} to {item['target']}",
+                "transfer",
+                "workspaces/black-box/artifacts/h2-output-cloud-transfer-shared-position-256-20260525.json",
+                metrics["auc"],
+                ci95["p025"],
+                ci95["p975"],
+                "recorded artifact aggregate_ci95",
+                "256",
+                "256",
+                "same-family cross-cache transfer interval; not cross-model portability",
+            )
+        )
+
     return rows
 
 
@@ -406,11 +604,13 @@ def main() -> None:
     admitted = build_admitted_rows()
     h2 = build_h2_rows()
     negative = build_negative_rows()
+    uncertainty = build_metric_uncertainty_rows()
     artifact_gate_summary, artifact_strata_summary = build_artifact_gate_summaries()
 
     write_csv(DATA / "admitted_rows.csv", admitted)
     write_csv(DATA / "h2_output_cloud_rows.csv", h2)
     write_csv(DATA / "negative_support_rows.csv", negative)
+    write_csv(DATA / "metric_uncertainty.csv", uncertainty)
     write_csv(DATA / "artifact_gate_summary.csv", artifact_gate_summary)
     write_csv(DATA / "artifact_strata_summary.csv", artifact_strata_summary)
 
@@ -429,6 +629,7 @@ def main() -> None:
             "data/admitted_rows.csv",
             "data/h2_output_cloud_rows.csv",
             "data/negative_support_rows.csv",
+            "data/metric_uncertainty.csv",
             "data/artifact_gate_summary.csv",
             "data/artifact_strata_summary.csv",
             "figures/admitted_rows_metrics.pdf",

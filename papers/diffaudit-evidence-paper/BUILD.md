@@ -11,6 +11,7 @@ This rebuilds:
 - `data/admitted_rows.csv`
 - `data/h2_output_cloud_rows.csv`
 - `data/negative_support_rows.csv`
+- `data/metric_uncertainty.csv`
 - `data/artifact_gate_summary.csv`
 - `data/artifact_strata_summary.csv`
 - `figures/admitted_rows_metrics.pdf`

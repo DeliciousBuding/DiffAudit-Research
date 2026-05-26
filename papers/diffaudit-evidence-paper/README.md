@@ -22,6 +22,7 @@ workspaces.
 | `BUILD.md` | Figure generation and LaTeX compile commands. |
 | `scripts/build_paper_assets.py` | Rebuilds paper CSV/PDF figure assets from repository JSON artifacts. |
 | `data/` | Generated CSV tables used by figures and LaTeX. |
+| `data/metric_uncertainty.csv` | Generated AUC uncertainty sidecar for rows with direct score arrays or recorded H2 aggregate CIs; not all rows have intervals. |
 | `data/artifact_corpus_v1.csv` | Direction C metadata-only corpus table; not a generated metric table. |
 | `data/artifact_corpus_fixed_search_20260526.csv` | Direction C fixed-search corpus batch; curated metadata, not a generated metric table. |
 | `data/artifact_gate_summary.csv` | Generated selected-corpus gate counts for Direction C claim-control framing; not prevalence evidence. |

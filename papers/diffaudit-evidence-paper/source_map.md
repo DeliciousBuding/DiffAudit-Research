@@ -11,6 +11,10 @@ All paths are relative to the Research repository root.
 | --- | --- |
 | `docs/evidence/admitted-results-summary.md` | Five admitted rows and their limitations. |
 | `workspaces/implementation/artifacts/admitted-evidence-bundle.json` | Machine-readable admitted bundle for metrics, costs, boundaries, and finite-tail semantics. |
+| `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/adaptive-scores.json` | Row-level score source for admitted PIA AUC uncertainty. |
+| `workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/adaptive-scores.json` | Row-level score source for admitted PIA dropout-comparator AUC uncertainty. |
+| `workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/scores.json` | Row-level target score source for admitted DPDM W-1 AUC uncertainty. |
+| `papers/diffaudit-evidence-paper/data/metric_uncertainty.csv` | Generated AUC uncertainty sidecar for rows with direct score arrays or recorded H2 aggregate CIs. |
 | `docs/evidence/h2-output-cloud-geometry-20260525.md` | H2 output-cloud geometry candidate, controls, and cross-cache transfer. |
 | `workspaces/black-box/artifacts/h2-output-cloud-geometry-20260525.json` | Main H2 output-cloud metrics. |
 | `workspaces/black-box/artifacts/h2-output-cloud-geometry-label-shuffle-20260525.json` | Main H2 label-shuffle sanity metrics. |
@@ -75,6 +79,8 @@ All paths are relative to the Research repository root.
   contract actually attempted full paper reproduction.
 - Do not invent missing checkpoints, split manifests, p-values, confidence
   intervals, or references.
+- Do not imply every admitted row has an AUC interval; uncertainty is reported
+  only where direct score arrays or recorded H2 aggregate CIs exist.
 - Do not present `papers/diffaudit-evidence-paper/data/artifact_corpus_v1.csv`
   as a complete literature survey;
   it is a structured corpus from existing DiffAudit evidence notes.

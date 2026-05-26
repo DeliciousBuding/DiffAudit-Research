@@ -37,6 +37,26 @@ metadata without adding a wide cost column to the paper table.
 | Transfer seed 176 to 177 | 0.948990 | 0.884766 | 0.375000 | 0.058594 | Cross-cache transfer |
 | Transfer seed 177 to 176 | 0.970520 | 0.935547 | 0.390625 | 0.074219 | Cross-cache transfer |
 
+## AUC Uncertainty Sidecar
+
+`data/metric_uncertainty.csv` reports AUC intervals only where the paper
+workspace has direct row-score arrays or an upstream artifact already records
+aggregate CIs. It is a sidecar for reviewer-facing robustness, not a new
+admission criterion. Recon public-100 and GSA mainline remain point estimates
+in this manuscript because the committed paper workspace does not expose direct
+method-level score arrays for them without additional assumptions.
+
+| Row | AUC | 95% interval | Method | Caveat |
+| --- | ---: | ---: | --- | --- |
+| Gray-box PIA | 0.841339 | [0.816756, 0.863957] | Stratified row bootstrap over adaptive mean scores. | Admitted row only; no cross-asset dominance claim. |
+| PIA + G-1 dropout | 0.828075 | [0.803872, 0.853547] | Stratified row bootstrap over adaptive mean scores. | Defense-comparator interval only. |
+| DPDM W-1 | 0.488783 | [0.463983, 0.515163] | Stratified row bootstrap over target scores with admitted-score orientation. | Runtime-smoke comparator; not final defense benchmark. |
+| H2 output-cloud 512/512 | 0.961529 | [0.950939, 0.972625] | Recorded artifact aggregate CI. | Candidate-side interval; does not change admission state. |
+| H2 shared-position seed176 | 0.967819 | [0.953779, 0.983615] | Recorded artifact aggregate CI. | Same response-family control only. |
+| H2 shared-position seed177 | 0.956192 | [0.941745, 0.970779] | Recorded artifact aggregate CI. | Same response-family stability only. |
+| H2 transfer 176 to 177 | 0.948990 | [0.930007, 0.966854] | Recorded artifact aggregate CI. | Same-family cross-cache transfer, not cross-model portability. |
+| H2 transfer 177 to 176 | 0.970520 | [0.957806, 0.982849] | Recorded artifact aggregate CI. | Same-family cross-cache transfer, not cross-model portability. |
+
 ## Boundary and Negative Evidence
 
 | Route | Result | Paper role | Caveat |
