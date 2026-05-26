@@ -16,7 +16,7 @@ rule out a plausible route or motivate a sharper research question.
 | Field | Plan |
 | --- | --- |
 | Working title | DiffAudit: Evidence-Contracted Membership Leakage Auditing for Diffusion Models |
-| Team | Framework team: opus lead for thesis/structure, haiku for metric extraction checks, sonnet for figure readability and paper polish |
+| Team | Evidence Contract Team: methodology lead for thesis and venue framing, metric audit lead for admitted-row checks, visual editor for figure readability and claim separation |
 | Venue fit | Security/privacy measurement, applied ML security, CCF-B+ systems/security/privacy track |
 | Thesis | Diffusion membership auditing needs evidence contracts, not only high AUC. Binding each claim to target identity, split, score/response coverage, metrics, provenance, and consumer boundary separates deployable evidence from attractive but non-consumable signals. |
 | Core contributions | Evidence contract and admitted/candidate/watch taxonomy; a five-row admitted cross-permission evidence bundle; H2 output-cloud geometry as a controlled candidate case study; a negative evidence map showing why second-asset claims are hard. |
@@ -29,7 +29,7 @@ rule out a plausible route or motivate a sharper research question.
 | Field | Plan |
 | --- | --- |
 | Working title | Output-Cloud Geometry in a Controlled H2 Diffusion Response Family |
-| Team | Response Geometry Team: opus for hypothesis and validity threats, haiku for bounded scorer/control scripts, sonnet for visual explanation of response-cloud features |
+| Team | Response Geometry Team: mechanism lead for hypothesis and validity threats, scorer lead for bounded controls, visual editor for response-cloud explanation |
 | Venue fit | ML security workshop or short paper now; full CCF-B only if a second independent response asset appears |
 | Thesis | The audited H2 repeated-response cache contains an operationally distinct output-output geometry signal relative to the tested raw/lowpass H2 distance baselines, and the same-family controls plus failed img2img portability define its boundary. |
 | Core contributions | Output-cloud feature family; label-shuffle sanity; shared-position order-control; seed-stability and same-family cross-cache transfer; img2img portability failure as a boundary result. |
@@ -42,7 +42,7 @@ rule out a plausible route or motivate a sharper research question.
 | Field | Plan |
 | --- | --- |
 | Working title | When Diffusion MIA Scores Are Not Audit Evidence: A Selected-Corpus Claim-Support Study |
-| Team | Artifact Claim-Support Team: opus for gate design, haiku for metadata/replay scripts, sonnet for candidate taxonomy and tables |
+| Team | Artifact Claim-Support Team: measurement lead for gate design, artifact audit lead for metadata and replay checks, table lead for taxonomy and figures |
 | Venue fit | Security/privacy measurement, ML systems workshop, or reproducibility venue only if replay evidence is separated from metadata-only rows; CCF-B possible if corpus is expanded and preregistered |
 | Thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata inspection, scoreability, replay, auditability, and consumer-safe reporting. |
 | Core contributions | Six-gate second-asset contract; audited candidate corpus; bounded replays, weak scouts, feature packets, score-artifact gates, and collaborator/local stress tests across ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps. |
@@ -55,7 +55,7 @@ rule out a plausible route or motivate a sharper research question.
 | Field | Plan |
 | --- | --- |
 | Working title | An Artifact Contract for Safe Consumption of Diffusion Privacy Evidence |
-| Team | Artifact Contract Team: opus for architecture and threat model, haiku for bundle/export validation, sonnet for report/UI diagrams |
+| Team | Artifact Contract Team: systems lead for architecture and threat model, contract lead for bundle validation, report lead for consumer-facing diagrams |
 | Venue fit | Artifact/demo track or software-engineering-for-ML venue now; applied systems only after measured prevention evidence |
 | Thesis | Privacy audit outputs should be consumed through machine-checkable bundles that encode admission state, boundary language, finite-tail interpretation, and provenance constraints; current evidence supports contract encoding, not deployed enforcement. |
 | Core contributions | Admitted evidence bundle schema; public-surface checks; finite empirical tail semantics; report-correctness threat model and validation hooks; blocked-promotion examples. |

@@ -1,7 +1,7 @@
 # Research Team Pitches
 
 > Date: 2026-05-26
-> Scope: read-only subagent reviews converted into persistent paper planning notes.
+> Scope: persistent paper-team planning notes for the A-D manuscript directions.
 
 ## Team A: Evidence-Calibrated Measurement
 

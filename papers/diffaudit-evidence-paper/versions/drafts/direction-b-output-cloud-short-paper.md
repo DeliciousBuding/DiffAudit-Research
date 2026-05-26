@@ -4,10 +4,10 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Mechanism lead | opus | Defines the observable, hypothesis, and portability boundary. |
-| Scorer engineer | haiku | Keeps feature extraction, controls, and metric reporting bounded and auditable. |
-| Visual lead | sonnet | Builds response-cloud schematics, feature tables, and control panels. |
-| Skeptical reviewer | opus | Blocks feature-sweep inflation and single-family overclaiming. |
+| Mechanism lead | Response geometry lead | Defines the observable, hypothesis, and portability boundary. |
+| Scorer engineer | Control implementation lead | Keeps feature extraction, controls, and metric reporting bounded and auditable. |
+| Visual lead | Mechanism visualization lead | Builds response-cloud schematics, feature tables, and control panels. |
+| Skeptical reviewer | Portability critic | Blocks feature-sweep inflation and single-family overclaiming. |
 
 ## Working Paper
 

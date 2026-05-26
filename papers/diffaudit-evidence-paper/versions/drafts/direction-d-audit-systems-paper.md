@@ -4,10 +4,10 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Systems lead | opus | Owns architecture, threat model, and admission-state semantics. |
-| Contract engineer | haiku | Owns bundle schema, export checks, validation, and reproducibility hooks. |
-| Report/product lead | sonnet | Owns user-facing report diagrams, risk-card copy, and UI-safe language. |
-| Deployment critic | opus | Blocks private topology, unsupported product claims, and candidate promotion. |
+| Systems lead | Contract architecture lead | Owns architecture, threat model, and admission-state semantics. |
+| Contract engineer | Bundle validation lead | Owns bundle schema, export checks, validation, and reproducibility hooks. |
+| Report/product lead | Report correctness lead | Owns user-facing report diagrams, risk-card copy, and UI-safe language. |
+| Deployment critic | Public-boundary critic | Blocks private topology, unsupported product claims, and candidate promotion. |
 
 ## Working Paper
 
