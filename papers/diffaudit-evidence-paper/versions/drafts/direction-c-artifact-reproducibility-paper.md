@@ -78,7 +78,7 @@ review.
 | 21-row v1 corpus | Controlled selected-corpus gate taxonomy and stratum separation. | Field-wide prevalence or venue-wide artifact quality. |
 | 17-row fixed-search batch from 2026-05-26 | Independent metadata-only search layer over a frozen query set. | Full reproducibility judgment without downloads or replays. |
 | Generated gate-summary CSV/PDF | Counts of pass/partial/fail gate labels inside the selected corpus. | Statistical estimates of public artifact availability. |
-| Selected-corpus consistency pass | Internal label coherence; no CSV label changes required. | Independent inter-rater reliability. |
+| Selected-corpus consistency pass | Internal label coherence; no invalid labels, contradictions, or promotions after four empty-result `delta_gate` demotions. | Independent inter-rater reliability. |
 
 ## Contribution Claims
 
@@ -137,7 +137,7 @@ review.
 
 | Risk | Fix |
 | --- | --- |
-| Looks anecdotal or DiffAudit-history-biased. | v1 adds 10 metadata-only surfaces from existing notes; the 2026-05-26 fixed-search batch adds an independent selection layer; the selected-corpus consistency pass made no CSV label changes. |
+| Looks anecdotal or DiffAudit-history-biased. | v1 adds 10 metadata-only surfaces from existing notes; the 2026-05-26 fixed-search batch adds an independent selection layer; the selected-corpus consistency pass found no invalid labels or promotions and demoted four empty-result `delta_gate` labels. |
 | Sounds hostile to other papers. | Use claim-support language; do not say papers "fail." |
 | Mixes public artifacts with internal controls. | Explicit artifact strata in table and prose. |
 | Consumer boundary looks project-specific. | Generalize as audit-consumer requirements and keep DiffAudit as one implementation. |

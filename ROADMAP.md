@@ -28,9 +28,10 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
 - `multi_direction_paper_drafts.md` 和 `versions/drafts/`：已把四个方向扩成
   manuscript-level Markdown drafts。Direction A 是主推完整论文；Direction B
   是机制 short/workshop paper，不能声称跨模型/跨数据集 portability；Direction C
-  是 claim-support artifact reproducibility paper，必须先扩展 metadata-only
-  corpus；Direction D 是 systems/artifact/demo paper，等待 deployment /
-  external-use / user-study / report-drift 证据。
+  是 claim-support artifact reproducibility paper，当前已有 v1 corpus、fixed-search
+  batch 和 gate-summary 资产，若要独立投稿还需更大冻结 corpus 或第二标签审查；
+  Direction D 是 systems/artifact/demo paper，等待 deployment / external-use /
+  user-study / report-drift 证据。
 - `source_map.md`、`claim_register.md`、`evidence_bank.md`：把 admitted、
   candidate、support-only、negative 和 prohibited claims 分开，避免把 H2、
   Tracing Roots、ReDiffuse、CommonCanvas、MIDST 或 collaborator SD ReDiffuse
@@ -64,8 +65,9 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
    artifact-corpus framing、method detail、reviewer-facing contribution wording
    和 related-work 对照。
 2. Direction C 已有 `21` 行 v1 corpus 和 `17` 行 2026-05-26 fixed-search
-   metadata batch，并已完成 selected-corpus gate-label consistency pass（CSV
-   标签不变）。写法必须是 claim-support measurement，不能写成“这些论文失败了”；
+   metadata batch，并已完成 selected-corpus gate-label consistency pass：无非法
+   gate 值、无 evidence/metric 矛盾、无 label promotion，且将四个 empty-result
+   `delta_gate` 从 `Partial` 降为 `Fail`。写法必须是 claim-support measurement，不能写成“这些论文失败了”；
    若要独立成稿，再补更大固定 corpus 或第二独立标签审查。
 3. Direction B 只在出现第二个独立 response asset 或明确批准 bounded
    response-contract experiment 时继续；否则保持为主稿 case study。

@@ -100,12 +100,12 @@ It does not support these claims:
 ## Next Direction C Gate
 
 The 2026-05-26 selected-corpus consistency pass reviewed this 21-row table plus
-the 17-row fixed-search batch without changing CSV labels. The pass checked that
-all gate labels use only `Pass`, `Partial`, or `Fail`; that bounded-negative
-rows with passing evidence/metric gates but failing consumer-boundary gates are
-intentional route-decision rows; and that fixed-search arXiv metadata rows with
-partial target/boundary labels but failing evidence/metric gates remain
-metadata-only rows, not scoreable artifacts.
+the 17-row fixed-search batch. The pass checked that all gate labels use only
+`Pass`, `Partial`, or `Fail`; that bounded-negative rows with passing
+evidence/metric gates but failing consumer-boundary gates are intentional
+route-decision rows; and that fixed-search arXiv metadata rows with partial
+target/boundary labels but failing evidence/metric gates remain metadata-only
+rows, not scoreable artifacts.
 
 A second internal label audit on 2026-05-26 rechecked both CSVs against four
 invariants: no gate value outside `Pass`/`Partial`/`Fail`; no row with

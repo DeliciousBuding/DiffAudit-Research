@@ -77,6 +77,8 @@ binding, metric provenance, consumer-boundary checks, and surface-delta checks.
 ## Decision
 
 The v1 corpus and fixed-search rows now pass a selected-corpus consistency
-review without CSV label changes. This can become a stronger standalone
-measurement paper than Direction B only if the corpus grows or receives a second
-independent label review without heavy GPU work or field-wide overclaiming.
+review with no invalid gate values, evidence/metric contradictions, or label
+promotions; four empty-result `delta_gate` labels were demoted from `Partial` to
+`Fail`. This can become a stronger standalone measurement paper than Direction B
+only if the corpus grows or receives a second independent label review without
+heavy GPU work or field-wide overclaiming.
