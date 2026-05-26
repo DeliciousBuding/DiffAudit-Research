@@ -19,9 +19,9 @@ are met. The shared evidence boundary remains:
 | Version | Team | Paper Type | Current Decision |
 | --- | --- | --- | --- |
 | A | Evidence Contract Team | Security/privacy measurement | Main manuscript now. |
-| B | Response Geometry Team | H2-only mechanism short/workshop paper | Keep as second-track; needs second response asset for full paper. |
-| C | Artifact Claim-Support Team | Selected-corpus claim-support measurement paper | v1 corpus, GitHub/arXiv fixed-search batch, gate summary, and selected-corpus consistency pass exist; standalone aggregate claims need stratified denominators plus a broader corpus or second label review. |
-| D | Artifact Contract Team | Artifact/demo/report-correctness package | Downstream package only; hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
+| B | Response Geometry Team | Response-cloud mechanism short/workshop paper | Keep as second-track; negative img2img portability is central, and full-paper claims need a second response asset. |
+| C | Artifact Claim-Support Team | Selected-corpus L0-L3 claim-support measurement paper | v1 corpus, GitHub/arXiv fixed-search batch, gate summary, and selected-corpus consistency pass exist; standalone aggregate claims need stratified denominators plus a broader corpus or second label review. |
+| D | Artifact Contract Team | Independent artifact-contract/report-correctness package | Hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
 
 ## Manuscript Drafts
 
