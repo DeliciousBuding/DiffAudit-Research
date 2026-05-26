@@ -20,8 +20,7 @@ This rebuilds:
 
 ## Compile Paper
 
-`latexmk` is installed through MiKTeX but currently cannot run because MiKTeX
-cannot find Perl. Use the manual chain:
+If `latexmk` is unavailable, use the manual chain:
 
 ```powershell
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.tex

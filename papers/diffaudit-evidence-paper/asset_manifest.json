@@ -11,6 +11,7 @@
     "figures/artifact_gate_summary.pdf"
   ],
   "curated": [
+    "data/negative_support_curated_metrics.csv",
     "data/artifact_corpus_v1.csv",
     "data/artifact_corpus_fixed_search_20260526.csv",
     "versions/direction-c-corpus-v1.md",

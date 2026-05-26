@@ -27,7 +27,7 @@ paper:
 | --- | --- | --- | --- |
 | A | Evidence Contract Team | Full security/privacy measurement paper | Primary 8-page LaTeX draft; continue reviewer-facing tightening without forking other TeX manuscripts. |
 | B | Response Geometry Team | Response-cloud mechanism short/workshop paper | Strong H2 case study with negative img2img portability as a main result; no full-paper portability claim until a second response asset appears. |
-| C | Artifact Claim-Support Team | Selected-corpus L0-L3 claim-support measurement paper | v1 metadata corpus, fixed GitHub/arXiv batch, gate-summary assets, and selected-corpus consistency pass now exist; standalone aggregate claims need stratified denominators plus a larger corpus or second label review. |
+| C | Artifact Claim-Support Team | Selected-corpus L0-L3 claim-support measurement paper, not a pooled reproducibility-rate paper | v1 metadata corpus, fixed GitHub/arXiv batch, gate-summary assets, and selected-corpus consistency pass now exist; standalone aggregate claims need stratified denominators plus a larger corpus or second label review. |
 | D | Artifact Contract Team | Independent artifact-contract/report-correctness package | Hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
 
 ## Draft Files
@@ -47,6 +47,15 @@ paper:
 | Response Geometry Team | Does repeated-response geometry expose membership beyond direct distance? | Keep H2 as a bounded short-paper case study with same-family wording and portability failure central. | Stop unless a second response asset or explicit short-paper scope exists. |
 | Artifact Claim-Support Team | What claims do selected diffusion MIA artifact surfaces actually support? | Use v1, the 2026-05-26 GitHub/arXiv fixed-search batch, generated gate-summary counts, and the completed consistency pass for L0-L3 claim-support drafting. | Stop if aggregate claims exceed the selected corpus or pool metadata-only rows with replay rows. |
 | Artifact Contract Team | How can report consumers avoid unsupported claim promotion? | Keep as artifact/demo/report-correctness package and collect fault-injection, report-drift, external-use, or deployment evidence. | Stop if the paper only describes schema without measurable report-correctness benefit. |
+
+## Non-Overlap Contract
+
+| Direction | Unique deliverable | Must not claim |
+| --- | --- | --- |
+| A | Final claim audit and 8-page evidence-contract manuscript. | A full H2 mechanism paper, field-wide artifact prevalence, or deployed report-correctness measurement. |
+| B | Short-paper H2 boundary draft with output-cloud controls and img2img admission failure. | Cross-model portability, product admission, or general diffusion attack status. |
+| C | Stratified L0-L3 corpus table with selected-corpus gate counts. | Pooled reproducibility rate or field-wide artifact-quality prevalence. |
+| D | Fault-injection/report artifact or public-safe risk-card package. | Applied systems effectiveness before report-drift, external-use, or deployment evidence. |
 
 ## Team Deliverable Contract
 

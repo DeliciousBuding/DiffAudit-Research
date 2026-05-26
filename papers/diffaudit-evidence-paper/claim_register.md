@@ -1,25 +1,27 @@
 # Claim Register
 
+All file paths are relative to the Research repository root.
+
 ## Allowed Main Claims
 
 | ID | Claim | Evidence | Boundary |
 | --- | --- | --- | --- |
-| C1 | DiffAudit can report five heterogeneous diffusion privacy audit rows under a shared evidence contract. | `admitted-results-summary.md`, `admitted-evidence-bundle.json` | Admitted within recorded workspace evidence levels (`runtime-mainline` or `runtime-smoke`); not a homogeneous threat-model leaderboard. |
+| C1 | DiffAudit can report five heterogeneous diffusion privacy audit rows under a shared evidence contract. | `docs/evidence/admitted-results-summary.md`, `workspaces/implementation/artifacts/admitted-evidence-bundle.json` | Admitted within recorded workspace evidence levels (`runtime-mainline` or `runtime-smoke`); not a homogeneous threat-model leaderboard. |
 | C2 | The admitted white-box GSA row is numerically stronger under its own contract than the current admitted black-box and gray-box rows. | GSA AUC `0.998192`; recon AUC `0.837`; PIA AUC `0.841339` | GSA is an upper-bound comparator, not an access-level leaderboard or final benchmark. |
 | C3 | The H2 output-cloud geometry scorer finds a strong Research-side membership signal without reading seed-to-output distance and stronger than the tested raw/lowpass H2 baselines. | H2 output-cloud AUC `0.961529`, raw H2 AUC `0.905693`, lowpass H2 AUC `0.895679`, label-shuffle AUC `0.507595` | Candidate only; not admitted or portable by default; does not exhaust every simple shortcut explanation. |
 | C4 | H2 output-cloud geometry survives shared-position seed-offset control and cross-cache transfer. | Shared-position AUC `0.967819`; seed `177` AUC `0.956192`; transfer mean AUC `0.959755` | Still one response-contract family. |
 | C5 | Several plausible second-asset routes are blocked by missing public artifacts, weak transferred signal, or consumer-boundary mismatch. | ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, SD ReDiffuse evidence notes | Use as measurement/negative evidence, not as a claim that all such methods fail. |
-| C6 | The Direction C v1 corpus structures 21 existing evidence-note surfaces into artifact strata and six-gate labels. | `data/artifact_corpus_v1.csv`, `versions/direction-c-corpus-v1.md` | Structured starter corpus only; not a prevalence claim over all diffusion MIA papers. |
-| C7 | The 2026-05-26 Direction C fixed-search batch adds an independent metadata-only selection process over GitHub and arXiv. | `data/artifact_corpus_fixed_search_20260526.csv`, `versions/direction-c-fixed-search-batch-20260526.md` | Selection-process evidence only; it found no new admitted audit row and does not support field-wide prevalence claims. |
-| C8 | The selected v1 and fixed-search corpora can be summarized as gate-label counts for claim-control drafting. | `data/artifact_gate_summary.csv`, `figures/artifact_gate_summary.pdf` | Counts describe coded rows in these selected corpora only; not field-wide prevalence or standalone reproducibility evidence. |
-| C9 | Direction C rows support different claim-support levels: metadata discovery, artifact inspection, scoreable/replayed research-side measurement, and admitted audit evidence. | `versions/direction-c-artifact-reproducibility.md`, `versions/drafts/direction-c-artifact-reproducibility-paper.md` | Do not pool metadata-only rows with replay rows as a reproduction denominator; this is same-team claim taxonomy, not independent inter-rater reliability. |
+| C6 | The Direction C v1 corpus structures 21 existing evidence-note surfaces into artifact strata and six-gate labels. | `papers/diffaudit-evidence-paper/data/artifact_corpus_v1.csv`, `papers/diffaudit-evidence-paper/versions/direction-c-corpus-v1.md` | Structured starter corpus only; not a prevalence claim over all diffusion MIA papers. |
+| C7 | The 2026-05-26 Direction C fixed-search batch adds an independent metadata-only selection process over GitHub and arXiv. | `papers/diffaudit-evidence-paper/data/artifact_corpus_fixed_search_20260526.csv`, `papers/diffaudit-evidence-paper/versions/direction-c-fixed-search-batch-20260526.md` | Selection-process evidence only; it found no new admitted audit row and does not support field-wide prevalence claims. |
+| C8 | The selected v1 and fixed-search corpora can be summarized as gate-label counts for claim-control drafting. | `papers/diffaudit-evidence-paper/data/artifact_gate_summary.csv`, `papers/diffaudit-evidence-paper/figures/artifact_gate_summary.pdf` | Counts describe coded rows in these selected corpora only; not field-wide prevalence or standalone reproducibility evidence. |
+| C9 | Direction C rows support different claim-support levels: metadata discovery, artifact inspection, scoreable/replayed research-side measurement, and admitted audit evidence. | `papers/diffaudit-evidence-paper/versions/direction-c-artifact-reproducibility.md`, `papers/diffaudit-evidence-paper/versions/drafts/direction-c-artifact-reproducibility-paper.md` | Do not pool metadata-only rows with replay rows as a reproduction denominator; this is same-team claim taxonomy, not independent inter-rater reliability. |
 
 ## Candidate or Support-Only Claims
 
 | ID | Claim | Evidence | Required wording |
 | --- | --- | --- | --- |
 | S1 | Tracing the Roots feature tensors contain membership signal. | AUC `0.815826`, TPR@1%FPR `0.134000` | "positive feature-packet evidence", not admitted Platform/Runtime evidence. |
-| S2 | SecMI/NNS support the importance of gray-box trajectory signals. | SecMI stat AUC `0.885833`; NNS AUC `0.946286` | "supporting reference", not admitted row. |
+| S2 | SecMI/NNS support the importance of gray-box trajectory signals. | SecMI stat AUC `0.885833`; NNS AUC `0.946286`; `docs/evidence/secmi-full-split-admission-boundary-review.md`, `docs/evidence/secmi-consumer-contract-review-20260512.md` | "supporting reference", not admitted row. |
 | S3 | Collaborator SD ReDiffuse is replayable but source-confounded. | AUC `0.710319`; source-only AUC `1.000000` | "cross-source stress test", not same-distribution membership. |
 | S4 | Quantile diffusion public scores are useful same-family support. | CIFAR10 AUC `0.843853`; CIFAR100 AUC `0.782126` | "SecMI-style support packet", not official Quantile Regression result. |
 
