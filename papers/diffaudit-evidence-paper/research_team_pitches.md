@@ -44,7 +44,7 @@ symmetry reruns, repeat-count tuning, KDE variants, or input-distance fusion.
 | Title | When Diffusion MIA Scores Are Not Audit Evidence: A Selected-Corpus Claim-Support Study |
 | Venue fit | MLSys, SaTML, FAccT methods track, or measurement workshop; reproducibility venues only if replay rows are separated from metadata-only rows. |
 | Core thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata inspection, scoreability, replay, auditability, and consumer-safe reporting. |
-| Contribution claims | Six-gate second-asset contract; selected-corpus claim-support audit across CLiD, Tracing Roots, ReDiffuse, CommonCanvas, MIDST, Stable Diffusion ReDiffuse, and fixed GitHub/arXiv metadata rows; taxonomy of support states; negative results as exclusion evidence. |
+| Contribution claims | Six-gate second-asset contract; selected-corpus claim-support audit across CLiD, Tracing Roots, ReDiffuse, CommonCanvas, MIDST, Stable Diffusion ReDiffuse, and fixed GitHub/arXiv search records; taxonomy of support states; negative results as exclusion evidence. |
 | Figures/tables | Six-gate candidate matrix; result matrix; selected-corpus gate-summary figure; artifact funnel from paper claim to reusable evidence; signal-strength vs artifact-completeness map. |
 | Lightweight additional work | Use the 21-row v1 corpus, the 2026-05-26 fixed-search batch, generated gate-summary counts, and the completed selected-corpus consistency pass. Add one broader fixed-source pass or a second independent label review only for a standalone submission. |
 | Fatal risks | Looks anecdotal unless candidate inclusion is preregistered; metadata-only rows can be mistaken for reproductions; mixed strata can create false equivalence. |

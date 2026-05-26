@@ -25,7 +25,7 @@ paper:
 
 | Direction | Research team | Paper identity | Current decision |
 | --- | --- | --- | --- |
-| A | Evidence Contract Team | Full security/privacy measurement paper | Primary. Expand the existing LaTeX draft to 6-8 pages. |
+| A | Evidence Contract Team | Full security/privacy measurement paper | Primary 8-page LaTeX draft; continue reviewer-facing tightening without forking other TeX manuscripts. |
 | B | Response Geometry Team | H2-limited mechanism short/workshop paper | Strong technical case study; no full-paper portability claim until a second response asset appears. |
 | C | Artifact Claim-Support Team | Selected-corpus claim-support measurement paper | v1 metadata corpus, fixed GitHub/arXiv batch, gate-summary assets, and selected-corpus consistency pass now exist; standalone aggregate claims need a larger corpus or second label review. |
 | D | Artifact Contract Team | Artifact/demo contract paper | Hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |

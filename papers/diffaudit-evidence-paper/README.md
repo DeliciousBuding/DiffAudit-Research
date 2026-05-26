@@ -46,9 +46,10 @@ The current paper-version drafts are:
   requires a second independent response asset.
 - Direction C: selected-corpus claim-support measurement paper; it now has a
   21-row v1 corpus, a fixed-search metadata batch, gate-summary outputs, and a
-  selected-corpus consistency pass with no CSV label changes. Standalone
-  aggregate claims still require a larger frozen corpus or a second independent
-  label review.
+  selected-corpus consistency pass with no invalid labels or label promotions;
+  four empty-result `delta_gate` labels were demoted from `Partial` to `Fail`.
+  Standalone aggregate claims still require a larger frozen corpus or a second
+  independent label review.
 - Direction D: audit systems/artifact paper; it remains downstream material
   until deployment, external-use, user-study, or report-drift evidence exists.
 
