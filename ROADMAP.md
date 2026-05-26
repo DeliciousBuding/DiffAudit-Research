@@ -36,10 +36,20 @@ provenance、consumer boundary 和 surface delta，才能从“看起来强的 A
   candidate、support-only、negative 和 prohibited claims 分开，避免把 H2、
   Tracing Roots、ReDiffuse、CommonCanvas、MIDST 或 collaborator SD ReDiffuse
   写成超出证据边界的结论。路径基准已统一为 Research repository root。
+  `source_map.md` 已补 replay/availability matrix，明确 recon/GSA 目前是
+  point-estimate/summary 依赖，PIA/PIA-dropout/DPDM 有 row-level score sidecar，
+  H2 是 frozen artifact/recorded-CI candidate。
 - `scripts/build_paper_assets.py`：从现有 JSON artifacts 和带 evidence-source
   的 curated CSV 生成论文 CSV 和 PDF 图，不在脚本里散落手填指标。
+- `scripts/export_admitted_evidence_bundle.py` 和
+  `workspaces/implementation/artifacts/admitted-evidence-bundle.json`：白盒
+  `target_eval_size=2000` 已统一解释为 `1000 member + 1000 nonmember`，
+  strict-tail denominator 导出为 `1000`；DPDM W-1 在 docs 和 paper 中明确为
+  `runtime-smoke` defended comparator，不再写成 `runtime-mainline`。
 - `main.tex`、`refs.bib` 和 `paper.pdf`：IEEEtran 会议格式稿件已通过
   `pdflatex + bibtex + pdflatex + pdflatex` 手动链路编译，当前为 `8` 页 draft。
+  2026-05-26 reviewer-hardening 后，abstract/introduction 已改为 RQ 和
+  claim-admission framing，H2 明确作为 contract stress test 而非隐藏主贡献。
   正文已包含 Related Work、Reporting/Reproducibility positioning、Audit
   Surfaces、Evidence Contract、Measurement Protocol、candidate gate matrix、
   Artifact Corpus、fixed-search batch summary、selected-corpus gate-summary
