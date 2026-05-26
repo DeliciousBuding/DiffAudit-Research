@@ -1,4 +1,4 @@
-# Direction D Draft: Audit Systems and Consumer Boundary
+# Direction D Draft: Independent Artifact Contract and Consumer Boundary
 
 ## Assigned Research Team
 
@@ -14,9 +14,9 @@
 | Field | Draft choice |
 | --- | --- |
 | Title | An Artifact Contract for Safe Consumption of Diffusion Privacy Evidence |
-| Target type | Artifact/demo/report-correctness package first; systems paper only after measured prevention evidence |
+| Target type | Independent artifact-contract/demo/report-correctness package; systems paper only after measured prevention or use evidence |
 | Venue posture | Artifact track, demo track, software-engineering-for-ML venue; applied systems only after fault-injection, report-drift, external-use, or deployment evidence |
-| Current artifact | Downstream package after Direction A; not a standalone full systems-paper track yet |
+| Current artifact | Standalone artifact-contract paper draft; not a full systems-paper track without a passing promotion gate |
 
 ## Abstract
 
@@ -24,24 +24,26 @@ Membership inference scores are not automatically safe to consume in privacy
 reports. A score may be valid under a narrow experiment, candidate-only under a
 research boundary, or non-portable because artifacts lack row binding. This
 paper describes an artifact contract that turns diffusion privacy results into
-machine-checkable evidence bundles. The contract records target identity, split
-semantics, metric provenance, finite-tail denominators, artifact provenance,
-boundary language, and admission state. The exported bundle and validators
-encode an admitted-only consumption contract, while strong candidates such as
-H2 output-cloud geometry and Tracing the Roots remain visible only as
-blocked-promotion examples. Deployment enforcement is not evaluated in the
-current evidence bundle, and measured prevention of report drift is not yet
-shown.
+machine-checkable evidence bundles and report-correctness obligations.
+Direction D is self-contained as an artifact-contract paper: the contract
+records target identity, split semantics, metric provenance, finite-tail
+denominators, artifact provenance, boundary language, and admission state. The
+exported bundle and validators encode an admitted-only consumption contract,
+while strong candidates such as H2 output-cloud geometry and Tracing the Roots
+remain visible only as blocked-promotion examples. Deployment enforcement,
+external adoption, and measured prevention of report drift are not evaluated in
+the current evidence bundle.
 
 ## Controlling Thesis
 
-The system contribution is safe consumption by contract, not deployed
-enforcement. A report generator should not decide from AUC alone. It should
+The artifact contribution is safe consumption by contract, not deployed
+enforcement or proven user-impact reduction. A report generator should not
+decide from AUC alone. It should
 decide from a bundle that encodes whether a claim is admitted, candidate,
 support-only, or blocked, and what finite-tail and provenance caveats must be
 shown to users. Without fault-injection, report-drift, external-use, or
 deployment evidence, this remains an artifact/demo report-correctness package
-rather than an independent full systems paper.
+rather than a full systems paper.
 
 ## Contribution Claims
 
@@ -50,7 +52,7 @@ rather than an independent full systems paper.
 | D-C1: Machine-checkable bundles can encode admitted/candidate separation. | `admitted-evidence-bundle.json`, public-surface checks | Current admitted set has five rows only; enforcement is not evaluated. |
 | D-C2: Candidate visibility and product admission must be separate states. | H2 and Tracing Roots boundary notes | No Runtime row promotion or deployed-enforcement claim. |
 | D-C3: Finite-tail semantics require report language. | TPR@0.1%FPR denominators | Not calibrated sub-percent risk. |
-| D-C4: Drift guards require report-correctness evaluation. | Proposed validation checks plus missing fault-injection/report-drift table | Until injected faults or drift measurements exist, this is an evaluation plan rather than a demonstrated systems benefit. |
+| D-C4: Drift guards can be specified, but require report-correctness evaluation before systems claims. | Proposed validation checks plus missing fault-injection/report-drift table | Until injected faults or drift measurements exist, this is an evaluation plan rather than a demonstrated systems benefit. |
 
 ## Manuscript Spine
 
@@ -71,7 +73,8 @@ This version should read as:
 
 > We package the evidence-contract methodology as a machine-readable artifact
 > contract, specify report-correctness checks, and show how a public-safe report
-> should preserve admitted/candidate boundaries.
+> should preserve admitted/candidate boundaries. This is an independent
+> artifact-contract paper version.
 
 It should not read as:
 
@@ -81,10 +84,13 @@ The current evidence supports an artifact/demo paper only. A systems paper
 requires measured prevention or use evidence: fault injection, before/after
 drift checks, external use, or deployment evaluation.
 
-## Missing-Evidence Promotion Gate
+## Hard Go / No-Go Promotion Gate
 
 Direction D should be written as an artifact/demo/report-correctness package
-until at least one systems-promotion gate is satisfied.
+until at least one systems-promotion gate is satisfied. If none of the four
+gates below has observed evidence, the decision is no-go for full systems
+framing and no-go for claims that the contract has reduced report drift, been
+externally adopted, or governed a deployed system.
 
 | Gate | Passing evidence | Current state | Claim allowed now |
 | --- | --- | --- | --- |
@@ -97,7 +103,7 @@ until at least one systems-promotion gate is satisfied.
 
 | Section | Claim to make | Required evidence | Text boundary |
 | --- | --- | --- | --- |
-| 1. Introduction | Correct research scores can become unsafe report claims when boundary metadata is dropped. | Direction A admitted/candidate examples. | Do not imply deployed enforcement. |
+| 1. Introduction | Correct research scores can become unsafe report claims when boundary metadata is dropped. | Current admitted/candidate evidence examples. | Do not imply deployed enforcement. |
 | 2. Threat Model | The risk is unsupported promotion, stale artifacts, missing denominators, and private/public surface confusion. | Claim register and public-surface checks. | Use abstract components only. |
 | 3. Artifact Contract | The bundle records admission state, metrics, finite tails, provenance, and boundary language. | admitted bundle and validation scripts. | Encoding, not proof of runtime prevention. |
 | 4. Validator Checks | Validators specify which missing fields and unsafe report inputs must be rejected. | Existing checks plus missing fault-injection table. | Prevention claim requires actual injected failures. |
@@ -156,7 +162,7 @@ until at least one systems-promotion gate is satisfied.
 
 | Decision | Condition |
 | --- | --- |
-| Keep as downstream draft | Current state supports a systems idea but not a strong standalone paper. |
-| Promote to artifact/demo | Requires clean architecture diagram and public-safe bundle/report example. |
-| Promote to full systems paper | Requires fault-injection, report-drift, external-use, or deployment evidence. |
+| Proceed as independent artifact-contract paper | Current state supports artifact/demo/report-correctness claims with explicit systems boundary. |
+| Submit as artifact/demo | Requires clean architecture diagram and public-safe bundle/report example. |
+| Promote to full systems paper | Allowed only after fault-injection, report-drift, external-use, or deployment evidence is observed and reviewed. |
 | Stop | If it only restates schema without showing measurable report-correctness benefit. |

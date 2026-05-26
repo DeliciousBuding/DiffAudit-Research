@@ -20,7 +20,7 @@
 
 | Field | Pitch |
 | --- | --- |
-| Title | Output-Cloud Geometry as an H2-Only Membership Observable |
+| Title | Response-Cloud Geometry Has an H2 Membership Signal, But Does Not Port to Img2img |
 | Venue fit | Strong privacy/ML security workshop or short paper candidate; full CCF-B mechanism paper only if a second independent response asset appears. |
 | Scientific question | Does the audited H2 repeated-response cache expose membership through geometry among repeated outputs, rather than only through query-to-output or seed-to-output distance? |
 | Contribution claims | Output-output geometry as an operationally separated H2 observable relative to tested raw/lowpass baselines; strong H2 DDPM/CIFAR10 signal; label-shuffle and shared-position controls; same-family cross-cache stability; negative SD/CelebA img2img portability boundary. |
@@ -37,13 +37,13 @@ short/workshop mechanism case study with the SD/CelebA img2img portability
 failure as a central result. Do not fork for more H2 feature sweeps, `512/512`
 symmetry reruns, repeat-count tuning, KDE variants, or input-distance fusion.
 
-## Team C: Selected-Corpus Artifact Claim Support
+## Team C: Selected-Corpus Artifact Claim-Support Measurement
 
 | Field | Pitch |
 | --- | --- |
 | Title | From Artifact Surfaces to Audit Claims: A Selected-Corpus Measurement of Diffusion MIA Claim Support |
-| Venue fit | MLSys, SaTML, FAccT methods track, or measurement workshop; reproducibility venues only if metadata-only, scoreable/replayed, feature-packet, source-confounded, and admitted-control rows are separated. |
-| Core thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata inspection, artifact inspection, bounded score/replay, audit-ready evidence, and consumer-safe reporting. |
+| Venue fit | MLSys, SaTML, FAccT methods track, or measurement workshop; reproducibility venues only if L0 metadata, L1 inspection, L2 scoreable/replayed, feature-packet, source-confounded, and L3 admitted-control rows are separated. |
+| Core thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different L0-L3 claim levels: metadata discovery, artifact inspection, bounded score/replay, audit-ready evidence, and consumer-safe reporting. |
 | Contribution claims | L0-L3 claim-support levels; six-gate second-asset contract; selected-corpus claim-support audit across CLiD, Tracing Roots, ReDiffuse, CommonCanvas, MIDST, Stable Diffusion ReDiffuse, and fixed GitHub/arXiv search records; taxonomy of support states; weak results as tested-route exclusions only. |
 | Figures/tables | Claim-support ladder; stratified six-gate matrix; selected-corpus gate-summary figure; artifact funnel from paper claim to reusable evidence; signal-strength vs artifact-completeness map. |
 | Lightweight additional work | Use the 21-row v1 corpus, the 2026-05-26 fixed-search batch, generated gate-summary counts, and the completed selected-corpus consistency pass with stratified denominators. Add one broader fixed-source pass or a second independent label review only for standalone aggregate claims. |
@@ -61,13 +61,13 @@ central. Team C becomes a standalone measurement paper only if the selected
 corpus grows or receives a second independent label review while preserving
 stratified denominators and no field-wide overclaiming.
 
-## Team D: Artifact Contract and Consumer Boundary
+## Team D: Independent Artifact Contract and Consumer Boundary
 
 | Field | Pitch |
 | --- | --- |
 | Title | An Artifact Contract for Safe Consumption of Diffusion Privacy Evidence |
 | Venue fit | Artifact/demo track or software-engineering-for-ML venue now; applied systems only after fault-injection, report-drift, external-use, or deployment evidence exists. |
-| Core thesis | Report consumers should not use diffusion MIA scores directly. They should consume machine-checkable evidence bundles that encode admission state, provenance, finite-tail semantics, and boundary language. Current evidence supports an artifact/demo report-correctness package, not deployed enforcement or measured report-drift prevention. |
+| Core thesis | Report consumers should not use diffusion MIA scores directly. They should consume machine-checkable evidence bundles that encode admission state, provenance, finite-tail semantics, and boundary language. Current evidence supports an independent artifact-contract/report-correctness package, not deployed enforcement, external adoption, or measured report-drift prevention. |
 | Contribution claims | Bundle schema; admitted/candidate/support/blocked separation; public-surface guards; report-correctness threat model and planned fault-injection checks; public-safe risk-card language; blocked-promotion examples. |
 | Minimum figures/tables | Contract architecture diagram; bundle schema table; admission-state state machine; drift/fault-injection table; public-safe risk-card example. |
 | Additional work | Collect external or semi-external report usage, or run a fault-injection/report-drift evaluation showing that guardrails block candidate promotion and finite-tail miswording. |
