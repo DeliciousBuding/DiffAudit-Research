@@ -113,7 +113,15 @@ The 2026-05-26 selected-corpus consistency pass reviewed
 `artifact_corpus_v1.csv` and `artifact_corpus_fixed_search_20260526.csv`
 without changing CSV labels. It confirmed that fixed-search metadata rows remain
 metadata-only even when target or boundary labels are `Partial`, because they
-still fail the evidence and metric gates. Before Direction C becomes a
+do not pass both the evidence and metric gates. Before Direction C becomes a
 standalone LaTeX manuscript with aggregate claims beyond this selected corpus,
 add a broader frozen source batch or a second independent label review. Do not
 create a crawler, downloader, or GPU/CPU replay task for this gate.
+
+The second internal label audit on 2026-05-26 found no invalid gate vocabulary,
+no evidence/metric contradictions, no fixed-search admitted-like rows, and no
+fixed-search row with both evidence and metric gates passing. It changed the
+four empty-result GitHub rows from `delta_gate=Partial` to `delta_gate=Fail`,
+because an empty result has no artifact/surface delta to compare. This supports
+the claim-control use of the batch, but it still does not upgrade the batch to
+field-wide artifact prevalence evidence.
