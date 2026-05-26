@@ -23,6 +23,20 @@ are met. The shared evidence boundary remains:
 | C | Artifact Claim-Support Team | Selected-corpus L0-L3 claim-support measurement paper | v1 corpus, GitHub/arXiv fixed-search batch, gate summary, and selected-corpus consistency pass exist; standalone aggregate claims need stratified denominators plus a broader corpus or second label review. |
 | D | Artifact Contract Team | Independent artifact-contract/report-correctness package | Hold full systems claims until fault-injection, report-drift, external-use, or deployment evidence exists. |
 
+## Research Team Operating Board
+
+Each direction is assigned to a paper team with a distinct scientific object.
+The team names are organizational handles for writing, evidence review, and
+critique; they do not authorize new validators, crawlers, downloads, or GPU runs
+unless the direction's promotion gate says the evidence would change.
+
+| Direction | Team mandate | Lead roles | Next deliverable | Promotion gate | Stop rule |
+| --- | --- | --- | --- | --- | --- |
+| A | Turn the whole workspace into an evidence-contracted measurement paper. | Framework PI, metric-audit lead, figure editor, validity critic. | Tighten `../main.tex` around measurement motivation, selected-set framing, and reviewer-facing contribution language. | Final claim audit passes, PDF compiles at page budget, and every headline statement maps to `../claim_register.md`. | Stop any CCF-B pitch that reads as internal governance rather than measurement science. |
+| B | Make H2 output-cloud geometry a bounded mechanism short paper. | Response-geometry lead, scorer engineer, mechanism visual lead, portability critic. | Keep the Markdown draft short-paper-ready with H2 controls and img2img portability failure as a main result. | A second independent response asset passes the six gates, or the team explicitly targets a short/workshop H2-only paper. | Stop same-cache feature sweeps, repeat tuning, or portability language without new evidence. |
+| C | Measure claim-support levels over a frozen selected corpus. | Claim-support lead, provenance-audit lead, corpus table lead, selection-bias critic. | Use v1 corpus, fixed-search batch, gate summaries, and consistency pass to draft stratified L0-L3 results. | Broader frozen corpus or second independent label review exists before any standalone aggregate claim. | Stop any pooled reproducibility rate, field-wide prevalence claim, or hostile "paper failure" framing. |
+| D | Package the evidence boundary as an artifact/report-correctness contract. | Contract architecture lead, bundle-validation lead, report-correctness lead, public-boundary critic. | Draft a public-safe artifact/demo version with admitted-only risk-card language and a fault-injection table plan. | Observed fault-injection, report-drift, external-use, or deployment evidence exists before systems-paper promotion. | Stop if the result is only a schema description without measurable report-correctness benefit. |
+
 ## Manuscript Drafts
 
 | Version | Draft |

@@ -3,6 +3,16 @@
 > Date: 2026-05-26
 > Scope: persistent paper-team planning notes for the A-D manuscript directions.
 
+## Portfolio Operating Rule
+
+The four teams are allowed to produce different paper versions, but they must
+share one evidence ledger. A team may change framing, section order, figures,
+venue posture, and reviewer argument. It may not promote candidate evidence,
+create a private claim register, or start new model/data execution for symmetry.
+The expected output before a TeX fork is a readable paper version: title,
+abstract, controlling thesis, contribution claims, section spine, figure/table
+plan, review risks, and a go/no-go gate.
+
 ## Team A: Evidence-Contracted Measurement
 
 | Field | Pitch |
@@ -60,6 +70,15 @@ or if the scope is explicitly a short H2 case study with portability failure
 central. Team C becomes a standalone measurement paper only if the selected
 corpus grows or receives a second independent label review while preserving
 stratified denominators and no field-wide overclaiming.
+
+## Multi-Team Execution Board
+
+| Team | Paper version to own | Decision authority | Immediate writing target | Must escalate before |
+| --- | --- | --- | --- | --- |
+| Team A: Evidence-Contracted Measurement | Full Direction A LaTeX manuscript. | Final wording for admitted/candidate/support taxonomy, venue posture, and rebuttal stance. | Rewrite the active manuscript as a measurement-methodology paper rather than an internal governance report. | Removing H2 from the main paper, changing admitted rows, or claiming cross-asset generality. |
+| Team B: Output-Cloud Mechanism | Direction B H2-limited short/workshop draft. | Mechanism vocabulary, response-cloud feature explanation, and portability-boundary wording. | Make the positive H2 controls and negative SD/CelebA img2img gate read as one coherent short-paper result. | Adding new H2 sweeps, calling same-family transfer cross-model transfer, or forking LaTeX as a full paper. |
+| Team C: Selected-Corpus Claim Support | Direction C selected-corpus measurement draft. | L0-L3 level definitions, stratum denominators, corpus inclusion and exclusion language. | Turn gate-summary counts into stratified results while preserving selected-corpus-only claims. | Reporting pooled rates, field-wide prevalence, independent inter-rater reliability, or paper-quality judgments. |
+| Team D: Artifact Contract | Direction D artifact/demo/report-correctness draft. | Bundle/report threat model, public-safe risk-card language, and systems-promotion evidence rules. | Specify an artifact-contract paper that can stand before deployment claims exist. | Claiming drift reduction, external adoption, deployed enforcement, or product effectiveness without observed evidence. |
 
 ## Team D: Independent Artifact Contract and Consumer Boundary
 
