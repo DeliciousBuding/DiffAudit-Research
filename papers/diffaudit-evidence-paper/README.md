@@ -18,7 +18,7 @@ workspaces.
 | `source_map.md` | Authoritative evidence sources and forbidden moves. |
 | `claim_register.md` | Allowed, support-only, and prohibited claims. |
 | `evidence_bank.md` | Human-readable metric ledger for manuscript drafting. |
-| `research_team_pitches.md` | A-D paper-team pitches and risks from read-only subagent review. |
+| `research_team_pitches.md` | A-D paper-team pitches with venue fit, evidence needs, and risks. |
 | `BUILD.md` | Figure generation and LaTeX compile commands. |
 | `scripts/build_paper_assets.py` | Rebuilds paper CSV/PDF figure assets from repository JSON artifacts. |
 | `data/` | Generated CSV tables used by figures and LaTeX. |

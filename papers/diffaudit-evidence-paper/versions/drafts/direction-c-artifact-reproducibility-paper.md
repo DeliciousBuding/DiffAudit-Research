@@ -4,10 +4,10 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Measurement lead | opus | Defines inclusion protocol, six-gate method, and non-hostile framing. |
-| Artifact engineer | haiku | Checks manifests, hashes, row binding, score packets, and metric provenance. |
-| Table lead | sonnet | Builds gate heatmap, artifact funnel, and failure taxonomy figures. |
-| Cherry-pick auditor | opus | Ensures corpus selection is frozen before outcome claims are written. |
+| Measurement lead | Claim-support lead | Defines inclusion protocol, six-gate method, and non-hostile framing. |
+| Artifact engineer | Provenance audit lead | Checks manifests, hashes, row binding, score packets, and metric provenance. |
+| Table lead | Corpus visualization lead | Builds gate heatmap, artifact funnel, and failure taxonomy figures. |
+| Cherry-pick auditor | Selection-bias critic | Ensures corpus selection is frozen before outcome claims are written. |
 
 ## Working Paper
 
