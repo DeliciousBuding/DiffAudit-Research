@@ -18,25 +18,26 @@
 \maketitle
 
 \begin{abstract}
-Membership inference against diffusion models is usually reported as an attack
-score, but a privacy audit needs a stronger measurement unit: a claim-bound
-evidence packet. We present DiffAudit, a measurement protocol for deciding when
-diffusion membership-inference evidence is audit-consumable. Each packet binds
-the score to target identity, member/nonmember semantics, row-level score or
-response coverage, metric provenance, consumer boundary, finite-tail
-denominators, and surface-delta evidence for portability claims. The current
-case-study bundle admits five heterogeneous rows across black-box
-reconstruction risk, gray-box PIA, a stochastic-dropout comparator, white-box
-GSA, and a DPDM defense comparator. DiffAudit also evaluates a controlled H2
-output-cloud geometry candidate with AUC 0.9615 that survives label-shuffle,
-seed-offset, seed-stability, and same-family transfer checks, but remains
-non-admitted after a weak SD/CelebA img2img portability check. A selected
-claim-control set---21 evidence-note rows plus 17 frozen GitHub/arXiv search
-records---adds selection-trace evidence but no new admitted audit row.
-DiffAudit therefore reframes diffusion MIA as claim-bound measurement:
-leakage claims where evidence supports them, and explicit candidate, support,
-or negative states where portability or consumer boundaries are not yet
-satisfied.
+Membership inference against diffusion models is often reported as a scalar
+attack score. Security/privacy audit consumption asks a different measurement
+question: when does that score become reusable evidence for a specific target,
+split, metric, and consumer claim? We present DiffAudit, a claim-bound
+measurement protocol that admits a result only when its evidence packet fixes
+target identity, member/nonmember semantics, row-level score or response
+coverage, metric provenance, finite-tail denominator, consumer boundary, and
+surface-delta evidence for portability claims. On the current evidence bank,
+DiffAudit admits five heterogeneous rows across black-box reconstruction risk,
+gray-box PIA, a stochastic-dropout comparator, white-box GSA, and a DPDM defense
+comparator. It also treats H2 output-cloud geometry as a strong but non-admitted
+candidate after label-shuffle, seed-control, seed-stability, same-family
+transfer, and negative img2img portability checks: the admission cache has zero
+strict-tail recovery, and the stability cache does not beat simple distance.
+Finally, 21 evidence-note rows and 17 frozen GitHub/arXiv search records are
+used only as claim-control evidence, not prevalence or reproduction evidence.
+DiffAudit therefore reframes diffusion MIA as claim-bound audit consumption:
+leakage claims are retained where the contract supports them, while otherwise
+promising signals remain candidate, support-only, or negative instead of
+becoming downstream audit claims.
 \end{abstract}
 
 \section{Introduction}
@@ -98,20 +99,18 @@ estimates.
 The paper therefore makes the following contributions:
 
 \begin{itemize}
-\item We define the claim-bound evidence packet as the measurement unit for
-diffusion membership auditing and specify six gates that separate admitted,
-candidate, support-only, watch, and negative evidence.
-\item We evaluate the protocol on a five-row admitted evidence bundle with
-shared metric fields (AUC, ASR, TPR@1\%FPR, and TPR@0.1\%FPR), finite-tail
-denominators, provenance, quality/cost metadata, and boundary language.
-\item We introduce and evaluate an output-cloud geometry case study that
-survives several bounded controls while remaining honestly limited to its
-current response-contract family.
-\item We document negative and support evidence from public artifacts, fixed
-packets, collaborator/local stress tests, and a selected-set gate-count
-protocol, showing how missing checkpoints, broken row bindings, weak
-transferred signals, and consumer-boundary mismatches block overbroad
-portability claims without becoming prevalence estimates.
+\item We formulate audit consumption, rather than attack accuracy alone, as the
+measurement problem for diffusion MIA, and define a six-gate evidence contract
+for claim-bound evidence packets.
+\item We instantiate the contract on five admitted rows with shared metric
+fields (AUC, ASR, TPR@1\%FPR, and TPR@0.1\%FPR), finite-tail denominators,
+provenance, quality/cost metadata, and consumer-boundary language.
+\item We use H2 output-cloud geometry as a contract stress test: the signal is
+strong under bounded controls, but remains non-admitted because the current
+evidence does not establish a portable or consumer-ready black-box audit row.
+\item We show how bounded negative and support evidence, plus selected
+claim-control records, block overbroad portability and artifact-availability
+claims without becoming method refutations or field-wide prevalence estimates.
 \end{itemize}
 
 \section{Related Work}
@@ -149,19 +148,17 @@ and consumed as audit evidence.
 
 \subsection{Reporting and Reproducibility Artifacts}
 
-DiffAudit is also related to broader reporting and reproducibility work in
-machine learning. Reproducibility checklists and the NeurIPS reproducibility
-program emphasize reporting the data, code, hyperparameters, and evaluation
-conditions needed to interpret machine-learning results~\cite{pineau2021reproducibility}.
-Datasheets and model cards similarly argue that downstream consumers need
-structured documentation about the origin, intended use, and limitations of
-datasets and models~\cite{gebru2021datasheets,mitchell2019modelcards}. DiffAudit
-adapts this documentation logic to diffusion privacy audits: the artifact is
-not only a model or dataset, but a row-bound membership-evidence packet with an
-explicit consumer boundary. Unlike a reproduction checklist, the contract does
-not turn every incomplete artifact into a failed reproduction; it records the
-strongest claim the available public surface can support, from metadata-only
-watch item to admitted audit row.
+DiffAudit is closest to reporting and reproducibility work in machine learning,
+but it measures a different object. Reproducibility checklists emphasize the
+data, code, hyperparameters, and evaluation conditions needed to interpret
+results~\cite{pineau2021reproducibility}; datasheets and model cards document
+dataset and model origins, uses, and limitations~\cite{gebru2021datasheets,mitchell2019modelcards}.
+DiffAudit adapts this logic to privacy evidence: the artifact is not merely a
+released repository or a reproducible training run, but a row-bound
+membership-evidence packet tied to an allowed consumer claim. Thus an incomplete
+artifact is not automatically a failed reproduction; it may still support a
+metadata-only watch item, a support-only mechanism claim, a bounded negative, or
+an admitted audit row.
 
 \section{Audit Surfaces}
 
@@ -347,7 +344,7 @@ second-asset claim.}
 \toprule
 Route & Target & Split & Evidence & Metric & Boundary & Delta & Paper use \\
 \midrule
-Admitted bundle & Pass & Pass & Pass & Pass & Pass & N/A & Main audit rows \\
+Admitted bundle & Pass & Pass & Pass & Pass & Pass & Partial & Main audit rows \\
 H2 output-cloud & Pass & Pass & Pass & Pass & Partial & Partial & Candidate mechanism \\
 H2 img2img portability & Pass & Pass & Pass & Pass & Fail & Pass & Portability limit \\
 ReDiffuse STL-10 scout & Pass & Pass & Pass & Pass & Fail & Pass & Bounded negative \\
@@ -358,23 +355,20 @@ SD ReDiffuse collaborator & Partial & Partial & Pass & Pass & Fail & Pass & Sour
 \end{tabular}
 \end{table*}
 
-\section{Selected Claim-Control Evidence}
+\section{Selection Boundary and Claim-Control Evidence}
 
-The current selected claim-control set is intentionally small but heterogeneous. The
-admitted bundle contains five rows that already pass the consumer boundary. H2
-output-cloud geometry contributes a mechanism candidate with strong internal
-controls. ReDiffuse STL-10, CommonCanvas, and MIDST contribute bounded negative
-results because each answers a specific route-selection question. Tracing the
-Roots contributes positive feature-packet evidence, while the collaborator
-Stable Diffusion ReDiffuse packet contributes a source-confounding stress test.
+This section records selection transparency, not a literature survey. The
+current claim-control set is intentionally small but heterogeneous: five
+admitted rows, one strong H2 candidate, bounded negative routes for ReDiffuse
+STL-10, CommonCanvas, and MIDST, positive feature-packet evidence from Tracing
+the Roots, and a source-confounding stress test from collaborator Stable
+Diffusion ReDiffuse. These rows exercise the evidence contract across admitted,
+candidate, support-only, and negative states, but they do not estimate artifact
+prevalence in the field.
 
-This set is not a broad survey of every diffusion MIA artifact. It is the
-evidence surface available under strict row-binding and no-overclaim rules. The
-counts below are diagnostic examples for claim control, not estimates of public
-artifact prevalence. The next expansion should freeze inclusion criteria, check
-public target identity, inspect split and score/response availability, and only
-then decide whether any execution is justified. This keeps the measurement paper
-from turning artifact triage into uncontrolled engineering work.
+The counts below are diagnostic examples for claim control. They should be read
+as evidence that DiffAudit prevents accidental promotion under a declared set,
+not as a claim that public diffusion MIA artifacts generally fail.
 
 \subsection{Selection Trace}
 
@@ -382,7 +376,7 @@ The current set was built from DiffAudit's audited evidence surface. A
 standalone artifact-claim paper would require a larger frozen corpus or a
 second independent label review before making aggregate claims. We also
 instantiated a frozen 2026-05-26 Direction-C search batch with seven GitHub
-repository queries and five arXiv metadata queries, coded before aggregate
+repository queries and four distinct arXiv metadata queries, coded before aggregate
 claims and with no downloads or GPU runs. The outcome is modest but useful:
 metadata discovery is easy, while no new row-bound public target/split/score or
 response packet appeared.
@@ -418,18 +412,19 @@ artifact-prevalence claim.}
 \label{fig:artifact-gates}
 \end{figure*}
 
-Figure~\ref{fig:artifact-gates} makes the selection boundary visible. The v1
-evidence-note set contains several scoreable or replayable rows, but most of
-those rows still stop at candidate, support-only, or negative roles once the
-consumer-boundary gate is applied. The fixed-search batch is stricter evidence
-against accidental promotion: metadata search found relevant papers and code
-surfaces, but no new row-bound public artifact that could become an admitted
-audit row. These counts are used only to support the paper's claim-control
-argument. A selected-corpus consistency pass found no invalid gate labels, no
+Figure~\ref{fig:artifact-gates} makes the selection boundary visible. Before
+reading gate counts, we separate claim-support levels: L0 metadata discovery,
+L1 artifact inspection, L2 scoreable or replayed packets, and L3
+audit-ready/admitted rows. The v1 evidence-note set contains several scoreable
+or replayable rows, but most rows still stop at candidate, support-only, or
+negative roles once the consumer-boundary gate is applied. The fixed-search
+batch is metadata-only and produced no new row-bound public artifact for
+admission, so it is not pooled with replay rows as a reproduction denominator.
+A selected-corpus consistency pass found no invalid gate labels, no
 evidence/metric contradictions, and no label promotions; it only demoted four
 empty-result \texttt{delta\_gate} labels from Partial to Fail. A standalone
-artifact-claim paper would still need a larger frozen
-corpus or a second independent label review before making aggregate claims.
+artifact-claim paper would still need a larger frozen corpus or a second
+independent label review before making aggregate claims.
 
 \subsection{Artifact Strata}
 
@@ -464,18 +459,19 @@ for replay.
 \begin{table*}[t]
 \centering
 \caption{Admitted DiffAudit evidence rows. Rows share an evidence contract, not
-a homogeneous threat model or benchmark leaderboard.}
+a homogeneous threat model or benchmark leaderboard. Tail $n_0$ is the recorded
+nonmember denominator for finite empirical low-FPR readouts.}
 \label{tab:admitted}
 \footnotesize
 \begin{tabular}{@{}L{0.08\linewidth}L{0.20\linewidth}rrrrL{0.11\linewidth}L{0.18\linewidth}@{}}
 \toprule
-Track & Method & AUC & ASR & TPR@1\%FPR & TPR@0.1\%FPR & Tail basis & Boundary/caveat \\
+Track & Method & AUC & ASR & TPR@1\%FPR & TPR@0.1\%FPR & Tail $n_0$ & Boundary/caveat \\
 \midrule
 Black-box & recon DDIM public-100 step30 & 0.837 & 0.740 & 0.220 & 0.110 & $n_0=100$ & runtime-mainline; public proxy risk proof \\
 Gray-box & PIA GPU512 baseline & 0.841 & 0.786 & 0.059 & 0.012 & $n_0=512$ & runtime-mainline; provenance caveat \\
 Gray-box & PIA + stochastic dropout & 0.828 & 0.768 & 0.053 & 0.010 & $n_0=512$ & provisional defense comparator \\
-White-box & GSA 1k-3shadow & 0.998 & 0.990 & 0.987 & 0.432 & eval $n=2000$ & upper-bound white-box comparator \\
-White-box & GSA against DPDM W-1 & 0.489 & 0.499 & 0.009 & 0.000 & eval $n=2000$ & defense bridge frozen \\
+White-box & GSA 1k-3shadow & 0.998 & 0.990 & 0.987 & 0.432 & $n_0=2000$ & upper-bound white-box comparator \\
+White-box & GSA against DPDM W-1 & 0.489 & 0.499 & 0.009 & 0.000 & $n_0=2000$ & defense bridge frozen \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -518,9 +514,8 @@ the bounded H2-family candidate claim.
 \includegraphics[width=\linewidth]{figures/h2_output_cloud_controls.pdf}
 \caption{H2 output-cloud geometry controls. The signal beats tested raw/lowpass
 baselines and survives label-shuffle, seed-offset control, seed stability, and
-same-family cross-cache transfer. It is a candidate observable, not an admitted
-attack, because portability to the SD/CelebA img2img contract is weak or not
-distinct from simple distance.}
+same-family cross-cache transfer. SD/CelebA img2img portability rows are
+summarized in text because they define the non-admission boundary.}
 \label{fig:h2}
 \end{figure*}
 
@@ -529,25 +524,10 @@ admission cache, output-cloud geometry reaches only AUC 0.7888 with zero strict
 tail recovery and underperforms the existing best simple-distance comparator.
 A smaller stability cache is positive but still below simple
 distance. Thus the paper reports output-cloud geometry as a controlled
-mechanism candidate, not as an admitted black-box row.
-
-\begin{table}[t]
-\centering
-\caption{Why H2 output-cloud geometry is not admitted.}
-\label{tab:h2-decision}
-\begin{tabular}{p{0.45\linewidth}p{0.45\linewidth}}
-\toprule
-Check & Measurement decision \\
-\midrule
-H2 main cache & Strong positive candidate signal. \\
-Label shuffle & Random-level sanity check supports nontrivial signal. \\
-Shared-position controls & Same-family seed-offset explanation is insufficient. \\
-Cross-cache transfer & Same-family robustness, not cross-model portability. \\
-SD/CelebA img2img & Weak or not distinct from simple distance. \\
-Admission decision & Research candidate only; no product/runtime row. \\
-\bottomrule
-\end{tabular}
-\end{table}
+mechanism candidate, not as an admitted black-box row: label shuffles support a
+nontrivial H2 signal, shared-position and cross-cache checks support only
+same-family robustness, and img2img blocks portability and product/runtime
+admission.
 
 \section{Negative and Support Evidence}
 
@@ -563,15 +543,6 @@ feature-packet replay, not raw image-level evidence. The collaborator Stable
 Diffusion ReDiffuse packet is replayable (AUC 0.7103), but source labels alone
 separate members and nonmembers perfectly, so it remains a cross-source stress
 test.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/negative_and_support_rows.pdf}
-\caption{Negative and support evidence. These results are not method-level
-refutations; they are examples of why scoreability, portability, and consumer
-semantics must be separated.}
-\label{fig:negative}
-\end{figure}
 
 \begin{table*}[t]
 \centering
