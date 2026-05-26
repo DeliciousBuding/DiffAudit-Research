@@ -4,10 +4,10 @@
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
-| Mechanism lead | opus | State the scientific hypothesis and portability boundary. |
-| Scorer engineer | haiku | Keep scorer/control code bounded and auditable. |
-| Visual explanation lead | sonnet | Draw response-cloud geometry, controls, and portability panels. |
-| Skeptical reviewer | opus | Block feature-sweep inflation and single-cache overclaiming. |
+| Mechanism lead | Response geometry lead | State the scientific hypothesis and portability boundary. |
+| Scorer engineer | Control implementation lead | Keep scorer/control code bounded and auditable. |
+| Visual explanation lead | Mechanism visualization lead | Draw response-cloud geometry, controls, and portability panels. |
+| Skeptical reviewer | Portability critic | Block feature-sweep inflation and single-cache overclaiming. |
 
 ## Target Paper
 

@@ -3,11 +3,11 @@
 > Date: 2026-05-26
 > Scope: persistent paper-team planning notes for the A-D manuscript directions.
 
-## Team A: Evidence-Calibrated Measurement
+## Team A: Evidence-Contracted Measurement
 
 | Field | Pitch |
 | --- | --- |
-| Title | DiffAudit: Evidence-Calibrated Measurement for Auditing Membership Leakage in Diffusion Models |
+| Title | DiffAudit: Evidence-Contracted Measurement for Auditing Membership Leakage in Diffusion Models |
 | Venue fit | RAID or ACSAC as CCF-B security venues; IMC as measurement-style secondary target if the corpus is expanded. |
 | Core thesis | Diffusion-model privacy auditing is bottlenecked less by missing attacks than by unauditable evidence. Public claims often lack fixed target identity, exact member/nonmember splits, row-level scores, finite-tail interpretation, or consumer-safe provenance. |
 | Contribution claims | Audit evidence contract; taxonomy of verified/candidate/watch/blocked evidence; admitted black/gray/white-box rows; explicit prevention of high-scoring but unsafe candidates becoming headline claims. |
@@ -52,7 +52,7 @@ symmetry reruns, repeat-count tuning, KDE variants, or input-distance fusion.
 
 ## Portfolio Decision
 
-The current primary manuscript should remain Team A's evidence-calibrated
+The current primary manuscript should remain Team A's evidence-contracted
 measurement paper. It can incorporate Team B as a technical case study and Team
 C as its broader claim-support motivation and selected-corpus gate summary.
 Team B becomes the next technical paper if a second response asset is acquired
