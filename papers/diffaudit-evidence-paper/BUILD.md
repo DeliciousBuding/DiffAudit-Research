@@ -15,6 +15,7 @@ This rebuilds:
 - `data/artifact_strata_summary.csv`
 - `figures/admitted_rows_metrics.pdf`
 - `figures/h2_output_cloud_controls.pdf`
+- `figures/evidence_contract_pipeline.pdf`
 - `figures/artifact_gate_summary.pdf`
 
 ## Compile Paper
