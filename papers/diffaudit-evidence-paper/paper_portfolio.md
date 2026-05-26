@@ -28,11 +28,11 @@ rule out a plausible route or motivate a sharper research question.
 
 | Field | Plan |
 | --- | --- |
-| Working title | Output-Cloud Geometry in a Controlled H2 Diffusion Response Family |
+| Working title | Output-Cloud Geometry as an H2-Only Membership Observable |
 | Team | Response Geometry Team: mechanism lead for hypothesis and validity threats, scorer lead for bounded controls, visual editor for response-cloud explanation |
 | Venue fit | ML security workshop or short paper now; full CCF-B only if a second independent response asset appears |
-| Thesis | The audited H2 repeated-response cache contains an operationally distinct output-output geometry signal relative to the tested raw/lowpass H2 distance baselines, and the same-family controls plus failed img2img portability define its boundary. |
-| Core contributions | Output-cloud feature family; label-shuffle sanity; shared-position order-control; seed-stability and same-family cross-cache transfer; img2img portability failure as a boundary result. |
+| Thesis | The audited H2 repeated-response cache contains an operationally distinct output-output geometry signal relative to the tested raw/lowpass H2 distance baselines, and the negative SD/CelebA img2img portability result defines the boundary rather than a caveat. |
+| Core contributions | H2-only output-cloud observable; label-shuffle sanity; shared-position order-control; seed-stability and same-family cross-cache transfer; img2img portability failure as a central boundary result. |
 | Main figures | Feature schematic; raw/lowpass/output-cloud comparison; seed/control/label-shuffle bars; portability failure panel. |
 | Extra work needed | A second independent image-diffusion asset or a stronger non-H2 response contract. Without that, write it only as a mechanism short paper with portability failure central. |
 | Risk | Single-family H2 evidence and weak img2img portability make this hard to defend as a full paper alone. |
@@ -41,13 +41,13 @@ rule out a plausible route or motivate a sharper research question.
 
 | Field | Plan |
 | --- | --- |
-| Working title | When Diffusion MIA Scores Are Not Audit Evidence: A Selected-Corpus Claim-Support Study |
+| Working title | From Artifact Surfaces to Audit Claims: A Selected-Corpus Measurement of Diffusion MIA Claim Support |
 | Team | Artifact Claim-Support Team: measurement lead for gate design, artifact audit lead for metadata and replay checks, table lead for taxonomy and figures |
-| Venue fit | Security/privacy measurement, ML systems workshop, or reproducibility venue only if replay evidence is separated from metadata-only rows; CCF-B possible if corpus is expanded and preregistered |
-| Thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata inspection, scoreability, replay, auditability, and consumer-safe reporting. |
-| Core contributions | Six-gate second-asset contract; audited candidate corpus; bounded replays, weak scouts, feature packets, score-artifact gates, and collaborator/local stress tests across ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps. |
-| Main figures | Selected-corpus gate heatmap; weak-signal scatter; source-confounding example; artifact claim-support taxonomy. |
-| Extra work needed | Selected-corpus gate-label consistency now passes with no invalid gate values, contradictions, or label promotions; four empty-result `delta_gate` labels were demoted from `Partial` to `Fail`. Add one broader fixed-source pass or a second independent label review only if targeting standalone aggregate claims. |
+| Venue fit | Security/privacy measurement, ML systems workshop, or reproducibility venue only if metadata-only, scoreable/replay, feature-packet, source-confounded, and admitted-control rows are separated; CCF-B possible only with broader frozen source pass or second independent label review |
+| Thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata-only inspection, artifact inspection, bounded score/replay, audit-ready evidence, and consumer-safe reporting. |
+| Core contributions | L0-L3 claim-support levels; six-gate second-asset contract; audited candidate corpus; bounded replays, weak scouts, feature packets, score-artifact gates, and collaborator/local stress tests across ReDiffuse, CommonCanvas, MIDST, Tracing Roots, CopyMark, and collaborator SD ReDiffuse; stop rules preventing low-information sweeps and pooled false denominators. |
+| Main figures | Selected-corpus gate heatmap; claim-support ladder; stratified artifact table; weak-signal scatter; source-confounding example. |
+| Extra work needed | Selected-corpus gate-label consistency now passes with no invalid gate values, contradictions, or label promotions; four empty-result `delta_gate` labels were demoted from `Partial` to `Fail`. Add one broader fixed-source pass or a second independent label review only if targeting standalone aggregate claims; never pool metadata-only rows with replay rows. |
 | Risk | Needs careful methodology to avoid appearing as anecdotal project notes or field-wide prevalence claims. |
 
 ## Direction D: Artifact Contract for Safe Consumption
@@ -56,25 +56,26 @@ rule out a plausible route or motivate a sharper research question.
 | --- | --- |
 | Working title | An Artifact Contract for Safe Consumption of Diffusion Privacy Evidence |
 | Team | Artifact Contract Team: systems lead for architecture and threat model, contract lead for bundle validation, report lead for consumer-facing diagrams |
-| Venue fit | Artifact/demo track or software-engineering-for-ML venue now; applied systems only after measured prevention evidence |
-| Thesis | Privacy audit outputs should be consumed through machine-checkable bundles that encode admission state, boundary language, finite-tail interpretation, and provenance constraints; current evidence supports contract encoding, not deployed enforcement. |
+| Venue fit | Artifact/demo or report-correctness venue now; applied systems only after fault-injection, report-drift, external-use, or deployment evidence |
+| Thesis | Privacy audit outputs should be consumed through machine-checkable bundles that encode admission state, boundary language, finite-tail interpretation, and provenance constraints; current evidence supports artifact/demo packaging, not deployed enforcement or measured report-drift prevention. |
 | Core contributions | Admitted evidence bundle schema; public-surface checks; finite empirical tail semantics; report-correctness threat model and validation hooks; blocked-promotion examples. |
 | Main figures | Artifact-contract architecture; bundle schema; admission-state machine; fault-injection table; public-safe risk card. |
-| Extra work needed | Fault-injection/report-drift evidence, external adopter scenario, deployment evidence, or user-study evidence before systems-paper promotion. |
+| Extra work needed | Fault-injection/report-drift evidence, external adopter scenario, public-safe deployment evidence, or user-study evidence before systems-paper promotion. |
 | Risk | Too product/system oriented for a mainline research venue unless tied tightly to measurable report correctness. |
 
 ## Immediate Choice
 
 Direction A is the best first manuscript because it can honestly absorb all
-current evidence without overclaiming. Direction B is the strongest technical
-mechanism but needs a second asset or explicit short-paper scope. Direction C
-now has a v1 corpus, a fixed GitHub/arXiv metadata batch, selected-corpus
-gate-summary outputs, and a selected-corpus consistency pass with only four
-empty-result `delta_gate` demotions, but standalone aggregate claims still need
-a broader frozen corpus or second label review. Direction D is best as an
-artifact/demo contract paper
-after Direction A defines the scientific contract, and it needs fault-injection,
-report-drift, or external-use evidence before becoming a full systems paper.
+current evidence without overclaiming. Direction B is the sharpest technical
+short-paper candidate: an H2-only response-cloud observable plus a negative
+img2img portability gate. Direction C now has a v1 corpus, a fixed GitHub/arXiv
+metadata batch, selected-corpus gate-summary outputs, and a selected-corpus
+consistency pass with only four empty-result `delta_gate` demotions, but
+standalone aggregate claims still need a broader frozen corpus or second label
+review and stratified denominators. Direction D is best as an artifact/demo or
+report-correctness package after Direction A defines the scientific contract,
+and it needs fault-injection, report-drift, external-use, or deployment evidence
+before becoming a full systems paper.
 
 ## Version Briefs
 

@@ -20,12 +20,12 @@
 
 | Field | Pitch |
 | --- | --- |
-| Title | Output-Cloud Geometry in a Controlled H2 Diffusion Response Family |
-| Venue fit | Strong privacy/ML security workshop or short paper candidate; full CCF-B paper only if a second independent response asset appears. |
+| Title | Output-Cloud Geometry as an H2-Only Membership Observable |
+| Venue fit | Strong privacy/ML security workshop or short paper candidate; full CCF-B mechanism paper only if a second independent response asset appears. |
 | Scientific question | Does the audited H2 repeated-response cache expose membership through geometry among repeated outputs, rather than only through query-to-output or seed-to-output distance? |
 | Contribution claims | Output-output geometry as an operationally separated H2 observable relative to tested raw/lowpass baselines; strong H2 DDPM/CIFAR10 signal; label-shuffle and shared-position controls; same-family cross-cache stability; negative SD/CelebA img2img portability boundary. |
 | Figures/tables | Response-cloud method schematic; H2 vs raw/lowpass table; controls table; feature-family/coefficient view; img2img portability table; boundary diagram. |
-| Additional bounded experiments | Independent second public response asset; pre-registered interleaved cache-generation protocol; mechanism-focused repeat-count sensitivity; transparent few-feature scorer; extra negative-control split. |
+| Additional bounded experiments | No more H2 polishing by default. A second public response asset and pre-registered interleaved cache-generation protocol are the only experiments that can change full-paper viability. |
 | Fatal risks | Strong evidence remains one H2 response-cache family; img2img portability is weak; logistic fusion may look like feature engineering. |
 | Safe claim | Output-output response-cloud geometry is a strong controlled Research-side H2 observable relative to tested H2 baselines, with unresolved and partly negative portability. Cross-cache transfer is same-family robustness, not cross-model or cross-dataset transfer. |
 
@@ -41,14 +41,14 @@ symmetry reruns, repeat-count tuning, KDE variants, or input-distance fusion.
 
 | Field | Pitch |
 | --- | --- |
-| Title | When Diffusion MIA Scores Are Not Audit Evidence: A Selected-Corpus Claim-Support Study |
-| Venue fit | MLSys, SaTML, FAccT methods track, or measurement workshop; reproducibility venues only if replay rows are separated from metadata-only rows. |
-| Core thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata inspection, scoreability, replay, auditability, and consumer-safe reporting. |
-| Contribution claims | Six-gate second-asset contract; selected-corpus claim-support audit across CLiD, Tracing Roots, ReDiffuse, CommonCanvas, MIDST, Stable Diffusion ReDiffuse, and fixed GitHub/arXiv search records; taxonomy of support states; negative results as exclusion evidence. |
-| Figures/tables | Six-gate candidate matrix; result matrix; selected-corpus gate-summary figure; artifact funnel from paper claim to reusable evidence; signal-strength vs artifact-completeness map. |
-| Lightweight additional work | Use the 21-row v1 corpus, the 2026-05-26 fixed-search batch, generated gate-summary counts, and the completed selected-corpus consistency pass. Add one broader fixed-source pass or a second independent label review only for a standalone submission. |
+| Title | From Artifact Surfaces to Audit Claims: A Selected-Corpus Measurement of Diffusion MIA Claim Support |
+| Venue fit | MLSys, SaTML, FAccT methods track, or measurement workshop; reproducibility venues only if metadata-only, scoreable/replayed, feature-packet, source-confounded, and admitted-control rows are separated. |
+| Core thesis | In a frozen selected corpus, diffusion MIA artifact surfaces support different claim levels: metadata inspection, artifact inspection, bounded score/replay, audit-ready evidence, and consumer-safe reporting. |
+| Contribution claims | L0-L3 claim-support levels; six-gate second-asset contract; selected-corpus claim-support audit across CLiD, Tracing Roots, ReDiffuse, CommonCanvas, MIDST, Stable Diffusion ReDiffuse, and fixed GitHub/arXiv search records; taxonomy of support states; weak results as tested-route exclusions only. |
+| Figures/tables | Claim-support ladder; stratified six-gate matrix; selected-corpus gate-summary figure; artifact funnel from paper claim to reusable evidence; signal-strength vs artifact-completeness map. |
+| Lightweight additional work | Use the 21-row v1 corpus, the 2026-05-26 fixed-search batch, generated gate-summary counts, and the completed selected-corpus consistency pass with stratified denominators. Add one broader fixed-source pass or a second independent label review only for standalone aggregate claims. |
 | Fatal risks | Looks anecdotal unless candidate inclusion is preregistered; metadata-only rows can be mistaken for reproductions; mixed strata can create false equivalence. |
-| Framing rule | Do not say papers fail. Say we measure what survives reusable, row-bound, low-FPR, consumer-safe constraints. |
+| Framing rule | Do not say papers fail, do not pool metadata-only rows with replay rows, and do not treat weak scouts as disproof. Say we measure what claim level survives reusable, row-bound, low-FPR, consumer-safe constraints. |
 
 ## Portfolio Decision
 
@@ -56,9 +56,10 @@ The current primary manuscript should remain Team A's evidence-contracted
 measurement paper. It can incorporate Team B as a technical case study and Team
 C as its broader claim-support motivation and selected-corpus gate summary.
 Team B becomes the next technical paper if a second response asset is acquired
-or if the scope is explicitly a short H2 case study. Team C becomes a standalone
-measurement paper only if the selected corpus grows or receives a second
-independent label review without field-wide overclaiming.
+or if the scope is explicitly a short H2 case study with portability failure
+central. Team C becomes a standalone measurement paper only if the selected
+corpus grows or receives a second independent label review while preserving
+stratified denominators and no field-wide overclaiming.
 
 ## Team D: Artifact Contract and Consumer Boundary
 
@@ -66,7 +67,7 @@ independent label review without field-wide overclaiming.
 | --- | --- |
 | Title | An Artifact Contract for Safe Consumption of Diffusion Privacy Evidence |
 | Venue fit | Artifact/demo track or software-engineering-for-ML venue now; applied systems only after fault-injection, report-drift, external-use, or deployment evidence exists. |
-| Core thesis | Report consumers should not use diffusion MIA scores directly. They should consume machine-checkable evidence bundles that encode admission state, provenance, finite-tail semantics, and boundary language. Current evidence supports encoding and validation, not deployed enforcement. |
+| Core thesis | Report consumers should not use diffusion MIA scores directly. They should consume machine-checkable evidence bundles that encode admission state, provenance, finite-tail semantics, and boundary language. Current evidence supports an artifact/demo report-correctness package, not deployed enforcement or measured report-drift prevention. |
 | Contribution claims | Bundle schema; admitted/candidate/support/blocked separation; public-surface guards; report-correctness threat model and planned fault-injection checks; public-safe risk-card language; blocked-promotion examples. |
 | Minimum figures/tables | Contract architecture diagram; bundle schema table; admission-state state machine; drift/fault-injection table; public-safe risk-card example. |
 | Additional work | Collect external or semi-external report usage, or run a fault-injection/report-drift evaluation showing that guardrails block candidate promotion and finite-tail miswording. |
