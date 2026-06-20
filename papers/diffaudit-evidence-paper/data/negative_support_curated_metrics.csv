@@ -1,3 +1,0 @@
-source,label,role,auc,asr,tpr_at_1pct_fpr,tpr_at_0_1pct_fpr,evidence_source
-rediffuse-stl10,denoising-loss scout,negative,0.4996337890625,0.509765625,0.01171875,0.0,docs/evidence/rediffuse-stl10-bounded-scout-20260525.md
-rediffuse-stl10,score-norm scout,negative,0.5052947998046875,0.525390625,0.03125,0.01953125,docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md
