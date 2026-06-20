@@ -714,9 +714,10 @@ Use:
 Run before pushing documentation or governance changes:
 
 ```powershell
-python -X utf8 scripts/check_public_surface.py
-python -X utf8 scripts/check_markdown_links.py
+python -X utf8 scripts/util/check_markdown_links.py
 ```
+
+Note: `scripts/check_public_surface.py` has been superseded — use `scripts/util/run_pr_checks.py` for pre-commit enforcement of the public-only boundary.
 
 ## Subagent Policy
 

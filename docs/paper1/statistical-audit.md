@@ -1,7 +1,7 @@
 # Paper 1 Statistical Audit
 
 **Purpose**: Pre-submission statistical review of all key numbers.  
-**Target**: TMLR (rigorous review, reproduction certification expected).
+**Target**: target venue (rigorous review, reproduction certification expected).
 
 ## 1. Recon (N=100 admitted black-box)
 

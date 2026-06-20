@@ -143,7 +143,7 @@ if __name__ == '__main__':
 
     # Compute top-10 channels from t-test
     print('Computing channel significance...')
-    with open('outputs/h1_scout/h1_raw_activations.pkl', 'rb') as f:
+    with open('outputs/h1-scout/h1_raw_activations.pkl', 'rb') as f:
         cache = pickle.load(f)
     ch_tstats = []
     for sn in SITES_MAP:
@@ -211,7 +211,7 @@ if __name__ == '__main__':
                'random_aucs': random_aucs.tolist(), 'random_mean': float(random_aucs.mean()),
                'random_std': float(random_aucs.std()), 'frozen_targeted_auc': auc_ft,
                'channel_counts': ch_counts, 'n_targeted': n_targeted}
-    outdir = PROJECT / 'outputs' / 'h1_scout'
+    outdir = PROJECT / 'outputs' / 'h1-scout'
     outdir.mkdir(parents=True, exist_ok=True)
     with open(outdir / 'h1_matched_knockout.json', 'w') as f:
         json.dump(results, f, indent=2)

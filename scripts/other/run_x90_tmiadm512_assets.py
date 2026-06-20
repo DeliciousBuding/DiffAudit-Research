@@ -66,7 +66,7 @@ def parse_args() -> argparse.Namespace:
             "X-90 larger shared-surface tri-score review."
         )
     )
-    parser.add_argument("--config", type=Path, default=Path("configs/attacks/pia_mainline_canonical.yaml"))
+    parser.add_argument("--config", type=Path, default=Path("configs/attacks/pia-mainline-canonical.yaml"))
     parser.add_argument("--workspace-root", type=Path, default=Path("workspaces/gray-box/runs"))
     parser.add_argument("--run-suffix", default="20260429-r1")
     parser.add_argument("--device", default="cuda:0")

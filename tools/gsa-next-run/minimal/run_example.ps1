@@ -7,8 +7,8 @@ $ErrorActionPreference = "Stop"
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $toolRoot = Resolve-Path (Join-Path $here "..\\..")
 
-$assetsRoot = Join-Path $here "assets_root"
-$repoRoot = Join-Path $here "repo_root"
+$assetsRoot = Join-Path $here "assets-root"
+$repoRoot = Join-Path $here "repo-root"
 $configPath = Join-Path $here "config"
 $outDir = Join-Path $here "out"
 

@@ -97,7 +97,7 @@ The name "Distributed" is anchored to channel-level distribution, which is the p
 ## Sources
 
 - Script: `scripts/h1_mechanistic_ddim.py`
-- Cached activations: `outputs/h1_scout/h1_ddim_3t_activations.pkl`, `outputs/h1_scout/h1_ddim_fine_grid_activations.pkl`
-- Results: `outputs/h1_scout/h1_mechanistic_ddim.json`
+- Cached activations: `outputs/h1-scout/h1_ddim_3t_activations.pkl`, `outputs/h1-scout/h1_ddim_fine_grid_activations.pkl`
+- Results: `outputs/h1-scout/h1_mechanistic_ddim.json`
 - DDPM comparison: `docs/evidence/h1-mechanistic-analysis-2026-06-20.md`
 - Fine temporal grid: `docs/evidence/h1-fine-temporal-grid-2026-06-20.md`
