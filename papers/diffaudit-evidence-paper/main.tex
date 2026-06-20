@@ -797,16 +797,21 @@ $\Delta\text{AUC}{=}{+}0.008$, within 1$\sigma$ of random-10 deletion
 ($\mu_{\Delta}{=}{+}0.018$, $\sigma{=}0.015$).
 
 \textbf{Matched-percent} (both delete $\sim$40 channels, 4\% of total):
-targeted top-4\% $\Delta\text{AUC}{=}{+}0.008$, while random 4\% matched
-deletions consistently produced larger drops
-($\mu_{\Delta}{=}{+}0.049$, $\sigma{=}0.015$ across five seeds).
+targeted top-4\% $\Delta\text{AUC}{=}{+}0.008$, and random 4\% matched
+deletions produced a similar mean effect
+($\mu_{\Delta}{=}{+}0.004$, $\sigma{=}0.019$ across 30 seeds),
+with targeted deletion falling within 0.2$\sigma$ of the random mean.
+Neither targeted nor random 4\% knockout meaningfully reduces H1 AUC,
+confirming that the signal is distributed and redundant rather than
+controlled by a compact channel subset.
 
 \textbf{Frozen scorer}: random 4\% knockout drops frozen-scorer AUC by
 0.138, but retraining recovers the loss---the signal family is redundant.
 
 These results rule out a sparse-channel causal interpretation. The most
-membership-correlated channels are systematically \emph{less} causally
-important than average channels.
+membership-correlated channels are not causal bottlenecks: targeted deletion
+produces no more degradation than random deletion of matched cardinality.
+H1 is not controlled by a compact subset of individually significant channels.
 
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
