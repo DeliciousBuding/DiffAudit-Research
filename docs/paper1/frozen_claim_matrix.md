@@ -162,8 +162,10 @@
 - H1 provides a mechanistically distinct white-box observable: non-gradient, non-loss, activation-based
 - Membership-correlated channels are NOT causal bottlenecks: targeted top-10 deletion ΔAUC=+0.008 falls within random variation (σ=0.015); targeted top-4% deletion ΔAUC=+0.008 is significantly LESS than random 4% ΔAUC=+0.049
 - Signal is distributed, redundant, and non-localizable — retrained scorer adapts to channel deletion
-- H1 is a worked example of the "Distributed Activation-Amplitude Bias": real signal, replicated, mechanistically characterized, but causally non-localizable and forensically fragile
+- **Fine temporal grid (8 timesteps, both checkpoints)**: DDPM training produces temporally DISTRIBUTED signal (max individual knockout Δ=+0.029); DDIM training produces temporally CONCENTRATED signal (max Δ=+0.221, 7.6× larger). Channel-level distribution holds for both; temporal distribution is training-procedure-dependent
+- H1 is a worked example of the "Distributed Activation-Amplitude Bias": real signal, replicated, mechanistically characterized, but causally non-localizable and forensically fragile. The "Distributed" qualifier applies to channel-level distribution (universal across checkpoints); temporal distribution depends on training procedure
 - Core insight: "Real signal does not imply causal localization; causal non-localization does not imply forensic admission."
+- New insight (2026-06-20): "Membership signal geometry is a product of the training procedure, not a fixed property of the model architecture."
 - H4 closed: no compact post-training edit target exists
 
 ### Blocked Claims (H1/DAAB)
@@ -211,5 +213,7 @@
 | `Research/docs/evidence/clid-prompt-perturbation.md` | #6 |
 | `Research/docs/evidence/h2-output-cloud-geometry-20260525.md` | #20 |
 | `Research/docs/evidence/h1-activation-scout-memo-2026-06-20.md` | #24 |
+| `Research/docs/evidence/h1-mechanistic-analysis-2026-06-20.md` | #24 |
+| `Research/docs/evidence/h1-fine-temporal-grid-2026-06-20.md` | #24 (DDPM vs DDIM temporal distribution) |
 | `Research/docs/evidence/h2-score-vector-sidecar-memo-2026-06-20.md` | #23 |
 | `Research/docs/internal/e2-n50-freeze-preflight-2026-06-06/` | MoFIT preflight |
