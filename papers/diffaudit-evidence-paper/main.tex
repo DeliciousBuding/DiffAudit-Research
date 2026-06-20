@@ -472,244 +472,7 @@ replay-only claims. The contract ties each allowed sentence to the first
 blocker, replay tier, claim trace, source provenance, and metric-uncertainty
 sidecars.
 
-\section{Boundary-Case Trace and Claim Outcomes}
-
-For selected boundary cases, the coded gates record the evidence state plus
-diagnostic tag: reportable, candidate, support-only, watch, or negative, with
-known-surface miss, source-confounded, or metadata-only where applicable. The
-trace also marks rows where weak admission rules would admit a claim that the
-contract blocks.
-Table~\ref{tab:corpus-construction} fixes the selected row sets before counts are read.
-The declared set is a fixed boundary-case set. It tests claim-state behavior
-across bounded positives, a high-score
-metric-only non-admission case, route closures, and L0/L1 artifact stops.
-For frozen gate labels, revision is triggered when a blocked row has all five
-required surfaces: fixed target identity, fixed membership semantics,
-row-bound scores or responses, replayable metrics, and a compatible consumer
-boundary. Revision is also triggered when the first blocker is not reproducible
-from the packet.
-
-Rows enter when they instantiate at least one gate-relevant surface or blocker
-before aggregate counts are read. The set has five control roles. Reportable
-rows are replay/source-tier anchors. H2 is a metric-strength boundary case:
-high AUC with failed consumer and delta gates. ReDiffuse STL-10,
-CommonCanvas, and MIDST are route-closure checks. Tracing the Roots
-and the separately supplied Stable Diffusion packet test support-only and
-source-confounded states. Fixed-search, source-query, and targeted-link rows
-test row-set discipline and L0/L1 artifact stops.
-
-Decision-affecting artifacts entered through an evidence source, released trace
-entry, or machine-readable artifact before count readout. Duplicates are
-recorded as deduplication or screening rows. Background literature,
-artifact-discovery notes, large new-execution assets, and citation-only rows are
-outside the declared set. Later label changes are reported as label-review
-resolutions or source-query control updates.
-The selected rows show how the protocol accepts, narrows, or blocks fixed claim
-wordings. Their role is boundary checking; frequency estimation requires
-separate corpus sampling.
-
-\begin{table}[t]
-\centering
-\caption{Frozen boundary-case layers used for claim-state checks.}
-\label{tab:corpus-construction}
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}L{0.24\linewidth}L{0.70\linewidth}@{}}
-\toprule
-Layer & Fixed row set and check role \\
-\midrule
-Boundary-case records & 21 rows: 11 previously reviewed evidence-surface rows plus 10 metadata-only expansions; positive, negative, support-only, and source-confounded controls; no new downloads or model runs. \\
-Fixed metadata batch & 2026-05-26 pass with 7 GitHub repository queries and 5 arXiv API metadata queries; 17 rows test metadata-only L0/L1 stops and refound/noisy surfaces; no row changed an admission decision. \\
-Source-query controls & 2026-05-27 metadata-screening HF/Zenodo/OpenReview API pass; 10 observations test query-result hygiene and non-poolable row-set discipline; no observation changed an admission decision. \\
-Targeted artifact links & 2026-05-27 chase over existing metadata-only seeds; 3 L1 public artifact surfaces, including 2 split surfaces; artifact-inspection stops only, with no score/metric replay or row-set pooling. \\
-Claim scope & Counts support boundary inspection for this declared set only; field-prevalence, artifact-quality, and reproduction-rate estimates require separate sampling. \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Each C1--C15 claim state has an inspectable first missing surface in the coded
-claim register. For every C1--C15 claim, the trace and provenance sidecars list
-the gate labels, first blocker, replay tier, state, allowed wording, source
-hashes, commit identity, generator command, and availability tier. Asset
-generation checks that provenance IDs resolve and gate labels use allowed
-values. For the current packet, these fields identify the local review snapshot;
-the public-release provenance gate remains unresolved.
-
-\subsection{Boundary-Case Trace}
-
-The declared set was built from audited evidence surfaces and frozen before
-count readout. Section~\ref{sec:discussion} separates these boundary-case labels
-from corpus-scale and coding-reliability claims.
-
-The supplement provides a shuffled blank C1--C15 claim-gate recode template, a
-hash manifest, and a 28-case release-wording regression matrix. The template
-carries blank author-gate fields. Independent recode labels and reliability
-results have not been collected. The regression matrix tests the admitted-only
-risk-card renderer and candidate-promotion phrase guard as release QA for
-wording boundaries. Report drift, compute-release gate validity, and
-external-use estimates remain outside this packet.
-
-The 2026-05-26 metadata search used seven GitHub queries and five arXiv API
-queries, with no downloads or GPU runs. It records three re-found surfaces, one
-new code-public no-packet surface, seven relevant metadata-only rows, one
-existing-watch metadata row, four empty fixed-query rows, and one noisy query
-row; all observations preserved admission decisions. The L0--L3 counts document
-surface hits for trace inspection: 21 selected-set rows at 8/3/9/1 and 17
-fixed-search rows at 13/4/0/0.
-A targeted artifact-link sidecar adds three L1 public artifact surfaces. Row
-scores, ROC curves, metric JSON, and verifier packets are absent.
-
-The frozen-gate cross-reference and second pass are release-consistency
-checks. They preserved admission states and tightened two labels (withdrawn DLM
-delta, Noise Aggregation target). The packet is frozen-gate release material.
-Standalone artifact claims depend on the corpus-scale and reviewer-label
-criteria in Section~\ref{sec:discussion}.
-
-\subsection{Author-Keyed False-Promotion Stress Controls}
-
-C14 is a thirteen-row author-keyed stress packet that tests whether weak
-public-surface rules over-promote rows before independent reviewer labeling.
-The packet currently has $\text{n\_reviewers}{=}0$ and serves as pre-label
-stress control, not as a prevalence or reliability result. Across 13 selected
-no-download public-surface rows, code and paper-artifact links trigger
-weak-admission rules in 12/13 rows, but every row is non-Pass at the
-score/response and consumer-boundary gates. The full C14 table, figure, and
-row-level blocker breakdown are provided in the supplement.
-
-The author-keyed blockers distinguish diffusion MIA evidence from adjacent tasks
-such as attribution, classifier defense, copying, prompt memorization, and
-dataset-level identification. Author-keyed target and metric blockers support
-packet-readiness and weak-rule stress-control wording. Reviewer agreement and
-prevalence require independent labels and a larger sampled corpus.
-
-\section{Worked Examples of Protocol Application}
-
-Rows enter the paper through a fixed worked-example path. A row must
-bind labeled samples to a stated target, expose metric provenance, attach
-finite-tail denominators, and carry consumer-boundary language. The bundle has
-two evidence strengths: PIA, PIA-dropout, and DPDM W-1 are replay-admitted from
-row or target-score arrays in the audited artifacts. Recon and the main GSA row
-are source-documented point estimates. They support exact bounded role claims;
-interval, dominance, and leaderboard claims require row replay. Metric magnitude
-is reported as packet evidence. Admission follows reusable audit semantics.
-The five cases are target/split specific: recon DDIM uses CIFAR-10 public-100
-point evidence; PIA and PIA+stochastic dropout use CIFAR-10 512/512 row replay;
-GSA uses CIFAR-10 1k/1k point evidence; and DPDM W-1 is target-score bridge
-replay.
-
-Table~\ref{tab:admitted} summarizes five worked-example cases across access
-modes. Black-box reconstruction and gray-box PIA baseline provide primary
-leakage-risk rows under their stated modes. Stochastic dropout and DPDM W-1 are
-reportable under defense-comparator or bridge wording. GSA remains a
-source-documented upper-bound point comparator.
-
-The table is organized by claim role and replay tier. The rows are a set of
-role-separated worked examples. The table's
-provenance shorthand is part of the claim: \emph{row} denotes row-score replay,
-\emph{point} denotes source-documented point estimates without replay-derived
-intervals, and \emph{target row} denotes target-score replay for the defended
-bridge. Gate labels are frozen protocol labels over selected rows.
-
-AUC uncertainty is reported only where the replay surface supports it. The
-companion metric table gives bootstrap intervals for PIA baseline [0.8168,
-0.8640], PIA-dropout [0.8039, 0.8535], and DPDM W-1 [0.4640, 0.5152]. These
-intervals are AUC intervals under exchangeable-row bootstraps. TPR@1\%FPR and
-TPR@0.1\%FPR are denominator-and-count packet summaries. Recon and the main GSA
-row are point estimates, and H2 intervals are candidate-side controls. Each row
-supports the consumer claim named by its boundary or caveat.
-
-\begin{table*}[t]
-\centering
-\caption{Calibration evidence packets with bounded claim roles. Each row
-specifies the evidence tier and metric provenance. Both low-FPR columns are
-finite-tail packet readouts tied to the nonmember count $n_0$; TPR@0.1\%FPR
-also reports recovered true positives over member count and the false-positive
-cap implied by $n_0$. Point rows report source-documented values;
-replay-derived intervals are reported in \texttt{metric\_uncertainty.csv} and
-adjacent text, outside the compact table.}
-\label{tab:admitted}
-\footnotesize
-\begin{tabular}{@{}L{0.10\linewidth}L{0.18\linewidth}rrrL{0.12\linewidth}L{0.22\linewidth}@{}}
-\toprule
-Role/tier & Method & AUC & ASR & TPR@1\%FPR ($n_0$ tail) & TPR@0.1\%FPR (TP/mem; FP cap) & Claim role \\
-\midrule
-BB main / point & recon DDIM public-100 step30~\cite{reconstruction2025blackbox} & 0.837 & 0.740 & 0.220 & 0.110 (11/100; cap 0) & black-box proxy point estimate; no row-score replay or downstream claim \\
-GB main / row & PIA GPU512 baseline & 0.841 & 0.786 & 0.059 & 0.012 (6/512; cap 0) & bounded gray-box row replay with provenance caveat \\
-GB comp. / row & PIA + stochastic dropout & 0.828 & 0.768 & 0.053 & 0.010 (5/512; cap 0) & provisional defense comparator \\
-WB comp. / point & GSA 1k-3shadow~\cite{gsa2025whitebox} & 0.998 & 0.990 & 0.987 & 0.432 (432/1000; cap 1) & upper-bound white-box comparator \\
-WB bridge / target & GSA against DPDM W-1~\cite{gsa2025whitebox,dockhorn2023private} & 0.489 & 0.499 & 0.009 & 0.000 (0/1000; cap 1) & target-score defense bridge \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/admitted_rows_metrics.pdf}
-\caption{AUC and TPR@1\%FPR for role-separated worked-example cases. Rows are ordered by access and
-allowed claim role, and each label includes its replay tier. The figure
-catalogues role-separated evidence; benchmark ranking and replay-derived
-intervals are outside this display.}
-\label{fig:admitted}
-\end{figure}
-
-\section{Metric-Strength Boundary Case: H2 Output-Cloud}
-
-H2 is a high-AUC non-admission stress test. It scores output-output geometry
-from repeated generations and excludes query-to-output distance. Relative to
-black-box variation and reconstruction attacks that
-compare a query with returned or averaged outputs~\cite{rediffuse2025,reconstruction2025blackbox},
-H2 isolates a response-contract observable. The packet stays candidate-only:
-consumer-boundary and surface-delta gates are unresolved.
-The fixed scorer featurizes within-query response clouds, fits a held-out
-logistic readout, and retains aggregate prediction summaries, coefficients, and
-recorded intervals; no new responses are generated for this paper.
-
-On the existing 512/512 cache, output-cloud logistic scoring reaches AUC
-0.9615, ASR 0.9004, TPR@1\%FPR 0.3340, and TPR@0.1\%FPR 0.1172. Its
-candidate-side finite-tail readout reaches 60/512 members before the first
-false positive in this packet. Table~\ref{tab:h2-decision} records the missing
-surfaces for the high readout: the packet lacks a portability surface and an
-action-compatible consumer boundary.
-
-\begin{table}[t]
-\centering
-\caption{H2 output-cloud admission-decision summary.}
-\label{tab:h2-decision}
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}L{0.30\linewidth}L{0.36\linewidth}L{0.25\linewidth}@{}}
-\toprule
-Question & Evidence & Contract decision \\
-\midrule
-Metric signal & Output-cloud AUC 0.9615; raw/lowpass H2 diagnostics AUC 0.9057/0.8957. & Candidate observable; consumer boundary and delta remain unresolved. \\
-Same-family controls & Label-shuffle AUC 0.5076; shared-position, seed, and same-family cache-reuse AUC 0.9489--0.9705. & Same-family reuse support; portability unresolved. \\
-Admission boundary & SD/CelebA img2img 25/25 AUC 0.7888 with zero strict-tail recovery ($n_0=25$). & Portability admission path absent in the current packet. \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/h2_output_cloud_controls.pdf}
-\caption{Candidate-side admission stress test for H2 output-cloud
-geometry. The H2-family metric is above chance and stays candidate-only: it
-collapses under label shuffle and persists under seed-offset control, seed
-stability, and same-family cache-reuse checks. SD/CelebA img2img
-portability rows are shown as a boundary inset: the 25/25 packet leaves the
-admission path absent, and the 10/10 row is diagnostic only.}
-\label{fig:h2}
-\end{figure*}
-
-The SD/CelebA img2img cache sets the portability boundary. On the 25/25
-portability-test cache, output-cloud geometry reaches AUC 0.7888
-with zero strict-tail recovery ($n_0=25$). A smaller 10/10 stability cache is
-too small for portability evidence.
-We report output-cloud geometry as a controlled response-cloud observable in a
-candidate boundary case: label shuffles collapse to random-level AUC,
-shared-position and same-family cache checks show same-family stability, and
-the img2img packet does not supply portability or downstream audit admission.
-
-\section{Activation Fingerprints: Stable AUC, Fragile Tail}
+\section{H1/DAAB: Distributed Activation-Amplitude Bias}
 
 H2 demonstrates that high AUC alone does not satisfy portability and
 consumer-boundary gates. A second boundary case asks whether a mechanistically
@@ -1083,6 +846,170 @@ confirming distributed redundancy.
 aggregate separability and forensic admissibility.}
 \label{fig:h1-daab}
 \end{figure*}
+
+\section{CLiD and Spurious Signals}
+
+Two additional boundary cases illustrate failure modes where apparently strong
+or null metrics require careful gating.
+
+\subsection{CLiD: Prompt-Conditioned Signal Collapse}
+
+The CLiD attack~\cite{zha2024clid} uses conditional likelihood discrepancy
+between prompt-conditioned and unconditional generation to perform membership
+inference on text-to-image diffusion models. Under its original paper-prompt
+evaluation, CLiD achieves AUC 1.000 and TPR@1\%FPR 100\%---apparent perfect
+separation. Under prompt-neutral controls (empty, random, or mismatched
+prompts), performance collapses to AUC 0.586 and TPR@1\%FPR 2\%.
+The $\Delta$AUC of 0.414 is reported as a point estimate only; the current
+packet lacks row-score arrays for bootstrap intervals on $\Delta$AUC.
+
+The measured signal is prompt-image alignment, not membership. CLiD enters the
+claim register as a spurious-signal boundary case: the allowed claim is
+``diagnostic example of spurious signal''; the blocked claim is ``reliable
+black-box MIA'' and any bootstrap CI or $p$-value on $\Delta$AUC.
+
+\subsection{scnet: Scale-Null Capacity Check}
+
+Three time-conditioned U-Net DDPMs were trained from scratch on CIFAR-10 at
+0.78M, 11.76M, and 42.97M parameters, each evaluated with $K{=}2000$ samples
+and 10,000 bootstrap iterations across multiple MIA attack families. A
+54$\times$ capacity increase yields $\Delta\text{AUC}{=}0.003$
+(0.78M: AUC 0.514; 42.97M: AUC 0.517, bootstrap 95\% CIs crossing or narrowly
+separating from 0.5). The allowed claim is ``54$\times$ capacity increase
+produces no meaningful MIA gain ($\Delta\text{AUC}{=}0.003$)''; blocked claims
+are proof that capacity never increases leakage, or extrapolation to
+production-scale models.
+
+CLiD and scnet illustrate two recurring patterns: a metric that appears strong
+but measures the wrong covariate (spurious), and a metric that appears null
+but answers a bounded route-selection question (scale-null).
+
+\section{Metric-Strength Boundary Case: H2 Output-Cloud}
+
+H2 is a high-AUC non-admission stress test. It scores output-output geometry
+from repeated generations and excludes query-to-output distance. Relative to
+black-box variation and reconstruction attacks that
+compare a query with returned or averaged outputs~\cite{rediffuse2025,reconstruction2025blackbox},
+H2 isolates a response-contract observable. The packet stays candidate-only:
+consumer-boundary and surface-delta gates are unresolved.
+The fixed scorer featurizes within-query response clouds, fits a held-out
+logistic readout, and retains aggregate prediction summaries, coefficients, and
+recorded intervals; no new responses are generated for this paper.
+
+On the existing 512/512 cache, output-cloud logistic scoring reaches AUC
+0.9615, ASR 0.9004, TPR@1\%FPR 0.3340, and TPR@0.1\%FPR 0.1172. Its
+candidate-side finite-tail readout reaches 60/512 members before the first
+false positive in this packet. Table~\ref{tab:h2-decision} records the missing
+surfaces for the high readout: the packet lacks a portability surface and an
+action-compatible consumer boundary.
+
+\begin{table}[t]
+\centering
+\caption{H2 output-cloud admission-decision summary.}
+\label{tab:h2-decision}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{0.30\linewidth}L{0.36\linewidth}L{0.25\linewidth}@{}}
+\toprule
+Question & Evidence & Contract decision \\
+\midrule
+Metric signal & Output-cloud AUC 0.9615; raw/lowpass H2 diagnostics AUC 0.9057/0.8957. & Candidate observable; consumer boundary and delta remain unresolved. \\
+Same-family controls & Label-shuffle AUC 0.5076; shared-position, seed, and same-family cache-reuse AUC 0.9489--0.9705. & Same-family reuse support; portability unresolved. \\
+Admission boundary & SD/CelebA img2img 25/25 AUC 0.7888 with zero strict-tail recovery ($n_0=25$). & Portability admission path absent in the current packet. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/h2_output_cloud_controls.pdf}
+\caption{Candidate-side admission stress test for H2 output-cloud
+geometry. The H2-family metric is above chance and stays candidate-only: it
+collapses under label shuffle and persists under seed-offset control, seed
+stability, and same-family cache-reuse checks. SD/CelebA img2img
+portability rows are shown as a boundary inset: the 25/25 packet leaves the
+admission path absent, and the 10/10 row is diagnostic only.}
+\label{fig:h2}
+\end{figure*}
+
+The SD/CelebA img2img cache sets the portability boundary. On the 25/25
+portability-test cache, output-cloud geometry reaches AUC 0.7888
+with zero strict-tail recovery ($n_0=25$). A smaller 10/10 stability cache is
+too small for portability evidence.
+We report output-cloud geometry as a controlled response-cloud observable in a
+candidate boundary case: label shuffles collapse to random-level AUC,
+shared-position and same-family cache checks show same-family stability, and
+the img2img packet does not supply portability or downstream audit admission.
+
+\section{Admitted Rows: Calibration Evidence}
+
+Rows enter the paper through a fixed worked-example path. A row must
+bind labeled samples to a stated target, expose metric provenance, attach
+finite-tail denominators, and carry consumer-boundary language. The bundle has
+two evidence strengths: PIA, PIA-dropout, and DPDM W-1 are replay-admitted from
+row or target-score arrays in the audited artifacts. Recon and the main GSA row
+are source-documented point estimates. They support exact bounded role claims;
+interval, dominance, and leaderboard claims require row replay. Metric magnitude
+is reported as packet evidence. Admission follows reusable audit semantics.
+The five cases are target/split specific: recon DDIM uses CIFAR-10 public-100
+point evidence; PIA and PIA+stochastic dropout use CIFAR-10 512/512 row replay;
+GSA uses CIFAR-10 1k/1k point evidence; and DPDM W-1 is target-score bridge
+replay.
+
+Table~\ref{tab:admitted} summarizes five worked-example cases across access
+modes. Black-box reconstruction and gray-box PIA baseline provide primary
+leakage-risk rows under their stated modes. Stochastic dropout and DPDM W-1 are
+reportable under defense-comparator or bridge wording. GSA remains a
+source-documented upper-bound point comparator.
+
+The table is organized by claim role and replay tier. The rows are a set of
+role-separated worked examples. The table's
+provenance shorthand is part of the claim: \emph{row} denotes row-score replay,
+\emph{point} denotes source-documented point estimates without replay-derived
+intervals, and \emph{target row} denotes target-score replay for the defended
+bridge. Gate labels are frozen protocol labels over selected rows.
+
+AUC uncertainty is reported only where the replay surface supports it. The
+companion metric table gives bootstrap intervals for PIA baseline [0.8168,
+0.8640], PIA-dropout [0.8039, 0.8535], and DPDM W-1 [0.4640, 0.5152]. These
+intervals are AUC intervals under exchangeable-row bootstraps. TPR@1\%FPR and
+TPR@0.1\%FPR are denominator-and-count packet summaries. Recon and the main GSA
+row are point estimates, and H2 intervals are candidate-side controls. Each row
+supports the consumer claim named by its boundary or caveat.
+
+\begin{table*}[t]
+\centering
+\caption{Calibration evidence packets with bounded claim roles. Each row
+specifies the evidence tier and metric provenance. Both low-FPR columns are
+finite-tail packet readouts tied to the nonmember count $n_0$; TPR@0.1\%FPR
+also reports recovered true positives over member count and the false-positive
+cap implied by $n_0$. Point rows report source-documented values;
+replay-derived intervals are reported in \texttt{metric\_uncertainty.csv} and
+adjacent text, outside the compact table.}
+\label{tab:admitted}
+\footnotesize
+\begin{tabular}{@{}L{0.10\linewidth}L{0.18\linewidth}rrrL{0.12\linewidth}L{0.22\linewidth}@{}}
+\toprule
+Role/tier & Method & AUC & ASR & TPR@1\%FPR ($n_0$ tail) & TPR@0.1\%FPR (TP/mem; FP cap) & Claim role \\
+\midrule
+BB main / point & recon DDIM public-100 step30~\cite{reconstruction2025blackbox} & 0.837 & 0.740 & 0.220 & 0.110 (11/100; cap 0) & black-box proxy point estimate; no row-score replay or downstream claim \\
+GB main / row & PIA GPU512 baseline & 0.841 & 0.786 & 0.059 & 0.012 (6/512; cap 0) & bounded gray-box row replay with provenance caveat \\
+GB comp. / row & PIA + stochastic dropout & 0.828 & 0.768 & 0.053 & 0.010 (5/512; cap 0) & provisional defense comparator \\
+WB comp. / point & GSA 1k-3shadow~\cite{gsa2025whitebox} & 0.998 & 0.990 & 0.987 & 0.432 (432/1000; cap 1) & upper-bound white-box comparator \\
+WB bridge / target & GSA against DPDM W-1~\cite{gsa2025whitebox,dockhorn2023private} & 0.489 & 0.499 & 0.009 & 0.000 (0/1000; cap 1) & target-score defense bridge \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/admitted_rows_metrics.pdf}
+\caption{AUC and TPR@1\%FPR for role-separated worked-example cases. Rows are ordered by access and
+allowed claim role, and each label includes its replay tier. The figure
+catalogues role-separated evidence; benchmark ranking and replay-derived
+intervals are outside this display.}
+\label{fig:admitted}
+\end{figure}
 
 \section{Negative and Support Evidence}
 

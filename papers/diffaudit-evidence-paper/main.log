@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.5)  9 JUN 2026 05:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.5)  20 JUN 2026 16:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -454,100 +454,167 @@ Package hyperref Info: Link coloring OFF on input line 18.
 \openout3 = `main.out'.
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 99--102
-\OT1/ptm/m/n/10 admitted when consumer-boundary and surface-delta
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1{C:/Users/Ding/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Di
+ng/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
+
+
+]
+Underfull \hbox (badness 4467) in paragraph at lines 121--124
+[]\OT1/ptm/m/n/10 H2 output-cloud reaches AUC 0.9615; un-re-solved
  []
 
 
-Underfull \hbox (badness 5970) in paragraph at lines 102--106
-[]\OT1/ptm/m/n/10 A pub-lic score-file bound-ary case (MoFit, AUC
+Underfull \hbox (badness 3229) in paragraph at lines 121--124
+\OT1/ptm/m/n/10 consumer-boundary and surface-delta gates keep it
  []
 
-[1{C:/Users/Ding/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Din
-g/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
+<figures/admission_map.pdf, id=157, 566.2134pt x 425.44633pt>
+File: figures/admission_map.pdf Graphic file (type pdf)
+<use figures/admission_map.pdf>
+Package pdftex.def Info: figures/admission_map.pdf  used on input line 138.
+(pdftex.def)             Requested size: 438.60315pt x 329.57468pt.
+[2]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-] [2]
-Underfull \hbox (badness 1371) in paragraph at lines 346--346
+ [3 <./figures/admission_map.pdf>]
+Underfull \hbox (badness 1371) in paragraph at lines 393--393
 \OT1/ptm/m/n/10 and source prove-nance be-fore read-ing ag-gre-gate
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 3
-59.
-(C:\Users\Ding\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-[3]
-<figures/evidence_contract_pipeline.pdf, id=191, 522.55223pt x 229.85875pt>
+
+Underfull \vbox (badness 3229) has occurred while \output is active []
+
+ [4]
+<figures/evidence_contract_pipeline.pdf, id=378, 522.55223pt x 229.85875pt>
 File: figures/evidence_contract_pipeline.pdf Graphic file (type pdf)
 <use figures/evidence_contract_pipeline.pdf>
 Package pdftex.def Info: figures/evidence_contract_pipeline.pdf  used on input 
-line 389.
+line 435.
 (pdftex.def)             Requested size: 485.04126pt x 213.36307pt.
- [4]
+
+Overfull \hbox (24.59082pt too wide) in paragraph at lines 512--526
+ [][] 
+ []
+
+[5]
+Underfull \hbox (badness 1902) in paragraph at lines 565--581
+\OT1/ptm/m/n/10 dele-tions pro-duced a sim-i-lar mean ef-fect ($\OML/cmm/m/it/1
+0 ^^V[][][]\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 004$\OT1/ptm/m/n/
+10 ,
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5 <./figures/evidence_contract_pipeline.pdf>]
-Underfull \hbox (badness 5578) in paragraph at lines 537--552
-\OT1/ptm/m/n/10 E2 public-surface checks. A check is in-cluded only
+ [6 <./figures/evidence_contract_pipeline.pdf>]
+Underfull \hbox (badness 2221) in paragraph at lines 663--667
+[]\OT1/ptm/m/n/10 To test this, we ran an 8-timestep fine grid ($\OML/cmm/m/it/
+10 t \OMS/cmsy/m/n/10 2
  []
 
 
-Underfull \hbox (badness 4981) in paragraph at lines 537--552
-\OT1/ptm/m/n/10 sur-face lacks a target-bound score/response packet or
+Overfull \hbox (85.82004pt too wide) in paragraph at lines 679--696
+ [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 537--552
-\OT1/ptm/m/n/10 mis-matches diffusion-generator mem-ber-ship ev-i-dence.
+Underfull \hbox (badness 4108) in paragraph at lines 717--723
+[]\OT1/ptm/m/n/10 The channel-level dis-tri-bu-tion (no sin-gle chan-nel is
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 537--552
-\OT1/pcr/m/n/10 allowed_claim_scope=packet_ready_only\OT1/ptm/m/n/10 . The
- []
-
-<figures/false_promotion_exemplars.pdf, id=234, 398.11737pt x 375.66241pt>
-File: figures/false_promotion_exemplars.pdf Graphic file (type pdf)
-<use figures/false_promotion_exemplars.pdf>
-Package pdftex.def Info: figures/false_promotion_exemplars.pdf  used on input l
-ine 583.
-(pdftex.def)             Requested size: 252.0pt x 237.78633pt.
-[6 <./figures/false_promotion_exemplars.pdf>]
-<figures/admitted_rows_metrics.pdf, id=256, 295.3936pt x 207.3233pt>
-File: figures/admitted_rows_metrics.pdf Graphic file (type pdf)
-<use figures/admitted_rows_metrics.pdf>
-Package pdftex.def Info: figures/admitted_rows_metrics.pdf  used on input line 
-660.
-(pdftex.def)             Requested size: 252.0pt x 176.86781pt.
-
-Underfull \hbox (badness 2970) in paragraph at lines 687--693
-\OT1/ptm/m/n/10 AUC 0.9615, ASR 0.9004, TPR@1%FPR 0.3340, and
+Underfull \hbox (badness 1394) in paragraph at lines 717--723
+\OT1/ptm/m/n/10 each in-di-vid-u-ally cap-ture 99.8% of the com-bined AUC
  []
 
 
-Underfull \vbox (badness 2073) has occurred while \output is active []
+Underfull \hbox (badness 2478) in paragraph at lines 717--723
+\OT1/ptm/m/n/10 (mu[]only AUC 0.893, var[]only AUC 0.895, com-bined
+ []
 
- [7 <./figures/admitted_rows_metrics.pdf>]
-<figures/h2_output_cloud_controls.pdf, id=275, 501.60176pt x 236.96909pt>
+[7]
+Underfull \hbox (badness 2990) in paragraph at lines 724--742
+\OT1/ptm/m/n/10 late[]down $[]\OT1/cmr/m/n/10 [[]0\OML/cmm/m/it/10 :\OT1/cmr/m/
+n/10 137\OML/cmm/m/it/10 ; []\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10
+ 240]$\OT1/ptm/m/n/10 , mid[]0 $[]\OT1/cmr/m/n/10 [[]0\OML/cmm/m/it/10 :\OT1/cm
+r/m/n/10 177\OML/cmm/m/it/10 ; []\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/
+n/10 200]$\OT1/ptm/m/n/10 ,
+ []
+
+
+Overfull \hbox (36.9383pt too wide) in paragraph at lines 753--762
+ [][] 
+ []
+
+
+Underfull \hbox (badness 1394) in paragraph at lines 776--786
+[]\OT1/ptm/m/n/10 H1 re-veals a \OT1/ptm/b/n/10 Dis-tributed Activation-Amplitu
+de Bias
+ []
+
+[8]
+<figures/h1_daab_figure.pdf, id=421, 642.48595pt x 550.23947pt>
+File: figures/h1_daab_figure.pdf Graphic file (type pdf)
+<use figures/h1_daab_figure.pdf>
+Package pdftex.def Info: figures/h1_daab_figure.pdf  used on input line 839.
+(pdftex.def)             Requested size: 490.19843pt x 419.82356pt.
+
+Underfull \hbox (badness 2680) in paragraph at lines 889--898
+\OT1/ptm/m/n/10 a-tion and re-con-struc-tion at-tacks that com-pare a query
+ []
+
+<figures/h2_output_cloud_controls.pdf, id=426, 474.4316pt x 234.23686pt>
 File: figures/h2_output_cloud_controls.pdf Graphic file (type pdf)
 <use figures/h2_output_cloud_controls.pdf>
 Package pdftex.def Info: figures/h2_output_cloud_controls.pdf  used on input li
-ne 713.
-(pdftex.def)             Requested size: 516.0pt x 243.78798pt.
- [8]
-Underfull \hbox (badness 3323) in paragraph at lines 807--816
+ne 925.
+(pdftex.def)             Requested size: 516.0pt x 254.78769pt.
+[9]
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 9
+88.
+ (C:\Users\Ding\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+<figures/admitted_rows_metrics.pdf, id=439, 289.834pt x 205.04204pt>
+File: figures/admitted_rows_metrics.pdf Graphic file (type pdf)
+<use figures/admitted_rows_metrics.pdf>
+Package pdftex.def Info: figures/admitted_rows_metrics.pdf  used on input line 
+1006.
+(pdftex.def)             Requested size: 252.0pt x 178.27873pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 1122) has occurred while \output is active []
+
+ [10 <./figures/h1_daab_figure.pdf>] [11 <./figures/h2_output_cloud_controls.pd
+f>] [12 <./figures/admitted_rows_metrics.pdf>]
+Underfull \hbox (badness 3323) in paragraph at lines 1155--1163
 []\OT1/ptm/m/n/10 Reusable dif-fu-sion MIA ar-ti-facts should ex-pose tar-
  []
 
-[9 <./figures/h2_output_cloud_controls.pdf>] (main.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 193--199
+(main.bbl [13]
+Underfull \hbox (badness 5563) in paragraph at lines 139--145
+\OT1/ptm/m/n/8 Avail-able: []$https : / / openaccess . thecvf . com / content /
+ CVPR2022 / html /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--145
+\OT1/ptm/m/n/8 Rombach[]High-[]Resolution[]Image[]Synthesis[]With[]Latent[]Diu
+sion[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 205--211
 []$\OT1/ptm/m/n/8 https : / / openaccess . thecvf . com / content / CVPR2025 / 
 html / Dubinski[]CDI[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 193--199
+Underfull \hbox (badness 10000) in paragraph at lines 205--211
 \OT1/ptm/m/n/8 Copyrighted[]Data[]Identi^^Lcation[]in[]Diusion[]Models[]CVPR[]
 2025[]
  []
@@ -564,40 +631,48 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[10] (main.aux)
+[14
+
+] (main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F8CD85A70687E44312913BC77B3C9943;3911.
+(rerunfilecheck)             Checksum: 7DBD6D39B5C71418C4A8513065975DA1;5837.
  ) 
 Here is how much of TeX's memory you used:
- 11107 strings out of 467871
- 176797 string characters out of 5418861
- 626742 words of memory out of 5000000
- 39781 multiletter control sequences out of 15000+600000
- 668912 words of font info for 114 fonts, out of 8000000 for 9000
+ 11152 strings out of 467871
+ 177461 string characters out of 5418861
+ 629016 words of memory out of 5000000
+ 39805 multiletter control sequences out of 15000+600000
+ 672896 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,626b,548s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,698b,590s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmmi7.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmmi8.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmr10.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Ding/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Ding/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Ding/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Ding/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Ding/
-AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Ding
-/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Ding/
-AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Ding/
-AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Ding/A
-ppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (10 pages, 319181 bytes).
+1/public/amsfonts/cm/cmmi9.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Ding/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Ding/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Ding/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Ding/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Ding/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/D
+ing/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:
+/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.
+pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmsy8.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmsy9.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
+courier/ucrr8a.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/urw
+/times/utmb8a.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
+times/utmbi8a.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
+times/utmr8a.pfb><C:/Users/Ding/AppData/Local/Programs/MiKTeX/fonts/type1/urw/t
+imes/utmri8a.pfb>
+Output written on main.pdf (14 pages, 434553 bytes).
 PDF statistics:
- 402 PDF objects out of 1000 (max. 8388607)
- 77 named destinations out of 1000 (max. 500000)
- 189 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 748 PDF objects out of 1000 (max. 8388607)
+ 96 named destinations out of 1000 (max. 500000)
+ 266 words of extra memory for PDF output out of 10000 (max. 10000000)
 
