@@ -162,6 +162,19 @@ reinforcing that modality-specific signals should be gated separately~\cite{lian
 DPDM, CopyMark, MIDST, and CDI further show that defense, benchmark, and
 dataset-level contracts change what a result can mean~\cite{dockhorn2023private,liang2024copymark,midst2026challenge,dubinski2025cdi}.
 
+CopyMark~\cite{liang2024copymark} is the closest prior work in spirit: it shows
+that published diffusion MIA numbers often degrade under realistic benchmarks
+with pre-trained models, unbiased datasets, and fair pipelines, and it emphasizes
+low-FPR evaluation. Our work addresses a complementary question. CopyMark asks
+whether MIAs survive more realistic benchmarks; we ask what conditions must be
+satisfied before any MIA score---even a reproducible, statistically non-random
+one---is admissible as evidence for a specific claim. CopyMark's unit of analysis
+is the attack method on a benchmark; ours is the score surface under an evidence
+contract with named claim boundaries. The two contributions are compatible:
+CopyMark supplies realistic evaluation conditions, while DiffAudit supplies the
+admission gates that decide what a score measured under those conditions can
+support.
+
 \subsection{Reporting and Reproducibility Artifacts}
 
 Reproducibility checklists, datasheets, and model cards document data, code,
