@@ -958,6 +958,22 @@ features each individually capture 99.8\% of the combined AUC (mu\_only AUC
 dissociation replicates: early\_up@$t{=}100$ has 14.1\% significant channels
 (vs.\ DDPM's 4.7\%) yet remains the least causally important site.
 
+\textbf{Cross-dataset validation (CIFAR-100).} To test whether DAAB is specific to
+CIFAR-10, we ran the 4-site $\times$ 3-timestep spatiotemporal grid on a
+CIFAR-100 DDPM with the same UNet architecture. The baseline AUC is 0.835,
+confirming that activation-subspace membership signal exists across datasets.
+However, the spatiotemporal geometry differs. On CIFAR-10, the causal gradient
+is sharply hierarchical: late\_down@$t{=}100$ ($\Delta{=}{+}0.138$)
+$\gg$ mid\_0@$t{=}100$ (${+}0.149$) $>$ mid\_1 (${+}0.087$) $>$ early\_up
+(${+}0.078$), with $t{=}400$ and $t{=}700$ causally negligible. On CIFAR-100,
+all four sites and all three timesteps exhibit substantial knockout effects:
+late\_down ${\in}[{+}0.137,{+}0.240]$, mid\_0 ${\in}[{+}0.177,{+}0.200]$,
+mid\_1 ${\in}[{+}0.112,{+}0.230]$, early\_up ${\in}[{+}0.129,{+}0.254]$.
+The site gradient is flatter and the temporal peak shifts from $t{=}100$ to
+$t{=}400$. DAAB as a phenomenon---real activation-subspace membership signal
+with channel-level distribution---generalizes across datasets. The specific
+spatiotemporal geometry (site gradient, temporal locus) is dataset-dependent.
+
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
 H1 reveals a \textbf{Distributed Activation-Amplitude Bias (DAAB)}:
@@ -977,9 +993,13 @@ H1 separates four levels most MIA evaluations conflate:
 (3)~causal localization---not possible (targeted KO $\leq$ random KO);
 (4)~forensic admission---not satisfied (TPR@1\% collapses).
 The fine temporal grid (Table~\ref{tab:fine-temporal}) adds a fifth finding:
-(5)~training procedure controls signal geometry---DDPM yields temporally
-distributed signal (max individual $\Delta{=}0.029$ at 8-step resolution),
-while DDIM yields temporally concentrated signal (max $\Delta{=}0.221$).
+(5)~training procedure controls temporal signal geometry---DDPM yields
+temporally distributed signal, DDIM yields temporally concentrated signal.
+Cross-dataset validation on CIFAR-100 (AUC 0.835) adds a sixth:
+(6)~dataset complexity controls spatiotemporal geometry---CIFAR-100 shows
+a flatter site gradient and broader temporal distribution than CIFAR-10,
+confirming that DAAB generalizes as a phenomenon while its spatial and
+temporal distribution varies with both training procedure and dataset.
 
 The core insight is: \textit{``Real signal does not imply causal
 localization; causal non-localization does not imply forensic admission.''}
