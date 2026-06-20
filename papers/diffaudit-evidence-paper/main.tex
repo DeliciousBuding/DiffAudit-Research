@@ -87,7 +87,11 @@ a fixed evidence contract.
 This paper defines the packet fields required for model-owner, replay-auditor,
 and downstream-report claims. It applies those fields to score/response packets
 and to high-score or metadata-only boundary rows, recording which gate blocks
-which claim wording.
+which claim wording. The contribution is not a new attack or defense, but a
+measurement framework that separates what a score \emph{is} (a scalar) from what
+a score \emph{supports} (an evidence state). The H1/DAAB case demonstrates this
+separation empirically: real, replicated, mechanistically characterized signal
+that is non-localizable at the channel level and forensically fragile.
 
 The contributions are:
 
@@ -838,15 +842,42 @@ controlled by a compact channel subset.
 
 These results rule out a sparse-channel causal interpretation at the level
 of individually significant channels. However, full-site knockout reveals
-a more nuanced picture: zeroing all channels at late\_down collapses AUC
-to 0.500 (chance), while zeroing all channels at early\_up produces only a
-mild drop (AUC 0.834, $\Delta{=}{+}0.031$). The signal is therefore not
-uniformly distributed: it concentrates in the deepest downsampling
-representations, while the most statistically visible channels
-(concentrated in early\_up) are not where the causal action lies. This
-separation---statistical visibility in one site, causal importance in
-another---reinforces the DAAB interpretation: membership-correlated
-channels are not the same as membership-causal channels.
+a clear causal gradient across UNet depth. Table~\ref{tab:full-site-ko}
+reports the effect of zeroing all channels at each site, on both the DDPM
+800k and DDIM 750k checkpoints.
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Full-site knockout causal gradient.} Zeroing all channels at
+each UNet site and re-evaluating H1. The causal importance follows a monotonic
+depth gradient: deepest downsampling representations are indispensable, while
+early upsampling representations are largely dispensable. The pattern is
+identical across both checkpoints.}
+\label{tab:full-site-ko}
+\centering
+\begin{tabular}{lrrrr}
+\toprule
+Site & \multicolumn{2}{c}{DDPM 800k} & \multicolumn{2}{c}{DDIM 750k} \\
+& AUC & $\Delta$AUC & AUC & $\Delta$AUC \\
+\midrule
+Baseline (no KO) & 0.874 & -- & 0.888 & -- \\
+late\_down (deepest) & \textbf{0.500} & \textbf{+0.374} & \textbf{0.500} & \textbf{+0.388} \\
+mid\_0 & 0.625 & +0.249 & 0.623 & +0.265 \\
+mid\_1 & 0.766 & +0.108 & 0.766 & +0.122 \\
+early\_up (first up) & 0.797 & +0.077 & 0.786 & +0.102 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The causal gradient is monotonic with UNet depth and identical across
+checkpoints: late\_down $\gg$ mid\_0 $>$ mid\_1 $>$ early\_up. Zeroing
+late\_down collapses AUC to chance (0.500) on both checkpoints, while
+zeroing early\_up produces only a mild drop. The most statistically
+visible channels (concentrated in early\_up, 4.7\% significant at
+$p{<}0.01$) are at the \emph{least} causally important site. This
+separation---statistical visibility highest in early\_up, causal
+importance highest in late\_down---is the central mechanistic finding:
+membership-correlated channels are not membership-causal channels.
 
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
