@@ -747,7 +747,7 @@ def print_header():
     print("COLUMNS: Every structurally unique checkpoint (deduplicated)")
     print("ROWS:    Every available dataset with a split file defining member/nonmember")
     print()
-    print("DATA SOURCE: outputs/catalog_checkpoints.json + workspace evidence")
+    print("DATA SOURCE: outputs/catalog-checkpoints.json + workspace evidence")
     print()
 
 def print_dataset_header(ds_name, ds_info):
@@ -896,7 +896,7 @@ print("""
 """)
 
 # Write the matrix as JSON for programmatic consumption
-output_path = RESEARCH / "outputs" / "dataset_checkpoint_matrix.json"
+output_path = RESEARCH / "outputs" / "dataset-checkpoint-matrix.json"
 with open(output_path, "w") as f:
     json.dump({
         "generated": "2026-06-20",

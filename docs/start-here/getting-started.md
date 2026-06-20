@@ -30,9 +30,9 @@ python scripts/bootstrap_research_env.py --install
 python scripts/verify_env.py
 python -m diffaudit --help
 python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_local_configs.py -q
-python -m diffaudit plan-variation --config configs/attacks/variation_plan.yaml
+python -m diffaudit plan-variation --config configs/attacks/variation-plan.yaml
 python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke-local
-python -m diffaudit plan-pia --config configs/attacks/pia_plan.yaml
+python -m diffaudit plan-pia --config configs/attacks/pia-plan.yaml
 python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 ```
 
@@ -44,7 +44,7 @@ python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root work
 conda run -n diffaudit-research python scripts/verify_env.py
 conda run -n diffaudit-research python -m diffaudit --help
 conda run -n diffaudit-research python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_local_configs.py -q
-conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config configs/attacks/secmi_plan.yaml
+conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
 ```
 
 ## 工作区选择

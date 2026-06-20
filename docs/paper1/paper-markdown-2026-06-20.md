@@ -1,6 +1,7 @@
 # A Claim-Admission Protocol for Diffusion Membership-Inference Scores
 
-> TMLR Submission Draft — 2026-06-20
+> **Public research report — not the anonymous submission manuscript. See private Papers/ repository for canonical LaTeX source.**
+> Submission Draft — 2026-06-20
 > Markdown version for scientific discussion and review.
 > Full LaTeX source: `papers/diffaudit-evidence-paper/main.tex`
 > Compiled PDF: `papers/diffaudit-evidence-paper/paper.pdf`

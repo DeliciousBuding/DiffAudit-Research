@@ -2,7 +2,7 @@
 
 > **SSOT for datasets, checkpoints, scripts, results, and experiment planning.**
 > Last updated: 2026-06-20
-> Auto-derived from `outputs/catalog_checkpoints.json`, `outputs/dataset_checkpoint_matrix.json`, `scripts/build_compatibility_matrix.py`, `scripts/catalog_checkpoints.py`, and live directory scans.
+> Auto-derived from `outputs/catalog-checkpoints.json`, `outputs/dataset-checkpoint-matrix.json`, `scripts/build_compatibility_matrix.py`, `scripts/catalog_checkpoints.py`, and live directory scans.
 
 ---
 
@@ -122,8 +122,8 @@ Every model checkpoint, architecture, format, and compatibility.
 
 ### Checkpoint Catalog Tooling
 
-- **Catalog all checkpoints:** `python scripts/catalog_checkpoints.py` -- Output: `outputs/catalog_checkpoints.json` (~2000 lines, 12 checkpoints catalogued with format/size/compatibility)
-- **Build matrix:** `python scripts/build_compatibility_matrix.py` -- Output: `outputs/dataset_checkpoint_matrix.json`
+- **Catalog all checkpoints:** `python scripts/catalog_checkpoints.py` -- Output: `outputs/catalog-checkpoints.json` (~2000 lines, 12 checkpoints catalogued with format/size/compatibility)
+- **Build matrix:** `python scripts/build_compatibility_matrix.py` -- Output: `outputs/dataset-checkpoint-matrix.json`
 
 ---
 
@@ -133,8 +133,8 @@ Every model checkpoint, architecture, format, and compatibility.
 
 | Tool | Purpose |
 |---|---|
-| `tools/gsa_next_run/` | GSA training job runner: gate control, hashing, git-info, CLI dispatch |
-| `tools/pia_next_run/` | PIA training job runner: gate control, hashing, git-info, CLI dispatch |
+| `tools/gsa-next-run/` | GSA training job runner: gate control, hashing, git-info, CLI dispatch |
+| `tools/pia-next-run/` | PIA training job runner: gate control, hashing, git-info, CLI dispatch |
 
 ### Environment & Setup (`scripts/`)
 
@@ -352,7 +352,7 @@ Every model checkpoint, architecture, format, and compatibility.
 | DDIM-CIFAR10-750k | SecMI (all variants) | ~0.397 | 0.0 | Weaker than 800k |
 | DDIM-CIFAR10-750k | PIA (int200/int100) | 0.599-0.605 | -- | Comparable to 800k |
 
-**Location:** `outputs/e3_existing_eval/e3_eval_results.json`
+**Location:** `outputs/e3-existing-eval/e3_eval_results.json`
 
 #### H1 Activation Scouts
 
@@ -363,7 +363,7 @@ Every model checkpoint, architecture, format, and compatibility.
 | H1 DDIM fine grid | -- | Detailed activation patterns |
 | H1 mechanistic analysis | -- | CIFAR-10 + CIFAR-100 |
 
-**Location:** `outputs/h1_scout/` (JSON + PKL activation tensors + PDF/PNG figures)
+**Location:** `outputs/h1-scout/` (JSON + PKL activation tensors + PDF/PNG figures)
 
 #### H2 Score-Vector Sidecar
 
@@ -371,7 +371,7 @@ Every model checkpoint, architecture, format, and compatibility.
 |---|---|---|
 | H2 score-vector scout (DDPM-800k) | 0.681 | Label-shuffle control: 0.475 |
 
-**Location:** `outputs/h2_sidecar/h2_results.json`, `h2_features.pkl`
+**Location:** `outputs/h2-sidecar/h2_results.json`, `h2_features.pkl`
 
 #### Admitted Evidence (Evidence-Ready)
 
@@ -443,16 +443,16 @@ Paper-corpus results and review bundles are in `papers/diffaudit-evidence-paper/
 
 | Goal | Recipe |
 |---|---|
-| **Gray-box PIA on CIFAR-10** | Use `DDPM-CIFAR10-800k` + `CIFAR10_train_ratio0.5.npz`. Run PIA with config `configs/attacks/pia_plan.yaml`. Member split: `external/PIA/DDPM`. Checkpoint from `Download/gray-box/weights/secmi-cifar-bundle/`. |
-| **Gray-box SecMI on CIFAR-10** | Use `DDPM-CIFAR10-800k` + `CIFAR10_train_ratio0.5.npz`. Full 25k/25k. Config: `configs/attacks/secmi_plan.yaml`. |
-| **Black-box recon on NDSS-2025** | Use `Download/black-box/supplementary/recon-assets/`. Config: `configs/attacks/recon_plan.yaml`. Bounded public-100 step30 rerun. |
+| **Gray-box PIA on CIFAR-10** | Use `DDPM-CIFAR10-800k` + `CIFAR10_train_ratio0.5.npz`. Run PIA with config `configs/attacks/pia-plan.yaml`. Member split: `external/PIA/DDPM`. Checkpoint from `Download/gray-box/weights/secmi-cifar-bundle/`. |
+| **Gray-box SecMI on CIFAR-10** | Use `DDPM-CIFAR10-800k` + `CIFAR10_train_ratio0.5.npz`. Full 25k/25k. Config: `configs/attacks/secmi-plan.yaml`. |
+| **Black-box recon on NDSS-2025** | Use `Download/black-box/supplementary/recon-assets/`. Config: `configs/attacks/recon-plan.yaml`. Bounded public-100 step30 rerun. |
 | **H1 activation scout on CIFAR-10** | Use `DDPM-CIFAR10-800k` or `DDIM-CIFAR10-750k` + CIFAR-10 split. Run `h1_activation_scout.py` or `h1_channel_knockout.py`. |
 
 ### Run Evaluation on Existing Checkpoints
 
 | Goal | Recipe |
 |---|---|
-| **E3 quick eval (SecMI + PIA)** | `python scripts/e3_eval_existing.py`. Reads `DDPM-CIFAR10-800k` and `DDIM-CIFAR10-750k`. Output: `outputs/e3_existing_eval/e3_eval_results.json`. |
+| **E3 quick eval (SecMI + PIA)** | `python scripts/e3_eval_existing.py`. Reads `DDPM-CIFAR10-800k` and `DDIM-CIFAR10-750k`. Output: `outputs/e3-existing-eval/e3_eval_results.json`. |
 | **Full train + eval** | `python scripts/e3_train_and_eval.py`. |
 
 ### Explore Untested Combinations
@@ -473,7 +473,7 @@ Paper-corpus results and review bundles are in `papers/diffaudit-evidence-paper/
 | **Build compatibility matrix** | `python scripts/build_compatibility_matrix.py` |
 | **Verify environment** | `python scripts/verify_env.py` |
 | **Verify local path binding** | `python scripts/render_team_local_configs.py` |
-| **PIA asset probe** | `python -m diffaudit probe-pia-assets --config configs/attacks/pia_plan.yaml --member-split-root external/PIA/DDPM` |
+| **PIA asset probe** | `python -m diffaudit probe-pia-assets --config configs/attacks/pia-plan.yaml --member-split-root external/PIA/DDPM` |
 | **GSA asset probe** | `python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa` |
 | **Recon bundle audit** | `python -m diffaudit audit-recon-public-bundle --bundle-root Download/black-box/supplementary/recon-assets/...` |
 
@@ -529,13 +529,13 @@ Paper-corpus results and review bundles are in `papers/diffaudit-evidence-paper/
 |---|---|
 | `configs/assets/team.local.template.yaml` | Template for local path binding (copy to `team.local.yaml`) |
 | `configs/assets/team.local.yaml` | ACTIVE local path config (git-ignored, absolute paths) |
-| `configs/attacks/pia_plan.yaml` | PIA attack plan |
-| `configs/attacks/pia_mainline_canonical.yaml` | PIA mainline canonical config |
-| `configs/attacks/secmi_plan.yaml` | SecMI attack plan |
-| `configs/attacks/recon_plan.yaml` | Recon attack plan |
-| `configs/attacks/variation_plan.yaml` | Variation attack plan |
-| `configs/attacks/clid_plan.yaml` | CLiD attack plan |
-| `configs/benchmarks/secmi_smoke.yaml` | SecMI smoke test |
+| `configs/attacks/pia-plan.yaml` | PIA attack plan |
+| `configs/attacks/pia-mainline-canonical.yaml` | PIA mainline canonical config |
+| `configs/attacks/secmi-plan.yaml` | SecMI attack plan |
+| `configs/attacks/recon-plan.yaml` | Recon attack plan |
+| `configs/attacks/variation-plan.yaml` | Variation attack plan |
+| `configs/attacks/clid-plan.yaml` | CLiD attack plan |
+| `configs/benchmarks/secmi-smoke.yaml` | SecMI smoke test |
 | `configs/assets/black-box.requirements.yaml` | Black-box asset requirements |
 | `configs/assets/gray-box.requirements.yaml` | Gray-box asset requirements |
 | `environment.yml` | Conda environment (CPU) |

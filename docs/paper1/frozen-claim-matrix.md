@@ -1,7 +1,7 @@
 # DiffAudit Evidence Claim Matrix (Frozen)
 
 > 冻结时间：2026-06-19
-> 用途：Paper 1 TMLR submission 的唯一数据源。所有 Agent 写作必须引用本表，不得使用其他数字。
+> 用途：Paper 1 submission 的唯一数据源。所有 Agent 写作必须引用本表，不得使用其他数字。
 > 规则：每个方法一行，包含允许的声明（allowed claim）和禁止的声明（blocked claim）。
 
 ## Admitted Evidence (5 rows)

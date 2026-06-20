@@ -84,8 +84,8 @@ python scripts/render_team_local_configs.py
 ### 黑盒
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit plan-recon --config configs/attacks/recon_plan.yaml
-conda run -n diffaudit-research python -m diffaudit plan-variation --config configs/attacks/variation_plan.yaml
+conda run -n diffaudit-research python -m diffaudit plan-recon --config configs/attacks/recon-plan.yaml
+conda run -n diffaudit-research python -m diffaudit plan-variation --config configs/attacks/variation-plan.yaml
 conda run -n diffaudit-research python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke-local
 conda run -n diffaudit-research python -m diffaudit audit-recon-public-bundle --bundle-root "$env:DIFFAUDIT_ROOT\Download\black-box\supplementary\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models"
 python scripts/init_variation_query_set.py --root /absolute/path/to/variation-query-set
@@ -94,8 +94,8 @@ python scripts/init_variation_query_set.py --root /absolute/path/to/variation-qu
 ### 灰盒
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit plan-pia --config configs/attacks/pia_plan.yaml
-conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config configs/attacks/pia_plan.yaml --member-split-root external/PIA/DDPM
+conda run -n diffaudit-research python -m diffaudit plan-pia --config configs/attacks/pia-plan.yaml
+conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config configs/attacks/pia-plan.yaml --member-split-root external/PIA/DDPM
 ```
 
 ### 白盒

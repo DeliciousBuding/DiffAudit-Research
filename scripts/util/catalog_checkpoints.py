@@ -294,7 +294,7 @@ def main():
         results.append(entry)
 
     # ── Write output ──
-    out_path = Path("D:/Code/DiffAudit/Research/outputs/catalog_checkpoints.json")
+    out_path = Path("D:/Code/DiffAudit/Research/outputs/catalog-checkpoints.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=2, ensure_ascii=False, default=str)

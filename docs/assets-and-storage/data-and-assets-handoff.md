@@ -174,7 +174,7 @@ python scripts/render_team_local_configs.py
 Basic asset checks:
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config configs/attacks/pia_plan.yaml --member-split-root external/PIA/DDPM
+conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config configs/attacks/pia-plan.yaml --member-split-root external/PIA/DDPM
 conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 conda run -n diffaudit-research python -m diffaudit audit-recon-public-bundle --bundle-root "$env:DIFFAUDIT_ROOT\Download\black-box\supplementary\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models"
 ```

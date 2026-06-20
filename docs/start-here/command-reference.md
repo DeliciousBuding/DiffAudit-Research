@@ -60,7 +60,7 @@ python scripts/render_team_local_configs.py
 运行最小 smoke 流水线：
 
 ```powershell
-python -m diffaudit run-smoke --config configs/benchmarks/secmi_smoke.yaml --workspace .
+python -m diffaudit run-smoke --config configs/benchmarks/secmi-smoke.yaml --workspace .
 ```
 
 运行本地检查包装脚本：
@@ -76,9 +76,9 @@ python -X utf8 scripts/run_local_checks.py
 规划 `recon`：
 
 ```powershell
-python -m diffaudit plan-recon --config configs/attacks/recon_plan.yaml
-python -m diffaudit probe-recon-assets --config configs/attacks/recon_plan.yaml
-python -m diffaudit dry-run-recon --config configs/attacks/recon_plan.yaml --repo-root external/Reconstruction-based-Attack
+python -m diffaudit plan-recon --config configs/attacks/recon-plan.yaml
+python -m diffaudit probe-recon-assets --config configs/attacks/recon-plan.yaml
+python -m diffaudit dry-run-recon --config configs/attacks/recon-plan.yaml --repo-root external/Reconstruction-based-Attack
 ```
 
 运行 `recon` smoke 与产物路径：
@@ -268,18 +268,18 @@ python scripts/summarize_clid_bridge_pair_outputs.py `
 规划 `variation`：
 
 ```powershell
-python -m diffaudit plan-variation --config configs/attacks/variation_plan.yaml
-python -m diffaudit probe-variation-assets --config configs/attacks/variation_plan.yaml
-python -m diffaudit dry-run-variation --config configs/attacks/variation_plan.yaml
+python -m diffaudit plan-variation --config configs/attacks/variation-plan.yaml
+python -m diffaudit probe-variation-assets --config configs/attacks/variation-plan.yaml
+python -m diffaudit dry-run-variation --config configs/attacks/variation-plan.yaml
 python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke
 ```
 
 规划 `CLiD`：
 
 ```powershell
-python -m diffaudit plan-clid --config configs/attacks/clid_plan.yaml
-python -m diffaudit probe-clid-assets --config configs/attacks/clid_plan.yaml
-python -m diffaudit dry-run-clid --config configs/attacks/clid_plan.yaml --repo-root external/CLiD
+python -m diffaudit plan-clid --config configs/attacks/clid-plan.yaml
+python -m diffaudit probe-clid-assets --config configs/attacks/clid-plan.yaml
+python -m diffaudit dry-run-clid --config configs/attacks/clid-plan.yaml --repo-root external/CLiD
 python -m diffaudit run-clid-dry-run-smoke --workspace experiments/clid-dry-run-smoke --repo-root external/CLiD
 python -m diffaudit summarize-clid-artifacts --artifact-dir "$env:DIFFAUDIT_ROOT/Download/black-box/supplementary/clid-mia-supplementary/contents/CLID_MIA/inter_output/CLID" --workspace experiments/clid-artifact-summary
 ```
@@ -289,16 +289,16 @@ python -m diffaudit summarize-clid-artifacts --artifact-dir "$env:DIFFAUDIT_ROOT
 规划并探测 `PIA`：
 
 ```powershell
-python -m diffaudit plan-pia --config configs/attacks/pia_plan.yaml
-python -m diffaudit probe-pia-assets --config configs/attacks/pia_plan.yaml --member-split-root external/PIA/DDPM
-python -m diffaudit dry-run-pia --config configs/attacks/pia_plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM
+python -m diffaudit plan-pia --config configs/attacks/pia-plan.yaml
+python -m diffaudit probe-pia-assets --config configs/attacks/pia-plan.yaml --member-split-root external/PIA/DDPM
+python -m diffaudit dry-run-pia --config configs/attacks/pia-plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM
 ```
 
 运行小型 `PIA` 预览：
 
 ```powershell
-python -m diffaudit runtime-probe-pia --config configs/attacks/pia_plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM --device cpu
-python -m diffaudit runtime-preview-pia --config configs/attacks/pia_plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM --device cpu --preview-batch-size 4
+python -m diffaudit runtime-probe-pia --config configs/attacks/pia-plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM --device cpu
+python -m diffaudit runtime-preview-pia --config configs/attacks/pia-plan.yaml --repo-root external/PIA --member-split-root external/PIA/DDPM --device cpu --preview-batch-size 4
 python -m diffaudit run-pia-runtime-smoke --workspace experiments/pia-runtime-smoke-cpu --repo-root external/PIA --device cpu
 python -m diffaudit run-pia-synth-smoke --workspace experiments/pia-synth-smoke-cpu --repo-root external/PIA --device cpu
 ```
@@ -306,11 +306,11 @@ python -m diffaudit run-pia-synth-smoke --workspace experiments/pia-synth-smoke-
 规划并探测 `SecMI`：
 
 ```powershell
-python -m diffaudit plan-secmi --config configs/attacks/secmi_plan.yaml
-python -m diffaudit probe-secmi-assets --config configs/attacks/secmi_plan.yaml
-python -m diffaudit prepare-secmi --config configs/attacks/secmi_plan.yaml --repo-root third_party/secmi
-python -m diffaudit dry-run-secmi --config configs/attacks/secmi_plan.yaml --repo-root third_party/secmi
-python -m diffaudit runtime-probe-secmi --config configs/attacks/secmi_plan.yaml --repo-root third_party/secmi
+python -m diffaudit plan-secmi --config configs/attacks/secmi-plan.yaml
+python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
+python -m diffaudit prepare-secmi --config configs/attacks/secmi-plan.yaml --repo-root third_party/secmi
+python -m diffaudit dry-run-secmi --config configs/attacks/secmi-plan.yaml --repo-root third_party/secmi
+python -m diffaudit runtime-probe-secmi --config configs/attacks/secmi-plan.yaml --repo-root third_party/secmi
 ```
 
 引导本地 `SecMI` smoke 资产：
