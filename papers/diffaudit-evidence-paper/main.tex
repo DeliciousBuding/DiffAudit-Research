@@ -793,6 +793,15 @@ dimensionality artifact. Per-site ablation removes each of the four hook
 sites in turn; all ablated AUCs remain within $[0.867, 0.879]$, ruling out
 a single-site artifact.
 
+We decompose the signal by statistic type. Under the combined
+$\mu_{\text{abs}}{+}\sigma^2$ feature set, the LR reaches AUC 0.839.
+Using only $\mu_{\text{abs}}$ yields AUC 0.800; using only $\sigma^2$
+yields AUC 0.818. Either statistic alone captures 95--97\% of the
+combined signal---they are redundant carriers. Sparsity features alone
+yield AUC 0.500 (chance), consistent with negligible coefficient share
+($<$1\%). The signal is thus distributed across statistic types as well
+as across UNet sites.
+
 \subsection{Admission Failure: Low-FPR Collapse}
 
 Despite stable aggregate AUC, H1 fails low-FPR admission. TPR@1\%FPR
