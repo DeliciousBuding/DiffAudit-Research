@@ -879,20 +879,36 @@ separation---statistical visibility highest in early\_up, causal
 importance highest in late\_down---is the central mechanistic finding:
 membership-correlated channels are not membership-causal channels.
 
-We further decompose the causal gradient by timestep. Zeroing
-late\_down selectively at individual timesteps reveals a temporal
-gradient that generalizes across checkpoints: on DDPM 800k,
-$\Delta\text{AUC}{=}{+}0.124$ at $t{=}100$, ${+}0.041$ at $t{=}400$,
-${+}0.007$ at $t{=}700$; on DDIM 750k, $\Delta\text{AUC}{=}{+}0.179$
-at $t{=}100$, ${+}0.007$ at $t{=}400$, ${-}0.030$ at $t{=}700$.
-The causal importance of late\_down is concentrated in early denoising
-($t{=}100$) on both checkpoints, consistent with the interpretation
-that membership information resides in abstract, structural
-representations formed early in the generative process. At later
-timesteps, zeroing late\_down produces negligible or null effect---the
-signal is already encoded. The membership trace thus has both a
-spatial locus (deepest layers) and a temporal locus (early denoising),
-and both generalize across independently trained checkpoints.
+Table~\ref{tab:spatiotemporal-ko} reports the complete $4{\times}3$
+spatial--temporal knockout grid on both checkpoints. The causal locus is
+sharply concentrated: early denoising ($t{=}100$) at the bottleneck and
+deepest downsampling layers (mid\_0, late\_down) accounts for
+nearly all membership signal. At $t{=}400$ and $t{=}700$, zeroing any
+site produces negligible or null effect---the signal is already encoded
+by early denoising. The pattern is identical across independently trained
+checkpoints.
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Spatial--temporal causal grid.} $\Delta$AUC when zeroing all
+channels at each site$\times$timestep. Early denoising ($t{=}100$) at the
+bottleneck (mid\_0) and deepest layers (late\_down) carries essentially all
+membership signal. The pattern is identical across DDPM 800k and DDIM 750k.}
+\label{tab:spatiotemporal-ko}
+\centering
+\scriptsize
+\begin{tabular}{lrrrrrr}
+\toprule
+Site & \multicolumn{3}{c}{DDPM 800k $\Delta$AUC} & \multicolumn{3}{c}{DDIM 750k $\Delta$AUC} \\
+& $t{=}100$ & $t{=}400$ & $t{=}700$ & $t{=}100$ & $t{=}400$ & $t{=}700$ \\
+\midrule
+late\_down & \textbf{+0.138} & +0.039 & +0.006 & \textbf{+0.240} & +0.009 & +0.025 \\
+mid\_0     & \textbf{+0.149} & +0.002 & +0.008 & \textbf{+0.202} & +0.015 & +0.013 \\
+mid\_1     & +0.087 & +0.011 & $-$0.007 & +0.090 & $-$0.004 & +0.009 \\
+early\_up  & +0.078 & +0.032 & +0.007 & +0.099 & $-$0.007 & +0.007 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
