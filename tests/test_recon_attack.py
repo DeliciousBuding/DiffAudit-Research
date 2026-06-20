@@ -1,5 +1,6 @@
 import json
 import importlib.util
+import subprocess
 import sys
 import tempfile
 import types
@@ -1323,3 +1324,61 @@ class ReconAttackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# === Merged from test_recon_timestep_probe.py ===
+import numpy as np
+
+
+class ReconTimestepProbeTests(unittest.TestCase):
+    def test_analyze_recon_timestep_probe_selects_better_shadow_dimension(self) -> None:
+        from diffaudit.attacks.recon_timestep_probe import analyze_recon_timestep_probe
+
+        shadow_member = np.asarray([[0.45, 0.95], [0.4, 0.85], [0.55, 0.8]], dtype=float)
+        shadow_nonmember = np.asarray([[0.5, 0.1], [0.52, 0.2], [0.48, 0.15]], dtype=float)
+        target_member = np.asarray([[0.46, 0.9], [0.44, 0.8], [0.5, 0.85]], dtype=float)
+        target_nonmember = np.asarray([[0.51, 0.2], [0.52, 0.25], [0.49, 0.3]], dtype=float)
+
+        result = analyze_recon_timestep_probe(
+            shadow_member=shadow_member,
+            shadow_nonmember=shadow_nonmember,
+            target_member=target_member,
+            target_nonmember=target_nonmember,
+        )
+
+        self.assertEqual(result["best_shadow_dim"], 1)
+        self.assertGreater(result["selected_target"]["auc"], result["baseline_target"]["auc"])
+        self.assertGreater(result["target_auc_gain_vs_dim0"], 0.0)
+
+
+# === Merged from test_review_recon_tail_confidence.py ===
+
+
+class ReviewReconTailConfidenceTests(unittest.TestCase):
+    def test_wilson_interval_bounds_zero_false_positive_tail(self) -> None:
+        from scripts.review_recon_tail_confidence import wilson_interval
+
+        interval = wilson_interval(0, 100)
+
+        self.assertEqual(interval["estimate"], 0.0)
+        self.assertEqual(interval["lower_95"], 0.0)
+        self.assertGreater(interval["upper_95"], 0.03)
+
+    def test_project_card_is_admitted_finite_tail_only(self) -> None:
+        completed = subprocess.run(
+            [sys.executable, "scripts/review_recon_tail_confidence.py"],
+            check=False,
+            capture_output=True,
+            text=True,
+            cwd=Path(__file__).resolve().parents[1],
+        )
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        payload = json.loads(completed.stdout)
+        strict_gate = payload["gates"]["tpr_at_0_1pct_fpr"]
+
+        self.assertEqual(payload["verdict"], "admitted-finite-tail-only")
+        self.assertEqual(strict_gate["true_positives"], 11)
+        self.assertEqual(strict_gate["false_positives"], 0)
+        self.assertFalse(strict_gate["calibrated_to_target_fpr"])
+        self.assertEqual(payload["next_gpu_candidate"].split(";")[0], "none selected")

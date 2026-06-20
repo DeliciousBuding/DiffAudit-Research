@@ -1,4 +1,6 @@
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from contextlib import redirect_stdout
@@ -175,3 +177,138 @@ class VariationAttackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# === Merged from test_init_variation_query_set.py ===
+
+from scripts.init_variation_query_set import init_variation_query_set, main as init_variation_query_set_main
+
+
+class InitVariationQuerySetTests(unittest.TestCase):
+    def test_init_variation_query_set(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir) / "variation-query-set"
+            payload = init_variation_query_set(root)
+
+            self.assertEqual(payload["status"], "ready")
+            self.assertTrue((root / "member").exists())
+            self.assertTrue((root / "nonmember").exists())
+            self.assertTrue((root / "README.md").exists())
+            self.assertTrue((root / "member" / "PLACE_MEMBER_IMAGES_HERE.txt").exists())
+            self.assertTrue((root / "nonmember" / "PLACE_NONMEMBER_IMAGES_HERE.txt").exists())
+
+    def test_cli_main(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir) / "variation-query-set"
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                import sys
+
+                original_argv = sys.argv
+                try:
+                    sys.argv = ["init_variation_query_set.py", "--root", str(root)]
+                    init_variation_query_set_main()
+                finally:
+                    sys.argv = original_argv
+
+            payload = json.loads(stdout.getvalue())
+            self.assertEqual(payload["status"], "ready")
+            self.assertTrue((root / "README.md").exists())
+
+
+# === Merged from test_audit_variation_query_contract.py ===
+import subprocess
+
+
+class AuditVariationQueryContractTests(unittest.TestCase):
+    def test_blocks_missing_real_contract(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir) / "variation-query-set"
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/audit_variation_query_contract.py",
+                    "--query-root",
+                    str(root),
+                    "--endpoint",
+                    "",
+                    "--min-split-count",
+                    "2",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                cwd=Path(__file__).resolve().parents[1],
+            )
+
+        self.assertEqual(completed.returncode, 1)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["status"], "blocked")
+        self.assertFalse(payload["checks"]["query_image_root"])
+        self.assertFalse(payload["checks"]["endpoint"])
+        self.assertTrue(payload["checks"]["split_layout_required"])
+
+    def test_blocks_flat_layout_even_with_endpoint(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir) / "variation-query-set"
+            root.mkdir(parents=True)
+            for index in range(2):
+                (root / f"q{index}.png").write_bytes(b"png")
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/audit_variation_query_contract.py",
+                    "--query-root",
+                    str(root),
+                    "--endpoint",
+                    "https://example.invalid/variation",
+                    "--min-split-count",
+                    "2",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                cwd=Path(__file__).resolve().parents[1],
+            )
+
+        self.assertEqual(completed.returncode, 1)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["status"], "blocked")
+        self.assertTrue(payload["checks"]["query_images_present"])
+        self.assertFalse(payload["checks"]["paper_eval_layout_min_count"])
+
+    def test_accepts_minimum_member_nonmember_contract(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir) / "variation-query-set"
+            member = root / "member"
+            nonmember = root / "nonmember"
+            member.mkdir(parents=True)
+            nonmember.mkdir(parents=True)
+            for index in range(2):
+                (member / f"m{index}.png").write_bytes(b"png")
+                (nonmember / f"n{index}.png").write_bytes(b"png")
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/audit_variation_query_contract.py",
+                    "--query-root",
+                    str(root),
+                    "--endpoint",
+                    "https://example.invalid/variation",
+                    "--min-split-count",
+                    "2",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                cwd=Path(__file__).resolve().parents[1],
+            )
+
+        self.assertEqual(completed.returncode, 0)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["status"], "ready")
+        self.assertTrue(payload["checks"]["paper_eval_layout_min_count"])
+        self.assertEqual(payload["layout"]["member_query_count"], 2)
+        self.assertEqual(payload["layout"]["nonmember_query_count"], 2)

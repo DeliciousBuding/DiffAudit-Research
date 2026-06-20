@@ -2,6 +2,23 @@
 
 This file is the operating guide for agents and teammates working in `Research/`.
 
+## Authority
+
+This file is subordinate to `D:/Code/DiffAudit/AGENTS.md` (root governance charter).
+The root AGENTS.md defines directory boundaries, agent organization, release policy,
+and cross-repo coordination rules. This file governs Research-specific operations
+and may refine or override root defaults for Research-only concerns.
+
+Naming conventions are jointly governed by this file and
+`../Docs/NAMING_CONVENTIONS.md` (canonical for all DiffAudit directories).
+Where this file is silent on naming, `Docs/NAMING_CONVENTIONS.md` applies.
+Where this file specifies Research-only naming rules (script names, evidence doc
+names, workspace structure), this file takes priority within Research/.
+
+S.U.P.E.R. principles are defined canonically in this file (Section "Governance
+Rules → S.U.P.E.R Principles"). Root `AGENTS.md` Section 五 points here as the
+canonical source.
+
 ## Repository Role
 
 `Research/` holds research code, configs, experiment status, and
@@ -20,7 +37,7 @@ Read in this order:
 6. `<DIFFAUDIT_ROOT>/Research/docs/evidence/reproduction-status.md`
 7. `<DIFFAUDIT_ROOT>/Research/docs/product-bridge/README.md`
 8. `<DIFFAUDIT_ROOT>/Research/docs/governance/research-governance.md`
-9. `<DIFFAUDIT_ROOT>/Research/docs/rebuild/README.md`
+9. `<DIFFAUDIT_ROOT>/Docs/archive/Research/docs/rebuild/codebase-rebuild-plan.md` (重建计划已归档；`Research/docs/rebuild/README.md` 为溶解指针)
 10. `<DIFFAUDIT_ROOT>/Research/docs/evidence/workspace-evidence-index.md`
 11. The relevant `workspaces/<direction>/README.md` and `plan.md`
 
