@@ -10,8 +10,8 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_BUNDLE = Path("workspaces/implementation/artifacts/admitted-evidence-bundle.json")
-DEFAULT_OUTPUT = Path("workspaces/implementation/artifacts/admitted-risk-card.md")
+DEFAULT_BUNDLE = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-evidence-bundle.json")
+DEFAULT_OUTPUT = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-risk-card.md")
 
 FORBIDDEN_REPORTABLE_TERMS = (
     "H2 output-cloud",

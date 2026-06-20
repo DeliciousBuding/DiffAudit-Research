@@ -13,8 +13,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.validate_attack_defense_table import ADMITTED_CONSUMER_ROWS, REQUIRED_METRICS
 
-DEFAULT_TABLE = Path("workspaces/implementation/artifacts/unified-attack-defense-table.json")
-DEFAULT_OUTPUT = Path("workspaces/implementation/artifacts/admitted-evidence-bundle.json")
+DEFAULT_TABLE = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/unified-attack-defense-table.json")
+DEFAULT_OUTPUT = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-evidence-bundle.json")
 
 
 def _repo_root() -> Path:

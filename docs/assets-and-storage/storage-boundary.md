@@ -91,7 +91,7 @@ Examples:
 - `Download/shared/datasets/...`
 - `Download/shared/weights/...`
 - `Download/gray-box/weights/...`
-- `Download/black-box/supplementary/...`
+- `Download/supplements/...`
 - `Download/white-box/supplementary/...`
 
 Rules:
@@ -214,7 +214,7 @@ Both can coexist, but their roles must be explicitly distinguished. Do not casua
 ### `CLiD`
 
 - `external/CLiD/` = local working clone / `--repo-root`
-- `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/clid-mia-supplementary/` = raw supplementary mirror
+- `<DIFFAUDIT_ROOT>/Download/supplements/clid-mia-supplementary/` = raw supplementary mirror
 
 In practice:
 
@@ -225,7 +225,7 @@ In practice:
 
 `recon-assets` has been moved out of `external/`. Its current canonical raw bundle location is:
 
-- `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-assets/`
+- `<DIFFAUDIT_ROOT>/Download/supplements/recon-assets/`
 
 It is no longer part of the code clone layer.
 

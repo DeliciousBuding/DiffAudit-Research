@@ -9,8 +9,8 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_TABLE = Path("workspaces/implementation/artifacts/unified-attack-defense-table.json")
-DEFAULT_OUTPUT = Path("workspaces/implementation/artifacts/recon-product-evidence-card.json")
+DEFAULT_TABLE = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/unified-attack-defense-table.json")
+DEFAULT_OUTPUT = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/recon-product-evidence-card.json")
 RECON_ROW_SELECTOR = {
     "track": "black-box",
     "attack": "recon DDIM public-100 step30",

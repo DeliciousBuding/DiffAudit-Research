@@ -14,7 +14,7 @@ Local non-Git package roots:
 
 ```text
 Download/black-box/datasets/response-contract-beans-sd15-20260512/
-Download/black-box/supplementary/response-contract-beans-sd15-20260512/
+Download/supplements/response-contract-beans-sd15-20260512/
 ```
 
 Package contents:

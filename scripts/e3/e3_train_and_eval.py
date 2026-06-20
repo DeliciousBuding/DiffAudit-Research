@@ -22,8 +22,10 @@ from sklearn import metrics
 
 # --- Paths ---
 PROJECT = Path(__file__).resolve().parents[1]
-MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"
-sys.path.insert(0, str(MATERIALS))
+# GONE - module removed during restructuring; no replacement found on disk
+# MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"
+# sys.path.insert(0, str(MATERIALS))
+MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"  # GONE
 
 from model_unet import UNet
 from diffusion import GaussianDiffusionTrainer, GaussianDiffusionSampler
@@ -52,7 +54,9 @@ WARMUP_STEPS = 5000
 
 SAVE_STEPS = [80000, 160000, 240000, 320000, 400000, 480000, 560000, 640000, 720000, 800000]
 EVAL_SAMPLE_SIZE = 64
-LOG_DIR = PROJECT / "outputs" / "e3_nvidia_unet_cifar10"
+# GONE - output directory not found; re-run training to regenerate
+# LOG_DIR = PROJECT / "outputs" / "e3_nvidia_unet_cifar10"
+LOG_DIR = PROJECT / "outputs" / "e3-nvidia-unet-cifar10"  # relocated
 
 
 def setup():

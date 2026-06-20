@@ -104,7 +104,7 @@ These names are canonical and follow the right convention:
 - `shared/weights/blip-image-captioning-large/`
 - `shared/weights/google-ddpm-cifar10-32/`
 - `shared/datasets/celeba/`
-- `black-box/supplementary/recon-assets/`
+- `supplements/recon-assets/`
 - `gray-box/weights/secmi-cifar-bundle/`
 
 These names describe what the asset is.
@@ -115,7 +115,7 @@ These names describe what the asset is.
 
 These names are not wrong, but they read more like source traces than canonical asset names:
 
-- `black-box/supplementary/clid-mia-supplementary/`
+- `supplements/clid-mia-supplementary/`
   - mixes method name with supplementary type
   - acceptable, but long
 - `gray-box/supplementary/secmi-onedrive/`

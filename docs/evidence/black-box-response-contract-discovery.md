@@ -6,7 +6,7 @@
 ## Question
 
 Do the current `Download/black-box/datasets/` and
-`Download/black-box/supplementary/` roots contain any paired second
+`Download/supplements/` roots contain any paired second
 response-contract package that passes the CPU package gate?
 
 ## Method
@@ -81,7 +81,7 @@ acquisition, not another model run. A future package should be created under:
 
 ```text
 Download/black-box/datasets/response-contract-<dataset>-<model>-YYYYMMDD/
-Download/black-box/supplementary/response-contract-<dataset>-<model>-YYYYMMDD/
+Download/supplements/response-contract-<dataset>-<model>-YYYYMMDD/
 ```
 
 It must then pass:

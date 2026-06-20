@@ -38,10 +38,10 @@ FORBIDDEN_TEXT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 TEXT_SCAN_EXCLUDE = {"scripts/check_public_surface.py"}
 
 REPORT_LANGUAGE_SCAN_PATHS = {
-    "papers/diffaudit-evidence-paper/main.tex",
-    "papers/diffaudit-evidence-paper/versions/direction-d-audit-systems.md",
-    "papers/diffaudit-evidence-paper/versions/drafts/direction-d-audit-systems-paper.md",
-    "workspaces/implementation/artifacts/admitted-risk-card.md",
+    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/main.tex",
+    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/versions/direction-d-audit-systems.md",
+    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/versions/drafts/direction-d-audit-systems-paper.md",
+    "D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-risk-card.md",
 }
 
 TRACING_ROOTS_NAME = r"Tracing\s+(?:the\s+)?Roots"

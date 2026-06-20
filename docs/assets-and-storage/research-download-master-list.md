@@ -3,8 +3,8 @@
 > Root download directory: `<DIFFAUDIT_ROOT>/Download`
 > Principle: top-level only grouped by `black-box / gray-box / white-box / shared`
 > GitHub repositories are intentionally excluded because the agent can fetch those itself.
-> Current local/manual status snapshot: `docs/assets-and-storage/research-download-current-status.md`
-> Teammate setup guide: `docs/assets-and-storage/data-and-assets-handoff.md`
+> Current local/manual status snapshot: `research-download-current-status.md`
+> Teammate setup guide: `data-and-assets-handoff.md`
 
 ---
 
@@ -17,7 +17,7 @@ Download all raw assets into these directories:
 - `<DIFFAUDIT_ROOT>/Download/black-box/datasets`
 - `<DIFFAUDIT_ROOT>/Download/black-box/weights`
 - `<DIFFAUDIT_ROOT>/Download/black-box/papers`
-- `<DIFFAUDIT_ROOT>/Download/black-box/supplementary`
+- `<DIFFAUDIT_ROOT>/Download/supplements`
 - `<DIFFAUDIT_ROOT>/Download/gray-box/datasets`
 - `<DIFFAUDIT_ROOT>/Download/gray-box/weights`
 - `<DIFFAUDIT_ROOT>/Download/gray-box/papers`
@@ -63,10 +63,10 @@ These assets support multiple directions and should be downloaded first.
 
 | ID | Asset | Why We Need It | Source | Login / Gated | Est. Size | Download To |
 |---|---|---|---|---|---|---|
-| `BB-SUP-01` | Recon official non-GitHub asset bundle or mirrors | Needed if current local recon assets need to be rebuilt / cross-validated | manual author / project release if available | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-official-assets/` |
-| `BB-SUP-02` | CLiD supplementary / artifact release | Needed for paper-faithful upgrade beyond current local bridge | manual author / supplementary release | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/clid-release/` |
+| `BB-SUP-01` | Recon official non-GitHub asset bundle or mirrors | Needed if current local recon assets need to be rebuilt / cross-validated | manual author / project release if available | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/supplements/recon-official-assets/` |
+| `BB-SUP-02` | CLiD supplementary / artifact release | Needed for paper-faithful upgrade beyond current local bridge | manual author / supplementary release | Possibly manual | unknown | `<DIFFAUDIT_ROOT>/Download/supplements/clid-release/` |
 | `BB-DS-01` | Second response-contract query set | Required to reopen black-box response-strength, simple-distance portability, or variation with a second asset family | team acquisition / public dataset + documented split | Maybe manual | starts at 25/25 query identities | `<DIFFAUDIT_ROOT>/Download/black-box/datasets/response-contract-<dataset>-<model>-YYYYMMDD/` |
-| `BB-SUP-03` | Second response-contract response packet | Required companion responses or endpoint replay contract for `BB-DS-01` | team acquisition / endpoint capture / model response export | Maybe manual | depends on repeats and response type | `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/response-contract-<dataset>-<model>-YYYYMMDD/` |
+| `BB-SUP-03` | Second response-contract response packet | Required companion responses or endpoint replay contract for `BB-DS-01` | team acquisition / endpoint capture / model response export | Maybe manual | depends on repeats and response type | `<DIFFAUDIT_ROOT>/Download/supplements/response-contract-<dataset>-<model>-YYYYMMDD/` |
 | `BB-PAP-01` | Any missing black-box paper supplements | Backup for protocol details if local PDFs are insufficient | paper supplement pages | maybe manual | small | `<DIFFAUDIT_ROOT>/Download/black-box/papers/` |
 
 `BB-DS-01` and `BB-SUP-03` are specified in
@@ -77,8 +77,8 @@ and integrity metadata before any GPU packet is released.
 
 ### Already local, no urgent external download required
 
-- Current `Recon` asset stack is already present under `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/recon-assets/`
-- Current `CLiD` codebase is already present under `external/CLiD/`, while the raw supplementary mirror is under `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/clid-mia-supplementary/`
+- Current `Recon` asset stack is already present under `<DIFFAUDIT_ROOT>/Download/supplements/recon-assets/`
+- Current `CLiD` codebase is already present under `external/CLiD/`, while the raw supplementary mirror is under `<DIFFAUDIT_ROOT>/Download/supplements/clid-mia-supplementary/`
 
 ---
 

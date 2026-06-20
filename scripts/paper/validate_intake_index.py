@@ -141,13 +141,13 @@ def _derive_research_root(index_path: Path, fallback_root: Path) -> Path:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="validate_intake_index",
-        description="Validate workspaces/intake/index.json and referenced manifests.",
+        description="GONE - re-run intake pipeline to regenerate (was: Validate workspaces/intake/index.json and referenced manifests).",
     )
     parser.add_argument(
         "--index",
         type=Path,
         default=None,
-        help="Path to intake index JSON (default: <research_root>/workspaces/intake/index.json).",
+        help="GONE - re-run intake pipeline to regenerate. (was: Path to intake index JSON (default: <research_root>/workspaces/intake/index.json).)",
     )
     args = parser.parse_args(argv)
 

@@ -17,28 +17,28 @@ ADMITTED_CONSUMER_ROWS = (
         "attack": "PIA GPU512 baseline",
         "defense": "none",
         "evidence_level": "runtime-mainline",
-        "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/summary.json",
+        "source": "GONE - workspace run directory deleted; re-run experiment to regenerate",  # was: workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/summary.json
     },
     {
         "track": "gray-box",
         "attack": "PIA GPU512 baseline",
         "defense": "provisional G-1 = stochastic-dropout (all_steps)",
         "evidence_level": "runtime-mainline",
-        "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/summary.json",
+        "source": "GONE - workspace run directory deleted; re-run experiment to regenerate",  # was: workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/summary.json
     },
     {
         "track": "white-box",
         "attack": "GSA 1k-3shadow",
         "defense": "none",
         "evidence_level": "runtime-mainline",
-        "source": "workspaces/white-box/runs/gsa-runtime-mainline-20260409-cifar10-1k-3shadow-epoch300-rerun1/summary.json",
+        "source": "GONE - workspace run directory deleted; re-run experiment to regenerate",  # was: workspaces/white-box/runs/gsa-runtime-mainline-20260409-cifar10-1k-3shadow-epoch300-rerun1/summary.json
     },
     {
         "track": "white-box",
         "attack": "GSA 1k-3shadow",
         "defense": "W-1 strong-v3 full-scale",
         "evidence_level": "runtime-smoke",
-        "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/summary.json",
+        "source": "GONE - workspace run directory deleted; re-run experiment to regenerate",  # was: workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/summary.json
     },
 )
 REQUIRED_METRICS = ("auc", "asr", "tpr_at_1pct_fpr", "tpr_at_0_1pct_fpr")
@@ -143,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
         "--table",
         type=Path,
         default=None,
-        help="Path to unified attack-defense table JSON (default: <research_root>/workspaces/implementation/artifacts/unified-attack-defense-table.json).",
+        help="Path to unified attack-defense table JSON (default: D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/unified-attack-defense-table.json).",
     )
     args = parser.parse_args(argv)
 

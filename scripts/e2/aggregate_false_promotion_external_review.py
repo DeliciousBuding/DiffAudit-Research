@@ -1,7 +1,7 @@
 """Aggregate C14 false-promotion external-review labels.
 
 The C14 packet is prepared reviewer material. This script validates reviewer
-CSV files filled from ``data/false_promotion_external_review_template.csv`` and
+CSV files filled from ``D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_external_review_template.csv`` and
 summarizes majority labels, disagreements, and comparison against the author
 adjudication key. It never fabricates labels: with ``--check`` and no reviewer
 files, it only validates that the packet is ready to receive labels.
@@ -812,7 +812,9 @@ def write_no_label_markdown(path: Path, packet_status: list[dict[str, object]]) 
         "",
         "## Next Required Evidence",
         "",
-        "Place one completed thirteen-row reviewer CSV and one matching reviewer declaration per reviewer under `papers/diffaudit-evidence-paper/build/false_promotion_external_review_labels/`, or pass them with `--review-file` and `--declaration-file`.",
+        # GONE - build subdirectory not found; re-run build pipeline to regenerate
+        # "Place one completed thirteen-row reviewer CSV and one matching reviewer declaration per reviewer under `papers/diffaudit-evidence-paper/build/false_promotion_external_review_labels/`, or pass them with `--review-file` and `--declaration-file`.",
+        "Place completed reviewer CSVs via --review-file and --declaration-file. The build/false_promotion_external_review_labels/ directory has been removed.",
         "",
     ]
     path.parent.mkdir(parents=True, exist_ok=True)

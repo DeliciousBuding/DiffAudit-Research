@@ -74,7 +74,7 @@ Build or acquire a real package under:
 
 ```text
 Download/black-box/datasets/response-contract-pokemon-kandinsky-20260510/
-Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260510/
+Download/supplements/response-contract-pokemon-kandinsky-20260510/
 ```
 
 Do not release GPU until the CPU preflight returns `status=ready`.

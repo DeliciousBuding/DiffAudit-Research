@@ -30,7 +30,7 @@ Local non-Git package roots:
 
 ```text
 <DIFFAUDIT_ROOT>/Download/black-box/datasets/response-contract-copymark-commoncanvas-20260512/
-<DIFFAUDIT_ROOT>/Download/black-box/supplementary/response-contract-copymark-commoncanvas-20260512/
+<DIFFAUDIT_ROOT>/Download/supplements/response-contract-copymark-commoncanvas-20260512/
 ```
 
 The tiny split was extracted from the Hugging Face `chumengl/copymark`

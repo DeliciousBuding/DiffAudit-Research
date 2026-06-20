@@ -115,7 +115,7 @@ query package, endpoint contract, response manifest, or responses. See
 [../../docs/evidence/black-box-response-contract-package-preflight.md](../../docs/evidence/black-box-response-contract-package-preflight.md).
 The repository-level discovery pass generalizes that finding across the current
 black-box package roots: `Download/black-box/datasets` has no package ids,
-`Download/black-box/supplementary` has only `clid-mia-supplementary` and
+`Download/supplements` has only `clid-mia-supplementary` and
 `recon-assets` as supplementary-only directories, and no ready paired
 response-contract package exists. See
 [../../docs/evidence/black-box-response-contract-discovery.md](../../docs/evidence/black-box-response-contract-discovery.md).

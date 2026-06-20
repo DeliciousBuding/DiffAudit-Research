@@ -15,7 +15,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "papers" / "diffaudit-evidence-paper" / "data"
-OUT = ROOT / "docs" / "internal" / "e2-n50-freeze-preflight-2026-06-06"
+# GONE - docs/internal/ directory not found
+# OUT = ROOT / "docs" / "internal" / "e2-n50-freeze-preflight-2026-06-06"
+OUT = ROOT / "outputs" / "e2-n50-freeze-preflight-2026-06-06"  # relocated
 
 SOURCES = [
     "artifact_corpus_v1.csv",

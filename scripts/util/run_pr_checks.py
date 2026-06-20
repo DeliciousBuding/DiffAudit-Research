@@ -71,7 +71,7 @@ def main() -> None:
             (
                 "from pathlib import Path; "
                 "from scripts.check_public_surface import candidate_promotion_violations_from_text as f; "
-                "card=Path('workspaces/implementation/artifacts/admitted-risk-card.md').read_text(encoding='utf-8'); "
+                "card=Path('D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-risk-card.md').read_text(encoding='utf-8'); "
                 "assert f('H2 is an admitted black-box row.'); "
                 "assert not f(card)"
             ),
@@ -86,7 +86,7 @@ def main() -> None:
                 "import copy,json; "
                 "from pathlib import Path; "
                 "from scripts.render_admitted_risk_card import render_risk_card; "
-                "path=Path('workspaces/implementation/artifacts/admitted-evidence-bundle.json'); "
+                "path=Path('D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-evidence-bundle.json'); "
                 "bundle=json.loads(path.read_text(encoding='utf-8')); "
                 "bad=copy.deepcopy(bundle); "
                 r"bad['rows'][0].setdefault('provenance', {})['source']='D:' + '\\Code\\DiffAudit\\private-source.csv'; "

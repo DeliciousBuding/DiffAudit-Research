@@ -46,10 +46,10 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Run one bounded black-box H2 response-strength validation packet."
     )
-    parser.add_argument("--config", type=Path, default=Path("configs/attacks/pia-mainline-canonical.yaml"))
+    parser.add_argument("--config", type=Path, default=Path("D:/Code/DiffAudit/Research/configs/attacks/pia-mainline-canonical.yaml"))
     parser.add_argument("--run-root", type=Path, default=None)
-    parser.add_argument("--repo-root", type=Path, default=Path("external/PIA"))
-    parser.add_argument("--member-split-root", type=Path, default=Path("external/PIA/DDPM"))
+    parser.add_argument("--repo-root", type=Path, default=None)  # GONE - external/PIA dependency removed; specify with --repo-root
+    parser.add_argument("--member-split-root", type=Path, default=None)  # GONE - external/PIA/DDPM dependency removed; specify with --member-split-root
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--packet-size", type=int, default=512)
     parser.add_argument("--split-offset", type=int, default=512)

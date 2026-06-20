@@ -16,8 +16,8 @@ from dataset_utils import load_member_data
 
 DEV=torch.device('cuda')
 T,CH=1000,128; CH_MULT=[1,2,2,2]; ATTN=[1]; NRB=2; DO=0.1
-CKPT='D:/Code/DiffAudit/Download/gray-box/weights/secmi-cifar-bundle/CIFAR100/checkpoint.pt'
-OUT=PROJECT/'outputs'/'h1_scout'
+CKPT='D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar100-800k/checkpoint.pt'
+OUT=PROJECT/'outputs'/'h1-scout'
 TS=[100,400,700]; SITES=['late_down','mid_0','mid_1','early_up']
 NM,NNM,SEED,PCT,NS=64,64,42,0.04,30
 

@@ -93,7 +93,7 @@ python -m diffaudit run-recon-artifact-mainline --artifact-dir path/to/recon-sco
 运行论文 Stage 0 关卡：
 
 ```powershell
-python -m diffaudit check-recon-stage0-paper-gate --repo-root external/Reconstruction-based-Attack --bundle-root "$env:DIFFAUDIT_ROOT/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models" --attack-scenario attack-i
+python -m diffaudit check-recon-stage0-paper-gate --repo-root external/Reconstruction-based-Attack --bundle-root "$env:DIFFAUDIT_ROOT/Download/supplements/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models" --attack-scenario attack-i
 ```
 
 评估已保存的 H2 响应强度缓存：
@@ -281,7 +281,7 @@ python -m diffaudit plan-clid --config configs/attacks/clid-plan.yaml
 python -m diffaudit probe-clid-assets --config configs/attacks/clid-plan.yaml
 python -m diffaudit dry-run-clid --config configs/attacks/clid-plan.yaml --repo-root external/CLiD
 python -m diffaudit run-clid-dry-run-smoke --workspace experiments/clid-dry-run-smoke --repo-root external/CLiD
-python -m diffaudit summarize-clid-artifacts --artifact-dir "$env:DIFFAUDIT_ROOT/Download/black-box/supplementary/clid-mia-supplementary/contents/CLID_MIA/inter_output/CLID" --workspace experiments/clid-artifact-summary
+python -m diffaudit summarize-clid-artifacts --artifact-dir "$env:DIFFAUDIT_ROOT/Download/supplements/clid-mia-supplementary/contents/CLID_MIA/inter_output/CLID" --workspace experiments/clid-artifact-summary
 ```
 
 ## 灰盒

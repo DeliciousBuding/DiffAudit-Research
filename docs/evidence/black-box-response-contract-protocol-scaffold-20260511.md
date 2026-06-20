@@ -34,7 +34,7 @@ The scaffold dry-run succeeded and reports the required package roots:
 
 ```text
 Download/black-box/datasets/response-contract-pokemon-kandinsky-20260511/
-Download/black-box/supplementary/response-contract-pokemon-kandinsky-20260511/
+Download/supplements/response-contract-pokemon-kandinsky-20260511/
 ```
 
 The required query and response subtrees are:
