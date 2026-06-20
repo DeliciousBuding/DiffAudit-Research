@@ -154,19 +154,23 @@
 | # | Method | Access | Model/Data | Status | Blocker |
 |---|--------|--------|-----------|--------|--------|
 | 22 | **PIA/TMIA-DM** | Gray-box | GPU512 | candidate | Pending admission review |
-| 24 | **H1 Activation-Subspace** | White-box activation | CUDA UNet CIFAR-10 | **0.873** | 0.055 | 128/128 | candidate-positive / low-FPR-fragile |
+| 24 | **H1 Activation-Subspace (DAAB)** | White-box activation | CUDA UNet CIFAR-10 | **0.873** | 0.055 | 128/128 | candidate-positive / tail-fragile |
 
-### Allowed Claims (H1 Activation-Subspace) — new 2026-06-20
-- Internal UNet activation summaries (late_down, mid_0, mid_1, early_up) produce a stable aggregate membership signal (AUC=0.873 at N=128, ΔAUC=+0.001 from N=64→128)
-- Signal passes label-shuffle control (AUC=0.486) and does not depend on a single UNet site (ablation AUC range 0.867–0.879)
-- H1 provides a mechanistically distinct white-box observable: non-gradient, non-loss, activation-based — complementary to GSA
-- H1 is a worked example of the "AUC-stable but low-FPR-fragile" category: real signal, clean mechanism, passed controls, yet TPR@1%FPR collapses from 0.484 (N=64) to 0.055 (N=128)
-- Diagnostic lesson: stable aggregate AUC + passed shuffle control + distinct mechanism still does not imply low-FPR admissibility
+### Allowed Claims (H1/DAAB) — final 2026-06-20
+- Internal UNet activations carry a replicated aggregate membership signal dominated by activation magnitude (AUC=0.873 DDPM 800k, AUC=0.841 DDIM 750k)
+- Signal passes label-shuffle control (AUC=0.486) and does not depend on a single UNet site
+- H1 provides a mechanistically distinct white-box observable: non-gradient, non-loss, activation-based
+- Membership-correlated channels are NOT causal bottlenecks: targeted top-10 deletion ΔAUC=+0.008 falls within random variation (σ=0.015); targeted top-4% deletion ΔAUC=+0.008 is significantly LESS than random 4% ΔAUC=+0.049
+- Signal is distributed, redundant, and non-localizable — retrained scorer adapts to channel deletion
+- H1 is a worked example of the "Distributed Activation-Amplitude Bias": real signal, replicated, mechanistically characterized, but causally non-localizable and forensically fragile
+- Core insight: "Real signal does not imply causal localization; causal non-localization does not imply forensic admission."
+- H4 closed: no compact post-training edit target exists
 
-### Blocked Claims (H1)
+### Blocked Claims (H1/DAAB)
 - ❌ "H1 is admitted membership evidence"
 - ❌ "Activation-subspace attack achieves reliable low-FPR MIA"
-- ❌ Any TPR@0.1%FPR claim (N=128 clean negatives insufficient per rule-of-3)
+- ❌ "Significant channels are a compact removable leakage source"
+- ❌ Any TPR@0.1%FPR claim
 - ❌ "H1 is as strong as GSA"
 
 ---
