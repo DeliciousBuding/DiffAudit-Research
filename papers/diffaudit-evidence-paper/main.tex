@@ -19,45 +19,47 @@
 \maketitle
 
 \begin{abstract}
-Diffusion membership-inference (MIA) scores are commonly reported as scalar
-attack metrics, yet the same score can correspond to different evidence states:
-a high-AUC signal may be real but forensically fragile, spurious under covariate
-controls, non-portable across surfaces, or admissible only within a bounded
-scope. We argue that membership inference is not a score-ranking problem; it is
-an evidence-admission problem.
+Diffusion membership-inference attacks are usually reported as scalar scores,
+but a score alone does not determine what claim it can support. The same
+high-AUC signal may be genuine membership evidence, a covariate artifact, a
+non-portable response-surface effect, or a finite-tail measurement too weak
+for forensic use. We propose a claim-admission protocol for diffusion MIA
+scores: each reported claim is bound to a target identity, split semantics,
+row-level observable, metric provenance, finite-tail basis, consumer boundary,
+and surface-delta requirement, and is assigned the narrowest evidence state
+supported by those surfaces.
 
-We formalize this as a claim-admission protocol: a fixed-order gate rule over
-target identity, split semantics, score/response coverage, metric provenance,
-consumer boundary, and surface delta assigns each proposed audit claim to
-reportable, candidate, support-only, watch, or negative states. The protocol is
-applied to 24 boundary cases spanning white-box, gray-box, and black-box access.
+Across 24 boundary-case rows, the protocol separates admitted, candidate,
+support-only, spurious, weak, and non-portable evidence. The central case
+is an activation-subspace fingerprint scout, H1, which is not a trivial
+failure. Internal U-Net activations carry replicated aggregate membership
+signal across two same-architecture checkpoints, with AUC 0.873 on DDPM-800k
+and 0.841 on DDIM-750k, and shuffle controls near chance. The signal is
+dominated by activation magnitude. Yet channel knockout experiments show it
+is distributed and non-localizable: removing the most membership-correlated
+channels does not suppress the score more than matched random deletion (Cohen's
+$d{=}0.10$--$0.21$, $p{=}0.26$--$0.60$ across checkpoints). An 8-timestep
+fine temporal grid further reveals that membership signal geometry is
+training-procedure-dependent: DDPM stochastic training produces temporally
+distributed signal (max individual $\Delta\text{AUC}{=}0.029$), while DDIM
+deterministic training produces temporally concentrated signal
+($\Delta\text{AUC}{=}0.221$, a 7.6$\times$ difference)---the only DAAB
+property that varies across checkpoints. At the same time, H1 is not
+forensically admitted: its TPR@1\%FPR collapses from 0.484 to 0.055 under
+scale-up from $N{=}64$ to $N{=}128$.
 
-The centerpiece case is H1, an activation-subspace scout on CIFAR-10 DDPMs.
-Internal U-Net activations carry a replicated membership signal (AUC 0.873 DDPM,
-0.841 DDIM) dominated by activation magnitude. The signal passes shuffle and
-ablation controls. However, matched channel knockout experiments reveal that the
-most membership-correlated channels are not causal bottlenecks: targeted deletion
-produces negligible degradation, while random matched deletions produce
-statistically indistinguishable drops. An 8-timestep fine temporal grid further
-reveals that membership signal geometry is training-procedure-dependent: DDPM
-stochastic training produces temporally distributed signal (max individual
-$\Delta\text{AUC}{=}0.029$), while DDIM deterministic training produces
-temporally concentrated signal ($\Delta\text{AUC}{=}0.221$, 7.6$\times$ larger).
-We term this Distributed Activation-Amplitude Bias (DAAB):
-a real, replicated, mechanistically characterized signal that is channel-level
-distributed, forensically fragile (TPR@1\%FPR collapses from 0.484 to
-0.055 under scale-up), and whose temporal distribution depends on the training
-procedure. H1 thus separates signal existence from causal
-localization and forensic admission---a separation that scalar metrics conceal.
-
-Additional boundary cases include CLiD (spurious: AUC 1.000 collapses to 0.586
-under prompt-neutral control; $\Delta$AUC reported as point estimate only---raw
-score vectors unavailable for paired inference), scnet (weak scale-null: 54$\times$ capacity,
-$\Delta$AUC{=}0.003), H2 output-cloud (non-portable: AUC 0.962 within-family,
-fails img2img), and MoFIT (external support: AUC 0.942, missing row binding).
-These are organized by promotion error type rather than as a collection of
-negative results. The core insight is that a diffusion MIA score is not evidence
-until its claim boundary is admitted.
+We term this pattern Distributed Activation-Amplitude Bias (DAAB): a real,
+replicated, mechanistically characterized membership trace that is channel-level
+distributed and universal across training procedures, temporally distributed
+or concentrated depending on the training objective, and too fragile at low
+FPR for forensic admission. Additional boundary cases include CLiD (spurious:
+AUC 1.000 collapses to 0.586 under prompt-neutral control; $\Delta$AUC reported
+as point estimate only), scnet (scale-null: 54$\times$ capacity,
+$\Delta\text{AUC}{=}0.003$), H2 output-cloud (non-portable: AUC 0.962
+within-family, fails img2img), and MoFIT (external support: AUC 0.942, missing
+row binding). The broader lesson is that membership inference is not merely a
+score-ranking problem: a diffusion MIA score becomes evidence only after its
+claim boundary is admitted.
 \end{abstract}
 
 \section{Introduction}
@@ -1202,25 +1204,23 @@ preregistered larger corpus and independent labels.
 
 \section{Conclusion}
 
-A diffusion MIA score is not evidence until its claim boundary is admitted.
-In these boundary cases, the contract admits replay and point rows under bounded,
-scope-bounded wording. H2 is a candidate boundary case. H1 reveals Distributed
-Activation-Amplitude Bias: a real, replicated, mechanistically characterized
-signal that is non-localizable and forensically fragile---demonstrating that
-real signal does not imply causal localization, and causal non-localization
-does not imply forensic admission. The fine temporal grid adds an unexpected
-finding: membership signal geometry is a product of the training procedure.
-DDPM stochastic training produces temporally distributed signal resistant to
-single-timestep knockout; DDIM deterministic training produces temporally
-concentrated signal vulnerable to targeted intervention---a 7.6$\times$
-difference in causal concentration between identically architected models.
-MoFit supplies support-only score-file diagnostics. The remaining negative
-and killed rows are organized by promotion error type rather than as failed
-experiments.
-
-The reporting rule is direct: name the target, split, row-level observable,
-metric provenance, finite-tail basis, and consumer boundary, then use the
-claim state assigned by those gates.
+The strongest lesson from these boundary cases is that diffusion MIA evidence
+has states. H1 reveals Distributed Activation-Amplitude Bias: internal U-Net
+activations carry a replicated, mechanistically characterized membership trace
+that is channel-level distributed and universal across training procedures, yet
+whose temporal distribution depends on the training objective---DDPM stochastic
+training produces temporally distributed signal (max individual
+$\Delta\text{AUC}{=}0.029$), while DDIM deterministic training produces
+temporally concentrated signal ($\Delta\text{AUC}{=}0.221$, a 7.6$\times$
+difference). The signal is non-localizable under channel knockout and too fragile
+at low FPR for forensic admission. CLiD shows that perfect separation can be
+spurious under a prompt-control change. H2 shows that high response-surface AUC
+can fail portability. MoFIT shows that strong external scores exist but require
+row binding and target identity before supporting a bounded audit claim. The
+admitted rows---GSA, PIA, Recon---confirm that genuine membership signal exists
+across access levels when the evidence contract is satisfied. Taken together,
+these cases argue that membership inference is not only a score-ranking problem:
+a diffusion MIA score becomes evidence only after its claim boundary is admitted.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
