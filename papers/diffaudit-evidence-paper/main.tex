@@ -945,7 +945,8 @@ concentrated signal: all 16 knockouts exceed $\Delta{=}0.09$, with
 late\_down@$t{=}100$ destroying 26\% of AUC.}
 \label{tab:fine-temporal}
 \centering
-\setlength{\tabcolsep}{4pt}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lrrrrrrrrr}
 \toprule
 & \multicolumn{8}{c}{$\Delta$AUC (baseline $-$ knockout)} & Max \\
@@ -985,10 +986,11 @@ process) produces temporally distributed, redundant signal. DDIM training
 vulnerable to single-timestep knockout.
 
 The channel-level distribution (no single channel is causal) holds for both
-checkpoints. But temporal distribution is training-procedure-dependent.
-DAAB's ``Distributed'' qualifier applies to the channel level universally;
-temporal distribution is a DDPM-specific property now verified against a
-counterexample.
+checkpoints. We further confirmed this on DDIM 750k: mu\_abs-only and var-only
+features each individually capture 99.8\% of the combined AUC (mu\_only AUC
+0.893, var\_only AUC 0.895, combined 0.895), and the correlation--causation
+dissociation replicates: early\_up@$t{=}100$ has 14.1\% significant channels
+(vs.\ DDPM's 4.7\%) yet remains the least causally important site.
 
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
