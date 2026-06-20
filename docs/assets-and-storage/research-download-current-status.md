@@ -1,6 +1,6 @@
 # Research Download Current Status
 
-> Updated: `2026-05-10`
+> Updated: `2026-06-08`
 > Scope: only assets that are already local, currently being handled by Codex, or may still require user-side manual web actions.
 
 ---
@@ -59,6 +59,34 @@ The following assets are confirmed present locally:
   `<DIFFAUDIT_ROOT>\\Download\\shared\weights\stable-diffusion-v1-5\`
 - BLIP image captioning large:
   `<DIFFAUDIT_ROOT>\\Download\\shared\weights\blip-image-captioning-large\`
+
+### 1.4 NDSS-324 Reconstruction-Based Attack Probe Package
+
+The full public Zenodo ZIP for `Black-box Membership Inference Attacks against
+Fine-tuned Diffusion Models` has been verified for a bounded Research probe.
+It remains probe-only evidence, not an admitted paper asset.
+
+- DOI: `10.5281/zenodo.13371475`
+- Raw ZIP:
+  `<DIFFAUDIT_ROOT>\\Download\\shared\supplementary\ndss-2025-324-blackbox-mia-20260608\extra_data-20240825T145405Z-001.zip`
+- Size: `736,366,195` bytes
+- MD5: `A52E197025C54C197B00674D398F2F6A`, matching Zenodo
+- SHA-256: `ADB63E025238347BF219A001DAD32BBCC92312CA5BE86CCA0A70F1AF0D2D7098`
+- ZIP integrity: `zipfile.testzip() -> None`
+- Source clone for code inspection:
+  `<DIFFAUDIT_ROOT>\\Download\\shared\supplementary\ndss-2025-324-blackbox-mia-20260608\Reconstruction-based-Attack`,
+  HEAD `93ee8dd4d12697354cd182461a9aa268b8de63e6`
+- Existing normalized local recon bundle:
+  `<DIFFAUDIT_ROOT>\\Download\\black-box\supplementary\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models\`
+
+Current status:
+
+- `archive-verified / manifest-incomplete / no GPU release`
+- Static dataset probe found only `image` and `text` fields, with no immutable
+  row-id fields such as `id`, `file_name`, or `image_id`.
+- Existing `derived-public-*` mapping notes keep `shadow_member_proxy` explicit;
+  they support local derived-proxy analysis only, not paper-faithful Attack-I
+  admission.
 
 ---
 

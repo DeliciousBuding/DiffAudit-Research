@@ -14,7 +14,7 @@ picking or inventing missing artifacts.
 A candidate enters v0 if it satisfies all conditions below:
 
 - It appears in an existing DiffAudit evidence note or product-bridge card.
-- The note records a concrete public artifact, collaborator artifact, score
+- The note records a concrete public artifact, separately supplied artifact, score
   packet, response packet, feature packet, or bounded replay/scout.
 - The note records a decision that affects paper claims, candidate status, or
   Platform/Runtime admission.
@@ -44,32 +44,32 @@ Excluded from v0:
 
 | Candidate | Artifact Surface | Gate Summary | Direction C Role |
 | --- | --- | --- | --- |
-| Admitted bundle | Five machine-readable admitted rows | Passes current consumer boundary | Positive control for audit-ready evidence |
+| Reportable bundle | One role-level L3 positive-control surface representing five mixed-strength reportable rows | Passes current consumer boundary under stated replay/source tiers | Positive control for consumer-admitted evidence, not five homogeneous row-score replay rows |
 | H2 output-cloud geometry | Existing response caches plus replayed metrics | Strong candidate, consumer boundary partial | Mechanism candidate with controlled non-admission |
-| H2 img2img portability | Existing SD/CelebA img2img response caches | Metric pass, portability fail | Boundary-negative result |
+| SD/CelebA img2img portability | Existing SD/CelebA img2img response caches | Metric pass, portability insufficient for admission | Boundary-negative result |
 | CLiD official inter-output | Official `inter_output/*` score files | Strong metric, image identity blocked | Positive score packet with row-binding gap |
 | Tracing the Roots | OpenReview feature tensors and replay code | Feature-level pass, raw provenance partial | Positive feature-packet evidence |
 | CopyMark official score artifacts | Official result JSON, image logs, score tensors | Artifact-rich but no compact admitted packet | Artifact availability vs auditability case |
 | ReDiffuse STL-10 scout | Exact split plus bounded local score packet | Executable but weak signal | Bounded negative with clean split |
 | CommonCanvas response packet | Real `50/50` query/response contract | True second response packet, weak scorers | Second-asset negative |
 | MIDST Blending++ | Official score exports plus local labels | Borderline metric below reopen floor | Cross-domain negative/support |
-| Stable Diffusion ReDiffuse collaborator | Local `5000`-row packet and ROC files | Replayable, source-confounded | Source-confounding case |
+| Separately supplied SD ReDiffuse | Restricted `5000`-row packet and ROC files | Replayable, source-confounded | Source-confounding case |
 | Quantile/SecMI public packet | Third-party `t_error` score rows and splits | Positive support, same-family SecMI | Support-only public score packet |
 
 ## Initial Gate Matrix
 
 | Candidate | Target | Split | Evidence | Metric | Boundary | Delta |
 | --- | --- | --- | --- | --- | --- | --- |
-| Admitted bundle | Pass | Pass | Pass | Pass | Pass | Partial |
+| Reportable bundle | Pass | Pass | Pass | Pass | Pass | Partial |
 | H2 output-cloud geometry | Pass | Pass | Pass | Pass | Partial | Partial |
-| H2 img2img portability | Pass | Pass | Pass | Pass | Fail | Pass |
+| SD/CelebA img2img portability | Pass | Pass | Pass | Pass | Fail | Pass |
 | CLiD official inter-output | Partial | Partial | Pass | Pass | Partial | Pass |
 | Tracing the Roots | Partial | Pass | Pass | Pass | Partial | Pass |
 | CopyMark official score artifacts | Partial | Partial | Partial | Partial | Partial | Pass |
 | ReDiffuse STL-10 scout | Pass | Pass | Pass | Pass | Fail | Pass |
 | CommonCanvas response packet | Partial | Pass | Pass | Pass | Fail | Pass |
 | MIDST Blending++ | Partial | Pass | Pass | Pass | Partial | Pass |
-| Stable Diffusion ReDiffuse collaborator | Partial | Partial | Pass | Pass | Fail | Pass |
+| Separately supplied SD ReDiffuse | Partial | Partial | Pass | Pass | Fail | Pass |
 | Quantile/SecMI public packet | Partial | Pass | Pass | Pass | Partial | Partial |
 
 ## Failure Taxonomy
@@ -79,8 +79,8 @@ Excluded from v0:
 | Identity gap | Public artifact lacks raw target checkpoint or regeneration identity. | Tracing the Roots, CLiD, CopyMark |
 | Row-binding gap | Score rows cannot bind to immutable public sample IDs. | CLiD, CopyMark |
 | Consumer-boundary mismatch | Artifact is useful for Research but not Platform/Runtime admission. | H2 output-cloud, Tracing the Roots, Quantile/SecMI |
-| Weak transferred signal | Bounded scorer answers the decision question but does not reopen the route. | ReDiffuse STL-10, CommonCanvas, MIDST |
-| Source confounding | Membership label is entangled with source dataset/domain labels. | Stable Diffusion ReDiffuse collaborator |
+| Weak second-contract signal | Bounded scorer answers the decision question but does not reopen the route. | ReDiffuse STL-10, CommonCanvas, MIDST |
+| Source confounding | Membership label is entangled with source dataset/domain labels. | Separately supplied SD ReDiffuse |
 
 ## Expansion Rule
 
@@ -95,9 +95,9 @@ datasets, generated image folders, or model repositories just to fill a table.
 Allowed:
 
 - "In this frozen starter corpus, many strong or positive artifact surfaces are
-  not automatically audit-ready."
+  not automatically consumer-admitted."
 - "Gate failures are heterogeneous: identity, row binding, consumer boundary,
-  weak transferred signal, and source confounding are different phenomena."
+  weak second-contract signal, and source confounding are different phenomena."
 - "Negative bounded scouts can be evidence when they close a route-selection
   question."
 

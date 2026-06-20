@@ -1,54 +1,55 @@
-# Version A: Evidence-Contracted Auditing
+# Version A: Evidence-Contracted Measurement
 
 ## Research Team
 
 | Role | Owner | Responsibility |
 | --- | --- | --- |
 | Lead PI | Framework lead | Thesis, venue fit, claim boundaries, rebuttal posture. |
-| Evidence engineer | Metric audit lead | Recompute admitted rows, check finite-tail denominators, verify scripts. |
-| Figures editor | Visualization lead | Evidence-contract diagram, admitted-row plots, candidate boundary visuals. |
+| Evidence engineer | Metric audit lead | Recompute reportable rows, check finite-tail denominators, verify scripts. |
+| Figures editor | Visualization lead | Evidence-contract diagram, reportable-row plots, candidate boundary visuals. |
 | Internal critic | Validity critic | Reject governance-only writing and require measurement insight. |
 
 ## Target Paper
 
 | Field | Choice |
 | --- | --- |
-| Working title | DiffAudit: Evidence-Contracted Membership Leakage Auditing for Diffusion Models |
+| Working title | When Do Diffusion Membership-Inference Scores Become Audit Evidence? An Evidence-Contracted Measurement Study |
 | Paper type | Security/privacy measurement paper |
 | Venue posture | RAID / ACSAC / SaTML / measurement-oriented CCF-B target |
 | Current status | Active main manuscript in `../main.tex` |
 
 ## Abstract Draft
 
-Membership inference results for diffusion models are usually presented as
-scalar metrics, but audit evidence needs a stronger contract: fixed target
-identity, exact member and nonmember semantics, row-level score or response
-coverage, reproducible metrics, consumer-boundary language, and surface-delta
-evidence. We propose DiffAudit, an evidence-contracted methodology for
-diffusion membership auditing. DiffAudit admits only rows that satisfy the
-contract, keeps promising signals as candidates when portability is not proven,
-and uses bounded negative results to rule out weak scientific routes. On the
-current bundle, DiffAudit admits five rows spanning black-box reconstruction,
-gray-box PIA, stochastic-dropout comparison, white-box GSA, and a DPDM defense
-comparator. It also identifies a strong H2 output-cloud geometry candidate, but
-keeps it non-admitted after a weak SD/CelebA img2img portability check. The
-result is a measurement paper about when diffusion MIA scores become reusable
-privacy evidence, and when they should not.
+Membership inference against diffusion models is often reported as a scalar
+attack score. For a security or privacy audit, the harder measurement question
+is which evidence packets survive replay, finite-tail, and consumer-boundary
+checks well enough to support a specific target, split, observable, metric, and
+consumer claim. This version studies evidence sufficiency for audit reports as
+a measurement endpoint: given a proposed claim and an evidence packet, determine
+whether the claim is being escalated beyond its observable support, and identify
+the strongest wording plus first missing surface that the packet can support.
+Applying the C1-C15 claim trace yields three replay-admitted packets, two
+bounded source-documented point comparators, one high-AUC repeated-response
+candidate that remains candidate-only after SD/CelebA img2img and
+consumer-boundary gates fail, and boundary-case metadata/source-query/artifact
+controls, including thirteen selected C14 public-surface stress rows. The
+result is claim-bound evidence measurement.
 
 ## Core Thesis
 
-The publishable contribution is not "we have the highest AUC." The contribution
-is that diffusion privacy evidence must be contracted before it can be consumed.
-This turns scattered positive, candidate, and negative results into a
-scientific measurement framework.
+The publishable contribution is a claim-bound measurement protocol for
+consumable diffusion privacy evidence.
+The paper turns scattered positive, candidate, and negative results into a
+scientific measurement framework: each claim has a trace row, a first missing
+surface when blocked, and an allowed wording that a reviewer can inspect.
 
 ## Main Claims
 
 | Claim | Evidence | Boundary |
 | --- | --- | --- |
-| A1: Five admitted rows can be compared under one audit contract. | `../evidence_bank.md`, admitted bundle JSON | Only within recorded workspace/runtime semantics. |
-| A2: The admitted white-box GSA row is numerically stronger under its own contract than the current admitted black-box and gray-box rows. | recon AUC `0.837`, PIA AUC `0.841339`, GSA AUC `0.998192` | Upper-bound comparator only; not an access-level leaderboard or universal benchmark. |
-| A3: Output-cloud geometry is promising but not yet portable. | H2 AUC `0.961529`, transfer mean `0.959755`, img2img AUC `0.7888` | Candidate only. |
+| A1: Five reportable rows can be reported side by side under one audit contract only after replay tier is attached. | `../evidence_bank.md`, reportable bundle inputs, and `../data/claim_trace.csv` | Three rows are replay-admitted; two are source-documented point estimates; no cross-access ranking. |
+| A2: Five role-separated rows can be reported only when replay/source tier is visible. | recon AUC `0.837`, PIA AUC `0.841339`, GSA AUC `0.998192`, DPDM W-1 AUC `0.488783` | Three rows are replay-admitted; two are source-documented point estimates; no homogeneous benchmark, interval, dominance, or access-level leaderboard claim. |
+| A3: Output-cloud geometry is strong but non-admitted. | H2 AUC `0.961529`, same-family cache-robustness mean `0.959755`, img2img AUC `0.7888` | Candidate only; same-family robustness is not portability. |
 | A4: Negative gates are evidence, not filler. | ReDiffuse, CommonCanvas, MIDST, Tracing Roots, SD ReDiffuse | Use to explain exclusions, not to attack original papers. |
 
 ## Section Spine
@@ -57,7 +58,7 @@ scientific measurement framework.
 | --- | --- |
 | Introduction | Establish why score-only reporting is insufficient for privacy auditing. |
 | Evidence Contract | Define the six gates and finite-tail metric semantics. |
-| Admitted Bundle | Present five admitted rows with cost and limitations. |
+| Reportable Bundle | Present five role-separated reportable rows with cost, replay tier, and limitations. |
 | H2 Case Study | Show discovery of a strong candidate and why it remains candidate. |
 | Artifact Boundary Study | Explain weak/support-only routes as contract failures or bounded negatives. |
 | Discussion | Defend the methodology as scientific measurement, not paperwork. |
@@ -66,10 +67,10 @@ scientific measurement framework.
 
 | Work | Why it matters |
 | --- | --- |
-| Use the current Direction C corpus and fixed-search batch carefully, and add broader corpus or external-review evidence only for standalone aggregate claims. | Prevents reviewer objection that negative/support routes are anecdotal without pretending the current corpus is field-wide. |
+| Use the current Direction C corpus, fixed-search batch, and broader-source API pass carefully; add a larger distinct-surface corpus for standalone aggregate claims and external label audit only for reliability/adjudication claims. | Prevents reviewer objection that negative/support routes are anecdotal without pretending the current corpus is field-wide or reliability-scored. |
 | Keep strengthening venue framing and reviewer-facing contribution wording. | Keeps the paper from reading like internal governance. |
-| Preserve the claim-first admission protocol in the LaTeX draft: state the unsafe consumer claim, bind the minimum evidence packet, replay or record metrics, assign gates, then choose the strongest allowed state. | Makes the measurement method reproducible and falsifiable rather than a descriptive taxonomy. |
-| Keep selected-corpus search rows inspectable but non-pooled with replay rows. | Lets Direction C support claim-control framing without becoming a weak prevalence claim. |
+| Preserve the evidence-sufficiency protocol in the LaTeX draft: state the audit claim template, bind the minimum evidence packet, replay or record metrics, assign gates, then choose the strongest allowed state and first missing surface. | Keeps the measurement method reproducible and falsifiable. The active main draft now states this endpoint explicitly in the Introduction. |
+| Keep selected-corpus search rows inspectable but non-pooled with replay rows. | Lets Direction C support boundary-case framing without becoming a weak prevalence claim. |
 
 ## Refused Work
 

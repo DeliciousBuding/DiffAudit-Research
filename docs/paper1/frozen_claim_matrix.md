@@ -1,0 +1,211 @@
+# DiffAudit Evidence Claim Matrix (Frozen)
+
+> 冻结时间：2026-06-19
+> 用途：Paper 1 TMLR submission 的唯一数据源。所有 Agent 写作必须引用本表，不得使用其他数字。
+> 规则：每个方法一行，包含允许的声明（allowed claim）和禁止的声明（blocked claim）。
+
+## Admitted Evidence (5 rows)
+
+| # | Method | Access | Model/Data | AUC | TPR@1%FPR | TPR@0.1%FPR | N (m/nm) | Status |
+|---|--------|--------|-----------|:---:|:---------:|:-----------:|:---:|--------|
+| 1 | **GSA 3-shadow** | White-box | GPU-scale internal | **0.998** | 0.987 | 0.432 | 1000/1000 | admitted |
+| 2 | **DPDM defended** | White-box | Defended model | 0.489 | ~0 | 0.0 | 1000/1000 | admitted |
+| 3 | **PIA baseline** | Gray-box | GPU512 internal | 0.841 | 0.059 | 0.012 | 512/512 | admitted |
+| 4 | **PIA defended** | Gray-box | Stochastic dropout | 0.828 | 0.053 | 0.010 | 512/512 | admitted |
+| 5 | **Recon DDIM** | Black-box | Public-100, step30 | 0.837 | **0.22** | 0.11 | 100/100 | admitted |
+
+### Allowed Claims (Admitted)
+- White-box GSA: strong membership signal under favorable access (AUC=0.998, TPR@1%=0.987)
+- Gray-box PIA: moderate signal with limited low-FPR recovery (AUC=0.841, TPR@1%=0.059)
+- Black-box Recon: admitted but underpowered (N=100); headline uses Wilson 95% CI [0.1500, 0.3107] for TPR@1%FPR
+- Recon TPR@0.1%FPR: reported only as uncalibrated empirical tail (100 clean negatives, FPR resolution=1%); NOT a calibrated 0.1% FPR claim
+
+### Blocked Claims (Admitted)
+- ❌ "Black-box MIA achieves 0.1% FPR"
+- ❌ "Recon demonstrates reliable black-box membership inference at sub-percent FPR"
+- ❌ Any statement implying Recon N=100 supports meaningful 0.1% FPR calibration
+
+---
+
+## Spurious Evidence (1 row)
+
+| # | Method | Access | Model/Data | AUC (paper) | AUC (control) | ΔAUC | N | Status |
+|---|--------|--------|-----------|:---:|:---:|:---:|:---:|--------|
+| 6 | **CLiD** | Black-box | T2I diffusion | **1.000** | **0.586** | 0.414 | 100/100 | spurious |
+
+### Allowed Claims (CLiD)
+- Observed collapse: AUC 1.000 under prompt-conditioned → AUC 0.586 under prompt-neutral (same images)
+- TPR@1%FPR collapses from 1.00 to 0.02
+- Diagnostic interpretation: original signal reflects prompt-image alignment, not membership
+- This is a worked example of the "spurious" category in our taxonomy
+
+### Blocked Claims (CLiD)
+- ❌ Any bootstrap CI, p-value, or permutation test on ΔAUC (raw score vectors unavailable; simulated scores ≠ evidence)
+- ❌ "We statistically prove CLiD signal is spurious with p<0.001"
+- ❌ Any numeric claim about the ΔAUC distribution beyond the observed point estimate
+
+---
+
+## Weak Evidence (14 rows)
+
+| # | Method | Access | Model/Data | AUC | CI | N | Status |
+|---|--------|--------|-----------|:---:|-----|:---:|--------|
+| 7 | **scnet TC64** | Gray-box | CIFAR-10 0.78M | 0.514 | [0.495, 0.531] | K=2000 | weak |
+| 8 | **scnet TC128** | Gray-box | CIFAR-10 11.76M | 0.518 | [0.501, 0.536] | K=2000 | weak |
+| 9 | **scnet TC192** | Gray-box | CIFAR-10 42.97M | 0.517 | [0.499, 0.535] | K=2000 | weak |
+| 10 | **CommonCanvas** | Black-box | CommonCanvas | 0.574 | — | — | weak |
+| 11 | **Fashion-MNIST** | Black-box | DDPM | 0.515 | — | — | weak |
+| 12 | **MIDST** | Black-box | TabDDPM | 0.530 | — | — | weak |
+| 13 | **Beans LoRA delta** | Black-box | LoRA probe | 0.512 | — | 25 | weak |
+| 14 | **Beans LoRA loss** | Black-box | LoRA probe | 0.414 | — | 25 | weak |
+| 15 | **ReDiffuse DiT** | Black-box | DiT local | ~0.5 | — | — | weak |
+| 16 | **Semantic-Aux** | Black-box | Fusion | +0.002 | — | — | weak |
+| 17 | **E3 CUDA DDPM 800k PIA** | Gray-box | NVIDIA UNet CIFAR-10 | 0.605 | — | N=5000 | weak |
+| 18 | **E3 CUDA DDIM 750k PIA** | Gray-box | NVIDIA UNet CIFAR-10 | 0.605 | — | N=5000 | weak |
+| 19 | **E3 CUDA DDPM SecMI** | Gray-box | NVIDIA UNet CIFAR-10 | 0.459 | — | N=5000 | weak |
+
+### Allowed Claims (H2 Score-Vector Sidecar) — new 2026-06-20
+- H2 score-vector geometry on the E3-calibrated CUDA DDPM target produced weak, unstable sidecar signal
+- AUC decreased from 0.753 (N=64) to 0.681 (N=128), ΔAUC=-0.072
+- Low-FPR TPR remained unreliable (0.063 at N=128)
+- This line does not support score-vector observables as a robust attack family on CIFAR-10 DDPMs
+
+### Blocked Claims (H2 Score-Vector)
+- ❌ "H2 score-vector geometry is a robust second attack family"
+- ❌ Any claim that score-vector features provide reliable membership signal
+
+| 23 | **H2 Score-Vector Geometry** | White-box sidecar | CUDA UNet CIFAR-10 | 0.681 | 0.063 | 128/128 | weak/killed |
+
+### Allowed Claims (scnet)
+- 54× capacity increase (0.78M → 42.97M params) produced no practically or statistically meaningful MIA gain (ΔAUC=0.003, approx 95% CI [-0.0225, 0.0285], approx p=0.82)
+- Bootstrap K=2000, 10,000 iterations. All models' CIs cross or barely exceed 0.5
+- Interpret as: within our experimental resolution, resource-constrained CIFAR-10 DDPM scaling does not produce transferable gray-box MIA signal
+
+### Blocked Claims (scnet)
+- ❌ "We prove that capacity never increases membership leakage"
+- ❌ "scnet demonstrates diffusion MIA fundamentally fails"
+- ❌ Extrapolation to larger models or different data regimes
+- ❌ Any claim that this constitutes evidence about production-scale diffusion models
+
+### Allowed Claims (E3 Calibration)
+- E3 confirms DCU weak signal is NOT a SafeConv hardware/operator artifact: NVIDIA CUDA Standard-UNet produces PIA AUC=0.605, SecMI AUC=0.459 (direction-inverted) on the same CIFAR-10 50/50 split — both in the same weak-signal regime as DCU TC192 (AUC=0.517)
+- PIA marginally outperforms SecMI on CUDA (ΔAUC≈+0.15), matching the attack ranking observed on DCU — platform-independent validation
+- SecMI direction inversion (member scores HIGHER than nonmember, AUC<0.5) is consistent across all three configs and both CUDA models — a platform-independent property, not a SafeConv bug
+- TPR@0.1%FPR = 0.000 across all CUDA configs — finite-tail recovery is absent even with N=5000 clean negatives
+- Roadmap E3 success standard (AUC≥0.70) was NOT met; E3 delivers its failure value per roadmap §3
+- Source: `docs/evidence/e3-calibration-memo-2026-06-20.md`
+
+### Blocked Claims (E3)
+- ❌ "NVIDIA CUDA demonstrates meaningful gray-box MIA signal on CIFAR-10 DDPMs" (AUC=0.605 < 0.70, low-FPR recovery is zero)
+- ❌ "SafeConv quality degradation explains DCU weak results" (E3 rejects this hypothesis)
+- ❌ Any claim that self-trained CIFAR-10 DDPMs are a paper-upgrading path
+- ❌ Extrapolation from E3 to production-scale diffusion models
+
+### Allowed Claims (other weak)
+- These lines provide supporting evidence that many candidate MIA signals are weak under the tested conditions
+- They illustrate the "weak" category in our WSN taxonomy
+- They do NOT prove that MIA is impossible in these settings
+
+---
+
+## Non-Portable Evidence (1 row)
+
+| # | Method | Access | Model/Data | AUC | TPR@1%FPR | TPR@0.1%FPR | N | Status |
+|---|--------|--------|-----------|:---:|:---------:|:-----------:|:---:|--------|
+| 20 | **H2 output-cloud** | Black-box | SD1.5 response cache | **0.962** | 0.334 | 0.117 | 256/256 | candidate |
+
+### Allowed Claims (H2)
+- Strong within-family signal: AUC=0.962, TPR@1%=0.334 on low-pass H2 features
+- Label-shuffle null: AUC=0.508 (random-level)
+- Shared-position order-control: signal survives class-ordered seed-offset check (AUC=0.968)
+- Cross-cache transfer: seed176→177 mean AUC=0.960 (not single-seed)
+- Fresh SD1.5 img2img packet: best raw AUC=0.646, TPR@1%=0.12 — did NOT pass H2 strong-signal gate (AUC≥0.85, TPR@1%≥20%, TPR@0.1%≠0)
+- Classification: non-portable (strong within one response family, fails under img2img portability)
+
+### Blocked Claims (H2)
+- ❌ "H2 demonstrates reliable black-box MIA"
+- ❌ Any claim that H2 is admitted evidence
+- ❌ GPU allocation for same-cache sweeps or cosmetic ablations
+- ❌ Using H2 as primary evidence for any positive MIA claim
+
+---
+
+## External High-Performing Support (1 row)
+
+| # | Method | Access | Model/Data | AUC | TPR@1%FPR | TPR@0.1%FPR | N | Status |
+|---|--------|--------|-----------|:---:|:---------:|:-----------:|:---:|--------|
+| 21 | **MoFIT** | Black-box | Public COCO scores | **0.942** | 0.488 | 0.324 | 500/500 | external-support |
+
+### Allowed Claims (MoFIT)
+- Strong external black-box signal exists: AUC=0.942, TPR@1%=0.488 on public COCO score files
+- Label-permutation null: AUC=0.501 (random-level) — signal is genuine, not chance
+- We acknowledge MoFIT to prevent overclaiming: this paper does NOT assert that all black-box MIA fails
+- Status: external high-performing support. NOT admitted internal evidence (checkpoint identity local-path, row IDs not explicit, score-file certification absent, metric computed DiffAudit-side)
+
+### Blocked Claims (MoFIT)
+- ❌ "Our audit admits MoFIT as internal evidence"
+- ❌ Any claim that MoFIT's blocker status has been resolved
+- ❌ GPU allocation (blockers are metadata/row-binding/checkpoint identity, not compute)
+
+---
+
+## Candidate / Pending (2 rows)
+
+| # | Method | Access | Model/Data | Status | Blocker |
+|---|--------|--------|-----------|--------|--------|
+| 22 | **PIA/TMIA-DM** | Gray-box | GPU512 | candidate | Pending admission review |
+| 24 | **H1 Activation-Subspace** | White-box activation | CUDA UNet CIFAR-10 | **0.873** | 0.055 | 128/128 | candidate-positive / low-FPR-fragile |
+
+### Allowed Claims (H1 Activation-Subspace) — new 2026-06-20
+- Internal UNet activation summaries (late_down, mid_0, mid_1, early_up) produce a stable aggregate membership signal (AUC=0.873 at N=128, ΔAUC=+0.001 from N=64→128)
+- Signal passes label-shuffle control (AUC=0.486) and does not depend on a single UNet site (ablation AUC range 0.867–0.879)
+- H1 provides a mechanistically distinct white-box observable: non-gradient, non-loss, activation-based — complementary to GSA
+- H1 is a worked example of the "AUC-stable but low-FPR-fragile" category: real signal, clean mechanism, passed controls, yet TPR@1%FPR collapses from 0.484 (N=64) to 0.055 (N=128)
+- Diagnostic lesson: stable aggregate AUC + passed shuffle control + distinct mechanism still does not imply low-FPR admissibility
+
+### Blocked Claims (H1)
+- ❌ "H1 is admitted membership evidence"
+- ❌ "Activation-subspace attack achieves reliable low-FPR MIA"
+- ❌ Any TPR@0.1%FPR claim (N=128 clean negatives insufficient per rule-of-3)
+- ❌ "H1 is as strong as GSA"
+
+---
+
+## Statistical Boundary Rules
+
+| Rule | Value |
+|------|-------|
+| Primary low-FPR metric | TPR@1%FPR |
+| TPR@0.1%FPR | Only reported for lines with N≥1,000 clean negatives |
+| Proportions | Wilson 95% CI, not normal approximation |
+| AUC comparison | Bootstrap (10,000 iterations); DeLong only if normality holds |
+| Multiple testing | Holm-Bonferroni across all reported lines (appendix) |
+| CLiD ΔAUC | Observed point estimate only. No simulated/bootstrap inference |
+| Recon 0.1% FPR | Not a calibrated claim. FPR resolution = 1/100 = 1% |
+| Clean N for 1% FPR (rule-of-3) | ≥300 |
+| Clean N for 0.1% FPR (rule-of-3) | ≥3,000 |
+| Clean N for 0.01% FPR (rule-of-3) | ≥30,000 |
+
+## Core Narrative Constraints
+
+| ALLOWED | BLOCKED |
+|---------|---------|
+| "Diffusion MIA signals are heterogeneous and require diagnostic admission" | "Diffusion MIA fails" / "MIA is impossible" |
+| "Strong signals exist (GSA, MoFIT); our contribution is diagnosing admissibility" | "All black-box MIA is weak" |
+| "We propose WSN taxonomy + 10-point diagnostic protocol" | "We present the first comprehensive MIA evaluation" |
+| "Bounded measurement / evidence-contracted audit" | "Definitive benchmark" / "Complete survey" |
+
+## Evidence Sources
+
+| Source | Lines |
+|--------|-------|
+| `Research/docs/evidence/admitted-results-summary.md` | #1–5 |
+| `Research/docs/paper1/evidence-matrix.md` | All |
+| `Research/docs/paper1/statistical-audit.md` | Statistical rules |
+| `Research/docs/evidence/e3-calibration-memo-2026-06-20.md` | #17–19 |
+| `Research/docs/internal/ccf-a-research-roadmap-2026-06-06.md` | E1/E2/E3 status |
+| `Research/docs/evidence/clid-prompt-perturbation.md` | #6 |
+| `Research/docs/evidence/h2-output-cloud-geometry-20260525.md` | #20 |
+| `Research/docs/evidence/h1-activation-scout-memo-2026-06-20.md` | #24 |
+| `Research/docs/evidence/h2-score-vector-sidecar-memo-2026-06-20.md` | #23 |
+| `Research/docs/internal/e2-n50-freeze-preflight-2026-06-06/` | MoFIT preflight |

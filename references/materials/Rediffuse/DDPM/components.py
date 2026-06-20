@@ -111,7 +111,7 @@ class SecMIAttacker(DDIMAttacker):
 
 class PIA(DDIMAttacker):
     def __init__(self, betas, interval, attack_num, eps_getter: EpsGetter, normalize: Callable = None, denormalize: Callable = None, lp=4):
-        super().__init__(betas, interval, attack_num, eps_getter, normalize, denormalize)
+        super().__init__(betas, interval, attack_num, 0, eps_getter, 1, normalize, denormalize)
         self.lp = lp
 
     def distance(self, x0, x1):

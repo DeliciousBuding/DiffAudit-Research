@@ -228,8 +228,9 @@ def _build_pia_attacker(
         betas,
         interval,
         attack_num,
+        1,                # k
         eps_getter,
-        normalize=lambda x: x * 2 - 1,
+        False,            # average
     )
 
 
@@ -312,6 +313,9 @@ def probe_pia_runtime(
         )
         preview_batch = torch.rand(1, 3, 32, 32, device=device)
         preview_scores = attacker(preview_batch)
+        # The Rediffuse-variant attacker returns (intermediates, intermediates_denoise)
+        if isinstance(preview_scores, tuple):
+            preview_scores = preview_scores[0]
     except (FileNotFoundError, ValueError, KeyError, TypeError, ImportError) as exc:
         return 1, {
             "status": "blocked",

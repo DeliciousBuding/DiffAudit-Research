@@ -33,6 +33,88 @@ FORBIDDEN_TEXT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 
 TEXT_SCAN_EXCLUDE = {"scripts/check_public_surface.py"}
 
+REPORT_LANGUAGE_SCAN_PATHS = {
+    "papers/diffaudit-evidence-paper/main.tex",
+    "papers/diffaudit-evidence-paper/versions/direction-d-audit-systems.md",
+    "papers/diffaudit-evidence-paper/versions/drafts/direction-d-audit-systems-paper.md",
+    "workspaces/implementation/artifacts/admitted-risk-card.md",
+}
+
+TRACING_ROOTS_NAME = r"Tracing\s+(?:the\s+)?Roots"
+
+CANDIDATE_PROMOTION_SUBJECTS: tuple[tuple[str, str], ...] = (
+    ("H2", r"H2(?:\s+(?:output-cloud|response-cloud|candidate|geometry))*"),
+    ("Tracing Roots", TRACING_ROOTS_NAME),
+    ("ReDiffuse", r"ReDiffuse"),
+    ("CommonCanvas", r"CommonCanvas"),
+    ("MIDST", r"MIDST"),
+    ("CLiD", r"CLiD"),
+    ("weak scouts", r"weak\s+scouts?"),
+    ("source-confounded packets", r"source-confounded\s+packets?"),
+)
+
+PROMOTION_TERMS = (
+    r"admitted|reportable|consumer-ready|consumer ready|platform-runtime|Platform/Runtime"
+)
+PROMOTION_VERBS = (
+    r"is|are|becomes|become|as|treated\s+as|promoted\s+to|described\s+as|reported\s+as"
+)
+METADATA_SURFACE_TERMS = (
+    r"metadata(?:-only)?|DOI|arXiv(?:\s+API)?|GitHub(?:\s+(?:repository|repo|tree|metadata))?|"
+    r"repository\s+metadata|public\s+metadata|metadata\s+refresh|README|OpenReview\s+metadata|"
+    r"Zenodo\s+metadata|live\s+(?:repo|repository|DOI)"
+)
+METADATA_PROMOTION_TERMS = (
+    r"admitted(?:\s+evidence)?|N50\s+(?:external\s+)?denominator|external\s+denominator|"
+    r"compute\s+release|external\s+adjudication|reviewer\s+reliability|field[-\s]?wide\s+prevalence|"
+    r"second\s+(?:independent\s+)?public\s+asset|row[-\s]?bound\s+(?:score|response|packet|evidence)"
+)
+METADATA_PROMOTION_VERBS = (
+    r"proves?|establish(?:es)?|supports?|justif(?:y|ies)|unblocks?|upgrades?|makes?|turns?|promotes?|admits?"
+)
+
+CANDIDATE_PROMOTION_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = tuple(
+    (
+        f"{label} described as admitted/reportable",
+        re.compile(
+            rf"\b{subject}\b\s+(?:{PROMOTION_VERBS})\s+(?:an?\s+)?(?:{PROMOTION_TERMS})\b",
+            re.IGNORECASE,
+        ),
+    )
+    for label, subject in CANDIDATE_PROMOTION_SUBJECTS
+) + tuple(
+    (
+        f"{label} described as admitted/reportable",
+        re.compile(
+            rf"\b(?:{PROMOTION_TERMS})\s+{subject}\b",
+            re.IGNORECASE,
+        ),
+    )
+    for label, subject in CANDIDATE_PROMOTION_SUBJECTS
+)
+
+METADATA_PROMOTION_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    (
+        "metadata-only surface described as admission/release",
+        re.compile(
+            rf"\b(?:{METADATA_SURFACE_TERMS})\b[\w\s,;:/.-]{{0,100}}\b(?:{METADATA_PROMOTION_VERBS})\b[\w\s,;:/.-]{{0,100}}\b(?:{METADATA_PROMOTION_TERMS})\b",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "metadata-only surface described as admission/release",
+        re.compile(
+            rf"\b(?:{METADATA_PROMOTION_TERMS})\b[\w\s,;:/.-]{{0,100}}\b(?:because\s+of|from|based\s+on|via|through)\b[\w\s,;:/.-]{{0,100}}\b(?:{METADATA_SURFACE_TERMS})\b",
+            re.IGNORECASE,
+        ),
+    ),
+)
+
+CANDIDATE_PROMOTION_NEGATORS = re.compile(
+    r"\b(?:not|non-admitted|candidate-only|failed-admission|refuses|refused|block|blocks|blocked|forbid|forbids|forbidden|no)\b",
+    re.IGNORECASE,
+)
+
 
 def tracked_files() -> list[str]:
     proc = subprocess.run(
@@ -65,8 +147,27 @@ def text_violations(path: str) -> list[str]:
     return [label for label, pattern in FORBIDDEN_TEXT_PATTERNS if pattern.search(text)]
 
 
+def candidate_promotion_violations_from_text(text: str) -> list[str]:
+    compact = re.sub(r"\s+", " ", text)
+    violations: list[str] = []
+    for label, pattern in CANDIDATE_PROMOTION_PATTERNS + METADATA_PROMOTION_PATTERNS:
+        for match in pattern.finditer(compact):
+            snippet = match.group(0)
+            if CANDIDATE_PROMOTION_NEGATORS.search(snippet):
+                continue
+            violations.append(f"{label}: {snippet[:160]}")
+    return violations
+
+
+def report_language_violations(path: str) -> list[str]:
+    data = (ROOT / path).read_bytes()
+    text = data.decode("utf-8", errors="ignore")
+    return candidate_promotion_violations_from_text(text)
+
+
 def main() -> int:
     violations: list[str] = []
+    scanned_report_language_paths: set[str] = set()
     for path in tracked_ignored_files():
         normalized = path.replace("\\", "/")
         violations.append(f"tracked file hidden by .gitignore: {normalized}")
@@ -88,6 +189,25 @@ def main() -> int:
         if normalized in TEXT_SCAN_EXCLUDE:
             continue
         for label in text_violations(normalized):
+            violations.append(f"{label}: {normalized}")
+        if normalized in REPORT_LANGUAGE_SCAN_PATHS:
+            scanned_report_language_paths.add(normalized)
+            for label in report_language_violations(normalized):
+                violations.append(f"{label}: {normalized}")
+
+    for normalized in sorted(REPORT_LANGUAGE_SCAN_PATHS - scanned_report_language_paths):
+        file_path = ROOT / normalized
+        if not file_path.exists():
+            continue
+        size = file_path.stat().st_size
+        if size > MAX_TRACKED_FILE_BYTES:
+            violations.append(
+                f"oversized report-language file ({size} bytes): {normalized}"
+            )
+            continue
+        for label in text_violations(normalized):
+            violations.append(f"{label}: {normalized}")
+        for label in report_language_violations(normalized):
             violations.append(f"{label}: {normalized}")
 
     if violations:

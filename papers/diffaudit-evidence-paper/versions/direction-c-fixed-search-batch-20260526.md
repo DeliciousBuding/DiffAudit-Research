@@ -1,11 +1,11 @@
 # Direction C Fixed-Search Batch 2026-05-26
 
 > Status: frozen metadata-only batch.
-> Scope: independent fixed-source/search process for Direction C.
+> Scope: separately frozen GitHub/arXiv metadata pass for Direction C.
 > No downloads: no repositories cloned, no model/data/image archives fetched, no
 > arXiv e-prints downloaded, and no CPU/GPU experiments released.
 
-This batch adds an independent selection layer for the Direction C
+This batch adds a separately frozen selection layer for the Direction C
 claim-support paper. It is not a broad literature survey and it does not add a
 new admitted DiffAudit evidence row. Its value is methodological: the search
 date, sources, exact queries, no-download policy, inclusion decisions, and
@@ -79,8 +79,8 @@ arXiv API metadata queries:
 
 | Category | Rows | Boundary meaning |
 | --- | ---: | --- |
-| Existing gate re-found | 3 | Search process independently rediscovered surfaces already known to be non-admitted. |
-| New metadata/code-public but no packet | 1 | One new repository has code but lacks audit-ready row binding. |
+| Existing gate re-found | 3 | The frozen search process rediscovered surfaces already known to be non-admitted. |
+| New metadata/code-public but no packet | 1 | One new repository has code but lacks consumer-admitted row binding. |
 | Metadata-only relevant paper rows | 8 | Relevant enough for corpus context, insufficient for audit claims without artifact chasing. |
 | Empty-result rows | 4 | Fixed GitHub queries can return no direct public repository surface. |
 | Query-noise rows | 1 | Exact query strings can still produce semantically wrong results. |
@@ -88,9 +88,9 @@ arXiv API metadata queries:
 
 ## What This Batch Supports
 
-- Direction C can now cite an independent fixed-search batch rather than only
+- Direction C can now cite a separately frozen GitHub/arXiv metadata pass rather than only
   existing DiffAudit history.
-- Code availability, paper discoverability, metadata relevance, and audit-ready
+- Code availability, paper discoverability, metadata relevance, and consumer-admitted
   row binding remain distinct states.
 - Negative search outcomes and noisy query results are part of the measurement
   method, not material to hide.
@@ -116,17 +116,17 @@ or fixed-search admitted-like rows. It also confirmed that fixed-search metadata
 rows remain metadata-only even when target or boundary labels are `Partial`,
 because they do not pass both the evidence and metric gates. Before Direction C
 becomes a standalone LaTeX manuscript with aggregate claims beyond this selected
-corpus, add a broader frozen source batch or an external independent label
-review.
+corpus, add a larger distinct-surface frozen corpus. Add an external label review only if
+the paper makes reliability or adjudication claims.
 Do not create a crawler, downloader, or GPU/CPU replay task for this gate.
 
-The second internal label audit and bounded agent second-pass review on
+The second internal label audit and bounded second-pass label review on
 2026-05-26 separated two checks: the internal consistency audit found no invalid
 gate vocabulary or route-changing evidence/metric contradiction, while the
 bounded second pass found no fixed-search admitted-like row and no
 metadata-batch evidence/metric promotion. The internal audit changed the four empty-result
 GitHub rows from `delta_gate=Partial` to `delta_gate=Fail`, because an empty
-result has no artifact/surface delta to compare. The agent second pass adopted
+result has no artifact/surface delta to compare. The second pass adopted
 one fixed-search tightening: `fs20260526-arxiv-03.target_gate=Fail` because the
 local Noise Aggregation gate is paper-source-only with no public target
 checkpoint, hash, or released target packet. This supports the claim-control use

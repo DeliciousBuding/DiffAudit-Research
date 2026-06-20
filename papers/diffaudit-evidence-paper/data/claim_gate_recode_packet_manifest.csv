@@ -1,0 +1,3 @@
+packet_id,artifact_role,path,sha256,row_count,boundary
+claim-gate-recode-c1-c15-20260609,blank_recode_template,papers/diffaudit-evidence-paper/data/claim_gate_recode_template.csv,88ec6ec4c8ae48f7512af6792086251c8461f0fb91afab5633462647427c7a82,15,prepared blank template only; no reviewer labels or reliability result
+claim-gate-recode-c1-c15-20260609,author_trace_source,papers/diffaudit-evidence-paper/data/claim_trace.csv,c0da14c7c49ce93b882189bf4e26b78b17862fac3a21fc444a85b038032b7785,15,author-coded trace source; use only after independent labels are frozen
