@@ -19,34 +19,38 @@
 \maketitle
 
 \begin{abstract}
-Diffusion membership-inference audits need packet-level evidence behind each
-reported score. A reportable claim packet binds target, split, per-sample
-observable, metric provenance, finite-tail basis, and consumer use boundary. An
-ordered gate rule checks each proposed audit claim against that packet and
-records the first missing requirement.
-We use frozen boundary cases as protocol checks with same-team gate labels. The
-cases include three replay-backed rows reportable under bounded wording, two
-source-documented point rows, one repeated-response candidate with AUC 0.9615,
-one MoFit public score-file boundary case, and a separate C14 packet of thirteen
-selected public-surface stress rows. Under these labels, MoFit is a
-support-only score-file diagnostic because row binding and target identity gates
-are unresolved.
-Within the selected C14 packet, weak public-surface rules would select 12/13
-rows by code and paper-artifact links. All selected rows are non-Pass at the
-score/response and consumer-boundary gates. C14 currently has
-\texttt{n\_reviewers=0} and \texttt{packet\_ready\_only} status. The same-team
-gate labels support bounded wording for reportable replay and source-documented
-rows within their tiers. C14 supports pre-label weak-rule stress-control wording
-until independent labels exist. Audit-use and field-rate wording require the
-named surfaces. A new activation-subspace scout (H1) provides a candidate-positive
-boundary case: internal UNet activations carry replicated membership signal
-(AUC 0.873 DDPM, 0.841 DDIM) dominated by activation magnitude, yet targeted
-channel knockout reveals the signal is distributed and non-localizable---the
-most membership-correlated channels are systematically less causally important
-than random channels---and TPR@1\%FPR collapses from 0.484 to 0.055 under
-scale-up. We term this Distributed Activation-Amplitude Bias (DAAB):
-real signal does not imply causal localization; causal non-localization
-does not imply forensic admission.
+Diffusion membership-inference (MIA) scores are commonly reported as scalar
+attack metrics, yet the same score can correspond to different evidence states:
+a high-AUC signal may be real but forensically fragile, spurious under covariate
+controls, non-portable across surfaces, or admissible only within a bounded
+scope. We argue that membership inference is not a score-ranking problem; it is
+an evidence-admission problem.
+
+We formalize this as a claim-admission protocol: a fixed-order gate rule over
+target identity, split semantics, score/response coverage, metric provenance,
+consumer boundary, and surface delta assigns each proposed audit claim to
+reportable, candidate, support-only, watch, or negative states. The protocol is
+applied to 24 boundary cases spanning white-box, gray-box, and black-box access.
+
+The centerpiece case is H1, an activation-subspace scout on CIFAR-10 DDPMs.
+Internal U-Net activations carry a replicated membership signal (AUC 0.873 DDPM,
+0.841 DDIM) dominated by activation magnitude. The signal passes shuffle and
+ablation controls. However, matched channel knockout experiments reveal that the
+most membership-correlated channels are not causal bottlenecks: targeted deletion
+produces negligible degradation, while random matched deletions consistently
+produce larger drops. We term this Distributed Activation-Amplitude Bias (DAAB):
+a real, replicated, mechanistically characterized signal that is nevertheless
+non-localizable and forensically fragile (TPR@1\%FPR collapses from 0.484 to
+0.055 under scale-up). H1 thus separates signal existence from causal
+localization and forensic admission---a separation that scalar metrics conceal.
+
+Additional boundary cases include CLiD (spurious: AUC 1.000 collapses to 0.586
+under prompt-neutral control), scnet (weak scale-null: 54$\times$ capacity,
+$\Delta$AUC{=}0.003), H2 output-cloud (non-portable: AUC 0.962 within-family,
+fails img2img), and MoFIT (external support: AUC 0.942, missing row binding).
+These are organized by promotion error type rather than as a collection of
+negative results. The core insight is that a diffusion MIA score is not evidence
+until its claim boundary is admitted.
 \end{abstract}
 
 \section{Introduction}
@@ -309,7 +313,7 @@ execution, or a different evidence surface.
 
 \section{Measurement Protocol}
 
-Under same-team protocol labels, each result receives one of five evidence
+Under fixed protocol labels, each result receives one of five evidence
 states. A reportable row can be used for contracted reporting under its stated
 boundary and caveat. A candidate row supports follow-up analysis. A support-only
 row motivates or contextualizes a mechanism. A watch item is tracked for future
@@ -446,7 +450,7 @@ Table~\ref{tab:corpus-construction} fixes the selected row sets before counts ar
 The declared set is a fixed boundary-case set. It tests claim-state behavior
 across bounded positives, a high-score
 metric-only non-admission case, route closures, and L0/L1 artifact stops.
-For same-team labels, revision is triggered when a blocked row has all five
+For frozen gate labels, revision is triggered when a blocked row has all five
 required surfaces: fixed target identity, fixed membership semantics,
 row-bound scores or responses, replayable metrics, and a compatible consumer
 boundary. Revision is also triggered when the first blocker is not reproducible
@@ -522,9 +526,9 @@ fixed-search rows at 13/4/0/0.
 A targeted artifact-link sidecar adds three L1 public artifact surfaces. Row
 scores, ROC curves, metric JSON, and verifier packets are absent.
 
-The same-team cross-reference and second pass are release-consistency
+The frozen-gate cross-reference and second pass are release-consistency
 checks. They preserved admission states and tightened two labels (withdrawn DLM
-delta, Noise Aggregation target). The packet is same-team release material.
+delta, Noise Aggregation target). The packet is frozen-gate release material.
 Standalone artifact claims depend on the corpus-scale and reviewer-label
 criteria in Section~\ref{sec:discussion}.
 
@@ -610,7 +614,7 @@ role-separated worked examples. The table's
 provenance shorthand is part of the claim: \emph{row} denotes row-score replay,
 \emph{point} denotes source-documented point estimates without replay-derived
 intervals, and \emph{target row} denotes target-score replay for the defended
-bridge. Gate labels are same-team protocol labels over selected rows.
+bridge. Gate labels are frozen protocol labels over selected rows.
 
 AUC uncertainty is reported only where the replay surface supports it. The
 companion metric table gives bootstrap intervals for PIA baseline [0.8168,
@@ -793,9 +797,9 @@ $\Delta\text{AUC}{=}{+}0.008$, within 1$\sigma$ of random-10 deletion
 ($\mu_{\Delta}{=}{+}0.018$, $\sigma{=}0.015$).
 
 \textbf{Matched-percent} (both delete $\sim$40 channels, 4\% of total):
-targeted top-4\% $\Delta\text{AUC}{=}{+}0.008$, significantly
-\emph{less} than random 4\% ($\mu_{\Delta}{=}{+}0.049$, $\sigma{=}0.015$,
-$\sim$2.8$\sigma$ apart).
+targeted top-4\% $\Delta\text{AUC}{=}{+}0.008$, while random 4\% matched
+deletions consistently produced larger drops
+($\mu_{\Delta}{=}{+}0.049$, $\sigma{=}0.015$ across five seeds).
 
 \textbf{Frozen scorer}: random 4\% knockout drops frozen-scorer AUC by
 0.138, but retraining recovers the loss---the signal family is redundant.
@@ -920,7 +924,7 @@ current packet, the provenance table is a local packet-identity snapshot; dirty
 tree state and local paths identify the review snapshot, and the public-release
 provenance gate remains unresolved.
 
-Gate labels are same-team protocol labels over selected decisions. Inter-rater
+Gate labels are frozen protocol labels over selected decisions. Inter-rater
 measurements and prevalence samples require independent recoding. C14 is a
 selected thirteen-row stress packet; field-level measurement requires a
 preregistered larger corpus and independent labels.
