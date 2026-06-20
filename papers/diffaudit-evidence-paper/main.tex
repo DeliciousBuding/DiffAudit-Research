@@ -45,7 +45,8 @@ non-localizable and forensically fragile (TPR@1\%FPR collapses from 0.484 to
 localization and forensic admission---a separation that scalar metrics conceal.
 
 Additional boundary cases include CLiD (spurious: AUC 1.000 collapses to 0.586
-under prompt-neutral control), scnet (weak scale-null: 54$\times$ capacity,
+under prompt-neutral control; $\Delta$AUC reported as point estimate only---raw
+score vectors unavailable for paired inference), scnet (weak scale-null: 54$\times$ capacity,
 $\Delta$AUC{=}0.003), H2 output-cloud (non-portable: AUC 0.962 within-family,
 fails img2img), and MoFIT (external support: AUC 0.942, missing row binding).
 These are organized by promotion error type rather than as a collection of
@@ -817,7 +818,8 @@ $\Delta\text{AUC}{=}{+}0.008$, within 1$\sigma$ of random-10 deletion
 targeted top-4\% $\Delta\text{AUC}{=}{+}0.008$, and random 4\% matched
 deletions produced a similar mean effect
 ($\mu_{\Delta}{=}{+}0.004$, $\sigma{=}0.019$ across 30 seeds),
-with targeted deletion falling within 0.2$\sigma$ of the random mean.
+with the targeted--random difference not statistically significant
+(Cohen's $d{=}0.21$, $p{=}0.26$, 95\% CI on difference $[-0.003, +0.011]$).
 Neither targeted nor random 4\% knockout meaningfully reduces H1 AUC,
 confirming that the signal is distributed and redundant rather than
 controlled by a compact channel subset.
