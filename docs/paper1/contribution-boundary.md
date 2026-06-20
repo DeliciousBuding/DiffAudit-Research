@@ -46,7 +46,7 @@ Runtime-Server/              → Not relevant to papers
 |-------|------|-----------------|
 | Paper 1 (MIA audit) | DiffAudit Research Team | All experiments, writing, analysis |
 | Watermark paper | 惊鸿 / 师兄 | New watermark scheme (their core contribution) |
-| Watermark paper | Ding (us) | Baseline reproduction + collapse experiments |
+| Watermark paper | Authors | Baseline reproduction + collapse experiments |
 
 ## Data Sharing Rules
 
