@@ -130,6 +130,20 @@ The packet supports pre-label stress-control wording. The separate 28-case
 release-wording matrix handles phrase-guard regression wording.
 \end{itemize}
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/admission_map.pdf}
+\caption{\textbf{Score strength is not evidence admission.}
+High AUC moves a score rightward, but only provenance, calibration, controls,
+and portability move it upward into admissible evidence. GSA achieves both high
+separability and admissible claim status. H1/DAAB achieves high separability but
+remains tail-fragile and non-localizable, occupying the lower-right quadrant.
+CLiD and H2 achieve high AUC under narrow conditions but fail under controls
+or portability tests. The evidence-contracted audit maps each score packet to
+its admissible claim region.}
+\label{fig:admission-map}
+\end{figure*}
+
 \section{Related Work}
 
 \subsection{Membership Inference and Evidence}
@@ -550,73 +564,20 @@ criteria in Section~\ref{sec:discussion}.
 
 \subsection{Author-Keyed False-Promotion Stress Controls}
 
-C14 is a thirteen-row author-keyed pre-label stress object. It tests whether
-weak public-surface rules over-promote rows before reviewer labels. E2 denotes
-the no-download public-surface freeze pass used for this packet. The packet
-contains thirteen selected no-download E2 public-surface checks. Each
-row records a weak-admission trigger and a first-blocker label. Code and
-paper-artifact links are common; target-bound score/response and
-consumer-boundary surfaces are absent across the selected rows.
-Table~\ref{tab:false-promotion} summarizes the weak rules and gate blockers;
-Fig.~\ref{fig:false-promotion} visualizes the selected-row triggers.
-The current status is \texttt{n\_reviewers=0},
-\texttt{packet\_ready\_only}, and pre-label stress-control.
-
-Across the 13 selected rows, weak-admission triggers are paper-artifact-link in
-12 rows, code in 12, metric/split in 9, artifact in 7, and score-only in 0.
-Every selected row is non-Pass at the score/response and consumer-boundary
-gates; row-level first blockers remain recorded in the companion packet.
-
-\begin{table*}[t]
-\centering
-\caption{C14 weak-rule counts and contract blockers over thirteen selected
-no-download public-surface stress rows. The status artifact records \texttt{n\_reviewers=0} and
-\texttt{packet\_ready\_only}.}
-\label{tab:false-promotion}
-\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}L{0.19\linewidth}L{0.12\linewidth}L{0.42\linewidth}L{0.20\linewidth}@{}}
-\toprule
-Weak rule & Rows triggered & Contract-side blocker & Allowed claim \\
-\midrule
-Code availability & 12/13 & Score/response and consumer-boundary gates are non-Pass for 13/13 rows. & Pre-label stress control. \\
-Paper-artifact link & 12/13 & Public links leave the row-bound score/response packet and verifier surfaces unresolved. & Pre-label stress control. \\
-Metric/split visibility & 9/13 & Split hints or metric code appear without row-bound outputs. & Gate-blocked audit wording. \\
-Artifact availability & 7/13 & Artifact surfaces leave target identity, split, response/score provenance, and consumer boundary jointly unresolved. & Pre-label stress control. \\
-Score-only & 0/13 & Score-only triggers are absent; target-bound public score/response packets are absent. & Gate-blocked score-only wording. \\
-\multicolumn{4}{@{}L{0.93\linewidth}@{}}{Pre-label author check; reviewer labels are a separate protocol step.} \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/false_promotion_exemplars.pdf}
-\caption{C14 author-keyed stress visualization for selected rows. Cells mark
-weak-admission triggers before reviewer labeling; the final column records the
-author-keyed first blocker. This figure is a packet-readiness diagnostic.}
-\label{fig:false-promotion}
-\end{figure}
+C14 is a thirteen-row author-keyed stress packet that tests whether weak
+public-surface rules over-promote rows before independent reviewer labeling.
+The packet currently has $\text{n\_reviewers}{=}0$ and serves as pre-label
+stress control, not as a prevalence or reliability result. Across 13 selected
+no-download public-surface rows, code and paper-artifact links trigger
+weak-admission rules in 12/13 rows, but every row is non-Pass at the
+score/response and consumer-boundary gates. The full C14 table, figure, and
+row-level blocker breakdown are provided in the supplement.
 
 The author-keyed blockers distinguish diffusion MIA evidence from adjacent tasks
 such as attribution, classifier defense, copying, prompt memorization, and
 dataset-level identification. Author-keyed target and metric blockers support
 packet-readiness and weak-rule stress-control wording. Reviewer agreement and
 prevalence require independent labels and a larger sampled corpus.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/admission_map.pdf}
-\caption{\textbf{Evidence-state admission map.} Each evaluated MIA signal is placed
-according to aggregate signal strength (AUC, control-passing, replicability) and
-claim-boundary validity (low-FPR stability, portability, causal localizability).
-GSA occupies the upper-right as scope-bounded admitted evidence. H1/DAAB
-(center-right, low validity) illustrates the core insight: a signal can be real,
-replicated, and mechanistically characterized while remaining non-localizable and
-forensically inadmissible. CLiD (upper-left) shows spurious high-AUC collapse.
-scnet (lower-left) shows a clean scale-null.}
-\label{fig:admission-map}
-\end{figure}
 
 \section{Worked Examples of Protocol Application}
 
