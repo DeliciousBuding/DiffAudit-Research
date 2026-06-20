@@ -35,7 +35,7 @@ Excluded from this v1 table:
 
 | Stratum | Rows | Meaning |
 | --- | ---: | --- |
-| v0 current DiffAudit evidence | 11 | Admitted controls, candidates, support packets, bounded negatives, and collaborator/local stress cases. |
+| v0 current DiffAudit evidence | 11 | Admitted controls, candidates, support packets, bounded negatives, and restricted or source-confounded stress cases. |
 | v1 metadata-only expansion | 10 | Existing public-surface gates over adjacent diffusion/generative privacy papers and repositories. |
 | Total structured rows | 21 | Enough for a Direction C gate matrix, not enough for broad prevalence claims. |
 
@@ -73,7 +73,7 @@ Excluded from this v1 table:
 
 The v0 corpus was useful but biased toward DiffAudit's active route decisions:
 admitted rows, H2, ReDiffuse, CommonCanvas, Tracing Roots, CopyMark, MIDST, and
-collaborator packets. v1 adds public-surface gates that are less tied to the
+restricted or separately supplied packets. v1 adds public-surface gates that are less tied to the
 current admitted/candidate decision queue. The new rows are mostly
 metadata-only no-artifact cases, including code-public repositories without
 row-bound packets and semantic-shift papers whose privacy claims are adjacent
@@ -107,7 +107,7 @@ route-decision rows; and that fixed-search arXiv metadata rows with partial
 target/boundary labels but failing evidence/metric gates remain metadata-only
 rows, not scoreable artifacts.
 
-A second internal label audit and bounded agent second-pass review on
+A second internal label audit and bounded second-pass label review on
 2026-05-26 rechecked both CSVs against four invariants: no gate value outside
 `Pass`/`Partial`/`Fail`; no row with `evidence_gate=Pass` and
 `metric_gate!=Pass`; no row with `metric_gate=Pass` and `evidence_gate=Fail`;
@@ -120,10 +120,11 @@ metadata. It also recorded but did not adopt an admitted-bundle
 `Pass -> Partial` proposal because `v0-01` is a mixed-replay positive control
 under its stated bundle role.
 
-These are internal consistency and agent second-pass audits, not human
+These are internal consistency and bounded second-pass label audits, not human
 inter-rater reliability and not field-wide prevalence evidence. Before forking
-a standalone Direction C LaTeX paper, add one more frozen source batch or an
-external independent label review.
+a standalone Direction C LaTeX paper, add one more frozen source batch for
+aggregate claims or an external label audit protocol for reliability claims;
+current same-team checks are label hygiene, not reliability evidence.
 If no new row-bound public packet appears, Direction C can still be written as
 a claim-support measurement paper, but its aggregate claims must remain about
 this structured corpus only.

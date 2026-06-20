@@ -6,11 +6,12 @@
 \hypersetup{hidelinks}
 \usepackage{amsmath}
 \usepackage{array}
+\usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{url}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
-\title{DiffAudit: Evidence-Contracted Membership Leakage Auditing for Diffusion Models}
+\title{A Claim-Admission Protocol for Diffusion Membership-Inference Scores: Boundary Cases and Evidence States}
 
 \author{\IEEEauthorblockN{Anonymous Authors}}
 
@@ -18,450 +19,609 @@
 \maketitle
 
 \begin{abstract}
-Membership inference against diffusion models is often reported as a scalar
-attack score. Security/privacy audit consumption asks a different measurement
-question: when does that score become reusable evidence for a specific target,
-split, observable, metric, and consumer claim? We present DiffAudit, a
-claim-admission protocol that treats the unit of analysis as a row-bound
-evidence packet rather than a method name or headline AUC. A packet is admitted
-only when the target, split, row-level observable, metric provenance,
-finite-tail basis, and consumer boundary are fixed; portability claims also
-require a non-adjacent surface. Applied to the current evidence bank, DiffAudit
-classifies five existing rows as contract-admitted under bounded roles and
-isolates a high-AUC repeated-response H2 output-cloud signal as a controlled
-candidate rather than an admitted result, because img2img portability and
-runtime-consumer gates fail. Selected artifact
-and search records are used only to audit claim promotion, not to estimate
-field-wide prevalence. DiffAudit therefore reframes diffusion MIA as
-claim-bound audit consumption: leakage claims are retained where the contract
-supports them, while otherwise promising signals remain candidate, support-only,
-or negative instead of becoming downstream audit claims.
+Diffusion membership-inference audits need packet-level evidence behind each
+reported score. A reportable claim packet binds target, split, per-sample
+observable, metric provenance, finite-tail basis, and consumer use boundary. An
+ordered gate rule checks each proposed audit claim against that packet and
+records the first missing requirement.
+We use frozen boundary cases as protocol checks with same-team gate labels. The
+cases include three replay-backed rows reportable under bounded wording, two
+source-documented point rows, one repeated-response candidate with AUC 0.9615,
+one MoFit public score-file boundary case, and a separate C14 packet of thirteen
+selected public-surface stress rows. Under these labels, MoFit is a
+support-only score-file diagnostic because row binding and target identity gates
+are unresolved.
+Within the selected C14 packet, weak public-surface rules would select 12/13
+rows by code and paper-artifact links. All selected rows are non-Pass at the
+score/response and consumer-boundary gates. C14 currently has
+\texttt{n\_reviewers=0} and \texttt{packet\_ready\_only} status. The same-team
+gate labels support bounded wording for reportable replay and source-documented
+rows within their tiers. C14 supports pre-label weak-rule stress-control wording
+until independent labels exist. Audit-use and field-rate wording require the
+named surfaces. A new activation-subspace fingerprint scout (H1) provides a
+candidate-positive boundary case: internal UNet activation summaries reach stable
+AUC 0.873 with passed shuffle and ablation controls, yet TPR@1\%FPR collapses
+from 0.484 to 0.055 under scale-up from $N=64$ to $N=128$.
 \end{abstract}
 
 \section{Introduction}
 
-Diffusion models can memorize or overfit training examples in ways that enable
-membership inference attacks. The literature has produced strong black-box,
+Diffusion models can memorize or replicate training examples in ways that enable
+membership inference attacks~\cite{carlini2023extracting,somepalli2023replication}.
+The literature has produced black-box,
 gray-box, and white-box signals, including reconstruction similarity,
 posterior-error statistics, proximal initialization, conditional likelihood
-discrepancy, reconstruction-based black-box attacks, and gradient-based
+discrepancy, black-box reconstruction, and white-box gradient
 attacks~\cite{duan2023secmi,kong2024pia,zha2024clid,reconstruction2025blackbox,gsa2025whitebox}.
-However, paper-level scores are not automatically audit evidence. A model
-owner, regulator, or downstream runtime needs to know which target checkpoint
-was audited, what row IDs define members and nonmembers, whether scores exist
-per sample, how low-FPR tails should be interpreted, and which claims are
-blocked by missing artifacts.
+We ask what audit claim a diffusion MIA score packet can support. The same
+score can serve as a replay anchor, a candidate signal, or a blocked claim
+depending on which evidence surfaces are present. A model owner, replay auditor,
+or downstream report consumer needs to know which target checkpoint was audited,
+what row IDs define members and nonmembers, whether scores exist per sample,
+how low-FPR tails should be interpreted, and which claims are blocked by missing
+artifacts.
 
-DiffAudit is built around this distinction. We treat the measured object as an
-evidence packet, not as a method name or a single score. The contract turns
-artifact details into scientific controls: target identity, split semantics,
-score or response coverage, metric provenance, consumer boundary, and surface
-delta expose source-label confounding, prompt-only shortcuts, finite-tail
-overclaiming, unsupported consumer promotion, and non-replayable headline
-metrics. The measurement result is the gate outcome itself: which claim
-survives, which claim is blocked, and which missing surface caused the boundary.
+We use a claim-bound evidence packet to carry those fields. The audit object is a
+structured packet with defined target, split, observable, metric, consumer, and
+delta surfaces. Following security-measurement and
+reproducibility norms~\cite{herley2017sokscience,vanderkouwe2020benchmarking,pineau2021reproducibility},
+the contract specifies target identity, split semantics, score or response
+coverage, metric provenance, consumer boundary, and surface delta as gates.
+Given frozen gate labels, a rule maps each claim to an audit state. The claim
+register exposes the gate labels, the first missing surface, and the allowed
+wording for each checked claim. The measured object is claim-support
+eligibility; attack-method ranking is a separate benchmark problem. The
+resulting table states the audit wording each concrete packet can support under
+a fixed evidence contract.
 
-The audit decision problem has three consumers: model owners deciding whether a
-checkpoint creates measurable risk, auditors replaying row-bound metrics, and
-downstream reports that must not promote candidates into user-facing claims.
-DiffAudit is therefore not an attack-SOTA paper: it studies when a diffusion
-MIA result is eligible to support a stated audit claim.
+This paper defines the packet fields required for model-owner, replay-auditor,
+and downstream-report claims. It applies those fields to score/response packets
+and to high-score or metadata-only boundary rows, recording which gate blocks
+which claim wording.
 
-We organize the case study around three measurement questions. RQ1 asks what
-minimum contract is needed before a diffusion MIA score can support a downstream
-audit claim. RQ2 asks which existing score or response packets become admissible
-under that contract. RQ3 asks what strong but non-admitted signals reveal about
-portability, source confounding, and finite-tail overclaiming. The answer is not
-a new attack leaderboard: five rows become admitted under bounded consumer
-language, while H2 output-cloud geometry, Tracing Roots feature packets,
-CommonCanvas response packets, ReDiffuse scouts, MIDST, and collaborator Stable
-Diffusion packets each support narrower candidate, support-only, or negative
-claims.
-
-The paper therefore makes the following contributions:
+The contributions are:
 
 \begin{itemize}
-\item We formulate audit consumption, rather than attack accuracy alone, as the
-measurement problem for diffusion MIA, and define a six-gate evidence contract
-for claim-bound evidence packets.
-\item We instantiate the contract on five contract-admitted rows with shared
-metric fields (AUC, ASR, TPR@1\%FPR, and TPR@0.1\%FPR), finite-tail bases,
-provenance, quality/cost metadata, and consumer-boundary language that separates
-primary risk evidence from comparator and bridge rows.
-\item We include repeated-response output-cloud geometry as a contract stress
-test: the signal is strong under bounded controls, but remains non-admitted
-because the current evidence does not establish a portable or consumer-ready
-black-box audit row.
-\item We show how bounded negative and support evidence, plus selected
-claim-control records, block overbroad portability and artifact-availability
-claims without becoming method refutations or field-wide prevalence estimates.
+\item A claim-admission protocol with six gated surfaces:
+target identity, split semantics, score/response coverage, metric provenance,
+consumer boundary, and surface delta. The transition rule maps a proposed audit
+wording to reportable, candidate, support-only, watch, or negative states by
+recording the first missing surface and the narrower wording the packet supports.
+\item We apply the protocol to replay positives, point comparators,
+metric-only negatives, and source/artifact stops. The resulting trace records
+the missing surfaces behind interval, dominance, and leaderboard claims.
+\item H2 output-cloud reaches AUC 0.9615; unresolved consumer-boundary and
+surface-delta gates keep it candidate-only. Same-family metric checks leave the
+row in candidate state.
+\item Under the protocol labels, a public score-file boundary case (MoFit, AUC
+0.941948) is support-only. Public score-like files lack immutable target
+identity, explicit row IDs, certified row binding, consumer-boundary support,
+and surface delta.
+\item A C14 stress packet shows how weak public-surface rules over-select
+pre-label rows: code and paper-artifact links appear in 12/13 selected rows,
+while all selected rows are non-Pass at the score/response and
+consumer-boundary gates.
+The packet supports pre-label stress-control wording. The separate 28-case
+release-wording matrix handles phrase-guard regression wording.
 \end{itemize}
 
 \section{Related Work}
 
 \subsection{Membership Inference and Evidence}
 
-Membership inference was introduced for discriminative machine-learning
-services as a way to infer whether a record was used during
-training~\cite{shokri2017membership}. Subsequent work connected the risk to
-overfitting and clarified the statistical interpretation of membership
-signals~\cite{yeom2018privacy,carlini2022firstprinciples}. Recent position
-work further argues that membership inference should not be treated as
-standalone proof that a model was trained on a particular datum~\cite{zhang2025cannotprove}.
-DiffAudit adopts this caution as an audit-design principle: a high score is
-useful only after its target, split, metric, and consumer boundary are explicit.
+Membership inference asks whether a record was used during training~\cite{shokri2017membership}.
+Prior work links this risk to overfitting and to the statistical meaning of
+membership scores~\cite{yeom2018privacy,carlini2022firstprinciples}. Recent
+position work warns against treating MIA as standalone proof of an individual
+datum's use~\cite{zhang2025cannotprove}.
+
+Training-data-use claims need evidence beyond MIA scores. The protocol scopes
+score-backed audit wording around that gap.
+Foundation-model audits
+also show that blind baselines can outperform MIA attacks when member and
+nonmember sources differ for reasons unrelated to membership~\cite{das2025blind}.
+A claim-admission protocol then fixes the required surfaces: target, split,
+row-level observable, metric provenance, and consumer boundary must be explicit
+before wording can strengthen.
+
+\subsection{Security Measurement and Audit Claims}
+
+Security/privacy measurement differs from attack benchmarking because the
+measured unit, denominator, replay surface, and downstream consumer determine
+what a number can mean. Security-science and benchmarking work similarly argues
+that scientific security claims require explicit evidence units, denominators,
+measurement assumptions, and reproducible comparisons~\cite{herley2017sokscience,vanderkouwe2020benchmarking}.
+For MIA, first-principles metric analysis shows that accuracy and tail
+rates require careful base-rate and threshold
+interpretation~\cite{carlini2022firstprinciples}. Recent audit-oriented
+interpretations separate membership evidence from proof of training-data
+use~\cite{zhang2025cannotprove}.
+
+For diffusion MIA, the claim-admission protocol records which target/split/row
+observable and replay tier make a score consumable. Partial packets stay as
+candidate or support evidence outside a leaderboard. Attack papers provide
+evidence surfaces and packets; the protocol assigns claim-support states under a
+fixed contract.
 
 \subsection{Diffusion Memorization and MIA}
 
-Diffusion models build on denoising training and latent generation
-pipelines~\cite{ho2020ddpm,rombach2022ldm}. They expose privacy risk through
-both memorized generations and membership signals. Extraction and replication
-studies show that training examples or near-duplicates can appear in
-outputs~\cite{carlini2023extracting,somepalli2023replication}.
-Diffusion MIA is already split by access surface. Gray-box posterior,
-trajectory, and conditional-likelihood methods expose intermediate statistics
-or likelihood surrogates~\cite{duan2023secmi,kong2024pia,zha2024clid,tracingroots2025}.
-Black-box response and reconstruction methods compare queries with returned or
-regenerated outputs~\cite{rediffuse2025,reconstruction2025blackbox}. White-box
-gradient attacks require stronger evaluator access~\cite{gsa2025whitebox}.
-Defended and realistic benchmark settings add further boundaries:
-DPDM changes the target through differential privacy~\cite{dockhorn2023private},
-CopyMark and MIDST show that image and tabular benchmark contracts affect what
-an MIA result supports~\cite{liang2024copymark,midst2026challenge}, and
-dataset-level owner auditing such as CDI aggregates evidence across many images
-rather than proving an individual row~\cite{dubinski2025cdi}. DiffAudit does
-not rank these attacks; it asks when their artifacts expose enough target,
-split, row, metric, and consumer context to become reusable audit evidence.
+Diffusion models~\cite{ho2020ddpm,rombach2022ldm} expose privacy risk through
+memorized generations and membership signals~\cite{carlini2023extracting,somepalli2023replication}.
+The access surface matters: gray-box posterior, trajectory, and likelihood
+surrogates~\cite{duan2023secmi,kong2024pia,zha2024clid,tracingroots2025},
+black-box response or reconstruction methods~\cite{rediffuse2025,reconstruction2025blackbox},
+caption-free fitted-embedding scores~\cite{jeon2026mofit}, and white-box
+gradient attacks~\cite{gsa2025whitebox} support different audit claims. Recent
+initial-noise probing expands this taxonomy to noise-schedule surfaces,
+reinforcing that modality-specific signals should be gated separately~\cite{lian2026noiseprobe}.
+DPDM, CopyMark, MIDST, and CDI further show that defense, benchmark, and
+dataset-level contracts change what a result can mean~\cite{dockhorn2023private,liang2024copymark,midst2026challenge,dubinski2025cdi}.
 
 \subsection{Reporting and Reproducibility Artifacts}
 
-DiffAudit is closest to reporting and reproducibility work in machine learning,
-but it measures a different object. Reproducibility checklists emphasize data,
-code, hyperparameters, and evaluation conditions~\cite{pineau2021reproducibility};
-datasheets and model cards document dataset and model origins, uses, and
-limitations~\cite{gebru2021datasheets,mitchell2019modelcards}. Privacy audit
-admission additionally needs a threat model, row-level membership labels or
-responses, metric provenance, finite-tail denominators, and an allowed consumer
-claim. DiffAudit therefore adapts reporting artifacts into a measurement-validity
-test: an incomplete artifact is not automatically a failed reproduction, but it
-cannot support a stronger audit claim than its packet exposes.
+Reproducibility checklists, datasheets, and model cards document data, code,
+conditions, origins, limitations, and intended use~\cite{pineau2021reproducibility,gebru2021datasheets,mitchell2019modelcards}.
+We evaluate claim admissibility at the row-bound packet level. Row-level
+membership labels or responses, metric provenance, finite-tail denominators,
+replay tier, surface delta, and allowed consumer language decide what a number
+can mean. Claim state is the narrowest wording allowed by row-level provenance,
+finite-tail basis, consumer action path, and code availability as separate
+surfaces.
+
+The decision trace records an ordered gate vector, the first non-Pass blocker,
+and the narrower wording allowed after that blocker is named.
 
 \section{Audit Surfaces}
 
-This paper studies an audit-admission problem, not a universal membership
-proof. The membership game is binary: for a fixed target and frozen
-member/nonmember split, an evidence packet scores whether each labeled sample
-row belonged to the target's training set under a stated access mode. The audit
-output is the strongest claim that this packet can support. Query budgets,
-sample counts, and auxiliary access are packet-specific and are not normalized
-into a universal leaderboard. We explicitly exclude individual training-data
-proof, field-wide artifact prevalence, and exposing candidate rows as
-consumer-facing audit-report claims.
+Audit admission asks which claims a score packet can support. The membership
+game is binary: for a fixed target and frozen member/nonmember split, an
+evidence packet scores the fixed benchmark member/nonmember label under a stated
+target, split, and access mode. The audit output is the claim this packet can
+support.
 
-Diffusion MIA results are not interchangeable because they observe different
-surfaces. A black-box response packet can support an output-consumer claim if
-target identity and query rows are fixed. A gray-box trajectory or
-posterior-statistics packet can support a mechanism or evaluator claim, but
-requires a different consumer boundary. A white-box gradient packet is useful
-as an upper-bound risk comparator, not as a black-box report. Feature packets
-and collaborator-local scores can be scientifically useful while remaining
-support-only. Table~\ref{tab:surfaces} records the surfaces used in this paper.
-Access mode is not interchangeable: a row admitted under one surface is not
-automatically admitted under another.
+The protocol reports packet-level claim support. Leaderboard normalization,
+individual training-data proof, field-wide artifact prevalence, and
+consumer-facing candidate-row claims require separate measurements. The split
+gate requires fixed member and nonmember definitions.
+
+We group prior diffusion MIA artifacts by access
+surface~\cite{duan2023secmi,kong2024pia,zha2024clid,rediffuse2025,reconstruction2025blackbox,gsa2025whitebox}.
+Each access surface supports a distinct claim role. A black-box response packet
+can support an output-consumer claim when target identity and query rows are
+fixed. A gray-box trajectory or posterior-statistics packet can support a
+mechanism or evaluator claim. A white-box gradient packet is an upper-bound risk
+comparator. Feature packets and separately supplied local scores support
+mechanism analysis or hypothesis generation and remain support-only as audit
+evidence.
+Table~\ref{tab:surfaces} records the surfaces used in this paper.
+Each access mode binds its own evidence surface. A row reported under one
+surface requires independent gate evaluation under another.
 
 \begin{table}[t]
 \centering
 \caption{Audit surfaces and allowed evidence roles.}
 \label{tab:surfaces}
-\begin{tabular}{p{0.31\linewidth}p{0.59\linewidth}}
+\begin{tabular}{L{0.31\linewidth}L{0.59\linewidth}}
 \toprule
-Surface & Allowed role in DiffAudit \\
+Surface & Allowed paper role \\
 \midrule
-Black-box responses & Admitted only with fixed target, split, response coverage, and metric replay. \\
-Gray-box trajectory/statistics & Admitted or candidate depending on provenance and consumer semantics. \\
+Black-box responses & Reportable only with fixed target, split, response coverage, and metric replay. \\
+Gray-box trajectory/statistics & Reportable or candidate depending on provenance and consumer semantics. \\
 White-box gradients & Upper-bound comparator unless the audit consumer has white-box access. \\
 Feature packets & Support-only unless raw target/sample provenance and regeneration assets are available. \\
-Collaborator/local packets & Stress tests unless public row binding and source-confounding checks pass. \\
+Restricted or separately supplied packets & Stress tests unless public row binding and source-confounding checks pass. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \section{Evidence Contract}
 
-DiffAudit uses six gates before a result can support a portability or runtime
-audit claim. The target identity gate requires a fixed model architecture,
-checkpoint identity, training provenance, and accessibility. The split contract
-requires precise member and nonmember manifests. The score or response gate
-requires row-level coverage and labels. The metric gate requires AUC, ASR,
-TPR@1\%FPR, TPR@0.1\%FPR, nonmember denominator, and traceability to a score
-array or response packet. The consumer-boundary gate requires a stated consumer
-and allowed claim language. The surface-delta gate checks whether a claimed
-second asset actually differs in model, data, modality, or response contract
-rather than repeating the same family.
+The protocol assigns claim state with six gates: target identity, split
+semantics, score/response coverage, metric provenance, consumer boundary, and
+surface delta. Target identity fixes the model architecture, checkpoint
+identity, training provenance, and accessibility. Split semantics fixes member
+and nonmember manifests. Score/response coverage binds row-level outputs to
+labels. Metric provenance records AUC, ASR, TPR@1\%FPR, TPR@0.1\%FPR,
+nonmember denominator, and replay tier: row-score replay, response/feature
+replay, target-score replay, or source-documented point estimate.
+Consumer-boundary checks expose the artifacts needed by the named consumer
+before wording is assigned. Surface delta checks whether a claimed second asset
+changes model, data, modality, or response contract.
+Each gate corresponds to a failure mode observed in the boundary cases: unbound
+checkpoint claims, source-pool shortcut membership, code-only or copied-metric
+promotion, high-score claims without an action-compatible consumer surface, and
+adjacent controls rewritten as portability evidence.
 
-The gates are intentionally stricter than ordinary artifact availability. A
-repository can contain code without a fixed target checkpoint, a checkpoint can
-exist without immutable member/nonmember manifests, a score file can be
-scoreable without proving the same consumer boundary, and a strong candidate
-can still be unsafe to expose as a runtime audit row. DiffAudit therefore asks
-what claim an artifact supports, not whether an artifact is globally useful or
-whether the original paper is reproducible in every detail.
+Consumer requirements are fixed before gate labels are assigned. We use three
+consumer templates: model-owner risk reporting, replay audit, and downstream
+summary. Table~\ref{tab:gates} records the artifacts each task must expose.
+A consumer-boundary failure means the packet lacks the artifacts for the named
+task.
 
-Low-FPR metrics are reported as finite empirical packet readouts. For example,
-TPR@0.1\%FPR on 100 nonmembers has a false-positive budget of 0.1 and should
-not be described as a calibrated continuous sub-percent operating point. This
-rule is important because many diffusion MIA packets are small, and strict-tail
-claims can otherwise sound stronger than the evidence permits.
+Under this contract, code, checkpoints, score files, and high candidate scores
+support downstream audit wording after the packet exposes target, split, metric,
+consumer, and surface-delta surfaces. The contract governs audit wording, not
+full scientific value or reproduction scope.
 
-The consumer-boundary gate is the most conservative part of the contract. It
-records who may consume the result and what language must accompany it. A
-white-box gradient attack may be a valid upper-bound comparator but not a
-black-box product result; a feature-packet replay may be useful evidence for
-temporal trajectory leakage but not a raw image audit; a cross-source Stable
-Diffusion packet may be a stress test but not same-distribution membership
-evidence. These distinctions are enforced before writing the paper, not added
-as defensive caveats after a claim is made.
+Low-FPR metrics are reported as finite empirical packet readouts~\cite{carlini2022firstprinciples}. For example,
+TPR@0.1\%FPR on 100 nonmembers has a false-positive budget of 0.1; zero
+observed false positives are the only admissible count under the strict empirical
+rule.
+Small-packet tail values are finite empirical readouts; calibrated sub-percent
+operating-point language overstates them.
 
-Gate labels are claim-relative adjudications. \emph{Pass} means the packet is
-frozen, row-bound, and sufficient for the stated consumer claim; \emph{Partial}
-means a useful surface exists but cannot support a stronger claim without more
-identity, provenance, or consumer binding; \emph{Fail} means a missing or
-contradictory surface blocks that claim; and \emph{N/A} means the gate is
-outside the claim type. Each label records the missing surface that would change
-the state, so the protocol produces an audit decision rather than a repository
-quality score.
+Gate labels are claim-relative measurement decisions. \emph{Pass} means the packet
+exposes the surface required for the stated claim. Replay claims require
+row-bound score, response, or target-score arrays. Point claims require a
+frozen source-documented metric and narrower wording. \emph{Partial} means a
+useful surface exists and a stronger claim still needs more identity,
+provenance, or consumer binding; \emph{Fail} means a missing or contradictory
+surface blocks that claim; and \emph{N/A} means the gate is outside the claim
+type. Each label records the missing surface that would change the state, so
+the protocol records an audit decision.
+A metric gate pass carries a replay tier. Point-estimate passes support exact
+bounded point wording; interval and dominance claims require direct score
+arrays.
 
 \begin{table}[t]
 \centering
-\caption{DiffAudit evidence-contract gates.}
+\caption{Evidence-contract gates as protocol checks. Consumer-boundary rows make
+the downstream action and missing artifact explicit before wording is assigned.}
 \label{tab:gates}
-\begin{tabular}{p{0.34\linewidth}p{0.56\linewidth}}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{L{0.34\linewidth}L{0.56\linewidth}}
 \toprule
-Gate & Question answered \\
+Gate & Required surface checked by the protocol \\
 \midrule
-Target identity & Which model/checkpoint is being audited? \\
-Split semantics & Which rows are members and nonmembers? \\
-Score/response coverage & Is there row-level evidence for every sample? \\
-Metric provenance & Can headline metrics be traced to rows or frozen responses? \\
-Consumer boundary & Who may consume the result and as what claim? \\
-Surface delta & Is a claimed second asset actually non-adjacent? \\
+Target identity & Fixed architecture, checkpoint, training provenance, or target descriptor. \\
+Split semantics & Immutable member/nonmember row manifests or split definition. \\
+Score/response coverage & Row-level scores, responses, features, or metric packet for labeled samples. \\
+Metric provenance & Replay tier: row-score, response/feature, target-score, or documented point estimate. \\
+Consumer boundary: model owner & Can name target/checkpoint, split, access mode, operating point, finite-tail denominator, and owner action for the row role. \\
+Consumer boundary: replay auditor & Can recompute or verify from row-score, target-score, response, or feature packet plus metric code/JSON; source points stay point-only. \\
+Consumer boundary: downstream report & Can quote target/split, replay tier, provenance, denominator, and caveat in a bounded sentence; hidden fields block audit wording. \\
+Surface delta & Evidence that a claimed second asset changes model, data, modality, or response contract and is distinct from the adjacent surface. \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+Consumer-boundary labels identify claims that depend on hidden data, new
+execution, or a different evidence surface.
 
 \section{Measurement Protocol}
 
-DiffAudit stores each result as one of five states. An admitted row is eligible
-for DiffAudit-style reporting only under its stated boundary and caveat. A candidate row is
-scientifically useful but not consumer-ready. A support-only row can motivate
-or contextualize a mechanism but cannot serve as a direct benchmark. A watch
-item is tracked for future artifacts. A negative row answers a bounded decision
-question and usually closes a low-value expansion.
+Under same-team protocol labels, each result receives one of five evidence
+states. A reportable row can be used for contracted reporting under its stated
+boundary and caveat. A candidate row supports follow-up analysis. A support-only
+row motivates or contextualizes a mechanism. A watch item is tracked for future
+artifacts. A negative row answers a bounded decision question and usually closes
+a low-value expansion.
 
-The protocol is applied claim-first. The reviewer first writes the intended
-claim $c$, then assembles an evidence packet
-$p=(T,S,O,M,C,\Delta)$ binding target $T$, split $S$, row-level observable $O$,
-metric provenance $M$, consumer boundary $C$, and optional surface delta
-$\Delta$. DiffAudit then records
-$G(p,c)\in\{\mathrm{Pass},\mathrm{Partial},\mathrm{Fail},\mathrm{N/A}\}^6$ in
-the fixed gate order of Table~\ref{tab:gates}. A gate can pass only when the
-source map exposes the required surface for the proposed claim; otherwise the
-label records the concrete missing or contradictory surface. The pair $(p,c)$
-is contract-admitted only when target, split, evidence, metric, and consumer
-gates pass and the delta gate either passes or is not applicable. If not, the
-first non-passing required gate selects the narrower evidence state: candidate
-for open portability/consumer gates, support-only for different access or
-feature surfaces, watch for artifact discovery without rows, and negative for a
-bounded route-selection answer.
+We formalize the protocol as a finite-state gate-decision rule over a proposed
+audit claim and its supporting packet. Its input is an audit claim template $c$
+and an evidence packet $p=(T,S,O,M,C,\Delta)$ binding target $T$, split $S$,
+row-level observable $O$, metric provenance $M$, consumer boundary $C$, and
+optional surface delta $\Delta$. It evaluates the ordered gate vector
+$g(p,c)=\langle g_T,g_S,g_O,g_M,g_C,g_\Delta\rangle$ and transitions to the
+narrowest state justified by the first required non-Pass gate. Reportability
+requires target, split, evidence, metric, and consumer gates to pass for the
+proposed wording; the delta gate must pass or be irrelevant to the claim.
+Replay admission requires a metric tier with row, target-row, response, or
+feature replay. A frozen source-documented point estimate can be reportable for
+exact bounded point wording. Figure~\ref{fig:gate-procedure} makes the
+transition rule explicit.
 
-Metrics are recomputed from row-level scores or frozen response packets when
-available. We report AUC, attack success rate (ASR), TPR@1\%FPR, and
-TPR@0.1\%FPR, but we do not treat all four values equally. Low-FPR values are
-interpreted through the nonmember denominator: on a packet with 25 nonmembers,
-TPR@0.1\%FPR has no continuous sub-percent meaning. This is why DiffAudit
-records both metrics and packet boundaries instead of publishing a leaderboard.
-
-\subsection{Evidence States}
-
-The evidence state is part of the measurement result. It is not a project
-management label. The same numerical score can be admitted in one setting,
-candidate-only in another, and support-only in a third if its target identity,
-split, row coverage, or consumer boundary changes.
-
-\begin{table}[t]
+\begin{figure}[t]
 \centering
-\caption{Evidence states used by DiffAudit.}
-\label{tab:states}
-\begin{tabular}{p{0.23\linewidth}p{0.67\linewidth}}
-\toprule
-State & Meaning \\
-\midrule
-Admitted & All gates pass for the stated consumer boundary; row may appear in audit reports. \\
-Candidate & Scientifically useful signal, but at least one portability or consumer gate remains open. \\
-Support-only & Useful context or mechanism evidence, but not a direct benchmark row. \\
-Watch & Public signal worth tracking, with no row-bound evidence yet. \\
-Negative & Bounded route-selection result that closes or narrows a hypothesis. \\
-\bottomrule
-\end{tabular}
-\end{table}
+\fbox{\begin{minipage}{0.91\linewidth}
+\textbf{Gate-assignment procedure.}
+\begin{enumerate}[leftmargin=*,nosep]
+\item Bind $T,S,O,M,C,\Delta$ from public packet surfaces and source
+provenance before reading aggregate counts.
+\item Evaluate gates in fixed order: target, split, evidence, metric,
+consumer boundary, and delta. Assign Pass only when the surface needed by
+claim $c$ is visible in the packet; assign Partial when a related surface is
+visible and the proposed wording needs another surface; assign Fail for missing or
+contradictory required surfaces; assign N/A only when the claim type does not
+use that gate.
+\item Record the first non-Pass required gate as the first blocker. Later
+passes do not override this blocker.
+\item Emit the narrowest allowed state: reportable for all required Pass
+gates, candidate for unresolved consumer or portability gates, support-only
+for different access or feature surfaces, watch for artifact discovery without
+row binding, and negative for a bounded route-selection stop.
+\item Attach replay tier. Row-score, target-score, response, and feature
+replay tiers can be replay-admitted; source-documented point estimates remain
+point-worded.
+\end{enumerate}
+\end{minipage}}
+\caption{Fixed-order gate-assignment procedure used by the coded claim register.}
+\label{fig:gate-procedure}
+\end{figure}
+
+The coded claim register is the claim-state table: each checked claim maps
+to one first blocker, state, replay tier, and allowed sentence. It assigns
+dominance, interval, portability, prevalence, and route-generalization wording
+from the recorded state and provenance. This register check covers selected
+boundary cases. General gate sufficiency and independent-coding reliability
+require broader corpora and independent labels.
+
+The supplementary material includes a four-row transition slice derived from the
+trace. It exposes reportable, candidate, uncertainty-sidecar, and C14
+packet-ready cases without requiring the full register.
+
+Metrics are computed from row-level scores or frozen response packets;
+otherwise they are retained as declared point estimates. We report AUC, attack
+success rate (ASR), TPR@1\%FPR, and TPR@0.1\%FPR. Low-FPR values are
+interpreted against the nonmember denominator. The implementation takes the
+maximum empirical TPR at thresholds with FPR at most the target; when
+$0.001n_0<1$, TPR@0.1\%FPR is a zero-FP tail on a discrete grid. The trace
+records both metric derivations and packet boundaries.
 
 \subsection{Metric Replay}
 
-DiffAudit treats metric replay as a provenance check. When a score array exists,
-metrics are recomputed from row labels rather than copied from prose. When only
-responses exist, the scorer and response manifest must be fixed before the
+Metric replay is a provenance check. When a score array exists,
+metrics are recomputed from row labels. When only responses exist, the scorer
+and response manifest must be fixed before the
 metric can be used. For a nonmember packet of size $n_0$, FPR takes values on a
-discrete grid of $1/n_0$. Thus TPR@0.1\%FPR is a strict empirical tail whenever
-$0.001n_0 < 1$. We still report the readout because it is useful for comparing
-packets, but the text must retain the denominator and avoid calibrated-risk
-language~\cite{carlini2022firstprinciples}.
+discrete grid of $1/n_0$. TPR@0.1\%FPR is a strict empirical tail whenever
+$0.001n_0 < 1$. We report the readout as a finite packet comparison and retain
+the denominator; calibrated-risk language would overstate the measurement
+resolution~\cite{carlini2022firstprinciples}.
 
-Table~\ref{tab:gate-matrix} is used later as a claim-admission ablation: rows
-that look usable under ordinary code-or-metadata availability are blocked by
-different missing gates once row binding, metric replay, consumer boundary, and
-surface delta are evaluated.
+Table~\ref{tab:gate-matrix} is used later as a claim-admission diagnostic.
+Code or metadata availability leaves row binding, metric replay, consumer
+boundary, and surface delta gates unresolved. Rows that fail these gates remain
+blocked regardless of code or metadata presence.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.94\linewidth]{figures/evidence_contract_pipeline.pdf}
-\caption{DiffAudit evidence-contract pipeline. The pipeline is intentionally
-claim-oriented: the same metric can become admitted evidence, a candidate case
-study, support-only context, or a bounded negative depending on provenance and
-consumer semantics.}
+\caption{Claim-admission protocol. The ordered gate vector and first
+required non-Pass blocker route a proposed claim to reportable, candidate,
+support-only/watch, or negative wording; release sidecars bind the resulting
+sentence to trace, provenance, and metric files.}
 \label{fig:pipeline}
 \end{figure*}
 
 \begin{table*}[t]
 \centering
-\caption{Candidate and support evidence gate matrix. Labels are claim-relative:
-a role-pass is sufficient for the stated paper role, not automatic product
-admission. `Mixed replay' means row-score replay where available and
-source-documented point estimates otherwise.}
+\caption{Claim-admission gate matrix examples. Labels are claim-relative: a
+role-pass is sufficient for the stated paper role; downstream admission requires
+the matching consumer and surface-delta fields. Reportable rows are split by replay tier to separate
+source-documented point estimates from row-score replay.}
 \label{tab:gate-matrix}
-\begin{tabular}{llllllll}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{0.17\linewidth}ccccccL{0.13\linewidth}L{0.19\linewidth}@{}}
 \toprule
-Route & Target & Split & Evidence & Metric & Boundary & Delta & Paper use \\
+Route & Target & Split & Evidence & Metric & Boundary & Delta & Replay tier & Paper use \\
 \midrule
-Admitted bundle (mixed replay/point estimate) & Pass & Pass & Pass & Pass & Pass & N/A & Bounded audit/comparator rows \\
-H2 output-cloud & Pass & Pass & Pass & Pass & Partial & Partial & Candidate mechanism \\
-H2 img2img portability & Pass & Pass & Pass & Pass & Fail & Pass & Portability limit \\
-ReDiffuse STL-10 scout & Pass & Pass & Pass & Pass & Fail & Pass & Bounded negative \\
-CommonCanvas response packet & Partial & Pass & Pass & Pass & Fail & Pass & Bounded negative \\
-Tracing Roots feature packet & Partial & Pass & Pass & Pass & Partial & Pass & Support-only \\
-SD ReDiffuse collaborator & Partial & Partial & Pass & Pass & Fail & Pass & Source-confounded support \\
+PIA rows & Pass & Pass & Pass & Pass & Pass & N/A & row-score & Row-replay gray-box audit and defense-comparator rows \\
+Recon/GSA rows & Pass & Pass & Pass & Pass & Pass & N/A & src point & Black-box proxy and white-box upper-bound comparator rows \\
+DPDM W-1 bridge & Pass & Pass & Pass & Pass & Pass & N/A & target-score & Target-score defense bridge \\
+H2 output-cloud & Pass & Pass & Pass & Pass & Fail & Fail & response & Candidate only; consumer and portability blocked \\
+SD/CelebA img2img portability & Pass & Pass & Pass & Pass & Fail & Pass & response & Candidate boundary; portability admission unresolved \\
+MoFit public score files & Partial & Partial & Partial & Partial & Fail & Fail & public scores & Support-only score-file boundary; row binding and consumer blocked \\
+ReDiffuse STL-10 strict/overfit & Partial & Pass & Partial & Partial & Fail & Fail & local route & Strict route negative; overfit support-only \\
+CommonCanvas response packet & Partial & Pass & Pass & Pass & Fail & Pass & response & Bounded negative \\
+Tracing the Roots feature packet & Partial & Pass & Pass & Pass & Partial & Pass & feature & Support-only \\
+Supplied SD ReDiffuse & Partial & Partial & Pass & Pass & Fail & Pass & supplied scores & Source-confounded support \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
-\section{Selection Boundary and Claim-Control Evidence}
+The matrix identifies which missing surface blocks score-only, code-only, and
+replay-only claims. The contract ties each allowed sentence to the first
+blocker, replay tier, claim trace, source provenance, and metric-uncertainty
+sidecars.
 
-This section records selection transparency, not a literature survey. The
-current claim-control set is intentionally small but heterogeneous: five
-admitted rows, one strong H2 candidate, bounded negative routes for ReDiffuse
-STL-10, CommonCanvas, and MIDST, positive feature-packet evidence from Tracing
-the Roots, and a source-confounding stress test from collaborator Stable
-Diffusion ReDiffuse. The concrete blockers are different: no downstream H2
-admission or independent response asset, no distance-distinct img2img
-portability, weak CommonCanvas scorers under a partial target boundary,
-feature-packet rather than raw-image Tracing Roots evidence, and
-source-confounded collaborator labels. These rows exercise the evidence contract
-across admitted, candidate, support-only, and negative states, but they do not
-estimate artifact prevalence in the field.
+\section{Boundary-Case Trace and Claim Outcomes}
 
-Within this case study, protocol validity is evaluated as claim-promotion
-control, not as independent inter-rater reliability. If a row lacks target
-identity, row-level evidence, metric replay, or a consumer boundary, the gate
-vector should block admission even when the headline signal is strong. The
-counts below are diagnostic examples under a declared set, not evidence that
-public diffusion MIA artifacts generally fail.
+For selected boundary cases, the coded gates record the evidence state plus
+diagnostic tag: reportable, candidate, support-only, watch, or negative, with
+known-surface miss, source-confounded, or metadata-only where applicable. The
+trace also marks rows where weak admission rules would admit a claim that the
+contract blocks.
+Table~\ref{tab:corpus-construction} fixes the selected row sets before counts are read.
+The declared set is a fixed boundary-case set. It tests claim-state behavior
+across bounded positives, a high-score
+metric-only non-admission case, route closures, and L0/L1 artifact stops.
+For same-team labels, revision is triggered when a blocked row has all five
+required surfaces: fixed target identity, fixed membership semantics,
+row-bound scores or responses, replayable metrics, and a compatible consumer
+boundary. Revision is also triggered when the first blocker is not reproducible
+from the packet.
 
-\subsection{Selection Trace}
+Rows enter when they instantiate at least one gate-relevant surface or blocker
+before aggregate counts are read. The set has five control roles. Reportable
+rows are replay/source-tier anchors. H2 is a metric-strength boundary case:
+high AUC with failed consumer and delta gates. ReDiffuse STL-10,
+CommonCanvas, and MIDST are route-closure checks. Tracing the Roots
+and the separately supplied Stable Diffusion packet test support-only and
+source-confounded states. Fixed-search, source-query, and targeted-link rows
+test row-set discipline and L0/L1 artifact stops.
 
-The current set was built from DiffAudit's audited evidence surface. A
-standalone artifact-claim paper would require a larger frozen corpus or an
-external independent label review before making aggregate claims. We also
-instantiated a frozen supplementary metadata search on 2026-05-26, covering
-seven GitHub repository queries and five arXiv API metadata queries, including
-one noisy title-only query retained for auditability. The search was coded
-before aggregate claims and used no downloads or GPU runs. Its outcome is
-intentionally modest: metadata discovery was easy, but no new row-bound public
-target/split/score or response packet appeared.
+Decision-affecting artifacts entered through an evidence source, released trace
+entry, or machine-readable artifact before count readout. Duplicates are
+recorded as deduplication or screening rows. Background literature,
+artifact-discovery notes, large new-execution assets, and citation-only rows are
+outside the declared set. Later label changes are reported as label-review
+resolutions or source-query control updates.
+The selected rows show how the protocol accepts, narrows, or blocks fixed claim
+wordings. Their role is boundary checking; frequency estimation requires
+separate corpus sampling.
 
-The selection trace makes the claim boundary inspectable rather than enlarging
-the denominator opportunistically. Fixed-search rows record the query, observed
-surface, no-download policy, inclusion/exclusion reason, gate labels, reviewer,
-and date. Empty-result queries constrain the search process, but they remain
-metadata-only and are never pooled with replayed score packets. The frozen batch
-records three re-found surfaces, one new code-public no-packet surface, eight
-relevant metadata-only rows, four empty fixed-query rows, one noisy query row,
-and zero new admitted audit rows.
-
-\begin{figure*}[t]
+\begin{table}[t]
 \centering
-\includegraphics[width=0.92\linewidth]{figures/artifact_gate_summary.pdf}
-\caption{Gate-label counts for the selected v1 evidence-note set and the
-frozen 2026-05-26 fixed-search batch. Counts describe only these coded rows. The
-fixed-search batch produced no row passing the target, split, evidence, metric,
-or consumer-boundary gate, so it supports claim control rather than an
-artifact-prevalence claim.}
-\label{fig:artifact-gates}
-\end{figure*}
+\caption{Frozen boundary-case layers used for claim-state checks.}
+\label{tab:corpus-construction}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{0.24\linewidth}L{0.70\linewidth}@{}}
+\toprule
+Layer & Fixed row set and check role \\
+\midrule
+Boundary-case records & 21 rows: 11 previously reviewed evidence-surface rows plus 10 metadata-only expansions; positive, negative, support-only, and source-confounded controls; no new downloads or model runs. \\
+Fixed metadata batch & 2026-05-26 pass with 7 GitHub repository queries and 5 arXiv API metadata queries; 17 rows test metadata-only L0/L1 stops and refound/noisy surfaces; no row changed an admission decision. \\
+Source-query controls & 2026-05-27 metadata-screening HF/Zenodo/OpenReview API pass; 10 observations test query-result hygiene and non-poolable row-set discipline; no observation changed an admission decision. \\
+Targeted artifact links & 2026-05-27 chase over existing metadata-only seeds; 3 L1 public artifact surfaces, including 2 split surfaces; artifact-inspection stops only, with no score/metric replay or row-set pooling. \\
+Claim scope & Counts support boundary inspection for this declared set only; field-prevalence, artifact-quality, and reproduction-rate estimates require separate sampling. \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-Figure~\ref{fig:artifact-gates} makes the selection boundary visible. We
-separate claim-support levels before reading counts: L0 metadata discovery, L1
-artifact inspection, L2 scoreable or replayed packets, and L3 admitted audit
-evidence. The fixed-search batch is metadata-only and is not pooled with replay
-rows as a reproduction denominator. A selected-corpus consistency pass found no
-invalid gate labels or route-changing contradictions, and a bounded second-pass
-agent review found no admitted-like fixed-search row or metadata-batch
-evidence/metric promotion. The review adopted two further tightenings: a
-withdrawn DLM row now fails the delta gate, and the Noise Aggregation
-fixed-search row now fails the target gate. A
-standalone artifact-claim paper would still need a larger frozen corpus or an
-external independent label review before making aggregate claims.
+Each C1--C15 claim state has an inspectable first missing surface in the coded
+claim register. For every C1--C15 claim, the trace and provenance sidecars list
+the gate labels, first blocker, replay tier, state, allowed wording, source
+hashes, commit identity, generator command, and availability tier. Asset
+generation checks that provenance IDs resolve and gate labels use allowed
+values. For the current packet, these fields identify the local review snapshot;
+the public-release provenance gate remains unresolved.
 
-\section{Admitted Evidence Bundle}
+\subsection{Boundary-Case Trace}
 
-Rows are admitted through a fixed path. In this paper, admitted means
-contract-admitted under the recorded workspace/runtime evidence level, not
-third-party full training-pipeline reproduction. A row must bind labeled samples
-to a stated target, expose metric provenance, attach finite-tail denominators,
-and carry consumer-boundary language. PIA, PIA-dropout, and DPDM W-1 have
-row-score replay in this workspace; recon and the main GSA row are admitted as
-source-documented point-estimate rows with their boundary language attached.
-This is why admitted rows can coexist with higher-scoring non-admitted
-candidates: admission is about reusable audit semantics, not metric magnitude.
+The declared set was built from audited evidence surfaces and frozen before
+count readout. Section~\ref{sec:discussion} separates these boundary-case labels
+from corpus-scale and coding-reliability claims.
 
-Table~\ref{tab:admitted} summarizes the admitted rows. The bundle is
-deliberately heterogeneous: black-box reconstruction and gray-box PIA baseline
-are primary leakage-risk evidence under their access modes, while stochastic
-dropout, GSA, and DPDM W-1 are admitted under comparator or bridge roles. Their
-shared unit is the evidence contract, not a common attack family or leaderboard
-rank. AUC uncertainty is reported only where the replay surface supports it:
-the sidecar gives bootstrap intervals for PIA baseline [0.8168, 0.8640],
-PIA-dropout [0.8039, 0.8535], and DPDM W-1 [0.4640, 0.5152]. Recon and the main
-GSA row remain point estimates, and H2 intervals remain candidate-side controls.
-The compact paper table lists caveats and a finite-tail basis; the
-machine-readable bundle retains quality/cost metadata for replay. We do not pool
-these rows into a single leakage estimate; each row supports only the consumer
-claim named by its boundary or caveat.
+The supplement provides a shuffled blank C1--C15 claim-gate recode template, a
+hash manifest, and a 28-case release-wording regression matrix. The template
+carries blank author-gate fields. Independent recode labels and reliability
+results have not been collected. The regression matrix tests the admitted-only
+risk-card renderer and candidate-promotion phrase guard as release QA for
+wording boundaries. Report drift, compute-release gate validity, and
+external-use estimates remain outside this packet.
+
+The 2026-05-26 metadata search used seven GitHub queries and five arXiv API
+queries, with no downloads or GPU runs. It records three re-found surfaces, one
+new code-public no-packet surface, seven relevant metadata-only rows, one
+existing-watch metadata row, four empty fixed-query rows, and one noisy query
+row; all observations preserved admission decisions. The L0--L3 counts document
+surface hits for trace inspection: 21 selected-set rows at 8/3/9/1 and 17
+fixed-search rows at 13/4/0/0.
+A targeted artifact-link sidecar adds three L1 public artifact surfaces. Row
+scores, ROC curves, metric JSON, and verifier packets are absent.
+
+The same-team cross-reference and second pass are release-consistency
+checks. They preserved admission states and tightened two labels (withdrawn DLM
+delta, Noise Aggregation target). The packet is same-team release material.
+Standalone artifact claims depend on the corpus-scale and reviewer-label
+criteria in Section~\ref{sec:discussion}.
+
+\subsection{Author-Keyed False-Promotion Stress Controls}
+
+C14 is a thirteen-row author-keyed pre-label stress object. It tests whether
+weak public-surface rules over-promote rows before reviewer labels. E2 denotes
+the no-download public-surface freeze pass used for this packet. The packet
+contains thirteen selected no-download E2 public-surface checks. Each
+row records a weak-admission trigger and a first-blocker label. Code and
+paper-artifact links are common; target-bound score/response and
+consumer-boundary surfaces are absent across the selected rows.
+Table~\ref{tab:false-promotion} summarizes the weak rules and gate blockers;
+Fig.~\ref{fig:false-promotion} visualizes the selected-row triggers.
+The current status is \texttt{n\_reviewers=0},
+\texttt{packet\_ready\_only}, and pre-label stress-control.
+
+Across the 13 selected rows, weak-admission triggers are paper-artifact-link in
+12 rows, code in 12, metric/split in 9, artifact in 7, and score-only in 0.
+Every selected row is non-Pass at the score/response and consumer-boundary
+gates; row-level first blockers remain recorded in the companion packet.
 
 \begin{table*}[t]
 \centering
-\caption{Contract-admitted DiffAudit evidence rows. Rows share an evidence
-contract, not a homogeneous threat model or benchmark leaderboard. Tail $n_0$
-is the finite nonmember basis for empirical low-FPR readouts.}
+\caption{C14 weak-rule counts and contract blockers over thirteen selected
+no-download public-surface stress rows. The status artifact records \texttt{n\_reviewers=0} and
+\texttt{packet\_ready\_only}.}
+\label{tab:false-promotion}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}L{0.19\linewidth}L{0.12\linewidth}L{0.42\linewidth}L{0.20\linewidth}@{}}
+\toprule
+Weak rule & Rows triggered & Contract-side blocker & Allowed claim \\
+\midrule
+Code availability & 12/13 & Score/response and consumer-boundary gates are non-Pass for 13/13 rows. & Pre-label stress control. \\
+Paper-artifact link & 12/13 & Public links leave the row-bound score/response packet and verifier surfaces unresolved. & Pre-label stress control. \\
+Metric/split visibility & 9/13 & Split hints or metric code appear without row-bound outputs. & Gate-blocked audit wording. \\
+Artifact availability & 7/13 & Artifact surfaces leave target identity, split, response/score provenance, and consumer boundary jointly unresolved. & Pre-label stress control. \\
+Score-only & 0/13 & Score-only triggers are absent; target-bound public score/response packets are absent. & Gate-blocked score-only wording. \\
+\multicolumn{4}{@{}L{0.93\linewidth}@{}}{Pre-label author check; reviewer labels are a separate protocol step.} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/false_promotion_exemplars.pdf}
+\caption{C14 author-keyed stress visualization for selected rows. Cells mark
+weak-admission triggers before reviewer labeling; the final column records the
+author-keyed first blocker. This figure is a packet-readiness diagnostic.}
+\label{fig:false-promotion}
+\end{figure}
+
+The author-keyed blockers distinguish diffusion MIA evidence from adjacent tasks
+such as attribution, classifier defense, copying, prompt memorization, and
+dataset-level identification. Author-keyed target and metric blockers support
+packet-readiness and weak-rule stress-control wording. Reviewer agreement and
+prevalence require independent labels and a larger sampled corpus.
+
+\section{Worked Examples of Protocol Application}
+
+Rows enter the paper through a fixed worked-example path. A row must
+bind labeled samples to a stated target, expose metric provenance, attach
+finite-tail denominators, and carry consumer-boundary language. The bundle has
+two evidence strengths: PIA, PIA-dropout, and DPDM W-1 are replay-admitted from
+row or target-score arrays in the audited artifacts. Recon and the main GSA row
+are source-documented point estimates. They support exact bounded role claims;
+interval, dominance, and leaderboard claims require row replay. Metric magnitude
+is reported as packet evidence. Admission follows reusable audit semantics.
+The five cases are target/split specific: recon DDIM uses CIFAR-10 public-100
+point evidence; PIA and PIA+stochastic dropout use CIFAR-10 512/512 row replay;
+GSA uses CIFAR-10 1k/1k point evidence; and DPDM W-1 is target-score bridge
+replay.
+
+Table~\ref{tab:admitted} summarizes five worked-example cases across access
+modes. Black-box reconstruction and gray-box PIA baseline provide primary
+leakage-risk rows under their stated modes. Stochastic dropout and DPDM W-1 are
+reportable under defense-comparator or bridge wording. GSA remains a
+source-documented upper-bound point comparator.
+
+The table is organized by claim role and replay tier. The rows are a set of
+role-separated worked examples. The table's
+provenance shorthand is part of the claim: \emph{row} denotes row-score replay,
+\emph{point} denotes source-documented point estimates without replay-derived
+intervals, and \emph{target row} denotes target-score replay for the defended
+bridge. Gate labels are same-team protocol labels over selected rows.
+
+AUC uncertainty is reported only where the replay surface supports it. The
+companion metric table gives bootstrap intervals for PIA baseline [0.8168,
+0.8640], PIA-dropout [0.8039, 0.8535], and DPDM W-1 [0.4640, 0.5152]. These
+intervals are AUC intervals under exchangeable-row bootstraps. TPR@1\%FPR and
+TPR@0.1\%FPR are denominator-and-count packet summaries. Recon and the main GSA
+row are point estimates, and H2 intervals are candidate-side controls. Each row
+supports the consumer claim named by its boundary or caveat.
+
+\begin{table*}[t]
+\centering
+\caption{Calibration evidence packets with bounded claim roles. Each row
+specifies the evidence tier and metric provenance. Both low-FPR columns are
+finite-tail packet readouts tied to the nonmember count $n_0$; TPR@0.1\%FPR
+also reports recovered true positives over member count and the false-positive
+cap implied by $n_0$. Point rows report source-documented values;
+replay-derived intervals are reported in \texttt{metric\_uncertainty.csv} and
+adjacent text, outside the compact table.}
 \label{tab:admitted}
 \footnotesize
-\begin{tabular}{@{}L{0.10\linewidth}L{0.18\linewidth}rrrrL{0.10\linewidth}L{0.18\linewidth}@{}}
+\begin{tabular}{@{}L{0.10\linewidth}L{0.18\linewidth}rrrL{0.12\linewidth}L{0.22\linewidth}@{}}
 \toprule
-Track/role & Method & AUC & ASR & TPR@1\%FPR & TPR@0.1\%FPR & Tail $n_0$ & Boundary/caveat \\
+Role/tier & Method & AUC & ASR & TPR@1\%FPR ($n_0$ tail) & TPR@0.1\%FPR (TP/mem; FP cap) & Claim role \\
 \midrule
-Black-box main & recon DDIM public-100 step30 & 0.837 & 0.740 & 0.220 & 0.110 & $n_0=100$ & runtime-mainline; public proxy risk evidence \\
-Gray-box main & PIA GPU512 baseline & 0.841 & 0.786 & 0.059 & 0.012 & $n_0=512$ & runtime-mainline; provenance caveat \\
-Gray-box comp. & PIA + stochastic dropout & 0.828 & 0.768 & 0.053 & 0.010 & $n_0=512$ & provisional defense comparator \\
-White-box comp. & GSA 1k-3shadow & 0.998 & 0.990 & 0.987 & 0.432 & $n_0=1000$ & upper-bound white-box comparator \\
-White-box bridge & GSA against DPDM W-1 & 0.489 & 0.499 & 0.009 & 0.000 & $n_0=1000$ & runtime-smoke defense bridge \\
+BB main / point & recon DDIM public-100 step30~\cite{reconstruction2025blackbox} & 0.837 & 0.740 & 0.220 & 0.110 (11/100; cap 0) & black-box proxy point estimate; no row-score replay or downstream claim \\
+GB main / row & PIA GPU512 baseline & 0.841 & 0.786 & 0.059 & 0.012 (6/512; cap 0) & bounded gray-box row replay with provenance caveat \\
+GB comp. / row & PIA + stochastic dropout & 0.828 & 0.768 & 0.053 & 0.010 (5/512; cap 0) & provisional defense comparator \\
+WB comp. / point & GSA 1k-3shadow~\cite{gsa2025whitebox} & 0.998 & 0.990 & 0.987 & 0.432 (432/1000; cap 1) & upper-bound white-box comparator \\
+WB bridge / target & GSA against DPDM W-1~\cite{gsa2025whitebox,dockhorn2023private} & 0.489 & 0.499 & 0.009 & 0.000 (0/1000; cap 1) & target-score defense bridge \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -469,165 +629,264 @@ White-box bridge & GSA against DPDM W-1 & 0.489 & 0.499 & 0.009 & 0.000 & $n_0=1
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/admitted_rows_metrics.pdf}
-\caption{AUC and TPR@1\%FPR for admitted rows. The figure compares evidence
-under different access and defense contracts; it is not a single benchmark
-leaderboard.}
+\caption{AUC and TPR@1\%FPR for role-separated worked-example cases. Rows are ordered by access and
+allowed claim role, and each label includes its replay tier. The figure
+catalogues role-separated evidence; benchmark ranking and replay-derived
+intervals are outside this display.}
 \label{fig:admitted}
 \end{figure}
 
-\section{Non-Admitted H2 Output-Cloud Candidate}
+\section{Metric-Strength Boundary Case: H2 Output-Cloud}
 
-H2 is included as a stress test for claim admission: it shows that DiffAudit can
-preserve a technically strong signal while blocking the stronger consumer claim.
-The observable is deliberately narrower than a black-box attack claim: the
-target is queried repeatedly at fixed denoising strengths, and the scorer uses
-geometry among returned responses rather than query-to-output distance. The H2
-response-strength cache contains repeated diffusion responses at
-timesteps 40, 80, 120, and 160. Instead of comparing a query image directly to
-outputs, the output-cloud scorer uses only geometry among outputs: within-step
-repeat RMSE, cross-timestep centroid RMSE, and small response-cloud PCA/Gram
-features. This design asks whether the response cloud itself carries
-membership information. The section also reports the negative portability gate:
-this is a candidate observable, not an admitted attack.
-Relative to black-box variation and reconstruction attacks that compare a query
-with returned or averaged outputs~\cite{rediffuse2025,reconstruction2025blackbox},
-H2 removes query-to-output distance and scores output-output geometry. We
-therefore treat it as a response-contract mechanism probe, not a new black-box
-SOTA claim.
+H2 is a high-AUC non-admission stress test. It scores output-output geometry
+from repeated generations and excludes query-to-output distance. Relative to
+black-box variation and reconstruction attacks that
+compare a query with returned or averaged outputs~\cite{rediffuse2025,reconstruction2025blackbox},
+H2 isolates a response-contract observable. The packet stays candidate-only:
+consumer-boundary and surface-delta gates are unresolved.
+The fixed scorer featurizes within-query response clouds, fits a held-out
+logistic readout, and retains aggregate prediction summaries, coefficients, and
+recorded intervals; no new responses are generated for this paper.
 
 On the existing 512/512 cache, output-cloud logistic scoring reaches AUC
-0.9615, ASR 0.9004, TPR@1\%FPR 0.3340, and TPR@0.1\%FPR 0.1172. It has higher
-point-estimate AUC than the tested raw H2 logistic baseline by 0.0558 and the
-tested lowpass H2 logistic baseline by 0.0659. A label
-shuffle returns random-level AUC 0.5076. Because the historical cache used
-class-ordered seed offsets, DiffAudit released only bounded 256/256
-shared-position controls: with identical per-position seed offsets for members
-and nonmembers, the scorer still reaches AUC 0.9678 at seed 176 and 0.9562 at
-seed 177. A fold-disjoint same-family cross-cache transfer review gives AUC
-0.9490 from seed 176 to 177 and AUC 0.9705 from seed 177 to 176.
-The feature families were fixed before metric replay, and the scorer does not
-use query-to-output distance. These controls do not exhaust every simple
-shortcut explanation or establish cross-model portability; they only support
-the bounded H2-family candidate claim.
+0.9615, ASR 0.9004, TPR@1\%FPR 0.3340, and TPR@0.1\%FPR 0.1172. Its
+candidate-side finite-tail readout reaches 60/512 members before the first
+false positive in this packet. Table~\ref{tab:h2-decision} records the missing
+surfaces for the high readout: the packet lacks a portability surface and an
+action-compatible consumer boundary.
+
+\begin{table}[t]
+\centering
+\caption{H2 output-cloud admission-decision summary.}
+\label{tab:h2-decision}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{0.30\linewidth}L{0.36\linewidth}L{0.25\linewidth}@{}}
+\toprule
+Question & Evidence & Contract decision \\
+\midrule
+Metric signal & Output-cloud AUC 0.9615; raw/lowpass H2 diagnostics AUC 0.9057/0.8957. & Candidate observable; consumer boundary and delta remain unresolved. \\
+Same-family controls & Label-shuffle AUC 0.5076; shared-position, seed, and same-family cache-reuse AUC 0.9489--0.9705. & Same-family reuse support; portability unresolved. \\
+Admission boundary & SD/CelebA img2img 25/25 AUC 0.7888 with zero strict-tail recovery ($n_0=25$). & Portability admission path absent in the current packet. \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/h2_output_cloud_controls.pdf}
-\caption{H2 output-cloud geometry controls. The signal has higher point-estimate
-AUC than tested raw/lowpass baselines, collapses under label shuffle, and persists under seed-offset
-control, seed stability, and same-family cross-cache transfer. SD/CelebA img2img portability rows are
-summarized in text because they define the non-admission boundary.}
+\caption{Candidate-side admission stress test for H2 output-cloud
+geometry. The H2-family metric is above chance and stays candidate-only: it
+collapses under label shuffle and persists under seed-offset control, seed
+stability, and same-family cache-reuse checks. SD/CelebA img2img
+portability rows are shown as a boundary inset: the 25/25 packet leaves the
+admission path absent, and the 10/10 row is diagnostic only.}
 \label{fig:h2}
 \end{figure*}
 
-The portability boundary is equally important. On the SD/CelebA img2img
-25/25 portability-test cache, output-cloud geometry reaches only AUC 0.7888
-with zero strict-tail recovery ($n_0=25$) and underperforms the existing best
-simple-distance comparator. A smaller 10/10 stability cache is positive but still below simple
-distance. Thus the paper reports output-cloud geometry as a controlled
-mechanism candidate, not as an admitted black-box row: label shuffles collapse
-to random-level AUC as a sanity check, shared-position and cross-cache checks
-support only same-family robustness, and img2img blocks portability and
-product/runtime admission.
+The SD/CelebA img2img cache sets the portability boundary. On the 25/25
+portability-test cache, output-cloud geometry reaches AUC 0.7888
+with zero strict-tail recovery ($n_0=25$). A smaller 10/10 stability cache is
+too small for portability evidence.
+We report output-cloud geometry as a controlled response-cloud observable in a
+candidate boundary case: label shuffles collapse to random-level AUC,
+shared-position and same-family cache checks show same-family stability, and
+the img2img packet does not supply portability or downstream audit admission.
+
+\section{Activation Fingerprints: Stable AUC, Fragile Tail}
+
+H2 demonstrates that high AUC alone does not satisfy portability and
+consumer-boundary gates. A second boundary case asks whether a mechanistically
+distinct white-box observable can survive diagnostic admission when its aggregate
+signal is clean but its low-FPR tail collapses under scale-up.
+
+\subsection{Motivation}
+
+The admitted white-box rows are gradient-based (GSA, DPDM bridge). GSA reaches
+AUC 0.998 and TPR@1\%FPR 0.987, close to a saturation ceiling for the CIFAR-10
+target. H2 is a response-contract observable. A natural measurement question is
+whether internal UNet activations---neither gradient nor loss nor
+response-contract---carry a membership signal that could serve as a second
+independent white-box family.
+
+\subsection{Method}
+
+We register forward hooks at four UNet sites on the E3-calibrated CUDA DDPM
+800k target (UNet ch=128, ch\_mult=[1,2,2,2], num\_res\_blocks=2):
+late\_down (deepest ResBlock before middle), mid\_0, mid\_1, and early\_up
+(first ResBlock after middle). At each site and timestep
+$t \in \{100, 400, 700\}$, we extract per-channel statistics: mean absolute
+activation $\mu_{\text{abs}}$, channel variance $\sigma^2$, and activation
+sparsity (fraction below $0.01 \cdot \sigma$). Per-site scalar aggregates
+are combined with PCA-6 projection of the stacked per-channel vectors.
+
+Three shadow calibrations (seeds 42--44) train a balanced logistic regression
+on member/nonmember labels. The evaluation uses the same E3 CIFAR-10 50/50
+member/nonmember split at $N=64$ and $N=128$.
+
+\subsection{Results}
+
+\begin{table}[t]
+\caption{H1 activation-subspace scout and scale-up results.}
+\label{tab:h1-results}
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Stage & N & AUC & TPR@1\%FPR & TPR@0.1\%FPR \\
+\midrule
+Scout (3 shadows)   & 64  & 0.874 & 0.484 & 0.000 \\
+Scale-up (3 shadows)& 128 & 0.873 & 0.055 & 0.000 \\
+\midrule
+Label shuffle (N=128) & 128 & 0.486 & -- & -- \\
+Ablation (drop late\_down) & 128 & 0.872 & -- & -- \\
+Ablation (drop mid\_0)     & 128 & 0.873 & -- & -- \\
+Ablation (drop mid\_1)     & 128 & 0.875 & -- & -- \\
+Ablation (drop early\_up)  & 128 & 0.875 & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:h1-results} reports the main measurements. AUC is stable:
+$\Delta\text{AUC} = +0.001$ from $N=64$ to $N=128$. Label-shuffle control
+returns random-level AUC (0.486), confirming the aggregate signal is not a
+dimensionality artifact. Per-site ablation removes each of the four hook
+sites in turn; all ablated AUCs remain within $[0.867, 0.879]$, ruling out
+a single-site artifact.
+
+\subsection{Admission Failure: Low-FPR Collapse}
+
+Despite stable aggregate AUC, H1 fails low-FPR admission. TPR@1\%FPR
+collapses from 0.484 ($N=64$) to 0.055 ($N=128$). At $N=128$ clean
+nonmembers, the 1\% FPR operating point requires $\sim$1.28 false
+positives; the highest-scoring nonmembers consistently rank above most
+members. TPR@0.1\%FPR remains zero at both sample sizes, though $N=128$
+is below the rule-of-three threshold for calibrated 0.1\% FPR claims.
+
+\subsection{Diagnostic Lesson}
+
+H1 is a worked example of the ``AUC-stable but low-FPR-fragile'' category
+in our admission taxonomy. The signal is real by three criteria: aggregate
+AUC well above random, label-shuffle control at chance level, and distributed
+across UNet sites rather than concentrated in a single locus. Yet it is not
+admissible for low-FPR membership claims because the forensic tail does not
+survive scale-up.
+
+This strengthens the paper's core thesis: stable AUC, a clean mechanism,
+and passed shuffle controls are not sufficient. Low-FPR admissibility requires
+that the tail behavior survives sample-size scale-up under the same protocol.
+H1 therefore enters the claim register as \textbf{candidate-positive /
+low-FPR-fragile}, not as admitted evidence.
+
+We do not release H4 (post-training subspace editing defense) because the
+H1 signal is distributed across sites rather than concentrated in a removable
+risky subspace. Blind channel pruning would risk utility degradation without
+a localized editing target.
 
 \section{Negative and Support Evidence}
 
-DiffAudit treats bounded non-admitted routes as measurement evidence when they
-answer a specific decision question. ReDiffuse STL-10 is a scoreable black-box
-reference point~\cite{rediffuse2025}, but its denoising-loss and score-norm
-scouts are random-level. The local CommonCanvas response packet derived from
-the CopyMark/CommonCatalog route has a 50/50 contract~\cite{liang2024copymark},
-yet conditional denoising-loss reaches only AUC 0.5148. MIDST adds a tabular synthetic-data benchmark surface whose best
-available score remains below the reopen floor~\cite{midst2026challenge}.
-Tracing the Roots is positive (AUC 0.8158)~\cite{tracingroots2025}, but it is a
-feature-packet replay, not raw image-level evidence. The collaborator Stable
-Diffusion ReDiffuse packet is replayable (AUC 0.7103), but source labels alone
-separate members and nonmembers perfectly, so it remains a cross-source stress
-test.
+Bounded non-admitted routes are retained when they answer a route-selection
+question. Table~\ref{tab:negative-support} records each route's packet or
+provenance stop, first blocker, and blocked claim, keeping score-bearing rows
+separate from metadata-only stops. The routes cover ReDiffuse~\cite{rediffuse2025}, the CommonCanvas response
+surface associated with CopyMark materials~\cite{liang2024copymark}, MIDST~\cite{midst2026challenge}, and Tracing
+the Roots~\cite{tracingroots2025}, plus MoFit, inspected through public
+score-like text files as a support boundary check~\cite{jeon2026mofit}.
+For STL-10, a generated route sidecar separates the strict 50k/50k
+DDIM reproduction rows from the fixed-subset overfit setting. The strict rows
+remain bounded-negative. The overfit rows are support-only memorization checks.
 
-The decision value is route-specific. ReDiffuse STL-10 closes same-family
-expansion rather than refuting ReDiffuse; in the current CommonCanvas 50/50
-packet, a second response contract did not establish portability; MIDST prevents cross-domain
-scoreability from becoming image-diffusion evidence; Tracing Roots remains
-feature-level support; the collaborator packet exposes source confounding; and
-the fixed-search batch records metadata discovery without field-wide prevalence.
+\subsection{Public Score-File Boundary: MoFit}
+
+MoFit uses public COCO text files for a paper-side score-file recheck. The
+files lack target identity, explicit row IDs, official metrics, consumer use,
+and a surface-delta control.
+Using public file order as a diagnostic index over 500 train-position and 500
+test-position entries, the best check
+($\alpha=0.55$) reports AUC 0.941948, ASR 0.883, TPR@1\%FPR 0.488, and
+TPR@0.1\%FPR 0.324; permutation labels are random-level (mean AUC 0.500805,
+95\% interval [0.465629, 0.535924]). The readouts are diagnostics over public
+file positions. All six gates are non-Pass, so MoFit is a support-only
+score-file diagnostic.
+
+\begin{table}[t]
+\centering
+\caption{Negative/support packets are route-local claim decisions.}
+\label{tab:negative-support}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}L{0.22\linewidth}L{0.27\linewidth}L{0.25\linewidth}L{0.16\linewidth}@{}}
+\toprule
+Route & Packet/readout & First blocker & Unsupported stronger wording \\
+\midrule
+ReDiffuse STL-10 & Strict 300K/500K rows stay random-level (AUC 0.5025--0.5140); fixed-subset overfit reaches AUC 0.9987--1.0. & Strict route is negative; overfit changes target, split, and training surface. & Unsupported: strict reproduction success or general method refutation. \\
+CommonCanvas & 50/50 response packet; denoising-loss AUC 0.5148. & Route-local negative; no portable second-contract evidence. & Unsupported: portable second asset. \\
+MIDST & Best available score AUC 0.5981. & Tabular benchmark surface and weak image-diffusion relevance. & Unsupported: image-diffusion audit evidence. \\
+Tracing the Roots & Feature packet AUC 0.8158. & Feature tensor only. & Unsupported: raw image audit row. \\
+MoFit COCO & Support-only score-file check: all six gates remain non-Pass; AUC 0.9419 and TPR@1\%FPR 0.488. & Numeric rows lack explicit row IDs and immutable public target binding. & Unsupported: second public asset or admitted row. \\
+Separately supplied SD ReDiffuse & Replay AUC 0.7103; source-only AUC 1.0. & Source-label separation. & Unsupported: same-distribution proof. \\
+Fixed-search trace & 17 metadata observations; no evidence+metric pass. & Metadata-only protocol. & Unsupported: literature-wide rate. \\
+Source-query controls & 10 source-query observations, separate from corpus counts. & Row-set control only. & Unsupported: field-coverage rate. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The table gives each route a decision role. Bounded negatives close tested
+routes; feature, source-confounded, and metadata rows supply boundary checks.
 
 \section{Discussion and Limitations}
+\label{sec:discussion}
 
-DiffAudit treats evidence contracts as measurement-validity conditions, not
-administrative metadata. For diffusion MIA, target identity, split semantics,
-row coverage, metric provenance, finite-tail denominator, and consumer boundary
-define what a score can mean as an audit claim. Without these controls, high
-AUC can come from source-label shortcuts, prompt-conditioned auxiliary
-features, non-replayable scores, or finite-tail artifacts. The H2 case study
-shows that DiffAudit can still discover technical signals; the contract
-controls how far those signals may travel.
+A diffusion MIA score needs a packet with fixed target identity, split
+semantics, row coverage, metric provenance, finite-tail denominator, and
+consumer boundary before it can support audit wording. Missing surfaces leave
+high AUC open to source-label shortcuts, prompt-conditioned auxiliary features,
+non-replayable scores, or finite-tail artifacts.
 
-This paper does not claim broad generalization across all diffusion models. It
-does not claim that H2 output-cloud geometry is ready for downstream audit
-consumption. It does not claim that bounded weak scouts refute the original
-methods they resemble. The current evidence supports a case-study measurement
-result: H2 is a controlled candidate, fixed-search records are claim-control
-evidence, and neither supports portability, prevalence, or field-wide artifact
-claims without a separate frozen protocol.
+H2 is non-admitted because it lacks an independent response asset and a
+consumer-boundary path. MoFit is non-admitted because target identity, explicit
+row IDs, certified row binding, consumer boundary, and surface delta are
+unresolved. The current MoFit packet supplies stress coverage.
 
-\subsection{Artifact Release Checklist}
+Selected-corpus claims require a larger frozen distinct-surface corpus.
+Coding-reliability claims require independent multi-reviewer labels. Point-role
+claims require row or target-score arrays.
 
-Reusable diffusion MIA artifacts should publish more than code and headline
-tables: target/checkpoint identity, immutable member and nonmember manifests,
-row-level scores or responses, metric code or JSON, nonmember denominators,
-hashes or commit IDs, and the intended consumer boundary. Trajectories, feature
-tensors, prompt sources, and regenerated samples should be named when they
-define the claim. This adapts reproducibility, datasheet, and model-card norms
-to row-bound privacy evidence~\cite{pineau2021reproducibility,gebru2021datasheets,mitchell2019modelcards}.
+\subsection{Release and Validity Threats}
 
-\subsection{Threats to Validity}
+Reusable diffusion MIA artifacts should expose target/checkpoint identities,
+immutable splits, row-level scores or responses, metric code or JSON,
+finite-tail denominators, hashes or commit IDs, and intended consumer language.
+The reportable bundle is bounded by permissions and available assets: rows come
+from local score/response replay or source-documented point estimates. The
+audit-replay claim stays on the exposed surface. Low-FPR tails remain finite
+empirical packet readouts tied to nonmember denominators, and the
+fault-injection cases exercise the release renderer and phrase guard.
 
-\textbf{Internal validity.} Some results are produced by local replay scripts
-and repository artifacts rather than by re-running complete upstream training
-pipelines. The paper therefore claims score/response-level audit replay, not
-full upstream training-pipeline reproduction. DiffAudit mitigates this by
-recording row-level provenance and by refusing to call bounded scouts full
-reproductions or method refutations.
+The protocol measures exposed-surface sufficiency. Ground-truth difficulty stays
+separate: a packet could pass all six gates and still mislead if the
+member/nonmember split is trivially separable, the observable was chosen after
+inspection, or a known confound is omitted.
+When a packet is shared, include the claim trace as an immutable snapshot: a
+reviewer maps each headline claim to its trace row and checks the source-provenance
+hashes, generator command, commit identity, and availability tier. In the
+current packet, the provenance table is a local packet-identity snapshot; dirty
+tree state and local paths identify the review snapshot, and the public-release
+provenance gate remains unresolved.
 
-\textbf{External validity.} The admitted bundle is permission- and
-asset-bound. It should not be read as evidence that every diffusion model leaks
-at the same level, nor that one method dominates across modalities.
-
-\textbf{Metric validity.} Low-FPR tails can be misleading on small packets. We
-therefore report them as finite empirical readouts and keep packet size and
-nonmember denominators attached to the claim.
-
-\textbf{Construct validity.} DiffAudit measures whether a diffusion MIA result
-can be consumed as audit evidence under a stated contract. It does not measure
-all privacy harm, rank attack families globally, or prove training-data use for
-an individual datum. A high score may therefore remain non-admitted, and a weak
-bounded scout may still be scientifically useful if it closes a route-selection
-question.
-
-\textbf{Label and protocol validity.} The gate labels are same-team
-adjudications, not independent inter-rater measurements. We therefore use them
-for claim control and route decisions, not as prevalence estimates or
-field-quality rankings.
-
-\textbf{Publication bias.} Negative routes were selected because they affected
-DiffAudit route decisions. The fixed-search batch, selected-corpus consistency
-pass, and bounded second-pass agent review reduce selection-history and
-label-coherence risk, but remain metadata-light project-team traces rather than
-external reliability evidence. Standalone aggregate claims need a larger frozen
-corpus or an external independent label review.
+Gate labels are same-team protocol labels over selected decisions. Inter-rater
+measurements and prevalence samples require independent recoding. C14 is a
+selected thirteen-row stress packet; field-level measurement requires a
+preregistered larger corpus and independent labels.
 
 \section{Conclusion}
 
-DiffAudit shows that diffusion MIA evidence is not exhausted by attack score.
-On the current evidence bank, the same contract classifies five existing rows as
-bounded contract-admitted roles, keeps a high-AUC H2 response-cloud signal
-candidate-only, and turns weak
-scouts, feature packets, fixed-search records, and source-confounded packets
-into claim-control evidence rather than overbroad conclusions. The reusable
-result is a reporting target for diffusion privacy work: publish the target,
+Diffusion MIA evidence is bound to the claim it can support. In these boundary
+cases, the contract admits replay and point rows under bounded wording. H2 is a
+candidate boundary case. MoFit supplies support-only score-file diagnostics. C14
+records pre-label weak-rule pressure with \texttt{packet\_ready\_only} status
+and \texttt{n\_reviewers=0}. The reporting rule is direct: name the target,
 split, row-level observable, metric provenance, finite-tail basis, and consumer
-boundary, or state the narrower claim that the packet can actually support.
+boundary, then use the claim state assigned by those gates.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}

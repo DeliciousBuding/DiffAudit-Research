@@ -1,7 +1,8 @@
 # Zenodo Fine-Tuned Diffusion Code Reference Audit
 
 > Date: 2026-05-13
-> Status: code-reference-found / split-manifest-still-missing / no download / no GPU release
+> Updated: 2026-06-08
+> Status: code-reference-found / full-probe-still-split-and-score-blocked / no GPU release
 
 ## Taste Check
 
@@ -17,9 +18,10 @@ that gate without downloading the `736 MB` archive.
 | NDSS 2025 paper PDF | Public paper for `Black-box Membership Inference Attacks against Fine-tuned Diffusion Models`; identifies the attack family and fine-tuned diffusion setting. Source: `https://www.ndss-symposium.org/wp-content/uploads/2025-324-paper.pdf`. |
 | `py85252876/Reconstruction-based-Attack` GitHub repository | Public code repository named by the paper; contains attack scripts including `test_accuracy.py`. Source: `https://github.com/py85252876/Reconstruction-based-Attack`. |
 
-The check used only public web metadata, paper text, and source listings. No
-Zenodo archive payload, LoRA weight, dataset pickle, or generated response was
-downloaded.
+The 2026-05-13 check used only public web metadata, paper text, and source
+listings. The 2026-06-08 bounded follow-up downloaded and verified the full
+Zenodo ZIP, then statically inspected the nested dataset payloads without
+unrestricted `torch.load` or `pickle.load`.
 
 ## What The Code Reference Adds
 
@@ -31,19 +33,34 @@ implementation surface for understanding the reported method.
 This improves the candidate from `archive-only` to `paper-and-code-backed
 archive watch`.
 
+The 2026-06-08 source clone at
+`93ee8dd4d12697354cd182461a9aa268b8de63e6` also clarified the implementation
+boundary:
+
+- `train_text_to_image_lora.py`, `inference.py`, `build_caption.py`, and
+  `cal_embedding.py` load dataset payloads with `torch.load(...)` and wrap the
+  result with `Dataset.from_dict(...)`.
+- `cal_embedding.py` writes reconstruction-distance score files with
+  `torch.save(...)`.
+- `test_accuracy.py` consumes target/shadow member/nonmember score files and
+  trains/evaluates the attack.
+
+Those score files are generated outputs, not files exposed by the current
+Zenodo ZIP.
+
 ## Gate Result
 
 | Gate | Verdict |
 | --- | --- |
 | Target model identity | Partial pass: paper/code context supports the fine-tuned diffusion setting, but the public references do not by themselves bind the Zenodo LoRA folders to a fully specified base-model recipe. |
-| Exact member/nonmember split | Fail: no public, readable per-sample target member/nonmember manifest was found. The ZIP central directory still does not expose a complete target split. |
-| Query/response or scoring contract | Partial pass: public code shows a reconstruction-based attack workflow, but not a ready, manifest-backed contract tying exact Zenodo target samples to outputs or scores. |
-| Download justification | Fail: the remaining missing piece is still split semantics, not compute or parser scaffolding. Full archive download would only move the blocker into opaque `dataset.pkl` inspection. |
+| Exact member/nonmember split | Fail: no public, readable per-sample target member/nonmember manifest was found. The full-ZIP probe found only `image` and `text` fields in nested dataset payloads, with no `id`, `file_name`, or `image_id` keys. |
+| Query/response or scoring contract | Fail: public code shows how to generate reconstruction-distance scores, but the current Zenodo ZIP does not ship row-level score files, generated response packets, ROC arrays, metric JSON, or a no-training verifier. |
+| Download justification | Closed for bounded probe: the archive was verified, and the blocker moved from download uncertainty to missing row identity, complete split semantics, and score packet. |
 | GPU release | Fail: no bounded packet has target identity, split, metric, and stop condition frozen. |
 
 ## Decision
 
-`code-reference-found / split-manifest-still-missing / no download / no GPU
+`code-reference-found / full-probe-still-split-and-score-blocked / no GPU
 release`.
 
 Zenodo stays on Lane A watch, but this cycle does not upgrade it to
@@ -60,16 +77,17 @@ Smallest valid reopen condition:
 
 Stop condition:
 
-- Do not write another Zenodo scope/audit note, download the full archive, or
-  run LoRA scoring unless the missing split manifest appears. The next
+- Do not run LoRA scoring or GPU work unless the missing split manifest,
+  immutable row IDs, and row-level score/metric packet appear. The next
   autonomous cycle should switch away from Zenodo if no new external evidence
   is found.
 
 ## Reflection
 
 This cycle tested whether an external public reference changes the asset
-decision. It changes the provenance label, but not the execution state. The
-research decision remains no GPU and no full download.
+decision. The 2026-06-08 follow-up tested whether the complete public ZIP
+changes it. Both improve provenance and storage certainty, but not the evidence
+state. The research decision remains no GPU.
 
 ## Platform and Runtime Impact
 

@@ -26,8 +26,8 @@
 ---
 
 DiffAudit Research implements membership inference attacks and defenses for
-diffusion models. It covers three attacker knowledge levels — black-box,
-gray-box, and white-box — and tracks each method from paper review through
+diffusion models. It covers three attacker knowledge levels (black-box,
+gray-box, and white-box) and tracks each method from paper review through
 reproducible experiments.
 
 This repository is part of the [DiffAudit](https://github.com/DeliciousBuding/DiffAudit-Platform)
@@ -88,7 +88,7 @@ for how to set up local data paths.
 
 | Path | What's inside |
 | --- | --- |
-| `src/diffaudit/` | Python package and CLI — attack methods, defense methods, metrics, utilities. |
+| `src/diffaudit/` | Python package and CLI: attack methods, defense methods, metrics, utilities. |
 | `configs/` | Experiment configs and local path templates. |
 | `tests/` | Test suite. |
 | `scripts/` | Setup, validation, and experiment scripts. |
