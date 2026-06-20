@@ -846,6 +846,26 @@ H1 separates four levels most MIA evaluations conflate:
 The core insight is: \textit{``Real signal does not imply causal
 localization; causal non-localization does not imply forensic admission.''}
 
+\begin{table}[t]
+\centering
+\caption{Allowed and blocked claims for key boundary cases.}
+\label{tab:allowed-blocked}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{0.15\linewidth}L{0.35\linewidth}L{0.40\linewidth}@{}}
+\toprule
+Case & Allowed claim & Blocked claim \\
+\midrule
+GSA & White-box gradient upper-bound comparator (AUC 0.998) under scope-bounded admission. & Universal MIA success; black-box or gray-box audit evidence. \\
+H1/DAAB & Internal activations carry replicated, mechanistically characterized membership signal (AUC 0.84--0.88); channels most correlated with membership are not causal bottlenecks. & Admitted low-FPR forensic evidence; compact editable leakage target; any TPR@0.1\%FPR claim. \\
+CLiD & Prompt-conditioned AUC collapses from 1.000 to 0.586 under prompt-neutral control; diagnostic example of spurious signal. & Reliable black-box MIA; any bootstrap CI or p-value on $\Delta$AUC. \\
+H2 cloud & Within-family output-cloud AUC 0.962; candidate observable with unresolved portability. & Admitted black-box evidence; portable audit claim. \\
+scnet & 54$\times$ capacity increase produces no meaningful MIA gain ($\Delta$AUC{=}0.003). & Proof that capacity never increases leakage; extrapolation to production models. \\
+MoFIT & Strong external black-box signal exists (AUC 0.942); public score-file boundary case. & Internally admitted evidence; second independent response asset. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 H1 therefore enters the claim register as \textbf{candidate-positive /
 low-FPR-fragile (DAAB)}, not as admitted evidence.
 
