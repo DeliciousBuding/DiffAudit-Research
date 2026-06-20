@@ -970,9 +970,36 @@ all four sites and all three timesteps exhibit substantial knockout effects:
 late\_down ${\in}[{+}0.137,{+}0.240]$, mid\_0 ${\in}[{+}0.177,{+}0.200]$,
 mid\_1 ${\in}[{+}0.112,{+}0.230]$, early\_up ${\in}[{+}0.129,{+}0.254]$.
 The site gradient is flatter and the temporal peak shifts from $t{=}100$ to
-$t{=}400$. DAAB as a phenomenon---real activation-subspace membership signal
+$t{=}400$. We further ran an 8-timestep fine temporal grid on CIFAR-100
+(baseline AUC 0.811). The result is striking: CIFAR-100 DDPM produces
+temporally \emph{concentrated} signal, with max $|\Delta|{=}0.167$ at
+late\_down---5.7$\times$ larger than CIFAR-10 DDPM (0.029) and comparable
+to DDIM on CIFAR-10 (0.221). Table~\ref{tab:three-way-temporal} summarizes
+the three-way comparison.
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Three-way temporal distribution comparison (8 timesteps).}
+Dataset complexity controls temporal concentration under identical DDPM training.}
+\label{tab:three-way-temporal}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Configuration & late\_down max $|\Delta|$ & mid\_0 max $|\Delta|$ & Pattern \\
+\midrule
+CIFAR-10 DDPM 800k & 0.029 & 0.024 & Distributed \\
+CIFAR-10 DDIM 750k & 0.221 & 0.194 & Concentrated \\
+CIFAR-100 DDPM       & \textbf{0.167} & \textbf{0.157} & \textbf{Concentrated} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+DAAB as a phenomenon---real activation-subspace membership signal
 with channel-level distribution---generalizes across datasets. The specific
 spatiotemporal geometry (site gradient, temporal locus) is dataset-dependent.
+The temporal distribution depends on \emph{both} training procedure (DDPM vs.\
+DDIM) \emph{and} dataset complexity (CIFAR-10 vs.\ CIFAR-100): more classes
+produce more concentrated signal under identical DDPM training.
 
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
