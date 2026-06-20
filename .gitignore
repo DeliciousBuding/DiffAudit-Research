@@ -206,3 +206,4 @@ scripts/preflight_rediffuse_stl10.py
 papers/paper.pdf
 papers/diffaudit-evidence-paper/paper.pdf
 data/datasets/
+outputs/
