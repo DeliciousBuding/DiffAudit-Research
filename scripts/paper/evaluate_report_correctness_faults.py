@@ -20,10 +20,10 @@ from check_public_surface import candidate_promotion_violations_from_text
 from render_admitted_risk_card import render_risk_card
 
 
-DEFAULT_BUNDLE = Path("workspaces/implementation/artifacts/admitted-evidence-bundle.json")
-DEFAULT_CSV = Path("papers/diffaudit-evidence-paper/data/report_correctness_fault_injection.csv")
+DEFAULT_BUNDLE = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-evidence-bundle.json")
+DEFAULT_CSV = Path("D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/report_correctness_fault_injection.csv")
 DEFAULT_MD = Path(
-    "papers/diffaudit-evidence-paper/versions/direction-d-report-correctness-fault-injection.md"
+    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/versions/direction-d-report-correctness-fault-injection.md"
 )
 
 

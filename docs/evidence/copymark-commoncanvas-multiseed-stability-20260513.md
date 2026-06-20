@@ -24,7 +24,7 @@ stable generated images across fixed seeds than nonmember prompts?
   responses. Higher means more member-like.
 
 Generated images stay outside Git under
-`<DOWNLOAD_ROOT>/black-box/supplementary/response-contract-copymark-commoncanvas-20260512/stability_responses_20260513/`.
+`<DOWNLOAD_ROOT>/supplements/response-contract-copymark-commoncanvas-20260512/stability_responses_20260513/`.
 
 Artifact:
 

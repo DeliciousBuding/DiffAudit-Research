@@ -1,7 +1,7 @@
 import torch
 
 # Dig deeper into the black-box derived model format
-path = "D:/Code/DiffAudit/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-smoke/shadow_member.pt"
+path = "D:/Code/DiffAudit/Download/supplements/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-smoke/shadow_member.pt"
 ckpt = torch.load(path, map_location='cpu', weights_only=False)
 
 text_list = ckpt['text']
@@ -30,14 +30,14 @@ if image_list:
         print(f"  shape: {list(item0.shape)} dtype: {item0.dtype}")
 
 # Also check a derived-public-10 file (smaller, easier to inspect)
-path2 = "D:/Code/DiffAudit/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-public-10/shadow_member_proxy.pt"
+path2 = "D:/Code/DiffAudit/Download/supplements/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-public-10/shadow_member_proxy.pt"
 ckpt2 = torch.load(path2, map_location='cpu', weights_only=False)
 print(f"\n=== DERIVED-PUBLIC-10 SHADOW_MEMBER_PROXY ===")
 print(f"text: list of {len(ckpt2['text'])} items")
 print(f"image: list of {len(ckpt2['image'])} items")
 
 # Also check the cifar10_openai_500k.pt guided-diffusion model more carefully
-path3 = "D:/Code/DiffAudit/Download/shared/weights/cifar10_openai_500k.pt"
+path3 = "D:/Code/DiffAudit/Download/checkpoints/openai-cifar10-500k/cifar10_openai_500k.pt"
 ckpt3 = torch.load(path3, map_location='cpu', weights_only=False)
 print(f"\n=== CIFAR10_OPENAI_500K (guided-diffusion) ===")
 print(f"Type: {type(ckpt3).__name__}")

@@ -210,7 +210,7 @@ def parse_args() -> argparse.Namespace:
         "--output",
         type=Path,
         default=None,
-        help="Optional output ZIP path. Defaults to papers/diffaudit-evidence-paper/build/anonymous-supplement.zip.",
+        help="Optional output ZIP path. Defaults to GONE - re-run export_paper_supplement.py to regenerate (was: papers/diffaudit-evidence-paper/build/anonymous-supplement.zip).",
     )
     return parser.parse_args()
 

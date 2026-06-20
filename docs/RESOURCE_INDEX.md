@@ -80,8 +80,8 @@ Every dataset with location, provenance, and membership ground-truth status.
 |---|---|---|
 | `GB-WT-01` | SecMI CIFAR bundle (DDPM-800k checkpoints) | `Download/gray-box/weights/secmi-cifar-bundle/` |
 | `GB-SUP-02` | SecMI member split `.npz` files | `Download/gray-box/supplementary/secmi-member-splits/` |
-| `BB-SUP-02` | CLiD supplementary mirror | `Download/black-box/supplementary/clid-mia-supplementary/` |
-| `BB-RECON` | Recon bundle (NDSS-2025 black-box MIA) | `Download/black-box/supplementary/recon-assets/` |
+| `BB-SUP-02` | CLiD supplementary mirror | `Download/supplements/clid-mia-supplementary/` |
+| `BB-RECON` | Recon bundle (NDSS-2025 black-box MIA) | `Download/supplements/recon-assets/` |
 | `GB-PIA` | PIA upstream dataset assets | `Download/gray-box/supplementary/pia-upstream-assets/` |
 | `CelebA 7z` | CelebA image 7z parts | `Download/shared/supplementary/celeba-7z-parts/` |
 | `DDIM-STL10` | Collaborator DDIM STL10 bundle | `Download/shared/supplementary/collaborator-ddim-stl10-20260527/` |
@@ -444,7 +444,7 @@ Paper-corpus results and review bundles are in `papers/diffaudit-evidence-paper/
 |---|---|
 | **Gray-box PIA on CIFAR-10** | Use `DDPM-CIFAR10-800k` + `CIFAR10_train_ratio0.5.npz`. Run PIA with config `configs/attacks/pia-plan.yaml`. Member split: `external/PIA/DDPM`. Checkpoint from `Download/gray-box/weights/secmi-cifar-bundle/`. |
 | **Gray-box SecMI on CIFAR-10** | Use `DDPM-CIFAR10-800k` + `CIFAR10_train_ratio0.5.npz`. Full 25k/25k. Config: `configs/attacks/secmi-plan.yaml`. |
-| **Black-box recon on NDSS-2025** | Use `Download/black-box/supplementary/recon-assets/`. Config: `configs/attacks/recon-plan.yaml`. Bounded public-100 step30 rerun. |
+| **Black-box recon on NDSS-2025** | Use `Download/supplements/recon-assets/`. Config: `configs/attacks/recon-plan.yaml`. Bounded public-100 step30 rerun. |
 | **H1 activation scout on CIFAR-10** | Use `DDPM-CIFAR10-800k` or `DDIM-CIFAR10-750k` + CIFAR-10 split. Run `h1_activation_scout.py` or `h1_channel_knockout.py`. |
 
 ### Run Evaluation on Existing Checkpoints
@@ -474,7 +474,7 @@ Paper-corpus results and review bundles are in `papers/diffaudit-evidence-paper/
 | **Verify local path binding** | `python scripts/render_team_local_configs.py` |
 | **PIA asset probe** | `python -m diffaudit probe-pia-assets --config configs/attacks/pia-plan.yaml --member-split-root external/PIA/DDPM` |
 | **GSA asset probe** | `python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa` |
-| **Recon bundle audit** | `python -m diffaudit audit-recon-public-bundle --bundle-root Download/black-box/supplementary/recon-assets/...` |
+| **Recon bundle audit** | `python -m diffaudit audit-recon-public-bundle --bundle-root Download/supplements/recon-assets/...` |
 
 ### Run Paper / Release Checks
 

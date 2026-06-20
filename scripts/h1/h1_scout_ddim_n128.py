@@ -34,8 +34,8 @@ DEVICE = torch.device("cuda")
 T = 1000; CH = 128; CH_MULT = [1, 2, 2, 2]; ATTN = [1]; NUM_RES_BLOCKS = 2
 DROPOUT = 0.1; BETA_1 = 0.0001; BETA_T = 0.02
 
-CKPT_PATH = "D:/Code/DiffAudit/Download/shared/weights/ddim-cifar10-step750000/raw/DDIM-ckpt-step750000.pt"
-OUT_DIR = PROJECT / "outputs" / "h1_scout"
+CKPT_PATH = "D:/Code/DiffAudit/Download/checkpoints/ddim-cifar10-750k/DDIM-ckpt-step750000.pt"
+OUT_DIR = PROJECT / "outputs" / "h1-scout"
 
 TIMESTEPS = [100, 400, 700]
 SITES = ["late_down", "mid_0", "mid_1", "early_up"]

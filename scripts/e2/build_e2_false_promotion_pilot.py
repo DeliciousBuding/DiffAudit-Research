@@ -15,7 +15,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER_DATA = ROOT / "papers" / "diffaudit-evidence-paper" / "data"
-OUT = ROOT / "docs" / "internal" / "e2-pilot-2026-06-06"
+# GONE - docs/internal/ directory not found
+# OUT = ROOT / "docs" / "internal" / "e2-pilot-2026-06-06"
+OUT = ROOT / "outputs" / "e2-pilot-2026-06-06"  # relocated
 
 GATES = [
     "target_gate",

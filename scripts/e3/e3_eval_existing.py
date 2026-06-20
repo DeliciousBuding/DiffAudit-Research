@@ -14,6 +14,7 @@ import torch
 
 PROJECT = Path(__file__).resolve().parents[1]
 MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"
+# GONE - module removed during restructuring; no replacement found on disk
 sys.path.insert(0, str(MATERIALS))
 
 from model_unet import UNet
@@ -29,9 +30,9 @@ LOG_DIR = PROJECT / "outputs" / "e3-existing-eval"
 
 # Checkpoints to evaluate
 CKPT_PATHS = [
-    ("secmi-bundle-800k", "D:/Code/DiffAudit/Download/gray-box/weights/secmi-cifar-bundle/CIFAR10/checkpoint.pt"),
-    ("ddim-750k", "D:/Code/DiffAudit/Download/shared/weights/ddim-cifar10-step750000/raw/DDIM-ckpt-step750000.pt"),
-    ("pia-upstream", "D:/Code/DiffAudit/Download/gray-box/supplementary/pia-upstream-assets/contents/checkpoints/cifar10_ddpm/checkpoint.pt"),
+    ("secmi-bundle-800k", "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt"),
+    ("ddim-750k", "D:/Code/DiffAudit/Download/checkpoints/ddim-cifar10-750k/DDIM-ckpt-step750000.pt"),
+    ("pia-upstream", "D:/Code/DiffAudit/Download/checkpoints/pia-ddpm-cifar10/checkpoint.pt"),
 ]
 
 SECMI_CONFIGS = [

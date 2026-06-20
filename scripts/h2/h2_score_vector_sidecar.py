@@ -45,8 +45,8 @@ DEVICE = torch.device("cuda")
 T = 1000; CH = 128; CH_MULT = [1, 2, 2, 2]; ATTN = [1]; NUM_RES_BLOCKS = 2
 DROPOUT = 0.1; BETA_1 = 0.0001; BETA_T = 0.02
 
-CKPT_PATH = "D:/Code/DiffAudit/Download/gray-box/weights/secmi-cifar-bundle/CIFAR10/checkpoint.pt"
-OUT_DIR = PROJECT / "outputs" / "h2_sidecar"
+CKPT_PATH = "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt"
+OUT_DIR = PROJECT / "outputs" / "h2-sidecar"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 TIMESTEPS = [100, 200, 400]     # SimA-style + grid

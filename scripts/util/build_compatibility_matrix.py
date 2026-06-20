@@ -27,7 +27,7 @@ RESEARCH = Path("D:/Code/DiffAudit/Research")
 datasets = {
     "CIFAR-10": {
         "split": "cifar-10-batches-py: data_batch_1-5 (train 50k) + test_batch (test 10k)",
-        "member_tensor": "Download/shared/datasets/cifar10_member_25k.pt",
+        "member_tensor": "D:/Code/DiffAudit/Download/splits/cifar10-member-25k.pt",
         "npz_split": "CIFAR10_train_ratio0.5.npz (25k member / 25k nonmember)",
         "resolution": "32x32x3",
         "membership_provenance": "PROVEN: explicit train/test split + 25k/25k member/nonmember cache",
@@ -41,7 +41,7 @@ datasets = {
     },
     "STL-10": {
         "split": "stl10_binary: train_X.bin (5k) + test_X.bin (8k) + fold_indices.txt + unlabeled_X.bin (100k)",
-        "member_tensor": "Download/shared/datasets/stl10_member_50k.pt",
+        "member_tensor": "D:/Code/DiffAudit/Download/splits/stl10-member-50k.pt",
         "npz_split": "STL10_train_ratio0.5.npz (50k member / 50k nonmember)",
         "resolution": "96x96x3",
         "membership_provenance": "PROVEN: explicit train/test split + fold indices + 50k/50k cache",
@@ -82,9 +82,9 @@ checkpoints = {
         "size_mb": 548,
         "loads_in_rediffuse": True,
         "paths": [
-            "gray-box/supplementary/pia-upstream-assets/contents/checkpoints/cifar10_ddpm/checkpoint.pt",
-            "gray-box/weights/secmi-cifar-bundle/CIFAR10/checkpoint.pt",
-            "gray-box/weights/secmi-cifar-bundle/contents/checkpoints/CIFAR10/checkpoint.pt",
+            "checkpoints/pia-ddpm-cifar10/checkpoint.pt",
+            "checkpoints/ddpm-cifar10-800k/checkpoint.pt",
+            "checkpoints/ddpm-cifar10-800k/checkpoint.pt",
         ],
         "note": "SecMI bundle + PIA upstream, 3 identical copies",
     },
@@ -96,8 +96,8 @@ checkpoints = {
         "size_mb": 548,
         "loads_in_rediffuse": True,
         "paths": [
-            "gray-box/weights/secmi-cifar-bundle/CIFAR100/checkpoint.pt",
-            "gray-box/weights/secmi-cifar-bundle/contents/checkpoints/CIFAR100/checkpoint.pt",
+            "checkpoints/ddpm-cifar100-800k/checkpoint.pt",
+            "checkpoints/ddpm-cifar100-800k/checkpoint.pt",
         ],
         "note": "SecMI bundle CIFAR100, 2 copies. Same architecture as CIFAR10-800k, different weights.",
     },
@@ -109,7 +109,7 @@ checkpoints = {
         "size_mb": 548,
         "loads_in_rediffuse": True,
         "paths": [
-            "shared/weights/ddim-cifar10-step750000/raw/DDIM-ckpt-step750000.pt"
+            "checkpoints/ddim-cifar10-750k/DDIM-ckpt-step750000.pt"
         ],
         "note": "DDIM collaborator checkpoint, ReDiffuse-compatible",
     },
@@ -120,7 +120,7 @@ checkpoints = {
         "channels": "256/256",
         "size_mb": 201,
         "loads_in_rediffuse": True,
-        "paths": ["shared/weights/cifar10_openai_500k.pt"],
+        "paths": ["checkpoints/openai-cifar10-500k/cifar10_openai_500k.pt"],
         "note": "OpenAI guided-diffusion format, different UNet architecture from Rediffuse",
     },
     "DDPM-STL10-final": {
@@ -131,7 +131,7 @@ checkpoints = {
         "size_mb": 547,
         "loads_in_rediffuse": True,
         "paths": [
-            "shared/runs/rediffuse-stl10-bounded-scout-20260525/checkpoint-step-final.pt"
+            "archive/rediffuse-stl10-bounded-scout-20260525/checkpoint-step-final.pt"
         ],
         "note": "ReDiffuse STL10 bounded scout training (fresh train), includes train_indices + score indices",
     },
@@ -143,7 +143,7 @@ checkpoints = {
         "size_mb": 548,
         "loads_in_rediffuse": True,
         "paths": [
-            "shared/supplementary/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_EPS/ckpt-step99000.pt"
+            "archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_EPS/ckpt-step99000.pt"
         ],
         "note": "Collaborator DDPM STL10 EPS training, 99k steps",
     },
@@ -155,8 +155,8 @@ checkpoints = {
         "size_mb": 548,
         "loads_in_rediffuse": True,
         "paths": [
-            "shared/supplementary/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_EPS/ckpt-step9000.pt",
-            "shared/supplementary/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont10k_EPS/ckpt-step9000.pt",
+            "archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_EPS/ckpt-step9000.pt",
+            "archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont10k_EPS/ckpt-step9000.pt",
         ],
         "note": "Overfit 1000-member STL10, seed 0, 9k steps",
     },
@@ -168,9 +168,9 @@ checkpoints = {
         "size_mb": 548,
         "loads_in_rediffuse": True,
         "paths": [
-            "shared/supplementary/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont15k_EPS/ckpt-step5000.pt",
-            "shared/supplementary/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont20k_EPS/ckpt-step5000.pt",
-            "shared/supplementary/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont25k_EPS/ckpt-step5000.pt",
+            "archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont15k_EPS/ckpt-step5000.pt",
+            "archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont20k_EPS/ckpt-step5000.pt",
+            "archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont25k_EPS/ckpt-step5000.pt",
         ],
         "note": "Overfit 1000-member STL10, continued from 15k/20k/25k base, 5k steps",
     },
@@ -182,7 +182,7 @@ checkpoints = {
         "size_mb": 548,
         "loads_in_rediffuse": True,
         "paths": [
-            "shared/supplementary/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m2000_seed0_EPS/ckpt-step8000.pt"
+            "archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m2000_seed0_EPS/ckpt-step8000.pt"
         ],
         "note": "Overfit 2000-member STL10, seed 0, 8k steps",
     },
@@ -194,7 +194,7 @@ checkpoints = {
         "size_mb": 548,
         "loads_in_rediffuse": True,
         "paths": [
-            "shared/supplementary/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m500_seed1_EPS/ckpt-step9000.pt"
+            "archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m500_seed1_EPS/ckpt-step9000.pt"
         ],
         "note": "Overfit 500-member STL10, seed 1, 9k steps",
     },
@@ -206,7 +206,7 @@ checkpoints = {
         "size_mb": 3,
         "loads_in_rediffuse": False,
         "paths": [
-            "black-box/weights/beans-lora-member-denoising-loss-20260513/unet_lora_peft_state.pt"
+            "archive/beans-sd15-response-contract/unet_lora_peft_state.pt"
         ],
         "note": "PEFT/LoRA weights for SD1.5 UNet, not a standalone checkpoint",
     },
@@ -747,7 +747,7 @@ def print_header():
     print("COLUMNS: Every structurally unique checkpoint (deduplicated)")
     print("ROWS:    Every available dataset with a split file defining member/nonmember")
     print()
-    print("DATA SOURCE: outputs/catalog-checkpoints.json + workspace evidence")
+    print("DATA SOURCE: D:/Code/DiffAudit/Research/outputs/catalog-checkpoints.json + workspace evidence")
     print()
 
 def print_dataset_header(ds_name, ds_info):

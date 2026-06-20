@@ -28,8 +28,8 @@ DEVICE = torch.device("cuda")
 
 T=1000; CH=128; CH_MULT=[1,2,2,2]; ATTN=[1]; NUM_RES_BLOCKS=2; DROPOUT=0.1
 BETA_1=0.0001; BETA_T=0.02
-CKPT="D:/Code/DiffAudit/Download/gray-box/weights/secmi-cifar-bundle/CIFAR100/checkpoint.pt"
-OUT=PROJECT/"outputs"/"h1_scout"
+CKPT="D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar100-800k/checkpoint.pt"
+OUT=PROJECT/"outputs"/"h1-scout"
 TIMESTEPS=[50,100,150,200,300,400,600,800]
 SITES=["late_down","mid_0"]
 N_M,N_NM,SEED=64,64,42

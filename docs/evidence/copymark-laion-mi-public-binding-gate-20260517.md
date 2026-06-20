@@ -26,10 +26,10 @@ requiring the full CopyMark Hugging Face zip, model folders, or GPU work.
 ## Public Surface Used
 
 The local bounded package is:
-`<DIFFAUDIT_ROOT>/Download/black-box/supplementary/copymark-laion-mi-public-20260517/`.
+`<DIFFAUDIT_ROOT>/Download/supplements/copymark-laion-mi-public-20260517/`.
 
 Manifest:
-`<DIFFAUDIT_ROOT>/Download/black-box/supplementary/copymark-laion-mi-public-20260517/manifest.json`
+`<DIFFAUDIT_ROOT>/Download/supplements/copymark-laion-mi-public-20260517/manifest.json`
 
 Bounded raw files:
 

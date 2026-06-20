@@ -1,7 +1,7 @@
 import torch, sys
 
 # 1. Black-box derived model - what's in text/image keys?
-path = "D:/Code/DiffAudit/Download/black-box/supplementary/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-smoke/shadow_member.pt"
+path = "D:/Code/DiffAudit/Download/supplements/recon-assets/ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models/derived-smoke/shadow_member.pt"
 ckpt = torch.load(path, map_location='cpu', weights_only=False)
 print('=== SMOKE SHADOW MEMBER ===')
 print('Type:', type(ckpt))
@@ -18,7 +18,7 @@ if isinstance(ckpt, dict):
 print()
 
 # 2. cifar10_member_25k.pt
-path2 = "D:/Code/DiffAudit/Download/shared/datasets/cifar10_member_25k.pt"
+path2 = "D:/Code/DiffAudit/Download/splits/cifar10-member-25k.pt"
 data = torch.load(path2, map_location='cpu', weights_only=False)
 print('=== CIFAR10_MEMBER_25K ===')
 print('Type:', type(data))
@@ -47,7 +47,7 @@ elif isinstance(data, (list, tuple)):
 print()
 
 # 3. stl10_member_50k.pt
-path3 = "D:/Code/DiffAudit/Download/shared/datasets/stl10_member_50k.pt"
+path3 = "D:/Code/DiffAudit/Download/splits/stl10-member-50k.pt"
 data3 = torch.load(path3, map_location='cpu', weights_only=False)
 print('=== STL10_MEMBER_50K ===')
 print('Type:', type(data3))
@@ -64,7 +64,7 @@ elif isinstance(data3, (list, tuple)):
 print()
 
 # 4. stl10_member_cache.pt
-path4 = "D:/Code/DiffAudit/Download/shared/supplementary/collaborator-ddim-stl10-20260527/code/data/datasets/pytorch/stl10_member_cache.pt"
+path4 = "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/data/datasets/pytorch/stl10_member_cache.pt"
 data4 = torch.load(path4, map_location='cpu', weights_only=False)
 print('=== STL10_MEMBER_CACHE ===')
 print('Type:', type(data4))
@@ -81,7 +81,7 @@ elif isinstance(data4, (list, tuple)):
 print()
 
 # 5. beans-lora-peft
-path5 = "D:/Code/DiffAudit/Download/black-box/weights/beans-lora-member-denoising-loss-20260513/unet_lora_peft_state.pt"
+path5 = "D:/Code/DiffAudit/Download/archive/beans-sd15-response-contract/unet_lora_peft_state.pt"
 data5 = torch.load(path5, map_location='cpu', weights_only=False)
 print('=== BEANS LORA PEFT ===')
 print('Type:', type(data5))

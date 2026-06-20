@@ -5,12 +5,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics as skm
 
 PROJECT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT/'references'/'materials'/'Rediffuse'/'DDPM'))
+# GONE - module removed during restructuring; no replacement found on disk
+# sys.path.insert(0, str(PROJECT/'references'/'materials'/'Rediffuse'/'DDPM'))
 from model_unet import UNet
 from dataset_utils import load_member_data
 
 DEVICE = torch.device('cuda')
-CKPT = 'D:/Code/DiffAudit/Download/gray-box/weights/secmi-cifar-bundle/CIFAR10/checkpoint.pt'
+CKPT = 'D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt'
 T, CH = 1000, 128; CH_MULT, ATTN, N_RB, DO = [1,2,2,2], [1], 2, 0.1
 TIMESTEPS = [100, 400, 700]; N = 64
 

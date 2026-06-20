@@ -7,7 +7,7 @@ Don't store raw datasets, model weights, or supplementary files here long-term.
 ## Expected Clone Map
 
 - `CLiD/` — local clone of upstream CLiD code when needed
-  - raw CLiD supplementary files live under `<DIFFAUDIT_ROOT>/Download/black-box/supplementary/clid-mia-supplementary/`
+  - raw CLiD supplementary files live under `<DIFFAUDIT_ROOT>/Download/supplements/clid-mia-supplementary/`
 - `SecMI/` — optional full upstream clone for config/split/structure reference
   - canonical in-repo minimal integration is `<DIFFAUDIT_ROOT>/Research/third_party/secmi/`
 - `PIA/`, `Reconstruction-based-Attack/`, `GSA/`, `DiT/`, `DPDM/`, `mia-diffusion/`
