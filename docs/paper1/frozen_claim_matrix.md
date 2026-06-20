@@ -160,12 +160,12 @@
 - Internal UNet activations carry a replicated aggregate membership signal dominated by activation magnitude (AUC=0.873 DDPM 800k, AUC=0.841 DDIM 750k)
 - Signal passes label-shuffle control (AUC=0.486) and does not depend on a single UNet site
 - H1 provides a mechanistically distinct white-box observable: non-gradient, non-loss, activation-based
-- Membership-correlated channels are NOT causal bottlenecks: targeted top-10 deletion ΔAUC=+0.008 falls within random variation (σ=0.015); targeted top-4% deletion ΔAUC=+0.008 is significantly LESS than random 4% ΔAUC=+0.049
-- Signal is distributed, redundant, and non-localizable — retrained scorer adapts to channel deletion
-- **Fine temporal grid (8 timesteps, both checkpoints)**: DDPM training produces temporally DISTRIBUTED signal (max individual knockout Δ=+0.029); DDIM training produces temporally CONCENTRATED signal (max Δ=+0.221, 7.6× larger). Channel-level distribution holds for both; temporal distribution is training-procedure-dependent
-- H1 is a worked example of the "Distributed Activation-Amplitude Bias": real signal, replicated, mechanistically characterized, but causally non-localizable and forensically fragile. The "Distributed" qualifier applies to channel-level distribution (universal across checkpoints); temporal distribution depends on training procedure
+- Membership-correlated channels are NOT causal bottlenecks: targeted top-10 deletion $\Delta$AUC{=}{+}0.008 falls within random variation ($\sigma{=}0.015$); targeted top-4\% deletion $\Delta$AUC{=}{+}0.008 is statistically indistinguishable from matched random 4\% deletion ($\mu_{\Delta}{=}{+}0.004$, $\sigma{=}0.019$, 30 seeds, Cohen's $d{=}0.21$, $p{=}0.26$, 95\% CI $[-0.003, +0.011]$). The data rule out a large targeted-random disparity but do not prove exact equivalence
+- Signal is channel-level distributed and redundant — retrained scorer adapts to channel deletion
+- **Fine temporal grid (8 timesteps, both checkpoints)**: DDPM produces temporally DISTRIBUTED signal (max individual knockout $\Delta{=}{+}0.029$); DDIM configuration produces temporally CONCENTRATED signal (max $\Delta{=}{+}0.221$, 7.6$\times$ larger). Channel-level distribution holds for both; temporal distribution varies across configurations
+- H1 is a worked example of "Distributed Activation-Amplitude Bias (DAAB)": a real, replicated, mechanistically characterized activation-subspace membership trace. "Distributed" in DAAB refers to channel-level and statistic-level non-localizability; the signal is not controlled by a compact set of individually significant channels. Spatial and temporal geometry may vary across training and dataset configurations without invalidating the channel-level distribution
 - Core insight: "Real signal does not imply causal localization; causal non-localization does not imply forensic admission."
-- New insight (2026-06-20): "Membership signal geometry is a product of the training procedure, not a fixed property of the model architecture."
+- Additional insight: "Membership signal geometry varies across tested training and dataset configurations. With two datasets and three compatible checkpoints, we cannot attribute the difference to class count, samples per class, training duration, or objective/sampler choice. The CIFAR-100 and DDIM results are boundary cases showing non-invariance, not causal identification of a controlling factor."
 - H4 closed: no compact post-training edit target exists
 
 ### Blocked Claims (H1/DAAB)
