@@ -20,8 +20,9 @@ We formalize this as a claim-admission protocol: a fixed-order gate rule over si
 - **Full-site knockout**: Zeroing all channels at each site reveals a causal gradient: late_down (Δ=+0.374) >> mid_0 (+0.249) > mid_1 (+0.108) > early_up (+0.077) — identical across both checkpoints
 - **Spatiotemporal grid** (4 sites × 3 timesteps × 2 checkpoints): The causal locus is sharply concentrated — mid_0@t=100 and late_down@t=100 carry nearly all membership signal; t=400 and t=700 are causally negligible across all sites
 - **Key dissociation**: The most statistically visible channels (early_up, 4.7% significant) are at the LEAST causally important site; the causal core (mid_0 + late_down at t=100) harbors fewer individually significant channels
+- **Fine temporal grid** (8 timesteps × 2 checkpoints): DDPM training produces temporally DISTRIBUTED signal (max individual knockout Δ=+0.029, all 16 cells <0.05). DDIM training produces temporally CONCENTRATED signal (max Δ=+0.221 at late_down@t=100, 7.6× larger; all 16 cells >0.09). Membership signal geometry is a product of the training procedure, not a fixed property of the architecture.
 
-We term this **Distributed Activation-Amplitude Bias (DAAB)**: a real, replicated, mechanistically characterized signal whose aggregate is distributed across channels and statistic types, whose causal core concentrates in bottleneck + deepest layers at early denoising, and whose forensic tail remains fragile (TPR@1% collapses 0.484→0.055 under scale-up). H1 thus separates statistical visibility from causal necessity — a separation that scalar metrics conceal.
+We term this **Distributed Activation-Amplitude Bias (DAAB)**: a real, replicated, mechanistically characterized signal whose channel-level distribution is universal across checkpoints, whose temporal distribution depends on the training procedure (DDPM: distributed; DDIM: concentrated), whose causal core concentrates in bottleneck + deepest layers at early denoising, and whose forensic tail remains fragile (TPR@1% collapses 0.484→0.055 under scale-up). H1 thus separates statistical visibility from causal necessity and training-dependent temporal geometry — separations that scalar metrics conceal.
 
 **Additional cases**: CLiD (spurious, AUC 1.000→0.586 under prompt-neutral control; ΔAUC point estimate only), scnet (scale-null, 54× capacity ΔAUC=0.003), H2 output-cloud (non-portable, AUC 0.962 within-family, fails img2img), MoFIT (external support, AUC 0.942, missing row binding).
 
@@ -31,6 +32,7 @@ We term this **Distributed Activation-Amplitude Bias (DAAB)**: a real, replicate
 - *"Membership inference is not a score-ranking problem; it is an evidence-admission problem."*
 - *"Real signal does not imply causal localization; causal non-localization does not imply forensic admission."*
 - *"Membership-correlated channels are not membership-causal channels."*
+- *"Membership signal geometry is a product of the training procedure, not a fixed property of the model architecture."*
 
 ## Paper Structure
 
@@ -60,7 +62,8 @@ We term this **Distributed Activation-Amplitude Bias (DAAB)**: a real, replicate
 | 8. Correlation-causation dissociation | early_up: 4.7% sig, least causal | mid_0+late_down@t=100: causal core | ✅ |
 | 9. Classifier independence | LR/SVM consistent | AUC~0.84-0.85 | — |
 | 10. Forensic fragility | TPR@1% collapses | 0.484→0.055 (N=64→128) | — |
-| 11. H4 closure | No compact edit target | Channel+site knockout evidence | — |
+| 11. Training-dependent temporal geometry | DDPM distributed (max Δ=0.029), DDIM concentrated (max Δ=0.221) | 7.6× ratio | ✅ |
+| 12. H4 closure | No compact edit target | Channel+site knockout evidence | — |
 
 ## Key Tables
 
