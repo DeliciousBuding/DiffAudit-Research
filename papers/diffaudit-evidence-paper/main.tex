@@ -96,6 +96,9 @@ target identity, split semantics, score/response coverage, metric provenance,
 consumer boundary, and surface delta. The transition rule maps a proposed audit
 wording to reportable, candidate, support-only, watch, or negative states by
 recording the first missing surface and the narrower wording the packet supports.
+\item A conceptual admission map (Fig.~\ref{fig:admission-map}) showing that
+high aggregate signal strength does not imply claim-boundary validity:
+real, replicated signals can remain non-localizable and forensically fragile.
 \item We apply the protocol to replay positives, point comparators,
 metric-only negatives, and source/artifact stops. The resulting trace records
 the missing surfaces behind interval, dominance, and leaderboard claims.
@@ -587,6 +590,20 @@ such as attribution, classifier defense, copying, prompt memorization, and
 dataset-level identification. Author-keyed target and metric blockers support
 packet-readiness and weak-rule stress-control wording. Reviewer agreement and
 prevalence require independent labels and a larger sampled corpus.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/admission_map.pdf}
+\caption{\textbf{Evidence-state admission map.} Each evaluated MIA signal is placed
+according to aggregate signal strength (AUC, control-passing, replicability) and
+claim-boundary validity (low-FPR stability, portability, causal localizability).
+GSA occupies the upper-right as scope-bounded admitted evidence. H1/DAAB
+(center-right, low validity) illustrates the core insight: a signal can be real,
+replicated, and mechanistically characterized while remaining non-localizable and
+forensically inadmissible. CLiD (upper-left) shows spurious high-AUC collapse.
+scnet (lower-left) shows a clean scale-null.}
+\label{fig:admission-map}
+\end{figure}
 
 \section{Worked Examples of Protocol Application}
 
