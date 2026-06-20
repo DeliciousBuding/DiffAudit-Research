@@ -205,3 +205,4 @@ workspaces/xuchi-reproduction-20260516/final_rediffuse_combined/result.csv
 scripts/preflight_rediffuse_stl10.py
 papers/paper.pdf
 papers/diffaudit-evidence-paper/paper.pdf
+data/datasets/
