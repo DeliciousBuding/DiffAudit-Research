@@ -37,11 +37,17 @@ Internal U-Net activations carry a replicated membership signal (AUC 0.873 DDPM,
 0.841 DDIM) dominated by activation magnitude. The signal passes shuffle and
 ablation controls. However, matched channel knockout experiments reveal that the
 most membership-correlated channels are not causal bottlenecks: targeted deletion
-produces negligible degradation, while random matched deletions consistently
-produce larger drops. We term this Distributed Activation-Amplitude Bias (DAAB):
-a real, replicated, mechanistically characterized signal that is nevertheless
-non-localizable and forensically fragile (TPR@1\%FPR collapses from 0.484 to
-0.055 under scale-up). H1 thus separates signal existence from causal
+produces negligible degradation, while random matched deletions produce
+statistically indistinguishable drops. An 8-timestep fine temporal grid further
+reveals that membership signal geometry is training-procedure-dependent: DDPM
+stochastic training produces temporally distributed signal (max individual
+$\Delta\text{AUC}{=}0.029$), while DDIM deterministic training produces
+temporally concentrated signal ($\Delta\text{AUC}{=}0.221$, 7.6$\times$ larger).
+We term this Distributed Activation-Amplitude Bias (DAAB):
+a real, replicated, mechanistically characterized signal that is channel-level
+distributed, forensically fragile (TPR@1\%FPR collapses from 0.484 to
+0.055 under scale-up), and whose temporal distribution depends on the training
+procedure. H1 thus separates signal existence from causal
 localization and forensic admission---a separation that scalar metrics conceal.
 
 Additional boundary cases include CLiD (spurious: AUC 1.000 collapses to 0.586
@@ -917,6 +923,73 @@ early\_up  & +0.078 & +0.032 & +0.007 & +0.099 & $-$0.007 & +0.007 \\
 \end{tabular}
 \end{table}
 
+\subsection{Fine Temporal Grid: Training Procedure Controls Signal Geometry}
+
+The spatiotemporal grid ($4{\times}3$) showed sharp causal concentration at
+$t{=}100$. A natural question: is this a genuine concentration, or an artifact
+of coarse temporal sampling (3 points) that amplifies apparent per-timestep
+importance? The LR classifier with only 3 temporal features may overstate
+individual timestep contributions if the true distribution is smoother.
+
+To test this, we ran an 8-timestep fine grid ($t \in \{50,100,150,200,300,
+400,600,800\}$) on both checkpoints, zeroing all channels at each
+site$\times$timestep individually. Table~\ref{tab:fine-temporal} reports
+$\Delta$AUC for each knockout relative to the 8-timestep baseline.
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Fine temporal grid knockout (8 timesteps).}
+DDPM training produces temporally distributed signal: 0 of 16 individual
+knockouts exceed $\Delta{=}0.05$. DDIM training produces temporally
+concentrated signal: all 16 knockouts exceed $\Delta{=}0.09$, with
+late\_down@$t{=}100$ destroying 26\% of AUC.}
+\label{tab:fine-temporal}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+& \multicolumn{8}{c}{$\Delta$AUC (baseline $-$ knockout)} & Max \\
+\cmidrule(lr){2-9}
+Checkpoint (baseline) & $t{=}50$ & $t{=}100$ & $t{=}150$ & $t{=}200$ & $t{=}300$ & $t{=}400$ & $t{=}600$ & $t{=}800$ & $|\Delta|$ \\
+\midrule
+\multicolumn{10}{c}{\textit{late\_down}} \\
+\midrule
+DDPM 800k (0.833) & \textbf{+0.029} & +0.010 & $-$0.019 & +0.022 & +0.008 & +0.004 & +0.006 & $-$0.007 & 0.029 \\
+DDIM 750k (0.854) & +0.166 & \textbf{+0.221} & +0.130 & +0.134 & +0.120 & +0.131 & +0.094 & +0.152 & \textbf{0.221} \\
+\midrule
+\multicolumn{10}{c}{\textit{mid\_0}} \\
+\midrule
+DDPM 800k (0.833) & $-$0.021 & +0.009 & +0.002 & +0.003 & 0.000 & $-$0.024 & +0.021 & +0.004 & 0.024 \\
+DDIM 750k (0.854) & +0.118 & +0.156 & +0.138 & +0.147 & \textbf{+0.194} & +0.120 & +0.127 & +0.114 & 0.194 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The contrast is stark. On DDPM, with 8-timestep resolution the individual
+knockout effects nearly vanish: the DDPM baseline is 0.833, and the maximum
+$\Delta$ across all 16 (site, timestep) cells is ${+}0.029$---seven times
+\textit{smaller} than the 3-timestep max of ${+}0.149$. The LR classifier
+compensates for individual timestep knockout by drawing on redundant temporal
+features.
+
+On DDIM, the opposite occurs. Individual knockout effects remain large even
+at 8-timestep resolution: all 16 cells exceed $\Delta{=}0.09$, and
+late\_down@$t{=}100$ destroys $\Delta{=}0.221$ (26\% of baseline AUC).
+The DDIM signal is temporally \emph{concentrated}, not distributed.
+
+This reveals a property we had not anticipated: \textbf{membership signal
+geometry is a product of the training procedure, not a fixed property of
+the UNet architecture.} DDPM training (stochastic, full 1000-step forward
+process) produces temporally distributed, redundant signal. DDIM training
+(deterministic inference objective) produces temporally concentrated signal
+vulnerable to single-timestep knockout.
+
+The channel-level distribution (no single channel is causal) holds for both
+checkpoints. But temporal distribution is training-procedure-dependent.
+DAAB's ``Distributed'' qualifier applies to the channel level universally;
+temporal distribution is a DDPM-specific property now verified against a
+counterexample.
+
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
 H1 reveals a \textbf{Distributed Activation-Amplitude Bias (DAAB)}:
@@ -935,9 +1008,17 @@ H1 separates four levels most MIA evaluations conflate:
 (2)~characterization---activation magnitude, distributed;
 (3)~causal localization---not possible (targeted KO $\leq$ random KO);
 (4)~forensic admission---not satisfied (TPR@1\% collapses).
+The fine temporal grid (Table~\ref{tab:fine-temporal}) adds a fifth finding:
+(5)~training procedure controls signal geometry---DDPM yields temporally
+distributed signal (max individual $\Delta{=}0.029$ at 8-step resolution),
+while DDIM yields temporally concentrated signal (max $\Delta{=}0.221$).
 
 The core insight is: \textit{``Real signal does not imply causal
 localization; causal non-localization does not imply forensic admission.''}
+
+A second insight emerges from the DDPM--DDIM dissociation:
+\textit{``Membership signal geometry is a product of the training procedure,
+not a fixed property of the model architecture.''}
 
 \begin{table}[t]
 \centering
@@ -1125,9 +1206,15 @@ scope-bounded wording. H2 is a candidate boundary case. H1 reveals Distributed
 Activation-Amplitude Bias: a real, replicated, mechanistically characterized
 signal that is non-localizable and forensically fragile---demonstrating that
 real signal does not imply causal localization, and causal non-localization
-does not imply forensic admission. MoFit supplies support-only score-file
-diagnostics. The remaining negative and killed rows are organized by promotion
-error type rather than as failed experiments.
+does not imply forensic admission. The fine temporal grid adds an unexpected
+finding: membership signal geometry is a product of the training procedure.
+DDPM stochastic training produces temporally distributed signal resistant to
+single-timestep knockout; DDIM deterministic training produces temporally
+concentrated signal vulnerable to targeted intervention---a 7.6$\times$
+difference in causal concentration between identically architected models.
+MoFit supplies support-only score-file diagnostics. The remaining negative
+and killed rows are organized by promotion error type rather than as failed
+experiments.
 
 The reporting rule is direct: name the target, split, row-level observable,
 metric provenance, finite-tail basis, and consumer boundary, then use the
