@@ -16,3 +16,13 @@ attack:
     threshold_strategy: threshold
 report:
   output_dir: experiments/variation-plan
+
+# Expected real-asset layout before promoting this line:
+# <query_image_root>/
+#   member/
+#     *.png|jpg|jpeg|bmp|webp
+#   nonmember/
+#     *.png|jpg|jpeg|bmp|webp
+#
+# A flat directory may be enough for an asset probe,
+# but it is not enough for a paper-aligned evaluation claim.

@@ -1,21 +1,8 @@
-# 重建
+# 重建（已归档）
 
-本目录跟踪 DiffAudit Research 的代码库重建工作。
+本目录先前跟踪 DiffAudit Research 的代码库重建工作。重建计划已归档至 `Docs/archive/Research/docs/rebuild/codebase-rebuild-plan.md`。
 
-用于架构债务、重构排序及不改变行为的清理工作。研究结果、资产交接、GitHub 协作规则和长执行日志归属其他地方。
-
-## 范围
-
-| 领域 | 属于此处 | 不属于此处 |
-| --- | --- | --- |
-| 包架构 | CLI 包结构、适配器边界、共享工具提取 | 新的攻击结果或准入证据 |
-| 重构计划 | 小型 PR 序列、特征测试要求、回滚边界 | Agent 提示或聊天记录 |
-| 审计分类 | 哪些审查发现是准入、陈旧、拒绝或推迟的 | 无可复现命令的原始本地磁盘清单 |
-| 重建状态 | 已合并的内容及仍为代码债务的内容 | 属于 `docs/governance/` 的仓库策略 |
-
-## 当前状态
-
-截至 2026-04-30 已合并：
+当前状态（截至 2026-04-30 已合并）：
 
 - 共享工具提取至 `src/diffaudit/utils/`。
 - CLI 包拆分至 `src/diffaudit/cli/`。
@@ -28,13 +15,6 @@
 - 用显式的公共辅助 API 替换私有跨模块导入。
 - 当测试、CLI 命令或下游消费方需要时，将剩余可复用脚本逻辑移入包模块。
 - 在包/运行时边界稳定后重新审视包依赖 extras。
-
-## 文档
-
-| 文档 | 用途 |
-| --- | --- |
-| [codebase-rebuild-plan.md](codebase-rebuild-plan.md) | 当前重建顺序和验证底线。 |
-| [architecture-audit-triage-2026-04-30.md](architecture-audit-triage-2026-04-30.md) | 2026-04-30 架构审查的修正结论。 |
 
 ## 规则
 
