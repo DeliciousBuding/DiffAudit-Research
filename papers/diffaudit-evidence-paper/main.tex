@@ -980,7 +980,11 @@ the three-way comparison.
 \begin{table}[t]
 \centering
 \caption{\textbf{Three-way temporal distribution comparison (8 timesteps).}
-Dataset complexity controls temporal concentration under identical DDPM training.}
+Temporal signal concentration differs across both training procedures and datasets.
+CIFAR-10 DDPM yields distributed signal; DDIM training and CIFAR-100 produce
+concentrated signal. The mechanism is underdetermined with two datasets
+(N=2)---class count, samples-per-class, and training-procedure interactions
+are candidates for future investigation.}
 \label{tab:three-way-temporal}
 \centering
 \begin{tabular}{lccc}
@@ -995,11 +999,14 @@ CIFAR-100 DDPM       & \textbf{0.167} & \textbf{0.157} & \textbf{Concentrated} \
 \end{table}
 
 DAAB as a phenomenon---real activation-subspace membership signal
-with channel-level distribution---generalizes across datasets. The specific
-spatiotemporal geometry (site gradient, temporal locus) is dataset-dependent.
-The temporal distribution depends on \emph{both} training procedure (DDPM vs.\
-DDIM) \emph{and} dataset complexity (CIFAR-10 vs.\ CIFAR-100): more classes
-produce more concentrated signal under identical DDPM training.
+with channel-level distribution---generalizes across datasets. However, the
+temporal distribution of that signal is not a fixed property: it depends on
+\emph{both} the training procedure (DDPM vs.\ DDIM) \emph{and} the dataset
+(CIFAR-10 vs.\ CIFAR-100), with the two factors confounded in the current
+design (class count, samples-per-class, and training duration all covary).
+We report the empirical observation without committing to a single causal
+attribution; future work with additional datasets and controlled interventions
+is needed to isolate the mechanism.
 
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
