@@ -1,8 +1,0 @@
-field,n_reviewers,n_complete_rows,raw_all_reviewer_agreement,mean_pairwise_kappa,min_pairwise_kappa,max_pairwise_kappa
-target_gate,3,15,0.7333,0.7142,0.5775,0.7826
-split_gate,3,15,0.8667,0.8658,0.8,0.8993
-score_or_response_gate,3,15,0.9333,0.918,0.877,1.0
-metric_gate,3,15,0.9333,0.9237,0.8855,1.0
-provenance_gate,3,15,1.0,1.0,1.0,1.0
-consumer_or_delta_gate,3,15,0.8,0.6724,0.4767,0.8529
-allowed_wording,3,15,0.9333,0.9355,0.9032,1.0

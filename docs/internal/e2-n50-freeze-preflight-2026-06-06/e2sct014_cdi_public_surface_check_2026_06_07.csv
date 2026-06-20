@@ -1,9 +1,0 @@
-item,status,evidence,decision_value
-github_head,pass,"https://github.com/sprintml/copyrighted_data_identification refs/heads/main dcd62258b0b3fde05d52aaecfade3b5f4c09507a","current public repo identity"
-github_tree,pass,"GitHub recursive tree observed count=81 truncated=false; README, attack configs, model configs, feature extraction, score computation, evaluation, and experiments are visible","small public repo surface, no clone or payload download"
-repo_readme,pass,"README states CDI is copyrighted data identification in diffusion models and explicitly frames CDI as dataset inference rather than per-sample MIA","dataset-level boundary is public and explicit"
-metric_code,pass,"Visible configs include conf/attack/cdi.yaml, denoising_loss, gradient_masking, multiple_loss, noise_optim, pia, pian, secmi_stat plus evaluation and scores_computation actions","metric-code rule could over-promote to MIA evidence"
-data_model_dependencies,partial,"README instructs users to download ImageNet, COCO, and model artifacts and run feature extraction / score computation / evaluation scripts","scores and features are runtime products, not public frozen row packets"
-membership_score_or_roc,fail,"No public row-bound per-sample membership score arrays, ROC arrays, metric JSON, feature packet, or no-training verifier were observed in repo metadata","blocks admitted response/score evidence and N50 denominator promotion"
-semantic_boundary,fail,"The consumer claim is dataset-level copyrighted data identification and statistical testing, not per-sample membership inference evidence","blocks dataset-inference-to-MIA claim escalation"
-admission_decision,fail,"Keep as dataset-level-vs-per-sample false-promotion exemplar only; do not admit, do not count as external denominator, and do not release compute","use for weak-rule baseline tagging, not feature extraction or score computation"
