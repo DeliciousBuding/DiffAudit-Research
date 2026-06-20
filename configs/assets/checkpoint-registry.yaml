@@ -1,0 +1,51 @@
+# Checkpoint Registry
+#
+# Centralized mapping from checkpoint names to filesystem paths.
+# All scripts that load model checkpoints should read from this registry
+# instead of hardcoding paths.
+#
+# Format:
+#   <checkpoint-name>:
+#     path: <absolute or DIFFAUDIT_ROOT-relative path>
+#     type: [ddpm-cifar10|ddpm-cifar100|ddim-cifar10|guided-diffusion|ddpm-stl10|sd15|other]
+#     dataset: <dataset-name>
+#     source: <provenance description>
+#     sha256: <optional hash>
+
+checkpoints:
+  ddpm-cifar10-800k:
+    path: Download/shared/checkpoints/ddpm-cifar10-800k/
+    type: ddpm-cifar10
+    dataset: cifar10
+    source: "google/ddpm-cifar10-32 (HuggingFace)"
+
+  ddpm-cifar100-800k:
+    path: Download/shared/checkpoints/ddpm-cifar100-800k/
+    type: ddpm-cifar100
+    dataset: cifar100
+    source: "Self-trained (800k steps)"
+
+  ddim-cifar10-750k:
+    path: Download/shared/checkpoints/ddim-cifar10-750k/
+    type: ddim-cifar10
+    dataset: cifar10
+    source: "Self-trained (750k steps)"
+
+  ddpm-stl10-final:
+    path: Download/shared/checkpoints/ddpm-stl10-final/
+    type: ddpm-stl10
+    dataset: stl10
+    source: "Self-trained"
+    status: closed
+
+  guided-diffusion-cifar10-500k:
+    path: Download/shared/checkpoints/guided-diffusion-cifar10-500k/
+    type: guided-diffusion
+    dataset: cifar10
+    source: "OpenAI guided-diffusion"
+
+  sd-v1-5:
+    path: Download/shared/weights/stable-diffusion-v1-5/
+    type: sd15
+    dataset: laion-5b
+    source: "stable-diffusion-v1-5/stable-diffusion-v1-5 (HuggingFace)"

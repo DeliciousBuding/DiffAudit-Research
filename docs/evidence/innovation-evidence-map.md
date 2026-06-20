@@ -1,5 +1,10 @@
 # Research Claims to Verified Evidence Map
 
+> **DEPRECATED as of 2026-06-20.** This file is no longer maintained.
+> Use `docs/paper1/frozen-claim-matrix.md` as the single source of truth (SSOT) for all evidence claims.
+> The frozen matrix supersedes this map with stricter row numbering, blocked/allowed claim boundaries, and statistical rules.
+> This file is retained for historical reference only. Do not add new rows or update existing ones.
+
 | Research Claim | Track | Verified Result | Claimable Narrative | Limitations |
 | --- | --- | --- | --- | --- |
 | Black-box risk proof chain using `recon DDIM public-100 step30`, replacing isolated attack scripts | recon | `recon DDIM public-100 step30` (`unified-attack-defense-table.json` black-box row), [non-clid-black-box-reselection.md](non-clid-black-box-reselection.md), [recon-product-validation-result.md](recon-product-validation-result.md), [../product-bridge/recon-product-validation-handoff.md](../product-bridge/recon-product-validation-handoff.md) | "Recon track has built a verified risk proof chain, recorded in the unified attack-defense table. This demonstrates membership leakage risk under minimal black-box permissions." | Do not claim final exploit or SOTA. This is a risk upper bound under black-box operating conditions. Current product-validation packet has a coherent upstream-threshold metric source and is promoted as the admitted black-box row. |
