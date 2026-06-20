@@ -52,15 +52,23 @@ training-dependent: DDIM preserves moderate low-FPR recovery where DDPM loses
 it, but neither checkpoint supports sub-percent FPR claims.
 
 We term this pattern Distributed Activation-Amplitude Bias (DAAB): a real,
-replicated, mechanistically characterized membership trace that is channel-level
-distributed and universal across training procedures, temporally distributed
-or concentrated depending on the training objective, and too fragile at low
-FPR for forensic admission. Additional boundary cases include CLiD (spurious:
+replicated, mechanistically characterized membership trace. ``Distributed''
+refers to channel-level and statistic-level non-localizability---the signal is
+not controlled by a compact set of individually significant channels, and this
+channel-level distribution holds across the tested configurations. The spatial
+and temporal geometry of the trace (site gradient, temporal concentration)
+varies across the tested training and dataset configurations, and the forensic
+tail behavior at low FPR is partially configuration-dependent.
+Additional boundary cases include CLiD (spurious:
 AUC 1.000 collapses to 0.586 under prompt-neutral control; $\Delta$AUC reported
 as point estimate only), scnet (scale-null: 54$\times$ capacity,
 $\Delta\text{AUC}{=}0.003$), H2 output-cloud (non-portable: AUC 0.962
 within-family, fails img2img), and MoFIT (external support: AUC 0.942, missing
-row binding). The broader lesson is that membership inference is not merely a
+row binding). With two datasets and three compatible checkpoints, we cannot
+attribute the variation to class count, samples per class, training duration,
+or objective/sampler choice; the CIFAR-100 and DDIM results are boundary cases
+showing non-invariance, not causal identification of a controlling factor.
+The broader lesson is that membership inference is not merely a
 score-ranking problem: a diffusion MIA score becomes evidence only after its
 claim boundary is admitted.
 \end{abstract}
@@ -708,10 +716,8 @@ late\_down@$t{=}100$ destroys $\Delta{=}0.221$ (26\% of baseline AUC).
 The DDIM signal is temporally \emph{concentrated}, not distributed.
 
 This reveals a property we had not anticipated: \textbf{membership signal
-geometry is a product of the training procedure, not a fixed property of
-the UNet architecture.} DDPM training (stochastic, full 1000-step forward
-process) produces temporally distributed, redundant signal. DDIM training
-(deterministic inference objective) produces temporally concentrated signal
+geometry varies across the tested training and dataset configurations, not a fixed property of
+the UNet architecture.} The DDPM configuration yields temporally distributed, redundant signal. The DDIM 750k configuration yields temporally concentrated signal
 vulnerable to single-timestep knockout.
 
 The channel-level distribution (no single channel is causal) holds for both
@@ -793,7 +799,7 @@ The fine temporal grid (Table~\ref{tab:fine-temporal}) adds a fifth finding:
 (5)~training procedure controls temporal signal geometry---DDPM yields
 temporally distributed signal, DDIM yields temporally concentrated signal.
 Cross-dataset validation on CIFAR-100 (AUC 0.835) adds a sixth:
-(6)~dataset complexity controls spatiotemporal geometry---CIFAR-100 shows
+(6)~the spatiotemporal geometry varies across tested configurations---CIFAR-100 shows
 a flatter site gradient and broader temporal distribution than CIFAR-10,
 confirming that DAAB generalizes as a phenomenon while its spatial and
 temporal distribution varies with both training procedure and dataset.
@@ -1185,7 +1191,7 @@ activations carry a replicated, mechanistically characterized membership trace
 that is channel-level distributed and universal across training procedures, yet
 whose temporal distribution depends on the training objective---DDPM stochastic
 training produces temporally distributed signal (max individual
-$\Delta\text{AUC}{=}0.029$), while DDIM deterministic training produces
+$\Delta\text{AUC}{=}0.029$), while the DDIM 750k configuration produces
 temporally concentrated signal ($\Delta\text{AUC}{=}0.221$, a 7.6$\times$
 difference). The signal is non-localizable under channel knockout and too fragile
 at low FPR for forensic admission. CLiD shows that perfect separation can be
