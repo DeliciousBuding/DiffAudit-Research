@@ -1,6 +1,0 @@
-weak_rule,plot_label,would_promote_rows,selected_row_count,boundary_note
-code_availability_would_promote,code,12,13,weak-rule count over selected stress rows; not denominator or prevalence evidence
-artifact_availability_would_promote,artifact,7,13,weak-rule count over selected stress rows; not denominator or prevalence evidence
-paper_claim_artifact_link_would_promote,paper-link,12,13,weak-rule count over selected stress rows; not denominator or prevalence evidence
-metric_code_split_would_promote,metric/split,9,13,weak-rule count over selected stress rows; not denominator or prevalence evidence
-score_only_would_promote,score-only,0,13,weak-rule count over selected stress rows; not denominator or prevalence evidence
