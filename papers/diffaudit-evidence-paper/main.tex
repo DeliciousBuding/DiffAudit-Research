@@ -762,25 +762,54 @@ positives; the highest-scoring nonmembers consistently rank above most
 members. TPR@0.1\%FPR remains zero at both sample sizes, though $N=128$
 is below the rule-of-three threshold for calibrated 0.1\% FPR claims.
 
-\subsection{Diagnostic Lesson}
+\subsection{Channel Intervention: Causal Test}
 
-H1 is a worked example of the ``AUC-stable but low-FPR-fragile'' category
-in our admission taxonomy. The signal is real by three criteria: aggregate
-AUC well above random, label-shuffle control at chance level, and distributed
-across UNet sites rather than concentrated in a single locus. Yet it is not
-admissible for low-FPR membership claims because the forensic tail does not
-survive scale-up.
+Per-channel t-tests identify $\sim$4\% of channels with significant
+member/nonmember differences ($p<0.01$). To test whether these channels
+are causally responsible for the H1 score, we perform targeted channel
+knockout: zeroing specific channels during the forward pass and
+re-evaluating with both retrained and frozen scorers.
 
-This strengthens the paper's core thesis: stable AUC, a clean mechanism,
-and passed shuffle controls are not sufficient. Low-FPR admissibility requires
-that the tail behavior survives sample-size scale-up under the same protocol.
+\textbf{Matched-count} (both delete exactly 10 channels): targeted top-10
+$\Delta\text{AUC}{=}{+}0.008$, within 1$\sigma$ of random-10 deletion
+($\mu_{\Delta}{=}{+}0.018$, $\sigma{=}0.015$).
+
+\textbf{Matched-percent} (both delete $\sim$40 channels, 4\% of total):
+targeted top-4\% $\Delta\text{AUC}{=}{+}0.008$, significantly
+\emph{less} than random 4\% ($\mu_{\Delta}{=}{+}0.049$, $\sigma{=}0.015$,
+$\sim$2.8$\sigma$ apart).
+
+\textbf{Frozen scorer}: random 4\% knockout drops frozen-scorer AUC by
+0.138, but retraining recovers the loss---the signal family is redundant.
+
+These results rule out a sparse-channel causal interpretation. The most
+membership-correlated channels are systematically \emph{less} causally
+important than average channels.
+
+\subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
+
+H1 reveals a \textbf{Distributed Activation-Amplitude Bias (DAAB)}:
+a replicated, activation-magnitude-dominated membership trace distributed
+across U-Net channel patterns rather than localized to individually
+significant channels, and therefore not removable by sparse knockout.
+
+H1 separates four levels most MIA evaluations conflate:
+(1)~existence---real (AUC 0.84--0.88);
+(2)~characterization---activation magnitude, distributed;
+(3)~causal localization---not possible (targeted KO $\leq$ random KO);
+(4)~forensic admission---not satisfied (TPR@1\% collapses).
+
+The core insight is: \textit{``Real signal does not imply causal
+localization; causal non-localization does not imply forensic admission.''}
+
 H1 therefore enters the claim register as \textbf{candidate-positive /
-low-FPR-fragile}, not as admitted evidence.
+low-FPR-fragile (DAAB)}, not as admitted evidence.
 
-We do not release H4 (post-training subspace editing defense) because the
-H1 signal is distributed across sites rather than concentrated in a removable
-risky subspace. Blind channel pruning would risk utility degradation without
-a localized editing target.
+We do not release H4 (post-training subspace editing defense): channel
+intervention experiments show no compact causal edit target exists.
+Targeted knockout of membership-correlated channels does not suppress
+H1 more than random deletion. The activation signal is not locally
+editable by sparse channel removal.
 
 \section{Negative and Support Evidence}
 
