@@ -1,4 +1,4 @@
-# gsa_next_run (GSA intake gate)
+# gsa-next-run (GSA intake gate)
 
 This directory is self-contained and only depends on Python (3.10+). It provides a runnable CLI that:
 
@@ -20,10 +20,10 @@ Exit code is `0` on success, `2` on validation failure.
 
 ## Example details (tiny git repo)
 
-The sample auto-initializes a tiny git repo inside `examples/minimal/repo_root` so the gate can record a commit.
+The sample auto-initializes a tiny git repo inside `examples/minimal/repo-root` so the gate can record a commit.
 
 ```powershell
-cd <DIFFAUDIT_ROOT>\Research\tools\gsa_next_run
+cd <DIFFAUDIT_ROOT>\Research\tools\gsa-next-run
 .\examples\minimal\run_example.ps1
 ```
 

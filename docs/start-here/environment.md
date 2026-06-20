@@ -97,7 +97,7 @@ conda run -n diffaudit-research python -m unittest
 如果当前 shell 没有激活 conda，也可以直接显式指定环境来运行命令：
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config configs/attacks/secmi_plan.yaml
+conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
 ```
 
 建议先用 `conda env list` 确认 `diffaudit-research` 确实存在，再执行后续命令。
@@ -108,7 +108,7 @@ conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config 
 
 ## 本地资产路径如何填写
 
-`configs/attacks/secmi_plan.yaml` 是共享模板，不应该提交个人机器上的真实路径。
+`configs/attacks/secmi-plan.yaml` 是共享模板，不应该提交个人机器上的真实路径。
 
 推荐做法：
 

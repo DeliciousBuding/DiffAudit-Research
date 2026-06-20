@@ -46,7 +46,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Run one bounded black-box H2 response-strength validation packet."
     )
-    parser.add_argument("--config", type=Path, default=Path("configs/attacks/pia_mainline_canonical.yaml"))
+    parser.add_argument("--config", type=Path, default=Path("configs/attacks/pia-mainline-canonical.yaml"))
     parser.add_argument("--run-root", type=Path, default=None)
     parser.add_argument("--repo-root", type=Path, default=Path("external/PIA"))
     parser.add_argument("--member-split-root", type=Path, default=Path("external/PIA/DDPM"))

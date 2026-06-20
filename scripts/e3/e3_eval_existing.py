@@ -25,7 +25,7 @@ DEVICE = torch.device("cuda")
 
 T = 1000; CH = 128; CH_MULT = [1,2,2,2]; ATTN = [1]; NUM_RES_BLOCKS = 2; DROPOUT = 0.1
 BETA_1 = 0.0001; BETA_T = 0.02
-LOG_DIR = PROJECT / "outputs" / "e3_existing_eval"
+LOG_DIR = PROJECT / "outputs" / "e3-existing-eval"
 
 # Checkpoints to evaluate
 CKPT_PATHS = [

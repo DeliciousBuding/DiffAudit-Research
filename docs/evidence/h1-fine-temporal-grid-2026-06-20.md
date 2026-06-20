@@ -138,6 +138,6 @@ Or more precisely: the "Distributed" in DAAB refers to channel-level distributio
 
 - DDPM 8-timestep: inline script (see session transcript)
 - DDIM 8-timestep: `scripts/h1_fine_grid_ddim.py`
-- DDPM 3-timestep: `outputs/h1_scout/h1_fullsite_knockout.json`
+- DDPM 3-timestep: `outputs/h1-scout/h1_fullsite_knockout.json`
 - Main H1 scout: `scripts/h1_activation_scout.py`
-- DDIM N=128 scout: `outputs/h1_scout/h1_ddim750k_results.json`
+- DDIM N=128 scout: `outputs/h1-scout/h1_ddim750k_results.json`

@@ -42,5 +42,5 @@ Signal stable: ΔAUC = 0.001 from N=64→128.
 ## Sources
 
 - Script: `scripts/h1_activation_scout.py`
-- Raw data: `outputs/h1_scout/h1_raw_activations.pkl`
-- Results: `outputs/h1_scout/h1_results.json`
+- Raw data: `outputs/h1-scout/h1_raw_activations.pkl`
+- Results: `outputs/h1-scout/h1_results.json`

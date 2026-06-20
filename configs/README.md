@@ -19,12 +19,12 @@
 
 | 文件 | 用途 |
 | --- | --- |
-| `attacks/secmi_plan.yaml` | SecMI 探针和 dry-run 配置 |
-| `attacks/pia_plan.yaml` | PIA 探针、dry-run 和 smoke 配置 |
-| `attacks/clid_plan.yaml` | CLiD 条件场景配置 |
-| `attacks/recon_plan.yaml` | 黑盒 reconstruction 攻击配置 |
-| `attacks/variation_plan.yaml` | API-only variation 攻击配置 |
-| `benchmarks/secmi_smoke.yaml` | 最小 smoke 配置 |
+| `attacks/secmi-plan.yaml` | SecMI 探针和 dry-run 配置 |
+| `attacks/pia-plan.yaml` | PIA 探针、dry-run 和 smoke 配置 |
+| `attacks/clid-plan.yaml` | CLiD 条件场景配置 |
+| `attacks/recon-plan.yaml` | 黑盒 reconstruction 攻击配置 |
+| `attacks/variation-plan.yaml` | API-only variation 攻击配置 |
+| `benchmarks/secmi-smoke.yaml` | 最小 smoke 配置 |
 | `assets/example.local.yaml` | 路径占位示例（无真实绑定） |
 | `assets/team.local.template.yaml` | 新成员填写的本地路径模板 |
 

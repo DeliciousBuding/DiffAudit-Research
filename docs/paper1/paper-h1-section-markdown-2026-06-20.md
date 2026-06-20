@@ -1,5 +1,6 @@
 # Paper 1 — Markdown Draft (H1 Section Update)
 
+> **Public research report — not the anonymous submission manuscript. See private Papers/ repository for canonical LaTeX source.**
 > Based on: ChatGPT deep review 2026-06-20, Workflow 3-agent review, H1 mechanistic experiments.
 > Core thesis: "Membership inference is not a score-ranking problem; it is an evidence-admission problem."
 

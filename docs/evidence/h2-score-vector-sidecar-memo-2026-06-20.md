@@ -38,4 +38,4 @@ H1 outperforms H2 on AUC and stability. H2's signal decays with sample size, sug
 ## Sources
 
 - Script: `scripts/h2_score_vector_sidecar.py`
-- Results: `outputs/h2_sidecar/h2_results.json`
+- Results: `outputs/h2-sidecar/h2_results.json`

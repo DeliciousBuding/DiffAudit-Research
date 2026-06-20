@@ -705,7 +705,7 @@ def _recommend_next_gpu_action(pia_pairs: list[dict[str, Any]]) -> dict[str, Any
             "diffaudit",
             "run-pia-runtime-mainline",
             "--config",
-            "configs/attacks/pia_mainline_canonical.yaml",
+            "configs/attacks/pia-mainline-canonical.yaml",
             "--workspace",
             workspace_name,
             "--repo-root",
