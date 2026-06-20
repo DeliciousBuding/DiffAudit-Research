@@ -881,15 +881,18 @@ membership-correlated channels are not membership-causal channels.
 
 We further decompose the causal gradient by timestep. Zeroing
 late\_down selectively at individual timesteps reveals a temporal
-gradient: $\Delta\text{AUC}{=}{+}0.124$ at $t{=}100$,
-${+}0.041$ at $t{=}400$, and ${+}0.007$ at $t{=}700$. The
-causal importance of late\_down is concentrated in early denoising,
-consistent with the interpretation that membership information resides
-in abstract, structural representations formed early in the generative
-process. At $t{=}700$, near the end of denoising, zeroing either
-late\_down or early\_up produces negligible effect---the signal is
-already encoded. The membership trace thus has both a spatial locus
-(deepest layers) and a temporal locus (early denoising).
+gradient that generalizes across checkpoints: on DDPM 800k,
+$\Delta\text{AUC}{=}{+}0.124$ at $t{=}100$, ${+}0.041$ at $t{=}400$,
+${+}0.007$ at $t{=}700$; on DDIM 750k, $\Delta\text{AUC}{=}{+}0.179$
+at $t{=}100$, ${+}0.007$ at $t{=}400$, ${-}0.030$ at $t{=}700$.
+The causal importance of late\_down is concentrated in early denoising
+($t{=}100$) on both checkpoints, consistent with the interpretation
+that membership information resides in abstract, structural
+representations formed early in the generative process. At later
+timesteps, zeroing late\_down produces negligible or null effect---the
+signal is already encoded. The membership trace thus has both a
+spatial locus (deepest layers) and a temporal locus (early denoising),
+and both generalize across independently trained checkpoints.
 
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
