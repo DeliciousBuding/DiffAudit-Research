@@ -1,0 +1,8 @@
+rule,pilot_scope,n_reviewed_rows,admit_count,bounded_support_count,false_promotion_count,false_promotion_rate,false_block_count,bounded_mismatch_count,example_false_promotion_pilot_ids
+score_only,internal_blind_pilot_not_external_adjudication,15,5,0,2,0.1333,0,2,E2P-003;E2P-006
+code_availability,internal_blind_pilot_not_external_adjudication,15,4,0,3,0.2,1,1,E2P-009;E2P-010;E2P-015
+artifact_availability,internal_blind_pilot_not_external_adjudication,15,12,0,6,0.4,0,5,E2P-003;E2P-006;E2P-007;E2P-009;E2P-010
+paper_claim_artifact_link,internal_blind_pilot_not_external_adjudication,15,12,0,6,0.4,0,5,E2P-003;E2P-006;E2P-007;E2P-009;E2P-010
+metric_code_split,internal_blind_pilot_not_external_adjudication,15,0,0,0,0.0,1,0,
+reproducibility_checklist,internal_blind_pilot_not_external_adjudication,15,2,0,0,0.0,0,1,
+diffaudit_contract,internal_blind_pilot_not_external_adjudication,15,0,2,0,0.0,0,0,

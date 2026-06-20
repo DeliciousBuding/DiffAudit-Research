@@ -1,13 +1,13 @@
 # Direction C Second-Pass Label Review 2026-05-26
 
-> Status: bounded agent second-pass review.
+> Status: bounded second-pass label review.
 > Scope: label-promotion risk audit for the selected Direction C corpus.
 > No downloads: no browsing, cloning, model/data fetching, e-print downloads, or experiments.
 
 This review addresses the largest remaining reviewer risk for Direction C:
 the corpus labels were produced by the same project team and could be read as a
 single-review artifact. It is still not independent human inter-rater
-reliability. It is a bounded second-pass agent review whose value is narrower:
+reliability. It is a bounded second-pass label review whose value is narrower:
 identify label-promotion risks before the selected corpus is used in the
 Direction A paper or a future Direction C manuscript.
 
@@ -43,8 +43,8 @@ change the paper route.
 
 | Corpus | Row | Gate | Proposed change | Adjudication |
 | --- | --- | --- | --- | --- |
-| v1 | `v0-01` admitted bundle | evidence | `Pass -> Partial` | Not adopted. The row is a mixed-replay positive control for the admitted bundle, not a claim that every admitted row has row-score arrays. The mixed boundary is now explicit in `main.tex` and `source_map.md`. |
-| v1 | `v0-01` admitted bundle | metric | `Pass -> Partial` | Not adopted for the same reason; uncertainty remains limited to rows with direct score arrays. |
+| v1 | `v0-01` reportable bundle | evidence | `Pass -> Partial` | Not adopted. The row is a mixed-replay positive control for the reportable bundle, not a claim that every reportable row has row-score arrays. The mixed boundary is now explicit in `main.tex` and `source_map.md`. |
+| v1 | `v0-01` reportable bundle | metric | `Pass -> Partial` | Not adopted for the same reason; uncertainty remains limited to rows with direct score arrays. |
 | v1 | `v1-10` Discrete DLM withdrawn paper | delta | `Partial -> Fail` | Adopted. A withdrawn, no-PDF/no-code/no-packet record has no usable artifact delta. |
 | fixed-search | `fs20260526-arxiv-03` Noise Aggregation | target | `Partial -> Fail` | Adopted. The local gate says paper-source-only: no public target checkpoint, hash, or released target packet. |
 
@@ -57,10 +57,10 @@ CSV sources:
 - `v1-10.delta_gate = Fail`
 - `fs20260526-arxiv-03.target_gate = Fail`
 
-The admitted-bundle disagreement is retained as a documented caveat rather
+The reportable-bundle disagreement is retained as a documented caveat rather
 than applied as a label change. This protects the paper from a stronger but
-misleading statement: the admitted bundle is audit-ready under its mixed
-contract, while row-score bootstrap uncertainty exists only for a subset of its
+misleading statement: the mixed reportable bundle is homogeneous row-replay
+evidence, while row-score bootstrap uncertainty exists only for a subset of its
 rows.
 
 ## Claim Boundary

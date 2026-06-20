@@ -55,6 +55,39 @@ code-public watch item, but it still does not release GPU work, dataset/model
 downloads, or Platform/Runtime admission. Reopen only if the smallest valid
 reopen conditions below become public.
 
+## 2026-06-08 Public Asset Refresh
+
+A 2026-06-08 no-download live refresh rechecked the official repository and
+paper metadata as `E2SCT-010` during the post-C14 scout. GitHub's
+unauthenticated recursive-tree API was rate-limited, so branch identity was
+checked with `git ls-remote` and artifact surface checks used raw file URLs.
+The public branch still points at
+`97dce4fec6030094fc722557a8b03b6858eab37b`. The arXiv Atom record for
+`2509.25003` is v2, published `2025-09-29` and updated `2026-04-23`.
+
+Raw README status was `200`, length `9129`, SHA-256
+`175b15f8b9b2afb0914fdb0a80e106c2d0de67a1591014f9d5a54b3f50619642`.
+The README still describes the repo as the official implementation and lists
+DDPM, Guided Diffusion, LDM, SD1.4, and SD1.5 experiments. It still points
+DDPM splits/checkpoints to an empty `here` link, points SD1.4 splits to an
+empty `here` link, and tells readers to email for SD1.4 checkpoints.
+
+Raw `scripts.sh` status was `200`, length `6447`, SHA-256
+`25921590ef2bd2202d5d1982b5645e982247cde24f01761c14ded87d934ff40b`; commands
+still use `/path/to/...` dataset/checkpoint placeholders and CUDA execution.
+Raw `DDPM/attack.py` exposes SecMI, PIA, Loss, PIAN, and SimA metric code, but
+no reusable score packet. Raw `diffusers/src/mia/attack.py` still references
+hard-coded `/banana/ethan/MIA_data/...` dataset paths for Pokemon, Flickr,
+COCO, LAION, and checkpoint defaults.
+
+Decision unchanged: SimA is a support-only code-public score-norm mechanism
+reference. It is not a C14 false-promotion exemplar, not an external
+denominator row, not admitted evidence, and not a compute release. Do not add
+it to the Direction A main text unless public row-bound SimA artifacts appear
+or a separate method-watch supplement is intentionally opened without changing
+C14 counts or admission status. The 2026-06-08 refresh note is recorded at
+`docs/internal/e2-n50-freeze-preflight-2026-06-06/e2sct010_sima_public_surface_refresh_2026_06_08.md`.
+
 ## Public Evidence Checked
 
 | Source | Finding |

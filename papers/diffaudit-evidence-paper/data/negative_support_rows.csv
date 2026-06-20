@@ -3,3 +3,4 @@ rediffuse-stl10,denoising-loss scout,negative,0.4996337890625,0.509765625,0.0117
 rediffuse-stl10,score-norm scout,negative,0.5052947998046875,0.525390625,0.03125,0.01953125,docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md
 commoncanvas,conditional denoising loss,negative,0.5148,0.57,0.02,0.02,workspaces/black-box/artifacts/commoncanvas-denoising-loss-20260513.json
 tracing-roots,feature-packet replay,support,0.8158259999999998,0.7375,0.134,0.038,workspaces/gray-box/artifacts/tracing-roots-feature-packet-mia-20260515.json
+mofit-coco,public COCO score replay,support-only,0.941948,0.883,0.488,0.324,docs/internal/e2-n50-freeze-preflight-2026-06-06/e2_mofit_public_score_surface_preflight_2026_06_08.md

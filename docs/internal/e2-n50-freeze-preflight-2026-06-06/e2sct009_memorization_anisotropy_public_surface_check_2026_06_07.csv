@@ -1,0 +1,9 @@
+item,status,evidence,decision_value
+github_head,pass,"https://github.com/rohanasthana/memorization-anisotropy refs/heads/main 97e991bac4171ad0547c5779c31180ea8e9f672e","current public repo identity"
+github_tree,pass,"GitHub recursive tree observed count=25 truncated=false; README, detect scripts, utils, local_model, and prompt files are visible","small public repo surface, no clone or payload download"
+openreview_note,pass,"OpenReview note HTPGy5ydAY title Detecting and Mitigating Memorization in Diffusion Models through Anisotropy of the Log-Probability; venue ICLR 2026 Poster; supplementary attachment is present","paper/source identity and supplement surface are public"
+repo_readme,pass,"README says the repo contains official code, uses memorized/non-memorized prompt data from a prior memorization repo, and develops a detection metric from norm plus anisotropic alignment","prompt memorization and metric-code surface can trigger weak promotion"
+prompt_surface,partial,"Repo metadata shows prompts/RV_mem.txt, prompts/RV_mem_full.txt, prompts/RV_nmem.txt, prompts/sd1_mem.txt, prompts/sd1_nmem.txt, prompts/sd2_mem.txt, prompts/sd2_nmem.txt","prompt-list surface is public but not immutable train/member image identity"
+membership_score_or_roc,fail,"No public row-bound membership score arrays, ROC arrays, metric JSON, target checkpoint manifest, or verifier were observed in public metadata","blocks admitted response/score evidence and N50 denominator promotion"
+semantic_boundary,fail,"Public claim is memorization detection over prompts/log-probability anisotropy, not a row-bound member/nonmember image audit packet","blocks prompt-memorization-to-MIA claim escalation"
+admission_decision,fail,"Keep as prompt-memorization false-promotion exemplar only; do not admit, do not count as external denominator, and do not release compute","use for weak-rule baseline tagging, not prompt/model runs"

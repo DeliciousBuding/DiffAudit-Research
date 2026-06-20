@@ -1,0 +1,29 @@
+case_id,fault_class,checked_surface,expected,observed,passed,evidence
+RCF-001,current admitted bundle,risk card renderer,accept,accepted,1,rendered 26 markdown lines
+RCF-002,candidate row promoted into report card,risk card renderer,reject,rejected,1,risk card refuses non-admitted row: candidate::H2 output-cloud geometry::none::research-only
+RCF-003,finite-tail denominator removed,risk card renderer,reject,rejected,1,risk card row gray-box::PIA GPU512 baseline::none::runtime-mainline missing nonmember denominator
+RCF-004,private source path injected,risk card renderer,reject,rejected,1,risk card row gray-box::PIA GPU512 baseline::none::runtime-mainline contains private surface: $.provenance.source: local DiffAudit D: path
+RCF-005,row-count drift,risk card renderer,reject,rejected,1,risk card row_count drift: 6 != 5
+RCF-006,direct H2 promotion language,direct phrase scan,flag,flagged,1,H2 described as admitted/reportable: H2 output-cloud geometry is an admitted
+RCF-007,direct Tracing Roots promotion language,direct phrase scan,flag,flagged,1,Tracing Roots described as admitted/reportable: Tracing the Roots is reportable
+RCF-008,negated H2 boundary language,direct phrase scan,clean,clean,1,no candidate-promotion hit
+RCF-009,generated current risk card language,direct phrase scan,clean,clean,1,no candidate-promotion hit
+RCF-010,metadata drift promoted to release language,direct phrase scan,flag,flagged,1,metadata-only surface described as admission/release: arXiv DOI metadata and a live GitHub repository prove compute release
+RCF-CAND-001,candidate/support promotion mutation,direct phrase scan,flag,flagged,1,H2 described as admitted/reportable: H2 output-cloud geometry is admitted
+RCF-CAND-002,candidate/support promotion mutation,direct phrase scan,flag,flagged,1,Tracing Roots described as admitted/reportable: Tracing the Roots becomes consumer-ready
+RCF-CAND-003,candidate/support promotion mutation,direct phrase scan,flag,flagged,1,ReDiffuse described as admitted/reportable: ReDiffuse is reportable
+RCF-CAND-004,candidate/support promotion mutation,direct phrase scan,flag,flagged,1,CommonCanvas described as admitted/reportable: CommonCanvas becomes consumer-ready
+RCF-CAND-005,candidate/support promotion mutation,direct phrase scan,flag,flagged,1,MIDST described as admitted/reportable: MIDST is platform-runtime
+RCF-CAND-006,candidate/support promotion mutation,direct phrase scan,flag,flagged,1,CLiD described as admitted/reportable: CLiD is admitted
+RCF-CAND-007,candidate/support promotion mutation,direct phrase scan,flag,flagged,1,weak scouts described as admitted/reportable: weak scouts are reportable
+RCF-CAND-008,candidate/support promotion mutation,direct phrase scan,flag,flagged,1,source-confounded packets described as admitted/reportable: source-confounded packets are admitted
+RCF-META-001,metadata-only promotion mutation,direct phrase scan,flag,flagged,1,metadata-only surface described as admission/release: GitHub repository metadata proves compute release
+RCF-META-002,metadata-only promotion mutation,direct phrase scan,flag,flagged,1,metadata-only surface described as admission/release: OpenReview metadata supports N50 external denominator
+RCF-META-003,metadata-only promotion mutation,direct phrase scan,flag,flagged,1,metadata-only surface described as admission/release: Zenodo metadata establishes external adjudication
+RCF-META-004,metadata-only promotion mutation,direct phrase scan,flag,flagged,1,metadata-only surface described as admission/release: DOI metadata justifies reviewer reliability
+RCF-META-005,metadata-only promotion mutation,direct phrase scan,flag,flagged,1,metadata-only surface described as admission/release: README turns into a row-bound score
+RCF-META-006,metadata-only promotion mutation,direct phrase scan,flag,flagged,1,metadata-only surface described as admission/release: arXiv API metadata unblocks a second public asset
+RCF-CLEAN-001,clean boundary phrase control: negated H2,direct phrase scan,clean,clean,1,no candidate-promotion hit
+RCF-CLEAN-002,clean boundary phrase control: negated metadata release,direct phrase scan,clean,clean,1,no candidate-promotion hit
+RCF-CLEAN-003,clean boundary phrase control: candidate-only Tracing Roots,direct phrase scan,clean,clean,1,no candidate-promotion hit
+RCF-CLEAN-004,clean boundary phrase control: metadata boundary,direct phrase scan,clean,clean,1,no candidate-promotion hit

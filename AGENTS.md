@@ -44,6 +44,13 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   `roadmap operating-system update`), update the three slots
   `active_gpu_question` / `next_gpu_candidate` / `CPU sidecar`, and close with
   a clean `main` after PR/merge when repository files change.
+- Paper prose discipline: write direct argument flow. Avoid circuitous thesis
+  framing and defensive connective habits such as repeated `not X but Y`,
+  `rather than`, `since`, `however`, `therefore`, and `not only ... but also`.
+  Do not add workaround prose merely to avoid a banned construction. Method
+  choices must transition naturally from the paragraph's claim. Delay technical
+  details until the reader knows why they matter. Each paragraph should have one
+  clear task and should not restate the same boundary in new words.
 - Reflection/correction discipline: enforce the No-stationery, Two-weak-runs,
   Membership semantics, Response contract, Consumer honesty, and stale-doc
   conflict gates from `ROADMAP.md`. If a step only adds process around a weak

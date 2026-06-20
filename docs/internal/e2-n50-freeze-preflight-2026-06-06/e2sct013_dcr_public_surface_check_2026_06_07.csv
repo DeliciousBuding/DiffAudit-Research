@@ -1,0 +1,8 @@
+item,status,evidence,decision_value
+github_head,pass,"https://github.com/somepago/DCR refs/heads/main bac8b5fbf739c75be6a187f97e2b81e0fd51115c","current public repo identity"
+github_tree,pass,"GitHub recursive tree observed count=28 truncated=false; README, training/inference scripts, metrics code, embedding_search, and miscdata/laion_combined_captions.json are visible","small public repo surface, no clone or payload download"
+repo_readme,pass,"README gives training, inference, retrieval, and metric-computation commands; metrics are logged to wandb and LAION-10k split is linked via Google Drive","copying/retrieval metric workflow is public, but frozen membership scores are not"
+caption_manifest,partial,"miscdata/laion_combined_captions.json is visible with size 9969183 bytes and SHA 669a197c527f5856997bd8d7e373374063fe12d8","caption/copying artifact surface can trigger artifact-availability promotion but is not downloaded for this gate"
+membership_score_or_roc,fail,"No public member/nonmember MIA labels, row-bound scores, ROC arrays, metric JSON, generated response packet, or verifier were observed in repo metadata","blocks admitted response/score evidence and N50 denominator promotion"
+semantic_boundary,fail,"README frames generated-data retrieval/copying similarity against training data, not a per-sample membership audit packet","blocks copying-to-MIA claim escalation"
+admission_decision,fail,"Keep as copying-vs-membership semantic false-promotion exemplar only; do not admit, do not count as external denominator, and do not release compute","use for weak-rule baseline tagging, not generation or retrieval runs"

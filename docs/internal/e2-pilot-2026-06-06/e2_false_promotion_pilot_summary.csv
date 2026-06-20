@@ -1,0 +1,8 @@
+rule,pilot_scope,n_rows,admit_count,bounded_support_count,false_promotion_count,false_promotion_rate,false_block_count,bounded_mismatch_count,proxy_pilot_delta_vs_diffaudit_false_promotion,proxy_pilot_paired_bootstrap_delta_ci_low,proxy_pilot_paired_bootstrap_delta_ci_high
+score_only,internal_proxy_not_external_adjudication,15,5,0,3,0.2,0,2,0.2,0.0,0.4
+code_availability,internal_proxy_not_external_adjudication,15,4,0,4,0.2667,0,0,0.2667,0.0667,0.4667
+artifact_availability,internal_proxy_not_external_adjudication,15,12,0,10,0.6667,0,2,0.6667,0.4,0.8667
+paper_claim_artifact_link,internal_proxy_not_external_adjudication,15,12,0,10,0.6667,0,2,0.6667,0.4,0.8667
+metric_code_split,internal_proxy_not_external_adjudication,15,0,0,0,0.0,0,0,0.0,0.0,0.0
+reproducibility_checklist,internal_proxy_not_external_adjudication,15,2,0,0,0.0,0,2,0.0,0.0,0.0
+diffaudit_contract,internal_proxy_not_external_adjudication,15,0,2,0,0.0,0,0,0.0,0.0,0.0

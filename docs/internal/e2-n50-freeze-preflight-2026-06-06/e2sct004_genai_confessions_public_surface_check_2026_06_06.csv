@@ -1,0 +1,11 @@
+item,status,evidence,decision_value
+github_head,pass,"https://github.com/hanyfarid/MembershipInference refs/heads/main d72072f3c09562d44e25f829cc864de4207be919","current public repo identity"
+github_tree,pass,"GitHub recursive tree observed count=96 truncated=false; visible roots Carlini Midjourney STROLL README","small public repo surface, no archive download"
+repo_readme,partial,"README.md only states project title and question: Has an AI model been trained on your images?","paper/repo claim context but not artifact contract"
+github_input_lists,pass,"Carlini/intraining/images-and-captions.csv and Midjourney/intraining/images-and-captions.csv expose file-name caption url columns","public input/caption lists can trigger artifact-availability promotion"
+zenodo_record,partial,"https://zenodo.org/records/14573149 exposes one file hanyfarid/MembershipInference-datarelease.zip size=133599324 checksum=md5:6ec572d777fd04ef6cdedc712d2b086e","large archive listed but no compact generated-output or score manifest"
+hf_stroll_dataset,pass,"https://huggingface.co/datasets/faridlab/stroll id=faridlab/stroll sha=f0a900eca421320d5e74a4dc8ead44db7eda2d40 private=false gated=false","public member/nonmember-style dataset surface"
+hf_stroll_annotations,pass,"annotations.csv content-length=33312 ETag c1a35423b5dc0593dc1ce1311541d95466371670d2859763bcd29adffc9859c6; 100 data rows; columns image-file-intraining image-file-outoftraining captions","row-level public input/split/caption annotation surface"
+generated_outputs_or_dreamsim_scores,fail,"No public tree/listing evidence for generated outputs DreamSim score rows metric JSON or row-bound response packet outside large Zenodo zip or image payloads","blocks response/score denominator and admitted evidence"
+metric_verifier,fail,"No no-training verifier or compact metric recomputation packet found in public metadata","blocks external score/metric contract"
+admission_decision,fail,"Keep as clean false-promotion exemplar candidate only; do not count as admitted row response/score asset or external-audit denominator","use for measurement-route baseline tagging, not compute release"

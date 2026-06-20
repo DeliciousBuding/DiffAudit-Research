@@ -1,0 +1,8 @@
+pilot_id,field,n_reviewers,reviewers,majority,tie,all_agree,labels
+E2Q-005,target_gate,3,G;H;I,Partial,0,1,G=Partial;H=Partial;I=Partial
+E2Q-005,split_gate,3,G;H;I,Pass,0,1,G=Pass;H=Pass;I=Pass
+E2Q-005,score_or_response_gate,3,G;H;I,Pass,0,1,G=Pass;H=Pass;I=Pass
+E2Q-005,metric_gate,3,G;H;I,Pass,0,1,G=Pass;H=Pass;I=Pass
+E2Q-005,provenance_gate,3,G;H;I,Partial,0,1,G=Partial;H=Partial;I=Partial
+E2Q-005,consumer_or_delta_gate,3,G;H;I,Pass,0,0,G=Partial;H=Pass;I=Pass
+E2Q-005,allowed_wording,3,G;H;I,bounded-support,0,1,G=bounded-support;H=bounded-support;I=bounded-support

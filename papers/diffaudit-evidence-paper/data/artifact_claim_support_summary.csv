@@ -1,0 +1,9 @@
+corpus,claim_support_level,claim_support_label,count,denominator,boundary_note
+v1 evidence-note corpus,L0,metadata/search discovery,8,21,selected-corpus taxonomy only
+v1 evidence-note corpus,L1,artifact inspection without row-bound metrics,3,21,selected-corpus taxonomy only
+v1 evidence-note corpus,L2,scoreable or replayed research-side packet,9,21,selected-corpus taxonomy only
+v1 evidence-note corpus,L3,consumer-admitted/reportable control,1,21,selected-corpus taxonomy only
+fixed-search batch,L0,metadata/search discovery,13,17,no-download fixed-search metadata protocol
+fixed-search batch,L1,artifact inspection without row-bound metrics,4,17,no-download fixed-search metadata protocol
+fixed-search batch,L2,scoreable or replayed research-side packet,0,17,no-download fixed-search metadata protocol
+fixed-search batch,L3,consumer-admitted/reportable control,0,17,no-download fixed-search metadata protocol
