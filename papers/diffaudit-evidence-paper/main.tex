@@ -44,9 +44,12 @@ training-procedure-dependent: DDPM stochastic training produces temporally
 distributed signal (max individual $\Delta\text{AUC}{=}0.029$), while DDIM
 deterministic training produces temporally concentrated signal
 ($\Delta\text{AUC}{=}0.221$, a 7.6$\times$ difference)---the only DAAB
-property that varies across checkpoints. At the same time, H1 is not
-forensically admitted: its TPR@1\%FPR collapses from 0.484 to 0.055 under
-scale-up from $N{=}64$ to $N{=}128$.
+property that varies across checkpoints. At the same time, H1 is not fully forensically admitted:
+on DDPM, TPR@1\%FPR collapses from 0.484 ($N{=}64$) to 0.055 ($N{=}128$);
+on DDIM, TPR@1\%FPR maintains 0.273 at $N{=}128$ but TPR@0.1\%FPR remains
+0.000 for both checkpoints. The forensic tail is thus partially
+training-dependent: DDIM preserves moderate low-FPR recovery where DDPM loses
+it, but neither checkpoint supports sub-percent FPR claims.
 
 We term this pattern Distributed Activation-Amplitude Bias (DAAB): a real,
 replicated, mechanistically characterized membership trace that is channel-level
