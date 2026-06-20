@@ -108,7 +108,7 @@ conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root
 
 刚开始接手时，不要从历史日志反推优先级。当前真实优先级以这些文件为准：
 
-1. [comprehensive-progress.md](../internal/comprehensive-progress.md)
+1. `comprehensive-progress.md` (internal — not in public repository)
 2. [reproduction-status.md](../evidence/reproduction-status.md)
 3. [../ROADMAP.md](../../ROADMAP.md)
 4. 对应 lane 的 `workspaces/<lane>/plan.md`
@@ -117,9 +117,9 @@ conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root
 
 ## 5. 当前最重要的入口文档
 
-- 综合进度：[comprehensive-progress.md](../internal/comprehensive-progress.md)
+- 综合进度：`comprehensive-progress.md` (internal — not in public repository)
 - 命令参考：[command-reference.md](command-reference.md)
-- 严格三线计划：[mentor-strict-reproduction-plan.md](../internal/mentor-strict-reproduction-plan.md)
+- 严格三线计划：`mentor-strict-reproduction-plan.md` (internal — not in public repository)
 - 黑盒计划：[../workspaces/black-box/plan.md](../../workspaces/black-box/plan.md)
 - 灰盒计划：[../workspaces/gray-box/plan.md](../../workspaces/gray-box/plan.md)
 - 白盒计划：[../workspaces/white-box/plan.md](../../workspaces/white-box/plan.md)

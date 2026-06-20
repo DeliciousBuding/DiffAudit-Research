@@ -191,9 +191,9 @@ After the machine can run commands, read in this order:
 
 1. [README.md](../../README.md)
 2. [teammate-setup.md](../start-here/teammate-setup.md)
-3. [comprehensive-progress.md](../internal/comprehensive-progress.md)
+3. `comprehensive-progress.md` (internal — not in public repository)
 4. [reproduction-status.md](../evidence/reproduction-status.md)
-5. [mainline-narrative.md](../internal/mainline-narrative.md)
+5. `mainline-narrative.md` (internal — not in public repository)
 6. [storage-boundary.md](storage-boundary.md)
 7. [research-download-master-list.md](../assets-and-storage/research-download-master-list.md)
 

@@ -33,7 +33,7 @@ Read these in order when getting started:
 
 | Location | Contents |
 | --- | --- |
-| [internal/](internal/) | Internal coordination notes, progress logs, competition notes, paper reports. |
+| `Docs/internal/` (separate directory) | Internal coordination notes, progress logs, competition notes, paper reports. |
 | [../workspaces/](../workspaces/) | Current research state per direction. |
 | [../legacy/](../legacy/) | Archived experiment logs and closed notes. |
 
@@ -47,3 +47,8 @@ public documentation without rewriting and fact-checking.
 - Don't include private operator instructions or raw agent prompts in public docs.
 - Don't present smoke tests, dry runs, or blocked attempts as benchmark results.
 - Datasets, model weights, and large generated files should stay outside Git.
+- **Public documents must not use `../internal/` or `../ask-gpt/` relative paths.**
+  Internal coordination files and external-model consultation records live in the
+  separate `Docs/` directory and are not part of the public repository. Reference
+  them as plain text names (e.g., `comprehensive-progress.md (internal)`) rather
+  than as active links.

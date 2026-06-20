@@ -18,7 +18,8 @@ dist/
 # ---------------------------------------------------------------------------
 # 2. Datasets (large binary data files)
 # ---------------------------------------------------------------------------
-data/
+data/datasets/
+!data/splits/*.npz
 *.npz
 *.npy
 *.tar.gz
@@ -55,6 +56,21 @@ papers/**/*.pdf
 !figures/
 !**/figures/
 !**/figures/**
+
+# ---------------------------------------------------------------------------
+# 5b. Images (keep curated figures/docs/brand)
+# ---------------------------------------------------------------------------
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+!references/materials/tracing-roots-arxiv-v3-20260515/figures/*.png
+!references/materials/tracing-roots-arxiv-v3-20260515/figures/*.pdf
+!docs/brand/*.svg
+!workspaces/white-box/smoke-ddpm/train/member/sample.ppm
 
 # ---------------------------------------------------------------------------
 # 6. Workspaces (stale runs — curated artifacts excepted below)
@@ -203,7 +219,7 @@ coverage.xml
 # Environment files
 .env
 .env.*
-configs/*.local.yaml
+configs/**/*.local.yaml
 configs/assets/*.local.yaml
 !configs/assets/example.local.yaml
 
@@ -216,6 +232,8 @@ external/*
 # External research materials
 references/materials/**/*.pdf
 references/materials/**/*.docx
+references/materials/**/*.pt
+references/materials/**/*.npz
 
 # Generated paper extraction caches
 docs/internal/paper-reports/ocr/
@@ -242,8 +260,6 @@ workspaces/**/runs/**/score-artifacts/
 # Legacy reproduction artifacts
 workspaces/xuchi-reproduction-20260516/final_rediffuse_combined/result.csv
 scripts/preflight_rediffuse_stl10.py
-# Pickle cache files
-*.pkl
 
 # Generic log files
 *.log

@@ -8,11 +8,46 @@ repos:
       - id: trailing-whitespace
       - id: mixed-line-ending
       - id: check-added-large-files
+        args: ['--maxkb=500']
 
   - repo: local
     hooks:
       - id: diffaudit-local-checks
         name: diffaudit-local-checks
-        entry: python scripts/run_local_checks.py --fast
+        entry: python scripts/util/run_local_checks.py --fast
         language: system
         pass_filenames: false
+
+      - id: no-dated-filenames
+        name: Reject new files with YYYYMMDD in filename
+        description: >
+          New files should not contain YYYYMMDD date strings in their names.
+          Use semantic kebab-case names. Dates belong in file frontmatter
+          or content, not filenames.
+        entry: bash -c 'for f in "$@"; do if echo "$f" | grep -qP "\d{8}"; then echo "ERROR: $f contains YYYYMMDD date pattern -- use semantic name instead."; exit 1; fi; done' --
+        language: system
+        files: ''
+        types: [file]
+        stages: [commit]
+
+      - id: no-root-scripts
+        name: Reject new .py files directly in scripts/ root
+        description: >
+          Python scripts must be placed in a subdirectory of scripts/
+          (e.g., scripts/h1/, scripts/util/). No new .py files in scripts/ root.
+        entry: bash -c 'for f in "$@"; do dir=$(dirname "$f"); if [ "$dir" = "scripts" ]; then echo "ERROR: $f is in scripts/ root -- move to a subdirectory (e.g., scripts/util/, scripts/h1/)."; exit 1; fi; done' --
+        language: system
+        files: '^scripts/[^/]+\.py$'
+        types: [file]
+        stages: [commit]
+
+      - id: evidence-md-headers
+        name: Require Date/Status/Verdict headers in new evidence docs
+        description: >
+          New .md files in docs/evidence/ must include Date, Status, and Verdict
+          headers as top-level markdown fields.
+        entry: bash -c 'for f in "$@"; do if ! grep -qP "^\*\*Date:\*\*" "$f" || ! grep -qP "^\*\*Status:\*\*" "$f" || ! grep -qP "^\*\*Verdict:\*\*" "$f"; then echo "ERROR: $f missing Date/Status/Verdict headers in docs/evidence/."; exit 1; fi; done' --
+        language: system
+        files: '^docs/evidence/.*\.md$'
+        types: [file]
+        stages: [commit]

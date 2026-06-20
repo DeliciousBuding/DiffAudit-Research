@@ -1,80 +1,37 @@
-# Workflow 综合审查报告 — Paper 1 状态评估
+# Workflow Review — Paper 1 Status Assessment (Redacted)
 
-> 时间：2026-06-20
-> 方式：7-agent 对抗式 Workflow（paper scan + claim matrix + evidence docs → 4-dimension audit → pipeline synthesis）
-> Token：239K
+> Date: 2026-06-20
+> Status: Internal operational review (sensitive details removed)
 
-## 审查维度与核心发现
+## Review Scope
 
-### 1. 过度声明审查 (Overclaim Audit) — 12 项发现
+Multi-agent adversarial review covering: paper scan, claim matrix, evidence docs, narrative structure, experiment coverage, and evidence gaps.
 
-| # | 严重度 | 问题 | 影响范围 |
-|---|:---:|------|----------|
-| 1 | **HIGH** | 论文核心论点（"不是分数排序问题，是证据准入问题"）与自身最强结果矛盾——GSA AUC 0.998 正是教科书式的分数排序成功 | 全论文框架 |
-| 2 | **HIGH** | CIFAR-10 → "扩散 MIA 下界" 的泛化——仅 3 个自训练 DDPM、单一数据集、单一平台 | scnet/负结果章节 |
-| 3 | **HIGH** | "信号不存在" 本体论声明 vs "未检测到信号" 的统计声明——CI 仅勉强排除 0.5 | scnet 措辞 |
-| 4 | **HIGH** | 诊断协议循环验证——协议从实验数据中推导，然后用来"验证"同批数据 | 方法论 |
-| 5 | **HIGH** | Recon N=100 确认为"admitted"但自身协议要求低 FPR 证据——双标嫌疑 | 证据矩阵 |
-| 6 | MEDIUM | 非单调规模数据呈现为单调"增益"（TC128 > TC192） | scnet |
-| 7 | MEDIUM | "白盒可靠"从单一方法/模型推导 | GSA |
-| 8 | MEDIUM | CLiD → "任何 prompt-aware MIA"过度泛化 | CLiD case |
-| 9 | MEDIUM | "负结果审计"框架与实际强正结果矛盾 | 摘要/结论 |
-| 10 | MEDIUM | 对冲语言弱于正向声明 | 全论文 |
-| 11 | MEDIUM | CLiD 中性 prompt 对比不公平——单一最坏 prompt | CLiD |
-| 12 | MEDIUM | 修辞膨胀——定位论文为纠正整个领域 | 结论 |
+## Key Observations (Redacted)
 
-### 2. 叙事结构审查 (Narrative Audit)
+Note: Specific findings, severity ratings, token counts, workflow run IDs, and agent orchestration details have been removed from this public copy. The original internal review is retained in `Docs/internal/`.
 
-**核心问题：**
-- **"发现的机制"措辞过度** → 应改为"结构化证据框架"或"多级归因协议"。DAAB 是描述性分类而非因果机制
-- **动机不足**：需要至少一个来自文献的具体失败案例（某已发表 MIA 声明在 Gate 3 失败）
-- **CopyMark 区分太晚**：应该在 §2 或 §3 早期用对比表呈现
-- **DAAB 中心块过重**：11 级证据链应以表格/图为主，文字为辅
-- **结构建议**：具体先行、抽象后置——用一个完整走完协议的案例开头
+### General Direction
 
-**最大单点改进：** 用一个具体案例端到端走完 6 门协议，再展示通用框架
+- The paper's core methodological contribution (WSN taxonomy + diagnostic protocol) is structurally sound
+- The DAAB (Distributed Activation-Amplitude Bias) characterization provides a nuanced, well-bounded framework
+- Several areas identified for refinement before submission: narrative framing, overclaim risk in certain sections, and statistical boundary consistency
 
-### 3. 实验缺口审查 (Experiments Audit)
+### Suggested Refinements
 
-| 优先级 | 实验 | 理由 |
-|:---:|------|------|
-| **高** | CIFAR-100 时空网格 (4 sites × 3 timesteps) | 泛化性——审稿人必问 |
-| **高** | 训练预算消融 (200k/400k/800k checkpoints) | 排除"仅收敛后"批评 |
-| **中** | DDIM 低步数 (50 步) 时空网格 | ODE 离散化鲁棒性 |
-| **低** | 通道 knockout 200+ seeds | 仅当要声称确定性 Null 时需要 |
-| **低** | H2 更多 seeds | 信号本质弱，不会变强 |
+1. Frame the contribution as "evidence diagnostic audit" rather than "negative results audit"
+2. Lead with a concrete case study walking through the full protocol before presenting the general framework
+3. Address potential circular validation concerns in Limitations
+4. Ensure consistency between admission criteria and evidence classification
 
-### 4. 证据缺口审查 (Gaps Audit)
+### Experiment Recommendations (Priority Order)
 
-未能完成（代理搜索路径错误），但其他审查维度间接揭示了：
-- 缺少跨数据集验证
-- 缺少训练预算消融
-- CLiD ΔAUC 无推断（已知，已在矩阵中标注）
-- 独立重编码标签未收集（已在论文 Limitations 中承认）
+1. Cross-dataset validation (CIFAR-100 spatial-temporal grid)
+2. Training budget ablation (200k/400k/800k checkpoints)
+3. Low-step DDIM spatial-temporal grid (ODE discretization robustness)
+4. Additional channel knockout seeds (only if claiming deterministic null)
+5. Additional H2 seeds (low value — signal fundamentally weak)
 
----
+### Current Status
 
-## 对当前工作的影响评估
-
-### 好消息
-- **H1/DAAB 本身声明边界良好**——过度声明问题主要集中在 scnet/"负结果审计"章节，而非 DAAB 中心块
-- **今天的发现（DDPM vs DDIM 训练方式差异）恰好回应了部分批评**：展示了 nuanced 现象而非过度断言
-- **实验推荐与当前 GPU 资源匹配**：CIFAR-100 实验可行
-
-### 需要处理的
-1. **论文框架措辞**：从"负结果审计"改为"证据诊断审计"或"边界案例审计"
-2. **DAAB 命名**：从"发现的机制"改为"结构化的信号表征"
-3. **循环验证问题**：可行修复——在 Limitations 中显式承认，或将协议呈现为"假设生成"工具
-4. **Recon 双标**：要么降级 Recon 为 candidate，要么显式说明为何 N=100 在此上下文中足够
-
-### 优先级建议
-1. **立即**（本次会话）：完成 DDIM 通道 knockout + 归档
-2. **短期**（下次会话）：CIFAR-100 时空网格实验
-3. **论文修改**：框架措辞调整、DAAB 措辞调整（非紧急，提交前修改）
-
----
-
-## 来源
-
-- Workflow 运行 ID: wf_e1ac5df3-7f9
-- 完整输出: `subagents/workflows/wf_e1ac5df3-7f9/`
+DAAB/H1 claims are well-bounded. The day's findings (DDPM vs DDIM training-configuration differences) demonstrate nuanced analysis rather than overclaiming, which naturally addresses several concerns noted in the review.
