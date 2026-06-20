@@ -836,17 +836,30 @@ controlled by a compact channel subset.
 \textbf{Frozen scorer}: random 4\% knockout drops frozen-scorer AUC by
 0.138, but retraining recovers the loss---the signal family is redundant.
 
-These results rule out a sparse-channel causal interpretation. The most
-membership-correlated channels are not causal bottlenecks: targeted deletion
-produces no more degradation than random deletion of matched cardinality.
-H1 is not controlled by a compact subset of individually significant channels.
+These results rule out a sparse-channel causal interpretation at the level
+of individually significant channels. However, full-site knockout reveals
+a more nuanced picture: zeroing all channels at late\_down collapses AUC
+to 0.500 (chance), while zeroing all channels at early\_up produces only a
+mild drop (AUC 0.834, $\Delta{=}{+}0.031$). The signal is therefore not
+uniformly distributed: it concentrates in the deepest downsampling
+representations, while the most statistically visible channels
+(concentrated in early\_up) are not where the causal action lies. This
+separation---statistical visibility in one site, causal importance in
+another---reinforces the DAAB interpretation: membership-correlated
+channels are not the same as membership-causal channels.
 
 \subsection{Diagnostic Lesson: Distributed Activation-Amplitude Bias}
 
 H1 reveals a \textbf{Distributed Activation-Amplitude Bias (DAAB)}:
-a replicated, activation-magnitude-dominated membership trace distributed
-across U-Net channel patterns rather than localized to individually
-significant channels, and therefore not removable by sparse knockout.
+a replicated, activation-magnitude-dominated membership trace whose
+aggregate signal is distributed across channels and statistic types,
+yet whose causal core concentrates in the deepest downsampling
+representations (late\_down) rather than in the sites where individual
+channels appear most statistically significant (early\_up). The signal
+is redundant at the per-channel level---targeted knockout of
+membership-correlated channels does not selectively suppress
+H1---but is not fully distributed: the deepest layers are causally
+indispensable.
 
 H1 separates four levels most MIA evaluations conflate:
 (1)~existence---real (AUC 0.84--0.88);
