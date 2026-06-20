@@ -1,0 +1,71 @@
+{
+  "ckpt": "CIFAR100-DDPM",
+  "n_m": 64,
+  "n_nm": 64,
+  "decomp_all": 0.8352,
+  "decomp_mu_only": 0.8438,
+  "decomp_var_only": 0.8354,
+  "decomp_sparsity_only": 0.8081,
+  "channel_tests": {
+    "late_down_t100": {
+      "n": 256,
+      "sig": 1,
+      "pct": 0.4
+    },
+    "late_down_t400": {
+      "n": 256,
+      "sig": 0,
+      "pct": 0.0
+    },
+    "late_down_t700": {
+      "n": 256,
+      "sig": 0,
+      "pct": 0.0
+    },
+    "mid_0_t100": {
+      "n": 256,
+      "sig": 1,
+      "pct": 0.4
+    },
+    "mid_0_t400": {
+      "n": 256,
+      "sig": 0,
+      "pct": 0.0
+    },
+    "mid_0_t700": {
+      "n": 256,
+      "sig": 1,
+      "pct": 0.4
+    },
+    "mid_1_t100": {
+      "n": 256,
+      "sig": 4,
+      "pct": 1.6
+    },
+    "mid_1_t400": {
+      "n": 256,
+      "sig": 1,
+      "pct": 0.4
+    },
+    "mid_1_t700": {
+      "n": 256,
+      "sig": 0,
+      "pct": 0.0
+    },
+    "early_up_t100": {
+      "n": 256,
+      "sig": 17,
+      "pct": 6.6
+    },
+    "early_up_t400": {
+      "n": 256,
+      "sig": 1,
+      "pct": 0.4
+    },
+    "early_up_t700": {
+      "n": 256,
+      "sig": 0,
+      "pct": 0.0
+    }
+  }
+}
