@@ -1,0 +1,22 @@
+{
+  "checkpoint": "DDIM-750k",
+  "n_m": 128,
+  "n_nm": 128,
+  "decomp_all": 0.869,
+  "decomp_mu_only": 0.8712,
+  "decomp_var_only": 0.8692,
+  "decomp_sparsity_only": 0.8681,
+  "target": {
+    "auc": 0.86853,
+    "tpr_1pct": 0.273438,
+    "tpr_01pct": 0.0,
+    "direction": "higher=member"
+  },
+  "shuffle_auc": 0.477966,
+  "ablation": {
+    "drop_late_down": 0.866455,
+    "drop_mid_0": 0.869812,
+    "drop_mid_1": 0.869751,
+    "drop_early_up": 0.87439
+  }
+}
