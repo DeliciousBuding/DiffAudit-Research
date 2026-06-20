@@ -37,7 +37,7 @@ the default-branch README on `secmi-ldm`.
 | `scripts/secmi_ldm_pokemon.sh` | Invokes `python -m src.mia.secmi --dataset pokemon --dataset-root ./datasets --ckpt-path ./checkpoints/sd-pokemon-checkpoint`; it assumes local dataset and checkpoint directories. |
 | `scripts/secmi_sd_laion.sh` | Invokes the same runner with `--dataset laion`, local `./datasets`, and `runwayml/stable-diffusion-v1-5`; it does not provide a member/nonmember response packet. |
 | `src/mia/secmi.py` | Loads Pokémon with `load_from_disk(dataset_root/pokemon)`, COCO with `coco_split.yaml`, and LAION from local `laion-2.5k/images` plus `captions.npy`; these artifacts are referenced as local files, not published manifests. |
-| `src/mia/secmi.py` checkpoint handling | The script hardcodes `/home/jd3734@drexel.edu/workspace/SecMI-LDM/checkpoints/sd-pokemon-checkpoint` before running, overriding the CLI checkpoint path. |
+| `src/mia/secmi.py` checkpoint handling | The script hardcodes `<UPSTREAM_PATH>` before running, overriding the CLI checkpoint path. |
 
 ## Gate Result
 
