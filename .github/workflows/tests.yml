@@ -27,7 +27,7 @@ jobs:
           cache: pip
 
       - name: Run Fast PR Gate
-        run: python -X utf8 scripts/run_pr_checks.py
+        run: python -X utf8 scripts/util/run_pr_checks.py
 
   full-checks:
     name: full-checks
@@ -59,7 +59,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
-          python scripts/run_docs_checks.py
+          python scripts/util/run_docs_checks.py
 
       - name: Verify CLI Install
         run: |
