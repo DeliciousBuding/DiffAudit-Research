@@ -1,0 +1,25 @@
+{
+  "checkpoint": "DDIM-750k",
+  "experiment": "matched_percent_channel_knockout",
+  "baseline_auc": 0.894531,
+  "pct_channels": 0.04,
+  "n_seeds": 30,
+  "targeted": {
+    "mean": 0.6677409333333333,
+    "std": 0.028555530856178474
+  },
+  "random": {
+    "mean": 0.6636393666666668,
+    "std": 0.029406612863475085
+  },
+  "comparison": {
+    "mean_diff": 0.004101566666666656,
+    "std_diff": 0.04276251976276561,
+    "cohens_d": 0.09591499026299175,
+    "p_value": 0.6033352351681038,
+    "ci_95": [
+      -0.011200804504020442,
+      0.019403937837353752
+    ]
+  }
+}
