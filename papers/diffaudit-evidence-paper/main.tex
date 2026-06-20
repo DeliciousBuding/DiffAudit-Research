@@ -875,6 +875,19 @@ Targeted knockout of membership-correlated channels does not suppress
 H1 more than random deletion. The activation signal is not locally
 editable by sparse channel removal.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\linewidth]{figures/h1_daab_figure.pdf}
+\caption{\textbf{H1 Distributed Activation-Amplitude Bias.}
+(a) Cross-checkpoint replication: AUC remains 0.84--0.88 across DDPM 800k and DDIM 750k.
+(b) Signal decomposition: activation magnitude ($\mu_{\text{abs}}$) carries 78\% of LR coefficient mass.
+(c) Matched-percent knockout: neither targeted top-4\% nor random 4\% deletion meaningfully reduces AUC,
+confirming distributed redundancy.
+(d) AUC stays stable under scale-up while TPR@1\%FPR collapses, demonstrating the gap between
+aggregate separability and forensic admissibility.}
+\label{fig:h1-daab}
+\end{figure*}
+
 \section{Negative and Support Evidence}
 
 Bounded non-admitted routes are retained when they answer a route-selection
