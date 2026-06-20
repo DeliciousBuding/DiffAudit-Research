@@ -1193,6 +1193,36 @@ the 95\% CI and interpret the result as evidence against a large
 targeted--random disparity rather than as proof of exact equivalence.
 Point-role claims require row or target-score arrays.
 
+\subsection{Statistical Methods}
+
+All AUC values are computed via the trapezoidal rule on empirical ROC curves.
+For matched-percent channel knockout, we report the mean $\Delta$AUC
+(targeted $-$ random) across 30 random seeds, the standard deviation, Cohen's
+$d$, a paired $t$-test, and the 95\% confidence interval on the mean
+difference. The 30-seed design provides approximately 25\% power for
+$d{=}0.10$ and 80\% power for $d{=}0.53$; we therefore interpret
+narrow CIs centered near zero as evidence against large disparities rather
+than as definitive equivalence tests. No correction for multiple comparisons
+is applied across the three knockout experiments (CIFAR-10 DDPM, DDIM,
+CIFAR-100) since each tests an independent hypothesis on a separate
+checkpoint or dataset.
+
+For cross-dataset comparisons, we report empirical $\Delta$AUC values without
+formal interaction tests. The three-way temporal comparison (Table~\ref{tab:three-way-temporal}) involves two datasets (N=2 at the dataset level), which is insufficient
+for inferential statistics on the dataset factor. We therefore describe
+patterns (distributed vs.\ concentrated) without attributing causation to
+specific dataset properties (class count, samples per class, or training
+duration, which are confounded in the current design).
+
+Low-FPR TPR values are empirical finite-tail readouts tied to the nonmember
+denominator $n_0$ and the false-positive cap implied by $n_0$. For
+TPR@1\%FPR with $n_0{=}128$, the false-positive cap is 1 (one nonmember may
+score above the threshold by chance), and the TPR estimate carries
+substantial binomial variance. We report these values as packet summaries
+without bootstrap intervals. For TPR@0.1\%FPR, the rule-of-three requires
+$n_0{\geq}3000$ for calibrated claims; our $n_0{=}128$ supports only
+TPR@1\%FPR reporting.
+
 \subsection{Release and Validity Threats}
 
 Reusable diffusion MIA artifacts should expose target/checkpoint identities,
