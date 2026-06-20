@@ -10,7 +10,9 @@ notes and closed experiment records are in `legacy/workspaces/`.
 | White-box | [white-box/README.md](white-box/README.md) | [../legacy/workspaces/white-box/2026-04/](../legacy/workspaces/white-box/2026-04/) |
 | Implementation | [implementation/README.md](implementation/README.md) | [../legacy/workspaces/implementation/2026-04/](../legacy/workspaces/implementation/2026-04/) |
 | Intake | [intake/README.md](intake/README.md) | [../legacy/workspaces/intake/2026-04/](../legacy/workspaces/intake/2026-04/) |
-| Runtime | [runtime/README.md](runtime/README.md) | Current-only workspace. |
+| Cross-box | [cross-box/README.md](cross-box/README.md) | Archived. Conclusions in `docs/evidence/`. |
+| Defense | [defense/README.md](defense/README.md) | Archived. README at `docs/evidence/defense-artifact-gate-audit-2026-05-23.md`. |
+| Xuchi repro | [xuchi-reproduction-20260516/](xuchi-reproduction-20260516/) | Completed. Key artifacts saved to `legacy/`. |
 
 Rules:
 

@@ -9,6 +9,8 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
+<!-- Synced with README.zh-CN.md as of 2026-06-20 -->
+
 [![Tests](https://github.com/DeliciousBuding/DiffAudit-Research/actions/workflows/tests.yml/badge.svg)](https://github.com/DeliciousBuding/DiffAudit-Research/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-3776AB)
 ![Status](https://img.shields.io/badge/status-research%20prototype-0F766E)
@@ -60,10 +62,11 @@ flowchart LR
 ```powershell
 git clone https://github.com/DeliciousBuding/DiffAudit-Research.git
 cd DiffAudit-Research
-conda env create -f environment.yml
+conda env create -f environment.yml           # CPU-only (CI / docs checks)
+conda env create -f environment.gpu-cu128.yml # GPU with CUDA 12.8 (research)
 conda activate diffaudit-research
-python scripts/bootstrap_research_env.py --install
-python scripts/verify_env.py
+python scripts/util/bootstrap_research_env.py --install
+python scripts/util/verify_env.py
 python -m diffaudit --help
 ```
 

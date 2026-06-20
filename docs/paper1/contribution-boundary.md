@@ -10,7 +10,7 @@ Research/                    → Paper 1 (DiffAudit independent MIA audit)
   docs/paper1/               Paper 1 evidence package (this directory)
   workspaces/                H2 candidate, PIA, Recon detailed docs
 
-Retrace-Baseline/            → 惊鸿/师兄 watermark paper (collaboration)
+Retrace-Baseline/            → watermark paper team (collaboration)
   outputs/baseline_tree_ring/ Tree-Ring results (our contribution to their paper)
   outputs/baseline_gs/       Gaussian Shading results (pending)
   outputs/baseline_ss/       Stable Signature results (pending)
@@ -35,8 +35,8 @@ Runtime-Server/              → Not relevant to papers
 
 ## What Paper 1 Does NOT Own
 
-- Tree-Ring, Gaussian Shading, Stable Signature results → belong to 惊鸿/师兄's watermark paper
-- Key-leakage collapse experiments → belong to 惊鸿/师兄's watermark paper
+- Tree-Ring, Gaussian Shading, Stable Signature results → belong to the watermark paper team
+- Key-leakage collapse experiments → belong to the watermark paper team
 - Defense-Transfer experiments → separate blocked line
 - Platform/Runtime code → not paper-relevant
 
@@ -45,13 +45,13 @@ Runtime-Server/              → Not relevant to papers
 | Paper | Lead | Contributor Role |
 |-------|------|-----------------|
 | Paper 1 (MIA audit) | DiffAudit Research Team | All experiments, writing, analysis |
-| Watermark paper | 惊鸿 / 师兄 | New watermark scheme (their core contribution) |
+| Watermark paper | Collaborator A | New watermark scheme (their core contribution) |
 | Watermark paper | Authors | Baseline reproduction + collapse experiments |
 
 ## Data Sharing Rules
 
 1. Paper 1 data (Research/) can be shared as anonymous artifact package
-2. Watermark baseline data (Retrace-Baseline/) should NOT be shared without 惊鸿/师兄 approval
+2. Watermark baseline data (Retrace-Baseline/) should NOT be shared without watermark paper team approval
 3. scnet DCU data is external closed evidence — use as weak-signal support only
 4. Do NOT mix Research MIA data into the watermark paper
 5. Do NOT mix watermark baseline data into Paper 1

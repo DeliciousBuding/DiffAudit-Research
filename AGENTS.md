@@ -24,6 +24,11 @@ Read in this order:
 10. `<DIFFAUDIT_ROOT>/Research/docs/evidence/workspace-evidence-index.md`
 11. The relevant `workspaces/<direction>/README.md` and `plan.md`
 
+Note: `docs/start-here/` files may be stale. A freshness check runs as part of the
+weekly CI job (`scripts/util/run_docs_checks.py`). If docs/start-here/ files are
+flagged as >30 days stale, refresh them before relying on their content for a new
+session.
+
 Do not start from memory or old chat context. Re-anchor on repository files.
 
 ## Current Operating State
@@ -51,6 +56,11 @@ Do not start from memory or old chat context. Re-anchor on repository files.
   choices must transition naturally from the paragraph's claim. Delay technical
   details until the reader knows why they matter. Each paragraph should have one
   clear task and should not restate the same boundary in new words.
+- Internal docs disclosure: paths under `docs/internal/` are explicitly
+  git-ignored and exist only on the canonical workstation. AGENTS.md and
+  ROADMAP.md may reference `docs/internal/` paths that will 404 for anyone who
+  has cloned the repository. This is by design — internal planning is not part
+  of the public repository surface.
 - Reflection/correction discipline: enforce the No-stationery, Two-weak-runs,
   Membership semantics, Response contract, Consumer honesty, and stale-doc
   conflict gates from `ROADMAP.md`. If a step only adds process around a weak
@@ -678,6 +688,9 @@ Current research state lives in:
 - `workspaces/implementation/`
 - `workspaces/intake/`
 - `workspaces/runtime/`
+- `workspaces/cross-box/`
+- `workspaces/defense/`
+- `workspaces/xuchi-reproduction-20260516/`
 
 Historical notes are in `legacy/workspaces/`. Don't add new dated logs to the
 active workspace directories unless they are current summaries.
@@ -710,3 +723,185 @@ python -X utf8 scripts/check_markdown_links.py
 Subagents are optional. Use them for bounded side work such as paper scouting,
 review, or implementation slices with explicit write scope. Read-only is the
 default. The main agent owns roadmap truth and result promotion.
+
+## Governance Rules (2026-06-20)
+
+### S.U.P.E.R Principles
+
+Every file, directory, and commit in this repository must satisfy five gates:
+
+| Gate | Principle | Test |
+|------|-----------|------|
+| **S** | Single-purpose | One directory = one concern. No kitchen-sink folders. |
+| **U** | Unambiguous naming | kebab-case, descriptive, no abbreviations that require a glossary. |
+| **P** | Public-only surface | No internal hostnames, workstation paths, secrets, operator notes, or private progress in committed files. |
+| **E** | Evidence-bound | Every claim in `docs/evidence/` links to a reproducible experiment with a dated evidence doc. |
+| **R** | Reviewable | Every change is small enough for a reviewer to understand in one sitting. Commits are atomic. |
+
+### Directory Structure
+
+```
+Research/
+  AGENTS.md                  ← This file (public governance)
+  ROADMAP.md                 ← Research roadmap (public)
+  README.md                  ← Entry point for new contributors
+  scripts/                   ← Executable experiment and utility scripts
+    util/                    ← CI, pre-commit, and docs-check utility scripts
+    {section}_{experiment}_{variant}.py  ← Naming convention for experiment scripts
+  configs/                   ← Shared configuration (YAML)
+    assets/                  ← Checkpoint registry, dataset manifests
+      checkpoint-registry.yaml
+  data/                      ← Git-ignored. Contains splits/ and datasets/
+    splits/                  ← Train/val/test split manifests
+  docs/                      ← Documentation (public, except docs/internal/)
+    README.md
+    evidence/                ← One evidence doc per experiment
+    governance/              ← Governance and process documents
+    start-here/              ← Onboarding documents (may be stale; refreshed by CI)
+    product-bridge/          ← Research-to-Platform handoff artifacts
+    internal/                ← Git-ignored. Canonical-workstation-only planning.
+  outputs/                   ← Git-ignored. Generated results, caches, logs.
+  Download/                  ← Git-ignored. External asset acquisition cache.
+  Archive/                   ← Git-ignored. Archived runs, figures, obsolete artifacts.
+  workspaces/                ← Git-ignored. Active experiment workspaces.
+    black-box/
+    gray-box/
+    white-box/
+    cross-box/
+    defense/
+    implementation/
+    intake/
+    runtime/
+    xuchi-reproduction-20260516/
+  legacy/                    ← Historical notes and archived workspaces.
+```
+
+### Naming Conventions
+
+- **Directories**: `kebab-case`, single purpose. No `PascalCase`, no `snake_case`, no spaces, no Chinese characters.
+- **Scripts**: `{section}_{experiment}_{variant}.py`. Script names do NOT include dates — the date is recorded in the evidence doc produced by the script.
+  - Example: `run_commoncanvas_denoising_loss.py`, `review_h2_output_cloud_geometry.py`
+- **Evidence docs**: `{section}-{topic}-YYYY-MM-DD.md`
+  - Example: `black-box-response-contract-acquisition-audit.md`, `rediffuse-stl10-bounded-scout-20260525.md`
+- **All dated filenames**: `YYYY-MM-DD` (ISO 8601). `YYYYMMDD` is forbidden.
+- **Config files**: `kebab-case.yaml`. Local overrides use `*.local.yaml` (git-ignored).
+
+### Public-Only Boundary
+
+This is a **public repository**. Every committed file must pass `scripts/check_public_surface.py`.
+
+Forbidden in committed files:
+- Absolute workstation paths (`C:\Users\...`, `/home/...`)
+- Internal hostnames, IP addresses, or network topology
+- Secrets, API keys, tokens, or credentials
+- Operator-only instructions or raw agent prompts
+- Private progress notes, deadlines, or collaborator aliases
+
+Use instead:
+- `<DIFFAUDIT_ROOT>` for the repository root
+- `<DOWNLOAD_ROOT>` for the asset download cache
+- Environment variable names (never values)
+- Repository-relative paths
+
+`docs/internal/` is explicitly git-ignored and exists only on the canonical workstation. AGENTS.md and ROADMAP.md may reference `docs/internal/` paths that will 404 for anyone who has cloned the repository. This is by design — internal planning is not part of the public repository surface.
+
+### Git Rules — Hygiene
+
+Before every commit, run:
+
+```bash
+python -X utf8 scripts/util/run_pr_checks.py
+```
+
+Rules enforced:
+
+1. **DO NOT commit training data.** `data/datasets/` is git-ignored. All of `data/` is git-ignored.
+2. **DO NOT commit generated images.** `*.png` and `*.jpg` belong in `outputs/` or `Archive/`, both git-ignored.
+3. **DO NOT commit paper PDFs.** Papers live in the separate `Papers/` monorepo. `papers/` is git-ignored.
+4. **DO NOT commit model weights or checkpoints.** `*.pt`, `*.pth`, `*.ckpt`, `*.safetensors` are git-ignored.
+5. **DO NOT commit secrets or local config.** `configs/*.local.yaml` and `.env` files are git-ignored.
+6. **DO NOT rewrite history or force-push** without a separate approved audit.
+
+### Git Rules — Workflow
+
+1. Check `.gitignore` coverage before adding new file types.
+2. `git status` before every commit — no accidental large binaries, no stray `data/` or `outputs/` files.
+3. Commit atomically: one logical change per commit.
+4. Push after every completed step; do not accumulate changes in the working tree.
+5. No `git reset --hard` or destructive operations without explicit approval.
+
+### Experiment Workflow
+
+Every experiment follows this data flow:
+
+```
+Download/ → data/splits/ → scripts/ → outputs/ → docs/evidence/
+```
+
+Steps:
+
+1. **Acquire**: External assets go into `Download/` (git-ignored).
+2. **Split**: Create or verify train/val/test split manifests in `data/splits/`.
+3. **Run**: Execute the experiment script from `scripts/`. Every script must produce a machine-readable result artifact in `outputs/`.
+4. **Evidence**: Write exactly one evidence doc in `docs/evidence/` per experiment, following the evidence document template.
+5. **Verdict**: The evidence doc must contain a one-sentence conclusion (Verdict header).
+
+### Evidence Document Template
+
+Every file in `docs/evidence/` MUST contain the following header fields:
+
+```markdown
+# {section}: {topic}
+
+- **Date**: YYYY-MM-DD
+- **Status**: draft | review | final | superseded
+- **Verdict**: One-sentence conclusion.
+```
+
+`scripts/util/run_docs_checks.py` enforces this. A pre-commit hook rejects new `.md` files in `docs/evidence/` that are missing any of the three header fields.
+
+### Script-Path Contract
+
+All experiment scripts MUST use `configs/assets/checkpoint-registry.yaml` for checkpoint paths. Hardcoded absolute paths are forbidden. The pre-commit hook enforces this.
+
+To reference a checkpoint:
+
+```python
+from diffaudit.utils.config import load_checkpoint_registry
+registry = load_checkpoint_registry()
+ckpt_path = registry["ddpm-cifar10-800k"]
+```
+
+### Stale Governance Check
+
+Governance documents (`docs/governance/`) and onboarding documents (`docs/start-here/`) must be reviewed every 30 days. If a document is >30 days stale, the CI job `scripts/util/run_docs_checks.py` will flag it in a GitHub Issue.
+
+To resolve a stale flag, the researcher must either:
+- Update the document content and refresh its internal date marker, or
+- Add an HTML comment marking the file as archived with a date:
+  ```html
+  <!-- archived: YYYY-MM-DD -->
+  ```
+
+### Enforcement — Pre-Commit Hook
+
+The pre-commit hook (`scripts/util/run_pr_checks.py`) rejects:
+
+| Violation | Rule |
+|-----------|------|
+| `YYYYMMDD` in filename | Only `YYYY-MM-DD` allowed in dated filenames |
+| New `.py` in `scripts/` not in a subdirectory | Scripts must live in `scripts/{section}/` or `scripts/util/` |
+| New `.md` in `docs/evidence/` without Date, Status, Verdict headers | Evidence doc template required |
+| Hardcoded absolute paths in scripts | Use checkpoint registry or relative paths |
+| Large files (>1 MB) staged for commit | Check `.gitignore` coverage |
+| Stale governance docs (>30 days) | Update or archive |
+
+### CI Job — Weekly Stale-Doc Check
+
+A weekly CI job runs:
+
+```bash
+python -X utf8 scripts/util/run_docs_checks.py
+```
+
+This checks all governance and onboarding documents for staleness (>30 days since last update). Flagged documents are reported in a GitHub Issue titled "Stale governance documents — week of YYYY-MM-DD". The researcher must resolve each flag by updating the content or marking the file as archived before the next weekly check.

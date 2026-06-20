@@ -11,7 +11,7 @@
 | What | Where | Paper |
 |------|-------|-------|
 | MIA audit evidence (admitted/killed/candidate lines) | `Research/` | **Paper 1** (DiffAudit independent) |
-| Watermark baseline + collapse experiments | `Retrace-Baseline/` | 惊鸿/师兄 watermark paper (collaboration) |
+| Watermark baseline + collapse experiments | `Retrace-Baseline/` | watermark paper team (collaboration) |
 | DCU self-trained DDPM evidence | `scnet/` (closed) | Paper 1 (external weak-signal evidence) |
 | Defense transfer experiments | `Defense-Transfer/` | Separate line (blocked) |
 
