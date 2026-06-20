@@ -832,10 +832,17 @@ targeted top-4\% $\Delta\text{AUC}{=}{+}0.008$, and random 4\% matched
 deletions produced a similar mean effect
 ($\mu_{\Delta}{=}{+}0.004$, $\sigma{=}0.019$ across 30 seeds),
 with the targeted--random difference not statistically significant
-(Cohen's $d{=}0.21$, $p{=}0.26$, 95\% CI on difference $[-0.003, +0.011]$).
-Neither targeted nor random 4\% knockout meaningfully reduces H1 AUC,
-confirming that the signal is distributed and redundant rather than
-controlled by a compact channel subset.
+(Cohen's $d{=}0.21$, $p{=}0.26$, 95\% CI on difference
+$[-0.003, +0.011]$). The 95\% CI is narrow and centered near zero,
+indicating that the data are compatible with practical equivalence
+at the observed effect size. We note that 30 seeds provides limited
+power for small effects (80\% power at $d{=}0.2$ requires
+$\sim$350 seeds per group); we therefore interpret this result as
+evidence against a large targeted--random disparity rather than as
+a definitive proof of exact equivalence. Neither targeted nor
+random 4\% knockout meaningfully reduces H1 AUC, confirming that
+the signal is distributed and redundant rather than controlled by
+a compact channel subset.
 
 \textbf{Frozen scorer}: random 4\% knockout drops frozen-scorer AUC by
 0.138, but retraining recovers the loss---the signal family is redundant.
@@ -1070,7 +1077,18 @@ current set of 24 boundary cases is selected to test claim-state behavior
 across access levels and failure modes; it is not a systematic or exhaustive
 benchmark, and frequency estimation requires separate corpus sampling. We
 do not claim that the observed proportions generalize to the broader MIA
-literature. Point-role claims require row or target-score arrays.
+literature.
+
+The H1 spatiotemporal causal findings are demonstrated on a single
+architecture family (CIFAR-10 U-Net DDPMs at 750k--800k training steps)
+with two independently trained checkpoints. Whether the causal locus
+(mid\_0 + late\_down at $t{=}100$) generalizes to other architectures
+(DiT, transformer-based diffusion), datasets (higher-resolution, multi-modal),
+or training regimes (larger models, longer training) remains an open question.
+The 30-seed knockout analysis has limited power for small effects; we report
+the 95\% CI and interpret the result as evidence against a large
+targeted--random disparity rather than as proof of exact equivalence.
+Point-role claims require row or target-score arrays.
 
 \subsection{Release and Validity Threats}
 
