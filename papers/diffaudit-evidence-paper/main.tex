@@ -38,10 +38,15 @@ score/response and consumer-boundary gates. C14 currently has
 gate labels support bounded wording for reportable replay and source-documented
 rows within their tiers. C14 supports pre-label weak-rule stress-control wording
 until independent labels exist. Audit-use and field-rate wording require the
-named surfaces. A new activation-subspace fingerprint scout (H1) provides a
-candidate-positive boundary case: internal UNet activation summaries reach stable
-AUC 0.873 with passed shuffle and ablation controls, yet TPR@1\%FPR collapses
-from 0.484 to 0.055 under scale-up from $N=64$ to $N=128$.
+named surfaces. A new activation-subspace scout (H1) provides a candidate-positive
+boundary case: internal UNet activations carry replicated membership signal
+(AUC 0.873 DDPM, 0.841 DDIM) dominated by activation magnitude, yet targeted
+channel knockout reveals the signal is distributed and non-localizable---the
+most membership-correlated channels are systematically less causally important
+than random channels---and TPR@1\%FPR collapses from 0.484 to 0.055 under
+scale-up. We term this Distributed Activation-Amplitude Bias (DAAB):
+real signal does not imply causal localization; causal non-localization
+does not imply forensic admission.
 \end{abstract}
 
 \section{Introduction}
