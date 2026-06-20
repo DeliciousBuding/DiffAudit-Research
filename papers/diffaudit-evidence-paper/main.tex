@@ -950,6 +950,31 @@ consumer boundary before it can support audit wording. Missing surfaces leave
 high AUC open to source-label shortcuts, prompt-conditioned auxiliary features,
 non-replayable scores, or finite-tail artifacts.
 
+To make the protocol directly actionable, Table~\ref{tab:admission-checklist}
+provides a concrete checklist: for any proposed MIA claim, the evaluator
+checks each gate in fixed order and records the first missing surface.
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Claim-admission checklist.} For a proposed MIA claim, evaluate
+each gate in fixed order. The first non-Pass gate is the first blocker;
+the claim narrows to the state supported by preceding Pass gates.}
+\label{tab:admission-checklist}
+\scriptsize
+\begin{tabular}{@{}clL{0.50\linewidth}@{}}
+\toprule
+Order & Gate & Check \\
+\midrule
+G1 & Target identity & Fixed architecture, checkpoint hash, and training provenance? \\
+G2 & Split semantics & Immutable member/nonmember row manifests (not inferred from source pools)? \\
+G3 & Score/response & Per-sample scores, responses, or features for all labeled rows? \\
+G4 & Metric provenance & AUC/TPR replayable from row-level data, or source-documented with provenance? \\
+G5 & Consumer boundary & Can the named consumer access all required artifacts? \\
+G6 & Surface delta & Does a claimed second asset change model, data, modality, or response contract? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 H2 is non-admitted because it lacks an independent response asset and a
 consumer-boundary path. MoFit is non-admitted because target identity, explicit
 row IDs, certified row binding, consumer boundary, and surface delta are
