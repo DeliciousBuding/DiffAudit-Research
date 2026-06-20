@@ -61,6 +61,25 @@ evidence tier.
 | H2 cache-reuse stability 176 to 177 | 0.948990 | [0.930007, 0.966854] | Recorded artifact aggregate CI. | Same-family cache-reuse stability; not cross-model portability. |
 | H2 cache-reuse stability 177 to 176 | 0.970520 | [0.957806, 0.982849] | Recorded artifact aggregate CI. | Same-family cache-reuse stability; not cross-model portability. |
 
+## H1 Activation-Subspace Candidate (2026-06-20)
+
+| Packet | AUC | TPR@1%FPR | TPR@0.1%FPR | Role |
+| --- | ---: | ---: | ---: | --- |
+| CUDA DDPM 800k, N=64 scout | 0.874 | 0.484 | 0.000 | White-box activation scout |
+| CUDA DDPM 800k, N=128 scale-up | 0.873 | 0.055 | 0.000 | Candidate-positive / low-FPR-fragile |
+| CUDA DDIM 750k, N=128 cross-ckpt | 0.841 | 0.078 | 0.000 | Cross-checkpoint generalization |
+
+| Control | DDPM 800k | DDIM 750k |
+| --- | :---: | :---: |
+| Label shuffle AUC | 0.486 | 0.504 |
+| Ablation (drop any site) | 0.867–0.879 | — |
+
+**Claim allowed**: Internal UNet activations carry stable, generalizable membership signal (AUC=0.841–0.873 across two checkpoints) with a mechanistically distinct white-box observable (non-gradient, non-loss).
+
+**Claim blocked**: Reliable low-FPR membership inference. TPR@1%FPR collapses under scale-up (0.484→0.055) and remains below 0.1 across all configs.
+
+**H4 status**: Not released. Signal distributed across UNet sites; no compact risky subspace identified.
+
 ## Boundary and Negative Evidence
 
 | Route | Result | Paper role | Caveat |
