@@ -257,3 +257,5 @@ workspaces/cross-box/05-gsa-pia-full-overlap-20260418-r1/
 workspaces/implementation/reports/
 workspaces/intake/
 workspaces/white-box/smoke-ddpm/
+docs/ask-gpt/
+docs/internal/
