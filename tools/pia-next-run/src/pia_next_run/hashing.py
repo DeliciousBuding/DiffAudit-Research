@@ -1,46 +1,71 @@
 from __future__ import annotations
 
 import hashlib
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Iterable
 
 
-def hash_file(path: Path) -> dict:
-    data = path.read_bytes()
-    return {
-        "path": path.name,
-        "size": len(data),
-        "sha256": hashlib.sha256(data).hexdigest(),
-        "mtime_ns": path.stat().st_mtime_ns,
-    }
+def sha256_bytes(data: bytes) -> str:
+    h = hashlib.sha256()
+    h.update(data)
+    return h.hexdigest()
 
 
-def hash_path(path: Path) -> dict:
-    if path.is_file():
-        file_info = hash_file(path)
+def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        while True:
+            b = f.read(chunk_size)
+            if not b:
+                break
+            h.update(b)
+    return h.hexdigest()
+
+
+@dataclass(frozen=True)
+class HashedFile:
+    relpath: str
+    sha256: str
+    size: int
+    mtime_ns: int
+
+    def to_json(self) -> dict:
         return {
-            "kind": "file",
-            "root": str(path),
-            "algorithm": "sha256",
-            "file_count": 1,
-            "files": [file_info],
-            "tree_sha256": file_info["sha256"],
+            "path": self.relpath,
+            "sha256": self.sha256,
+            "size": self.size,
+            "mtime_ns": self.mtime_ns,
         }
 
-    files = []
-    digests: list[str] = []
-    for item in sorted(p for p in path.rglob("*") if p.is_file()):
-        rel = item.relative_to(path).as_posix()
-        info = hash_file(item)
-        info["path"] = rel
-        files.append(info)
-        digests.append(f"{rel}:{info['sha256']}")
 
-    tree_sha = hashlib.sha256("\n".join(digests).encode("utf-8")).hexdigest()
-    return {
-        "kind": "dir",
-        "root": str(path),
-        "algorithm": "sha256",
-        "file_count": len(files),
-        "files": files,
-        "tree_sha256": tree_sha,
-    }
+def iter_files(root: Path) -> Iterable[Path]:
+    for p in root.rglob("*"):
+        if p.is_file():
+            yield p
+
+
+def hash_tree(root: Path) -> tuple[list[HashedFile], str]:
+    root = root.resolve()
+    files: list[HashedFile] = []
+    for p in iter_files(root):
+        st = p.stat()
+        rel = str(p.relative_to(root)).replace("\\", "/")
+        files.append(
+            HashedFile(
+                relpath=rel,
+                sha256=sha256_file(p),
+                size=int(st.st_size),
+                mtime_ns=int(getattr(st, "st_mtime_ns", int(st.st_mtime * 1e9))),
+            )
+        )
+    files.sort(key=lambda x: x.relpath)
+
+    # Deterministic tree digest based on file paths + file sha256.
+    h = hashlib.sha256()
+    for f in files:
+        h.update(f.relpath.encode("utf-8"))
+        h.update(b"\0")
+        h.update(f.sha256.encode("ascii"))
+        h.update(b"\n")
+    return files, h.hexdigest()

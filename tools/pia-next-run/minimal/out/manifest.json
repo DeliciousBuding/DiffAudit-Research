@@ -1,0 +1,57 @@
+{
+  "created_at": "2026-06-20T18:36:29+08:00",
+  "git": {
+    "available": true,
+    "commit": "5fe3dbe18f8e23471932c0e1c37b1a96600dd00d",
+    "describe": "5fe3dbe-dirty",
+    "dirty": true,
+    "error": null,
+    "is_repo": true
+  },
+  "inputs": {
+    "config": {
+      "algorithm": "sha256",
+      "file_count": 1,
+      "files": [
+        {
+          "mtime_ns": 1781951767382424000,
+          "path": "run_config.json",
+          "sha256": "8c0cc8ada79ac15ee763332e6f08046f142e1ede922721735fcf9d3c352d5d13",
+          "size": 80
+        }
+      ],
+      "kind": "dir",
+      "root": "D:\\Code\\DiffAudit\\Research\\tools\\pia-next-run\\minimal\\config",
+      "tree_sha256": "98c517977172123f37d1cda97b51fe875c7bd6248952fe1f9bd3255a895609f1"
+    },
+    "config_sha256": "98c517977172123f37d1cda97b51fe875c7bd6248952fe1f9bd3255a895609f1",
+    "member_split_root": {
+      "algorithm": "sha256",
+      "file_count": 1,
+      "files": [
+        {
+          "mtime_ns": 1781951764566857800,
+          "path": "hello.txt",
+          "sha256": "c03c11419c4d9c85505730a3d7df011996763e28ef937060a818299ad776c84f",
+          "size": 33
+        }
+      ],
+      "root": "D:\\Code\\DiffAudit\\Research\\tools\\pia-next-run\\minimal\\member-split-root",
+      "tree_sha256": "bdec84fe78f1816cce7568c2a7cb35e7d6fdb03557ed5f5725c863e1555f41ca"
+    }
+  },
+  "paths": {
+    "config": "D:\\Code\\DiffAudit\\Research\\tools\\pia-next-run\\minimal\\config",
+    "member_split_root": "D:\\Code\\DiffAudit\\Research\\tools\\pia-next-run\\minimal\\member-split-root",
+    "repo_root": "D:\\Code\\DiffAudit\\Research\\tools\\pia-next-run\\minimal\\repo-root"
+  },
+  "schema": "pia_next_run.manifest.v1",
+  "validation": {
+    "errors": [],
+    "ok": true,
+    "warnings": [
+      "repo_root has uncommitted changes (git status not clean)",
+      "expected member split file missing: CIFAR10_train_ratio0.5.npz"
+    ]
+  }
+}

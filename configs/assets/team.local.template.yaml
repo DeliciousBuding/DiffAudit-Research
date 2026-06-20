@@ -47,5 +47,5 @@ white_box:
     repo_root: external/DPDM
 
 notes:
-  warning: do-not-commit personal local paths
-  purpose: teammate-local asset binding template for shared plus black-box gray-box white-box lines
+  warning: example-only, do not use as real machine config; do not commit personal local paths
+  purpose: teammate-local asset binding template covering shared, black-box, gray-box, and white-box config lines
