@@ -1,93 +1,67 @@
-﻿# Python
+# =============================================================================
+# .gitignore — DiffAudit Research
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# 1. Python
+# ---------------------------------------------------------------------------
 __pycache__/
-*.py[cod]
+*.pyc
+*.pyo
 *.pyd
 .Python
 .venv/
 venv/
-
-# Build artifacts
-build/
-dist/
 *.egg-info/
-papers/**/build/
+dist/
 
-# Tool caches
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-coverage.xml
-
-# Jupyter
-.ipynb_checkpoints/
-
-# IDEs and editors
-.vscode/
-.idea/
-
-# OS files
-Thumbs.db
-.DS_Store
-
-# Experiment outputs
-/artifacts/
-/runs/
-/tmp/
-/outputs/
-experiments/**/generated-images/
-experiments/**/score-artifacts/
-experiments/**/sample.png
-experiments/**/synthetic-*-assets/
-experiments/_tmp_kandinsky_repro/
-
-# Local or generated session transcripts
-docs/handoff.md
-
-# Environment files
-.env
-.env.*
-configs/*.local.yaml
-configs/assets/*.local.yaml
-!configs/assets/example.local.yaml
-
-# Local environments
-.conda/
-condaenv.*.requirements.txt
-external/*
-!external/README.md
-
-# External research materials
-references/materials/**/*.pdf
-references/materials/**/*.docx
-
-# Generated paper extraction caches
-docs/internal/paper-reports/ocr/
-docs/internal/paper-reports/markdown/
-
-# Binary model/data artifacts
+# ---------------------------------------------------------------------------
+# 2. Datasets (large binary data files)
+# ---------------------------------------------------------------------------
+data/
+*.npz
+*.npy
+*.tar.gz
+*.tgz
+*.tar
+*.zip
+*.7z
+*.rar
 *.bin
+
+# ---------------------------------------------------------------------------
+# 3. Model weights (large checkpoints)
+# ---------------------------------------------------------------------------
 *.pt
 *.pth
 *.ckpt
 *.safetensors
-*.npy
-*.npz
-*.zip
-*.tar
-*.tar.gz
-*.tgz
-*.7z
-*.rar
+Download/
 
-# Runtime job dumps and local logs
-workspaces/runtime/jobs/
-workspaces/**/external/
-workspaces/**/runs/**
-!workspaces/**/runs/
-!workspaces/**/runs/**/
-# Curated run evidence already committed under ignored run trees.
-# Add new exceptions only when promoting durable, reviewable evidence.
+# ---------------------------------------------------------------------------
+# 4. Outputs (all generated results, caches, logs)
+# ---------------------------------------------------------------------------
+outputs/
+/tmp/
+*.stdout.log
+*.stderr.log
+
+# ---------------------------------------------------------------------------
+# 5. PDFs (papers — keep figures/ directories)
+# ---------------------------------------------------------------------------
+papers/*.pdf
+papers/**/*.pdf
+*.pdf
+!figures/
+!**/figures/
+!**/figures/**
+
+# ---------------------------------------------------------------------------
+# 6. Workspaces (stale runs — curated artifacts excepted below)
+# ---------------------------------------------------------------------------
+workspaces/
+
+# --- Curated run evidence (already committed under ignored run trees) ---
 !workspaces/black-box/runs/prompt-response-consistency-20260416-r1/summary.json
 !workspaces/black-box/runs/recon-timestep-probe-20260416-r1/summary.json
 !workspaces/black-box/runs/semantic-aux-fusion-20260416-r1/summary.json
@@ -118,20 +92,14 @@ workspaces/**/runs/**
 !workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r1/summary.json
 !workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r2-seed1/family-scores.json
 !workspaces/gray-box/runs/tmiadm-cifar10-late-window-protocol-probe-20260416-gpu-256-r2-seed1/summary.json
-!workspaces/gray-box/runs/tmiadm-cifar10-late-window-timestep-jitter-defense-20260416-gpu-128-r1/family-scores.json
-!workspaces/gray-box/runs/tmiadm-cifar10-late-window-timestep-jitter-defense-20260416-gpu-128-r1/summary.json
 !workspaces/gray-box/runs/tmiadm-cifar10-protocol-probe-20260416-cpu-32-r1/family-scores.json
 !workspaces/gray-box/runs/tmiadm-cifar10-protocol-probe-20260416-cpu-32-r1/summary.json
 !workspaces/gray-box/runs/tmiadm-cifar10-protocol-probe-20260416-cpu-32-r2-seed1/family-scores.json
 !workspaces/gray-box/runs/tmiadm-cifar10-protocol-probe-20260416-cpu-32-r2-seed1/summary.json
-workspaces/**/runs/**/bridged-model/
-workspaces/**/runs/**/checkpoints/
-workspaces/**/runs/**/generated-images/
-workspaces/**/runs/**/score-artifacts/
-workspaces/**/artifacts/**
-!workspaces/**/artifacts/
-!workspaces/**/artifacts/**/
-# Curated artifact summaries already committed under ignored artifact trees.
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-timestep-jitter-defense-20260416-gpu-128-r1/family-scores.json
+!workspaces/gray-box/runs/tmiadm-cifar10-late-window-timestep-jitter-defense-20260416-gpu-128-r1/summary.json
+
+# --- Curated artifact summaries (already committed under ignored artifact trees) ---
 !workspaces/implementation/artifacts/research-automation-health-20260416.json
 !workspaces/implementation/artifacts/unified-attack-defense-table.json
 !workspaces/implementation/artifacts/recon-product-evidence-card.json
@@ -182,10 +150,8 @@ workspaces/**/artifacts/**
 !workspaces/white-box/artifacts/gsa-diagonal-fisher-feasibility-microboard-20260511.json
 !workspaces/white-box/artifacts/gsa-diagonal-fisher-layer-scope-20260511-*.json
 !workspaces/white-box/artifacts/gsa-diagonal-fisher-stability-board-20260511-*.json
-*.stdout.log
-*.stderr.log
 
-workspaces/gray-box/assets/**
+# --- Curated asset manifests ---
 !workspaces/gray-box/assets/
 !workspaces/gray-box/assets/**/
 !workspaces/gray-box/assets/**/manifest*.json
@@ -193,17 +159,101 @@ workspaces/gray-box/assets/**
 !workspaces/gray-box/assets/pia/PROVENANCE.md
 !workspaces/gray-box/assets/**/README.md
 !workspaces/gray-box/assets/**/HANDOFF.md
-workspaces/white-box/assets/**
 !workspaces/white-box/assets/
-workspaces/white-box/assets/gsa/**
 !workspaces/white-box/assets/gsa/
 !workspaces/white-box/assets/gsa/README.md
 !workspaces/white-box/assets/gsa/HANDOFF.md
 !workspaces/white-box/assets/gsa/manifests/
 !workspaces/white-box/assets/gsa/manifests/*.json
+
+# ---------------------------------------------------------------------------
+# 7. IDE
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+
+# ---------------------------------------------------------------------------
+# 8. OS files
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+
+# ---------------------------------------------------------------------------
+# 9. Large pickle files
+# ---------------------------------------------------------------------------
+*.pkl
+
+# =============================================================================
+# Additional project-specific ignores
+# =============================================================================
+
+# Build artifacts
+build/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.*
+configs/*.local.yaml
+configs/assets/*.local.yaml
+!configs/assets/example.local.yaml
+
+# Local environments
+.conda/
+condaenv.*.requirements.txt
+external/*
+!external/README.md
+
+# External research materials
+references/materials/**/*.pdf
+references/materials/**/*.docx
+
+# Generated paper extraction caches
+docs/internal/paper-reports/ocr/
+docs/internal/paper-reports/markdown/
+
+# Local or generated session transcripts
+docs/handoff.md
+
+# Experiment artifacts
+experiments/**/generated-images/
+experiments/**/score-artifacts/
+experiments/**/sample.png
+experiments/**/synthetic-*-assets/
+experiments/_tmp_kandinsky_repro/
+
+# Workspace runtime dumps and checkpoints
+workspaces/runtime/jobs/
+workspaces/**/external/
+workspaces/**/runs/**/bridged-model/
+workspaces/**/runs/**/checkpoints/
+workspaces/**/runs/**/generated-images/
+workspaces/**/runs/**/score-artifacts/
+
+# Legacy reproduction artifacts
 workspaces/xuchi-reproduction-20260516/final_rediffuse_combined/result.csv
 scripts/preflight_rediffuse_stl10.py
-papers/paper.pdf
-papers/diffaudit-evidence-paper/paper.pdf
-data/datasets/
-outputs/
+# Pickle cache files
+*.pkl
+
+# Generic log files
+*.log
+
+# Compiled paper artifacts
+papers/diffaudit-evidence-paper/main.pdf
+
+# Stale workspace directories
+workspaces/black-box/kandinsky-diagnostics/
+workspaces/cross-box/05-gsa-pia-full-overlap-20260418-r1/
+workspaces/implementation/reports/
+workspaces/intake/
+workspaces/white-box/smoke-ddpm/
