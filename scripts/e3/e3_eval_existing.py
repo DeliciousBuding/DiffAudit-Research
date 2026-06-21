@@ -12,9 +12,8 @@ from pathlib import Path
 import numpy as np
 import torch
 
-PROJECT = Path(__file__).resolve().parents[1]
-MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"
-# GONE - module removed during restructuring; no replacement found on disk
+PROJECT = Path(__file__).resolve().parents[2]  # Research/
+MATERIALS = PROJECT / "training" / "ddpm-cifar10"
 sys.path.insert(0, str(MATERIALS))
 
 from model_unet import UNet

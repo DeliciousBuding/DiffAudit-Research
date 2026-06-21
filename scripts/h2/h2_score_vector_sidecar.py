@@ -31,8 +31,8 @@ import torch.nn.functional as F
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics as skm
 
-PROJECT = Path(__file__).resolve().parents[1]
-MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"
+PROJECT = Path(__file__).resolve().parents[2]  # Research/
+MATERIALS = PROJECT / "training" / "ddpm-cifar10"
 sys.path.insert(0, str(MATERIALS))
 
 from model_unet import UNet

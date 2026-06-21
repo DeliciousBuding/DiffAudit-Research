@@ -8,10 +8,7 @@ from pathlib import Path
 from collections import OrderedDict
 
 DOWNLOAD = Path("D:/Code/DiffAudit/Download")
-# GONE - module removed during restructuring; no replacement found on disk
-# REDIFFUSE_ROOT = Path("D:/Code/DiffAudit/Research/references/materials/Rediffuse/DDPM")
-# sys.path.insert(0, str(REDIFFUSE_ROOT))
-REDIFFUSE_ROOT = Path("D:/Code/DiffAudit/Research/references/materials/Rediffuse/DDPM")  # GONE
+# (sys.path to training/ddpm-cifar10 only needed if importing model_unet)
 
 import torch
 

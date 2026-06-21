@@ -4,9 +4,8 @@ from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics as skm
 
-PROJECT = Path(__file__).resolve().parents[1]
-# GONE - module removed during restructuring; no replacement found on disk
-# sys.path.insert(0, str(PROJECT/'references'/'materials'/'Rediffuse'/'DDPM'))
+PROJECT = Path(__file__).resolve().parents[2]  # Research/
+sys.path.insert(0, str(PROJECT / "training" / "ddpm-cifar10"))
 from model_unet import UNet
 from dataset_utils import load_member_data
 

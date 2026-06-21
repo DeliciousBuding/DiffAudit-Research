@@ -8,9 +8,9 @@ from sklearn.decomposition import PCA
 from sklearn import metrics as skm
 import torch
 
-PROJECT = Path('D:/Code/DiffAudit/Research')
-MATERIALS = PROJECT/'references'/'materials'/'Rediffuse'/'DDPM'
-sys.path.insert(0,str(MATERIALS))
+PROJECT = Path(__file__).resolve().parents[2]  # Research/
+MATERIALS = PROJECT / "training" / "ddpm-cifar10"
+sys.path.insert(0, str(MATERIALS))
 from model_unet import UNet
 from dataset_utils import load_member_data
 

@@ -2,8 +2,8 @@ import sys, os, json
 from pathlib import Path
 
 # Quick check: with the exact load_model() code from h1_activation_scout.py
-PROJECT = Path("D:/Code/DiffAudit/Research")
-MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"
+PROJECT = Path(__file__).resolve().parents[2]  # Research/
+MATERIALS = PROJECT / "training" / "ddpm-cifar10"
 sys.path.insert(0, str(MATERIALS))
 
 import torch

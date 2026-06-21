@@ -21,11 +21,9 @@ from torch.utils.tensorboard import SummaryWriter
 from sklearn import metrics
 
 # --- Paths ---
-PROJECT = Path(__file__).resolve().parents[1]
-# GONE - module removed during restructuring; no replacement found on disk
-# MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"
-# sys.path.insert(0, str(MATERIALS))
-MATERIALS = PROJECT / "references" / "materials" / "Rediffuse" / "DDPM"  # GONE
+PROJECT = Path(__file__).resolve().parents[2]  # Research/
+MATERIALS = PROJECT / "training" / "ddpm-cifar10"
+sys.path.insert(0, str(MATERIALS))
 
 from model_unet import UNet
 from diffusion import GaussianDiffusionTrainer, GaussianDiffusionSampler
