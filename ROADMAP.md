@@ -1,0 +1,78 @@
+# DiffAudit Research Roadmap
+
+> Last updated: 2026-06-30
+> Scope: current Research execution board. Historical long-form roadmap is in `docs/ROADMAP.md`.
+
+## Current Baseline
+
+Paper 1 is in Phase G: H1/DAAB run-dynamics replication.
+
+The active scientific question is no longer whether H1 exists. It is whether activation-level membership evidence is controlled mainly by training trajectory / run identity, and whether high-AUC runs retain N=512 low-FPR value while weak runs collapse.
+
+Current verified facts:
+
+| Result | Status | Evidence |
+| --- | --- | --- |
+| DDPM-750k matched control | Complete | `docs/evidence/ddpm-750k-step-matched-control-2026-06-25.md` |
+| H1 v2 N=128 unified table | Complete | `outputs/h1-scout-750k/`, `outputs/h1-scout-800k-v2/`, `outputs/h1-scout-ddim-750k/`, `outputs/h1-scout-800k-same-trajectory/` |
+| Independent DDPM-800k N=512 | Complete | `outputs/h1-scout-800k-independent-n512/summary.json` |
+| DDIM-750k N=512 | Complete | `outputs/h1-scout-ddim-750k-n512/summary.json` |
+| Same-trajectory DDPM-800k N=512 | Documented, raw artifact pending | Evidence memo records AUC=0.576, but `outputs/h1-scout-800k-same-trajectory-n512/h1_results.json` is still missing |
+| seed=43 training | Paused | Latest durable checkpoint is `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step624000.pt`; continue from saved state, not heartbeat |
+
+## Active Task Board
+
+### P0: Evidence Hygiene
+
+- [ ] Re-run or recover same-trajectory DDPM-800k N=512 raw output into `outputs/h1-scout-800k-same-trajectory-n512/`.
+- [ ] Add `summary.json` beside every Phase G H1 output that is cited by the paper.
+- [ ] Keep `docs/paper1/frozen-claim-matrix.md`, `docs/evidence/experiment-master-log.md`, and `Papers/diffaudit-evidence-paper/evidence_bank.md` aligned after each Phase G result.
+
+Current blocker: the 2026-06-30 re-run attempt reached model load but failed while reading local CIFAR-10 with `PermissionError` on `<DOWNLOAD_ROOT>/datasets/cifar10/cifar-10-batches-py/data_batch_1`. Direct `File.OpenRead`, `Get-Acl`, `icacls`, and `takeown` attempts still could not read or repair the batch files. Treat this as a local data access issue, not a CUDA/model failure; the next clean fix is to re-extract CIFAR-10 into a readable directory or point the loader at a known-good copy.
+
+### P1: seed=43 Run-Dynamics Replication
+
+- [ ] Resume seed=43 training from the durable 624k checkpoint to 750k.
+- [ ] Run H1 scout at 750k with the parameterized `scripts/h1/h1_activation_scout.py`.
+- [ ] Continue seed=43 from 750k to 800k only after the 750k scout is archived.
+- [ ] Run H1 scout at 800k.
+- [ ] Run fine temporal grid at 800k.
+- [ ] Run N=512 tail only if the seed=43 800k H1 scout has AUC > 0.70.
+
+Decision value: seed=43 decides whether the current two-cluster N=512 pattern is a stable run-dynamics phenomenon or a two-run accident.
+
+### P2: seed=44 Decision Gate
+
+Run seed=44 only after seed=43 800k:
+
+| seed=43 result | Decision |
+| --- | --- |
+| AUC and fine-grid pattern close to seed42 same-trajectory | seed=44 optional |
+| AUC differs by 0.05-0.10 or pattern changes | seed=44 recommended |
+| AUC differs by >0.10, approaches the independent strong run, or creates a third pattern | seed=44 required |
+
+### P3: H4 Site-Time Attenuation Scout
+
+Do not run H4 before seed=43 fine-grid results. H4 is a bounded site-time intervention scout, not a defense claim. It must report H1 AUC/TPR deltas plus utility-cost proxies.
+
+## Current Scientific Claims
+
+Allowed:
+
+- H1/DAAB is a real activation-level candidate signal across tested checkpoints.
+- Signal strength is training-trajectory sensitive.
+- DDIM-750k is stronger than step-matched DDPM-750k.
+- Same-trajectory 750k->800k amplification is modest compared with the independent DDPM-800k gap.
+- N=512 currently shows a strong cluster around 0.81 and a weak cluster around 0.56-0.58, but the same-trajectory 800k weak-cluster raw artifact must be archived before final paper use.
+
+Blocked:
+
+- H1 is admitted evidence.
+- AUC > 0.8 is universal for DAAB.
+- DDPM always produces temporally distributed H1 geometry.
+- TPR@0.1%FPR claims at N=512.
+- H4 is an effective defense.
+
+## Non-Active Lines
+
+Do not reopen H2 same-cache sweeps, C14 metadata expansion, scnet/DCU matrices, Beans/Fashion/MIDST repeats, MoFIT GPU work, or Retrace-Baseline work unless a new user decision explicitly changes the route.

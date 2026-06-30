@@ -1,6 +1,7 @@
 # DiffAudit Evidence Claim Matrix (Frozen)
 
 > 冻结时间：2026-06-19
+> **2026-06-30 更新**: H1/DAAB 行已纳入 Phase G run-dynamics baseline。旧数字（DDPM-800k AUC=0.873, DDIM-750k AUC=0.841）已被统一脚本重新评估的 v2 数字取代；same-trajectory DDPM-800k N=512 数字仍需补齐 raw JSON。
 > 用途：Paper 1 submission 的唯一数据源。所有 Agent 写作必须引用本表，不得使用其他数字。
 > 规则：每个方法一行，包含允许的声明（allowed claim）和禁止的声明（blocked claim）。
 
@@ -60,9 +61,9 @@
 | 14 | **Beans LoRA loss** | Black-box | LoRA probe | 0.414 | — | 25 | weak |
 | 15 | **ReDiffuse DiT** | Black-box | DiT local | ~0.5 | — | — | weak |
 | 16 | **Semantic-Aux** | Black-box | Fusion | +0.002 | — | — | weak |
-| 17 | **E3 CUDA DDPM 800k PIA** | Gray-box | NVIDIA UNet CIFAR-10 | 0.605 | — | N=5000 | weak |
-| 18 | **E3 CUDA DDIM 750k PIA** | Gray-box | NVIDIA UNet CIFAR-10 | 0.605 | — | N=5000 | weak |
-| 19 | **E3 CUDA DDPM SecMI** | Gray-box | NVIDIA UNet CIFAR-10 | 0.459 | — | N=5000 | weak |
+| 17 | **E3 CUDA DDPM 800k PIA** | Gray-box | NVIDIA UNet CIFAR-10 | 0.605 | — | N=5000 | weak (PIA bug: eps_getter=None; SecMI only) |
+| 18 | **E3 CUDA DDIM 750k PIA** | Gray-box | NVIDIA UNet CIFAR-10 | 0.605 | — | N=5000 | weak (PIA bug) |
+| 19 | **E3 CUDA DDPM SecMI (all ckpts)** | Gray-box | NVIDIA UNet CIFAR-10 | 0.459 | — | N=5000 | weak |
 | 23 | **H2 Score-Vector Geometry** | White-box sidecar | CUDA UNet CIFAR-10 | 0.681 | — | N=128/128 | weak/killed |
 
 ### Allowed Claims (H2 Score-Vector Sidecar) — new 2026-06-20
@@ -148,27 +149,44 @@
 
 ---
 
-## Candidate / Pending (2 rows)
+## Candidate / Pending (4 rows)
 
-| # | Method | Access | Model/Data | Status | Blocker |
-|---|--------|--------|-----------|--------|--------|
-| 22 | **PIA/TMIA-DM** | Gray-box | GPU512 | candidate | Pending admission review |
-| 24 | **H1 Activation-Subspace (DAAB)** | White-box activation | CUDA UNet CIFAR-10 | **0.873** | 0.055 | 128/128 | candidate-positive / tail-fragile |
+| # | Method | Access | Model/Data | AUC | TPR@1%FPR | N | Status |
+|---|--------|--------|-----------|:---:|:---------:|:---:|--------|
+| 22 | **PIA/TMIA-DM** | Gray-box | GPU512 | — | — | — | candidate / pending admission review |
+| 24 | **H1 Activation-Subspace (DAAB) v2** | White-box activation | CUDA UNet CIFAR-10, 4 ckpts | **0.648–0.872** | 0.039–0.227 | 128/128 | candidate-positive / run-sensitive |
+| 25 | **H1 DDPM-750k (matched control)** | White-box activation | Self-trained ~125h, exact 750k steps | **0.648** | 0.094 | 128/128 | step-count confound resolution |
+| 26 | **H1 N=512 tail cluster** | White-box activation | DDPM/DDIM CIFAR-10 scaled | **0.560–0.815** | 0.014–0.158 | 512/512 | run-sensitive; same-trajectory raw artifact pending |
 
-### Allowed Claims (H1/DAAB) — final 2026-06-20
-- Internal UNet activations carry a replicated aggregate membership signal dominated by activation magnitude (AUC=0.873 DDPM 800k, AUC=0.841 DDIM 750k)
-- Signal passes label-shuffle control (AUC=0.486) and does not depend on a single UNet site
+### Allowed Claims (H1/DAAB v2) — updated 2026-06-25
+
+H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PCA=6, 4 sites × 3 timesteps, 42 features). All prior numbers (DDPM-800k 0.873, DDIM-750k 0.841) are superseded.
+
+**Phase G unified comparison:**
+
+| Checkpoint | AUC | TPR@1% | Shuffle AUC |
+|------------|-----|--------|-------------|
+| DDPM-750k | 0.648 | 0.094 | 0.484 |
+| DDPM-800k same-trajectory | 0.717 | 0.039 | 0.507 |
+| DDPM-800k independent | 0.872 | 0.227 | 0.492 |
+| DDIM-750k | 0.856 | 0.109 | 0.481 |
+
+- Internal UNet activations carry detectable, above-chance membership signal across all four checkpoints. Signal strength is training-trajectory dependent (0.648–0.872)
+- DDIM-750k substantially exceeds step-matched DDPM-750k (ΔAUC=+0.208), confirming DDIM advantage is not a step-count artifact. The original DDPM-800k vs DDIM-750k comparison was conservative with respect to DDIM
+- Same-trajectory DDPM-750k→800k increases AUC only from 0.648 to 0.717 (Δ=+0.069). The independent DDPM-800k gap (0.872−0.648=+0.224) is therefore dominated by run identity rather than pure step count
+- Signal passes label-shuffle control (four checkpoints: 0.481–0.507) and does not depend on a single UNet site
 - H1 provides a mechanistically distinct white-box observable: non-gradient, non-loss, activation-based
-- Membership-correlated channels are NOT causal bottlenecks: targeted top-10 deletion $\Delta$AUC{=}{+}0.008 falls within random variation ($\sigma{=}0.015$); targeted top-4\% deletion $\Delta$AUC{=}{+}0.008 is statistically indistinguishable from matched random 4\% deletion ($\mu_{\Delta}{=}{+}0.004$, $\sigma{=}0.019$, 30 seeds, Cohen's $d{=}0.21$, $p{=}0.26$, 95\% CI $[-0.003, +0.011]$). The data rule out a large targeted-random disparity but do not prove exact equivalence
-- Signal is channel-level distributed and redundant — retrained scorer adapts to channel deletion
-- **Fine temporal grid (8 timesteps, both checkpoints)**: DDPM produces temporally DISTRIBUTED signal (max individual knockout $\Delta{=}{+}0.029$); DDIM configuration produces temporally CONCENTRATED signal (max $\Delta{=}{+}0.221$, 7.6$\times$ larger). Channel-level distribution holds for both; temporal distribution varies across configurations
-- H1 is a worked example of "Distributed Activation-Amplitude Bias (DAAB)": a real, replicated, mechanistically characterized activation-subspace membership trace. "Distributed" in DAAB refers to channel-level and statistic-level non-localizability; the signal is not controlled by a compact set of individually significant channels. Spatial and temporal geometry may vary across training and dataset configurations without invalidating the channel-level distribution
-- Core insight: "Real signal does not imply causal localization; causal non-localization does not imply forensic admission."
-- Additional insight: "Membership signal geometry varies across tested training and dataset configurations. With two datasets and three compatible checkpoints, we cannot attribute the difference to class count, samples per class, training duration, or objective/sampler choice. The CIFAR-100 and DDIM results are boundary cases showing non-invariance, not causal identification of a controlling factor."
+- **Fine temporal grid (8 timesteps, 4 checkpoints)**: DDPM-750k is moderately concentrated (max |Δ|=0.097), independent DDPM-800k is distributed (0.029), same-trajectory DDPM-800k is more concentrated (0.152), DDIM-750k is strongly concentrated (0.221). Temporal geometry varies with training procedure, training stage, and run identity
+- **AUC-vs-step**: H1 signal stable 0.65–0.71 from 100k–750k within the DDPM-750k trajectory; the independent DDPM-800k high AUC is not reproduced by same-trajectory continuation
+- N=512 tail: DDPM-750k collapses to AUC=0.560, independent DDPM-800k retains AUC=0.815, DDIM-750k retains AUC=0.812. Same-trajectory DDPM-800k N=512 is documented as AUC=0.576 but requires raw JSON archival before final paper use
 - H4 closed: no compact post-training edit target exists
 
-### Blocked Claims (H1/DAAB)
+### Blocked Claims (H1/DAAB v2)
 - ❌ "H1 is admitted membership evidence"
+- ❌ "AUC>0.8 is universal for DAAB" — DDPM-750k AUC=0.648 is below 0.8
+- ❌ "DDPM always produces temporally distributed signal" — DDPM-750k is moderately concentrated
+- ❌ "Late-stage amplification explains independent DDPM-800k" — same-trajectory amplification is modest
+- ❌ "low-FPR fragility proven across all configurations" — strong N=512 runs exist; same-trajectory N=512 raw artifact is pending archival
 - ❌ "Activation-subspace attack achieves reliable low-FPR MIA"
 - ❌ "Significant channels are a compact removable leakage source"
 - ❌ Any TPR@0.1%FPR claim

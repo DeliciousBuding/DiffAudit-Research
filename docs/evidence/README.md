@@ -4,6 +4,8 @@
 
 | 文档 | 用途 |
 | --- | --- |
+| [ddpm-750k-step-matched-control-2026-06-25.md](ddpm-750k-step-matched-control-2026-06-25.md) | **DDPM-750k 步数匹配控制实验**。自训练 DDPM CIFAR-10 750k 步消解 Paper 1 Section 6.5 步数混杂。包含 H1 v2 统一三路对比、fine temporal grid、AUC-vs-step、N=512 tail calibration。 |
+| [h1-fine-temporal-grid-2026-06-20.md](h1-fine-temporal-grid-2026-06-20.md) | H1 fine temporal grid — DDPM 800k + DDIM 750k + DDPM 750k（已更新）。 |
 | [reproduction-status.md](reproduction-status.md) | 各审计线路复现状态阶段。 |
 | [admitted-results-summary.md](admitted-results-summary.md) | 已审查验证的结果摘要。 |
 | [innovation-evidence-map.md](innovation-evidence-map.md) | 研究声明到证据状态的映射。 |
