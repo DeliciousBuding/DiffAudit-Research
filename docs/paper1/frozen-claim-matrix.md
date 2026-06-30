@@ -1,7 +1,7 @@
 # DiffAudit Evidence Claim Matrix (Frozen)
 
 > 冻结时间：2026-06-19
-> **2026-06-30 更新**: H1/DAAB 行已纳入 Phase G run-dynamics baseline。旧数字（DDPM-800k AUC=0.873, DDIM-750k AUC=0.841）已被统一脚本重新评估的 v2 数字取代；same-trajectory DDPM-800k N=512 数字仍需补齐 raw JSON。
+> **2026-07-01 更新**: H1/DAAB 行已纳入 Phase G run-dynamics baseline。旧数字（DDPM-800k AUC=0.873, DDIM-750k AUC=0.841）已被统一脚本重新评估的 v2 数字取代；same-trajectory DDPM-800k N=512 已补齐 raw JSON，rerun AUC=0.605488。
 > 用途：Paper 1 submission 的唯一数据源。所有 Agent 写作必须引用本表，不得使用其他数字。
 > 规则：每个方法一行，包含允许的声明（allowed claim）和禁止的声明（blocked claim）。
 
@@ -156,7 +156,7 @@
 | 22 | **PIA/TMIA-DM** | Gray-box | GPU512 | — | — | — | candidate / pending admission review |
 | 24 | **H1 Activation-Subspace (DAAB) v2** | White-box activation | CUDA UNet CIFAR-10, 4 ckpts | **0.648–0.872** | 0.039–0.227 | 128/128 | candidate-positive / run-sensitive |
 | 25 | **H1 DDPM-750k (matched control)** | White-box activation | Self-trained ~125h, exact 750k steps | **0.648** | 0.094 | 128/128 | step-count confound resolution |
-| 26 | **H1 N=512 tail cluster** | White-box activation | DDPM/DDIM CIFAR-10 scaled | **0.560–0.815** | 0.014–0.158 | 512/512 | run-sensitive; same-trajectory raw artifact pending |
+| 26 | **H1 N=512 tail cluster** | White-box activation | DDPM/DDIM CIFAR-10 scaled | **0.560–0.815** | 0.014–0.158 | 512/512 | run-sensitive; same-trajectory raw artifact present |
 
 ### Allowed Claims (H1/DAAB v2) — updated 2026-06-25
 
@@ -178,7 +178,7 @@ H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PC
 - H1 provides a mechanistically distinct white-box observable: non-gradient, non-loss, activation-based
 - **Fine temporal grid (8 timesteps, 4 checkpoints)**: DDPM-750k is moderately concentrated (max |Δ|=0.097), independent DDPM-800k is distributed (0.029), same-trajectory DDPM-800k is more concentrated (0.152), DDIM-750k is strongly concentrated (0.221). Temporal geometry varies with training procedure, training stage, and run identity
 - **AUC-vs-step**: H1 signal stable 0.65–0.71 from 100k–750k within the DDPM-750k trajectory; the independent DDPM-800k high AUC is not reproduced by same-trajectory continuation
-- N=512 tail: DDPM-750k collapses to AUC=0.560, independent DDPM-800k retains AUC=0.815, DDIM-750k retains AUC=0.812. Same-trajectory DDPM-800k N=512 is documented as AUC=0.576 but requires raw JSON archival before final paper use
+- N=512 tail: DDPM-750k collapses to AUC=0.560, independent DDPM-800k retains AUC=0.815, DDIM-750k retains AUC=0.812. Same-trajectory DDPM-800k N=512 now has raw JSON and remains weak-to-moderate at AUC=0.605488, TPR@1%=0.025391, TPR@0.1%=0.0
 - H4 closed: no compact post-training edit target exists
 
 ### Blocked Claims (H1/DAAB v2)

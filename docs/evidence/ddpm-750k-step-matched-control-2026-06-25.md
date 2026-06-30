@@ -98,11 +98,11 @@ Resumed from: checkpoint-step750000.pt
 Completed: 800,000 steps in 6.3h
 Final SHA256: a1936284900fa9e6d56e60df4bc72ba1c36ede36c6fc4dfebd2ad0a48e7cbc6b
 H1 scout (N=128): AUC=0.717, TPR@1%=0.039, Shuffle=0.507
-H1 scout (N=512): AUC=0.576, TPR@1%=0.029 (documented run result; raw `outputs/h1-scout-800k-same-trajectory-n512/h1_results.json` still needs archival)
+H1 scout (N=512): AUC=0.605488, TPR@1%=0.025391, TPR@0.1%=0.0, Shuffle=0.488052 (2026-07-01 rerun; raw `outputs/h1-scout-800k-same-trajectory-n512/h1_results.json` and `summary.json` present)
 
 **Result: Modest same-trajectory amplification (+0.069 AUC).** The bulk (~70%) of the independent DDPM-800k signal (0.872) comes from run identity, not from the additional 50k training steps.
 
-Evidence hygiene note (2026-06-30): the same-trajectory N=128 scout and fine-grid JSON artifacts are present. The same-trajectory N=512 value is recorded here and in the paper evidence bank, but the machine-readable N=512 output directory was missing during handoff cleanup. A re-run attempt reached model load and failed at CIFAR-10 local data access (`PermissionError` on `<DOWNLOAD_ROOT>/datasets/cifar10/cifar-10-batches-py/data_batch_1`). Do not treat the N=512 same-trajectory value as fully archived until that raw JSON is restored.
+Evidence hygiene note (2026-07-01): the same-trajectory N=128 scout, fine-grid JSON artifacts, and same-trajectory N=512 machine-readable rerun artifacts are present. The N=512 rerun used the readable CIFAR-10 dataset root and produced `outputs/h1-scout-800k-same-trajectory-n512/h1_results.json` plus `summary.json`. The rerun AUC is 0.605488, not the previously documented unarchived 0.576 value.
 
 ## Key Findings
 
@@ -112,7 +112,7 @@ Evidence hygiene note (2026-06-30): the same-trajectory N=128 scout and fine-gri
 
 3. **Temporal geometry is training-stage AND run-identity dependent**: DDPM-750k is moderately concentrated. Same-trajectory 800k continuation produces INCREASED concentration (max |Δ|=0.152, not distributed). The independently trained DDPM-800k's temporally distributed pattern is a run-identity artifact — not reproduced on the same trajectory. DDIM-750k is strongly concentrated.
 
-4. **Low-FPR fragility confirmed for the seed42 750k point**: DDPM-750k TPR@1% collapses from 0.094 (N=128) to 0.014 (N=512). Same-trajectory 800k shows similar low-FPR weakness at N=128 (TPR@1%=0.039); its N=512 raw artifact is pending archival.
+4. **Low-FPR fragility confirmed for the seed42 750k point**: DDPM-750k TPR@1% collapses from 0.094 (N=128) to 0.014 (N=512). Same-trajectory 800k shows similar low-FPR weakness at N=128 (TPR@1%=0.039) and in the archived N=512 rerun (TPR@1%=0.025391, TPR@0.1%=0.0).
 
 ## Paper Impact
 
