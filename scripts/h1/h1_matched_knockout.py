@@ -1,4 +1,5 @@
 """Matched-count knockout: targeted top-10 vs random 10 (fair comparison)."""
+import argparse
 import sys, torch, numpy as np, random, json, pickle
 from pathlib import Path
 from sklearn.linear_model import LogisticRegression
@@ -11,15 +12,30 @@ from model_unet import UNet
 from dataset_utils import load_member_data
 
 DEVICE = torch.device('cuda')
-CKPT = 'D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt'
 T, CH = 1000, 128; CH_MULT, ATTN, N_RB, DO = [1,2,2,2], [1], 2, 0.1
 TIMESTEPS = [100, 400, 700]; N_SAMPLES = 64
 SITES_MAP = {'late_down':['downblocks','-1'], 'mid_0':['middleblocks','0'],
              'mid_1':['middleblocks','1'], 'early_up':['upblocks','0']}
 
-def load_model():
+def parse_args():
+    parser = argparse.ArgumentParser(description="H1 matched-count channel knockout.")
+    parser.add_argument("--ckpt", required=True, help="Path to checkpoint .pt file")
+    parser.add_argument("--out", required=True, help="Output directory, relative to Research/ or absolute")
+    parser.add_argument("--cache", help="Raw activation cache from h1_activation_scout.py")
+    parser.add_argument("--n-samples", type=int, default=64)
+    return parser.parse_args()
+
+
+def resolve_out_dir(path):
+    out = Path(path)
+    if not out.is_absolute():
+        out = PROJECT / out
+    return out
+
+
+def load_model(ckpt_path):
     model = UNet(T=T, ch=CH, ch_mult=CH_MULT, attn=ATTN, num_res_blocks=N_RB, dropout=DO).eval()
-    ckpt = torch.load(CKPT, map_location=DEVICE, weights_only=False)
+    ckpt = torch.load(ckpt_path, map_location=DEVICE, weights_only=False)
     w = ckpt.get('ema_model', ckpt.get('net_model', ckpt))
     new = {k[7:] if k.startswith('module.') else k: v for k, v in w.items()}
     model.load_state_dict(new); model = model.to(DEVICE)
@@ -126,8 +142,13 @@ def eval_full(mf, nf):
     return auc, tpr1, lr, keys
 
 if __name__ == '__main__':
+    args = parse_args()
+    N_SAMPLES = args.n_samples
+    outdir = resolve_out_dir(args.out)
+    outdir.mkdir(parents=True, exist_ok=True)
+
     print('Loading model...')
-    model = load_model()
+    model = load_model(args.ckpt)
     ch_counts = get_channel_counts(model)
     total_ch = sum(ch_counts.values())
     print(f'Channel counts: {ch_counts} (total={total_ch})')
@@ -144,15 +165,14 @@ if __name__ == '__main__':
     # Compute top-10 channels from t-test
     print('Computing channel significance...')
     # Stage 1 cache: regenerate if missing
-    cache_path = PROJECT / 'outputs' / 'h1-scout' / 'h1_raw_activations.pkl'
+    cache_path = Path(args.cache) if args.cache else outdir / 'h1_raw_activations.pkl'
+    if not cache_path.is_absolute():
+        cache_path = PROJECT / cache_path
     if not cache_path.exists():
-        print(f'Cache not found at {cache_path}, running h1_activation_scout.py first...')
-        import subprocess
-        scout_script = PROJECT / 'scripts' / 'h1' / 'h1_activation_scout.py'
-        result = subprocess.run([sys.executable, str(scout_script)], capture_output=True, text=True, cwd=str(PROJECT))
-        if result.returncode != 0:
-            raise RuntimeError(f"h1_activation_scout.py failed:\n{result.stderr}")
-        print(result.stdout)
+        raise FileNotFoundError(
+            f"Raw activation cache not found: {cache_path}. "
+            "Run h1_activation_scout.py first and pass --cache explicitly."
+        )
     with open(cache_path, 'rb') as f:
         cache = pickle.load(f)
     ch_tstats = []
@@ -221,8 +241,6 @@ if __name__ == '__main__':
                'random_aucs': random_aucs.tolist(), 'random_mean': float(random_aucs.mean()),
                'random_std': float(random_aucs.std()), 'frozen_targeted_auc': auc_ft,
                'channel_counts': ch_counts, 'n_targeted': n_targeted}
-    outdir = PROJECT / 'outputs' / 'h1-scout'
-    outdir.mkdir(parents=True, exist_ok=True)
     with open(outdir / 'h1_matched_knockout.json', 'w') as f:
         json.dump(results, f, indent=2)
     print('Saved.')

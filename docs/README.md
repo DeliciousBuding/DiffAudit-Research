@@ -15,8 +15,9 @@ Read these in order when getting started:
 | 3 | [start-here/teammate-setup.md](start-here/teammate-setup.md) | Machine setup and first validation. |
 | 4 | [assets-and-storage/data-and-assets-handoff.md](assets-and-storage/data-and-assets-handoff.md) | How to get datasets, model weights, and external code. |
 | 5 | [start-here/command-reference.md](start-here/command-reference.md) | CLI commands and usage examples. |
-| 6 | [evidence/reproduction-status.md](evidence/reproduction-status.md) | Per-track experiment status. |
-| 7 | [product-bridge/README.md](product-bridge/README.md) | How Research feeds into Platform and Runtime. |
+| 6 | [start-here/phase-g-runbook-2026-06-30.md](start-here/phase-g-runbook-2026-06-30.md) | Current Paper 1 Phase G H1/DAAB run-dynamics commands. |
+| 7 | [evidence/reproduction-status.md](evidence/reproduction-status.md) | Per-track experiment status. |
+| 8 | [product-bridge/README.md](product-bridge/README.md) | How Research feeds into Platform and Runtime. |
 
 ## Reference Sections
 

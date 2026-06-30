@@ -20,6 +20,8 @@ Current verified facts:
 | Same-trajectory DDPM-800k N=512 | Documented, raw artifact pending | Evidence memo records AUC=0.576, but `outputs/h1-scout-800k-same-trajectory-n512/h1_results.json` is still missing |
 | seed=43 training | Paused | Latest durable checkpoint is `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step624000.pt`; continue from saved state, not heartbeat |
 
+Current command runbook: `docs/start-here/phase-g-runbook-2026-06-30.md`.
+
 ## Active Task Board
 
 ### P0: Evidence Hygiene
@@ -28,7 +30,7 @@ Current verified facts:
 - [ ] Add `summary.json` beside every Phase G H1 output that is cited by the paper.
 - [ ] Keep `docs/paper1/frozen-claim-matrix.md`, `docs/evidence/experiment-master-log.md`, and `Papers/diffaudit-evidence-paper/evidence_bank.md` aligned after each Phase G result.
 
-Current blocker: the 2026-06-30 re-run attempt reached model load but failed while reading local CIFAR-10 with `PermissionError` on `<DOWNLOAD_ROOT>/datasets/cifar10/cifar-10-batches-py/data_batch_1`. Direct `File.OpenRead`, `Get-Acl`, `icacls`, and `takeown` attempts still could not read or repair the batch files. Treat this as a local data access issue, not a CUDA/model failure; the next clean fix is to re-extract CIFAR-10 into a readable directory or point the loader at a known-good copy.
+Current blocker/workaround: the 2026-06-30 re-run attempt reached model load but failed while reading local CIFAR-10 with `PermissionError` on `<DOWNLOAD_ROOT>/datasets/cifar10/cifar-10-batches-py/data_batch_1`. Direct `File.OpenRead`, `Get-Acl`, `icacls`, and `takeown` attempts still could not read or repair the batch files. Treat this as a local data access issue, not a CUDA/model failure. Prepare a fresh readable CIFAR root and set `DIFFAUDIT_DATASET_ROOT` as described in `docs/start-here/phase-g-runbook-2026-06-30.md`.
 
 ### P1: seed=43 Run-Dynamics Replication
 

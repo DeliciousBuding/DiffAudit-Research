@@ -4,8 +4,11 @@ E3 Fast Path: Use existing secmi-cifar checkpoint, run SecMI + PIA attacks.
 Purpose: Compare NVIDIA Standard-UNet scores against DCU weak signal (AUC≈0.518).
 
 Usage:
-  python scripts/e3_eval_existing.py
+  python scripts/e3/e3_eval_existing.py \
+    --ckpt ddpm-800k=<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-800k/checkpoint.pt \
+    --ckpt ddim-750k=<DOWNLOAD_ROOT>/checkpoints/ddim-cifar10-750k/DDIM-ckpt-step750000.pt
 """
+import argparse
 import sys, os, time, json, copy
 from pathlib import Path
 
@@ -27,18 +30,38 @@ T = 1000; CH = 128; CH_MULT = [1,2,2,2]; ATTN = [1]; NUM_RES_BLOCKS = 2; DROPOUT
 BETA_1 = 0.0001; BETA_T = 0.02
 LOG_DIR = PROJECT / "outputs" / "e3-existing-eval"
 
-# Checkpoints to evaluate
-CKPT_PATHS = [
-    ("secmi-bundle-800k", "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt"),
-    ("ddim-750k", "D:/Code/DiffAudit/Download/checkpoints/ddim-cifar10-750k/DDIM-ckpt-step750000.pt"),
-    ("pia-upstream", "D:/Code/DiffAudit/Download/checkpoints/pia-ddpm-cifar10/checkpoint.pt"),
-]
-
 SECMI_CONFIGS = [
     {"t_sec": 100, "k": 10, "label": "t100_k10"},
     {"t_sec": 50,  "k": 5,  "label": "t50_k5"},
     {"t_sec": 200, "k": 20, "label": "t200_k20"},
 ]
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Run E3 SecMI/PIA evaluation on explicit checkpoints.")
+    parser.add_argument(
+        "--ckpt",
+        action="append",
+        required=True,
+        metavar="LABEL=PATH",
+        help="Checkpoint label and .pt path. Repeat for multiple checkpoints.",
+    )
+    parser.add_argument("--max-samples", type=int, default=5000)
+    return parser.parse_args()
+
+
+def parse_ckpt_specs(specs):
+    ckpts = []
+    for spec in specs:
+        if "=" not in spec:
+            raise ValueError(f"--ckpt must use LABEL=PATH format: {spec}")
+        label, path = spec.split("=", 1)
+        label = label.strip()
+        path = path.strip()
+        if not label or not path:
+            raise ValueError(f"--ckpt must use non-empty LABEL=PATH format: {spec}")
+        ckpts.append((label, path))
+    return ckpts
 PIA_CONFIGS = [
     {"interval": 200, "attack_num": 1, "label": "int200_num1"},
     {"interval": 100, "attack_num": 2, "label": "int100_num2"},
@@ -90,13 +113,15 @@ def compute_metrics(m_scores, nm_scores):
 
 
 def main():
+    args = parse_args()
+    ckpt_paths = parse_ckpt_specs(args.ckpt)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     print("Loading CIFAR-10 member/nonmember split...")
     _, _, member_ldr, nonmember_ldr = load_member_data(
         dataset_name='CIFAR10', batch_size=64, shuffle=False, randaugment=False)
 
     all_results = {}
-    for ckpt_name, ckpt_path in CKPT_PATHS:
+    for ckpt_name, ckpt_path in ckpt_paths:
         if not Path(ckpt_path).exists():
             print(f"\nSKIP {ckpt_name}: checkpoint not found at {ckpt_path}")
             continue
@@ -124,8 +149,8 @@ def main():
                 betas, interval=1, attack_num=1, k=cfg['k'],
                 eps_getter=eps_getter, average=1,
                 normalize=None, denormalize=None)
-            m_scores = run_stats_attack(attacker, member_ldr)
-            nm_scores = run_stats_attack(attacker, nonmember_ldr)
+            m_scores = run_stats_attack(attacker, member_ldr, max_samples=args.max_samples)
+            nm_scores = run_stats_attack(attacker, nonmember_ldr, max_samples=args.max_samples)
             mets = compute_metrics(m_scores, nm_scores)
             ckpt_results[label] = mets
             print(f"    AUC={mets['auc']:.4f} TPR@1%={mets['tpr_at_1pct_fpr']:.4f} "
@@ -139,8 +164,8 @@ def main():
                 betas, interval=cfg['interval'], attack_num=cfg['attack_num'],
                 eps_getter=eps_getter,
                 normalize=None, denormalize=None, lp=2)
-            m_scores = run_stats_attack(attacker, member_ldr)
-            nm_scores = run_stats_attack(attacker, nonmember_ldr)
+            m_scores = run_stats_attack(attacker, member_ldr, max_samples=args.max_samples)
+            nm_scores = run_stats_attack(attacker, nonmember_ldr, max_samples=args.max_samples)
             mets = compute_metrics(m_scores, nm_scores)
             ckpt_results[label] = mets
             print(f"    AUC={mets['auc']:.4f} TPR@1%={mets['tpr_at_1pct_fpr']:.4f} "

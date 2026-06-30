@@ -52,6 +52,7 @@ Do not start from memory or old chat context. Re-anchor on repository files.
 
 - 2026-06-30 current override: active work is Paper 1 Phase G H1/DAAB
   run-dynamics replication. Start from `ROADMAP.md`, then
+  `docs/start-here/phase-g-runbook-2026-06-30.md`, then
   `docs/evidence/ddpm-750k-step-matched-control-2026-06-25.md`,
   `docs/evidence/h1-fine-temporal-grid-2026-06-20.md`, and
   `docs/paper1/frozen-claim-matrix.md`. The durable seed43 checkpoint is

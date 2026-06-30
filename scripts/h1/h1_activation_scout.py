@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
-H1 Activation-Subspace Fingerprint Attack — Bounded Scout (v2)
-==============================================================
+H1 Activation-Subspace Fingerprint Attack — Bounded Scout (v3, CLI-parameterized)
+===============================================================================
 Extract activation features from UNet intermediate layers and train
 logistic regression to detect membership.
 
@@ -11,10 +11,16 @@ Two-stage design:
 
 Usage:
   conda activate retrace-tr
-  python scripts/h1_activation_scout.py          # full run
-  python scripts/h1_activation_scout.py --stage2  # feature+eval only
+  # Quick run (uses defaults)
+  python scripts/h1/h1_activation_scout.py --ckpt <path> --out <dir>
+  # Full control
+  python scripts/h1/h1_activation_scout.py \
+    --ckpt <DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step750000.pt \
+    --ckpt-label ddpm-cifar10-seed43-750k \
+    --out outputs/h1-scout-seed43-750k \
+    --n-member 128 --n-nonmember 128 --force
 """
-import sys, os, json, time, pickle, warnings
+import sys, os, json, time, pickle, warnings, argparse, hashlib
 from pathlib import Path
 from collections import defaultdict
 
@@ -34,42 +40,57 @@ from dataset_utils import load_member_data
 warnings.filterwarnings("ignore")
 DEVICE = torch.device("cuda")
 
-# ── Constants ───────────────────────────────────────────────────────────
+# ── Architecture constants (never change) ──
 T = 1000; CH = 128; CH_MULT = [1, 2, 2, 2]; ATTN = [1]; NUM_RES_BLOCKS = 2
 DROPOUT = 0.1; BETA_1 = 0.0001; BETA_T = 0.02
 
-CKPT_PATH = "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt"
-OUT_DIR = PROJECT / "outputs" / "h1-scout"
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
 TIMESTEPS = [100, 400, 700]  # early, mid, late denoising
-N_MEMBER = 128
-N_NONMEMBER = 128
 N_SHADOWS = 3
 PCA_N = 6
 SEED = 42
 
-# ── Model loading ───────────────────────────────────────────────────────
 
-def load_model():
+def get_ckpt_sha(ckpt_path, prefix_len=12):
+    """Return first `prefix_len` chars of checkpoint file SHA256."""
+    h = hashlib.sha256()
+    with open(ckpt_path, "rb") as f:
+        for chunk in iter(lambda: f.read(8 * 1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()[:prefix_len]
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="H1 Activation-Subspace Scout v3")
+    p.add_argument("--ckpt", required=True, help="Path to checkpoint .pt file")
+    p.add_argument("--ckpt-label", help="Public-safe checkpoint label for result metadata")
+    p.add_argument("--out", required=True, help="Output directory (relative to Research/ or absolute)")
+    p.add_argument("--n-member", type=int, default=128, help="Number of member samples (default: 128)")
+    p.add_argument("--n-nonmember", type=int, default=128, help="Number of nonmember samples (default: 128)")
+    p.add_argument("--force", action="store_true", help="Delete existing cache and re-extract activations")
+    p.add_argument("--stage2", action="store_true", help="Feature computation + eval only (skip extraction)")
+    return p.parse_args()
+
+
+# ── Model loading ──
+
+def load_model(ckpt_path):
     model = UNet(T=T, ch=CH, ch_mult=CH_MULT, attn=ATTN,
                  num_res_blocks=NUM_RES_BLOCKS, dropout=DROPOUT).eval()
-    ckpt = torch.load(CKPT_PATH, map_location=DEVICE, weights_only=False)
+    ckpt = torch.load(ckpt_path, map_location=DEVICE, weights_only=False)
     w = ckpt.get('ema_model', ckpt.get('net_model', ckpt))
     new = {k[7:] if k.startswith('module.') else k: v for k, v in w.items()}
     model.load_state_dict(new)
     model = model.to(DEVICE)
-    # precompute alphas_cumprod
     betas = torch.linspace(BETA_1, BETA_T, T)
     model.alphas_cumprod = torch.cumprod(1 - betas, dim=0).to(DEVICE)
     return model
 
 
-# ── Hook management ─────────────────────────────────────────────────────
+# ── Hook management ──
 
 class HookManager:
     def __init__(self):
-        self.data = {}       # site_name -> tensor (B, C, H, W) from last forward
+        self.data = {}
         self.handles = []
 
     def _hook(self, name):
@@ -78,12 +99,10 @@ class HookManager:
         return fn
 
     def register(self, model, name, path_parts):
-        """path_parts: list like ['downblocks', '-1']"""
         target = model
         for p in path_parts:
             if p.lstrip('-').isdigit():
-                idx = int(p)
-                target = target[idx]
+                target = target[int(p)]
             else:
                 target = getattr(target, p)
         self.handles.append(target.register_forward_hook(self._hook(name)))
@@ -98,16 +117,6 @@ class HookManager:
 
 
 def get_site_paths():
-    """Return dict of site_name -> path_parts for UNet(ch_mult=[1,2,2,2], num_res_blocks=2).
-
-    Structure:
-      downblocks: [RB,RB, DS, RB,RB, DS, RB,RB, DS, RB,RB]  = 12 entries
-      middleblocks: [RB, RB] = 2
-      upblocks: [RB,RB,RB, US, RB,RB,RB, US, RB,RB,RB, US, RB,RB,RB] = 14
-    Late-down = downblocks[-1] = last ResBlock before middle
-    Mid = middleblocks[0], middleblocks[1]
-    Early-up = upblocks[0] = first ResBlock after middle
-    """
     return {
         "late_down":  ["downblocks", "-1"],
         "mid_0":      ["middleblocks", "0"],
@@ -116,16 +125,11 @@ def get_site_paths():
     }
 
 
-# ── Stage 1: Raw activation extraction ──────────────────────────────────
+# ── Stage 1: Raw activation extraction ──
 
 def extract_raw_activations(model, loader, hook_mgr, site_names, timesteps, max_n, label):
-    """
-    Extract raw (B,C,H,W) activations at each site×timestep for up to max_n samples.
-    Returns list of dicts: [{site_t100: tensor, ...}, ...] one per sample.
-    """
-    samples = []  # list of {key: tensor(1,C,H,W)}
+    samples = []
     count = 0
-
     for batch in loader:
         imgs = batch[0].to(DEVICE)
         B = imgs.shape[0]
@@ -136,61 +140,46 @@ def extract_raw_activations(model, loader, hook_mgr, site_names, timesteps, max_
             imgs = imgs[:needed]
             B = needed
 
-        # Per-sample activations for this batch
         batch_acts = [{} for _ in range(B)]
-
         for t_val in timesteps:
             hook_mgr.clear()
             t_t = torch.full((B,), t_val, device=DEVICE, dtype=torch.long)
             noise = torch.randn_like(imgs)
             ac = model.alphas_cumprod[t_val]
             xt = ac.sqrt() * (imgs * 2 - 1) + (1 - ac).sqrt() * noise
-
             with torch.no_grad():
                 model(xt, t_t)
-
             for site in site_names:
                 act = hook_mgr.data.get(site)
                 if act is None:
                     continue
-                # act: (B, C, H, W) — split into per-sample
                 key = f"{site}_t{t_val}"
                 for i in range(B):
-                    batch_acts[i][key] = act[i:i+1].cpu()  # (1, C, H, W)
+                    batch_acts[i][key] = act[i:i+1].cpu()
 
         samples.extend(batch_acts)
         count += B
-        if count % 16 == 0:
+        if count % 64 == 0:
             print(f"  [{label}] {count}/{max_n} samples extracted...")
-
     return samples[:max_n]
 
 
-# ── Stage 2: Feature computation ────────────────────────────────────────
+# ── Stage 2: Feature computation ──
 
 def compute_features_from_raw(raw_samples):
-    """
-    raw_samples: list of dicts {site_tN: tensor(1,C,H,W)}
-    Returns: list of dicts with scalar + per-channel features per sample.
-    """
     features = []
     for s in raw_samples:
         feats = {}
         for key, act in s.items():
-            # act: (1, C, H, W)
             C = act.shape[1]
-            flat = act.view(C, -1)  # (C, H*W)
-
-            mu_abs = flat.abs().mean(dim=-1)        # (C,)
-            var = flat.var(dim=-1, unbiased=False)  # (C,)
+            flat = act.view(C, -1)
+            mu_abs = flat.abs().mean(dim=-1)
+            var = flat.var(dim=-1, unbiased=False)
             threshold = 0.01 * flat.std(dim=-1, unbiased=False)
-            sparsity = (flat.abs() < threshold.unsqueeze(-1)).float().mean(dim=-1)  # (C,)
-
+            sparsity = (flat.abs() < threshold.unsqueeze(-1)).float().mean(dim=-1)
             feats[f"{key}_mu_abs"] = mu_abs.numpy()
             feats[f"{key}_var"] = var.numpy()
             feats[f"{key}_sparsity"] = sparsity.numpy()
-
-            # scalar aggregates
             feats[f"{key}_mu_abs_mean"] = float(mu_abs.mean())
             feats[f"{key}_var_mean"] = float(var.mean())
             feats[f"{key}_sparsity_mean"] = float(sparsity.mean())
@@ -199,7 +188,6 @@ def compute_features_from_raw(raw_samples):
 
 
 def build_pca_features(feat_list, site_names, timesteps, stat_types):
-    """Concatenate per-channel features across sites/timesteps into (N, D) for PCA."""
     components = []
     for s in site_names:
         for t in timesteps:
@@ -213,22 +201,17 @@ def build_pca_features(feat_list, site_names, timesteps, stat_types):
 
 
 def build_feature_matrix(feat_list, pca_model=None, site_names=None, timesteps=None, stat_types=None):
-    """Build flat (N, D) feature matrix. Include scalar features + optional PCA projection."""
-    # Scalar features
     scalar_keys = [k for k in feat_list[0] if isinstance(feat_list[0][k], (float, int, np.floating))]
     X_scalar = np.array([[f.get(k, 0.0) for k in scalar_keys] for f in feat_list])
-
     if pca_model is not None and site_names is not None:
         pc_arr = build_pca_features(feat_list, site_names, timesteps, stat_types)
         if pc_arr is not None:
             X_pca = pca_model.transform(pc_arr)
             return np.concatenate([X_scalar, X_pca], axis=1)
-
     return X_scalar
 
 
 def compute_metrics(m_scores, nm_scores):
-    """AUC/TPR computation. Member=positive class."""
     m, nm = np.asarray(m_scores), np.asarray(nm_scores)
     labels = np.concatenate([np.ones_like(m), np.zeros_like(nm)])
     best = {"auc": 0.5, "tpr_1pct": 0.0, "tpr_01pct": 0.0, "direction": "none"}
@@ -249,15 +232,32 @@ def compute_metrics(m_scores, nm_scores):
     return best
 
 
-# ── Main ────────────────────────────────────────────────────────────────
+# ── Main ──
 
 def main():
+    args = parse_args()
+    ckpt_path = args.ckpt
+    out_dir = Path(args.out)
+    if not out_dir.is_absolute():
+        out_dir = PROJECT / args.out
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Cache file bound to checkpoint hash + sample size
+    ckpt_sha = get_ckpt_sha(ckpt_path)
+    cache_path = out_dir / f"h1_raw_activations_{ckpt_sha}_n{args.n_member}.pkl"
+
+    if args.force and cache_path.exists():
+        cache_path.unlink()
+        print(f"  --force: deleted cache {cache_path.name}")
+
     t0 = time.time()
     print("=" * 60)
-    print("H1 Activation-Subspace Fingerprint — Bounded Scout v2")
+    print("H1 Activation-Subspace Fingerprint — Bounded Scout v3")
+    print(f"  Checkpoint: {ckpt_path}")
+    print(f"  Output:     {out_dir}")
     print(f"  Sites: late_down, mid_0, mid_1, early_up")
     print(f"  Timesteps: {TIMESTEPS}")
-    print(f"  Shadows: {N_SHADOWS}  Target: {N_MEMBER}m/{N_NONMEMBER}nm  PCA: {PCA_N}d")
+    print(f"  Shadows: {N_SHADOWS}  Target: {args.n_member}m/{args.n_nonmember}nm  PCA: {PCA_N}d")
     print("=" * 60)
 
     site_paths = get_site_paths()
@@ -267,7 +267,7 @@ def main():
 
     # ── Load model and set up hooks ──
     print("\n[1/5] Loading model & setting up hooks...")
-    model = load_model()
+    model = load_model(ckpt_path)
     hook = HookManager()
     for name, path in site_paths.items():
         hook.register(model, name, path)
@@ -279,19 +279,23 @@ def main():
         dataset_name='CIFAR10', batch_size=64, shuffle=False, randaugment=False)
 
     # ── Stage 1: Extract raw activations ──
-    cache_path = OUT_DIR / "h1_raw_activations.pkl"
-    if cache_path.exists():
+    if args.stage2 and cache_path.exists():
+        print(f"\n[3/5] --stage2: Loading cached activations from {cache_path}...")
+        with open(cache_path, "rb") as f:
+            cache = pickle.load(f)
+        member_raw = cache["member_raw"]
+        nonmember_raw = cache["nonmember_raw"]
+    elif cache_path.exists() and not args.force:
         print(f"\n[3/5] Loading cached raw activations from {cache_path}...")
         with open(cache_path, "rb") as f:
             cache = pickle.load(f)
         member_raw = cache["member_raw"]
         nonmember_raw = cache["nonmember_raw"]
     else:
-        print(f"\n[3/5] Extracting raw activations (member {N_MEMBER} + nonmember {N_NONMEMBER})...")
-        member_raw = extract_raw_activations(model, member_loader, hook, site_names, TIMESTEPS, N_MEMBER, "member")
-        nonmember_raw = extract_raw_activations(model, nonmember_loader, hook, site_names, TIMESTEPS, N_NONMEMBER, "nonmember")
+        print(f"\n[3/5] Extracting raw activations (member {args.n_member} + nonmember {args.n_nonmember})...")
+        member_raw = extract_raw_activations(model, member_loader, hook, site_names, TIMESTEPS, args.n_member, "member")
+        nonmember_raw = extract_raw_activations(model, nonmember_loader, hook, site_names, TIMESTEPS, args.n_nonmember, "nonmember")
         print(f"  Collected: {len(member_raw)} member + {len(nonmember_raw)} nonmember")
-        # Cache
         with open(cache_path, "wb") as f:
             pickle.dump({"member_raw": member_raw, "nonmember_raw": nonmember_raw}, f)
         print(f"  Cached to {cache_path}")
@@ -308,11 +312,13 @@ def main():
     print(f"  Scalar features: {n_scalar}  Per-channel dims: {n_pc_total}")
 
     # ── Shadow calibration + Target evaluation ──
-    results = {"experiment": "H1_activation_subspace_scout_v2",
+    ckpt_name = args.ckpt_label or Path(ckpt_path).parent.name
+    results = {"experiment": "H1_activation_subspace_scout_v3",
                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
-               "config": {"checkpoint": "CUDA-DDPM-800k", "sites": site_names,
+               "config": {"checkpoint": ckpt_name, "ckpt_file": Path(ckpt_path).name,
+                          "ckpt_sha": ckpt_sha, "sites": site_names,
                           "timesteps": TIMESTEPS, "n_shadows": N_SHADOWS,
-                          "shadow_n": N_MEMBER, "target_n": N_MEMBER, "pca_n": PCA_N},
+                          "shadow_n": args.n_member, "target_n": args.n_member, "pca_n": PCA_N},
                "shadow_metrics": [], "target_metrics": {}, "controls": {}}
 
     all_target_m_scores = []
@@ -320,15 +326,9 @@ def main():
 
     for shadow_idx in range(N_SHADOWS):
         rng = np.random.RandomState(SEED + shadow_idx)
-
-        # Use ALL data for both calibration and evaluation (small-N scout).
-        # Each shadow trains on all member+nonmember, evaluates on all.
-        # The blind aspect: model is the same E3 calibrated target.
-        # Key controls (label shuffle, layer ablation) are independent.
         shadow_all = member_feats + nonmember_feats
         y_shadow = np.concatenate([np.ones(len(member_feats)), np.zeros(len(nonmember_feats))])
 
-        # Fit PCA on shadow data
         pca = PCA(n_components=min(PCA_N, len(shadow_all) - 1), random_state=SEED + shadow_idx)
         pc_arr = build_pca_features(shadow_all, site_names, TIMESTEPS, stat_types)
         if pc_arr is not None and pc_arr.shape[0] > PCA_N:
@@ -336,17 +336,14 @@ def main():
         else:
             pca = None
 
-        # Build feature matrix for shadow
         X_shadow = build_feature_matrix(shadow_all, pca, site_names, TIMESTEPS, stat_types)
         print(f"  Shadow {shadow_idx+1}: X={X_shadow.shape}, y={y_shadow.shape}")
 
-        # Train LR
         lr = LogisticRegression(max_iter=5000, random_state=SEED + shadow_idx,
                                 class_weight='balanced', solver='lbfgs')
         lr.fit(X_shadow, y_shadow)
         train_score = lr.score(X_shadow, y_shadow)
 
-        # Evaluate on ALL data (small-N scout: same data for cal and eval)
         X_tm = build_feature_matrix(member_feats, pca, site_names, TIMESTEPS, stat_types)
         X_tnm = build_feature_matrix(nonmember_feats, pca, site_names, TIMESTEPS, stat_types)
 
@@ -368,13 +365,11 @@ def main():
         print(f"    AUC={shadow_metrics['auc']:.4f}  TPR@1%={shadow_metrics['tpr_1pct']:.4f}  "
               f"TPR@0.1%={shadow_metrics['tpr_01pct']:.4f}  dims={X_shadow.shape[1]}")
 
-    # Aggregate across shadows (mean scores)
     agg_m = np.mean(all_target_m_scores, axis=0)
     agg_nm = np.mean(all_target_nm_scores, axis=0)
     results["target_metrics"] = compute_metrics(agg_m, agg_nm)
 
     # ── Controls ──
-    # Label shuffle
     all_scores = np.concatenate([agg_m, agg_nm])
     all_labels = np.concatenate([np.ones_like(agg_m), np.zeros_like(agg_nm)])
     rng = np.random.RandomState(SEED)
@@ -385,7 +380,6 @@ def main():
         shuf_auc = 0.5
     results["controls"]["label_shuffle_auc"] = round(float(shuf_auc), 6)
 
-    # Per-site ablation (with first shadow's LR/PCA)
     lr0 = LogisticRegression(max_iter=5000, random_state=SEED, class_weight='balanced', solver='lbfgs')
     ablation = {}
     for drop_site in site_names:
@@ -398,7 +392,6 @@ def main():
             pca_abl.fit(pc_arr_abl)
         else:
             pca_abl = None
-
         X_abl = build_feature_matrix(member_feats + nonmember_feats, pca_abl, reduced_sites, TIMESTEPS, stat_types)
         y_abl = np.concatenate([np.ones(len(member_feats)), np.zeros(len(nonmember_feats))])
         lr0.fit(X_abl, y_abl)
@@ -409,7 +402,7 @@ def main():
         print(f"  Ablation drop {drop_site}: AUC={abl_m['auc']:.4f}")
     results["controls"]["ablation"] = ablation
 
-    # ── Promotion gate assessment ──
+    # ── Promotion gate ──
     best_auc = max(s["auc"] for s in results["shadow_metrics"])
     gate = {
         "beats_random": best_auc > 0.55,
@@ -427,10 +420,10 @@ def main():
     results["promotion_gate"] = gate
 
     # ── Write results ──
-    out_path = OUT_DIR / "h1_results.json"
+    out_path = out_dir / "h1_results.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
-    print(f"\n[5/5] Results → {out_path}")
+    print(f"\n[5/5] Results -> {out_path}")
     print(f"  Aggregate AUC: {results['target_metrics']['auc']}")
     print(f"  TPR@1%FPR:     {results['target_metrics']['tpr_1pct']}")
     print(f"  TPR@0.1%FPR:   {results['target_metrics']['tpr_01pct']}")
