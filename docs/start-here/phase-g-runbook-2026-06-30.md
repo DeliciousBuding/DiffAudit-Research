@@ -62,6 +62,11 @@ Run these only after GPU use is explicitly allowed.
 
 ### Same-Trajectory DDPM-800k N=512 Gap
 
+Status: complete as of 2026-07-01. Archived rerun outputs are in
+`outputs/h1-scout-800k-same-trajectory-n512/`; `summary.json` records
+AUC=0.605488, TPR@1%=0.025391, and shuffle AUC=0.488052. Keep this command for
+repeatability only.
+
 ```powershell
 $env:DIFFAUDIT_DATASET_ROOT = "<DIFFAUDIT_ROOT>\Download\datasets-readable"
 python -u scripts/h1/h1_activation_scout.py `
@@ -78,8 +83,8 @@ Required archive outputs:
 - `outputs/h1-scout-800k-same-trajectory-n512/h1_results.json`
 - `outputs/h1-scout-800k-same-trajectory-n512/summary.json`
 
-Do not use the documented AUC=0.576 in final paper text until the raw JSON is
-present or the run is repeated.
+Do not use the previously documented unarchived AUC=0.576 in final paper text;
+use the archived 2026-07-01 rerun value unless a later rerun supersedes it.
 
 ### seed43 750k Scout
 

@@ -134,14 +134,13 @@ This hypothesis predicts:
 | Full-site knockout gradient | ✅ | ✅ | ✅ | ✅ |
 | Spatiotemporal locus (t=100 peak) | partial | yes | shifted/broader | yes | no |
 | **Temporal distribution (fine grid)** | Moderate concentration | Distributed | Increased concentration | Strong concentration | no, run-sensitive |
-| N=512 raw artifact | present | present | pending archival | present | incomplete |
+| N=512 raw artifact | present | present | present | present | yes |
 
 ## Next Steps
 
-1. Archive or re-run same-trajectory DDPM-800k N=512 raw JSON.
-2. Complete seed43 to 750k and 800k, then run H1 scout/fine-grid/N=512 gate.
-3. Decide seed44 only after seed43 800k results.
-4. Keep H4 site-time attenuation behind seed43 fine-grid; do not claim defense effectiveness from knockout deltas alone.
+1. Complete seed43 to 750k and 800k, then run H1 scout/fine-grid/N=512 gate.
+2. Decide seed44 only after seed43 800k results.
+3. Keep H4 site-time attenuation behind seed43 fine-grid; do not claim defense effectiveness from knockout deltas alone.
 
 ## Sources
 

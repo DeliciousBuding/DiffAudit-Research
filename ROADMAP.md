@@ -1,6 +1,6 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-06-30
+> Last updated: 2026-07-02
 > Scope: current Research execution board. Historical long-form roadmap is in `docs/ROADMAP.md`.
 
 ## Current Baseline
@@ -17,7 +17,7 @@ Current verified facts:
 | H1 v2 N=128 unified table | Complete | `outputs/h1-scout-750k/`, `outputs/h1-scout-800k-v2/`, `outputs/h1-scout-ddim-750k/`, `outputs/h1-scout-800k-same-trajectory/` |
 | Independent DDPM-800k N=512 | Complete | `outputs/h1-scout-800k-independent-n512/summary.json` |
 | DDIM-750k N=512 | Complete | `outputs/h1-scout-ddim-750k-n512/summary.json` |
-| Same-trajectory DDPM-800k N=512 | Documented, raw artifact pending | Evidence memo records AUC=0.576, but `outputs/h1-scout-800k-same-trajectory-n512/h1_results.json` is still missing |
+| Same-trajectory DDPM-800k N=512 | Complete | `outputs/h1-scout-800k-same-trajectory-n512/summary.json` records rerun AUC=0.605488, TPR@1%=0.025391, shuffle AUC=0.488052 |
 | seed=43 training | Paused | Latest durable checkpoint is `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step624000.pt`; continue from saved state, not heartbeat |
 
 Current command runbook: `docs/start-here/phase-g-runbook-2026-06-30.md`.
@@ -26,11 +26,11 @@ Current command runbook: `docs/start-here/phase-g-runbook-2026-06-30.md`.
 
 ### P0: Evidence Hygiene
 
-- [ ] Re-run or recover same-trajectory DDPM-800k N=512 raw output into `outputs/h1-scout-800k-same-trajectory-n512/`.
+- [x] Re-run or recover same-trajectory DDPM-800k N=512 raw output into `outputs/h1-scout-800k-same-trajectory-n512/`.
 - [ ] Add `summary.json` beside every Phase G H1 output that is cited by the paper.
 - [ ] Keep `docs/paper1/frozen-claim-matrix.md`, `docs/evidence/experiment-master-log.md`, and `Papers/diffaudit-evidence-paper/evidence_bank.md` aligned after each Phase G result.
 
-Current blocker/workaround: the 2026-06-30 re-run attempt reached model load but failed while reading local CIFAR-10 with `PermissionError` on `<DOWNLOAD_ROOT>/datasets/cifar10/cifar-10-batches-py/data_batch_1`. Direct `File.OpenRead`, `Get-Acl`, `icacls`, and `takeown` attempts still could not read or repair the batch files. Treat this as a local data access issue, not a CUDA/model failure. Prepare a fresh readable CIFAR root and set `DIFFAUDIT_DATASET_ROOT` as described in `docs/start-here/phase-g-runbook-2026-06-30.md`.
+2026-07-01 closure: the same-trajectory DDPM-800k N=512 rerun completed with the readable CIFAR root. The rerun produced raw activation cache, `h1_results.json`, and `summary.json`; the archived AUC is 0.605488 rather than the previously documented unarchived 0.576 value.
 
 ### P1: seed=43 Run-Dynamics Replication
 
@@ -65,7 +65,7 @@ Allowed:
 - Signal strength is training-trajectory sensitive.
 - DDIM-750k is stronger than step-matched DDPM-750k.
 - Same-trajectory 750k->800k amplification is modest compared with the independent DDPM-800k gap.
-- N=512 currently shows a strong cluster around 0.81 and a weak cluster around 0.56-0.58, but the same-trajectory 800k weak-cluster raw artifact must be archived before final paper use.
+- N=512 currently shows a strong cluster around 0.81 and a weak cluster around 0.56-0.61. The same-trajectory 800k raw artifact is now archived and remains weak-to-moderate at AUC=0.605488 with TPR@1%=0.025391.
 
 Blocked:
 
