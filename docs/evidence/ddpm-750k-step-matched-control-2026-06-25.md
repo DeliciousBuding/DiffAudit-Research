@@ -33,12 +33,22 @@ TOTAL_STEPS=750000, GRAD_CLIP=1.0, WARMUP_STEPS=5000, SEED=42
 | Checkpoint | AUC | TPR@1% | TPR@0.1% | Shuffle | Ablation |
 |------------|-----|--------|----------|---------|----------|
 | DDPM-750k | 0.648 | 0.094 | 0.000 | 0.484 | 0.646-0.656 |
+| DDPM-750k seed43 | 0.666687 | 0.015625 | 0.000 | 0.453552 | 0.664673-0.684387 |
 | DDPM-800k | 0.872 | 0.227 | 0.000 | 0.492 | 0.870-0.873 |
 | DDIM-750k | 0.856 | 0.109 | 0.000 | 0.481 | 0.852-0.857 |
 
 Evaluation protocol: h1_activation_scout.py (single script version), 4 sites (late_down, mid_0, mid_1, early_up), 3 timesteps (100, 400, 700), 42 features (36 scalar + 6 PCA).
 
 Previous DDPM-800k values (0.874 N=64, 0.873 N=128) and DDIM-750k value (0.841) were produced by earlier script versions with different shadow-split protocols. The v2 table supersedes all prior H1 numbers.
+
+## Seed43 750k Replication (N=128)
+
+Status: **COMPLETE** (2026-07-02)
+Checkpoint: `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step750000.pt`
+SHA256: `1dad28a63cef2ef4439f77457c10825bcb4ff66ef7c7e3e19dbe285e4503aba2`
+Output: `outputs/h1-scout-seed43-750k/h1_results.json` and `summary.json`
+
+H1 scout: AUC=0.666687, TPR@1%=0.015625, TPR@0.1%=0.0, Shuffle=0.453552. The result is close to the seed42 750k AUC regime (+0.019 AUC) but has weaker low-FPR recovery. This supports the interpretation that 750k DDPM checkpoints are moderate H1 candidates, while strong N=512-ready behavior still appears run-dependent and requires the seed43 800k continuation before seed44 is decided.
 
 ## Matched Knockout (DDPM-750k, N=64, 4 sites × 3 timesteps)
 
@@ -108,11 +118,13 @@ Evidence hygiene note (2026-07-01): the same-trajectory N=128 scout, fine-grid J
 
 1. **DDIM advantage confirmed, not due to step count**: DDIM-750k (0.856) substantially exceeds step-matched DDPM-750k (0.648) by ΔAUC=+0.208. The original DDPM-800k vs. DDIM-750k comparison was conservative with respect to DDIM.
 
-2. **Same-trajectory late-stage amplification exists but is modest**: Continuing DDPM-750k to 800k on the same trajectory produces AUC=0.717, a ΔAUC=+0.069 increase. The independently trained DDPM-800k (0.872) owes ~70% of its advantage to run identity (seed, training dynamics, optimizer state), not to the additional 50k steps. The residual ~30% (ΔAUC≈+0.069) is a bounded estimate of the same-trajectory step-count contribution.
+2. **Seed43 replicates the moderate 750k regime, not the strong cluster**: seed43 at 750k gives AUC=0.666687 and TPR@1%=0.015625. This is above chance and close to seed42 750k by AUC, but it does not show reliable low-FPR recovery.
 
-3. **Temporal geometry is training-stage AND run-identity dependent**: DDPM-750k is moderately concentrated. Same-trajectory 800k continuation produces INCREASED concentration (max |Δ|=0.152, not distributed). The independently trained DDPM-800k's temporally distributed pattern is a run-identity artifact — not reproduced on the same trajectory. DDIM-750k is strongly concentrated.
+3. **Same-trajectory late-stage amplification exists but is modest**: Continuing DDPM-750k to 800k on the same trajectory produces AUC=0.717, a ΔAUC=+0.069 increase. The independently trained DDPM-800k (0.872) owes ~70% of its advantage to run identity (seed, training dynamics, optimizer state), not to the additional 50k steps. The residual ~30% (ΔAUC≈+0.069) is a bounded estimate of the same-trajectory step-count contribution.
 
-4. **Low-FPR fragility confirmed for the seed42 750k point**: DDPM-750k TPR@1% collapses from 0.094 (N=128) to 0.014 (N=512). Same-trajectory 800k shows similar low-FPR weakness at N=128 (TPR@1%=0.039) and in the archived N=512 rerun (TPR@1%=0.025391, TPR@0.1%=0.0).
+4. **Temporal geometry is training-stage AND run-identity dependent**: DDPM-750k is moderately concentrated. Same-trajectory 800k continuation produces INCREASED concentration (max |Δ|=0.152, not distributed). The independently trained DDPM-800k's temporally distributed pattern is a run-identity artifact — not reproduced on the same trajectory. DDIM-750k is strongly concentrated.
+
+5. **Low-FPR fragility confirmed for the seed42/seed43 750k points**: DDPM-750k TPR@1% collapses from 0.094 (N=128) to 0.014 (N=512) for seed42, and seed43 750k has only TPR@1%=0.015625 at N=128. Same-trajectory 800k shows similar low-FPR weakness at N=128 (TPR@1%=0.039) and in the archived N=512 rerun (TPR@1%=0.025391, TPR@0.1%=0.0).
 
 ## Paper Impact
 

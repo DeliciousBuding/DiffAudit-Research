@@ -18,7 +18,8 @@ Current verified facts:
 | Independent DDPM-800k N=512 | Complete | `outputs/h1-scout-800k-independent-n512/summary.json` |
 | DDIM-750k N=512 | Complete | `outputs/h1-scout-ddim-750k-n512/summary.json` |
 | Same-trajectory DDPM-800k N=512 | Complete | `outputs/h1-scout-800k-same-trajectory-n512/summary.json` records rerun AUC=0.605488, TPR@1%=0.025391, shuffle AUC=0.488052 |
-| seed=43 training | Paused | Latest durable checkpoint is `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step624000.pt`; continue from saved state, not heartbeat |
+| seed=43 training to 750k | Complete | `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step750000.pt`, SHA256 `1dad28a63cef2ef4439f77457c10825bcb4ff66ef7c7e3e19dbe285e4503aba2` |
+| seed=43 H1 scout at 750k | Complete | `outputs/h1-scout-seed43-750k/summary.json` records AUC=0.666687, TPR@1%=0.015625, shuffle AUC=0.453552 |
 
 Current command runbook: `docs/start-here/phase-g-runbook-2026-06-30.md`.
 
@@ -28,14 +29,16 @@ Current command runbook: `docs/start-here/phase-g-runbook-2026-06-30.md`.
 
 - [x] Re-run or recover same-trajectory DDPM-800k N=512 raw output into `outputs/h1-scout-800k-same-trajectory-n512/`.
 - [ ] Add `summary.json` beside every Phase G H1 output that is cited by the paper.
-- [ ] Keep `docs/paper1/frozen-claim-matrix.md`, `docs/evidence/experiment-master-log.md`, and `Papers/diffaudit-evidence-paper/evidence_bank.md` aligned after each Phase G result.
+- [x] Keep `docs/paper1/frozen-claim-matrix.md`, `docs/evidence/experiment-master-log.md`, and `Papers/diffaudit-evidence-paper/evidence_bank.md` aligned after the seed43 750k scout.
 
 2026-07-01 closure: the same-trajectory DDPM-800k N=512 rerun completed with the readable CIFAR root. The rerun produced raw activation cache, `h1_results.json`, and `summary.json`; the archived AUC is 0.605488 rather than the previously documented unarchived 0.576 value.
 
+2026-07-02 closure: seed43 reached 750k and the bounded N=128 H1 scout completed. The result (AUC=0.666687, TPR@1%=0.015625, shuffle AUC=0.453552) stays in the moderate 750k band rather than the strong-run cluster.
+
 ### P1: seed=43 Run-Dynamics Replication
 
-- [ ] Resume seed=43 training from the durable 624k checkpoint to 750k.
-- [ ] Run H1 scout at 750k with the parameterized `scripts/h1/h1_activation_scout.py`.
+- [x] Resume seed=43 training from the durable 624k checkpoint to 750k.
+- [x] Run H1 scout at 750k with the parameterized `scripts/h1/h1_activation_scout.py`.
 - [ ] Continue seed=43 from 750k to 800k only after the 750k scout is archived.
 - [ ] Run H1 scout at 800k.
 - [ ] Run fine temporal grid at 800k.
@@ -63,6 +66,7 @@ Allowed:
 
 - H1/DAAB is a real activation-level candidate signal across tested checkpoints.
 - Signal strength is training-trajectory sensitive.
+- seed43 750k replicates the moderate 750k AUC regime (0.666687) but not reliable low-FPR recovery.
 - DDIM-750k is stronger than step-matched DDPM-750k.
 - Same-trajectory 750k->800k amplification is modest compared with the independent DDPM-800k gap.
 - N=512 currently shows a strong cluster around 0.81 and a weak cluster around 0.56-0.61. The same-trajectory 800k raw artifact is now archived and remains weak-to-moderate at AUC=0.605488 with TPR@1%=0.025391.

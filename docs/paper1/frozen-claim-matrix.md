@@ -1,7 +1,7 @@
 # DiffAudit Evidence Claim Matrix (Frozen)
 
 > 冻结时间：2026-06-19
-> **2026-07-01 更新**: H1/DAAB 行已纳入 Phase G run-dynamics baseline。旧数字（DDPM-800k AUC=0.873, DDIM-750k AUC=0.841）已被统一脚本重新评估的 v2 数字取代；same-trajectory DDPM-800k N=512 已补齐 raw JSON，rerun AUC=0.605488。
+> **2026-07-02 更新**: H1/DAAB 行已纳入 Phase G run-dynamics baseline。旧数字（DDPM-800k AUC=0.873, DDIM-750k AUC=0.841）已被统一脚本重新评估的 v2 数字取代；same-trajectory DDPM-800k N=512 已补齐 raw JSON，rerun AUC=0.605488；seed43 750k scout 完成，AUC=0.666687。
 > 用途：Paper 1 submission 的唯一数据源。所有 Agent 写作必须引用本表，不得使用其他数字。
 > 规则：每个方法一行，包含允许的声明（allowed claim）和禁止的声明（blocked claim）。
 
@@ -154,8 +154,8 @@
 | # | Method | Access | Model/Data | AUC | TPR@1%FPR | N | Status |
 |---|--------|--------|-----------|:---:|:---------:|:---:|--------|
 | 22 | **PIA/TMIA-DM** | Gray-box | GPU512 | — | — | — | candidate / pending admission review |
-| 24 | **H1 Activation-Subspace (DAAB) v2** | White-box activation | CUDA UNet CIFAR-10, 4 ckpts | **0.648–0.872** | 0.039–0.227 | 128/128 | candidate-positive / run-sensitive |
-| 25 | **H1 DDPM-750k (matched control)** | White-box activation | Self-trained ~125h, exact 750k steps | **0.648** | 0.094 | 128/128 | step-count confound resolution |
+| 24 | **H1 Activation-Subspace (DAAB) v2** | White-box activation | CUDA UNet CIFAR-10, 5 ckpts | **0.648–0.872** | 0.016–0.227 | 128/128 | candidate-positive / run-sensitive |
+| 25 | **H1 DDPM-750k (matched controls)** | White-box activation | Self-trained 750k, seeds 42/43 | **0.648, 0.666687** | 0.094, 0.015625 | 128/128 | step-count / seed replication |
 | 26 | **H1 N=512 tail cluster** | White-box activation | DDPM/DDIM CIFAR-10 scaled | **0.560–0.815** | 0.014–0.158 | 512/512 | run-sensitive; same-trajectory raw artifact present |
 
 ### Allowed Claims (H1/DAAB v2) — updated 2026-06-25
@@ -167,14 +167,16 @@ H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PC
 | Checkpoint | AUC | TPR@1% | Shuffle AUC |
 |------------|-----|--------|-------------|
 | DDPM-750k | 0.648 | 0.094 | 0.484 |
+| DDPM-750k seed43 | 0.666687 | 0.015625 | 0.453552 |
 | DDPM-800k same-trajectory | 0.717 | 0.039 | 0.507 |
 | DDPM-800k independent | 0.872 | 0.227 | 0.492 |
 | DDIM-750k | 0.856 | 0.109 | 0.481 |
 
-- Internal UNet activations carry detectable, above-chance membership signal across all four checkpoints. Signal strength is training-trajectory dependent (0.648–0.872)
+- Internal UNet activations carry detectable, above-chance membership signal across evaluated checkpoints. Signal strength is training-trajectory dependent (0.648–0.872)
+- seed43 at 750k stays near the seed42 750k AUC regime (0.666687 vs 0.648) but has weak low-FPR recovery (TPR@1%=0.015625), so it supports the moderate 750k regime without creating a strong-run cluster
 - DDIM-750k substantially exceeds step-matched DDPM-750k (ΔAUC=+0.208), confirming DDIM advantage is not a step-count artifact. The original DDPM-800k vs DDIM-750k comparison was conservative with respect to DDIM
 - Same-trajectory DDPM-750k→800k increases AUC only from 0.648 to 0.717 (Δ=+0.069). The independent DDPM-800k gap (0.872−0.648=+0.224) is therefore dominated by run identity rather than pure step count
-- Signal passes label-shuffle control (four checkpoints: 0.481–0.507) and does not depend on a single UNet site
+- Signal passes label-shuffle control (0.453552–0.507) and does not depend on a single UNet site
 - H1 provides a mechanistically distinct white-box observable: non-gradient, non-loss, activation-based
 - **Fine temporal grid (8 timesteps, 4 checkpoints)**: DDPM-750k is moderately concentrated (max |Δ|=0.097), independent DDPM-800k is distributed (0.029), same-trajectory DDPM-800k is more concentrated (0.152), DDIM-750k is strongly concentrated (0.221). Temporal geometry varies with training procedure, training stage, and run identity
 - **AUC-vs-step**: H1 signal stable 0.65–0.71 from 100k–750k within the DDPM-750k trajectory; the independent DDPM-800k high AUC is not reproduced by same-trajectory continuation
@@ -186,7 +188,7 @@ H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PC
 - ❌ "AUC>0.8 is universal for DAAB" — DDPM-750k AUC=0.648 is below 0.8
 - ❌ "DDPM always produces temporally distributed signal" — DDPM-750k is moderately concentrated
 - ❌ "Late-stage amplification explains independent DDPM-800k" — same-trajectory amplification is modest
-- ❌ "low-FPR fragility proven across all configurations" — strong N=512 runs exist; same-trajectory N=512 raw artifact is pending archival
+- ❌ "low-FPR fragility proven across all configurations" — strong N=512 runs exist even though seed42/seed43 750k and same-trajectory 800k are low-FPR weak
 - ❌ "Activation-subspace attack achieves reliable low-FPR MIA"
 - ❌ "Significant channels are a compact removable leakage source"
 - ❌ Any TPR@0.1%FPR claim
