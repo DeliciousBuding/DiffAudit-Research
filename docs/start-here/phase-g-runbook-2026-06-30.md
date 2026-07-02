@@ -86,7 +86,18 @@ Required archive outputs:
 Do not use the previously documented unarchived AUC=0.576 in final paper text;
 use the archived 2026-07-01 rerun value unless a later rerun supersedes it.
 
-### seed43 750k Scout
+### seed43 750k / 800k Scouts
+
+Status: seed43 reached 750k on 2026-07-02 and 800k on 2026-07-03. Archived
+outputs:
+
+- `outputs/h1-scout-seed43-750k/summary.json`: AUC=0.666687, TPR@1%=0.015625, shuffle AUC=0.453552.
+- `outputs/h1-scout-seed43-800k/summary.json`: AUC=0.664612, TPR@1%=0.015625, shuffle AUC=0.487793.
+- `outputs/h1-fine-grid-seed43-800k/summary.json`: max |delta|=0.1169 at `mid_0`, t=600; knockout mostly increases AUC.
+
+N=512 was not run for seed43 800k because the N=128 AUC did not exceed 0.70.
+seed44 is recommended, not required, and should not start without a fresh GPU
+allocation decision.
 
 Resume training from the durable checkpoint only after GPU is allowed:
 
@@ -112,6 +123,26 @@ python -u scripts/h1/h1_activation_scout.py `
 
 Do not continue seed43 to 800k until the 750k H1 result is archived and reflected
 in the evidence docs.
+
+After `checkpoint-step800000.pt` exists:
+
+```powershell
+$env:DIFFAUDIT_DATASET_ROOT = "<DIFFAUDIT_ROOT>\Download\datasets-readable"
+python -u scripts/h1/h1_activation_scout.py `
+  --ckpt <DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step800000.pt `
+  --ckpt-label ddpm-cifar10-seed43-800k `
+  --out outputs/h1-scout-seed43-800k `
+  --n-member 128 `
+  --n-nonmember 128 `
+  --force
+
+python -u scripts/h1/h1_fine_grid_ddpm750k.py `
+  --ckpt <DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step800000.pt `
+  --out outputs/h1-fine-grid-seed43-800k `
+  --n-member 64 `
+  --n-nonmember 64 `
+  --force
+```
 
 ### Matched Channel Knockout
 

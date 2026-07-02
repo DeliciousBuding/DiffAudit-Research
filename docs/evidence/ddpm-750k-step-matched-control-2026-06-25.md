@@ -34,6 +34,7 @@ TOTAL_STEPS=750000, GRAD_CLIP=1.0, WARMUP_STEPS=5000, SEED=42
 |------------|-----|--------|----------|---------|----------|
 | DDPM-750k | 0.648 | 0.094 | 0.000 | 0.484 | 0.646-0.656 |
 | DDPM-750k seed43 | 0.666687 | 0.015625 | 0.000 | 0.453552 | 0.664673-0.684387 |
+| DDPM-800k seed43 | 0.664612 | 0.015625 | 0.000 | 0.487793 | 0.666077-0.671753 |
 | DDPM-800k | 0.872 | 0.227 | 0.000 | 0.492 | 0.870-0.873 |
 | DDIM-750k | 0.856 | 0.109 | 0.000 | 0.481 | 0.852-0.857 |
 
@@ -49,6 +50,27 @@ SHA256: `1dad28a63cef2ef4439f77457c10825bcb4ff66ef7c7e3e19dbe285e4503aba2`
 Output: `outputs/h1-scout-seed43-750k/h1_results.json` and `summary.json`
 
 H1 scout: AUC=0.666687, TPR@1%=0.015625, TPR@0.1%=0.0, Shuffle=0.453552. The result is close to the seed42 750k AUC regime (+0.019 AUC) but has weaker low-FPR recovery. This supports the interpretation that 750k DDPM checkpoints are moderate H1 candidates, while strong N=512-ready behavior still appears run-dependent and requires the seed43 800k continuation before seed44 is decided.
+
+## Seed43 800k Continuation (N=128 + Fine Grid)
+
+Status: **COMPLETE** (2026-07-03)
+Checkpoint: `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step800000.pt`
+SHA256: `19f62a7fbbc4a492e919d31174049bd3bc2e6c2f631d8d38a2a6c79871f47fa8`
+H1 output: `outputs/h1-scout-seed43-800k/h1_results.json` and `summary.json`
+Fine-grid output: `outputs/h1-fine-grid-seed43-800k/h1_fine_grid_results.json` and `summary.json`
+
+H1 scout: AUC=0.664612, TPR@1%=0.015625, TPR@0.1%=0.0, Shuffle=0.487793. The result is slightly below seed43 750k (delta=-0.002075) and below the seed42 same-trajectory 800k point (delta=-0.052388). Because AUC did not exceed 0.70, the N=512 tail was not run.
+
+Fine temporal grid baseline AUC: 0.674805.
+
+| Site | t=50 | t=100 | t=150 | t=200 | t=300 | t=400 | t=600 | t=800 |
+|------|------|-------|-------|-------|-------|-------|-------|-------|
+| late_down | -0.0256 | -0.0603 | -0.0049 | -0.0151 | -0.0420 | -0.0591 | -0.0894 | -0.0791 |
+| mid_0 | -0.0378 | -0.0144 | -0.0354 | -0.0247 | -0.0466 | -0.0408 | -0.1169 | -0.0491 |
+
+Max |delta|: late_down 0.0894 (t=600), mid_0 0.1169 (t=600).
+
+Result: seed43 800k does not reproduce the seed42 same-trajectory late-stage amplification. The fine-grid sign pattern changes: full-site knockout mostly increases AUC rather than removing separability, so this run does not identify a compact site-time leakage bottleneck.
 
 ## Matched Knockout (DDPM-750k, N=64, 4 sites × 3 timesteps)
 
@@ -118,13 +140,13 @@ Evidence hygiene note (2026-07-01): the same-trajectory N=128 scout, fine-grid J
 
 1. **DDIM advantage confirmed, not due to step count**: DDIM-750k (0.856) substantially exceeds step-matched DDPM-750k (0.648) by ΔAUC=+0.208. The original DDPM-800k vs. DDIM-750k comparison was conservative with respect to DDIM.
 
-2. **Seed43 replicates the moderate 750k regime, not the strong cluster**: seed43 at 750k gives AUC=0.666687 and TPR@1%=0.015625. This is above chance and close to seed42 750k by AUC, but it does not show reliable low-FPR recovery.
+2. **Seed43 replicates the moderate regime, not the strong cluster**: seed43 gives AUC=0.666687 at 750k and AUC=0.664612 at 800k, with TPR@1%=0.015625 at both checkpoints. This is above chance and close to seed42 750k by AUC, but it does not show reliable low-FPR recovery or late-stage amplification.
 
-3. **Same-trajectory late-stage amplification exists but is modest**: Continuing DDPM-750k to 800k on the same trajectory produces AUC=0.717, a ΔAUC=+0.069 increase. The independently trained DDPM-800k (0.872) owes ~70% of its advantage to run identity (seed, training dynamics, optimizer state), not to the additional 50k steps. The residual ~30% (ΔAUC≈+0.069) is a bounded estimate of the same-trajectory step-count contribution.
+3. **Same-trajectory late-stage amplification is not stable across seeds**: Continuing seed42 DDPM-750k to 800k on the same trajectory produces AUC=0.717, a ΔAUC=+0.069 increase. Continuing seed43 from 750k to 800k produces AUC=0.664612, a small decrease from its 750k point. The independently trained DDPM-800k (0.872) remains dominated by run identity, not pure step count.
 
-4. **Temporal geometry is training-stage AND run-identity dependent**: DDPM-750k is moderately concentrated. Same-trajectory 800k continuation produces INCREASED concentration (max |Δ|=0.152, not distributed). The independently trained DDPM-800k's temporally distributed pattern is a run-identity artifact — not reproduced on the same trajectory. DDIM-750k is strongly concentrated.
+4. **Temporal geometry is training-stage AND run-identity dependent**: DDPM-750k is moderately concentrated. Seed42 same-trajectory 800k continuation produces increased concentration (max |delta|=0.152), but seed43 800k changes sign and mostly improves AUC under knockout (max |delta|=0.1169 at `mid_0`, t=600). The independently trained DDPM-800k's temporally distributed pattern remains a run-identity artifact. DDIM-750k is strongly concentrated.
 
-5. **Low-FPR fragility confirmed for the seed42/seed43 750k points**: DDPM-750k TPR@1% collapses from 0.094 (N=128) to 0.014 (N=512) for seed42, and seed43 750k has only TPR@1%=0.015625 at N=128. Same-trajectory 800k shows similar low-FPR weakness at N=128 (TPR@1%=0.039) and in the archived N=512 rerun (TPR@1%=0.025391, TPR@0.1%=0.0).
+5. **Low-FPR fragility confirmed for the seed42/seed43 moderate points**: DDPM-750k TPR@1% collapses from 0.094 (N=128) to 0.014 (N=512) for seed42, and seed43 has only TPR@1%=0.015625 at both 750k and 800k. Same-trajectory 800k shows similar low-FPR weakness at N=128 (TPR@1%=0.039) and in the archived N=512 rerun (TPR@1%=0.025391, TPR@0.1%=0.0).
 
 ## Paper Impact
 
