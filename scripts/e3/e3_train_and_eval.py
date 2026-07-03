@@ -3,7 +3,6 @@
 E3: NVIDIA Standard-UNet CIFAR-10 Calibration
 ==============================================
 Train a DDPM on CIFAR-10 members only, then run SecMI + PIA attacks.
-Hard cap: 48 GPU-hours per ccf-a-research-roadmap-2026-06-06.
 
 Usage:
   python scripts/e3_train_and_eval.py --train    # Train only

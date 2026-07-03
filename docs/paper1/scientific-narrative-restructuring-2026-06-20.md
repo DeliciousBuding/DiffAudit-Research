@@ -62,7 +62,6 @@ H1 decouples three things most MIA papers conflate:
 This makes H1 the paper's best scientific illustration:
 - Not an obvious failure (like CLiD which is almost too clean)
 - A subtle case where the signal is real, stable, and distinct — yet still not admissible
-- Exactly the kind of nuance target-venue reviewers respect
 
 ## Protocol Weakness Mitigation
 

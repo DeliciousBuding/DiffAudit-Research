@@ -1,7 +1,6 @@
 # Paper 1 Statistical Audit
 
-**Purpose**: Pre-submission statistical review of all key numbers.  
-**Target**: target venue (rigorous review, reproduction certification expected).
+**Purpose**: Pre-submission statistical review of all key numbers.
 
 ## 1. Recon (N=100 admitted black-box)
 

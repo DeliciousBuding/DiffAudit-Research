@@ -1,6 +1,6 @@
 """Build the E2 public-source-first freeze ledger.
 
-The ledger is a compact handoff surface for the current CCF-A upgrade route.
+The ledger is a compact handoff surface for the current evidence upgrade route.
 It summarizes the rows that can shape the next public-source freeze, external
 review, or second-asset watch decision without promoting any row beyond its
 current gate state.
@@ -208,7 +208,7 @@ def render_md(rows: list[dict[str, str]]) -> str:
         "> Date: 2026-06-09",
         "> Scope: handoff ledger for the next public-source-first freeze cycle.",
         "",
-        "This ledger gives the next reviewer one current entrypoint for the CCF-A",
+        "This ledger gives the next reviewer one current entrypoint for the evidence",
         "upgrade route. It combines the feature-packet review row, the prepared C14",
         "review packet, and the high-value public-asset delta refresh. It records",
         "the current state of each row and the surface that must appear before a",

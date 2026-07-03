@@ -12,26 +12,23 @@ from model_unet import UNet
 T = 1000; CH = 128; CH_MULT = [1, 2, 2, 2]; ATTN = [1]; NUM_RES_BLOCKS = 2
 DROPOUT = 0.1; DEVICE = torch.device("cpu")
 
-# All Rediffuse-format checkpoints >100MB
-checkpoints = [
-    "D:/Code/DiffAudit/Download/checkpoints/pia-ddpm-cifar10/checkpoint.pt",
-    "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt",
-    "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar100-800k/checkpoint.pt",
-    "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt",
-    "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar100-800k/checkpoint.pt",
-    "D:/Code/DiffAudit/Download/archive/rediffuse-stl10-bounded-scout-20260525/checkpoint-step-final.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_EPS/ckpt-step99000.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont10k_EPS/ckpt-step9000.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont15k_EPS/ckpt-step5000.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont20k_EPS/ckpt-step5000.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_cont25k_EPS/ckpt-step5000.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m1000_seed0_EPS/ckpt-step9000.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m2000_seed0_EPS/ckpt-step8000.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m5000_seed0_EPS/ckpt-step0.pt",
-    "D:/Code/DiffAudit/Download/archive/collaborator-ddim-stl10-20260527/code/logs/DDPM_STL10_OVERFIT_m500_seed1_EPS/ckpt-step9000.pt",
-    "D:/Code/DiffAudit/Download/checkpoints/openai-cifar10-500k/cifar10_openai_500k.pt",
-    "D:/Code/DiffAudit/Download/checkpoints/ddim-cifar10-750k/DDIM-ckpt-step750000.pt",
-]
+# All Rediffuse-format checkpoints >100MB.
+# Pass checkpoint paths as command-line arguments, or set DIFFAUDIT_CHECKPOINTS
+# as a semicolon-separated environment variable.
+if len(sys.argv) > 1:
+    checkpoints = sys.argv[1:]
+elif os.environ.get("DIFFAUDIT_CHECKPOINTS"):
+    checkpoints = os.environ["DIFFAUDIT_CHECKPOINTS"].split(";")
+else:
+    checkpoints = os.environ.get("DIFFAUDIT_DOWNLOAD_DIR", None)
+    if checkpoints:
+        download = Path(checkpoints)
+        checkpoints = sorted(str(p) for p in download.rglob("*.pt") if p.stat().st_size > 100_000_000)
+    else:
+        print("Usage: python verify_h1_loading.py <checkpoint.pt> [...]")
+        print("   or: set DIFFAUDIT_CHECKPOINTS=path1;path2;...")
+        print("   or: set DIFFAUDIT_DOWNLOAD_DIR=/path/to/downloads")
+        sys.exit(1)
 
 # Exact load_model() logic from h1_activation_scout.py
 for path in checkpoints:

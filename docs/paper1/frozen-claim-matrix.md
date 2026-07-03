@@ -231,7 +231,6 @@ H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PC
 | `Research/docs/paper1/evidence-matrix.md` | All |
 | `Research/docs/paper1/statistical-audit.md` | Statistical rules |
 | `Research/docs/evidence/e3-calibration-memo-2026-06-20.md` | #17–19 |
-| `Docs/internal/ccf-a-research-roadmap-2026-06-06.md` | E1/E2/E3 status (internal — not in public repository) |
 | `Research/docs/evidence/clid-prompt-perturbation.md` | #6 |
 | `Research/docs/evidence/h2-output-cloud-geometry-20260525.md` | #20 |
 | `Research/docs/evidence/h1-activation-scout-memo-2026-06-20.md` | #24 |

@@ -16,6 +16,7 @@ from the available aggregated data.
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -24,8 +25,8 @@ import numpy as np
 from scipy import stats
 
 # ── Paths ──────────────────────────────────────────────────────────────────
-RESEARCH_ROOT = Path("D:/Code/DiffAudit/Research")
-OUTPUT_DIR = Path("D:/Code/DiffAudit/Research/outputs")
+RESEARCH_ROOT = Path(__file__).resolve().parent.parent  # Research/
+OUTPUT_DIR = RESEARCH_ROOT / "outputs"
 OUTPUT_PATH = OUTPUT_DIR / "bootstrap_results.json"
 
 # CLiD raw score files — prompt-conditioned (full) condition
@@ -38,8 +39,9 @@ CLID_KO_DIR = RESEARCH_ROOT / "workspaces/black-box/runs/clid-local-bridge-100-p
 CLID_KO_MEMBER = CLID_KO_DIR / "Atk_clid_clip_M_local_paper_align_DATA_member_TRTE_train_MAXsmp_1_T_0501_041251.txt"
 CLID_KO_NONMEMBER = CLID_KO_DIR / "Atk_clid_clip_M_local_paper_align_DATA_member_TRTE_test_MAXsmp_1_T_0501_041251.txt"
 
-# scnet result files
-SCNET_DIR = Path("D:/Code/DiffAudit/scnet/output/cancon-results")
+# scnet result files (expected under sibling scnet/ repo)
+SCNET_DIR = Path(os.environ.get("DIFFAUDIT_SCNET_RESULTS",
+    str(RESEARCH_ROOT.parent / "scnet" / "output" / "cancon-results")))
 SCNET_TC64 = SCNET_DIR / "ddim_secmi_tc64_s42_e15.json"
 SCNET_TC128 = SCNET_DIR / "ddim_secmi_tc128_s42_e50.json"
 SCNET_TC192 = SCNET_DIR / "ddim_secmi_tc192_s42_e18.json"
