@@ -33,7 +33,7 @@ training-objective observable.
 
 | Metric | Value |
 | --- | ---: |
-| AUC | `0.5148` |
+| AUC | `0.5736` |
 | Reverse AUC | `0.4852` |
 | ASR | `0.5700` |
 | TPR@1%FPR | `0.0200` |

@@ -27,7 +27,7 @@ Failure modes: weak / spurious / non-portable / admitted
 **Updated 2026-06-18**: DCU HPC bootstrap with K=2000, N_BOOT=10000. Previous AUC ceiling (0.538) was overestimated with K=500. All AUCs cluster at 0.50-0.52 with tighter CIs (width ~0.035). Best = TC128 DDIM SecMI AUC 0.518 [0.501, 0.536] — statistically indistinguishable from random. 54× capacity yields zero meaningful MIA signal gain.
 | 10 | CommonCanvas | Black-box | CommonCanvas | 0.574 | — | — | All scorers weak | Weak |
 | 11 | Fashion-MNIST | Black-box | DDPM | 0.515 | — | — | Zero low-FPR | Weak |
-| 12 | MIDST | Black-box | TabDDPM | 0.530 | — | — | Below floor | Weak |
+| 12 | MIDST | Black-box | TabDDPM | 0.598 | — | — | Below floor | Weak |
 | 13 | Beans LoRA delta | Black-box | LoRA probe | 0.512 | — | 25 | Near random | Weak |
 | 14 | Beans LoRA loss | Black-box | LoRA probe | 0.414 | — | 25 | Direction reversed | Weak |
 | 15 | ReDiffuse DiT | Black-box | DiT local probe | ~0.5 | ~0.5 | — | Degenerate | Weak |

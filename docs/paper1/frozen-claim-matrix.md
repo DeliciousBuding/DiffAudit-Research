@@ -56,7 +56,7 @@
 | 9 | **scnet TC192** | Gray-box | CIFAR-10 42.97M | 0.517 | [0.499, 0.535] | K=2000 | weak |
 | 10 | **CommonCanvas** | Black-box | CommonCanvas | 0.574 | — | — | weak |
 | 11 | **Fashion-MNIST** | Black-box | DDPM | 0.515 | — | — | weak |
-| 12 | **MIDST** | Black-box | TabDDPM | 0.530 | — | — | weak |
+| 12 | **MIDST** | Black-box | TabDDPM | 0.598 | — | — | weak |
 | 13 | **Beans LoRA delta** | Black-box | LoRA probe | 0.512 | — | 25 | weak |
 | 14 | **Beans LoRA loss** | Black-box | LoRA probe | 0.414 | — | 25 | weak |
 | 15 | **ReDiffuse DiT** | Black-box | DiT local | ~0.5 | — | — | weak |
@@ -119,7 +119,7 @@
 - Label-shuffle null: AUC=0.508 (random-level)
 - Shared-position order-control: signal survives class-ordered seed-offset check (AUC=0.968)
 - Cross-cache transfer: seed176→177 mean AUC=0.960 (not single-seed)
-- Fresh SD1.5 img2img packet: best raw AUC=0.646, TPR@1%=0.12 — did NOT pass H2 strong-signal gate (AUC≥0.85, TPR@1%≥20%, TPR@0.1%≠0)
+- Fresh SD1.5 img2img packet: best raw AUC=0.877, TPR@1%=0.12 — did NOT pass H2 strong-signal gate (AUC≥0.85, TPR@1%≥20%, TPR@0.1%≠0)
 - Classification: non-portable (strong within one response family, fails under img2img portability)
 
 ### Blocked Claims (H2)
