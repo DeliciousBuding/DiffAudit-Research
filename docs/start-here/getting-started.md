@@ -1,5 +1,9 @@
 ﻿# 入门指南
 
+> **Note:** For current Phase G work, see [docs/start-here/phase-g-runbook-2026-06-30.md](phase-g-runbook-2026-06-30.md)
+
+*Last updated: 2026-07-03*
+
 这份文档面向第一次进入 DiffAudit Research 仓库的新成员或外部贡献者。
 
 ## 先做什么
@@ -25,15 +29,13 @@
 ## 第一次本地验证
 
 ```powershell
-conda activate diffaudit-research
-python scripts/bootstrap_research_env.py --install
-python scripts/verify_env.py
+conda activate retrace-tr
+python scripts/util/bootstrap_research_env.py --install
+python scripts/util/verify_env.py
 python -m diffaudit --help
 python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_local_configs.py -q
 python -m diffaudit plan-variation --config configs/attacks/variation-plan.yaml
-python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke-local
 python -m diffaudit plan-pia --config configs/attacks/pia-plan.yaml
-python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 ```
 
 第一次使用前，先复制 `configs/assets/team.local.template.yaml` 为本地 `configs/assets/team.local.yaml`，再填写自己的真实路径。大数据集、权重和 supplementary 包默认放在仓库外的 `<DIFFAUDIT_ROOT>/Download/`，不要放进 `Research/external/`。
@@ -41,10 +43,10 @@ python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root work
 如果当前 shell 还没激活 conda，也可以直接写成：
 
 ```powershell
-conda run -n diffaudit-research python scripts/verify_env.py
-conda run -n diffaudit-research python -m diffaudit --help
-conda run -n diffaudit-research python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_local_configs.py -q
-conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
+conda run -n retrace-tr python scripts/util/verify_env.py
+conda run -n retrace-tr python -m diffaudit --help
+conda run -n retrace-tr python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_local_configs.py -q
+conda run -n retrace-tr python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
 ```
 
 ## 工作区选择

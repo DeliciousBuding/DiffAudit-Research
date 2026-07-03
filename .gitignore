@@ -276,4 +276,6 @@ workspaces/white-box/smoke-ddpm/
 docs/ask-gpt/
 docs/internal/
 papers/
-training/
+# Training: track source code, ignore outputs
+training/outputs/
+training/**/__pycache__/

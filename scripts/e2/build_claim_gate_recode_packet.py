@@ -14,7 +14,7 @@ import io
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 PAPER = ROOT / "papers" / "diffaudit-evidence-paper"
 CLAIM_TRACE = PAPER / "data" / "claim_trace.csv"
 OUT_TEMPLATE = PAPER / "data" / "claim_gate_recode_template.csv"

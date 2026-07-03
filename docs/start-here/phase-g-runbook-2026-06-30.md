@@ -23,6 +23,13 @@ conda activate retrace-tr
 If the default CIFAR-10 directory fails with a `PermissionError`, re-extract the
 archive into a fresh readable root instead of repairing ACLs in place:
 
+### CIFAR-10 Acquisition
+
+Download the CIFAR-10 Python dataset:
+- Official URL: https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+- Place the tar file in `<DOWNLOAD_ROOT>/datasets/`
+- Or use `torchvision.datasets.CIFAR10(root='...', download=True)` to auto-download
+
 ```powershell
 New-Item -ItemType Directory -Force <DIFFAUDIT_ROOT>\Download\datasets-readable\cifar10
 tar -xzf <DIFFAUDIT_ROOT>\Download\datasets\cifar-10\cifar-10-python.tar.gz `

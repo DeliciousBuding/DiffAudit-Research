@@ -14,7 +14,7 @@ from itertools import combinations
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_PILOT_DIR = ROOT / "docs" / "internal" / "e2-pilot-2026-06-06"
 
 GATE_FIELDS = [

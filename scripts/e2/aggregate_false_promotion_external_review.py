@@ -17,7 +17,7 @@ from itertools import combinations
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 PAPER = ROOT / "papers" / "diffaudit-evidence-paper"
 DEFAULT_REVIEW_DIR = PAPER / "build" / "false_promotion_external_review_labels"
 DEFAULT_OUTPUT_DIR = PAPER / "build"

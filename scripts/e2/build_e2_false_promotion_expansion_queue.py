@@ -13,7 +13,7 @@ import io
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 PREFLIGHT = ROOT / "docs" / "internal" / "e2-n50-freeze-preflight-2026-06-06"
 
 SCOUT_QUEUE = PREFLIGHT / "e2_n50_public_surface_scout_2026_06_06.csv"

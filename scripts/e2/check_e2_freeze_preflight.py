@@ -10,7 +10,7 @@ import csv
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 PREFLIGHT = ROOT / "docs" / "internal" / "e2-n50-freeze-preflight-2026-06-06"
 PAPER = ROOT / "papers" / "diffaudit-evidence-paper"
 

@@ -25,7 +25,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 PREFLIGHT_DIR = ROOT / "docs" / "internal" / "e2-n50-freeze-preflight-2026-06-06"
 DEFAULT_SCOUT_QUEUE = PREFLIGHT_DIR / "e2_n50_public_surface_scout_2026_06_06.csv"
 DEFAULT_OUT_CSV = PREFLIGHT_DIR / "e2_n50_public_surface_metadata_refresh.csv"

@@ -217,7 +217,7 @@ def scan_text(path: Path, errors: list[str]) -> None:
 
 
 def validate_inputs(paper: Path, errors: list[str]) -> list[BundleItem]:
-    repo_root = paper.parents[1]
+    repo_root = paper.parents[2]
     packet = paper / "data" / "false_promotion_external_review_packet.csv"
     blinded_packet = paper / "data" / "false_promotion_blinded_review_packet.csv"
     adjudication_key = paper / "data" / "false_promotion_adjudication_key.csv"
@@ -876,7 +876,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    repo_root = Path(__file__).resolve().parents[1]
+    repo_root = Path(__file__).resolve().parents[2]
     paper = repo_root / "papers" / "diffaudit-evidence-paper"
     errors: list[str] = []
     items = validate_inputs(paper, errors)

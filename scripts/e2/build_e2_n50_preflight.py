@@ -13,7 +13,7 @@ from collections import Counter
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "papers" / "diffaudit-evidence-paper" / "data"
 # GONE - docs/internal/ directory not found
 # OUT = ROOT / "docs" / "internal" / "e2-n50-freeze-preflight-2026-06-06"

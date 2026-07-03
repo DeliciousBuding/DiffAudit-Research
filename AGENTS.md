@@ -246,7 +246,7 @@ Research/
 - **Scripts**: `{section}_{experiment}_{variant}.py`. Script names do NOT include dates — the date is recorded in the evidence doc produced by the script.
   - Example: `run_commoncanvas_denoising_loss.py`, `review_h2_output_cloud_geometry.py`
 - **Evidence docs**: `{section}-{topic}-YYYY-MM-DD.md`
-  - Example: `black-box-response-contract-acquisition-audit.md`, `rediffuse-stl10-bounded-scout-20260525.md`
+  - Example: `black-box-response-contract-acquisition-audit.md`, `rediffuse-stl10-bounded-scout-2026-05-25.md`
 - **All dated filenames**: `YYYY-MM-DD` (ISO 8601). `YYYYMMDD` is forbidden.
 - **Config files**: `kebab-case.yaml`. Local overrides use `*.local.yaml` (git-ignored).
 

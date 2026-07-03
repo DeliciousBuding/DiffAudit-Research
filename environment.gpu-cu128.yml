@@ -1,4 +1,4 @@
-name: diffaudit-research
+name: retrace-tr
 channels:
   - conda-forge
 dependencies:
