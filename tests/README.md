@@ -29,19 +29,19 @@ python -X utf8 scripts/run_pr_checks.py
 快速本地检查：
 
 ```powershell
-conda run -n retrace-tr python -X utf8 scripts/run_local_checks.py --fast
+conda run -n diffaudit python -X utf8 scripts/run_local_checks.py --fast
 ```
 
 Adapter 测试：
 
 ```powershell
-conda run -n retrace-tr python -m unittest tests.test_attack_registry tests.test_pia_adapter tests.test_pia_epsilon_output_noise tests.test_pia_input_blur_defense tests.test_sima_adapter tests.test_temporal_surrogate tests.test_tmiadm_adapter tests.test_gsa_adapter
+conda run -n diffaudit python -m unittest tests.test_attack_registry tests.test_pia_adapter tests.test_pia_epsilon_output_noise tests.test_pia_input_blur_defense tests.test_sima_adapter tests.test_temporal_surrogate tests.test_tmiadm_adapter tests.test_gsa_adapter
 ```
 
 完整测试：
 
 ```powershell
-conda run -n retrace-tr python -m unittest
+conda run -n diffaudit python -m unittest
 ```
 
 ## Fixture 规则

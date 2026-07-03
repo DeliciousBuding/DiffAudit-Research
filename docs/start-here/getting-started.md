@@ -29,7 +29,7 @@
 ## 第一次本地验证
 
 ```powershell
-conda activate retrace-tr
+conda activate diffaudit
 python scripts/util/bootstrap_research_env.py --install
 python scripts/util/verify_env.py
 python -m diffaudit --help
@@ -43,10 +43,10 @@ python -m diffaudit plan-pia --config configs/attacks/pia-plan.yaml
 如果当前 shell 还没激活 conda，也可以直接写成：
 
 ```powershell
-conda run -n retrace-tr python scripts/util/verify_env.py
-conda run -n retrace-tr python -m diffaudit --help
-conda run -n retrace-tr python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_local_configs.py -q
-conda run -n retrace-tr python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
+conda run -n diffaudit python scripts/util/verify_env.py
+conda run -n diffaudit python -m diffaudit --help
+conda run -n diffaudit python -m pytest tests/test_cli_module_entrypoint.py tests/test_render_team_local_configs.py -q
+conda run -n diffaudit python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
 ```
 
 ## 工作区选择

@@ -17,7 +17,7 @@ preparation steps below are safe to run before that point.
 Use the DiffAudit CUDA environment for import and dataset smoke checks:
 
 ```powershell
-conda activate retrace-tr
+conda activate diffaudit
 ```
 
 If the default CIFAR-10 directory fails with a `PermissionError`, re-extract the

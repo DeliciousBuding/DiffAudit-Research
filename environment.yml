@@ -1,36 +1,36 @@
-name: retrace-tr
+name: diffaudit
 channels:
-  - conda-forge
+- conda-forge
 dependencies:
-  - python=3.11
-  - pip
-  - pip:
-      - --extra-index-url=https://download.pytorch.org/whl/cu121
-      - -e .
-      - ipykernel
-      - jupyterlab
-      - matplotlib
-      - numpy
-      - pandas
-      - pillow
-      - pre-commit
-      - pytest
-      - pyyaml
-      - scikit-learn
-      - scipy
-      - xgboost==1.7.3
-      - seaborn
-      - tqdm
-      - accelerate
-      - absl-py
-      - datasets
-      - diffusers
-      - fastapi
-      - huggingface-hub
-      - httpx
-      - safetensors
-      - torch==2.5.1+cu121
-      - torchaudio==2.5.1+cu121
-      - torchvision==0.20.1+cu121
-      - transformers
-      - uvicorn
+- python=3.11
+- pip
+- pip:
+  - --extra-index-url=https://download.pytorch.org/whl/cu121
+  - -e .
+  - ipykernel
+  - jupyterlab
+  - matplotlib
+  - numpy
+  - pandas
+  - pillow
+  - pre-commit
+  - pytest
+  - pyyaml
+  - scikit-learn
+  - scipy
+  - xgboost==1.7.3
+  - seaborn
+  - tqdm
+  - accelerate
+  - absl-py
+  - datasets
+  - diffusers
+  - fastapi
+  - huggingface-hub
+  - httpx
+  - safetensors
+  - torch==2.5.1+cu121
+  - torchaudio==2.5.1+cu121
+  - torchvision==0.20.1+cu121
+  - transformers
+  - uvicorn
