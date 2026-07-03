@@ -113,7 +113,7 @@
       "evidence_level": "runtime-mainline",
       "note": "current gray-box baseline reference; score is derived from epsilon-trajectory consistency under the official PIA DDPM attacker",
       "boundary": "workspace-verified + adaptive-reviewed + paper-alignment blocked by checkpoint/source provenance",
-      "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/summary.json"
+      "source": "GONE - workspace run directory deleted; re-run experiment to regenerate"
     },
     {
       "track": "gray-box",
@@ -243,7 +243,7 @@
       "evidence_level": "runtime-mainline",
       "note": "current gray-box defended main result after repeated-query review; all_steps remains stronger than late_steps_only while keeping surrogate quality drift small",
       "boundary": "workspace-verified + adaptive-reviewed + paper-alignment blocked by checkpoint/source provenance",
-      "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/summary.json"
+      "source": "GONE - workspace run directory deleted; re-run experiment to regenerate"
     },
     {
       "track": "gray-box",
@@ -418,7 +418,7 @@
       "evidence_level": "runtime-mainline",
       "note": "current white-box attack main evidence promoted from epoch300 rerun1 under the same 1k-3shadow protocol",
       "boundary": "admitted white-box bridge / risk upper-bound; not a final paper-level benchmark",
-      "source": "workspaces/white-box/runs/gsa-runtime-mainline-20260409-cifar10-1k-3shadow-epoch300-rerun1/summary.json"
+      "source": "GONE - workspace run directory deleted; re-run experiment to regenerate"
     },
     {
       "track": "white-box",
@@ -433,7 +433,7 @@
       "evidence_level": "runtime-smoke",
       "note": "current white-box defended main result",
       "boundary": "admitted white-box bridge / defended comparator; not a final paper-level benchmark",
-      "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/summary.json"
+      "source": "GONE - workspace run directory deleted; re-run experiment to regenerate"
     },
     {
       "track": "white-box",

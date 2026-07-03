@@ -1,7 +1,7 @@
 """Aggregate C14 false-promotion external-review labels.
 
 The C14 packet is prepared reviewer material. This script validates reviewer
-CSV files filled from ``D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_external_review_template.csv`` and
+CSV files filled from ``papers/diffaudit-evidence-paper/data/false_promotion_external_review_template.csv`` and
 summarizes majority labels, disagreements, and comparison against the author
 adjudication key. It never fabricates labels: with ``--check`` and no reviewer
 files, it only validates that the packet is ready to receive labels.

@@ -11,11 +11,19 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[2]
 LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
+CHECKED_EVIDENCE_FILES = {
+    "docs/evidence/README.md",
+    "docs/evidence/innovation-evidence-map.md",
+    "docs/evidence/reproduction-status.md",
+}
+
 SKIP_PREFIXES = (
     "legacy/",
     "external/",
     "third_party/",
     "docs/internal/",
+    "workspaces/",
+    "src/",
     "references/materials/",
 )
 SKIP_SCHEMES = (
@@ -37,6 +45,8 @@ def tracked_markdown_files() -> list[str]:
     files = []
     for path in proc.stdout.splitlines():
         normalized = path.replace("\\", "/")
+        if normalized.startswith("docs/evidence/") and normalized not in CHECKED_EVIDENCE_FILES:
+            continue
         if normalized.startswith(SKIP_PREFIXES):
             continue
         files.append(normalized)

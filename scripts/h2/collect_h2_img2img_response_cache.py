@@ -107,7 +107,7 @@ def _build_plan(args: argparse.Namespace) -> dict[str, Any]:
     sd15_model_dir = args.sd15_model_dir or roots["sd15_model_dir"]
     recon_root = args.recon_root or roots["recon_root"]
     split_root = recon_root / args.split_name
-    lora_dir = Path("D:/Code/DiffAudit/Download/checkpoints/recon-lora-celeba/celeba_partial_target/checkpoint-25000")
+    lora_dir = args.download_root / "checkpoints/recon-lora-celeba/celeba_partial_target/checkpoint-25000"
     strengths = _validate_strengths(args.strengths)
     if args.packet_size <= 0:
         raise ValueError("--packet-size must be positive")

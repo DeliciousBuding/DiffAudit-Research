@@ -32,7 +32,7 @@ Current command runbook: `docs/start-here/phase-g-runbook-2026-06-30.md`.
 
 - [x] Re-run or recover same-trajectory DDPM-800k N=512 raw output into `outputs/h1-scout-800k-same-trajectory-n512/`.
 - [ ] Add `summary.json` beside every Phase G H1 output that is cited by the paper.
-- [x] Keep `docs/paper1/frozen-claim-matrix.md`, `docs/evidence/experiment-master-log.md`, and `Papers/diffaudit-evidence-paper/evidence_bank.md` aligned after the seed43 750k/800k scouts.
+- [x] Keep `docs/paper1/frozen-claim-matrix.md`, `docs/evidence/experiment-master-log.md`, and the private paper evidence bank aligned after the seed43 750k/800k scouts.
 
 2026-07-01 closure: the same-trajectory DDPM-800k N=512 rerun completed with the readable CIFAR root. The rerun produced raw activation cache, `h1_results.json`, and `summary.json`; the archived AUC is 0.605488 rather than the previously documented unarchived 0.576 value.
 
@@ -49,19 +49,19 @@ Current command runbook: `docs/start-here/phase-g-runbook-2026-06-30.md`.
 - [x] Run fine temporal grid at 800k.
 - [x] Do not run N=512 tail because seed43 800k H1 scout AUC=0.664612 <= 0.70.
 
-Decision value: seed=43 decides whether the current two-cluster N=512 pattern is a stable run-dynamics phenomenon or a two-run accident.
+Decision value: seed=43 decided that the current two-cluster N=512 pattern is run-sensitive but not yet a universal strong-run rule.
 
-### P2: seed=44 Decision Gate
+### P2: Additional Seed Replication Gate
 
-Run seed=44 only after seed=43 800k:
+Run additional seeds only after seed=43 800k:
 
 | seed=43 result | Decision |
 | --- | --- |
-| AUC and fine-grid pattern close to seed42 same-trajectory | seed=44 optional |
-| AUC differs by 0.05-0.10 or pattern changes | seed=44 recommended |
-| AUC differs by >0.10, approaches the independent strong run, or creates a third pattern | seed=44 required |
+| AUC and fine-grid pattern close to seed42 same-trajectory | additional seeds optional |
+| AUC differs by 0.05-0.10 or pattern changes | one extra seed recommended |
+| AUC differs by >0.10, approaches the independent strong run, or creates a third pattern | one extra seed required |
 
-Current decision: seed44 is recommended, not required. seed43 AUC differs from seed42 same-trajectory 800k by about 0.052 and its fine-grid sign pattern changes, but it does not approach the independent strong run. Do not start seed44 without a new GPU allocation decision.
+Current decision: any extra seed is optional/opportunistic, not a Paper 1 blocker. seed43 AUC differs from seed42 same-trajectory 800k by about 0.052 and its fine-grid sign pattern changes, but it does not approach the independent strong run. seed44 stopped at 64k twice, and seed45 stopped at 38.2k with the last durable checkpoint at 38k. Do not resume seed44/45 without a new GPU allocation decision.
 
 ### P3: H4 Site-Time Attenuation Scout
 
@@ -86,7 +86,7 @@ Blocked:
 - DDPM always produces temporally distributed H1 geometry.
 - TPR@0.1%FPR claims at N=512.
 - H4 is an effective defense.
-- seed44 is required by current evidence.
+- seed44/45 are required by current evidence.
 
 ## Non-Active Lines
 

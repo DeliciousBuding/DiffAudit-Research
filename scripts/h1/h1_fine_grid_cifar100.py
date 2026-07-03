@@ -18,6 +18,7 @@ from sklearn.decomposition import PCA
 from sklearn import metrics as skm
 
 PROJECT = Path(__file__).resolve().parents[2]  # Research/
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", PROJECT.parent / "Download")).expanduser()
 MATERIALS = PROJECT / "training" / "ddpm-cifar10"
 sys.path.insert(0, str(MATERIALS))
 from model_unet import UNet
@@ -28,7 +29,7 @@ DEVICE = torch.device("cuda")
 
 T=1000; CH=128; CH_MULT=[1,2,2,2]; ATTN=[1]; NUM_RES_BLOCKS=2; DROPOUT=0.1
 BETA_1=0.0001; BETA_T=0.02
-CKPT="D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar100-800k/checkpoint.pt"
+CKPT = DOWNLOAD / "checkpoints/ddpm-cifar100-800k/checkpoint.pt"
 OUT=PROJECT/"outputs"/"h1-scout"
 TIMESTEPS=[50,100,150,200,300,400,600,800]
 SITES=["late_down","mid_0"]

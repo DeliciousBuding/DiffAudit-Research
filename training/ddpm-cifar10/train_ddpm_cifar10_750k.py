@@ -7,7 +7,7 @@ EMA tracking, TensorBoard logging, GPU memory optimization.
 Purpose: Produce ddpm-cifar10-750k checkpoint for DDPM/DDIM step-count
          controlled comparison in Paper 1 Section 6.5.
 
-Output: D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-750k/
+Output: <DIFFAUDIT_ROOT>/Download/checkpoints/ddpm-cifar10-750k/
 Storage: ~548 MB per checkpoint (kept: step-750000 and every 100k)
 Total GPU time: ~18-24 hours on RTX 4070 8GB
 
@@ -21,7 +21,7 @@ IMPORTANT: Always use `python -u` (unbuffered) when redirecting stdout to a log
 file. Without -u, Python buffers output and monitors can't see progress.
 
 Recovery from outage:
-  1. Verify latest checkpoint: ls D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-750k/
+  1. Verify latest checkpoint under <DIFFAUDIT_ROOT>/Download/checkpoints/ddpm-cifar10-750k/
   2. Kill stale processes: powershell -Command "Stop-Process -Name python -Force"
   3. Restart: python -u train_ddpm_cifar10_750k.py --resume >> training.log 2>&1
   4. Verify: python monitor.py (should show heartbeat.json updating)
@@ -45,7 +45,7 @@ from torchvision import datasets, transforms
 
 # --- Project paths ---
 PROJECT = Path(__file__).resolve().parents[2]  # Research/
-DOWNLOAD = Path("D:/Code/DiffAudit/Download")
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", PROJECT.parent / "Download")).expanduser()
 OUTPUT_DIR = DOWNLOAD / "checkpoints" / "ddpm-cifar10-750k"
 DATASET_DIR = DOWNLOAD / "datasets" / "cifar-10"
 LOG_DIR = PROJECT / "training" / "outputs" / "ddpm-cifar10-750k"

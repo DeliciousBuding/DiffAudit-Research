@@ -17,22 +17,22 @@
 | [signal-access-matrix.md](signal-access-matrix.md) | 每种方法可访问的模型信号。 |
 
 当前审计线路选择：
-[../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md)。
+[../../docs/evidence/post-secmi-next-lane-reselection-2026-05-11.md](../../docs/evidence/post-secmi-next-lane-reselection-2026-05-11.md)。
 
 当前可行性合约：
-[../../docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md)。
+[../../docs/evidence/white-box-influence-curvature-feasibility-scout-2026-05-11.md](../../docs/evidence/white-box-influence-curvature-feasibility-scout-2026-05-11.md)。
 
 当前微委员会结果：
-[../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md)。
+[../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-2026-05-11.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-2026-05-11.md)。
 
 当前层级范围审查：
-[../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md)。
+[../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-2026-05-11.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-2026-05-11.md)。
 
 当前稳定性委员会：
-[../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md)。
+[../../docs/evidence/gsa-diagonal-fisher-stability-board-2026-05-11.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-2026-05-11.md)。
 
 当前 GSA Zenodo 归档身份：
-[../../docs/evidence/white-box-gsa-zenodo-archive-verdict-20260513.md](../../docs/evidence/white-box-gsa-zenodo-archive-verdict-20260513.md)。
+[../../docs/evidence/white-box-gsa-zenodo-archive-verdict-2026-05-13.md](../../docs/evidence/white-box-gsa-zenodo-archive-verdict-2026-05-13.md)。
 
 ## 归档
 

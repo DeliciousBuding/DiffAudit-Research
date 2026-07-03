@@ -89,7 +89,7 @@ The synthetic summary reported finite standard metrics and per-sample
 cited as benchmark or candidate evidence.
 
 Current follow-up: the real-asset `4/4` preflight is now recorded in
-[midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md).
+[midfreq-residual-real-asset-preflight-2026-05-12.md](midfreq-residual-real-asset-preflight-2026-05-12.md).
 
 ## Validation
 
@@ -112,8 +112,8 @@ The unit test covers:
 ## Follow-Up
 
 The real-asset `4/4` preflight and the frozen `64/64` sign-check now exist.
-See [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md)
-and [midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+See [midfreq-residual-real-asset-preflight-2026-05-12.md](midfreq-residual-real-asset-preflight-2026-05-12.md)
+and [midfreq-residual-signcheck-2026-05-12.md](midfreq-residual-signcheck-2026-05-12.md).
 Do not run a larger packet from this note alone; any further GPU use needs a
 separate stability falsifier.
 

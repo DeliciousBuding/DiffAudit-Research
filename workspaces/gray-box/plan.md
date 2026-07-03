@@ -138,22 +138,22 @@ No tri-score GPU task is released. The next gray-box task must introduce a new
 scorer, surface, or falsifier before it can become CPU-active again.
 
 ReDiffuse STL-10 score-norm closure is tracked by
-[../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md](../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md).
+[../../docs/evidence/rediffuse-stl10-sima-score-norm-2026-05-25.md](../../docs/evidence/rediffuse-stl10-sima-score-norm-2026-05-25.md).
 
 Fashion-MNIST SimA score-norm closure is tracked by
-[../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md).
+[../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-2026-05-14.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-2026-05-14.md).
 
 Official SimA artifact gate is tracked by
-[../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md).
+[../../docs/evidence/sima-scorebased-artifact-gate-2026-05-15.md](../../docs/evidence/sima-scorebased-artifact-gate-2026-05-15.md).
 
 TMIA-DM public-surface recheck is tracked by
-[../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md).
+[../../docs/evidence/tmia-dm-temporal-artifact-gate-2026-05-15.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-2026-05-15.md).
 
 DSiRe / LoRA-WiSE boundary gate is tracked by
-[../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md](../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md).
+[../../docs/evidence/dsire-lora-wise-dataset-size-boundary-2026-05-15.md](../../docs/evidence/dsire-lora-wise-dataset-size-boundary-2026-05-15.md).
 
 Fashion-MNIST score-Jacobian sensitivity closure is tracked by
-[../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md).
+[../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-2026-05-14.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-2026-05-14.md).
 
 Do not run 800k metrics, 128/128, 256/256, or 512/512 without a new CPU
 contract. The 800k checkpoint is runtime-compatible, but metrics remain blocked
@@ -170,6 +170,6 @@ Keep PIA-related admitted claims aligned with
 Keep the SecMI admission boundary aligned with
 [../../docs/evidence/secmi-full-split-admission-boundary-review.md](../../docs/evidence/secmi-full-split-admission-boundary-review.md).
 The hardened SecMI admission-contract artifact is tracked by
-[../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md).
+[../../docs/evidence/secmi-admission-contract-hardening-2026-05-11.md](../../docs/evidence/secmi-admission-contract-hardening-2026-05-11.md).
 Archived paper-candidate reentry is tracked by
-[../../docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md](../../docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md).
+[../../docs/evidence/gray-box-paper-candidate-reentry-review-2026-05-12.md](../../docs/evidence/gray-box-paper-candidate-reentry-review-2026-05-12.md).

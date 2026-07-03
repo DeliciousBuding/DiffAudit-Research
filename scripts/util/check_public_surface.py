@@ -35,7 +35,7 @@ FORBIDDEN_TEXT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("ask-gpt relative path in public doc", re.compile(r"\.\./ask-gpt/")),
 )
 
-TEXT_SCAN_EXCLUDE = {"scripts/check_public_surface.py"}
+TEXT_SCAN_EXCLUDE = {"scripts/util/check_public_surface.py"}
 
 REPORT_LANGUAGE_SCAN_PATHS = {
     "docs/paper1/frozen-claim-matrix.md",

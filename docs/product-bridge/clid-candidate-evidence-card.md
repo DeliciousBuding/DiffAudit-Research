@@ -54,6 +54,6 @@ central-directory inspection and keeps CLiD candidate-only.
 
 ## Evidence
 
-- [../evidence/clid-official-inter-output-replay-20260515.md](../evidence/clid-official-inter-output-replay-20260515.md)
-- [../evidence/clid-identity-manifest-gate-20260515.md](../evidence/clid-identity-manifest-gate-20260515.md)
+- [../evidence/clid-official-inter-output-replay-2026-05-15.md](../evidence/clid-official-inter-output-replay-2026-05-15.md)
+- [../evidence/clid-identity-manifest-gate-2026-05-15.md](../evidence/clid-identity-manifest-gate-2026-05-15.md)
 - [../evidence/clid-prompt-conditioning-boundary.md](../evidence/clid-prompt-conditioning-boundary.md)

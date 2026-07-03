@@ -59,11 +59,11 @@ python -m unittest tests.test_midfreq_residual
 ## Follow-Up
 
 The follow-up synthetic runner is recorded in
-[midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md).
+[midfreq-residual-tiny-runner-contract-2026-05-12.md](midfreq-residual-tiny-runner-contract-2026-05-12.md).
 The real-asset `4/4` preflight is recorded in
-[midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md).
+[midfreq-residual-real-asset-preflight-2026-05-12.md](midfreq-residual-real-asset-preflight-2026-05-12.md).
 The frozen `64/64` sign-check is recorded in
-[midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+[midfreq-residual-signcheck-2026-05-12.md](midfreq-residual-signcheck-2026-05-12.md).
 Any later stability probe must preserve the same residual cache fields:
 
 - `labels`

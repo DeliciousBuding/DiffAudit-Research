@@ -97,11 +97,11 @@ Boundary:
 
 ## Related Evidence
 
-- [midfreq-same-noise-residual-preflight-20260512.md](midfreq-same-noise-residual-preflight-20260512.md)
-- [midfreq-residual-scorer-contract-20260512.md](midfreq-residual-scorer-contract-20260512.md)
-- [midfreq-residual-collector-contract-20260512.md](midfreq-residual-collector-contract-20260512.md)
-- [midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md)
-- [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md)
+- [midfreq-same-noise-residual-preflight-2026-05-12.md](midfreq-same-noise-residual-preflight-2026-05-12.md)
+- [midfreq-residual-scorer-contract-2026-05-12.md](midfreq-residual-scorer-contract-2026-05-12.md)
+- [midfreq-residual-collector-contract-2026-05-12.md](midfreq-residual-collector-contract-2026-05-12.md)
+- [midfreq-residual-tiny-runner-contract-2026-05-12.md](midfreq-residual-tiny-runner-contract-2026-05-12.md)
+- [midfreq-residual-real-asset-preflight-2026-05-12.md](midfreq-residual-real-asset-preflight-2026-05-12.md)
 
 ## Next Action
 

@@ -19,7 +19,7 @@ fixed?
 
 Yes, within the bounded `64/64` contract. The seed-23 repeat passes the frozen
 keep gate from
-[midfreq-residual-stability-decision-20260512.md](midfreq-residual-stability-decision-20260512.md):
+[midfreq-residual-stability-decision-2026-05-12.md](midfreq-residual-stability-decision-2026-05-12.md):
 `AUC >= 0.65` and at least one strict-tail member recovery at zero false
 positives.
 

@@ -1,23 +1,22 @@
 #!/usr/bin/env python
 """
-Train DDPM on CIFAR-10 — seed=43 (Phase G Run-Dynamics Replication).
+Train DDPM on CIFAR-10 for Phase G run-dynamics replication.
 Reliability: checkpoint every 2k steps (~15min), SIGINT/SIGTERM graceful save,
 line-buffered log file, resume from any step, heartbeat monitoring.
 
-Purpose: Produce ddpm-cifar10-seed43 checkpoint for run-identity replication
-         in Phase G of Paper 1.
+Purpose: Produce parameterized ddpm-cifar10-seed<N> checkpoints for run-identity
+         replication in Phase G of Paper 1.
 
-Output: <DIFFAUDIT_ROOT>/Download/checkpoints/ddpm-cifar10-seed43/
+Output: <DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed<N>/
 Storage: ~548 MB per checkpoint (kept: every 100k + last 10 saves)
 Total GPU time: ~133h for 800k steps on RTX 4070 8GB
 
 Usage:
-  python -u train_ddpm_cifar10_seed43.py                                   # 0→800k
-  python -u train_ddpm_cifar10_seed43.py --stop-step 750000                # 0→750k
-  python -u train_ddpm_cifar10_seed43.py --resume                          # auto-resume
-  python -u train_ddpm_cifar10_seed43.py --resume 110000 --stop-step 800000 # explicit
-  python -u train_ddpm_cifar10_seed43.py --resume --log-file training.log  # +log
-  python -u train_ddpm_cifar10_seed43.py --dry-run                         # validate
+  python -u train_ddpm_cifar10.py --seed 45 --stop-step 750000
+  python -u train_ddpm_cifar10.py --seed 45 --run-label ddpm-cifar10-seed45 --resume
+  python -u train_ddpm_cifar10.py --seed 45 --resume 38000 --stop-step 750000
+  python -u train_ddpm_cifar10.py --seed 45 --resume --log-file training-750k.log
+  python -u train_ddpm_cifar10.py --seed 45 --dry-run
 
 Graceful interrupt: Ctrl+C or kill saves checkpoint at current step.
 Resume from interrupt: --resume (auto-detects latest checkpoint).
@@ -42,7 +41,7 @@ from torchvision import datasets, transforms
 
 # --- Project paths ---
 PROJECT = Path(__file__).resolve().parents[2]  # Research/
-DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", PROJECT.parent / "Download")).expanduser()
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", PROJECT.parent / "Download"))
 RUN_LABEL = "ddpm-cifar10-seed43"
 OUTPUT_DIR = DOWNLOAD / "checkpoints" / RUN_LABEL
 LOG_DIR = PROJECT / "training" / "outputs" / RUN_LABEL

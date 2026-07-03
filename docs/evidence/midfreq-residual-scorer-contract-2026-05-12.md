@@ -54,7 +54,7 @@ documentation gate only.
 
 The collector, synthetic tiny cache writer, and real-asset `4/4` preflight now
 exist. The frozen `64/64` sign-check is recorded in
-[midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+[midfreq-residual-signcheck-2026-05-12.md](midfreq-residual-signcheck-2026-05-12.md).
 Any later stability probe must preserve these fields:
 
 - `labels`

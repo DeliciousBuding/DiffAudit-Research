@@ -56,37 +56,37 @@
 [../../docs/evidence/black-box-response-strength-preflight.md](../../docs/evidence/black-box-response-strength-preflight.md)。
 
 当前 H2 output-cloud geometry 候选：
-[../../docs/evidence/h2-output-cloud-geometry-20260525.md](../../docs/evidence/h2-output-cloud-geometry-20260525.md)。
+[../../docs/evidence/h2-output-cloud-geometry-2026-05-25.md](../../docs/evidence/h2-output-cloud-geometry-2026-05-25.md)。
 
 当前中频同噪声残差预检：
-[../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md)。
+[../../docs/evidence/midfreq-same-noise-residual-preflight-2026-05-12.md](../../docs/evidence/midfreq-same-noise-residual-preflight-2026-05-12.md)。
 
 当前中频残差评分器合约：
-[../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md)。
+[../../docs/evidence/midfreq-residual-scorer-contract-2026-05-12.md](../../docs/evidence/midfreq-residual-scorer-contract-2026-05-12.md)。
 
 当前中频残差采集器合约：
-[../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md)。
+[../../docs/evidence/midfreq-residual-collector-contract-2026-05-12.md](../../docs/evidence/midfreq-residual-collector-contract-2026-05-12.md)。
 
 当前中频残差微运行器合约：
-[../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md)。
+[../../docs/evidence/midfreq-residual-tiny-runner-contract-2026-05-12.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-2026-05-12.md)。
 
 当前中频残差真实资产预检：
-[../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md)。
+[../../docs/evidence/midfreq-residual-real-asset-preflight-2026-05-12.md](../../docs/evidence/midfreq-residual-real-asset-preflight-2026-05-12.md)。
 
 当前中频残差符号检查：
-[../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md)。
+[../../docs/evidence/midfreq-residual-signcheck-2026-05-12.md](../../docs/evidence/midfreq-residual-signcheck-2026-05-12.md)。
 
 当前中频残差稳定性决策：
-[../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md)。
+[../../docs/evidence/midfreq-residual-stability-decision-2026-05-12.md](../../docs/evidence/midfreq-residual-stability-decision-2026-05-12.md)。
 
 当前中频残差稳定性结果：
-[../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md)。
+[../../docs/evidence/midfreq-residual-stability-result-2026-05-12.md](../../docs/evidence/midfreq-residual-stability-result-2026-05-12.md)。
 
 当前中频残差比较器审计：
-[../../docs/evidence/midfreq-residual-comparator-audit-20260512.md](../../docs/evidence/midfreq-residual-comparator-audit-20260512.md)。
+[../../docs/evidence/midfreq-residual-comparator-audit-2026-05-12.md](../../docs/evidence/midfreq-residual-comparator-audit-2026-05-12.md)。
 
 当前 CommonCanvas 条件去噪损失闭合：
-[../../docs/evidence/commoncanvas-denoising-loss-20260513.md](../../docs/evidence/commoncanvas-denoising-loss-20260513.md)。
+[../../docs/evidence/commoncanvas-denoising-loss-2026-05-13.md](../../docs/evidence/commoncanvas-denoising-loss-2026-05-13.md)。
 
 当前非 CLiD 重新选择：
 [../../docs/evidence/non-clid-black-box-reselection.md](../../docs/evidence/non-clid-black-box-reselection.md)。
@@ -107,28 +107,28 @@
 [../../docs/evidence/variation-query-contract-audit.md](../../docs/evidence/variation-query-contract-audit.md)。
 
 当前 CLiD 图像身份边界：
-[../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md)。
+[../../docs/evidence/clid-image-identity-boundary-contract-2026-05-11.md](../../docs/evidence/clid-image-identity-boundary-contract-2026-05-11.md)。
 
 当前 CLiD 官方中间输出重放：
-[../../docs/evidence/clid-official-inter-output-replay-20260515.md](../../docs/evidence/clid-official-inter-output-replay-20260515.md)。
+[../../docs/evidence/clid-official-inter-output-replay-2026-05-15.md](../../docs/evidence/clid-official-inter-output-replay-2026-05-15.md)。
 
 当前 CopyMark laion_mi 公共绑定关卡：
-[../../docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md](../../docs/evidence/copymark-laion-mi-public-binding-gate-20260517.md)。
+[../../docs/evidence/copymark-laion-mi-public-binding-gate-2026-05-17.md](../../docs/evidence/copymark-laion-mi-public-binding-gate-2026-05-17.md)。
 
 当前 Stable Diffusion ReDiffuse 协作者工件审计：
-[../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md](../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-20260517.md)。
+[../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-2026-05-17.md](../../docs/evidence/stable-diffusion-rediffuse-collaborator-artifact-2026-05-17.md)。
 
 当前 CLiD 身份清单关卡：
-[../../docs/evidence/clid-identity-manifest-gate-20260515.md](../../docs/evidence/clid-identity-manifest-gate-20260515.md)。
+[../../docs/evidence/clid-identity-manifest-gate-2026-05-15.md](../../docs/evidence/clid-identity-manifest-gate-2026-05-15.md)。
 
 当前 FMIA OpenReview 频率工件关卡：
-[../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md](../../docs/evidence/fmia-openreview-frequency-artifact-gate-20260515.md)。
+[../../docs/evidence/fmia-openreview-frequency-artifact-gate-2026-05-15.md](../../docs/evidence/fmia-openreview-frequency-artifact-gate-2026-05-15.md)。
 
 当前 SimA 基于评分的工件关卡：
-[../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md)。
+[../../docs/evidence/sima-scorebased-artifact-gate-2026-05-15.md](../../docs/evidence/sima-scorebased-artifact-gate-2026-05-15.md)。
 
 当前 GenAI Confessions 黑盒工件关卡：
-[../../docs/evidence/genai-confessions-black-box-artifact-gate-20260515.md](../../docs/evidence/genai-confessions-black-box-artifact-gate-20260515.md)。
+[../../docs/evidence/genai-confessions-black-box-artifact-gate-2026-05-15.md](../../docs/evidence/genai-confessions-black-box-artifact-gate-2026-05-15.md)。
 
 当前响应合约包预检：
 [../../docs/evidence/black-box-response-contract-package-preflight.md](../../docs/evidence/black-box-response-contract-package-preflight.md)。
@@ -137,28 +137,28 @@
 [../../docs/evidence/black-box-response-contract-discovery.md](../../docs/evidence/black-box-response-contract-discovery.md)。
 
 当前 Beans/SD1.5 响应合约侦察：
-[../../docs/evidence/beans-sd15-response-contract-scout-20260512.md](../../docs/evidence/beans-sd15-response-contract-scout-20260512.md)。
+[../../docs/evidence/beans-sd15-response-contract-scout-2026-05-12.md](../../docs/evidence/beans-sd15-response-contract-scout-2026-05-12.md)。
 
 当前 Beans/SD1.5 响应合约就绪包：
-[../../docs/evidence/beans-sd15-response-contract-ready-20260512.md](../../docs/evidence/beans-sd15-response-contract-ready-20260512.md)。
+[../../docs/evidence/beans-sd15-response-contract-ready-2026-05-12.md](../../docs/evidence/beans-sd15-response-contract-ready-2026-05-12.md)。
 
 当前 Beans/SD1.5 简单距离侦察：
-[../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md](../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md)。
+[../../docs/evidence/beans-sd15-simple-distance-scout-2026-05-12.md](../../docs/evidence/beans-sd15-simple-distance-scout-2026-05-12.md)。
 
 当前 Beans/SD1.5 CLIP 距离侦察：
-[../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md)。
+[../../docs/evidence/beans-sd15-clip-distance-scout-2026-05-12.md](../../docs/evidence/beans-sd15-clip-distance-scout-2026-05-12.md)。
 
 当前 Beans/SD1.5 成员语义修正：
-[../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md)。
+[../../docs/evidence/beans-sd15-membership-semantics-correction-2026-05-12.md](../../docs/evidence/beans-sd15-membership-semantics-correction-2026-05-12.md)。
 
 当前 Beans member-LoRA 去噪损失闭合：
-[../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md)。
+[../../docs/evidence/beans-lora-member-denoising-loss-scout-2026-05-13.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-2026-05-13.md)。
 
 当前 MIA_SD 资产裁决：
-[../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md)。
+[../../docs/evidence/miasd-face-ldm-asset-verdict-2026-05-13.md](../../docs/evidence/miasd-face-ldm-asset-verdict-2026-05-13.md)。
 
 当前 Beans member-LoRA 增量敏感度闭合：
-[../../docs/evidence/beans-lora-delta-sensitivity-20260513.md](../../docs/evidence/beans-lora-delta-sensitivity-20260513.md)。
+[../../docs/evidence/beans-lora-delta-sensitivity-2026-05-13.md](../../docs/evidence/beans-lora-delta-sensitivity-2026-05-13.md)。
 
 当前语义辅助低 FPR 审查：
 [../../docs/evidence/semantic-aux-low-fpr-review.md](../../docs/evidence/semantic-aux-low-fpr-review.md)。

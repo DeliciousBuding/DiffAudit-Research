@@ -31,9 +31,9 @@ that do not create a new low-FPR or transfer claim.
   [../product-bridge/h2-simple-distance-product-bridge-comparison.md](../product-bridge/h2-simple-distance-product-bridge-comparison.md):
   simple-distance is bounded single-asset black-box evidence, not a portable
   cross-box replacement.
-- [black-box-response-contract-skeleton-create-20260511.md](black-box-response-contract-skeleton-create-20260511.md)
+- [black-box-response-contract-skeleton-create-2026-05-11.md](black-box-response-contract-skeleton-create-2026-05-11.md)
   and
-  [black-box-response-contract-query-source-audit-20260511.md](black-box-response-contract-query-source-audit-20260511.md):
+  [black-box-response-contract-query-source-audit-2026-05-11.md](black-box-response-contract-query-source-audit-2026-05-11.md):
   the next black-box transfer package is still `needs_query_split`; local
   Kandinsky/Pokemon material is weights-only and cannot fill query images or
   responses.

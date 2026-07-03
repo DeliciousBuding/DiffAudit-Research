@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """CIFAR-100 channel knockout — matched-percent 4%, 30 seeds"""
-import sys, json, pickle, numpy as np
+import os, sys, json, pickle, numpy as np
 from pathlib import Path
 from scipy import stats as sps
 from sklearn.linear_model import LogisticRegression
@@ -9,6 +9,7 @@ from sklearn import metrics as skm
 import torch
 
 PROJECT = Path(__file__).resolve().parents[2]  # Research/
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", PROJECT.parent / "Download")).expanduser()
 MATERIALS = PROJECT / "training" / "ddpm-cifar10"
 sys.path.insert(0, str(MATERIALS))
 from model_unet import UNet
@@ -16,7 +17,7 @@ from dataset_utils import load_member_data
 
 DEV=torch.device('cuda')
 T,CH=1000,128; CH_MULT=[1,2,2,2]; ATTN=[1]; NRB=2; DO=0.1
-CKPT='D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar100-800k/checkpoint.pt'
+CKPT = DOWNLOAD / "checkpoints/ddpm-cifar100-800k/checkpoint.pt"
 OUT=PROJECT/'outputs'/'h1-scout'
 TS=[100,400,700]; SITES=['late_down','mid_0','mid_1','early_up']
 NM,NNM,SEED,PCT,NS=64,64,42,0.04,30

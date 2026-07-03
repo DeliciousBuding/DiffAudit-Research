@@ -14,9 +14,9 @@
 
 ```powershell
 conda env create -f environment.yml
-conda activate diffaudit-research
-python scripts/bootstrap_research_env.py --install
-python scripts/verify_env.py
+conda activate diffaudit
+python scripts/util/bootstrap_research_env.py --install
+python scripts/util/verify_env.py
 python -m diffaudit --help
 ```
 
@@ -24,13 +24,13 @@ python -m diffaudit --help
 
 ```powershell
 conda env update -f environment.yml --prune
-conda activate diffaudit-research
-python scripts/bootstrap_research_env.py --install
+conda activate diffaudit
+python scripts/util/bootstrap_research_env.py --install
 ```
 
-上面这套是默认 setup 入口，也是 CI 使用的入口。
+上面这套是默认 setup 入口，也是 CI 使用的入口。`environment.yml` 创建的环境名是 `diffaudit`。
 
-如果你用的是较新的 NVIDIA GPU，并且在默认环境里已经遇到 `no kernel image is available for execution on the device`，再把上面的 `environment.yml` 换成 `environment.gpu-cu128.yml` 重试；大多数贡献者应先使用默认共享入口。
+如果你用的是较新的 NVIDIA GPU，并且在默认环境里已经遇到 `no kernel image is available for execution on the device`，再把上面的 `environment.yml` 换成 `environment.gpu-cu128.yml` 重试；该可选环境名是 `diffaudit-gpu`。大多数贡献者应先使用默认共享入口。
 
 如果你想直接复用下面文档里的 PowerShell 示例，也可以先在当前 shell 里设置：
 
@@ -84,49 +84,52 @@ python scripts/render_team_local_configs.py
 ### 黑盒
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit plan-recon --config configs/attacks/recon-plan.yaml
-conda run -n diffaudit-research python -m diffaudit plan-variation --config configs/attacks/variation-plan.yaml
-conda run -n diffaudit-research python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke-local
-conda run -n diffaudit-research python -m diffaudit audit-recon-public-bundle --bundle-root "$env:DIFFAUDIT_ROOT\Download\black-box\supplementary\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models"
+conda run -n diffaudit python -m diffaudit plan-recon --config configs/attacks/recon-plan.yaml
+conda run -n diffaudit python -m diffaudit plan-variation --config configs/attacks/variation-plan.yaml
+conda run -n diffaudit python -m diffaudit run-variation-synth-smoke --workspace experiments/variation-synth-smoke-local
+conda run -n diffaudit python -m diffaudit audit-recon-public-bundle --bundle-root "$env:DIFFAUDIT_ROOT\Download\black-box\supplementary\recon-assets\ndss-2025-blackbox-membership-inference-fine-tuned-diffusion-models"
 python scripts/init_variation_query_set.py --root /absolute/path/to/variation-query-set
 ```
 
 ### 灰盒
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit plan-pia --config configs/attacks/pia-plan.yaml
-conda run -n diffaudit-research python -m diffaudit probe-pia-assets --config configs/attacks/pia-plan.yaml --member-split-root external/PIA/DDPM
+conda run -n diffaudit python -m diffaudit plan-pia --config configs/attacks/pia-plan.yaml
+conda run -n diffaudit python -m diffaudit probe-pia-assets --config configs/attacks/pia-plan.yaml --member-split-root external/PIA/DDPM
 ```
 
 ### 白盒
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
+conda run -n diffaudit python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa
 ```
 
 ## 4. 当前优先级来源
 
 刚开始接手时，不要从历史日志反推优先级。当前真实优先级以这些文件为准：
 
-1. `Docs/internal/comprehensive-progress.md` (internal — not in public repository)
-2. [reproduction-status.md](../evidence/reproduction-status.md)
-3. [../ROADMAP.md](../../ROADMAP.md)
-4. 对应 lane 的 `workspaces/<lane>/plan.md`
+1. [Research ROADMAP](../../ROADMAP.md)
+2. [Research AGENTS](../../AGENTS.md)
+3. [Phase G runbook](phase-g-runbook-2026-06-30.md)
+4. [frozen-claim-matrix.md](../paper1/frozen-claim-matrix.md)
+5. [experiment-master-log.md](../evidence/experiment-master-log.md)
+6. 对应 lane 的 `workspaces/<lane>/plan.md`，仅在 ROADMAP 明确重开非 Phase-G 方向时阅读。
 
 如果只是刚开始接手，不要一开始就扩展新数据集或新论文。先复现环境、自检资产、确认负责的 lane，再做新分支。
 
 ## 5. 当前最重要的入口文档
 
-- 综合进度：`Docs/internal/comprehensive-progress.md` (internal — not in public repository)
+- 当前路线：[../../ROADMAP.md](../../ROADMAP.md)
+- 当前 Phase G 手册：[phase-g-runbook-2026-06-30.md](phase-g-runbook-2026-06-30.md)
+- 论文声明矩阵：[../paper1/frozen-claim-matrix.md](../paper1/frozen-claim-matrix.md)
 - 命令参考：[command-reference.md](command-reference.md)
-- 严格三线计划：`Docs/internal/mentor-strict-reproduction-plan.md` (internal — not in public repository)
-- 黑盒计划：[../workspaces/black-box/plan.md](../../workspaces/black-box/plan.md)
-- 灰盒计划：[../workspaces/gray-box/plan.md](../../workspaces/gray-box/plan.md)
-- 白盒计划：[../workspaces/white-box/plan.md](../../workspaces/white-box/plan.md)
+- 黑盒计划：[../workspaces/black-box/plan.md](../../workspaces/black-box/plan.md)（仅重开该方向时）
+- 灰盒计划：[../workspaces/gray-box/plan.md](../../workspaces/gray-box/plan.md)（仅重开该方向时）
+- 白盒计划：[../workspaces/white-box/plan.md](../../workspaces/white-box/plan.md)（仅重开该方向时）
 
 ## 6. 常见配置风险
 
-1. 环境创建后没有重新执行 `python scripts/bootstrap_research_env.py --install`，导致 `python -m diffaudit` 不可用。
+1. 环境创建后没有重新执行 `python scripts/util/bootstrap_research_env.py --install`，导致 `python -m diffaudit` 不可用。
 2. 把个人机器真实路径写进共享配置。
 3. 把 `smoke / preview / toy` 写成复现成功。
 4. 黑盒入口里误用 `SecMI`，它属于灰盒 baseline。

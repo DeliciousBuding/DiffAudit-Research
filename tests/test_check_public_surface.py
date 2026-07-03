@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from scripts.check_public_surface import candidate_promotion_violations_from_text
+from scripts.util.check_public_surface import candidate_promotion_violations_from_text
 
 
 class CandidatePromotionLanguageTests(unittest.TestCase):

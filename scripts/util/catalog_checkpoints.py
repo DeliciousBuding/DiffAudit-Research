@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 """
-Catalog ALL model checkpoint .pt files in D:/Code/DiffAudit/Download/
+Catalog ALL model checkpoint .pt files in <DIFFAUDIT_ROOT>/Download/
 For each file >100MB with UNet weights: determine format, compatibility, dataset match.
 """
 import sys, os, json
 from pathlib import Path
 from collections import OrderedDict
 
-DOWNLOAD = Path("D:/Code/DiffAudit/Download")
+RESEARCH = Path(__file__).resolve().parents[2]
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", RESEARCH.parent / "Download")).expanduser()
 # (sys.path to training/ddpm-cifar10 only needed if importing model_unet)
 
 import torch
@@ -24,7 +25,7 @@ import torch
 REDIFFUSE_TOP_KEYS = {'head', 'tail', 'downblocks', 'middleblocks', 'upblocks', 'time_embedding'}
 GUIDED_DIFFUSION_TOP_KEYS = {'time_embed', 'input_blocks', 'middle_block', 'output_blocks', 'out', 'label_emb'}
 
-TARGET = "D:/Code/DiffAudit/Download"
+TARGET = DOWNLOAD.as_posix()
 
 def size_mb(p):
     return p.stat().st_size / (1024 * 1024)
@@ -293,7 +294,7 @@ def main():
         results.append(entry)
 
     # ── Write output ──
-    out_path = Path("D:/Code/DiffAudit/Research/outputs/catalog-checkpoints.json")
+    out_path = RESEARCH / "outputs/catalog-checkpoints.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=2, ensure_ascii=False, default=str)

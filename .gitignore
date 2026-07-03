@@ -75,7 +75,17 @@ papers/**/*.pdf
 # ---------------------------------------------------------------------------
 # 6. Workspaces (stale runs — curated artifacts excepted below)
 # ---------------------------------------------------------------------------
-workspaces/
+workspaces/**
+!workspaces/
+!workspaces/**/
+!workspaces/README.md
+!workspaces/*/README.md
+!workspaces/*/plan.md
+!workspaces/black-box/experiment-entrypoints.md
+!workspaces/implementation/challenger-queue.md
+!workspaces/implementation/result-schema.md
+!workspaces/implementation/unified-attack-defense-table.json
+!workspaces/white-box/signal-access-matrix.md
 
 # --- Curated run evidence (already committed under ignored run trees) ---
 !workspaces/black-box/runs/prompt-response-consistency-20260416-r1/summary.json
@@ -273,6 +283,12 @@ workspaces/cross-box/05-gsa-pia-full-overlap-20260418-r1/
 workspaces/implementation/reports/
 workspaces/intake/
 workspaces/white-box/smoke-ddpm/
+!workspaces/intake/
+!workspaces/intake/README.md
+!workspaces/white-box/smoke-ddpm/
+!workspaces/white-box/smoke-ddpm/train/
+!workspaces/white-box/smoke-ddpm/train/member/
+!workspaces/white-box/smoke-ddpm/train/member/sample.ppm
 docs/ask-gpt/
 docs/internal/
 papers/

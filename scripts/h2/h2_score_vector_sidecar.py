@@ -18,7 +18,7 @@ Protocol:
 
 Usage:
   conda activate retrace-tr
-  cd D:\Code\DiffAudit\Research
+  cd <DIFFAUDIT_ROOT>\Research
   python scripts/h2_score_vector_sidecar.py
 """
 import sys, os, json, time, warnings
@@ -32,6 +32,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics as skm
 
 PROJECT = Path(__file__).resolve().parents[2]  # Research/
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", PROJECT.parent / "Download")).expanduser()
 MATERIALS = PROJECT / "training" / "ddpm-cifar10"
 sys.path.insert(0, str(MATERIALS))
 
@@ -45,7 +46,7 @@ DEVICE = torch.device("cuda")
 T = 1000; CH = 128; CH_MULT = [1, 2, 2, 2]; ATTN = [1]; NUM_RES_BLOCKS = 2
 DROPOUT = 0.1; BETA_1 = 0.0001; BETA_T = 0.02
 
-CKPT_PATH = "D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt"
+CKPT_PATH = DOWNLOAD / "checkpoints/ddpm-cifar10-800k/checkpoint.pt"
 OUT_DIR = PROJECT / "outputs" / "h2-sidecar"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 

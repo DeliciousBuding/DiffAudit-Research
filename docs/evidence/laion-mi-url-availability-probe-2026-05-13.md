@@ -6,7 +6,7 @@
 ## Taste Check
 
 This probe executes the smallest follow-up from
-[laion-mi-asset-verdict-20260513.md](laion-mi-asset-verdict-20260513.md). It
+[laion-mi-asset-verdict-2026-05-13.md](laion-mi-asset-verdict-2026-05-13.md). It
 does not download a large image set, generate responses, or invoke Stable
 Diffusion. It only checks whether the public URL/caption metadata can yield a
 balanced tiny query set.

@@ -9,9 +9,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
-DEFAULT_BUNDLE = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-evidence-bundle.json")
-DEFAULT_OUTPUT = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-risk-card.md")
+DEFAULT_BUNDLE = REPO_ROOT / "workspaces/implementation/artifacts/admitted-evidence-bundle.json"
+DEFAULT_OUTPUT = REPO_ROOT / "workspaces/implementation/artifacts/admitted-risk-card.md"
 
 FORBIDDEN_REPORTABLE_TERMS = (
     "H2 output-cloud",
@@ -32,7 +33,7 @@ PRIVATE_SURFACE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 
 
 def _repo_root() -> Path:
-    return Path(__file__).resolve().parents[1]
+    return REPO_ROOT
 
 
 def _repo_relative(path: Path, root: Path) -> str:

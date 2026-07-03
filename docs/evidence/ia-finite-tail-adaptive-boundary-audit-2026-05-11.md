@@ -23,7 +23,7 @@ All three checks passed.
 Manual public-surface review covered:
 
 - [admitted-results-summary.md](admitted-results-summary.md)
-- [admitted-evidence-bundle-20260511.md](admitted-evidence-bundle-20260511.md)
+- [admitted-evidence-bundle-2026-05-11.md](admitted-evidence-bundle-2026-05-11.md)
 - [../product-bridge/README.md](../product-bridge/README.md)
 - [../../README.md](../../README.md)
 

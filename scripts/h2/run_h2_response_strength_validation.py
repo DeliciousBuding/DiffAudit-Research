@@ -25,6 +25,8 @@ from diffaudit.attacks.pia import probe_pia_assets
 from diffaudit.attacks.pia_adapter import _build_pia_packet_loader, load_pia_model, prepare_pia_runtime
 from diffaudit.config import load_audit_config
 
+PROJECT = Path(__file__).resolve().parents[2]
+
 
 def _sanitize(value: Any) -> Any:
     if isinstance(value, dict):
@@ -46,7 +48,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Run one bounded black-box H2 response-strength validation packet."
     )
-    parser.add_argument("--config", type=Path, default=Path("D:/Code/DiffAudit/Research/configs/attacks/pia-mainline-canonical.yaml"))
+    parser.add_argument("--config", type=Path, default=PROJECT / "configs/attacks/pia-mainline-canonical.yaml")
     parser.add_argument("--run-root", type=Path, default=None)
     parser.add_argument("--repo-root", type=Path, default=None)  # GONE - external/PIA dependency removed; specify with --repo-root
     parser.add_argument("--member-split-root", type=Path, default=None)  # GONE - external/PIA/DDPM dependency removed; specify with --member-split-root

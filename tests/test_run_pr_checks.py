@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts import run_pr_checks
+from scripts.util import run_pr_checks
 
 
 class RunPrChecksTests(unittest.TestCase):
@@ -16,15 +16,15 @@ class RunPrChecksTests(unittest.TestCase):
         with patch.object(run_pr_checks, "run", side_effect=fake_run):
             run_pr_checks.main()
 
-        expected_root = Path(run_pr_checks.__file__).resolve().parents[1]
-        self.assertEqual(len(recorded), 3)
+        expected_root = Path(run_pr_checks.__file__).resolve().parents[2]
+        self.assertGreaterEqual(len(recorded), 3)
         for cmd, cwd in recorded:
             self.assertEqual(cmd[0], run_pr_checks.sys.executable)
             self.assertEqual(cwd, expected_root)
 
         commands = [cmd[1:] for cmd, _ in recorded]
-        self.assertIn(["scripts/run_docs_checks.py"], commands)
-        self.assertIn(["-m", "compileall", "-q", "src", "scripts", "tests"], commands)
+        self.assertIn(["scripts/util/run_docs_checks.py"], commands)
+        self.assertIn(["-m", "compileall", "-q", "src", "scripts", "tests", "training"], commands)
         self.assertTrue(any(cmd[:2] == ["-c", "from diffaudit.cli import build_parser; parser = build_parser(); assert parser.prog == 'diffaudit'"] for cmd in commands))
 
     def test_run_sets_pythonpath_and_utf8(self) -> None:

@@ -29,24 +29,21 @@ results for diffusion-model privacy auditing. Product UI is in
 
 Read in this order:
 
-1. `<DIFFAUDIT_ROOT>/ROADMAP.md`
-2. `<DIFFAUDIT_ROOT>/Research/ROADMAP.md`
-3. `<DIFFAUDIT_ROOT>/Research/README.md`
-4. `<DIFFAUDIT_ROOT>/Research/docs/README.md`
-5. `<DIFFAUDIT_ROOT>/Research/docs/start-here/getting-started.md`
-6. `<DIFFAUDIT_ROOT>/Research/docs/evidence/reproduction-status.md`
-7. `<DIFFAUDIT_ROOT>/Research/docs/product-bridge/README.md`
-8. `<DIFFAUDIT_ROOT>/Research/docs/governance/research-governance.md`
-9. `<DIFFAUDIT_ROOT>/Docs/archive/Research/docs/rebuild/codebase-rebuild-plan.md`
-10. `<DIFFAUDIT_ROOT>/Research/docs/evidence/workspace-evidence-index.md`
-11. The relevant `workspaces/<direction>/README.md` and `plan.md`
+1. `<DIFFAUDIT_ROOT>/AGENTS.md` if working inside the full DiffAudit workspace.
+2. `<DIFFAUDIT_ROOT>/ROADMAP.md` if working inside the full DiffAudit workspace.
+3. `<DIFFAUDIT_ROOT>/Research/ROADMAP.md`
+4. `<DIFFAUDIT_ROOT>/Research/README.md`
+5. `<DIFFAUDIT_ROOT>/Research/docs/README.md`
+6. `<DIFFAUDIT_ROOT>/Research/docs/start-here/phase-g-runbook-2026-06-30.md`
+7. `<DIFFAUDIT_ROOT>/Research/docs/paper1/frozen-claim-matrix.md`
+8. `<DIFFAUDIT_ROOT>/Research/docs/evidence/experiment-master-log.md`
+9. The relevant `workspaces/<direction>/README.md` and `plan.md` only if reopening a non-Phase-G direction.
 
-Note: `docs/start-here/` files may be stale. A freshness check runs as part of the
-weekly CI job (`scripts/util/run_docs_checks.py`). If docs/start-here/ files are
-flagged as >30 days stale, refresh them before relying on their content for a new
-session.
+Note: `docs/start-here/` files can drift when the active research direction
+changes. Re-check them against `ROADMAP.md` and the Phase G runbook before using
+older onboarding prose for a new session.
 
-Do not start from memory or old chat context. Re-anchor on repository files.
+Do not start from memory, archived rebuild plans, or old chat context. Re-anchor on current repository files.
 
 ## Active Research Direction
 
@@ -180,7 +177,7 @@ Run before pushing documentation or governance changes:
 python -X utf8 scripts/util/check_markdown_links.py
 ```
 
-Note: `scripts/check_public_surface.py` has been superseded — use `scripts/util/run_pr_checks.py` for pre-commit enforcement of the public-only boundary.
+Note: `scripts/util/check_public_surface.py` is run through `scripts/util/run_pr_checks.py` for pre-commit enforcement of the public-only boundary.
 
 ## Subagent Policy
 
@@ -221,13 +218,13 @@ Research/
     README.md
     evidence/                ← One evidence doc per experiment
     governance/              ← Governance and process documents
-    start-here/              ← Onboarding documents (may be stale; refreshed by CI)
+    start-here/              ← Onboarding documents
     product-bridge/          ← Research-to-Platform handoff artifacts
     internal/                ← Git-ignored. Local-machine-only planning.
   outputs/                   ← Git-ignored. Generated results, caches, logs.
   Download/                  ← Git-ignored. External asset acquisition cache.
   Archive/                   ← Git-ignored. Archived runs, figures, obsolete artifacts.
-  workspaces/                ← Git-ignored. Active experiment workspaces.
+  workspaces/                ← Curated plans/summaries are tracked; generated run trees are ignored by `.gitignore`.
     black-box/
     gray-box/
     white-box/
@@ -252,7 +249,7 @@ Research/
 
 ### Public-Only Boundary
 
-This is a **public repository**. Every committed file must pass `scripts/check_public_surface.py`.
+This is a **public repository**. Every committed file must pass `scripts/util/check_public_surface.py`.
 
 Forbidden in committed files:
 - Absolute workstation paths (`C:\Users\...`, `/home/...`)
@@ -308,11 +305,11 @@ Steps:
 2. **Split**: Create or verify train/val/test split manifests in `data/splits/`.
 3. **Run**: Execute the experiment script from `scripts/`. Every script must produce a machine-readable result artifact in `outputs/`.
 4. **Evidence**: Write exactly one evidence doc in `docs/evidence/` per experiment, following the evidence document template.
-5. **Verdict**: The evidence doc must contain a one-sentence conclusion (Verdict header).
+5. **Verdict**: The evidence doc should contain a one-sentence conclusion.
 
 ### Evidence Document Template
 
-Every file in `docs/evidence/` MUST contain the following header fields:
+New evidence docs SHOULD contain the following header fields:
 
 ```markdown
 # {section}: {topic}
@@ -322,7 +319,7 @@ Every file in `docs/evidence/` MUST contain the following header fields:
 - **Verdict**: One-sentence conclusion.
 ```
 
-`scripts/util/run_docs_checks.py` enforces this. A pre-commit hook rejects new `.md` files in `docs/evidence/` that are missing any of the three header fields.
+Current `scripts/util/run_docs_checks.py` does not enforce the full evidence header template across historical evidence docs. It enforces public-surface, Markdown-link, attack-defense table, and recon evidence-card guards. If strict evidence headers are added later, implement the checker and tests before changing this section back to a MUST.
 
 ### Script-Path Contract
 
@@ -336,16 +333,9 @@ registry = load_checkpoint_registry()
 ckpt_path = registry["ddpm-cifar10-800k"]
 ```
 
-### Stale Governance Check
+### Governance Freshness
 
-Governance documents (`docs/governance/`) and onboarding documents (`docs/start-here/`) must be reviewed every 30 days. If a document is >30 days stale, the CI job `scripts/util/run_docs_checks.py` will flag it in a GitHub Issue.
-
-To resolve a stale flag, the researcher must either:
-- Update the document content and refresh its internal date marker, or
-- Add an HTML comment marking the file as archived with a date:
-  ```html
-  <!-- archived: YYYY-MM-DD -->
-  ```
+Governance documents (`docs/governance/`) and onboarding documents (`docs/start-here/`) should be reviewed when the active research direction changes. There is no current automated stale-doc issue creator; do not rely on CI to detect outdated onboarding prose.
 
 ### Enforcement — Pre-Commit Hook
 
@@ -355,12 +345,10 @@ The pre-commit hook (`scripts/util/run_pr_checks.py`) rejects:
 |-----------|------|
 | `YYYYMMDD` in filename | Only `YYYY-MM-DD` allowed in dated filenames |
 | New `.py` in `scripts/` not in a subdirectory | Scripts must live in `scripts/{section}/` or `scripts/util/` |
-| New `.md` in `docs/evidence/` without Date, Status, Verdict headers | Evidence doc template required |
 | Hardcoded absolute paths in scripts | Use checkpoint registry or relative paths |
 | Large files (>1 MB) staged for commit | Check `.gitignore` coverage |
-| Stale governance docs (>30 days) | Update or archive |
 
-### CI Job — Weekly Stale-Doc Check
+### CI Job — Weekly Docs Guard
 
 A weekly CI job runs:
 
@@ -368,4 +356,4 @@ A weekly CI job runs:
 python -X utf8 scripts/util/run_docs_checks.py
 ```
 
-This checks all governance and onboarding documents for staleness (>30 days since last update). Flagged documents are reported in a GitHub Issue titled "Stale governance documents — week of YYYY-MM-DD". The researcher must resolve each flag by updating the content or marking the file as archived before the next weekly check.
+This runs the same lightweight docs guard as the PR path. It does not create stale-doc issues.

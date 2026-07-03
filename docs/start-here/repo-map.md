@@ -44,12 +44,14 @@
 如果你刚接手仓库，建议按这个顺序看：
 
 1. [README.md](../../README.md)
-2. [docs/start-here/teammate-setup.md](teammate-setup.md)
-3. [docs/assets-and-storage/data-and-assets-handoff.md](../assets-and-storage/data-and-assets-handoff.md)
-4. [docs/start-here/command-reference.md](command-reference.md)
-5. [docs/evidence/reproduction-status.md](../evidence/reproduction-status.md)
-6. [workspaces/black-box/plan.md](../../workspaces/black-box/plan.md)
-7. [workspaces/gray-box/plan.md](../../workspaces/gray-box/plan.md)
-8. [workspaces/white-box/plan.md](../../workspaces/white-box/plan.md)
+2. [ROADMAP.md](../../ROADMAP.md)
+3. [docs/start-here/phase-g-runbook-2026-06-30.md](phase-g-runbook-2026-06-30.md)
+4. [docs/paper1/frozen-claim-matrix.md](../paper1/frozen-claim-matrix.md)
+5. [docs/evidence/experiment-master-log.md](../evidence/experiment-master-log.md)
+6. [docs/start-here/teammate-setup.md](teammate-setup.md)
+7. [docs/assets-and-storage/data-and-assets-handoff.md](../assets-and-storage/data-and-assets-handoff.md)
+8. [docs/start-here/command-reference.md](command-reference.md)
 9. [configs/README.md](../../configs/README.md)
 10. [src/diffaudit/README.md](../../src/diffaudit/README.md)
+
+黑盒、灰盒、白盒 plan 只在 `ROADMAP.md` 明确重开对应方向时作为当前入口。

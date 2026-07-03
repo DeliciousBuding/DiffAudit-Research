@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts import run_local_checks
+from scripts.util import run_local_checks
 
 
 class RunLocalChecksTests(unittest.TestCase):
@@ -20,16 +20,15 @@ class RunLocalChecksTests(unittest.TestCase):
         for cmd, _ in recorded:
             self.assertEqual(cmd[0], "/portable/python")
         commands = [cmd for cmd, _ in recorded]
-        self.assertIn(["/portable/python", "scripts/validate_attack_defense_table.py"], commands)
-        self.assertIn(["/portable/python", "scripts/validate_secmi_supporting_contract.py"], commands)
-        self.assertIn(["/portable/python", "scripts/validate_clid_identity_boundary.py"], commands)
-        self.assertIn(["/portable/python", "scripts/validate_ib_adaptive_defense_contract.py"], commands)
-        self.assertIn(["/portable/python", "scripts/validate_ib_shadow_local_gsa_risk_preflight.py"], commands)
-        self.assertIn(["/portable/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
-        self.assertIn(["/portable/python", "scripts/export_admitted_evidence_bundle.py", "--check"], commands)
+        self.assertIn(["/portable/python", "scripts/util/bootstrap_research_env.py"], commands)
+        self.assertIn(["/portable/python", "scripts/util/check_public_surface.py"], commands)
+        self.assertIn(["/portable/python", "scripts/util/check_markdown_links.py"], commands)
+        self.assertIn(["/portable/python", "scripts/paper/validate_attack_defense_table.py"], commands)
+        self.assertIn(["/portable/python", "scripts/paper/export_recon_product_evidence_card.py", "--check"], commands)
+        self.assertIn(["/portable/python", "scripts/paper/export_admitted_evidence_bundle.py", "--check"], commands)
         self.assertTrue(
             any(
-                cmd[:4] == ["/portable/python", "-m", "unittest", "tests.test_audit_variation_query_contract"]
+                cmd[:4] == ["/portable/python", "-m", "unittest", "tests.test_attack_registry"]
                 for cmd in commands
             )
         )
@@ -48,16 +47,15 @@ class RunLocalChecksTests(unittest.TestCase):
         for cmd, _ in recorded:
             self.assertEqual(cmd[0], "/env/python")
         commands = [cmd for cmd, _ in recorded]
-        self.assertIn(["/env/python", "scripts/validate_attack_defense_table.py"], commands)
-        self.assertIn(["/env/python", "scripts/validate_secmi_supporting_contract.py"], commands)
-        self.assertIn(["/env/python", "scripts/validate_clid_identity_boundary.py"], commands)
-        self.assertIn(["/env/python", "scripts/validate_ib_adaptive_defense_contract.py"], commands)
-        self.assertIn(["/env/python", "scripts/validate_ib_shadow_local_gsa_risk_preflight.py"], commands)
-        self.assertIn(["/env/python", "scripts/export_recon_product_evidence_card.py", "--check"], commands)
-        self.assertIn(["/env/python", "scripts/export_admitted_evidence_bundle.py", "--check"], commands)
+        self.assertIn(["/env/python", "scripts/util/bootstrap_research_env.py"], commands)
+        self.assertIn(["/env/python", "scripts/util/check_public_surface.py"], commands)
+        self.assertIn(["/env/python", "scripts/util/check_markdown_links.py"], commands)
+        self.assertIn(["/env/python", "scripts/paper/validate_attack_defense_table.py"], commands)
+        self.assertIn(["/env/python", "scripts/paper/export_recon_product_evidence_card.py", "--check"], commands)
+        self.assertIn(["/env/python", "scripts/paper/export_admitted_evidence_bundle.py", "--check"], commands)
         self.assertTrue(
             any(
-                cmd[:4] == ["/env/python", "-m", "unittest", "tests.test_audit_variation_query_contract"]
+                cmd[:4] == ["/env/python", "-m", "unittest", "tests.test_attack_registry"]
                 for cmd in commands
             )
         )
@@ -71,7 +69,7 @@ class RunLocalChecksTests(unittest.TestCase):
         with patch.object(run_local_checks, "run", side_effect=fake_run):
             run_local_checks.main(["--fast"])
 
-        expected_root = Path(run_local_checks.__file__).resolve().parents[1]
+        expected_root = Path(run_local_checks.__file__).resolve().parents[2]
         self.assertTrue(recorded)
         for _, cwd in recorded:
             self.assertEqual(cwd, expected_root)

@@ -1,6 +1,6 @@
 # 科研环境说明
 
-本项目使用独立 conda 环境 `diffaudit-research`。
+本项目使用独立 conda 环境：默认环境 `diffaudit`，可选 CUDA 12.8 环境 `diffaudit-gpu`。
 
 ## 环境目标
 
@@ -34,8 +34,8 @@
 
 ```powershell
 conda env create -f environment.yml
-conda activate diffaudit-research
-python -m ipykernel install --user --name diffaudit-research --display-name "Python (diffaudit-research)"
+conda activate diffaudit
+python -m ipykernel install --user --name diffaudit --display-name "Python (diffaudit)"
 ```
 
 `environment.yml` 会把当前仓库以 editable 方式安装进环境，所以环境创建完成后可以直接运行：
@@ -48,7 +48,7 @@ diffaudit --help
 为了避免环境更新后 editable install 丢失，推荐紧接着执行：
 
 ```powershell
-python scripts/bootstrap_research_env.py --install
+python scripts/util/bootstrap_research_env.py --install
 ```
 
 如果是新成员第一次设置仓库，环境通过后继续执行：
@@ -71,16 +71,16 @@ RuntimeError: CUDA error: no kernel image is available for execution on the devi
 
 ```powershell
 conda env create -f environment.gpu-cu128.yml
-conda activate diffaudit-research
-python -m ipykernel install --user --name diffaudit-research --display-name "Python (diffaudit-research)"
+conda activate diffaudit-gpu
+python -m ipykernel install --user --name diffaudit-gpu --display-name "Python (diffaudit-gpu)"
 ```
 
 如果你已经创建过默认环境，想直接切到这套栈，改用：
 
 ```powershell
 conda env update -f environment.gpu-cu128.yml --prune
-conda activate diffaudit-research
-python scripts/bootstrap_research_env.py --install
+conda activate diffaudit-gpu
+python scripts/util/bootstrap_research_env.py --install
 ```
 
 这套可选环境当前用于较新的 GPU 兼容性补充；请在自己的硬件上先运行 CUDA smoke check，再投入长任务。
@@ -90,17 +90,17 @@ python scripts/bootstrap_research_env.py --install
 有些终端线程不会自动继承你本地已经激活过的环境。这时不要直接用系统 Python 跑仓库命令，优先显式前缀：
 
 ```powershell
-conda run -n diffaudit-research python scripts/verify_env.py
-conda run -n diffaudit-research python -m unittest
+conda run -n diffaudit python scripts/util/verify_env.py
+conda run -n diffaudit python -m unittest
 ```
 
 如果当前 shell 没有激活 conda，也可以直接显式指定环境来运行命令：
 
 ```powershell
-conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
+conda run -n diffaudit python -m diffaudit probe-secmi-assets --config configs/attacks/secmi-plan.yaml
 ```
 
-建议先用 `conda env list` 确认 `diffaudit-research` 确实存在，再执行后续命令。
+建议先用 `conda env list` 确认 `diffaudit` 或 `diffaudit-gpu` 确实存在，再执行后续命令。
 
 ## 新成员推荐步骤
 
@@ -137,7 +137,7 @@ conda run -n diffaudit-research python -m diffaudit probe-secmi-assets --config 
 ```powershell
 python -c "import torch; print(torch.__version__); print(torch.cuda.is_available())"
 python -c "import numpy, pandas, matplotlib, diffusers, transformers"
-python scripts/verify_env.py
+python scripts/util/verify_env.py
 python -m diffaudit --help
 ```
 

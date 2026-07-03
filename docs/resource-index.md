@@ -148,12 +148,12 @@ Every model checkpoint, architecture, format, and compatibility.
 
 | Script | Purpose |
 |---|---|
-| `audit_local_storage.py` | Audit local large files and data boundary; default dry-run, `--execute` to relocate |
-| `check_markdown_links.py` | Check Markdown link integrity |
-| `check_public_surface.py` | Check public repo paths for leaks and candidate-result boundary language |
-| `run_pr_checks.py` | GitHub PR fast gate (no PyTorch, no runtime tests) |
-| `run_local_checks.py` | Local quality checks with `--python` and `--fast` flags |
-| `run_docs_checks.py` | Document consistency checks |
+| `scripts/util/audit_local_storage.py` | Audit local large files and data boundary; default dry-run, `--execute` to relocate |
+| `scripts/util/check_markdown_links.py` | Check Markdown link integrity |
+| `scripts/util/check_public_surface.py` | Check public repo paths for leaks and candidate-result boundary language |
+| `scripts/util/run_pr_checks.py` | GitHub PR fast gate (no PyTorch, no runtime tests) |
+| `scripts/util/run_local_checks.py` | Local quality checks with `--python` and `--fast` flags |
+| `scripts/util/run_docs_checks.py` | Document consistency checks |
 
 ### Experiment Execution (`scripts/`)
 
@@ -326,7 +326,7 @@ Every model checkpoint, architecture, format, and compatibility.
 
 ### Scripts Dependencies
 
-- **Python 3.10+**, conda environment `diffaudit-research`
+- **Python 3.10+**, conda environment `diffaudit` (or `diffaudit-gpu` for the optional CUDA 12.8 stack)
 - **PyTorch** with CUDA (most attack/eval scripts)
 - **HuggingFace** `diffusers`, `transformers` (SD, CLIP, BLIP, Beans)
 - **Key local packages:** `src/diffaudit/` (attacks, defenses, utils, pipelines, reports, cli)
@@ -418,7 +418,7 @@ All detailed experiment reports, gate reviews, and metric packets are in `docs/e
 - `docs/evidence/workspace-evidence-index.md` -- Cross-reference to workspace evidence
 - `docs/evidence/non-clid-black-box-reselection.md` -- Recon product evidence
 - `docs/evidence/recon-product-validation-*.md` -- Recon product validation
-- `docs/evidence/h2-output-cloud-geometry-20260525.md` -- H2 geometry
+- `docs/evidence/h2-output-cloud-geometry-2026-05-25.md` -- H2 geometry
 - `docs/evidence/clid-*.md` -- CLiD series
 - `docs/evidence/rediffuse-*.md` -- ReDiffuse series
 - `docs/evidence/midfreq-*.md` -- Mid-frequency series
@@ -470,7 +470,7 @@ Paper-corpus results and review bundles are in `papers/diffaudit-evidence-paper/
 | **Check all local data/checkpoints** | `python scripts/audit_local_storage.py` (dry-run default; `--execute` to relocate) |
 | **Catalog all .pt files** | `python scripts/catalog_checkpoints.py` |
 | **Build compatibility matrix** | `python scripts/build_compatibility_matrix.py` |
-| **Verify environment** | `python scripts/verify_env.py` |
+| **Verify environment** | `python scripts/util/verify_env.py` |
 | **Verify local path binding** | `python scripts/render_team_local_configs.py` |
 | **PIA asset probe** | `python -m diffaudit probe-pia-assets --config configs/attacks/pia-plan.yaml --member-split-root external/PIA/DDPM` |
 | **GSA asset probe** | `python -m diffaudit probe-gsa-assets --repo-root external/GSA --assets-root workspaces/white-box/assets/gsa` |
@@ -480,12 +480,12 @@ Paper-corpus results and review bundles are in `papers/diffaudit-evidence-paper/
 
 | Goal | Recipe |
 |---|---|
-| **PR fast gate** | `python scripts/run_pr_checks.py` |
-| **Paper release packet check** | `python scripts/check_paper_release_packet.py` |
+| **PR fast gate** | `python scripts/util/run_pr_checks.py` |
+| **Paper release packet check** | `python scripts/paper/check_paper_release_packet.py` |
 | **E2 freeze preflight** | `python scripts/check_e2_freeze_preflight.py` |
-| **Public surface leak check** | `python scripts/check_public_surface.py` |
-| **Export supplement ZIP** | `python scripts/export_paper_supplement.py --check` |
-| **Export evidence bundle** | `python scripts/export_admitted_evidence_bundle.py` |
+| **Public surface leak check** | `python scripts/util/check_public_surface.py` |
+| **Export supplement ZIP** | `python scripts/paper/export_paper_supplement.py --check` |
+| **Export evidence bundle** | `python scripts/paper/export_admitted_evidence_bundle.py` |
 | **E2 public-source URL check** | `python scripts/check_e2_public_sources.py` |
 
 ### Run Defense Evaluation

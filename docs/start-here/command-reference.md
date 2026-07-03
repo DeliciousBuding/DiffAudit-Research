@@ -10,9 +10,9 @@
 
 ```powershell
 conda env create -f environment.yml
-conda activate diffaudit-research
-python scripts/bootstrap_research_env.py --install
-python scripts/verify_env.py
+conda activate diffaudit
+python scripts/util/bootstrap_research_env.py --install
+python scripts/util/verify_env.py
 python -m diffaudit --help
 ```
 
@@ -20,23 +20,23 @@ python -m diffaudit --help
 
 ```powershell
 conda env update -f environment.yml --prune
-conda activate diffaudit-research
-python scripts/bootstrap_research_env.py --install
+conda activate diffaudit
+python scripts/util/bootstrap_research_env.py --install
 ```
 
 仅在默认环境栈出现真实的 CUDA 兼容性错误后，才使用较新 GPU 的可选环境：
 
 ```powershell
 conda env create -f environment.gpu-cu128.yml
-conda activate diffaudit-research
-python scripts/bootstrap_research_env.py --install
+conda activate diffaudit-gpu
+python scripts/util/bootstrap_research_env.py --install
 ```
 
 如果 shell 尚未激活 conda，请在命令前添加前缀：
 
 ```powershell
-conda run -n diffaudit-research python scripts/verify_env.py
-conda run -n diffaudit-research python -m diffaudit --help
+conda run -n diffaudit python scripts/util/verify_env.py
+conda run -n diffaudit python -m diffaudit --help
 ```
 
 ## 本地资产绑定
@@ -66,9 +66,9 @@ python -m diffaudit run-smoke --config configs/benchmarks/secmi-smoke.yaml --wor
 运行本地检查包装脚本：
 
 ```powershell
-python -X utf8 scripts/run_pr_checks.py
-python -X utf8 scripts/run_local_checks.py --fast
-python -X utf8 scripts/run_local_checks.py
+python -X utf8 scripts/util/run_pr_checks.py
+python -X utf8 scripts/util/run_local_checks.py --fast
+python -X utf8 scripts/util/run_local_checks.py
 ```
 
 ## 黑盒
@@ -123,7 +123,7 @@ python -X utf8 -m diffaudit run-midfreq-residual-tiny-cache `
 写入真实资产的中频同噪残差缓存预检：
 
 ```powershell
-conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-real-asset-preflight `
+conda run -n diffaudit python -X utf8 -m diffaudit run-midfreq-residual-real-asset-preflight `
   --workspace workspaces/black-box/runs/midfreq-real-asset-tiny-20260512-cpu-4 `
   --sample-count-per-split 4 `
   --batch-size 2 `
@@ -136,7 +136,7 @@ conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual
 运行有限规模的中频同噪残差符号检查：
 
 ```powershell
-conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-sign-check `
+conda run -n diffaudit python -X utf8 -m diffaudit run-midfreq-residual-sign-check `
   --workspace workspaces/black-box/runs/midfreq-residual-signcheck-20260512-gpu-64 `
   --sample-count-per-split 64 `
   --batch-size 8 `
@@ -150,7 +150,7 @@ conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual
 运行已释放的中频同噪残差种子稳定性探针：
 
 ```powershell
-conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual-sign-check `
+conda run -n diffaudit python -X utf8 -m diffaudit run-midfreq-residual-sign-check `
   --workspace workspaces/black-box/runs/midfreq-residual-stability-seed23-20260512-gpu-64 `
   --sample-count-per-split 64 `
   --batch-size 8 `
@@ -159,7 +159,7 @@ conda run -n diffaudit-research python -X utf8 -m diffaudit run-midfreq-residual
   --device cuda
 ```
 
-这是 [midfreq-residual-stability-decision-20260512.md](../evidence/midfreq-residual-stability-decision-20260512.md) 唯一释放的数据包。仅测试种子/噪声配对的稳定性，不是 sweep。
+这是 [midfreq-residual-stability-decision-2026-05-12.md](../evidence/midfreq-residual-stability-decision-2026-05-12.md) 唯一释放的数据包。仅测试种子/噪声配对的稳定性，不是 sweep。
 
 运行有限规模的 H2 响应强度验证候选：
 

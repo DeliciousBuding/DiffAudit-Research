@@ -55,7 +55,7 @@ documentation changes in the same commit.
 
 When a research result changes status, update the corresponding status document.
 The tracking stages are described in
-[docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md):
+[evidence/reproduction-status.md](evidence/reproduction-status.md):
 
 | Stage | Meaning |
 | --- | --- |
@@ -75,9 +75,9 @@ Use the asset handoff documents instead:
 
 | Document | Purpose |
 | --- | --- |
-| [docs/assets-and-storage/data-and-assets-handoff.md](docs/assets-and-storage/data-and-assets-handoff.md) | How to set up datasets, weights, and data paths |
-| [docs/assets-and-storage/download-naming-policy.md](docs/assets-and-storage/download-naming-policy.md) | Naming conventions for project data mirror |
-| [docs/governance/licensing.md](docs/governance/licensing.md) | License scope and third-party boundaries |
+| [assets-and-storage/data-and-assets-handoff.md](assets-and-storage/data-and-assets-handoff.md) | How to set up datasets, weights, and data paths |
+| [assets-and-storage/download-naming-policy.md](assets-and-storage/download-naming-policy.md) | Naming conventions for project data mirror |
+| [governance/licensing.md](governance/licensing.md) | License scope and third-party boundaries |
 
 `third_party/` is for vendored upstream code with retained license notices.
 

@@ -63,7 +63,7 @@ Full validation is still available, but it is not the default PR bottleneck:
 
 - `full-checks` runs automatically after merges to `main`
 - `full-checks` can be triggered manually with `workflow_dispatch`
-- local behavior-changing PRs should run `python -X utf8 scripts/run_local_checks.py --fast`
+- local behavior-changing PRs should run `python -X utf8 scripts/util/run_local_checks.py --fast`
 
 This split keeps the required status-check name stable while moving heavyweight
 dependency installation and runtime tests out of every PR commit.

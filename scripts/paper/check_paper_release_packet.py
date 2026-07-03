@@ -108,11 +108,11 @@ RELEASE_DOCS = [
     "claim_register.md",
 ]
 GENERATED_TEXT_SURFACES = [
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/claim_trace.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/claim_transition_examples.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/claim_gate_recode_template.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/source_provenance.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_exemplars.csv",
+    "data/claim_trace.csv",
+    "data/claim_transition_examples.csv",
+    "data/claim_gate_recode_template.csv",
+    "data/source_provenance.csv",
+    "data/false_promotion_exemplars.csv",
 ]
 MANUSCRIPT_REQUIRED_PATTERNS = [
     (
@@ -206,7 +206,7 @@ BIB_REQUIRED_FIELDS = {
     "title",
     "year",
 }
-REFERENCE_INTEGRITY_AUDIT = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/reference_integrity_audit.csv"
+REFERENCE_INTEGRITY_AUDIT = "data/reference_integrity_audit.csv"
 REFERENCE_INTEGRITY_FIELDS = [
     "bib_key",
     "entry_type",
@@ -227,7 +227,7 @@ REFERENCE_IDENTIFIER_KINDS = {"doi_handle", "arxiv_abs", "url"}
 SUPPLEMENT_ZIP = "diffaudit-evidence-paper-anonymous-supplement.zip"
 SUPPLEMENT_MANIFEST = "anonymous_supplement_manifest.csv"
 SUPPLEMENT_ROOT = "diffaudit-evidence-paper"
-REVIEW_SNAPSHOT_MANIFEST = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/review_snapshot_manifest.csv"
+REVIEW_SNAPSHOT_MANIFEST = "data/review_snapshot_manifest.csv"
 REVIEW_SNAPSHOT_FIELDS = [
     "schema_version",
     "snapshot_kind",
@@ -256,7 +256,7 @@ REVIEW_SNAPSHOT_REQUIRED_METADATA = {
     "schema_version": "review-snapshot-v1",
     "snapshot_kind": "local_review_snapshot",
     "scope": "paper_release_packet_inputs_only",
-    "generator_command": "python -X utf8 D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/scripts/build_paper_assets.py",
+    "generator_command": "python -X utf8 scripts/build_paper_assets.py",
     "snapshot_role": "local-review-packet-identity",
 }
 REVIEW_SNAPSHOT_REQUIRED_BOUNDARY_PATTERNS = [
@@ -346,8 +346,8 @@ C14_POST_LABEL_ALLOWED_CLAIM_SCOPE_PREFIXES = (
     "external_label_aggregation_selected_13_rows_only_",
     "reviewer_labels_available_unresolved_selected_13_rows_only",
 )
-MOFIT_GATE_STATUS = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/mofit_public_gate_status.csv"
-MOFIT_SCORE_METRICS = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/mofit_public_score_metrics.json"
+MOFIT_GATE_STATUS = "data/mofit_public_gate_status.csv"
+MOFIT_SCORE_METRICS = "data/mofit_public_score_metrics.json"
 MOFIT_GATE_STATUS_FIELDS = [
     "surface",
     "gate",
@@ -412,20 +412,20 @@ MOFIT_REQUIRED_FORBIDDEN_BY_GATE = {
     ],
 }
 REQUIRED_REVIEWER_PACKET_ALLOWED_PRELABEL = {
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_blinded_review_packet.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_external_review_template.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_row_trace.csv",
+    "data/false_promotion_blinded_review_packet.csv",
+    "data/false_promotion_external_review_template.csv",
+    "data/false_promotion_row_trace.csv",
     "versions/direction-a-false-promotion-audit-codebook.md",
     "versions/direction-a-c14-external-review-launch-protocol.md",
 }
 REQUIRED_MAINTAINER_ONLY_AUTHOR_KEY = {
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_external_review_packet.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_adjudication_key.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_author_gate_matrix.csv",
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_gate_summary.csv",
+    "data/false_promotion_external_review_packet.csv",
+    "data/false_promotion_adjudication_key.csv",
+    "data/false_promotion_author_gate_matrix.csv",
+    "data/false_promotion_gate_summary.csv",
     "figures/false_promotion_gate_matrix.pdf",
 }
-STL10_ROUTE_SUMMARY = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/stl10_rediffuse_route_summary.csv"
+STL10_ROUTE_SUMMARY = "data/stl10_rediffuse_route_summary.csv"
 STL10_ROUTE_SUMMARY_FIELDS = [
     "route",
     "setting",
@@ -483,7 +483,7 @@ STL10_FORBIDDEN_ALLOWED_CLAIM_PATTERNS = [
     r"field[-\s]?level",
     r"general\s+ReDiffuse\s+refutation",
 ]
-REPORT_CORRECTNESS_FAULT_MATRIX = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/report_correctness_fault_injection.csv"
+REPORT_CORRECTNESS_FAULT_MATRIX = "data/report_correctness_fault_injection.csv"
 REPORT_CORRECTNESS_FAULT_FIELDS = [
     "case_id",
     "fault_class",
@@ -521,7 +521,7 @@ REPORT_CORRECTNESS_REQUIRED_GRID_PREFIXES = {
         "observed": "clean",
     },
 }
-MANUSCRIPT_CLAIM_AUDIT = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/manuscript_claim_audit.csv"
+MANUSCRIPT_CLAIM_AUDIT = "data/manuscript_claim_audit.csv"
 MANUSCRIPT_CLAIM_AUDIT_FIELDS = [
     "anchor_id",
     "paper_section",
@@ -539,7 +539,7 @@ MANUSCRIPT_CLAIM_AUDIT_REQUIRED_IDS = {
     "MCA-005",
     "MCA-006",
 }
-CITATION_CONTEXT_AUDIT = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/citation_context_audit.csv"
+CITATION_CONTEXT_AUDIT = "data/citation_context_audit.csv"
 CITATION_CONTEXT_AUDIT_FIELDS = [
     "citation_id",
     "main_tex_line",
@@ -552,8 +552,8 @@ CITATION_CONTEXT_AUDIT_FIELDS = [
     "audit_status",
     "boundary_note",
 ]
-FALSE_PROMOTION_GATE_SUMMARY = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_gate_summary.csv"
-FALSE_PROMOTION_AUTHOR_GATE_MATRIX = "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_author_gate_matrix.csv"
+FALSE_PROMOTION_GATE_SUMMARY = "data/false_promotion_gate_summary.csv"
+FALSE_PROMOTION_AUTHOR_GATE_MATRIX = "data/false_promotion_author_gate_matrix.csv"
 FALSE_PROMOTION_GATE_SUMMARY_FIELDS = [
     "gate",
     "outcome",
@@ -892,8 +892,8 @@ def expected_supplement_rows(paper: Path, manifest: dict, errors: list[str]) -> 
 def validate_claim_trace(paper: Path, repo_root: Path, errors: list[str]) -> None:
     trace_path = paper / "data" / "claim_trace.csv"
     provenance_path = paper / "data" / "source_provenance.csv"
-    require(trace_path.exists(), "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/claim_trace.csv is missing", errors)
-    require(provenance_path.exists(), "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/source_provenance.csv is missing", errors)
+    require(trace_path.exists(), "data/claim_trace.csv is missing", errors)
+    require(provenance_path.exists(), "data/source_provenance.csv is missing", errors)
     if not trace_path.exists() or not provenance_path.exists():
         return
 
@@ -1096,8 +1096,8 @@ def expected_review_snapshot_rows(paper: Path, repo_root: Path, manifest: dict, 
 
 
 def validate_review_snapshot_manifest(paper: Path, repo_root: Path, manifest: dict, errors: list[str]) -> None:
-    provenance_path = paper / "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data" / "source_provenance.csv"
-    require(provenance_path.exists(), "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/source_provenance.csv is missing", errors)
+    provenance_path = paper / "data/source_provenance.csv"
+    require(provenance_path.exists(), "data/source_provenance.csv is missing", errors)
     if not provenance_path.exists():
         return
 
@@ -1466,12 +1466,12 @@ def normalize_manuscript_anchor_text(text: str) -> str:
 def expected_manuscript_claim_source_values(paper: Path, errors: list[str]) -> dict[str, str]:
     expected: dict[str, str] = {}
 
-    admitted_rows = read_csv(paper / "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/admitted_rows.csv")
+    admitted_rows = read_csv(paper / "data/admitted_rows.csv")
     replay_admitted = sum(row.get("replay_tier") in {"row-score-replay", "target-score-replay"} for row in admitted_rows)
     point_estimates = sum(row.get("replay_tier") == "source-documented-point-estimate" for row in admitted_rows)
     expected["MCA-001"] = f"total={len(admitted_rows)}; replay_admitted={replay_admitted}; source_point={point_estimates}"
 
-    h2_rows = read_csv(paper / "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/h2_output_cloud_rows.csv")
+    h2_rows = read_csv(paper / "data/h2_output_cloud_rows.csv")
     h2_candidates = [
         row for row in h2_rows
         if row.get("source") == "h2-main" and row.get("label") == "output-cloud 512/512"
@@ -1480,7 +1480,7 @@ def expected_manuscript_claim_source_values(paper: Path, errors: list[str]) -> d
     if h2_candidates:
         expected["MCA-002"] = f"h2_candidate_auc={float(h2_candidates[0]['auc']):.6f}"
 
-    metrics_path = paper / "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/mofit_public_score_metrics.json"
+    metrics_path = paper / "data/mofit_public_score_metrics.json"
     try:
         mofit_best = json.loads(metrics_path.read_text(encoding="utf-8"))["best"]
     except (KeyError, json.JSONDecodeError) as exc:
@@ -1492,7 +1492,7 @@ def expected_manuscript_claim_source_values(paper: Path, errors: list[str]) -> d
             f"tpr1={float(mofit_best['tpr_at_1fpr']):.3f}; tpr01={float(mofit_best['tpr_at_01fpr']):.3f}"
         )
 
-    weak_rules = {row.get("weak_rule", ""): row for row in read_csv(paper / "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_rule_summary.csv")}
+    weak_rules = {row.get("weak_rule", ""): row for row in read_csv(paper / "data/false_promotion_rule_summary.csv")}
     try:
         code_rows = int(weak_rules["code_availability_would_promote"]["would_promote_rows"])
         paper_link_rows = int(weak_rules["paper_claim_artifact_link_would_promote"]["would_promote_rows"])
@@ -1503,7 +1503,7 @@ def expected_manuscript_claim_source_values(paper: Path, errors: list[str]) -> d
 
     gate_counts = {
         (row.get("gate", ""), row.get("outcome", "")): row
-        for row in read_csv(paper / "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/false_promotion_gate_summary.csv")
+        for row in read_csv(paper / "data/false_promotion_gate_summary.csv")
     }
     try:
         score_pass = int(gate_counts[("score_or_response_gate", "Pass")]["count"])

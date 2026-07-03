@@ -39,7 +39,7 @@ the support-facing local score-gap direction, and none of the probes emits
 ## Falsifier Triggered
 
 The falsifier from
-[post-ib-next-lane-reselection-20260512.md](post-ib-next-lane-reselection-20260512.md)
+[post-ib-next-lane-reselection-2026-05-12.md](post-ib-next-lane-reselection-2026-05-12.md)
 is triggered:
 
 ```text

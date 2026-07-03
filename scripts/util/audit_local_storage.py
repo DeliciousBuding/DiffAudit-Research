@@ -51,7 +51,7 @@ LOCAL_PATH_SCAN_EXCLUDE_DIRS = {
 
 LOCAL_PATH_SCAN_EXCLUDE_FILES = {
     "scripts/audit_local_storage.py",
-    "scripts/check_public_surface.py",
+    "scripts/util/check_public_surface.py",
 }
 
 LOCAL_PATH_TEXT_SUFFIXES = {

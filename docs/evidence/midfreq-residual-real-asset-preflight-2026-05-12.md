@@ -114,7 +114,7 @@ and that the strict-tail fields remain computable.
 
 This preflight cleared the asset/cache schema blocker for the bounded `64/64`
 sign-check recorded in
-[midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+[midfreq-residual-signcheck-2026-05-12.md](midfreq-residual-signcheck-2026-05-12.md).
 The preflight itself still does not count as benchmark evidence. A future GPU
 run is only justified if a separate stability contract states:
 

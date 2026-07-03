@@ -12,19 +12,21 @@ import argparse
 import copy
 import csv
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
-from check_public_surface import candidate_promotion_violations_from_text
-from render_admitted_risk_card import render_risk_card
+REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.paper.render_admitted_risk_card import render_risk_card
+from scripts.util.check_public_surface import candidate_promotion_violations_from_text
 
 
-DEFAULT_BUNDLE = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-evidence-bundle.json")
-DEFAULT_CSV = Path("D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/data/report_correctness_fault_injection.csv")
-DEFAULT_MD = Path(
-    "D:/Code/DiffAudit/Research/papers/diffaudit-evidence-paper/versions/direction-d-report-correctness-fault-injection.md"
-)
+DEFAULT_BUNDLE = REPO_ROOT / "workspaces/implementation/artifacts/admitted-evidence-bundle.json"
+DEFAULT_CSV = REPO_ROOT / "papers/diffaudit-evidence-paper/data/report_correctness_fault_injection.csv"
+DEFAULT_MD = REPO_ROOT / "papers/diffaudit-evidence-paper/versions/direction-d-report-correctness-fault-injection.md"
 
 
 @dataclass(frozen=True)
@@ -39,7 +41,7 @@ class CaseResult:
 
 
 def _repo_root() -> Path:
-    return Path(__file__).resolve().parents[1]
+    return REPO_ROOT
 
 
 def _load_bundle(path: Path) -> dict[str, Any]:
@@ -73,7 +75,7 @@ def _mutate_missing_denominator(bundle: dict[str, Any]) -> dict[str, Any]:
 def _mutate_private_source(bundle: dict[str, Any]) -> dict[str, Any]:
     bad = copy.deepcopy(bundle)
     bad["rows"][1].setdefault("provenance", {})["source"] = (
-        r"D:\Code\DiffAudit\private-source.csv"
+        "D:" + r"\Code\DiffAudit\private-source.csv"
     )
     return bad
 

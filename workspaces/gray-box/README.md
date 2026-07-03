@@ -25,34 +25,34 @@
 [../../docs/evidence/gray-box-triscore-consolidation-review.md](../../docs/evidence/gray-box-triscore-consolidation-review.md)。
 
 当前 SecMI 准入边界：
-[../../docs/evidence/secmi-admission-contract-hardening-20260511.md](../../docs/evidence/secmi-admission-contract-hardening-20260511.md)。
+[../../docs/evidence/secmi-admission-contract-hardening-2026-05-11.md](../../docs/evidence/secmi-admission-contract-hardening-2026-05-11.md)。
 
 当前已归档论文候选重新入场审查：
-[../../docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md](../../docs/evidence/gray-box-paper-candidate-reentry-review-20260512.md)。
+[../../docs/evidence/gray-box-paper-candidate-reentry-review-2026-05-12.md](../../docs/evidence/gray-box-paper-candidate-reentry-review-2026-05-12.md)。
 
 当前官方 SimA 工件关卡：
-[../../docs/evidence/sima-scorebased-artifact-gate-20260515.md](../../docs/evidence/sima-scorebased-artifact-gate-20260515.md)。
+[../../docs/evidence/sima-scorebased-artifact-gate-2026-05-15.md](../../docs/evidence/sima-scorebased-artifact-gate-2026-05-15.md)。
 
 当前 ReDiffuse STL-10 score-norm 关闭：
-[../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md](../../docs/evidence/rediffuse-stl10-sima-score-norm-20260525.md)。
+[../../docs/evidence/rediffuse-stl10-sima-score-norm-2026-05-25.md](../../docs/evidence/rediffuse-stl10-sima-score-norm-2026-05-25.md)。
 
 当前 TMIA-DM 公共表层复查：
-[../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-20260515.md)。
+[../../docs/evidence/tmia-dm-temporal-artifact-gate-2026-05-15.md](../../docs/evidence/tmia-dm-temporal-artifact-gate-2026-05-15.md)。
 
 当前 MoFit 工件裁决：
-[../../docs/evidence/mofit-artifact-verdict-20260513.md](../../docs/evidence/mofit-artifact-verdict-20260513.md)。
+[../../docs/evidence/mofit-artifact-verdict-2026-05-13.md](../../docs/evidence/mofit-artifact-verdict-2026-05-13.md)。
 
 当前 DSiRe / LoRA-WiSE 边界关卡：
-[../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md](../../docs/evidence/dsire-lora-wise-dataset-size-boundary-20260515.md)。
+[../../docs/evidence/dsire-lora-wise-dataset-size-boundary-2026-05-15.md](../../docs/evidence/dsire-lora-wise-dataset-size-boundary-2026-05-15.md)。
 
 当前 DEB 医疗扩散工件关卡：
-[../../docs/evidence/deb-medical-diffusion-artifact-gate-20260515.md](../../docs/evidence/deb-medical-diffusion-artifact-gate-20260515.md)。
+[../../docs/evidence/deb-medical-diffusion-artifact-gate-2026-05-15.md](../../docs/evidence/deb-medical-diffusion-artifact-gate-2026-05-15.md)。
 
 当前 Fashion-MNIST SimA score-norm 闭合：
-[../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)。
+[../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-2026-05-14.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-2026-05-14.md)。
 
 当前 Fashion-MNIST score-Jacobian 敏感度闭合：
-[../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md)。
+[../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-2026-05-14.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-2026-05-14.md)。
 
 ## 归档
 

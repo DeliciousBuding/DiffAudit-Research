@@ -66,6 +66,6 @@ Coverage added:
 This guard only prevents a specific protocol regression. It does not satisfy
 the executed defended-shadow training requirement, the adaptive-attacker
 requirement, or the retained-utility requirement. The later
-[ib-defended-shadow-training-manifest-20260512.md](ib-defended-shadow-training-manifest-20260512.md)
+[ib-defended-shadow-training-manifest-2026-05-12.md](ib-defended-shadow-training-manifest-2026-05-12.md)
 preflight specifies the training contract, but I-B remains on hold until
 training outputs and review metrics exist under the frozen protocol.

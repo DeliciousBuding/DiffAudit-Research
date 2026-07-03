@@ -83,10 +83,10 @@ not calibrated continuous sub-percent FPR claims.
 
 ## Prior Evidence
 
-- [midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md)
-- [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md)
-- [midfreq-residual-scorer-contract-20260512.md](midfreq-residual-scorer-contract-20260512.md)
-- [midfreq-residual-collector-contract-20260512.md](midfreq-residual-collector-contract-20260512.md)
+- [midfreq-residual-signcheck-2026-05-12.md](midfreq-residual-signcheck-2026-05-12.md)
+- [midfreq-residual-real-asset-preflight-2026-05-12.md](midfreq-residual-real-asset-preflight-2026-05-12.md)
+- [midfreq-residual-scorer-contract-2026-05-12.md](midfreq-residual-scorer-contract-2026-05-12.md)
+- [midfreq-residual-collector-contract-2026-05-12.md](midfreq-residual-collector-contract-2026-05-12.md)
 
 ## Boundary
 

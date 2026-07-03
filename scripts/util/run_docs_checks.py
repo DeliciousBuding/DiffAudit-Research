@@ -17,10 +17,10 @@ def main() -> None:
     repo_root = Path(__file__).resolve().parents[2]
     python_executable = sys.executable
 
-    run([python_executable, "scripts/check_public_surface.py"], repo_root)
-    run([python_executable, "scripts/check_markdown_links.py"], repo_root)
-    run([python_executable, "scripts/validate_attack_defense_table.py"], repo_root)
-    run([python_executable, "scripts/export_recon_product_evidence_card.py", "--check"], repo_root)
+    run([python_executable, "scripts/util/check_public_surface.py"], repo_root)
+    run([python_executable, "scripts/util/check_markdown_links.py"], repo_root)
+    run([python_executable, "scripts/paper/validate_attack_defense_table.py"], repo_root)
+    run([python_executable, "scripts/paper/export_recon_product_evidence_card.py", "--check"], repo_root)
 
 
 if __name__ == "__main__":

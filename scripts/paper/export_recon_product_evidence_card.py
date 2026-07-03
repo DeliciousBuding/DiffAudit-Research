@@ -8,9 +8,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
 
-DEFAULT_TABLE = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/unified-attack-defense-table.json")
-DEFAULT_OUTPUT = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/recon-product-evidence-card.json")
+DEFAULT_TABLE = REPO_ROOT / "workspaces/implementation/artifacts/unified-attack-defense-table.json"
+DEFAULT_OUTPUT = REPO_ROOT / "workspaces/implementation/artifacts/recon-product-evidence-card.json"
 RECON_ROW_SELECTOR = {
     "track": "black-box",
     "attack": "recon DDIM public-100 step30",
@@ -21,7 +23,7 @@ REQUIRED_METRICS = ("auc", "asr", "tpr_at_1pct_fpr", "tpr_at_0_1pct_fpr")
 
 
 def _repo_root() -> Path:
-    return Path(__file__).resolve().parents[1]
+    return REPO_ROOT
 
 
 def _repo_relative(path: Path, root: Path) -> str:

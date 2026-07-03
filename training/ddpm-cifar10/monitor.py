@@ -9,10 +9,14 @@ import sys, json, re, os
 from pathlib import Path
 from datetime import datetime, timezone
 
-LOG = Path("D:/Code/DiffAudit/Research/training/outputs/ddpm-cifar10-750k/training.log")
-CKPT_DIR = Path("D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-750k")
-OUT = Path("D:/Code/DiffAudit/Research/training/outputs/ddpm-cifar10-750k/monitor.json")
-HEARTBEAT = Path("D:/Code/DiffAudit/Research/training/outputs/ddpm-cifar10-750k/heartbeat.json")
+PROJECT = Path(__file__).resolve().parents[2]  # Research/
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", PROJECT.parent / "Download")).expanduser()
+RUN_LABEL = os.environ.get("DIFFAUDIT_RUN_LABEL", "ddpm-cifar10-750k")
+
+LOG = PROJECT / "training" / "outputs" / RUN_LABEL / "training.log"
+CKPT_DIR = DOWNLOAD / "checkpoints" / RUN_LABEL
+OUT = PROJECT / "training" / "outputs" / RUN_LABEL / "monitor.json"
+HEARTBEAT = PROJECT / "training" / "outputs" / RUN_LABEL / "heartbeat.json"
 
 def main():
     status = {"time": datetime.now().isoformat(), "ok": True, "step": 0, "loss": None, "eta_h": None, "checkpoints": [], "errors": [], "alive": False}

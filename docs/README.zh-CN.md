@@ -7,20 +7,20 @@
 
 **扩散模型隐私风险审计工具集。**
 
-[English](README.md) | [中文](README.zh-CN.md)
+[English](../README.md) | [中文](README.zh-CN.md)
 
 <!-- Synced with English README.md as of 2026-06-20 -->
 
 [![Tests](https://github.com/DeliciousBuding/DiffAudit-Research/actions/workflows/tests.yml/badge.svg)](https://github.com/DeliciousBuding/DiffAudit-Research/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-3776AB)
 ![Status](https://img.shields.io/badge/status-research%20prototype-0F766E)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../LICENSE)
 
 [DiffAudit Platform](https://github.com/DeliciousBuding/DiffAudit-Platform) ·
-[文档](docs/README.md) ·
-[快速开始](docs/start-here/getting-started.md) ·
-[数据与资产](docs/assets-and-storage/data-and-assets-handoff.md) ·
-[实验状态](docs/evidence/reproduction-status.md) ·
+[文档](README.md) ·
+[快速开始](start-here/getting-started.md) ·
+[数据与资产](assets-and-storage/data-and-assets-handoff.md) ·
+[实验状态](evidence/reproduction-status.md) ·
 [安全](SECURITY.md)
 
 </div>
@@ -56,29 +56,30 @@ flowchart LR
 ```powershell
 git clone https://github.com/DeliciousBuding/DiffAudit-Research.git
 cd DiffAudit-Research
-conda env create -f environment.yml           # CPU-only (CI / docs checks)
-conda env create -f environment.gpu-cu128.yml # GPU with CUDA 12.8 (research)
-conda activate diffaudit-research
+conda env create -f environment.yml           # 默认 CUDA 12.1 环境
+# 仅较新 GPU 需要时：
+# conda env create -f environment.gpu-cu128.yml
+conda activate diffaudit                      # cu128 环境使用 diffaudit-gpu
 python scripts/util/bootstrap_research_env.py --install
 python scripts/util/verify_env.py
 python -m diffaudit --help
 ```
 
 大型数据集和模型权重不存储在 Git 中。配置本地数据路径请参考
-[docs/assets-and-storage/data-and-assets-handoff.md](docs/assets-and-storage/data-and-assets-handoff.md)。
+[assets-and-storage/data-and-assets-handoff.md](assets-and-storage/data-and-assets-handoff.md)。
 
 ## 文档导航
 
 | 需求 | 入口 |
 | --- | --- |
-| 新贡献者上手 | [docs/start-here/getting-started.md](docs/start-here/getting-started.md) |
-| 环境配置 | [docs/start-here/teammate-setup.md](docs/start-here/teammate-setup.md) |
-| 数据集与模型权重 | [docs/assets-and-storage/data-and-assets-handoff.md](docs/assets-and-storage/data-and-assets-handoff.md) |
-| CLI 命令 | [docs/start-here/command-reference.md](docs/start-here/command-reference.md) |
-| 实验状态 | [docs/evidence/reproduction-status.md](docs/evidence/reproduction-status.md) |
-| 平台集成 | [docs/product-bridge/README.md](docs/product-bridge/README.md) |
-| 仓库结构 | [docs/start-here/repo-map.md](docs/start-here/repo-map.md) |
-| 完整文档索引 | [docs/README.md](docs/README.md) |
+| 新贡献者上手 | [start-here/getting-started.md](start-here/getting-started.md) |
+| 环境配置 | [start-here/teammate-setup.md](start-here/teammate-setup.md) |
+| 数据集与模型权重 | [assets-and-storage/data-and-assets-handoff.md](assets-and-storage/data-and-assets-handoff.md) |
+| CLI 命令 | [start-here/command-reference.md](start-here/command-reference.md) |
+| 实验状态 | [evidence/reproduction-status.md](evidence/reproduction-status.md) |
+| 平台集成 | [product-bridge/README.md](product-bridge/README.md) |
+| 仓库结构 | [start-here/repo-map.md](start-here/repo-map.md) |
+| 完整文档索引 | [README.md](README.md) |
 
 ## 仓库结构
 
@@ -110,7 +111,7 @@ python -m diffaudit --help
 
 ## 引用与许可
 
-引用 DiffAudit Research 请使用 [CITATION.cff](CITATION.cff)。上游论文、数据集和第三方代码请按其各自条款引用。
+引用 DiffAudit Research 请使用 [CITATION.cff](../CITATION.cff)。上游论文、数据集和第三方代码请按其各自条款引用。
 
-源代码、配置、测试、脚本和原创文档采用 [Apache License 2.0](LICENSE) 许可。
-详见 [docs/governance/licensing.md](docs/governance/licensing.md) 和 [NOTICE](NOTICE)。
+源代码、配置、测试、脚本和原创文档采用 [Apache License 2.0](../LICENSE) 许可。
+详见 [governance/licensing.md](governance/licensing.md) 和 [NOTICE](../NOTICE)。

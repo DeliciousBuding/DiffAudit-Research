@@ -62,7 +62,7 @@ scientifically valid successor is a CPU preflight for a defended-shadow or
 adaptive-attacker review contract.
 
 The hold boundary is now machine-guarded by
-[`ib-adaptive-defense-contract-20260511.md`](ib-adaptive-defense-contract-20260511.md)
+[`ib-adaptive-defense-contract-2026-05-11.md`](ib-adaptive-defense-contract-2026-05-11.md)
 and `scripts/validate_ib_adaptive_defense_contract.py`.
 
 ## Reopen Gate

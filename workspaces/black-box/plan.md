@@ -29,7 +29,7 @@
 - `CLiD`: hold-candidate. The prompt-conditioned packet is strong and
   repeat-stable, but prompt controls and attribution block admission as general
   black-box evidence. The current machine-readable boundary is
-  [../../docs/evidence/clid-image-identity-boundary-contract-20260511.md](../../docs/evidence/clid-image-identity-boundary-contract-20260511.md).
+  [../../docs/evidence/clid-image-identity-boundary-contract-2026-05-11.md](../../docs/evidence/clid-image-identity-boundary-contract-2026-05-11.md).
 - `variation`: API-only support; executable query-contract audit is now
   blocked by missing member/nonmember query images and endpoint.
 - `semantic-auxiliary-classifier`: negative-but-useful after low-FPR review;
@@ -123,19 +123,19 @@ The post-tri-score intake refresh reconfirms the same status and preserves the
 machine-readable discovery output under
 `workspaces/black-box/artifacts/black-box-response-contract-second-asset-intake-20260511.json`;
 see
-[../../docs/evidence/black-box-response-contract-second-asset-intake-20260511.md](../../docs/evidence/black-box-response-contract-second-asset-intake-20260511.md).
+[../../docs/evidence/black-box-response-contract-second-asset-intake-2026-05-11.md](../../docs/evidence/black-box-response-contract-second-asset-intake-2026-05-11.md).
 Do not release a black-box response-contract GPU task until a candidate package
 passes that CPU preflight. The Kandinsky/Pokemon package scaffold dry-run for
 `response-contract-pokemon-kandinsky-20260511` is recorded in
-[../../docs/evidence/black-box-response-contract-protocol-scaffold-20260511.md](../../docs/evidence/black-box-response-contract-protocol-scaffold-20260511.md).
+[../../docs/evidence/black-box-response-contract-protocol-scaffold-2026-05-11.md](../../docs/evidence/black-box-response-contract-protocol-scaffold-2026-05-11.md).
 It freezes a handoff layout only. The local skeleton has now been created and
 the follow-up probe returns `needs_query_split`; real query images, splits,
 response files, provenance, and integrity hashes are still missing. See
-[../../docs/evidence/black-box-response-contract-skeleton-create-20260511.md](../../docs/evidence/black-box-response-contract-skeleton-create-20260511.md).
+[../../docs/evidence/black-box-response-contract-skeleton-create-2026-05-11.md](../../docs/evidence/black-box-response-contract-skeleton-create-2026-05-11.md).
 The local query-source audit confirms that `public-kandinsky-pokemon` contains
 weights only and cannot fill the query/response package. Do not mix CelebA or
 recon tensor assets into this Pokemon/Kandinsky package. See
-[../../docs/evidence/black-box-response-contract-query-source-audit-20260511.md](../../docs/evidence/black-box-response-contract-query-source-audit-20260511.md).
+[../../docs/evidence/black-box-response-contract-query-source-audit-2026-05-11.md](../../docs/evidence/black-box-response-contract-query-source-audit-2026-05-11.md).
 
 A more practical near-term response-contract candidate is now
 `AI-Lab-Makerere/beans` plus the local SD1.5 image-to-image pipeline. The beans
@@ -145,26 +145,26 @@ response smoke. This is only a second-query-dataset candidate, not a second
 generator-family result. If asset construction continues, prefer a fresh
 `response-contract-beans-sd15-20260512` package over further polishing the
 empty Pokemon/Kandinsky skeleton. See
-[../../docs/evidence/beans-sd15-response-contract-scout-20260512.md](../../docs/evidence/beans-sd15-response-contract-scout-20260512.md).
+[../../docs/evidence/beans-sd15-response-contract-scout-2026-05-12.md](../../docs/evidence/beans-sd15-response-contract-scout-2026-05-12.md).
 That package now exists locally with `25/25` query images and `25/25`
 deterministic local SD1.5 responses, and the existing CPU package probe returns
 `status = ready`. This does not release GPU or prove a signal; it only unlocks
 tiny CPU scorer design. See
-[../../docs/evidence/beans-sd15-response-contract-ready-20260512.md](../../docs/evidence/beans-sd15-response-contract-ready-20260512.md).
+[../../docs/evidence/beans-sd15-response-contract-ready-2026-05-12.md](../../docs/evidence/beans-sd15-response-contract-ready-2026-05-12.md).
 After semantic review, the package is contract/debug only: beans train versus
 validation is not proven SD1.5 training membership. Keep the package for
 response-contract and scorer plumbing, but do not cite it as true membership
 evidence. See
-[../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md](../../docs/evidence/beans-sd15-membership-semantics-correction-20260512.md).
+[../../docs/evidence/beans-sd15-membership-semantics-correction-2026-05-12.md](../../docs/evidence/beans-sd15-membership-semantics-correction-2026-05-12.md).
 The first tiny scorer, raw query-response pixel distance, is weak on this
 package: MSE gives `AUC = 0.5088` and MAE gives `AUC = 0.4992`. Do not scale
 this exact scorer or treat it as true SD1.5 membership evidence. See
-[../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md](../../docs/evidence/beans-sd15-simple-distance-scout-20260512.md).
+[../../docs/evidence/beans-sd15-simple-distance-scout-2026-05-12.md](../../docs/evidence/beans-sd15-simple-distance-scout-2026-05-12.md).
 The second cheap scorer, local CLIP image-embedding distance, is also weak:
 under the lower-distance member convention it gives `AUC = 0.4224`, and the
 reverse direction is only `0.5776`. Do not expand simple distance scoring
 without a different mechanism or true membership split. See
-[../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md](../../docs/evidence/beans-sd15-clip-distance-scout-20260512.md).
+[../../docs/evidence/beans-sd15-clip-distance-scout-2026-05-12.md](../../docs/evidence/beans-sd15-clip-distance-scout-2026-05-12.md).
 
 The 2026-05-13 known-split repair created a precise target model by fine-tuning
 an SD1.5 UNet LoRA on the first `25` Beans member query images and holding out
@@ -174,7 +174,7 @@ score is weak: `AUC = 0.414400`, reverse `AUC = 0.585600`, `ASR = 0.540000`,
 and `TPR@1%FPR = 0.080000`. This is not black-box evidence and not a product
 row. Do not expand it into train-step, rank, resolution, prompt, scheduler,
 loss-weight, or timestep matrices. See
-[../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-20260513.md).
+[../../docs/evidence/beans-lora-member-denoising-loss-scout-2026-05-13.md](../../docs/evidence/beans-lora-member-denoising-loss-scout-2026-05-13.md).
 
 The follow-up architecture-local parameter-delta scout asks whether the
 member-only LoRA changes base SD1.5 UNet noise predictions more strongly on
@@ -186,14 +186,14 @@ denoising-loss and parameter-delta sensitivity under repaired known-split
 membership semantics. Do not reopen it through train-step, rank, resolution,
 prompt, scheduler, loss-weight, timestep, layer/block, or loss-delta matrices.
 See
-[../../docs/evidence/beans-lora-delta-sensitivity-20260513.md](../../docs/evidence/beans-lora-delta-sensitivity-20260513.md).
+[../../docs/evidence/beans-lora-delta-sensitivity-2026-05-13.md](../../docs/evidence/beans-lora-delta-sensitivity-2026-05-13.md).
 
 The MIA_SD face-LDM candidate is closed as a clean second asset. The public repo
 contains code and result traces, but no public experiment images, target
 checkpoint, exact member/nonmember split manifest, or reusable query/response
 packet. Do not scrape DTU/AAU/LFW images, reconstruct private folders, or train
 SD1.5 for 400 epochs from this repo. See
-[../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md](../../docs/evidence/miasd-face-ldm-asset-verdict-20260513.md).
+[../../docs/evidence/miasd-face-ldm-asset-verdict-2026-05-13.md](../../docs/evidence/miasd-face-ldm-asset-verdict-2026-05-13.md).
 
 The next black-box portability gate is now a membership-semantics gate, not a
 package-format gate. A true second membership benchmark must identify the
@@ -204,10 +204,10 @@ are cleaner than pseudo-membership assets, but raw loss, `x0` residual,
 SimA score-norm, and score-Jacobian sensitivity scouts are weak, so do not
 reopen them through timestep, seed, `p`-norm, perturbation, norm, or
 packet-size variants. See
-[../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-20260514.md),
-[../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-20260514.md)
+[../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-2026-05-14.md](../../docs/evidence/fashion-mnist-ddpm-score-jacobian-sensitivity-2026-05-14.md),
+[../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-2026-05-14.md](../../docs/evidence/fashion-mnist-ddpm-sima-score-norm-2026-05-14.md)
 and
-[../../docs/evidence/true-second-membership-benchmark-scope-20260512.md](../../docs/evidence/true-second-membership-benchmark-scope-20260512.md).
+[../../docs/evidence/true-second-membership-benchmark-scope-2026-05-12.md](../../docs/evidence/true-second-membership-benchmark-scope-2026-05-12.md).
 
 As a separate second-scene sanity check, a tiny CPU-only MNIST/DDPM scout tested
 raw PIA-style noise-prediction loss on `1aurent/ddpm-mnist` using first `16`
@@ -215,40 +215,40 @@ MNIST train images as members and first `16` test images as nonmembers. The
 result was near-random (`AUC = 0.496094`, `best ASR = 0.562500`). A
 same-split per-timestep guard peaked at only `AUC = 0.578125`, so direct
 raw-loss transfer is closed unless a sharper scorer hypothesis appears. See
-[../../docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md](../../docs/evidence/mnist-ddpm-pia-portability-smoke-20260512.md).
+[../../docs/evidence/mnist-ddpm-pia-portability-smoke-2026-05-12.md](../../docs/evidence/mnist-ddpm-pia-portability-smoke-2026-05-12.md).
 The follow-up CPU-only `x0` reconstruction scout tests a different observable,
 but it is also weak: mean `x0` MSE/L1/edge residual AUCs are about `0.55`, and
 the best single-timestep `x0` L1 AUC is only `0.656250`. Do not expand raw-loss
 or simple `x0` residual scoring on MNIST/DDPM without a sharper mechanism. See
-[../../docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md](../../docs/evidence/mnist-ddpm-x0-reconstruction-scout-20260512.md).
+[../../docs/evidence/mnist-ddpm-x0-reconstruction-scout-2026-05-12.md](../../docs/evidence/mnist-ddpm-x0-reconstruction-scout-2026-05-12.md).
 A tiny known-split MNIST denoiser sanity check then tested whether controlling
 the training set makes raw denoising loss useful. It does not at this gate:
 after `8` CPU epochs the training loss decreased, but membership AUC was
 `0.492676` with zero strict-tail recovery. Do not turn this into an
 epoch/sample ablation table; future work needs a mechanism beyond simple MSE or
 an external benchmark with documented provenance. See
-[../../docs/evidence/tiny-known-split-denoising-sanity-20260512.md](../../docs/evidence/tiny-known-split-denoising-sanity-20260512.md).
+[../../docs/evidence/tiny-known-split-denoising-sanity-2026-05-12.md](../../docs/evidence/tiny-known-split-denoising-sanity-2026-05-12.md).
 A quick external diffusion benchmark scan did not find a ready-to-score second
 benchmark. Fashion-MNIST/CelebA/CIFAR-style model cards are not enough unless
 they document exact target training membership and held-out nonmembers. Do not
 download large weights or score from dataset names alone. See
-[../../docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md](../../docs/evidence/external-diffusion-benchmark-provenance-scan-20260512.md).
+[../../docs/evidence/external-diffusion-benchmark-provenance-scan-2026-05-12.md](../../docs/evidence/external-diffusion-benchmark-provenance-scan-2026-05-12.md).
 A tiny overfit upperbound then deliberately trained on only `8` MNIST member
 images for `80` CPU epochs. Raw denoising MSE still reached only
 `AUC = 0.552734` with zero strict-tail recovery, so simple raw-MSE known-split
 work is closed. See
-[../../docs/evidence/tiny-overfit-mse-upperbound-20260512.md](../../docs/evidence/tiny-overfit-mse-upperbound-20260512.md).
+[../../docs/evidence/tiny-overfit-mse-upperbound-2026-05-12.md](../../docs/evidence/tiny-overfit-mse-upperbound-2026-05-12.md).
 A final-layer per-sample gradient-norm scout on that same `8 / 64` overfit
 target is the first useful post-reset mechanism signal: `AUC = 0.734375` and
 `1 / 8` members recovered at zero false positives. This does not release GPU or
 admit evidence, but it moves the next CPU mechanism candidate from simple MSE
 to gradient-sensitive observables. See
-[../../docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md](../../docs/evidence/tiny-overfit-gradient-norm-scout-20260512.md).
+[../../docs/evidence/tiny-overfit-gradient-norm-scout-2026-05-12.md](../../docs/evidence/tiny-overfit-gradient-norm-scout-2026-05-12.md).
 The less extreme `16 / 64` stability gate weakens the signal: final-layer
 gradient L2 falls to `AUC = 0.535156`, still with `1 / 16` zero-FP member
 recovery. Treat gradient norm as a mechanism hint only; do not GPU-scale or run
 a layer sweep from this result. See
-[../../docs/evidence/gradient-norm-stability-gate-20260512.md](../../docs/evidence/gradient-norm-stability-gate-20260512.md).
+[../../docs/evidence/gradient-norm-stability-gate-2026-05-12.md](../../docs/evidence/gradient-norm-stability-gate-2026-05-12.md).
 
 CopyMark is now the highest-value external intake candidate. Its paper-level
 protocol is directly about real-world diffusion membership/copyright detection,
@@ -261,13 +261,13 @@ use `commoncatalog-2-5k-{eval,test}` as member directories and
 `coco2017-val-2-5k-{eval,test}` as holdout directories. This is cleaner than
 starting with SD1.5/LAION because CommonCanvas has stronger open-model/open-data
 provenance. Do not download the full `5.66GB` dataset or release GPU. See
-[../../docs/evidence/copymark-provenance-intake-20260512.md](../../docs/evidence/copymark-provenance-intake-20260512.md).
+[../../docs/evidence/copymark-provenance-intake-2026-05-12.md](../../docs/evidence/copymark-provenance-intake-2026-05-12.md).
 A local CommonCanvas package now exists under `<DIFFAUDIT_ROOT>/Download` with
 `50` member queries, `50` nonmember queries, deterministic `50/50` responses,
 and a package probe status of `ready`. See
-[../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md](../../docs/evidence/copymark-commoncanvas-query-asset-20260512.md).
+[../../docs/evidence/copymark-commoncanvas-query-asset-2026-05-12.md](../../docs/evidence/copymark-commoncanvas-query-asset-2026-05-12.md).
 The CommonCanvas response-generation blocker is closed. The default PATH Python
-is still CPU-only, but the `diffaudit-research` conda environment has CUDA
+is still CPU-only, but the `diffaudit` conda environment has CUDA
 Torch and sees the local RTX 4070. CommonCanvas is a text-to-image SDXL
 pipeline, so the package contract is `text_to_image`, not `image_to_image`.
 The `commoncanvas_xl_c.safetensors` checkpoint is locally available,
@@ -280,10 +280,10 @@ conditional denoising-loss over timesteps `[200,500,800]`, is also weak on the
 same `50/50` packet (`AUC = 0.5148`, `TPR@1%FPR = 0.02`). Close CommonCanvas by
 default; do not expand this into metric, seed, subset, embedding, timestep,
 resolution, scheduler, or loss-weight sweeps. See
-[../../docs/evidence/commoncanvas-denoising-loss-20260513.md](../../docs/evidence/commoncanvas-denoising-loss-20260513.md),
-[../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md](../../docs/evidence/copymark-commoncanvas-response-preflight-20260512.md)
+[../../docs/evidence/commoncanvas-denoising-loss-2026-05-13.md](../../docs/evidence/commoncanvas-denoising-loss-2026-05-13.md),
+[../../docs/evidence/copymark-commoncanvas-response-preflight-2026-05-12.md](../../docs/evidence/copymark-commoncanvas-response-preflight-2026-05-12.md)
 and
-[../../docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md](../../docs/evidence/copymark-commoncanvas-multiseed-stability-20260513.md).
+[../../docs/evidence/copymark-commoncanvas-multiseed-stability-2026-05-13.md](../../docs/evidence/copymark-commoncanvas-multiseed-stability-2026-05-13.md).
 
 The CLiD line is now explicitly guarded as a prompt-conditioned diagnostic
 candidate, not image-identity membership evidence. The prompt-conditioned
@@ -302,28 +302,28 @@ and real-asset `4/4` preflight established the cache schema, and the frozen
 candidate-only. The seed-only repeat at the same timestep and band retained
 signal with `AUC = 0.719238`, `ASR = 0.6875`, and finite `3/64` zero-FP
 recovery. Same-contract GPU expansion is now closed. The stability result is
-[../../docs/evidence/midfreq-residual-stability-result-20260512.md](../../docs/evidence/midfreq-residual-stability-result-20260512.md);
+[../../docs/evidence/midfreq-residual-stability-result-2026-05-12.md](../../docs/evidence/midfreq-residual-stability-result-2026-05-12.md);
 the comparator audit is
-[../../docs/evidence/midfreq-residual-comparator-audit-20260512.md](../../docs/evidence/midfreq-residual-comparator-audit-20260512.md);
+[../../docs/evidence/midfreq-residual-comparator-audit-2026-05-12.md](../../docs/evidence/midfreq-residual-comparator-audit-2026-05-12.md);
 the stability decision is
-[../../docs/evidence/midfreq-residual-stability-decision-20260512.md](../../docs/evidence/midfreq-residual-stability-decision-20260512.md);
+[../../docs/evidence/midfreq-residual-stability-decision-2026-05-12.md](../../docs/evidence/midfreq-residual-stability-decision-2026-05-12.md);
 the sign-check is
-[../../docs/evidence/midfreq-residual-signcheck-20260512.md](../../docs/evidence/midfreq-residual-signcheck-20260512.md);
+[../../docs/evidence/midfreq-residual-signcheck-2026-05-12.md](../../docs/evidence/midfreq-residual-signcheck-2026-05-12.md);
 the CPU scorer is
 tracked in
-[../../docs/evidence/midfreq-residual-scorer-contract-20260512.md](../../docs/evidence/midfreq-residual-scorer-contract-20260512.md);
+[../../docs/evidence/midfreq-residual-scorer-contract-2026-05-12.md](../../docs/evidence/midfreq-residual-scorer-contract-2026-05-12.md);
 the collector functions are tracked in
-[../../docs/evidence/midfreq-residual-collector-contract-20260512.md](../../docs/evidence/midfreq-residual-collector-contract-20260512.md);
+[../../docs/evidence/midfreq-residual-collector-contract-2026-05-12.md](../../docs/evidence/midfreq-residual-collector-contract-2026-05-12.md);
 the tiny runner contract is
-[../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-20260512.md);
+[../../docs/evidence/midfreq-residual-tiny-runner-contract-2026-05-12.md](../../docs/evidence/midfreq-residual-tiny-runner-contract-2026-05-12.md);
 the real-asset preflight is
-[../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md](../../docs/evidence/midfreq-residual-real-asset-preflight-20260512.md);
+[../../docs/evidence/midfreq-residual-real-asset-preflight-2026-05-12.md](../../docs/evidence/midfreq-residual-real-asset-preflight-2026-05-12.md);
 the cache audit is
-[../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md](../../docs/evidence/midfreq-same-noise-residual-preflight-20260512.md).
+[../../docs/evidence/midfreq-same-noise-residual-preflight-2026-05-12.md](../../docs/evidence/midfreq-same-noise-residual-preflight-2026-05-12.md).
 
 The semantic-auxiliary classifier lane also fails promotion:
 best AUC gain over `mean_cos` is `0.001953`, below the `0.01` gate. The next
 GPU candidate is not selected; CLiD remains hold-candidate. The older
 Research-level resting-state audit remains useful historical context, but the
 current reducible task is post-midfreq next-lane reselection. See
-[../../docs/evidence/research-resting-state-audit-20260510.md](../../docs/evidence/research-resting-state-audit-20260510.md).
+[../../docs/evidence/research-resting-state-audit-2026-05-10.md](../../docs/evidence/research-resting-state-audit-2026-05-10.md).

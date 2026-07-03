@@ -103,10 +103,13 @@ outputs:
 - `outputs/h1-fine-grid-seed43-800k/summary.json`: max |delta|=0.1169 at `mid_0`, t=600; knockout mostly increases AUC.
 
 N=512 was not run for seed43 800k because the N=128 AUC did not exceed 0.70.
-seed44 is recommended, not required, and should not start without a fresh GPU
-allocation decision.
+Any extra seed is optional/opportunistic and must not start without a fresh GPU
+allocation decision. seed44 stopped at 64k twice. seed45 stopped at 38.2k and
+was cleaned up on 2026-07-03; its last durable checkpoint is step 38k. These
+runs are replication support, not Paper 1 blockers.
 
-Resume training from the durable checkpoint only after GPU is allowed:
+Historical seed43 training commands are retained for reproducibility. Do not run
+them by default because seed43 is already complete:
 
 ```powershell
 python -u training/ddpm-cifar10/train_ddpm_cifar10_seed43.py `
@@ -128,8 +131,7 @@ python -u scripts/h1/h1_activation_scout.py `
   --force
 ```
 
-Do not continue seed43 to 800k until the 750k H1 result is archived and reflected
-in the evidence docs.
+This command is historical; the 750k H1 result is already archived.
 
 After `checkpoint-step800000.pt` exists:
 
@@ -150,6 +152,27 @@ python -u scripts/h1/h1_fine_grid_ddpm750k.py `
   --n-nonmember 64 `
   --force
 ```
+
+### seed45 Opportunistic Replication
+
+Status: paused after a stuck run at step 38,200. The durable resume point is
+`<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed45/checkpoint-step038000.pt`.
+Use the generic parameterized trainer only if GPU use is explicitly approved:
+
+```powershell
+$env:DIFFAUDIT_DATASET_ROOT = "<DIFFAUDIT_ROOT>\Download\datasets-readable"
+$env:DIFFAUDIT_DOWNLOAD_ROOT = "<DIFFAUDIT_ROOT>\Download"
+python -u training/ddpm-cifar10/train_ddpm_cifar10.py `
+  --seed 45 `
+  --run-label ddpm-cifar10-seed45 `
+  --resume `
+  --stop-step 750000 `
+  --log-file training/outputs/ddpm-cifar10-seed45/training-750k.log
+```
+
+Before resuming, verify there is no stale training process and keep emulator or
+other high-GPU-background workloads closed. After 750k, run only the bounded
+N=128 H1 scout unless a fresh scientific decision changes the plan.
 
 ### Matched Channel Knockout
 
@@ -184,8 +207,8 @@ Update these together:
 1. `docs/evidence/ddpm-750k-step-matched-control-2026-06-25.md`
 2. `docs/evidence/experiment-master-log.md`
 3. `docs/paper1/frozen-claim-matrix.md`
-4. `Papers/diffaudit-evidence-paper/evidence_bank.md` (private)
-5. `Papers/diffaudit-evidence-paper/main.tex` (private, only after claim wording is stable)
+4. Private paper evidence bank, if the full DiffAudit workspace includes it.
+5. Private paper manuscript, only after claim wording is stable.
 
 Run:
 

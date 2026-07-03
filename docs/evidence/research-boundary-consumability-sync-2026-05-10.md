@@ -20,7 +20,7 @@ Reviewed sources:
 - [innovation-evidence-map.md](innovation-evidence-map.md)
 - [research-boundary-card.md](research-boundary-card.md)
 - [../product-bridge/README.md](../product-bridge/README.md)
-- [black-box-response-contract-second-asset-intake-20260511.md](black-box-response-contract-second-asset-intake-20260511.md)
+- [black-box-response-contract-second-asset-intake-2026-05-11.md](black-box-response-contract-second-asset-intake-2026-05-11.md)
 - [gray-box-triscore-truth-hardening-review.md](gray-box-triscore-truth-hardening-review.md)
 - [rediffuse-exact-replay-packet.md](rediffuse-exact-replay-packet.md)
 

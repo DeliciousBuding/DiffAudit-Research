@@ -23,13 +23,13 @@ DiffAudit Research 的自动化测试套件。
 PR 快速门禁：
 
 ```powershell
-python -X utf8 scripts/run_pr_checks.py
+python -X utf8 scripts/util/run_pr_checks.py
 ```
 
 快速本地检查：
 
 ```powershell
-conda run -n diffaudit python -X utf8 scripts/run_local_checks.py --fast
+conda run -n diffaudit python -X utf8 scripts/util/run_local_checks.py --fast
 ```
 
 Adapter 测试：

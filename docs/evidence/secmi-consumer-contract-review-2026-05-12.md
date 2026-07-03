@@ -18,7 +18,7 @@ same quality bar as admitted PIA, or must it remain `research-support-only`?
 ## Inputs
 
 - [secmi-full-split-admission-boundary-review.md](secmi-full-split-admission-boundary-review.md)
-- [secmi-admission-contract-hardening-20260511.md](secmi-admission-contract-hardening-20260511.md)
+- [secmi-admission-contract-hardening-2026-05-11.md](secmi-admission-contract-hardening-2026-05-11.md)
 - [admitted-results-summary.md](admitted-results-summary.md)
 - [../product-bridge/admitted-evidence-bundle.md](../product-bridge/admitted-evidence-bundle.md)
 - `workspaces/gray-box/artifacts/secmi-full-split-admission-boundary-20260511.json`

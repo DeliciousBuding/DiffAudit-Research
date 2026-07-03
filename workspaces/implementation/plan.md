@@ -13,7 +13,7 @@ Keep validation and documentation guards current:
 ```powershell
 python -X utf8 scripts/check_public_surface.py
 python -X utf8 scripts/check_markdown_links.py
-conda run -n diffaudit-research python scripts/run_local_checks.py --fast
+conda run -n diffaudit python scripts/util/run_local_checks.py --fast
 ```
 
 ## Current Status

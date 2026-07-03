@@ -16,13 +16,13 @@ TTS/audio and music/audio watch-plus items.
 
 | Evidence | Status |
 | --- | --- |
-| [sama-dlm-asset-verdict-20260514.md](sama-dlm-asset-verdict-20260514.md) | Diffusion-language-model related-method codebase; out of scope for the current image/latent-image Lane A and missing released target/split/score artifacts. |
-| [vidleaks-t2v-asset-verdict-20260514.md](vidleaks-t2v-asset-verdict-20260514.md) | Text-to-video related-method code snapshot; live GitHub repo unavailable and missing target T2V weights, exact video split manifests, generated videos, feature CSVs, and score packets. |
-| [ggdm-zenodo-artifact-gate-20260515.md](ggdm-zenodo-artifact-gate-20260515.md) | Graph-diffusion related-method code archive; missing fixed graph target checkpoint, exact graph member/nonmember manifest, generated graph cache, score/ROC artifact, metrics packet, and public AWE module. |
-| [durmi-tts-artifact-gate-20260515.md](durmi-tts-artifact-gate-20260515.md) | TTS/audio cross-modal watch-plus; public attack code, GradTTS LJSpeech exact split, and Zenodo checkpoint/data metadata are present, but ready duration-loss score arrays, ROC arrays, metric JSON, generated result graphs, and a TTS consumer-boundary decision are missing. |
-| [lsaprobe-music-diffusion-mock-data-gate-20260515.md](lsaprobe-music-diffusion-mock-data-gate-20260515.md) | Music/audio cross-modal watch-plus; paper and demo are public, but the visible GitHub Pages `data/*.json` score-like arrays are mock demo data generated from seeded random distributions, and the project repo has no implementation, target identities, exact splits, or real score artifacts. |
-| [paperization-consumer-boundary-20260513.md](paperization-consumer-boundary-20260513.md) | Weak/watch image-diffusion lines remain limitations or future-work hooks only. |
-| [admitted-consumer-drift-audit-20260512.md](admitted-consumer-drift-audit-20260512.md) | Platform/Runtime admitted rows remain the existing guarded set. |
+| [sama-dlm-asset-verdict-2026-05-14.md](sama-dlm-asset-verdict-2026-05-14.md) | Diffusion-language-model related-method codebase; out of scope for the current image/latent-image Lane A and missing released target/split/score artifacts. |
+| [vidleaks-t2v-asset-verdict-2026-05-14.md](vidleaks-t2v-asset-verdict-2026-05-14.md) | Text-to-video related-method code snapshot; live GitHub repo unavailable and missing target T2V weights, exact video split manifests, generated videos, feature CSVs, and score packets. |
+| [ggdm-zenodo-artifact-gate-2026-05-15.md](ggdm-zenodo-artifact-gate-2026-05-15.md) | Graph-diffusion related-method code archive; missing fixed graph target checkpoint, exact graph member/nonmember manifest, generated graph cache, score/ROC artifact, metrics packet, and public AWE module. |
+| [durmi-tts-artifact-gate-2026-05-15.md](durmi-tts-artifact-gate-2026-05-15.md) | TTS/audio cross-modal watch-plus; public attack code, GradTTS LJSpeech exact split, and Zenodo checkpoint/data metadata are present, but ready duration-loss score arrays, ROC arrays, metric JSON, generated result graphs, and a TTS consumer-boundary decision are missing. |
+| [lsaprobe-music-diffusion-mock-data-gate-2026-05-15.md](lsaprobe-music-diffusion-mock-data-gate-2026-05-15.md) | Music/audio cross-modal watch-plus; paper and demo are public, but the visible GitHub Pages `data/*.json` score-like arrays are mock demo data generated from seeded random distributions, and the project repo has no implementation, target identities, exact splits, or real score artifacts. |
+| [paperization-consumer-boundary-2026-05-13.md](paperization-consumer-boundary-2026-05-13.md) | Weak/watch image-diffusion lines remain limitations or future-work hooks only. |
+| [admitted-consumer-drift-audit-2026-05-12.md](admitted-consumer-drift-audit-2026-05-12.md) | Platform/Runtime admitted rows remain the existing guarded set. |
 
 ## Decision
 

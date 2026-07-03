@@ -7,7 +7,7 @@
 
 **Privacy risk auditing for diffusion models.**
 
-[English](README.md) | [中文](README.zh-CN.md)
+[English](README.md) | [中文](docs/README.zh-CN.md)
 
 <!-- Synced with README.zh-CN.md as of 2026-06-20 -->
 
@@ -21,7 +21,7 @@
 [Getting Started](docs/start-here/getting-started.md) ·
 [Data And Assets](docs/assets-and-storage/data-and-assets-handoff.md) ·
 [Experiment Status](docs/evidence/reproduction-status.md) ·
-[Security](SECURITY.md)
+[Security](docs/SECURITY.md)
 
 </div>
 
@@ -62,9 +62,10 @@ flowchart LR
 ```powershell
 git clone https://github.com/DeliciousBuding/DiffAudit-Research.git
 cd DiffAudit-Research
-conda env create -f environment.yml           # CPU-only (CI / docs checks)
-conda env create -f environment.gpu-cu128.yml # GPU with CUDA 12.8 (research)
-conda activate diffaudit
+conda env create -f environment.yml           # Default CUDA 12.1 stack
+# Or, on newer GPUs only:
+# conda env create -f environment.gpu-cu128.yml
+conda activate diffaudit                      # Use diffaudit-gpu for the cu128 env
 python scripts/util/bootstrap_research_env.py --install
 python scripts/util/verify_env.py
 python -m diffaudit --help

@@ -76,11 +76,11 @@ The machine-readable audit summary is
 
 Follow-up implementation anchors:
 
-- [midfreq-residual-scorer-contract-20260512.md](midfreq-residual-scorer-contract-20260512.md)
-- [midfreq-residual-collector-contract-20260512.md](midfreq-residual-collector-contract-20260512.md)
-- [midfreq-residual-tiny-runner-contract-20260512.md](midfreq-residual-tiny-runner-contract-20260512.md)
-- [midfreq-residual-real-asset-preflight-20260512.md](midfreq-residual-real-asset-preflight-20260512.md)
-- [midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md)
+- [midfreq-residual-scorer-contract-2026-05-12.md](midfreq-residual-scorer-contract-2026-05-12.md)
+- [midfreq-residual-collector-contract-2026-05-12.md](midfreq-residual-collector-contract-2026-05-12.md)
+- [midfreq-residual-tiny-runner-contract-2026-05-12.md](midfreq-residual-tiny-runner-contract-2026-05-12.md)
+- [midfreq-residual-real-asset-preflight-2026-05-12.md](midfreq-residual-real-asset-preflight-2026-05-12.md)
+- [midfreq-residual-signcheck-2026-05-12.md](midfreq-residual-signcheck-2026-05-12.md)
 
 ## Falsifier
 
@@ -104,7 +104,7 @@ if positive.
 ## Follow-Up
 
 The bounded `64/64` sign-check is now recorded in
-[midfreq-residual-signcheck-20260512.md](midfreq-residual-signcheck-20260512.md).
+[midfreq-residual-signcheck-2026-05-12.md](midfreq-residual-signcheck-2026-05-12.md).
 Existing H2 response caches still must not be reused as evidence for this
 observable; any later stability probe must use an explicit same-noise residual
 cache and a pre-frozen falsifier.

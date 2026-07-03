@@ -49,7 +49,7 @@ Checkpoint: `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step7500
 SHA256: `1dad28a63cef2ef4439f77457c10825bcb4ff66ef7c7e3e19dbe285e4503aba2`
 Output: `outputs/h1-scout-seed43-750k/h1_results.json` and `summary.json`
 
-H1 scout: AUC=0.666687, TPR@1%=0.015625, TPR@0.1%=0.0, Shuffle=0.453552. The result is close to the seed42 750k AUC regime (+0.019 AUC) but has weaker low-FPR recovery. This supports the interpretation that 750k DDPM checkpoints are moderate H1 candidates, while strong N=512-ready behavior still appears run-dependent and requires the seed43 800k continuation before seed44 is decided.
+H1 scout: AUC=0.666687, TPR@1%=0.015625, TPR@0.1%=0.0, Shuffle=0.453552. The result is close to the seed42 750k AUC regime (+0.019 AUC) but has weaker low-FPR recovery. This supports the interpretation that 750k DDPM checkpoints are moderate H1 candidates, while strong N=512-ready behavior remains run-dependent. The later seed43 800k result kept the run in the moderate band, so seed44/45 are optional replication rather than blockers.
 
 ## Seed43 800k Continuation (N=128 + Fine Grid)
 
@@ -151,6 +151,6 @@ Evidence hygiene note (2026-07-01): the same-trajectory N=128 scout, fine-grid J
 ## Paper Impact
 
 - Evidence state: H1 remains candidate-positive / low-FPR-fragile
-- Claim upgrade: DAAB signal strength and temporal geometry vary with training stage, not fixed by architecture
+- Claim upgrade: DAAB signal strength and temporal geometry vary with training stage and run identity, not fixed by architecture
 - Claim downgrade: "AUC>0.8 universal" replaced by "above-chance signal universal; strength training-stage dependent"
 - Confound resolution: Section 6.5 rewritten with unified v2 numbers and honest trajectory caveat

@@ -16,9 +16,11 @@ LEGEND:
 """
 
 import json
+import os
 from pathlib import Path
 
-RESEARCH = Path("D:/Code/DiffAudit/Research")
+RESEARCH = Path(__file__).resolve().parents[2]
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", RESEARCH.parent / "Download")).expanduser()
 
 # 
 # DATASETS (with split files that define member/nonmember)
@@ -27,7 +29,7 @@ RESEARCH = Path("D:/Code/DiffAudit/Research")
 datasets = {
     "CIFAR-10": {
         "split": "cifar-10-batches-py: data_batch_1-5 (train 50k) + test_batch (test 10k)",
-        "member_tensor": "D:/Code/DiffAudit/Download/splits/cifar10-member-25k.pt",
+        "member_tensor": (DOWNLOAD / "splits/cifar10-member-25k.pt").as_posix(),
         "npz_split": "CIFAR10_train_ratio0.5.npz (25k member / 25k nonmember)",
         "resolution": "32x32x3",
         "membership_provenance": "PROVEN: explicit train/test split + 25k/25k member/nonmember cache",
@@ -41,7 +43,7 @@ datasets = {
     },
     "STL-10": {
         "split": "stl10_binary: train_X.bin (5k) + test_X.bin (8k) + fold_indices.txt + unlabeled_X.bin (100k)",
-        "member_tensor": "D:/Code/DiffAudit/Download/splits/stl10-member-50k.pt",
+        "member_tensor": (DOWNLOAD / "splits/stl10-member-50k.pt").as_posix(),
         "npz_split": "STL10_train_ratio0.5.npz (50k member / 50k nonmember)",
         "resolution": "96x96x3",
         "membership_provenance": "PROVEN: explicit train/test split + fold indices + 50k/50k cache",
@@ -747,7 +749,7 @@ def print_header():
     print("COLUMNS: Every structurally unique checkpoint (deduplicated)")
     print("ROWS:    Every available dataset with a split file defining member/nonmember")
     print()
-    print("DATA SOURCE: D:/Code/DiffAudit/Research/outputs/catalog-checkpoints.json + workspace evidence")
+    print(f"DATA SOURCE: {RESEARCH / 'outputs/catalog-checkpoints.json'} + workspace evidence")
     print()
 
 def print_dataset_header(ds_name, ds_info):

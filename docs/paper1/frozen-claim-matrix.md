@@ -124,7 +124,7 @@
 
 ### Blocked Claims (H2)
 - ❌ "H2 demonstrates reliable black-box MIA"
-- ❌ Any claim that H2 is admitted evidence
+- ❌ Any H2 admission or evidence-qualification claim
 - ❌ GPU allocation for same-cache sweeps or cosmetic ablations
 - ❌ Using H2 as primary evidence for any positive MIA claim
 
@@ -232,7 +232,7 @@ H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PC
 | `Research/docs/paper1/statistical-audit.md` | Statistical rules |
 | `Research/docs/evidence/e3-calibration-memo-2026-06-20.md` | #17–19 |
 | `Research/docs/evidence/clid-prompt-perturbation.md` | #6 |
-| `Research/docs/evidence/h2-output-cloud-geometry-20260525.md` | #20 |
+| `Research/docs/evidence/h2-output-cloud-geometry-2026-05-25.md` | #20 |
 | `Research/docs/evidence/h1-activation-scout-memo-2026-06-20.md` | #24 |
 | `Research/docs/evidence/h1-mechanistic-analysis-2026-06-20.md` | #24 |
 | `Research/docs/evidence/h1-fine-temporal-grid-2026-06-20.md` | #24 (DDPM vs DDIM temporal distribution) |

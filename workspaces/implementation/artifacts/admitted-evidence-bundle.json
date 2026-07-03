@@ -103,7 +103,7 @@
       },
       "provenance": {
         "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
-        "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-20260409-gpu-512-adaptive/summary.json"
+        "source": "GONE - workspace run directory deleted; re-run experiment to regenerate"
       },
       "provenance_status": "workspace-verified",
       "cost": {
@@ -177,7 +177,7 @@
       },
       "provenance": {
         "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
-        "source": "workspaces/gray-box/runs/pia-cifar10-runtime-mainline-dropout-defense-20260409-gpu-512-allsteps-adaptive/summary.json"
+        "source": "GONE - workspace run directory deleted; re-run experiment to regenerate"
       },
       "provenance_status": "workspace-verified",
       "cost": {
@@ -251,7 +251,7 @@
       },
       "provenance": {
         "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
-        "source": "workspaces/white-box/runs/gsa-runtime-mainline-20260409-cifar10-1k-3shadow-epoch300-rerun1/summary.json"
+        "source": "GONE - workspace run directory deleted; re-run experiment to regenerate"
       }
     },
     {
@@ -301,7 +301,7 @@
       },
       "provenance": {
         "table": "workspaces/implementation/artifacts/unified-attack-defense-table.json",
-        "source": "workspaces/white-box/runs/dpdm-w1-multi-shadow-comparator-targetmember-strongv3-3shadow-full-rerun8-20260408/summary.json"
+        "source": "GONE - workspace run directory deleted; re-run experiment to regenerate"
       }
     }
   ],

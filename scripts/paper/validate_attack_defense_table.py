@@ -143,11 +143,11 @@ def main(argv: list[str] | None = None) -> int:
         "--table",
         type=Path,
         default=None,
-        help="Path to unified attack-defense table JSON (default: D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/unified-attack-defense-table.json).",
+        help="Path to unified attack-defense table JSON (default: workspaces/implementation/artifacts/unified-attack-defense-table.json).",
     )
     args = parser.parse_args(argv)
 
-    research_root = Path(__file__).resolve().parents[1]
+    research_root = Path(__file__).resolve().parents[2]
     table_path = (
         args.table
         or research_root / "workspaces" / "implementation" / "artifacts" / "unified-attack-defense-table.json"

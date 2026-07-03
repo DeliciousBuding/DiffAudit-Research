@@ -36,12 +36,12 @@ loss-score shadow stability review is
 The current I-C successor review is
 [../../docs/evidence/ic-cross-permission-successor-scope.md](../../docs/evidence/ic-cross-permission-successor-scope.md).
 The current lane reselection is
-[../../docs/evidence/post-secmi-next-lane-reselection-20260511.md](../../docs/evidence/post-secmi-next-lane-reselection-20260511.md).
+[../../docs/evidence/post-secmi-next-lane-reselection-2026-05-11.md](../../docs/evidence/post-secmi-next-lane-reselection-2026-05-11.md).
 The current feasibility contract is
-[../../docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md](../../docs/evidence/white-box-influence-curvature-feasibility-scout-20260511.md).
+[../../docs/evidence/white-box-influence-curvature-feasibility-scout-2026-05-11.md](../../docs/evidence/white-box-influence-curvature-feasibility-scout-2026-05-11.md).
 The current micro-board result is
-[../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-20260511.md).
+[../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-2026-05-11.md](../../docs/evidence/gsa-diagonal-fisher-feasibility-microboard-2026-05-11.md).
 The current layer-scope review is
-[../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-20260511.md).
+[../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-2026-05-11.md](../../docs/evidence/gsa-diagonal-fisher-layer-scope-review-2026-05-11.md).
 The current stability board is
-[../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-20260511.md).
+[../../docs/evidence/gsa-diagonal-fisher-stability-board-2026-05-11.md](../../docs/evidence/gsa-diagonal-fisher-stability-board-2026-05-11.md).

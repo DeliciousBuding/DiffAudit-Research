@@ -9,16 +9,17 @@ import sys
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
 
-from scripts.validate_attack_defense_table import ADMITTED_CONSUMER_ROWS, REQUIRED_METRICS
+from scripts.paper.validate_attack_defense_table import ADMITTED_CONSUMER_ROWS, REQUIRED_METRICS
 
-DEFAULT_TABLE = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/unified-attack-defense-table.json")
-DEFAULT_OUTPUT = Path("D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-evidence-bundle.json")
+DEFAULT_TABLE = REPO_ROOT / "workspaces/implementation/artifacts/unified-attack-defense-table.json"
+DEFAULT_OUTPUT = REPO_ROOT / "workspaces/implementation/artifacts/admitted-evidence-bundle.json"
 
 
 def _repo_root() -> Path:
-    return Path(__file__).resolve().parents[1]
+    return REPO_ROOT
 
 
 def _repo_relative(path: Path, root: Path) -> str:

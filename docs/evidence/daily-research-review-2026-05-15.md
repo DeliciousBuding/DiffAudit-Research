@@ -13,9 +13,9 @@ changed from CopyMark to DSiRe / LoRA-WiSE and then to CPSample.
 
 | Type | Verdict | Evidence |
 | --- | --- | --- |
-| Asset / boundary verdict | DSiRe / LoRA-WiSE is a strong future weight-only privacy lane candidate, but aggregate LoRA dataset-size recovery is not current per-sample MIA. | [dsire-lora-wise-dataset-size-boundary-20260515.md](dsire-lora-wise-dataset-size-boundary-20260515.md) |
+| Asset / boundary verdict | DSiRe / LoRA-WiSE is a strong future weight-only privacy lane candidate, but aggregate LoRA dataset-size recovery is not current per-sample MIA. | [dsire-lora-wise-dataset-size-boundary-2026-05-15.md](dsire-lora-wise-dataset-size-boundary-2026-05-15.md) |
 | Roadmap operating-system update | Current Long-Horizon State was synchronized after the DSiRe gate so stale CopyMark slots no longer drive the next action. | Research PR `#247` / `cc99572` |
-| Defense artifact verdict | CPSample has an ICLR 2025 OpenReview code supplement and small attack-loss text fragments, but lacks checkpoint-bound score/verifier artifacts and remains defense watch-plus only. | [cpsample-defense-artifact-gate-20260515.md](cpsample-defense-artifact-gate-20260515.md) |
+| Defense artifact verdict | CPSample has an ICLR 2025 OpenReview code supplement and small attack-loss text fragments, but lacks checkpoint-bound score/verifier artifacts and remains defense watch-plus only. | [cpsample-defense-artifact-gate-2026-05-15.md](cpsample-defense-artifact-gate-2026-05-15.md) |
 
 ## Current Slots
 
@@ -29,7 +29,7 @@ changed from CopyMark to DSiRe / LoRA-WiSE and then to CPSample.
 
 | Requirement | Evidence | Result |
 | --- | --- | --- |
-| Latest verdict has an evidence note | `workspace-evidence-index.md` points to [cpsample-defense-artifact-gate-20260515.md](cpsample-defense-artifact-gate-20260515.md). | Pass |
+| Latest verdict has an evidence note | `workspace-evidence-index.md` points to [cpsample-defense-artifact-gate-2026-05-15.md](cpsample-defense-artifact-gate-2026-05-15.md). | Pass |
 | Current slots are synchronized | `Research/AGENTS.md`, `Research/ROADMAP.md`, and root `ROADMAP.md` all state no active GPU, no next GPU candidate, and no CPU sidecar after CPSample. | Pass |
 | Relevant workspace notes are synchronized | `workspaces/defense/README.md`, `workspaces/intake/README.md`, and `workspaces/implementation/challenger-queue.md` carry CPSample reopen and stop conditions. | Pass |
 | Research repo is clean after merge | `git status --short --branch` reported `## main...origin/main` after PR `#248` merge. | Pass |

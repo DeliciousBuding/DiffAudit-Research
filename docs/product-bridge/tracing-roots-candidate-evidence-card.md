@@ -64,5 +64,5 @@ or feature-regeneration script.
 
 ## Evidence
 
-- [../evidence/tracing-roots-feature-packet-mia-20260515.md](../evidence/tracing-roots-feature-packet-mia-20260515.md)
+- [../evidence/tracing-roots-feature-packet-mia-2026-05-15.md](../evidence/tracing-roots-feature-packet-mia-2026-05-15.md)
 - [../../workspaces/gray-box/artifacts/tracing-roots-feature-packet-mia-20260515.json](../../workspaces/gray-box/artifacts/tracing-roots-feature-packet-mia-20260515.json)

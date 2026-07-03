@@ -60,7 +60,7 @@ Runtime-Server/              → Not relevant to papers
 
 Before Paper 1 submission:
 - [ ] Create anonymous copy of Research/docs/paper1/
-- [ ] Strip paths containing "D:\Code\DiffAudit\", "C:\Users\Ding\", personal names
+- [ ] Strip local workspace paths, personal user-home paths, and personal names
 - [ ] Replace GitHub URLs with anonymous artifact links
 - [ ] Remove author-identifying metadata from all figures and tables
 - [ ] Verify no watermark baseline data leaked into Paper 1 materials

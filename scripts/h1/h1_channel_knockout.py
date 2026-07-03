@@ -1,16 +1,17 @@
 """H1 Channel Knockout — causal verification of channel importance findings."""
-import sys, pickle, torch, numpy as np
+import os, sys, pickle, torch, numpy as np
 from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics as skm
 
 PROJECT = Path(__file__).resolve().parents[2]  # Research/
+DOWNLOAD = Path(os.environ.get("DIFFAUDIT_DOWNLOAD_ROOT", PROJECT.parent / "Download")).expanduser()
 sys.path.insert(0, str(PROJECT / "training" / "ddpm-cifar10"))
 from model_unet import UNet
 from dataset_utils import load_member_data
 
 DEVICE = torch.device('cuda')
-CKPT = 'D:/Code/DiffAudit/Download/checkpoints/ddpm-cifar10-800k/checkpoint.pt'
+CKPT = DOWNLOAD / "checkpoints/ddpm-cifar10-800k/checkpoint.pt"
 T, CH = 1000, 128; CH_MULT, ATTN, N_RB, DO = [1,2,2,2], [1], 2, 0.1
 TIMESTEPS = [100, 400, 700]; N = 64
 
