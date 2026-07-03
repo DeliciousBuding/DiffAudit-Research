@@ -64,7 +64,7 @@ git clone https://github.com/DeliciousBuding/DiffAudit-Research.git
 cd DiffAudit-Research
 conda env create -f environment.yml           # CPU-only (CI / docs checks)
 conda env create -f environment.gpu-cu128.yml # GPU with CUDA 12.8 (research)
-conda activate diffaudit-research
+conda activate retrace-tr
 python scripts/util/bootstrap_research_env.py --install
 python scripts/util/verify_env.py
 python -m diffaudit --help
