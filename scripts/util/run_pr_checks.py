@@ -25,29 +25,29 @@ def run(cmd: list[str], cwd: Path) -> None:
 
 
 def main() -> None:
-    repo_root = Path(__file__).resolve().parents[1]
+    repo_root = Path(__file__).resolve().parents[2]
     python_executable = sys.executable
 
-    run([python_executable, "scripts/run_docs_checks.py"], repo_root)
-    run([python_executable, "scripts/build_claim_gate_recode_packet.py", "--check"], repo_root)
-    run([python_executable, "scripts/render_admitted_risk_card.py", "--check"], repo_root)
-    run([python_executable, "scripts/evaluate_report_correctness_faults.py", "--check"], repo_root)
-    run([python_executable, "scripts/aggregate_e2q005_external_review.py", "--min-reviewers", "3"], repo_root)
-    run([python_executable, "scripts/aggregate_false_promotion_external_review.py", "--check"], repo_root)
-    run([python_executable, "scripts/build_e2_public_freeze_ledger.py", "--check"], repo_root)
-    run([python_executable, "scripts/build_e2_false_promotion_expansion_queue.py", "--check"], repo_root)
-    run([python_executable, "scripts/check_e2_freeze_preflight.py"], repo_root)
-    run([python_executable, "scripts/check_paper_release_packet.py"], repo_root)
-    run([python_executable, "scripts/export_paper_supplement.py", "--check"], repo_root)
-    run([python_executable, "scripts/export_paper_supplement.py", "--check-output"], repo_root)
-    run([python_executable, "scripts/export_false_promotion_review_bundle.py", "--check"], repo_root)
-    run([python_executable, "scripts/export_false_promotion_review_bundle.py", "--check-output"], repo_root)
+    run([python_executable, "scripts/util/run_docs_checks.py"], repo_root)
+    run([python_executable, "scripts/e2/build_claim_gate_recode_packet.py", "--check"], repo_root)
+    run([python_executable, "scripts/paper/render_admitted_risk_card.py", "--check"], repo_root)
+    run([python_executable, "scripts/paper/evaluate_report_correctness_faults.py", "--check"], repo_root)
+    run([python_executable, "scripts/e2/aggregate_e2q005_external_review.py", "--min-reviewers", "3"], repo_root)
+    run([python_executable, "scripts/e2/aggregate_false_promotion_external_review.py", "--check"], repo_root)
+    run([python_executable, "scripts/e2/build_e2_public_freeze_ledger.py", "--check"], repo_root)
+    run([python_executable, "scripts/e2/build_e2_false_promotion_expansion_queue.py", "--check"], repo_root)
+    run([python_executable, "scripts/e2/check_e2_freeze_preflight.py"], repo_root)
+    run([python_executable, "scripts/paper/check_paper_release_packet.py"], repo_root)
+    run([python_executable, "scripts/paper/export_paper_supplement.py", "--check"], repo_root)
+    run([python_executable, "scripts/paper/export_paper_supplement.py", "--check-output"], repo_root)
+    run([python_executable, "scripts/e2/export_false_promotion_review_bundle.py", "--check"], repo_root)
+    run([python_executable, "scripts/e2/export_false_promotion_review_bundle.py", "--check-output"], repo_root)
     run(
         [
             python_executable,
             "-c",
             (
-                "from scripts.check_public_surface import candidate_promotion_violations_from_text as f; "
+                "from scripts.util.check_public_surface import candidate_promotion_violations_from_text as f; "
                 "assert f('H2 is an admitted black-box row.'); "
                 "assert f('Tracing the Roots is reportable evidence.'); "
                 "assert f('CommonCanvas is reportable evidence.'); "
@@ -70,8 +70,8 @@ def main() -> None:
             "-c",
             (
                 "from pathlib import Path; "
-                "from scripts.check_public_surface import candidate_promotion_violations_from_text as f; "
-                "card=Path('D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-risk-card.md').read_text(encoding='utf-8'); "
+                "from scripts.util.check_public_surface import candidate_promotion_violations_from_text as f; "
+                "card=Path('workspaces/implementation/artifacts/admitted-risk-card.md').read_text(encoding='utf-8'); "
                 "assert f('H2 is an admitted black-box row.'); "
                 "assert not f(card)"
             ),
@@ -85,8 +85,8 @@ def main() -> None:
             (
                 "import copy,json; "
                 "from pathlib import Path; "
-                "from scripts.render_admitted_risk_card import render_risk_card; "
-                "path=Path('D:/Code/DiffAudit/Research/workspaces/implementation/artifacts/admitted-evidence-bundle.json'); "
+                "from scripts.paper.render_admitted_risk_card import render_risk_card; "
+                "path=Path('workspaces/implementation/artifacts/admitted-evidence-bundle.json'); "
                 "bundle=json.loads(path.read_text(encoding='utf-8')); "
                 "bad=copy.deepcopy(bundle); "
                 r"bad['rows'][0].setdefault('provenance', {})['source']='D:' + '\\Code\\DiffAudit\\private-source.csv'; "

@@ -14,7 +14,7 @@ def run(cmd: list[str], cwd: Path) -> None:
 
 
 def main() -> None:
-    repo_root = Path(__file__).resolve().parents[1]
+    repo_root = Path(__file__).resolve().parents[2]
     python_executable = sys.executable
 
     run([python_executable, "scripts/check_public_surface.py"], repo_root)
