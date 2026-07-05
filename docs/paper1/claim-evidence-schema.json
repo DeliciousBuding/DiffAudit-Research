@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diffaudit.dev/schemas/claim-evidence-v1.json",
+  "title": "DiffAudit Paper Claim-Evidence Mapping",
+  "description": "Machine-checkable mapping from paper claims to evidence artifacts. Designed to be validated in CI via check_claims_against_outputs.py.",
+  "type": "object",
+  "required": ["version", "frozen_date", "paper", "claims"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "const": "1.0.0"
+    },
+    "frozen_date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date when this claim matrix was frozen"
+    },
+    "paper": {
+      "type": "object",
+      "required": ["title", "status"],
+      "properties": {
+        "title": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "under_revision", "submitted", "accepted", "published"]
+        },
+        "venue": { "type": "string" }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "category", "claim_text", "evidence"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^C\\d+$",
+            "description": "Claim identifier, e.g. C1, C14"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["admitted", "weak", "spurious", "non_portable", "candidate"],
+            "description": "Evidence strength category per WSN taxonomy"
+          },
+          "claim_text": {
+            "type": "string",
+            "minLength": 10,
+            "description": "The actual sentence/statement in the paper"
+          },
+          "blocked_claims": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Claims explicitly forbidden from the paper"
+          },
+          "evidence": {
+            "type": "object",
+            "required": ["method", "output_dir", "metrics"],
+            "properties": {
+              "method": {
+                "type": "string",
+                "description": "Attack/defense method name (GSA, PIA, H1/DAAB, etc.)"
+              },
+              "access_level": {
+                "type": "string",
+                "enum": ["white_box", "gray_box", "black_box"]
+              },
+              "output_dir": {
+                "type": "string",
+                "description": "Path under outputs/ containing summary.json"
+              },
+              "evidence_doc": {
+                "type": "string",
+                "description": "Path to evidence document under docs/evidence/"
+              },
+              "metrics": {
+                "type": "object",
+                "required": ["auc"],
+                "properties": {
+                  "auc": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                  },
+                  "tpr_1pct_fpr": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                  },
+                  "tpr_01pct_fpr": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                  },
+                  "sample_size": {
+                    "type": "object",
+                    "properties": {
+                      "members": { "type": "integer", "minimum": 1 },
+                      "non_members": { "type": "integer", "minimum": 1 }
+                    }
+                  },
+                  "tolerance": {
+                    "type": "number",
+                    "description": "Allowed absolute deviation when cross-checking AUC"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

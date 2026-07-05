@@ -38,3 +38,48 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 norecursedirs = ["legacy", "external", "third_party", "Download", ".git", ".venv", "venv"]
+addopts = "-ra --tb=short --strict-markers"
+markers = [
+  "slow: slow tests (deselect with '-m \"not slow\"')",
+  "gpu: tests requiring CUDA GPU (deselect with '-m \"not gpu\"')",
+  "smoke: fast smoke/contract tests for CI pre-merge",
+  "inference: quick inference-only tests (no training)",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+  "E",     # pycodestyle errors
+  "F",     # pyflakes
+  "I",     # isort (import ordering)
+  "B",     # flake8-bugbear
+  "SIM",   # flake8-simplify
+  "PERF",  # perflint
+]
+ignore = [
+  "SIM108", # if/else → ternary (style, not bug)
+  "PERF203", # try-except in loop (PyTorch patterns)
+]
+isort.known-first-party = ["diffaudit"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+exclude = [
+  "legacy/",
+  "external/",
+  "third_party/",
+  "Download/",
+  "workspaces/",
+  "training/",
+]

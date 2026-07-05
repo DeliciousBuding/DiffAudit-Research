@@ -19,6 +19,7 @@ def main() -> None:
 
     run([python_executable, "scripts/util/check_public_surface.py"], repo_root)
     run([python_executable, "scripts/util/check_markdown_links.py"], repo_root)
+    run([python_executable, "scripts/util/check_stale_docs.py", "--max-age-days", "90"], repo_root)
     run([python_executable, "scripts/paper/validate_attack_defense_table.py"], repo_root)
     run([python_executable, "scripts/paper/export_recon_product_evidence_card.py", "--check"], repo_root)
 
