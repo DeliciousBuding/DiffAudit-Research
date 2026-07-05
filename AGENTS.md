@@ -60,6 +60,34 @@ Start from:
 
 Default CUDA environment: see `docs/start-here/phase-g-runbook-2026-06-30.md`.
 
+### Related Work Context (2026-07-05 literature scan)
+
+Key published works that bound our contribution:
+
+- **Bonnaire et al. (NeurIPS 2025 Best Paper)**: "Why Diffusion Models Don't Memorize"
+  (arXiv:2505.17638). Proves that diffusion training follows two timescales — τ_gen
+  (generalization) and τ_mem (memorization) — and different optimization trajectories
+  reach different points on this spectrum. Provides the theoretical mechanism for why
+  run identity (random seed) affects MIA signal strength.
+- **SoK: Membership Inference is Harder Than Previously Thought** (PoPETs 2023).
+  Systematic survey of MIA limitations and evaluation challenges.
+- **CopyMark** (arXiv:2410.03640). Shows that realistic benchmarks make many MIA
+  methods fail on diffusion models.
+- **MIA as Privacy Tools: Reliability, Disparity, and Ensemble Methods** (IBM, 2025).
+  Proves instance-level MIA instability; closest prior work but does not study
+  cross-training-run variance.
+- **GAN-Leaks: A Taxonomy of MIA against Generative Models** (CCS 2020). Establishes
+  access-level taxonomy precedent.
+- **TrajectoryMIA** (CCS 2022). Uses loss trajectory as MIA signal — conceptual
+  precedent for trajectory-dependent membership evidence.
+- **Gu et al., "On Memorization in Diffusion Models"** (arXiv:2310.02664). Defines
+  Effective Model Memorization (EMM) metric; shows memorization depends on data
+  distribution, model configuration, and training procedure.
+
+Current MIA methods (MoFIT ICLR 2026, SimA arXiv 2025, SD-MIA CVPR 2026, FreMIA
+ICML 2026) all evaluate on fixed checkpoints and do not study seed sensitivity or
+training randomness as a variable in MIA signal strength.
+
 Closed lines (do not reopen without explicit user decision):
 - H2 same-cache sweeps, C14 metadata expansion, scnet/DCU matrices
 - Beans, Fashion-MNIST, MIDST, CommonCanvas, ReDiffuse repeats
