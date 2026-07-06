@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import os
 import re
 from collections import Counter, defaultdict
 from itertools import combinations
@@ -18,7 +19,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PAPER = ROOT / "papers" / "diffaudit-evidence-paper"
+PAPER = Path(os.environ.get("DIFFAUDIT_EVIDENCE_PAPER_DIR", ROOT / "papers" / "diffaudit-evidence-paper")).resolve()
 DEFAULT_REVIEW_DIR = PAPER / "build" / "false_promotion_external_review_labels"
 DEFAULT_OUTPUT_DIR = PAPER / "build"
 

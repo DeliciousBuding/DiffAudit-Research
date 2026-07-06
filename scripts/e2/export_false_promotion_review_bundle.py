@@ -12,6 +12,7 @@ import argparse
 import csv
 import hashlib
 import io
+import os
 import re
 import zipfile
 from dataclasses import dataclass
@@ -877,7 +878,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     repo_root = Path(__file__).resolve().parents[2]
-    paper = repo_root / "papers" / "diffaudit-evidence-paper"
+    paper = Path(os.environ.get("DIFFAUDIT_EVIDENCE_PAPER_DIR", repo_root / "papers" / "diffaudit-evidence-paper")).resolve()
     errors: list[str] = []
     items = validate_inputs(paper, errors)
     reviewer_items = [item for item in items if not is_post_label_item(item)]

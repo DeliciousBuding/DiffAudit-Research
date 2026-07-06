@@ -10,12 +10,13 @@ from __future__ import annotations
 
 import argparse
 import csv
+import os
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
 PREFLIGHT = ROOT / "docs" / "internal" / "e2-n50-freeze-preflight-2026-06-06"
-PAPER = ROOT / "papers" / "diffaudit-evidence-paper"
+PAPER = Path(os.environ.get("DIFFAUDIT_EVIDENCE_PAPER_DIR", ROOT / "papers" / "diffaudit-evidence-paper")).resolve()
 
 REFRESH_CSV = PREFLIGHT / "e2_high_value_public_asset_delta_refresh_late_2026_06_09.csv"
 E2Q005_AGG_CSV = PREFLIGHT / "e2q005_external_style_review_aggregation_2026_06_06.csv"

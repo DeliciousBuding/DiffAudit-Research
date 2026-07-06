@@ -12,6 +12,7 @@ import argparse
 import copy
 import csv
 import json
+import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -25,8 +26,9 @@ from scripts.util.check_public_surface import candidate_promotion_violations_fro
 
 
 DEFAULT_BUNDLE = REPO_ROOT / "workspaces/implementation/artifacts/admitted-evidence-bundle.json"
-DEFAULT_CSV = REPO_ROOT / "papers/diffaudit-evidence-paper/data/report_correctness_fault_injection.csv"
-DEFAULT_MD = REPO_ROOT / "papers/diffaudit-evidence-paper/versions/direction-d-report-correctness-fault-injection.md"
+PAPER = Path(os.environ.get("DIFFAUDIT_EVIDENCE_PAPER_DIR", REPO_ROOT / "papers" / "diffaudit-evidence-paper")).resolve()
+DEFAULT_CSV = PAPER / "data" / "report_correctness_fault_injection.csv"
+DEFAULT_MD = PAPER / "versions" / "direction-d-report-correctness-fault-injection.md"
 
 
 @dataclass(frozen=True)

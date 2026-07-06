@@ -7,12 +7,13 @@ state from being accidentally described as a frozen external denominator.
 from __future__ import annotations
 
 import csv
+import os
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
 PREFLIGHT = ROOT / "docs" / "internal" / "e2-n50-freeze-preflight-2026-06-06"
-PAPER = ROOT / "papers" / "diffaudit-evidence-paper"
+PAPER = Path(os.environ.get("DIFFAUDIT_EVIDENCE_PAPER_DIR", ROOT / "papers" / "diffaudit-evidence-paper")).resolve()
 
 REVIEW_DECISION_FIELDS = {
     "review_id",

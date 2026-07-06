@@ -11,11 +11,12 @@ import argparse
 import csv
 import hashlib
 import io
+import os
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PAPER = ROOT / "papers" / "diffaudit-evidence-paper"
+PAPER = Path(os.environ.get("DIFFAUDIT_EVIDENCE_PAPER_DIR", ROOT / "papers" / "diffaudit-evidence-paper")).resolve()
 CLAIM_TRACE = PAPER / "data" / "claim_trace.csv"
 OUT_TEMPLATE = PAPER / "data" / "claim_gate_recode_template.csv"
 OUT_MANIFEST = PAPER / "data" / "claim_gate_recode_packet_manifest.csv"
@@ -176,9 +177,9 @@ def write_outputs() -> None:
 def check_outputs() -> None:
     expected_template, expected_manifest = render_outputs()
     if not OUT_TEMPLATE.exists() or OUT_TEMPLATE.read_text(encoding="utf-8") != expected_template:
-        raise SystemExit(f"{OUT_TEMPLATE} is stale; run scripts/build_claim_gate_recode_packet.py")
+        raise SystemExit(f"{OUT_TEMPLATE} is stale; run scripts/e2/build_claim_gate_recode_packet.py")
     if not OUT_MANIFEST.exists() or OUT_MANIFEST.read_text(encoding="utf-8") != expected_manifest:
-        raise SystemExit(f"{OUT_MANIFEST} is stale; run scripts/build_claim_gate_recode_packet.py")
+        raise SystemExit(f"{OUT_MANIFEST} is stale; run scripts/e2/build_claim_gate_recode_packet.py")
     print("Claim-gate recode packet check passed (prepared template only; no labels).")
 
 

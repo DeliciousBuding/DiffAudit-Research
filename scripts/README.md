@@ -14,6 +14,7 @@
 | --- | --- |
 | `DIFFAUDIT_WORKSPACE_ROOT` | 工作区根目录覆盖 |
 | `DIFFAUDIT_RESEARCH_PYTHON` | Python 解释器路径覆盖 |
+| `DIFFAUDIT_EVIDENCE_PAPER_DIR` | 私有 evidence paper 工作区路径覆盖，用于 paper/recode packet 脚本 |
 
 脚本默认从当前 `Research/scripts` 位置推导路径，可以通过环境变量覆盖。
 
