@@ -12,6 +12,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import re
 import subprocess
 import zipfile
@@ -256,7 +257,7 @@ REVIEW_SNAPSHOT_REQUIRED_METADATA = {
     "schema_version": "review-snapshot-v1",
     "snapshot_kind": "local_review_snapshot",
     "scope": "paper_release_packet_inputs_only",
-    "generator_command": "python -X utf8 scripts/build_paper_assets.py",
+    "generator_command": "python -X utf8 $env:DIFFAUDIT_EVIDENCE_PAPER_DIR\\scripts\\build_paper_assets.py",
     "snapshot_role": "local-review-packet-identity",
 }
 REVIEW_SNAPSHOT_REQUIRED_BOUNDARY_PATTERNS = [
@@ -1163,7 +1164,7 @@ def validate_review_snapshot_manifest(paper: Path, repo_root: Path, manifest: di
 
     require(first.get("repo_head") == run_text(["git", "rev-parse", "HEAD"], repo_root).strip(), "review snapshot repo_head does not match current HEAD", errors)
     require(first.get("generator_script_sha256") == sha256_file(paper / "scripts" / "build_paper_assets.py"), "review snapshot generator_script_sha256 drifted", errors)
-    require(first.get("release_checker_script_sha256") == sha256_file(repo_root / "scripts" / "check_paper_release_packet.py"), "review snapshot release_checker_script_sha256 drifted", errors)
+    require(first.get("release_checker_script_sha256") == sha256_file(repo_root / "scripts" / "paper" / "check_paper_release_packet.py"), "review snapshot release_checker_script_sha256 drifted", errors)
     require(first.get("asset_manifest_sha256") == sha256_file(paper / "asset_manifest.json"), "review snapshot asset_manifest_sha256 drifted", errors)
     require(first.get("source_provenance_sha256") == sha256_file(provenance_path), "review snapshot source_provenance_sha256 drifted", errors)
     require(first.get("claim_trace_sha256") == sha256_file(paper / "data" / "claim_trace.csv"), "review snapshot claim_trace_sha256 drifted", errors)
@@ -2228,8 +2229,16 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    repo_root = Path(__file__).resolve().parents[1]
-    paper = repo_root / "papers" / "diffaudit-evidence-paper"
+    repo_root = Path(__file__).resolve().parents[2]
+    paper_candidates = []
+    configured_paper = os.environ.get("DIFFAUDIT_EVIDENCE_PAPER_DIR")
+    if configured_paper:
+        paper_candidates.append(Path(configured_paper))
+    paper_candidates.append(repo_root / "papers" / "diffaudit-evidence-paper")
+    paper = next(
+        (candidate for candidate in paper_candidates if (candidate / "asset_manifest.json").exists()),
+        paper_candidates[0],
+    )
     errors: list[str] = []
 
     manifest = validate_manifest(paper, errors)

@@ -6,6 +6,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import re
 import zipfile
 from dataclasses import dataclass
@@ -215,10 +216,22 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def resolve_repo_and_paper() -> tuple[Path, Path]:
+    repo_root = Path(__file__).resolve().parents[2]
+    candidates = []
+    configured = os.environ.get("DIFFAUDIT_EVIDENCE_PAPER_DIR")
+    if configured:
+        candidates.append(Path(configured))
+    candidates.append(repo_root / "papers" / "diffaudit-evidence-paper")
+    for paper in candidates:
+        if (paper / "asset_manifest.json").exists():
+            return repo_root, paper
+    return repo_root, candidates[0]
+
+
 def main() -> None:
     args = parse_args()
-    repo_root = Path(__file__).resolve().parents[1]
-    paper = repo_root / "papers" / "diffaudit-evidence-paper"
+    _repo_root, paper = resolve_repo_and_paper()
     errors: list[str] = []
 
     manifest = load_manifest(paper, errors)
