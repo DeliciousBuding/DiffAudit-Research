@@ -1,6 +1,6 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-07-03
+> Last updated: 2026-07-06
 > Scope: current Research execution board. Historical long-form roadmap is in `docs/ROADMAP.md`.
 
 ## Current Baseline
@@ -61,7 +61,7 @@ Run additional seeds only after seed=43 800k:
 | AUC differs by 0.05-0.10 or pattern changes | one extra seed recommended |
 | AUC differs by >0.10, approaches the independent strong run, or creates a third pattern | one extra seed required |
 
-Current decision: any extra seed is optional/opportunistic, not a Paper 1 blocker. seed43 AUC differs from seed42 same-trajectory 800k by about 0.052 and its fine-grid sign pattern changes, but it does not approach the independent strong run. seed44 stopped at 64k twice, and seed45 stopped at 38.2k with the last durable checkpoint at 38k. Do not resume seed44/45 without a new GPU allocation decision.
+Current decision: any extra seed is optional/opportunistic, not a Paper 1 blocker. seed43 AUC differs from seed42 same-trajectory 800k by about 0.052 and its fine-grid sign pattern changes, but it does not approach the independent strong run. seed44 is stopped and should not be resumed. seed45 is an optional replication owned by the current training/GPU scheduling flow; do not encode dynamic PID or step counts in this roadmap. If seed45 status matters, check `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed45/training_state.json` and `training/outputs/ddpm-cifar10-seed45/heartbeat.json`, then run only the bounded N=128 H1 scout after a completed 750k checkpoint unless a fresh decision expands scope.
 
 ### P3: H4 Site-Time Attenuation Scout
 
