@@ -103,7 +103,7 @@ PHASE_G_PDF_FORBIDDEN_PATTERNS = [
     r"NDSS\s+2027\s+fall",
 ]
 PHASE_G_PDF_REQUIRED_PATTERNS = [
-    r"Run\s+Identity\s+in\s+Diffusion\s+Membership\s+Inference",
+    r"Training\s+Run\s+Identity\s+as\s+a\s+Privacy-Audit\s+Variable\s+in\s+Diffusion\s+Membership\s+Inference",
     r"training\s+run\s+identity\s+(?:is\s+)?an\s+audit\s+variable",
     r"AUC\s+0\.648",
     r"AUC\s+0\.81",
