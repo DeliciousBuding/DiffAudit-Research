@@ -254,6 +254,13 @@ SUPPLEMENT_ZIP = "diffaudit-evidence-paper-anonymous-supplement.zip"
 SUPPLEMENT_MANIFEST = "anonymous_supplement_manifest.csv"
 SUPPLEMENT_ROOT = "diffaudit-evidence-paper"
 REVIEW_SNAPSHOT_MANIFEST = "data/review_snapshot_manifest.csv"
+PHASE_G_LOCAL_AUDIT_EXCLUDED_PATHS = [
+    "data/manuscript_claim_audit.csv",
+    "data/citation_context_audit.csv",
+    "data/reference_integrity_audit.csv",
+    "data/source_provenance.csv",
+    "data/review_snapshot_manifest.csv",
+]
 REVIEW_SNAPSHOT_FIELDS = [
     "schema_version",
     "snapshot_kind",
@@ -1987,6 +1994,37 @@ def validate_phase_g_manifest_inputs(paper: Path, manifest: dict, errors: list[s
             require(not re.search(pattern, text, flags=re.IGNORECASE), f"{rel} contains private-surface pattern: {pattern}", errors)
 
 
+def validate_phase_g_anonymous_exclusions(paper: Path, manifest: dict, errors: list[str]) -> None:
+    raw_excluded = manifest.get("anonymous_supplement_excluded", [])
+    require(isinstance(raw_excluded, list), "manifest.anonymous_supplement_excluded must be a list", errors)
+    if not isinstance(raw_excluded, list):
+        return
+
+    excluded = {normalize_manifest_relpath(str(path), errors) for path in raw_excluded}
+    required = set(PHASE_G_LOCAL_AUDIT_EXCLUDED_PATHS)
+    missing = sorted(required - excluded)
+    require(not missing, f"Phase G anonymous supplement must exclude local/stale audit sidecars: {', '.join(missing)}", errors)
+
+    build_dir = paper / "build"
+    manifest_path = build_dir / SUPPLEMENT_MANIFEST
+    if manifest_path.exists():
+        rows = read_csv(manifest_path)
+        packaged_sources = {row.get("source_path", "") for row in rows}
+        packaged_archives = {row.get("archive_name", "") for row in rows}
+        for rel in PHASE_G_LOCAL_AUDIT_EXCLUDED_PATHS:
+            archive_name = f"{SUPPLEMENT_ROOT}/{rel}"
+            require(rel not in packaged_sources, f"{SUPPLEMENT_MANIFEST} packages excluded Phase G sidecar: {rel}", errors)
+            require(archive_name not in packaged_archives, f"{SUPPLEMENT_MANIFEST} packages excluded Phase G archive entry: {archive_name}", errors)
+
+    zip_path = build_dir / SUPPLEMENT_ZIP
+    if zip_path.exists():
+        with zipfile.ZipFile(zip_path, "r") as archive:
+            archive_entries = set(archive.namelist())
+        for rel in PHASE_G_LOCAL_AUDIT_EXCLUDED_PATHS:
+            archive_name = f"{SUPPLEMENT_ROOT}/{rel}"
+            require(archive_name not in archive_entries, f"{SUPPLEMENT_ZIP} contains excluded Phase G sidecar: {archive_name}", errors)
+
+
 def validate_phase_g_pdf(paper: Path, errors: list[str]) -> None:
     pdf_path = paper / "paper.pdf"
     require(pdf_path.exists(), "paper.pdf is missing", errors)
@@ -2022,6 +2060,8 @@ def validate_phase_g_release_packet(paper: Path, errors: list[str]) -> None:
     manifest = validate_manifest(paper, errors)
     if manifest:
         validate_phase_g_manifest_inputs(paper, manifest, errors)
+        validate_phase_g_anonymous_exclusions(paper, manifest, errors)
+        validate_optional_supplement_zip(paper, manifest, errors)
     validate_phase_g_pdf(paper, errors)
     validate_phase_g_latex_log(paper, errors)
     validate_bibliography(paper, errors)
