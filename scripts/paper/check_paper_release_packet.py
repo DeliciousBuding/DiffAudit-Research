@@ -86,6 +86,31 @@ PDF_REQUIRED_PATTERNS = [
     r"Public\s+Score[-\s]?File\s+Boundary:\s+MoFit",
     r"MoFit\s+is\s+a\s+support-only\s+score-file\s+diagnostic",
 ]
+PHASE_G_PDF_FORBIDDEN_PATTERNS = [
+    r"D:\\",
+    r"C:\\",
+    r"Users\\",
+    r"Documents\\",
+    r"\bsecret\b",
+    r"\bapi[_ -]?key\b",
+    r"\btoken\b",
+    r"\bHotCRP\b",
+    r"\bCodex\b",
+    r"\bChatGPT\b",
+    r"\bClaude\b",
+    r"\bsubmission\s+deadline\b",
+    r"USENIX\s+Security\s+2027",
+    r"NDSS\s+2027\s+fall",
+]
+PHASE_G_PDF_REQUIRED_PATTERNS = [
+    r"Run\s+Identity\s+in\s+Diffusion\s+Membership\s+Inference",
+    r"training\s+run\s+identity\s+(?:is\s+)?an\s+audit\s+variable",
+    r"AUC\s+0\.648",
+    r"AUC\s+0\.81",
+    r"candidate-positive",
+    r"run-sensitive",
+    r"single\s+evaluator",
+]
 LOG_FORBIDDEN_PATTERNS = [
     r"Undefined",
     r"Citation.*undefined",
@@ -1935,6 +1960,73 @@ def validate_bibliography(paper: Path, errors: list[str]) -> None:
         require(not BIB_PLACEHOLDER_RE.search(entry), f"{key} contains placeholder BibTeX text", errors)
 
 
+def validate_phase_g_manifest_inputs(paper: Path, manifest: dict, errors: list[str]) -> None:
+    excluded = {
+        normalize_manifest_relpath(str(path), errors)
+        for path in manifest.get("anonymous_supplement_excluded", [])
+        if isinstance(manifest.get("anonymous_supplement_excluded", []), list)
+    }
+    requested: list[str] = []
+    for category in ("generated", "curated", "paper_sources"):
+        paths = manifest.get(category)
+        require(isinstance(paths, list) and paths, f"manifest.{category} must be a non-empty list", errors)
+        if isinstance(paths, list):
+            requested.extend(str(path) for path in paths)
+    requested.extend(["asset_manifest.json", "paper.pdf"])
+
+    for raw_rel in requested:
+        rel = normalize_manifest_relpath(raw_rel, errors)
+        if rel in excluded:
+            continue
+        path = paper / rel
+        require(path.exists(), f"phase-g supplement input missing: {rel}", errors)
+        if not path.exists() or path.suffix.lower() not in {".bib", ".csv", ".json", ".md", ".tex", ".txt"}:
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for pattern in (r"(?<![A-Za-z0-9_])[A-Za-z]:(?:\\\\|\\)[A-Za-z0-9_. -]", r"\\Users\\[A-Za-z0-9_. -]", r"OPENAI_API_KEY", r"sk-[A-Za-z0-9_-]{12,}"):
+            require(not re.search(pattern, text, flags=re.IGNORECASE), f"{rel} contains private-surface pattern: {pattern}", errors)
+
+
+def validate_phase_g_pdf(paper: Path, errors: list[str]) -> None:
+    pdf_path = paper / "paper.pdf"
+    require(pdf_path.exists(), "paper.pdf is missing", errors)
+    if not pdf_path.exists():
+        return
+
+    pdfinfo = run_text(["pdfinfo", str(pdf_path)], paper)
+    pages_match = re.search(r"^Pages:\s+(\d+)$", pdfinfo, flags=re.MULTILINE)
+    require(bool(pages_match), "pdfinfo output missing Pages", errors)
+    if pages_match:
+        pages = int(pages_match.group(1))
+        require(1 <= pages <= 20, f"paper.pdf page count outside Phase G guardrail: {pages}", errors)
+
+    pdf_text = run_text(["pdftotext", str(pdf_path), "-"], paper)
+    for pattern in PHASE_G_PDF_FORBIDDEN_PATTERNS:
+        require(not re.search(pattern, pdf_text, flags=re.IGNORECASE), f"paper.pdf private/submission-planning hit: {pattern}", errors)
+    for pattern in PHASE_G_PDF_REQUIRED_PATTERNS:
+        require(bool(re.search(pattern, pdf_text, flags=re.IGNORECASE)), f"paper.pdf missing Phase G phrase: {pattern}", errors)
+
+
+def validate_phase_g_latex_log(paper: Path, errors: list[str]) -> None:
+    candidates = [paper / "main.log", paper / "build" / "main.log"]
+    log_path = next((path for path in candidates if path.exists()), candidates[0])
+    require(log_path.exists(), "main.log is missing", errors)
+    if not log_path.exists():
+        return
+    text = log_path.read_text(encoding="utf-8", errors="replace")
+    for pattern in LOG_FORBIDDEN_PATTERNS:
+        require(not re.search(pattern, text, flags=re.IGNORECASE), f"LaTeX log forbidden hit: {pattern}", errors)
+
+
+def validate_phase_g_release_packet(paper: Path, errors: list[str]) -> None:
+    manifest = validate_manifest(paper, errors)
+    if manifest:
+        validate_phase_g_manifest_inputs(paper, manifest, errors)
+    validate_phase_g_pdf(paper, errors)
+    validate_phase_g_latex_log(paper, errors)
+    validate_bibliography(paper, errors)
+
+
 def validate_reference_integrity_audit(paper: Path, errors: list[str]) -> None:
     refs_path = paper / "refs.bib"
     audit_path = paper / REFERENCE_INTEGRITY_AUDIT
@@ -2217,6 +2309,12 @@ def validate_c14_external_review_status(
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--profile",
+        choices=["legacy-c14", "phase-g"],
+        default="legacy-c14",
+        help="Validation profile. legacy-c14 preserves the original C14 release gate; phase-g checks the current H1/run-identity manuscript packet.",
+    )
+    parser.add_argument(
         "--c14-review-state",
         choices=["pre-label", "post-label"],
         default="pre-label",
@@ -2240,6 +2338,15 @@ def main() -> None:
         paper_candidates[0],
     )
     errors: list[str] = []
+
+    if args.profile == "phase-g":
+        validate_phase_g_release_packet(paper, errors)
+        if errors:
+            for error in errors:
+                print(f"ERROR: {error}")
+            raise SystemExit(1)
+        print("Phase G release packet check passed.")
+        return
 
     manifest = validate_manifest(paper, errors)
     validate_claim_trace(paper, repo_root, errors)
