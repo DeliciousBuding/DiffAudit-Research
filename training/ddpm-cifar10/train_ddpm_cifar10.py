@@ -374,8 +374,9 @@ def train(args):
     model.train()
     ema_model.train()
     data_iter = iter(dataloader)
-    t_start = time.time()
     global_step = start_step
+    session_start_step = start_step
+    t_start = time.time()
 
     while global_step < stop_step:
         try:
@@ -417,7 +418,8 @@ def train(args):
         # --- Logging ---
         if global_step % 100 == 0:
             elapsed = time.time() - t_start
-            steps_per_sec = global_step / elapsed if elapsed > 0 else 0
+            session_steps = global_step - session_start_step
+            steps_per_sec = session_steps / elapsed if elapsed > 0 else 0
             eta_sec = (stop_step - global_step) / steps_per_sec if steps_per_sec > 0 else 0
             writer.add_scalar("train/loss", loss.item(), global_step)
             writer.add_scalar("train/grad_norm", grad_norm, global_step)
