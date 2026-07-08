@@ -63,7 +63,7 @@ Run additional seeds only after seed=43 800k:
 
 Current decision: any extra seed is optional/opportunistic, not a Paper 1 blocker. seed43 AUC differs from seed42 same-trajectory 800k by about 0.052 and its fine-grid sign pattern changes, but it does not approach the independent strong run. seed44 is stopped and should not be resumed. 
 
-2026-07-08 closure: seed45 reached 750k (`checkpoint-step750000.pt`, SHA256 `5231dc08bff67df8c6e21ab9843cf23f4ebb9fa8e6e459471e6e530250f07f66`). The bounded N=128 H1 scout produced AUC=0.693909, TPR@1%=0.03125, shuffle AUC=0.508179. This completes the DDPM-750k three-seed replication: seed42=0.648, seed43=0.667, seed45=0.694 (range=0.046, mean=0.669). The moderate 750k regime is now firmly established across three independent runs. N=512 was not triggered (AUC≤0.70).
+2026-07-08 closure: seed45 reached 750k and 800k. 750k scout: AUC=0.693909 (three-seed DDPM-750k replication complete: 0.648/0.667/0.694, range=0.046). 800k scout: AUC=0.645996, **dropping** from 750k by Δ=-0.048. Three-seed 800k pattern: seed42 amplifies (+0.069), seed43 flat (-0.002), seed45 drops (-0.048). **750k→800k is not a universal effect.**
 
 ### P3: H4 Site-Time Attenuation Scout
 

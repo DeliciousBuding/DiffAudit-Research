@@ -169,8 +169,9 @@ H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PC
 | DDPM-750k (seed42) | 0.648 | 0.094 | 0.484 |
 | DDPM-750k seed43 | 0.666687 | 0.015625 | 0.453552 |
 | DDPM-750k seed45 | 0.693909 | 0.03125 | 0.508179 |
-| DDPM-800k same-trajectory | 0.717 | 0.039 | 0.507 |
+| DDPM-800k same-trajectory (seed42) | 0.717 | 0.039 | 0.507 |
 | DDPM-800k seed43 | 0.664612 | 0.015625 | 0.487793 |
+| DDPM-800k seed45 | 0.645996 | 0.0625 | 0.449402 |
 | DDPM-800k independent | 0.872 | 0.227 | 0.492 |
 | DDIM-750k | 0.856 | 0.109 | 0.481 |
 
