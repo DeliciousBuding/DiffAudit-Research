@@ -166,14 +166,16 @@ H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PC
 
 | Checkpoint | AUC | TPR@1% | Shuffle AUC |
 |------------|-----|--------|-------------|
-| DDPM-750k | 0.648 | 0.094 | 0.484 |
+| DDPM-750k (seed42) | 0.648 | 0.094 | 0.484 |
 | DDPM-750k seed43 | 0.666687 | 0.015625 | 0.453552 |
+| DDPM-750k seed45 | 0.693909 | 0.03125 | 0.508179 |
 | DDPM-800k same-trajectory | 0.717 | 0.039 | 0.507 |
 | DDPM-800k seed43 | 0.664612 | 0.015625 | 0.487793 |
 | DDPM-800k independent | 0.872 | 0.227 | 0.492 |
 | DDIM-750k | 0.856 | 0.109 | 0.481 |
 
 - Internal UNet activations carry detectable, above-chance membership signal across evaluated checkpoints. Signal strength is training-trajectory dependent (0.648–0.872)
+- **seed45 completes the DDPM-750k three-seed replication**: AUC=0.693909 (TPR@1%=0.03125). Three independent seeds at 750k produce AUCs of 0.648, 0.667, and 0.694 — a tight moderate band (range=0.046, mean=0.669), ruling out the hypothesis that DDPM-750k AUC regularly exceeds 0.80. N=512 was not run because N=128 AUC does not exceed 0.70.
 - seed43 at 750k stays near the seed42 750k AUC regime (0.666687 vs 0.648) but has weak low-FPR recovery (TPR@1%=0.015625), so it supports the moderate 750k regime without creating a strong-run cluster
 - seed43 at 800k remains moderate (AUC=0.664612, TPR@1%=0.015625) and does not reproduce the seed42 same-trajectory amplification; N=512 was not run because the N=128 AUC did not exceed 0.70
 - DDIM-750k substantially exceeds step-matched DDPM-750k (ΔAUC=+0.208), confirming DDIM advantage is not a step-count artifact. The original DDPM-800k vs DDIM-750k comparison was conservative with respect to DDIM

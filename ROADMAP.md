@@ -61,7 +61,9 @@ Run additional seeds only after seed=43 800k:
 | AUC differs by 0.05-0.10 or pattern changes | one extra seed recommended |
 | AUC differs by >0.10, approaches the independent strong run, or creates a third pattern | one extra seed required |
 
-Current decision: any extra seed is optional/opportunistic, not a Paper 1 blocker. seed43 AUC differs from seed42 same-trajectory 800k by about 0.052 and its fine-grid sign pattern changes, but it does not approach the independent strong run. seed44 is stopped and should not be resumed. seed45 is an optional replication owned by the current training/GPU scheduling flow; do not encode dynamic PID or step counts in this roadmap. If seed45 status matters, check `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed45/training_state.json` and `training/outputs/ddpm-cifar10-seed45/heartbeat.json`, then run only the bounded N=128 H1 scout after a completed 750k checkpoint unless a fresh decision expands scope.
+Current decision: any extra seed is optional/opportunistic, not a Paper 1 blocker. seed43 AUC differs from seed42 same-trajectory 800k by about 0.052 and its fine-grid sign pattern changes, but it does not approach the independent strong run. seed44 is stopped and should not be resumed. 
+
+2026-07-08 closure: seed45 reached 750k (`checkpoint-step750000.pt`, SHA256 `5231dc08bff67df8c6e21ab9843cf23f4ebb9fa8e6e459471e6e530250f07f66`). The bounded N=128 H1 scout produced AUC=0.693909, TPR@1%=0.03125, shuffle AUC=0.508179. This completes the DDPM-750k three-seed replication: seed42=0.648, seed43=0.667, seed45=0.694 (range=0.046, mean=0.669). The moderate 750k regime is now firmly established across three independent runs. N=512 was not triggered (AUC≤0.70).
 
 ### P3: H4 Site-Time Attenuation Scout
 
@@ -73,11 +75,12 @@ Allowed:
 
 - H1/DAAB is a real activation-level candidate signal across tested checkpoints.
 - Signal strength is training-trajectory sensitive.
-- seed43 750k replicates the moderate 750k AUC regime (0.666687) but not reliable low-FPR recovery.
+- Three-seed DDPM-750k replication (seed42/43/45) confirms moderate AUC regime (0.648-0.694, mean=0.669).
+- seed45 750k AUC=0.693909, TPR@1%=0.031 — highest DDPM-750k but still moderate, below N=512 threshold.
 - seed43 800k stays moderate (AUC=0.664612) and does not reproduce seed42 same-trajectory 750k->800k amplification.
 - DDIM-750k is stronger than step-matched DDPM-750k.
 - Same-trajectory 750k->800k amplification is modest compared with the independent DDPM-800k gap.
-- N=512 currently shows a strong cluster around 0.81 and a weak cluster around 0.56-0.61. The same-trajectory 800k raw artifact is now archived and remains weak-to-moderate at AUC=0.605488 with TPR@1%=0.025391.
+- N=512 currently shows a strong cluster around 0.81 and a weak cluster around 0.56-0.61.
 
 Blocked:
 
