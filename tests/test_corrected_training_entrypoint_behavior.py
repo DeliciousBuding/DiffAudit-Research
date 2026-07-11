@@ -7,8 +7,9 @@ import signal
 import sys
 from argparse import Namespace
 from contextlib import contextmanager
+from dataclasses import replace
 from pathlib import Path
-from types import ModuleType
+from types import MappingProxyType, ModuleType
 
 import numpy as np
 import pytest
@@ -77,6 +78,8 @@ class FakeTrainer:
 
     def __call__(self, _batch: FakeBatch) -> FakeLoss:
         self.runtime.completed_steps += 1
+        if self.runtime.after_step is not None:
+            self.runtime.after_step(self.runtime.completed_steps)
         return FakeLoss()
 
 
@@ -87,6 +90,8 @@ class FakeRuntime:
         interrupt_after: int | None = None,
         interrupted_callback=None,
         reject_side_effects: bool = False,
+        raise_on_build: bool = False,
+        after_step=None,
     ) -> None:
         self.events: list[str] = []
         self.saved_steps: list[int] = []
@@ -95,6 +100,8 @@ class FakeRuntime:
         self.interrupt_after = interrupt_after
         self.interrupted_callback = interrupted_callback
         self.reject_side_effects = reject_side_effects
+        self.raise_on_build = raise_on_build
+        self.after_step = after_step
         self.config = build_training_config()
 
     def training_config(self, num_workers: int):
@@ -104,11 +111,11 @@ class FakeRuntime:
     def read_repository_state(self, _root: Path) -> tuple[str, str]:
         return CODE_COMMIT, ""
 
-    def load_dataset(self, _root: Path) -> SyntheticCIFAR:
+    def load_dataset(self, _root: Path, _config) -> SyntheticCIFAR:
         self.events.append("dataset")
         return SyntheticCIFAR()
 
-    def configure_deterministic(self) -> None:
+    def configure_deterministic(self, _config) -> None:
         self.events.append("configure")
 
     def seed_everything(self, _seed: int) -> None:
@@ -127,6 +134,8 @@ class FakeRuntime:
 
     def build_training_objects(self, _config):
         self.events.append("build_model")
+        if self.raise_on_build:
+            raise RuntimeError("injected build failure")
         model = FakeModel()
         return Namespace(
             model=model,
@@ -138,7 +147,7 @@ class FakeRuntime:
             device=torch.device("cpu"),
         )
 
-    def build_dataloader(self, _dataset, _seed, start_step, stop_step, _num_workers):
+    def build_dataloader(self, _dataset, _seed, start_step, stop_step, _config):
         return ((FakeBatch(), None) for _ in range(start_step, stop_step))
 
     def save_checkpoint(self, *, step: int, **_kwargs) -> Path:
@@ -309,29 +318,16 @@ def test_signal_interrupt_saves_at_next_step_boundary(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     protocol_path, split_path = protocol_files
-    original_sigint = signal.getsignal(signal.SIGINT)
-    original_sigterm = signal.getsignal(signal.SIGTERM)
-    entrypoint._interrupted = False
-    production_runtime = entrypoint.ProductionRuntime()
-    production_runtime.install_signal_handlers()
-    installed = signal.getsignal(signal.SIGINT)
-    assert callable(installed)
-    installed(signal.SIGINT, None)
-    runtime = FakeRuntime(interrupted_callback=lambda: entrypoint._interrupted)
+    runtime = FakeRuntime(interrupt_after=2)
     monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", tmp_path / "Research")
     monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
 
-    try:
-        result = entrypoint._train(
-            _args(protocol_path, split_path, stop_step=5, dry_run=False), runtime
-        )
-        assert runtime.completed_steps == 1
-        assert runtime.saved_steps == [1]
-        assert result == {"step": 1, "interrupted": True}
-    finally:
-        signal.signal(signal.SIGINT, original_sigint)
-        signal.signal(signal.SIGTERM, original_sigterm)
-        entrypoint._interrupted = False
+    result = entrypoint._train(
+        _args(protocol_path, split_path, stop_step=5, dry_run=False), runtime
+    )
+    assert runtime.completed_steps == 2
+    assert runtime.saved_steps == [2]
+    assert result == {"step": 2, "interrupted": True}
 
 
 def test_deterministic_configuration_precedes_environment_and_model_workload(
@@ -461,3 +457,201 @@ def test_production_build_deepcopies_ema_while_model_is_still_on_cpu(
 
     assert events.count("deepcopy:cpu") == 1
     assert events.index("deepcopy:cpu") < events.index("model_to:cuda")
+
+
+def _log_path(research_root: Path) -> Path:
+    return research_root / "training" / "outputs" / f"corrected-preflight-s{SEED}" / "training.log"
+
+
+def test_formal_training_tees_console_and_writes_normal_terminal_log(
+    entrypoint: ModuleType,
+    protocol_files: tuple[Path, Path],
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    protocol_path, split_path = protocol_files
+    research_root = tmp_path / "Research"
+    monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", research_root)
+    monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
+    args = _args(protocol_path, split_path, stop_step=1, dry_run=False)
+    args.log_file = _log_path(research_root)
+
+    entrypoint._train(args, FakeRuntime())
+
+    logged = args.log_file.read_text(encoding="utf-8")
+    captured = capsys.readouterr()
+    assert '"event": "training_start"' in logged
+    assert '"event": "training_end"' in logged
+    assert '"step": 1' in logged
+    assert '"interrupted": false' in logged
+    assert '"event": "training_end"' in captured.out
+
+
+class SignalLifecycleRuntime(FakeRuntime):
+    def __init__(self, entrypoint: ModuleType, *, trigger_signal: bool) -> None:
+        self.entrypoint = entrypoint
+        self.trigger_signal = trigger_signal
+        super().__init__(
+            interrupted_callback=lambda: entrypoint._interrupted,
+            after_step=self._after_step,
+        )
+
+    def install_signal_handlers(self):
+        return self.entrypoint.ProductionRuntime().install_signal_handlers()
+
+    def restore_signal_handlers(self, handlers) -> None:
+        self.entrypoint.ProductionRuntime().restore_signal_handlers(handlers)
+
+    def _after_step(self, step: int) -> None:
+        if self.trigger_signal and step == 1:
+            handler = signal.getsignal(signal.SIGINT)
+            assert callable(handler)
+            handler(signal.SIGINT, None)
+
+
+def test_signal_handlers_logs_interrupt_restores_handlers_and_does_not_leak_state(
+    entrypoint: ModuleType,
+    protocol_files: tuple[Path, Path],
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    protocol_path, split_path = protocol_files
+    research_root = tmp_path / "Research"
+    monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", research_root)
+    monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
+    original = (signal.getsignal(signal.SIGINT), signal.getsignal(signal.SIGTERM))
+    first_args = _args(protocol_path, split_path, stop_step=5, dry_run=False)
+    first_args.log_file = _log_path(research_root)
+
+    first = entrypoint._train(first_args, SignalLifecycleRuntime(entrypoint, trigger_signal=True))
+
+    assert first == {"step": 1, "interrupted": True}
+    assert '"interrupted": true' in first_args.log_file.read_text(encoding="utf-8")
+    assert (signal.getsignal(signal.SIGINT), signal.getsignal(signal.SIGTERM)) == original
+
+    second_args = _args(protocol_path, split_path, stop_step=2, dry_run=False)
+    second_args.log_file = first_args.log_file.with_name("training-second.log")
+    second = entrypoint._train(
+        second_args, SignalLifecycleRuntime(entrypoint, trigger_signal=False)
+    )
+    assert second == {"step": 2, "interrupted": False}
+    assert (signal.getsignal(signal.SIGINT), signal.getsignal(signal.SIGTERM)) == original
+
+
+def test_training_exception_logs_traceback_and_restores_streams(
+    entrypoint: ModuleType,
+    protocol_files: tuple[Path, Path],
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    protocol_path, split_path = protocol_files
+    research_root = tmp_path / "Research"
+    monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", research_root)
+    monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
+    args = _args(protocol_path, split_path, stop_step=1, dry_run=False)
+    args.log_file = _log_path(research_root)
+    stdout_before, stderr_before = sys.stdout, sys.stderr
+
+    with pytest.raises(RuntimeError, match="injected build failure"):
+        entrypoint._train(args, FakeRuntime(raise_on_build=True))
+
+    assert sys.stdout is stdout_before
+    assert sys.stderr is stderr_before
+    logged = args.log_file.read_text(encoding="utf-8")
+    assert "Traceback (most recent call last)" in logged
+    assert "injected build failure" in logged
+    args.log_file.rename(args.log_file.with_suffix(".closed"))
+
+
+def test_dry_run_does_not_create_requested_log_file(
+    entrypoint: ModuleType,
+    protocol_files: tuple[Path, Path],
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    protocol_path, split_path = protocol_files
+    research_root = tmp_path / "Research"
+    monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", research_root)
+    monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
+    args = _args(protocol_path, split_path, stop_step=1, dry_run=True)
+    args.log_file = _log_path(research_root)
+
+    entrypoint._train(args, FakeRuntime(reject_side_effects=True))
+
+    assert not args.log_file.exists()
+
+
+def test_production_dataloader_receives_all_frozen_runtime_and_batch_fields(
+    entrypoint: ModuleType, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    captured: dict[str, object] = {}
+
+    def fake_builder(dataset, seed, start_step, stop_step, **kwargs):
+        captured.update(
+            dataset=dataset,
+            seed=seed,
+            start_step=start_step,
+            stop_step=stop_step,
+            **kwargs,
+        )
+        return "loader"
+
+    monkeypatch.setattr(entrypoint, "build_corrected_dataloader", fake_builder)
+    monkeypatch.setattr(entrypoint.torch.cuda, "is_available", lambda: False)
+    config = build_training_config()
+
+    result = entrypoint.ProductionRuntime().build_dataloader("dataset", SEED, 3, 9, config)
+
+    assert result == "loader"
+    assert captured == {
+        "dataset": "dataset",
+        "seed": SEED,
+        "start_step": 3,
+        "stop_step": 9,
+        "batch_size": 64,
+        "num_workers": 4,
+        "pin_memory": False,
+        "persistent_workers": True,
+    }
+
+
+def test_batch_transfer_uses_frozen_non_blocking_policy(entrypoint: ModuleType) -> None:
+    calls: list[tuple[object, bool]] = []
+
+    class RecordingBatch:
+        def to(self, device, *, non_blocking: bool):
+            calls.append((device, non_blocking))
+            return self
+
+    config = build_training_config()
+    runtime_fields = dict(config.runtime)
+    runtime_fields["non_blocking_device_transfer"] = False
+    drifted = replace(config, runtime=MappingProxyType(runtime_fields))
+    device = torch.device("cpu")
+
+    assert entrypoint._move_batch(RecordingBatch(), device, drifted) is not None
+    assert calls == [(device, False)]
+
+
+@pytest.mark.parametrize(
+    ("section", "field", "value"),
+    [
+        ("data", "batch_size", "64"),
+        ("runtime", "num_workers", "4"),
+        ("runtime", "persistent_workers", "true"),
+    ],
+)
+def test_production_dataloader_rejects_noncanonical_runtime_field_types(
+    entrypoint: ModuleType,
+    section: str,
+    field: str,
+    value: object,
+) -> None:
+    config = build_training_config()
+    changed_section = dict(getattr(config, section))
+    changed_section[field] = value
+    drifted = replace(config, **{section: MappingProxyType(changed_section)})
+
+    with pytest.raises((TypeError, ValueError), match=field):
+        entrypoint.ProductionRuntime().build_dataloader("dataset", SEED, 0, 1, drifted)

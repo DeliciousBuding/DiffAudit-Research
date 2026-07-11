@@ -134,6 +134,7 @@ def build_training_config() -> TrainingConfig:
             {
                 "save_every": 2_000,
                 "sample_every": 50_000,
+                "quality_sample_size": 64,
                 "save_final": True,
                 "save_on_signal": "next_step_boundary",
                 "atomic_replace": True,

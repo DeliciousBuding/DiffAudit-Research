@@ -9,6 +9,8 @@ import os
 import random
 import signal
 import sys
+import traceback
+from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -47,6 +49,37 @@ from diffaudit.training.exact_resume import (  # noqa: E402
 )
 
 _interrupted = False
+
+
+class _TeeStream:
+    def __init__(self, console, log_file) -> None:
+        self.console = console
+        self.log_file = log_file
+
+    def write(self, value: str) -> int:
+        self.console.write(value)
+        self.log_file.write(value)
+        return len(value)
+
+    def flush(self) -> None:
+        self.console.flush()
+        self.log_file.flush()
+
+    def __getattr__(self, name: str):
+        return getattr(self.console, name)
+
+
+@contextmanager
+def _tee_training_log(path: Path | None):
+    if path is None:
+        yield
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8", buffering=1) as log_file:
+        stdout = _TeeStream(sys.stdout, log_file)
+        stderr = _TeeStream(sys.stderr, log_file)
+        with redirect_stdout(stdout), redirect_stderr(stderr):
+            yield
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -150,11 +183,19 @@ def _checkpoint(
     return path
 
 
-def _load_dataset(dataset_root: Path) -> datasets.CIFAR10:
+def _load_dataset(dataset_root: Path, config: TrainingConfig) -> datasets.CIFAR10:
+    transform_config = config.transform
+    if transform_config["operations"] != ("ToTensor", "Normalize"):
+        raise ValueError("only the protocol-frozen ToTensor+Normalize transform is supported")
+    if transform_config["random_augmentation"] is not False:
+        raise ValueError("random training transforms are forbidden")
     transform = transforms.Compose(
         [
             transforms.ToTensor(),
-            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+            transforms.Normalize(
+                tuple(transform_config["normalize_mean"]),
+                tuple(transform_config["normalize_std"]),
+            ),
         ]
     )
     return datasets.CIFAR10(root=str(dataset_root), train=True, download=False, transform=transform)
@@ -183,10 +224,12 @@ class ProductionRuntime:
     def read_repository_state(self, root: Path) -> tuple[str, str]:
         return read_repository_state(root)
 
-    def load_dataset(self, root: Path):
-        return _load_dataset(root)
+    def load_dataset(self, root: Path, config: TrainingConfig):
+        return _load_dataset(root, config)
 
-    def configure_deterministic(self) -> None:
+    def configure_deterministic(self, config: TrainingConfig) -> None:
+        if dict(config.determinism) != dict(build_training_config().determinism):
+            raise ValueError("unsupported deterministic policy drift")
         configure_deterministic_torch()
 
     def seed_everything(self, seed: int) -> None:
@@ -199,8 +242,14 @@ class ProductionRuntime:
         from diffusion import GaussianDiffusionSampler, GaussianDiffusionTrainer
         from model_unet import UNet
 
+        if dict(config.precision) != {"dtype": "float32", "amp": False}:
+            raise ValueError("only protocol-frozen float32 without AMP is supported")
+        if config.runtime["device_policy"] != "cuda_if_available_else_cpu":
+            raise ValueError("unsupported device policy")
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model_config = config.model
+        if model_config["architecture"] != "UNet":
+            raise ValueError("unsupported model architecture")
         model = UNet(
             T=model_config["T"],
             ch=model_config["channels"],
@@ -213,6 +262,8 @@ class ProductionRuntime:
         model = model.to(device)
         ema_model = ema_model.to(device)
         optimizer_config = config.optimizer
+        if optimizer_config["name"] != "Adam":
+            raise ValueError("unsupported optimizer")
         optimizer = torch.optim.Adam(
             model.parameters(),
             lr=optimizer_config["learning_rate"],
@@ -220,12 +271,16 @@ class ProductionRuntime:
             eps=optimizer_config["eps"],
         )
         warmup_steps = int(config.scheduler["warmup_steps"])
+        if config.scheduler["name"] != "LambdaLR" or config.scheduler["policy"] != "linear_warmup":
+            raise ValueError("unsupported scheduler policy")
 
         def warmup(step: int) -> float:
             return 1.0 if step >= warmup_steps else step / warmup_steps
 
         scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=warmup)
         diffusion = config.diffusion
+        if diffusion["schedule"] != "linear":
+            raise ValueError("unsupported diffusion schedule")
         trainer = GaussianDiffusionTrainer(
             model,
             beta_1=diffusion["beta_1"],
@@ -251,10 +306,34 @@ class ProductionRuntime:
         )
 
     def build_dataloader(
-        self, dataset, seed: int, start_step: int, stop_step: int, num_workers: int
+        self,
+        dataset,
+        seed: int,
+        start_step: int,
+        stop_step: int,
+        config: TrainingConfig,
     ):
+        pin_memory_policy = config.runtime["pin_memory"]
+        if pin_memory_policy != "cuda_available":
+            raise ValueError("unsupported pin_memory policy")
+        batch_size = config.data["batch_size"]
+        num_workers = config.runtime["num_workers"]
+        persistent_workers = config.runtime["persistent_workers"]
+        if type(batch_size) is not int or batch_size < 1:
+            raise ValueError("batch_size must be a positive integer")
+        if type(num_workers) is not int or num_workers < 0:
+            raise ValueError("num_workers must be a non-negative integer")
+        if type(persistent_workers) is not bool:
+            raise ValueError("persistent_workers must be a boolean")
         return build_corrected_dataloader(
-            dataset, seed, start_step, stop_step, num_workers=num_workers
+            dataset,
+            seed,
+            start_step,
+            stop_step,
+            batch_size=batch_size,
+            num_workers=num_workers,
+            pin_memory=torch.cuda.is_available(),
+            persistent_workers=persistent_workers,
         )
 
     def save_checkpoint(self, **kwargs) -> Path:
@@ -263,18 +342,32 @@ class ProductionRuntime:
     def preserve_rng(self):
         return preserve_rng_state()
 
-    def sample_quality(self, *, objects: TrainingObjects, log_dir: Path, step: int) -> None:
+    def sample_quality(
+        self,
+        *,
+        objects: TrainingObjects,
+        log_dir: Path,
+        step: int,
+        training_config: TrainingConfig,
+    ) -> None:
         with torch.no_grad():
-            noise = torch.randn(64, 3, 32, 32, device=objects.device)
+            sample_size = int(training_config.checkpointing["quality_sample_size"])
+            noise = torch.randn(sample_size, 3, 32, 32, device=objects.device)
             samples = objects.quality_sampler(noise).cpu()
             torch.save(samples, log_dir / f"quality-step{step:06d}.pt")
 
     def interrupted(self) -> bool:
         return _interrupted
 
-    def install_signal_handlers(self) -> None:
+    def install_signal_handlers(self):
+        previous = (signal.getsignal(signal.SIGINT), signal.getsignal(signal.SIGTERM))
         signal.signal(signal.SIGINT, _signal_handler)
         signal.signal(signal.SIGTERM, _signal_handler)
+        return previous
+
+    def restore_signal_handlers(self, handlers) -> None:
+        signal.signal(signal.SIGINT, handlers[0])
+        signal.signal(signal.SIGTERM, handlers[1])
 
 
 def _prepare(args: argparse.Namespace, runtime, training_config: TrainingConfig):
@@ -284,7 +377,7 @@ def _prepare(args: argparse.Namespace, runtime, training_config: TrainingConfig)
         args.dataset_root
         or Path(os.environ.get("DIFFAUDIT_CIFAR10_ROOT", DOWNLOAD_ROOT / "datasets/cifar-10"))
     ).expanduser()
-    dataset = runtime.load_dataset(dataset_root)
+    dataset = runtime.load_dataset(dataset_root, training_config)
     labels = np.asarray(dataset.targets, dtype=np.int64)
     contract = load_training_contract(
         args.protocol_manifest,
@@ -332,28 +425,24 @@ def _seed_everything(seed: int) -> None:
         torch.cuda.manual_seed_all(seed)
 
 
-def _train(args: argparse.Namespace, runtime=None) -> dict[str, object]:
-    runtime = runtime or ProductionRuntime()
-    training_config = runtime.training_config(args.num_workers)
-    contract, member_dataset, output_dir, log_dir, stop_step = _prepare(
-        args, runtime, training_config
-    )
-    if args.dry_run:
-        summary = {
-            **_identity(contract, args.resume or 0),
-            "dataset": "CIFAR10",
-            "dataset_size": 50_000,
-            "member_count": len(member_dataset),
-            "stop_step": stop_step,
-            "preflight": args.preflight,
-            "repository_clean": True,
-            "output_scope": "corrected-only",
-            "training_config_hash": canonical_training_config_hash(training_config),
-        }
-        print(json.dumps(summary, sort_keys=True))
-        return summary
+def _move_batch(batch, device: torch.device, training_config: TrainingConfig):
+    non_blocking = training_config.runtime["non_blocking_device_transfer"]
+    if type(non_blocking) is not bool:
+        raise ValueError("non_blocking_device_transfer must be a boolean")
+    return batch.to(device, non_blocking=non_blocking)
 
-    runtime.configure_deterministic()
+
+def _run_formal_training(
+    args: argparse.Namespace,
+    runtime,
+    training_config: TrainingConfig,
+    contract: CorrectedTrainingContract,
+    member_dataset,
+    output_dir: Path,
+    log_dir: Path,
+    stop_step: int,
+) -> dict[str, object]:
+    runtime.configure_deterministic(training_config)
     runtime.seed_everything(contract.seed)
     environment = runtime.collect_environment()
     objects = runtime.build_training_objects(training_config)
@@ -381,23 +470,49 @@ def _train(args: argparse.Namespace, runtime=None) -> dict[str, object]:
         contract.seed,
         start_step,
         stop_step,
-        args.num_workers,
+        training_config,
     )
+    handlers = None
+    handlers_installed = False
     if hasattr(runtime, "install_signal_handlers"):
-        runtime.install_signal_handlers()
-    objects.model.train()
-    step = start_step
-    for batch, _labels in loader:
-        batch = batch.to(objects.device, non_blocking=True)
-        objects.optimizer.zero_grad(set_to_none=True)
-        loss = objects.trainer(batch)
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(objects.model.parameters(), training_config.grad_clip)
-        objects.optimizer.step()
-        objects.scheduler.step()
-        _ema_update(objects.model, objects.ema_model, decay=training_config.ema_decay)
-        step += 1
-        if step % int(training_config.checkpointing["save_every"]) == 0:
+        handlers = runtime.install_signal_handlers()
+        handlers_installed = True
+    try:
+        objects.model.train()
+        step = start_step
+        for batch, _labels in loader:
+            batch = _move_batch(batch, objects.device, training_config)
+            objects.optimizer.zero_grad(set_to_none=True)
+            loss = objects.trainer(batch)
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(objects.model.parameters(), training_config.grad_clip)
+            objects.optimizer.step()
+            objects.scheduler.step()
+            _ema_update(objects.model, objects.ema_model, decay=training_config.ema_decay)
+            step += 1
+            if step % int(training_config.checkpointing["save_every"]) == 0:
+                runtime.save_checkpoint(
+                    output_dir=output_dir,
+                    contract=contract,
+                    model=objects.model,
+                    ema_model=objects.ema_model,
+                    optimizer=objects.optimizer,
+                    scheduler=objects.scheduler,
+                    step=step,
+                    training_config=training_config,
+                    environment=environment,
+                )
+            if step % int(training_config.checkpointing["sample_every"]) == 0:
+                with runtime.preserve_rng():
+                    runtime.sample_quality(
+                        objects=objects,
+                        log_dir=log_dir,
+                        step=step,
+                        training_config=training_config,
+                    )
+            if runtime.interrupted():
+                break
+        if step % int(training_config.checkpointing["save_every"]) != 0:
             runtime.save_checkpoint(
                 output_dir=output_dir,
                 contract=contract,
@@ -409,26 +524,62 @@ def _train(args: argparse.Namespace, runtime=None) -> dict[str, object]:
                 training_config=training_config,
                 environment=environment,
             )
-        if step % int(training_config.checkpointing["sample_every"]) == 0:
-            with runtime.preserve_rng():
-                runtime.sample_quality(objects=objects, log_dir=log_dir, step=step)
-        if runtime.interrupted():
-            break
-    if step % int(training_config.checkpointing["save_every"]) != 0:
-        runtime.save_checkpoint(
-            output_dir=output_dir,
-            contract=contract,
-            model=objects.model,
-            ema_model=objects.ema_model,
-            optimizer=objects.optimizer,
-            scheduler=objects.scheduler,
-            step=step,
-            training_config=training_config,
-            environment=environment,
-        )
-    result = {"step": step, "interrupted": runtime.interrupted()}
-    print(json.dumps({**_identity(contract, step), **result}, sort_keys=True))
+        result = {"step": step, "interrupted": runtime.interrupted()}
+    finally:
+        if handlers_installed and hasattr(runtime, "restore_signal_handlers"):
+            runtime.restore_signal_handlers(handlers)
     return result
+
+
+def _train(args: argparse.Namespace, runtime=None) -> dict[str, object]:
+    runtime = runtime or ProductionRuntime()
+    training_config = runtime.training_config(args.num_workers)
+    contract, member_dataset, output_dir, log_dir, stop_step = _prepare(
+        args, runtime, training_config
+    )
+    if args.dry_run:
+        summary = {
+            **_identity(contract, args.resume or 0),
+            "dataset": "CIFAR10",
+            "dataset_size": 50_000,
+            "member_count": len(member_dataset),
+            "stop_step": stop_step,
+            "preflight": args.preflight,
+            "repository_clean": True,
+            "output_scope": "corrected-only",
+            "training_config_hash": canonical_training_config_hash(training_config),
+        }
+        print(json.dumps(summary, sort_keys=True))
+        return summary
+
+    global _interrupted
+    _interrupted = False
+    log_file = args.log_file.resolve() if args.log_file is not None else None
+    with _tee_training_log(log_file):
+        start = {
+            "event": "training_start",
+            **_identity(contract, args.resume or 0),
+            "stop_step": stop_step,
+        }
+        print(json.dumps(start, sort_keys=True))
+        try:
+            result = _run_formal_training(
+                args,
+                runtime,
+                training_config,
+                contract,
+                member_dataset,
+                output_dir,
+                log_dir,
+                stop_step,
+            )
+        except BaseException:
+            print(json.dumps({"event": "training_error"}, sort_keys=True), file=sys.stderr)
+            traceback.print_exc()
+            raise
+        terminal = {"event": "training_end", **_identity(contract, result["step"]), **result}
+        print(json.dumps(terminal, sort_keys=True))
+        return result
 
 
 def main() -> None:

@@ -149,13 +149,21 @@ def test_dataloader_uses_finite_exact_resume_sampler_without_global_rng_consumpt
     dataset = TinyDataset(25_000)
     torch.manual_seed(123)
     before = torch.get_rng_state().clone()
-    full = build_corrected_dataloader(dataset, SEEDS[0], 0, 5, num_workers=0)
-    resumed = build_corrected_dataloader(dataset, SEEDS[0], 2, 5, num_workers=0)
+    loader_kwargs = {
+        "num_workers": 0,
+        "batch_size": 64,
+        "pin_memory": False,
+        "persistent_workers": False,
+    }
+    full = build_corrected_dataloader(dataset, SEEDS[0], 0, 5, **loader_kwargs)
+    resumed = build_corrected_dataloader(dataset, SEEDS[0], 2, 5, **loader_kwargs)
 
     assert torch.equal(before, torch.get_rng_state())
     assert list(full.batch_sampler)[2:] == list(resumed.batch_sampler)
     assert len(full) == 5
     assert full.batch_size is None
+    assert full.pin_memory is False
+    assert full.persistent_workers is False
 
 
 def _tiny_training_state():

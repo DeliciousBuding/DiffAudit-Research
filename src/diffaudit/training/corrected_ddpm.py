@@ -204,12 +204,23 @@ def build_corrected_dataloader(
     stop_step: int,
     *,
     num_workers: int,
+    batch_size: int,
+    pin_memory: bool,
+    persistent_workers: bool,
 ) -> DataLoader[Any]:
     if len(member_dataset) != 25_000:
         raise ValueError("corrected member dataset length must be exactly 25000")
+    if type(num_workers) is not int or num_workers < 0:
+        raise ValueError("num_workers must be a non-negative integer")
+    if type(batch_size) is not int or batch_size < 1:
+        raise ValueError("batch_size must be a positive integer")
+    if type(pin_memory) is not bool or type(persistent_workers) is not bool:
+        raise TypeError("pin_memory and persistent_workers must be booleans")
+    if persistent_workers and num_workers == 0:
+        raise ValueError("persistent_workers requires at least one worker")
     batch_sampler = DeterministicEpochBatchSampler(
         dataset_size=25_000,
-        batch_size=64,
+        batch_size=batch_size,
         seed=seed,
         start_step=start_step,
         stop_step=stop_step,
@@ -223,10 +234,10 @@ def build_corrected_dataloader(
         member_dataset,
         batch_sampler=batch_sampler,
         num_workers=num_workers,
-        pin_memory=torch.cuda.is_available(),
+        pin_memory=pin_memory,
         worker_init_fn=functools.partial(_seed_worker, worker_seed=worker_seed),
         generator=generator,
-        persistent_workers=num_workers > 0,
+        persistent_workers=persistent_workers,
     )
 
 
