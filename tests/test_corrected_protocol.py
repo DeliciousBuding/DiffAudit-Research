@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import os
 import subprocess
 import sys
@@ -47,6 +48,21 @@ def _balanced_row_inputs(
 
         nonmember_start = len(class_labels)
         class_labels.extend([class_id] * per_class_per_group)
+        nonmember_indices.extend(range(nonmember_start, len(class_labels)))
+    return tuple(member_indices), tuple(nonmember_indices), np.asarray(class_labels)
+
+
+def _tight_row_inputs() -> tuple[tuple[int, ...], tuple[int, ...], np.ndarray]:
+    member_indices: list[int] = []
+    nonmember_indices: list[int] = []
+    class_labels: list[int] = []
+    for class_id, class_count in enumerate((103, 103, 103, 103, 102, 102, 102, 102, 102, 102)):
+        member_start = len(class_labels)
+        class_labels.extend([class_id] * class_count)
+        member_indices.extend(range(member_start, len(class_labels)))
+
+        nonmember_start = len(class_labels)
+        class_labels.extend([class_id] * class_count)
         nonmember_indices.extend(range(nonmember_start, len(class_labels)))
     return tuple(member_indices), tuple(nonmember_indices), np.asarray(class_labels)
 
@@ -138,6 +154,19 @@ def test_derive_training_seeds_is_stable_and_material_sensitive() -> None:
     assert seeds != derive_training_seeds("paper1-corrected-evidence-other")
 
 
+def test_derive_training_seeds_matches_sha256_known_vector() -> None:
+    assert derive_training_seeds("paper1-corrected-evidence") == (
+        1746574482,
+        1403859882,
+        1877216607,
+        120492209,
+        1624907720,
+        761208184,
+        1867632528,
+        1918927372,
+    )
+
+
 def test_derive_training_seeds_returns_unique_positive_31_bit_integers() -> None:
     seeds = derive_training_seeds("paper1-corrected-evidence")
 
@@ -223,6 +252,26 @@ def test_build_stratified_row_manifest_is_deterministic() -> None:
     assert first != changed
 
 
+def test_build_stratified_row_manifest_uses_feasible_tight_class_capacity() -> None:
+    member_indices, nonmember_indices, class_labels = _tight_row_inputs()
+
+    rows = build_stratified_row_manifest(
+        member_indices,
+        nonmember_indices,
+        class_labels,
+        random_state=42,
+    )
+
+    assert len(rows) == 2048
+    for label in (0, 1):
+        for split_name in ("calibration", "evaluation"):
+            counts = Counter(
+                row.class_id for row in rows if row.label == label and row.split == split_name
+            )
+            assert sum(counts.values()) == 512
+            assert max(counts.values()) - min(counts.values()) <= 1
+
+
 def test_build_stratified_row_manifest_rejects_insufficient_input() -> None:
     member_indices, nonmember_indices, class_labels = _balanced_row_inputs(per_class_per_group=100)
 
@@ -299,6 +348,28 @@ def test_build_stratified_row_manifest_requires_one_dimensional_labels() -> None
         )
 
 
+def test_paper1_corrected_row_manifest_wrapper_freezes_group_sizes() -> None:
+    member_indices, nonmember_indices, class_labels = _balanced_row_inputs()
+    builder = evidence.build_paper1_corrected_row_manifest
+
+    rows = builder(
+        member_indices,
+        nonmember_indices,
+        class_labels,
+        random_state=42,
+    )
+
+    assert "n_calibration_per_group" not in inspect.signature(builder).parameters
+    assert "n_evaluation_per_group" not in inspect.signature(builder).parameters
+    assert len(rows) == 2048
+    assert Counter((row.label, row.split) for row in rows) == {
+        (1, "calibration"): 512,
+        (1, "evaluation"): 512,
+        (0, "calibration"): 512,
+        (0, "evaluation"): 512,
+    }
+
+
 def test_derive_noise_seed_is_stable_positive_63_bit_integer() -> None:
     seed = derive_noise_seed("paper1-corrected-v1", 123, 500, 7)
 
@@ -354,6 +425,7 @@ def test_canonical_protocol_hash_changes_when_a_value_changes() -> None:
     "absolute_path",
     [
         f"{'C'}:{chr(92)}private{chr(92)}model.ckpt",
+        f"{chr(92)}private{chr(92)}model.ckpt",
         "/" + "private/model.ckpt",
     ],
 )
@@ -374,6 +446,7 @@ def test_evidence_package_exports_corrected_protocol_primitives() -> None:
     expected = {
         "MembershipSplit",
         "ProtocolRow",
+        "build_paper1_corrected_row_manifest",
         "build_stratified_row_manifest",
         "canonical_protocol_hash",
         "derive_noise_seed",

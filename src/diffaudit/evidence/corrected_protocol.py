@@ -6,6 +6,7 @@ import hashlib
 import json
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from itertools import combinations
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Literal
 
@@ -20,33 +21,72 @@ def _digest_parts(*parts: object) -> bytes:
     return hashlib.sha256(encoded).digest()
 
 
-def _balanced_class_counts(
-    count: int,
+def _balanced_split_class_counts(
+    calibration_count: int,
+    evaluation_count: int,
+    capacities: Mapping[int, int],
     *,
     random_state: int,
     membership: str,
-    split: str,
-) -> dict[int, int]:
-    base, remainder = divmod(count, len(_CLASS_IDS))
-    class_order = sorted(
-        _CLASS_IDS,
-        key=lambda class_id: _digest_parts(
+) -> tuple[dict[int, int], dict[int, int]]:
+    calibration_base, calibration_remainder = divmod(calibration_count, len(_CLASS_IDS))
+    evaluation_base, evaluation_remainder = divmod(evaluation_count, len(_CLASS_IDS))
+    base_total = calibration_base + evaluation_base
+    remaining = {class_id: capacities[class_id] - base_total for class_id in _CLASS_IDS}
+    if any(capacity < 0 for capacity in remaining.values()):
+        raise ValueError(f"{membership} class capacities cannot support balanced splits")
+
+    calibration_candidates = sorted(
+        combinations(
+            [class_id for class_id in _CLASS_IDS if remaining[class_id] > 0],
+            calibration_remainder,
+        ),
+        key=lambda classes: _digest_parts(
             "diffaudit-row-class-order-v1",
             random_state,
             membership,
-            split,
-            class_id,
+            "calibration",
+            *classes,
         ),
     )
-    counts = {class_id: base for class_id in _CLASS_IDS}
-    for class_id in class_order[:remainder]:
-        counts[class_id] += 1
-    return counts
+    for calibration_extras in calibration_candidates:
+        after_calibration = remaining.copy()
+        for class_id in calibration_extras:
+            after_calibration[class_id] -= 1
+        evaluation_candidates = sorted(
+            combinations(
+                [class_id for class_id in _CLASS_IDS if after_calibration[class_id] > 0],
+                evaluation_remainder,
+            ),
+            key=lambda classes: _digest_parts(
+                "diffaudit-row-class-order-v1",
+                random_state,
+                membership,
+                "evaluation",
+                *classes,
+            ),
+        )
+        if not evaluation_candidates:
+            continue
+        evaluation_extras = evaluation_candidates[0]
+        calibration_counts = {class_id: calibration_base for class_id in _CLASS_IDS}
+        evaluation_counts = {class_id: evaluation_base for class_id in _CLASS_IDS}
+        for class_id in calibration_extras:
+            calibration_counts[class_id] += 1
+        for class_id in evaluation_extras:
+            evaluation_counts[class_id] += 1
+        return calibration_counts, evaluation_counts
+
+    raise ValueError(f"{membership} class capacities cannot support balanced splits")
 
 
 def _reject_absolute_paths(value: object) -> None:
     if isinstance(value, str):
-        if PureWindowsPath(value).is_absolute() or PurePosixPath(value).is_absolute():
+        if (
+            value.startswith("\\")
+            or PureWindowsPath(value).is_absolute()
+            or PurePosixPath(value).is_absolute()
+        ):
             raise ValueError("absolute paths are not allowed in public protocol manifests")
         return
     if isinstance(value, Mapping):
@@ -144,22 +184,17 @@ def build_stratified_row_manifest(
         if len(source_indices) < total_required:
             raise ValueError(f"{membership} group requires at least {total_required} rows")
 
-        calibration_counts = _balanced_class_counts(
-            n_calibration_per_group,
-            random_state=random_state,
-            membership=membership,
-            split="calibration",
-        )
-        evaluation_counts = _balanced_class_counts(
-            n_evaluation_per_group,
-            random_state=random_state,
-            membership=membership,
-            split="evaluation",
-        )
         pools = {
             class_id: [index for index in source_indices if int(labels[index]) == class_id]
             for class_id in _CLASS_IDS
         }
+        calibration_counts, evaluation_counts = _balanced_split_class_counts(
+            n_calibration_per_group,
+            n_evaluation_per_group,
+            {class_id: len(pool) for class_id, pool in pools.items()},
+            random_state=random_state,
+            membership=membership,
+        )
 
         for class_id in _CLASS_IDS:
             calibration_count = calibration_counts[class_id]
@@ -190,6 +225,25 @@ def build_stratified_row_manifest(
             )
 
     return tuple(rows)
+
+
+def build_paper1_corrected_row_manifest(
+    member_indices: Sequence[int],
+    nonmember_indices: Sequence[int],
+    class_labels: Sequence[int],
+    *,
+    random_state: int,
+) -> tuple[ProtocolRow, ...]:
+    """Build the fixed 512/512-per-membership Paper 1 corrected row manifest."""
+
+    return build_stratified_row_manifest(
+        member_indices,
+        nonmember_indices,
+        class_labels,
+        n_calibration_per_group=512,
+        n_evaluation_per_group=512,
+        random_state=random_state,
+    )
 
 
 def derive_training_seeds(seed_material: str | bytes, count: int = 8) -> tuple[int, ...]:
