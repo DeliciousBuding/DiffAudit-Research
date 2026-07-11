@@ -761,8 +761,12 @@ def build_parser() -> argparse.ArgumentParser:
     pia_translated_alias_parser.add_argument("--nonmember-index", type=int, required=True)
     pia_translated_alias_parser.add_argument("--batch-size", type=int, default=1)
     pia_translated_alias_parser.add_argument("--adaptive-query-repeats", type=int, default=1)
-    pia_translated_alias_parser.add_argument("--alias-selector", default="middleblocks.0.attn.proj_v")
-    pia_translated_alias_parser.add_argument("--translated-from", default="mid_block.attentions.0.to_v")
+    pia_translated_alias_parser.add_argument(
+        "--alias-selector", default="middleblocks.0.attn.proj_v"
+    )
+    pia_translated_alias_parser.add_argument(
+        "--translated-from", default="mid_block.attentions.0.to_v"
+    )
     pia_translated_alias_parser.add_argument("--channel-dim", type=int, default=1)
     pia_translated_alias_parser.add_argument("--mask-kind", default="top_abs_delta_k")
     pia_translated_alias_parser.add_argument("--k", type=int, default=8)
@@ -885,7 +889,12 @@ def build_parser() -> argparse.ArgumentParser:
     rediffuse_runtime_smoke_parser.add_argument("--norm", type=int, default=1)
     rediffuse_runtime_smoke_parser.add_argument(
         "--scoring-mode",
-        choices=["first_step_distance_mean", "direct-distance", "resnet", "resnet_collaborator_replay"],
+        choices=[
+            "first_step_distance_mean",
+            "direct-distance",
+            "resnet",
+            "resnet_collaborator_replay",
+        ],
         default="first_step_distance_mean",
     )
     rediffuse_runtime_smoke_parser.add_argument("--scorer-train-portion", type=float, default=0.2)
@@ -911,14 +920,21 @@ def build_parser() -> argparse.ArgumentParser:
     rediffuse_runtime_packet_parser.add_argument("--norm", type=int, default=1)
     rediffuse_runtime_packet_parser.add_argument(
         "--scoring-mode",
-        choices=["first_step_distance_mean", "direct-distance", "resnet", "resnet_collaborator_replay"],
+        choices=[
+            "first_step_distance_mean",
+            "direct-distance",
+            "resnet",
+            "resnet_collaborator_replay",
+        ],
         default="first_step_distance_mean",
     )
     rediffuse_runtime_packet_parser.add_argument("--scorer-train-portion", type=float, default=0.2)
     rediffuse_runtime_packet_parser.add_argument("--scorer-epochs", type=int, default=15)
     rediffuse_runtime_packet_parser.add_argument("--scorer-lr", type=float, default=0.001)
     rediffuse_runtime_packet_parser.add_argument("--scorer-batch-size", type=int, default=128)
-    rediffuse_runtime_packet_parser.add_argument("--provenance-status", default="collaborator-grounded")
+    rediffuse_runtime_packet_parser.add_argument(
+        "--provenance-status", default="collaborator-grounded"
+    )
 
     midfreq_tiny_parser = subparsers.add_parser(
         "run-midfreq-residual-tiny-cache",
@@ -953,7 +969,9 @@ def build_parser() -> argparse.ArgumentParser:
     midfreq_real_asset_parser.add_argument("--cutoff-high", type=float, default=0.50)
     midfreq_real_asset_parser.add_argument("--device", default="cpu", choices=["cpu"])
     midfreq_real_asset_parser.add_argument("--weights-key", default="ema_model")
-    midfreq_real_asset_parser.add_argument("--provenance-status", default="collaborator-grounded-real-asset-preflight")
+    midfreq_real_asset_parser.add_argument(
+        "--provenance-status", default="collaborator-grounded-real-asset-preflight"
+    )
 
     midfreq_sign_check_parser = subparsers.add_parser(
         "run-midfreq-residual-sign-check",
@@ -971,13 +989,17 @@ def build_parser() -> argparse.ArgumentParser:
     midfreq_sign_check_parser.add_argument("--cutoff-high", type=float, default=0.50)
     midfreq_sign_check_parser.add_argument("--device", default="cuda")
     midfreq_sign_check_parser.add_argument("--weights-key", default="ema_model")
-    midfreq_sign_check_parser.add_argument("--provenance-status", default="collaborator-grounded-sign-check")
+    midfreq_sign_check_parser.add_argument(
+        "--provenance-status", default="collaborator-grounded-sign-check"
+    )
 
     pia_runtime_mainline_parser = subparsers.add_parser(
         "run-pia-runtime-mainline",
         help="run the canonical PIA DDPM path on real local assets and emit a reproducible summary",
     )
     pia_runtime_mainline_parser.add_argument("--config", required=True, help="path to audit yaml")
+    pia_runtime_mainline_parser.add_argument("--calibration-score-packet", default=None)
+    pia_runtime_mainline_parser.add_argument("--evaluation-score-packet", default=None)
     pia_runtime_mainline_parser.add_argument(
         "--workspace",
         required=True,
@@ -1213,7 +1235,9 @@ def build_parser() -> argparse.ArgumentParser:
     gsa_inmodel_packet_parser.add_argument("--sample-id", required=True)
     gsa_inmodel_packet_parser.add_argument("--control-split", required=True)
     gsa_inmodel_packet_parser.add_argument("--control-sample-id", required=True)
-    gsa_inmodel_packet_parser.add_argument("--layer-selector", default="mid_block.attentions.0.to_v")
+    gsa_inmodel_packet_parser.add_argument(
+        "--layer-selector", default="mid_block.attentions.0.to_v"
+    )
     gsa_inmodel_packet_parser.add_argument(
         "--mask-kind",
         default="top_abs_delta_k",
@@ -1403,7 +1427,9 @@ def build_parser() -> argparse.ArgumentParser:
     crossbox_pairboard_parser.add_argument("--cascade-candidate-name", default="logistic_2feature")
     crossbox_pairboard_parser.add_argument("--cascade-route-fractions", default=None)
     crossbox_pairboard_parser.add_argument("--cascade-gammas", default=None)
-    crossbox_pairboard_parser.add_argument("--cascade-secondary-cost-ratio", type=float, default=0.25)
+    crossbox_pairboard_parser.add_argument(
+        "--cascade-secondary-cost-ratio", type=float, default=0.25
+    )
 
     risk_targeted_unlearning_parser = subparsers.add_parser(
         "prepare-risk-targeted-unlearning-pilot",
@@ -1432,7 +1458,9 @@ def build_parser() -> argparse.ArgumentParser:
         default="16,32,64",
         help="comma-separated forget-set sizes to export",
     )
-    risk_targeted_unlearning_parser.add_argument("--provenance-status", default="workspace-verified")
+    risk_targeted_unlearning_parser.add_argument(
+        "--provenance-status", default="workspace-verified"
+    )
 
     risk_targeted_unlearning_pilot_parser = subparsers.add_parser(
         "run-risk-targeted-unlearning-pilot",
@@ -1444,7 +1472,9 @@ def build_parser() -> argparse.ArgumentParser:
         default="workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/datasets/target-member",
     )
     risk_targeted_unlearning_pilot_parser.add_argument("--forget-member-index-file", required=True)
-    risk_targeted_unlearning_pilot_parser.add_argument("--matched-nonmember-index-file", default=None)
+    risk_targeted_unlearning_pilot_parser.add_argument(
+        "--matched-nonmember-index-file", default=None
+    )
     risk_targeted_unlearning_pilot_parser.add_argument(
         "--checkpoint-root",
         default="workspaces/white-box/assets/gsa-cifar10-1k-3shadow-epoch300-rerun1/checkpoints/target",
@@ -1455,8 +1485,12 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="use a random DDPM initialization instead of loading a target checkpoint",
     )
-    risk_targeted_unlearning_pilot_parser.add_argument("--retain-max-samples", type=int, default=None)
-    risk_targeted_unlearning_pilot_parser.add_argument("--forget-max-samples", type=int, default=None)
+    risk_targeted_unlearning_pilot_parser.add_argument(
+        "--retain-max-samples", type=int, default=None
+    )
+    risk_targeted_unlearning_pilot_parser.add_argument(
+        "--forget-max-samples", type=int, default=None
+    )
     risk_targeted_unlearning_pilot_parser.add_argument("--num-steps", type=int, default=100)
     risk_targeted_unlearning_pilot_parser.add_argument("--batch-size", type=int, default=4)
     risk_targeted_unlearning_pilot_parser.add_argument("--num-workers", type=int, default=0)
@@ -1465,10 +1499,14 @@ def build_parser() -> argparse.ArgumentParser:
     risk_targeted_unlearning_pilot_parser.add_argument("--mixture-lambda", type=float, default=0.5)
     risk_targeted_unlearning_pilot_parser.add_argument("--grad-clip", type=float, default=1.0)
     risk_targeted_unlearning_pilot_parser.add_argument("--resolution", type=int, default=32)
-    risk_targeted_unlearning_pilot_parser.add_argument("--ddpm-num-train-timesteps", type=int, default=1000)
+    risk_targeted_unlearning_pilot_parser.add_argument(
+        "--ddpm-num-train-timesteps", type=int, default=1000
+    )
     risk_targeted_unlearning_pilot_parser.add_argument("--device", default="cuda")
     risk_targeted_unlearning_pilot_parser.add_argument("--seed", type=int, default=0)
-    risk_targeted_unlearning_pilot_parser.add_argument("--provenance-status", default="workspace-verified")
+    risk_targeted_unlearning_pilot_parser.add_argument(
+        "--provenance-status", default="workspace-verified"
+    )
     risk_targeted_unlearning_pilot_parser.add_argument(
         "--training-role",
         default="target",
@@ -1487,7 +1525,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     defended_shadow_manifest_parser.add_argument("--forget-member-index-file", required=True)
     defended_shadow_manifest_parser.add_argument("--matched-nonmember-index-file", required=True)
-    defended_shadow_manifest_parser.add_argument("--shadow-ids", default="shadow-01,shadow-02,shadow-03")
+    defended_shadow_manifest_parser.add_argument(
+        "--shadow-ids", default="shadow-01,shadow-02,shadow-03"
+    )
     defended_shadow_manifest_parser.add_argument("--num-steps", type=int, default=100)
     defended_shadow_manifest_parser.add_argument("--batch-size", type=int, default=4)
     defended_shadow_manifest_parser.add_argument("--seed", type=int, default=0)
@@ -1496,7 +1536,9 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="optional root for future defended-shadow training outputs; defaults outside artifacts/ when possible",
     )
-    defended_shadow_manifest_parser.add_argument("--provenance-status", default="workspace-verified")
+    defended_shadow_manifest_parser.add_argument(
+        "--provenance-status", default="workspace-verified"
+    )
 
     shadow_local_identity_scout_parser = subparsers.add_parser(
         "prepare-shadow-local-identity-scout",
@@ -1515,9 +1557,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--nonmember-risk-records",
         default="workspaces/defense/runs/risk-targeted-unlearning-prep-full-overlap-20260418-r1/nonmember-risk-records.jsonl",
     )
-    shadow_local_identity_scout_parser.add_argument("--shadow-ids", default="shadow-01,shadow-02,shadow-03")
+    shadow_local_identity_scout_parser.add_argument(
+        "--shadow-ids", default="shadow-01,shadow-02,shadow-03"
+    )
     shadow_local_identity_scout_parser.add_argument("--top-k", type=int, default=32)
-    shadow_local_identity_scout_parser.add_argument("--provenance-status", default="workspace-verified")
+    shadow_local_identity_scout_parser.add_argument(
+        "--provenance-status", default="workspace-verified"
+    )
 
     shadow_local_gsa_risk_parser = subparsers.add_parser(
         "prepare-shadow-local-gsa-risk-preflight",
@@ -1528,7 +1574,9 @@ def build_parser() -> argparse.ArgumentParser:
         "--gsa-loss-score-summary",
         default="workspaces/white-box/runs/gsa-loss-score-export-targeted-full-overlap-20260418-r1/summary.json",
     )
-    shadow_local_gsa_risk_parser.add_argument("--shadow-ids", default="shadow-01,shadow-02,shadow-03")
+    shadow_local_gsa_risk_parser.add_argument(
+        "--shadow-ids", default="shadow-01,shadow-02,shadow-03"
+    )
     shadow_local_gsa_risk_parser.add_argument("--top-k", type=int, default=32)
     shadow_local_gsa_risk_parser.add_argument("--provenance-status", default="workspace-verified")
 
@@ -1557,7 +1605,9 @@ def build_parser() -> argparse.ArgumentParser:
     risk_targeted_unlearning_review_parser.add_argument("--baseline-checkpoint-dir", default=None)
     risk_targeted_unlearning_review_parser.add_argument("--defended-checkpoint-dir", required=True)
     risk_targeted_unlearning_review_parser.add_argument("--forget-member-index-file", default=None)
-    risk_targeted_unlearning_review_parser.add_argument("--matched-nonmember-index-file", default=None)
+    risk_targeted_unlearning_review_parser.add_argument(
+        "--matched-nonmember-index-file", default=None
+    )
     risk_targeted_unlearning_review_parser.add_argument("--resolution", type=int, default=32)
     risk_targeted_unlearning_review_parser.add_argument("--ddpm-num-steps", type=int, default=20)
     risk_targeted_unlearning_review_parser.add_argument("--sampling-frequency", type=int, default=2)
@@ -1565,7 +1615,9 @@ def build_parser() -> argparse.ArgumentParser:
     risk_targeted_unlearning_review_parser.add_argument("--prediction-type", default="epsilon")
     risk_targeted_unlearning_review_parser.add_argument("--device", default="cuda")
     risk_targeted_unlearning_review_parser.add_argument("--noise-seed", type=int, default=None)
-    risk_targeted_unlearning_review_parser.add_argument("--provenance-status", default="workspace-verified")
+    risk_targeted_unlearning_review_parser.add_argument(
+        "--provenance-status", default="workspace-verified"
+    )
     risk_targeted_unlearning_review_parser.add_argument(
         "--review-mode",
         default="threshold-transfer-diagnostic",
@@ -1577,7 +1629,9 @@ def build_parser() -> argparse.ArgumentParser:
         "export-temporal-surrogate-feature-packet",
         help="export one target-only temporal feature packet for 06-H1 teacher-calibrated surrogate scoping",
     )
-    temporal_surrogate_export_parser.add_argument("--config", required=True, help="path to audit yaml")
+    temporal_surrogate_export_parser.add_argument(
+        "--config", required=True, help="path to audit yaml"
+    )
     temporal_surrogate_export_parser.add_argument("--workspace", required=True)
     temporal_surrogate_export_parser.add_argument(
         "--repo-root",
@@ -1592,11 +1646,15 @@ def build_parser() -> argparse.ArgumentParser:
     temporal_surrogate_export_parser.add_argument("--device", default="cpu")
     temporal_surrogate_export_parser.add_argument("--max-samples", type=int, default=None)
     temporal_surrogate_export_parser.add_argument("--batch-size", type=int, default=8)
-    temporal_surrogate_export_parser.add_argument("--scan-timesteps", nargs="+", type=int, default=None)
+    temporal_surrogate_export_parser.add_argument(
+        "--scan-timesteps", nargs="+", type=int, default=None
+    )
     temporal_surrogate_export_parser.add_argument("--noise-seed", type=int, default=0)
     temporal_surrogate_export_parser.add_argument("--timestep-jitter-radius", type=int, default=0)
     temporal_surrogate_export_parser.add_argument("--timestep-stride", type=int, default=1)
-    temporal_surrogate_export_parser.add_argument("--provenance-status", default="workspace-verified")
+    temporal_surrogate_export_parser.add_argument(
+        "--provenance-status", default="workspace-verified"
+    )
 
     temporal_surrogate_eval_parser = subparsers.add_parser(
         "evaluate-temporal-surrogate-packets",
@@ -1628,7 +1686,9 @@ def build_parser() -> argparse.ArgumentParser:
     temporal_lr_eval_parser.add_argument("--calibration-feature-packet", required=True)
     temporal_lr_eval_parser.add_argument("--transfer-feature-packet", default=None)
     temporal_lr_eval_parser.add_argument("--primary-candidate", default="eps_abs_mean_late")
-    temporal_lr_eval_parser.add_argument("--sensitivity-candidate", default="eps_abs_late_over_early")
+    temporal_lr_eval_parser.add_argument(
+        "--sensitivity-candidate", default="eps_abs_late_over_early"
+    )
     temporal_lr_eval_parser.add_argument("--cv-splits", type=int, default=4)
     temporal_lr_eval_parser.add_argument("--cv-repeats", type=int, default=2)
     temporal_lr_eval_parser.add_argument("--random-seed", type=int, default=0)
@@ -1658,7 +1718,9 @@ def build_parser() -> argparse.ArgumentParser:
     gsa_runtime_intervention_review_parser.add_argument("--attack-method", type=int, default=1)
     gsa_runtime_intervention_review_parser.add_argument("--prediction-type", default="epsilon")
     gsa_runtime_intervention_review_parser.add_argument("--max-samples", type=int, default=None)
-    gsa_runtime_intervention_review_parser.add_argument("--extraction-max-samples", type=int, default=None)
+    gsa_runtime_intervention_review_parser.add_argument(
+        "--extraction-max-samples", type=int, default=None
+    )
     gsa_runtime_intervention_review_parser.add_argument(
         "--paper-aligned",
         action="store_true",
@@ -1762,8 +1824,12 @@ def build_parser() -> argparse.ArgumentParser:
     dpdm_w1_multi_shadow_parser.add_argument("--shadow-checkpoint-paths", nargs="+", required=True)
     dpdm_w1_multi_shadow_parser.add_argument("--target-member-dataset-dir", required=True)
     dpdm_w1_multi_shadow_parser.add_argument("--target-nonmember-dataset-dir", required=True)
-    dpdm_w1_multi_shadow_parser.add_argument("--shadow-member-dataset-dirs", nargs="+", required=True)
-    dpdm_w1_multi_shadow_parser.add_argument("--shadow-nonmember-dataset-dirs", nargs="+", required=True)
+    dpdm_w1_multi_shadow_parser.add_argument(
+        "--shadow-member-dataset-dirs", nargs="+", required=True
+    )
+    dpdm_w1_multi_shadow_parser.add_argument(
+        "--shadow-nonmember-dataset-dirs", nargs="+", required=True
+    )
     dpdm_w1_multi_shadow_parser.add_argument("--dpdm-root", default="external/DPDM")
     dpdm_w1_multi_shadow_parser.add_argument(
         "--config-path",

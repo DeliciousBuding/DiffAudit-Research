@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import importlib.util
 import json
-import math
 import re
 import shutil
 import time
@@ -25,7 +24,7 @@ from diffaudit.attacks.pia import (
     probe_pia_assets,
     validate_pia_workspace,
 )
-from diffaudit.attacks.pia_canonical import score_pia_canonical
+from diffaudit.attacks.pia_canonical import evaluate_calibrated_packets, score_pia_canonical
 from diffaudit.config import (
     AssetConfig,
     AttackConfig,
@@ -86,7 +85,9 @@ def load_pia_ddpm_modules(repo_root: str | Path) -> tuple[ModuleType, ModuleType
     return components_module, model_module
 
 
-def build_pia_unet(model_module: ModuleType, defaults: PiaDefaults | None = None) -> torch.nn.Module:
+def build_pia_unet(
+    model_module: ModuleType, defaults: PiaDefaults | None = None
+) -> torch.nn.Module:
     config = defaults or PiaDefaults()
     return model_module.UNet(
         T=config.T,
@@ -122,8 +123,7 @@ def load_pia_model(
     weights_key = resolve_pia_weights_key(checkpoint)
     weights = checkpoint[weights_key]
     state_dict = {
-        (key[7:] if key.startswith("module.") else key): value
-        for key, value in weights.items()
+        (key[7:] if key.startswith("module.") else key): value for key, value in weights.items()
     }
     model.load_state_dict(state_dict)
     model.to(device)
@@ -193,7 +193,9 @@ def _build_pia_eps_getter(
             eps_prediction = self.model(xt, t=timestep)
             eps_prediction = precision_throttle(eps_prediction)
             if float(epsilon_output_noise_std) > 0.0:
-                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(epsilon_output_noise_std)
+                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(
+                    epsilon_output_noise_std
+                )
             return eps_prediction
 
     return RuntimeEpsGetter(model)
@@ -240,9 +242,9 @@ def _build_pia_attacker(
         betas,
         interval,
         attack_num,
-        1,                # k
+        1,  # k
         eps_getter,
-        False,            # average
+        False,  # average
     )
 
 
@@ -315,7 +317,9 @@ def probe_pia_runtime(
             }
 
         components_module, model_module = load_pia_ddpm_modules(repo_root)
-        model, weights_key = load_pia_model(summary["paths"]["checkpoint"], model_module, device=device)
+        model, weights_key = load_pia_model(
+            summary["paths"]["checkpoint"], model_module, device=device
+        )
         attacker = _build_pia_attacker(
             components_module=components_module,
             model=model,
@@ -378,7 +382,9 @@ def _normalize_dropout_activation_schedule(
     schedule = str(dropout_activation_schedule).strip().lower() or "off"
     if schedule not in VALID_DROPOUT_ACTIVATION_SCHEDULES:
         allowed = ", ".join(sorted(VALID_DROPOUT_ACTIVATION_SCHEDULES))
-        raise ValueError(f"Unsupported dropout activation schedule: {schedule}. Expected one of {allowed}")
+        raise ValueError(
+            f"Unsupported dropout activation schedule: {schedule}. Expected one of {allowed}"
+        )
     if not stochastic_dropout_defense:
         return "off"
     if schedule == "off":
@@ -527,7 +533,9 @@ def _predict_surrogate_images(
             eps_prediction = model(normalized, t=timestep)
             eps_prediction = precision_throttle(eps_prediction)
             if float(epsilon_output_noise_std) > 0.0:
-                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(epsilon_output_noise_std)
+                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(
+                    epsilon_output_noise_std
+                )
             surrogate = torch.clamp((normalized - eps_prediction + 1.0) / 2.0, 0.0, 1.0)
             surrogate_chunks.append(surrogate.detach().cpu())
     model.train(was_training)
@@ -565,7 +573,9 @@ def _compute_surrogate_quality_metrics(
     reference_name = "baseline_surrogate" if baseline_images is not None else "input_batch"
     comparison_reference = baseline_images if baseline_images is not None else reference_images
     comparison_reference = comparison_reference.to(active_images.dtype)
-    lpips_value = torch.sqrt(((active_images - comparison_reference) ** 2).mean(dim=(1, 2, 3))).mean()
+    lpips_value = torch.sqrt(
+        ((active_images - comparison_reference) ** 2).mean(dim=(1, 2, 3))
+    ).mean()
     fid_value = _frechet_distance_from_features(
         _surrogate_feature_vectors(active_images),
         _surrogate_feature_vectors(comparison_reference),
@@ -672,7 +682,9 @@ def probe_pia_runtime_preview(
             }
 
         components_module, model_module = load_pia_ddpm_modules(repo_root)
-        model, weights_key = load_pia_model(summary["paths"]["checkpoint"], model_module, device=device)
+        model, weights_key = load_pia_model(
+            summary["paths"]["checkpoint"], model_module, device=device
+        )
         attacker = _build_pia_attacker(
             components_module=components_module,
             model=model,
@@ -680,6 +692,7 @@ def probe_pia_runtime_preview(
             attack_num=plan.attack_num,
             interval=plan.interval,
             device=device,
+            variant=plan.variant,
         )
         member_batch, nonmember_batch = _load_pia_preview_batches(
             dataset=plan.dataset,
@@ -798,7 +811,7 @@ def _select_preview_indices(
 ) -> list[int]:
     if max_samples is None or max_samples <= 0:
         return list(split_indices)
-    return list(split_indices[: max_samples])
+    return list(split_indices[:max_samples])
 
 
 def _build_pia_subset_loader(
@@ -850,7 +863,9 @@ def _build_pia_packet_loader(
     if not packet_indices:
         raise ValueError("PIA packet export requires at least one packet index")
 
-    transform = tv_transforms.Compose([tv_transforms.ToTensor()])
+    transform = tv_transforms.Compose(
+        [tv_transforms.ToTensor(), tv_transforms.Normalize((0.5,) * 3, (0.5,) * 3)]
+    )
     dataset_obj = tv_datasets.CIFAR10(
         root=str(dataset_dir),
         train=True,
@@ -970,7 +985,9 @@ def _select_mask_indices(
         return torch.argsort(delta, descending=False)[:selected_k].tolist()
     if mask_kind == "random_k_seeded":
         rng = np.random.default_rng(int(random_seed))
-        return sorted(int(idx) for idx in rng.choice(channel_count, size=selected_k, replace=False).tolist())
+        return sorted(
+            int(idx) for idx in rng.choice(channel_count, size=selected_k, replace=False).tolist()
+        )
     raise ValueError(f"Unsupported mask kind: {mask_kind}")
 
 
@@ -998,7 +1015,9 @@ def _run_pia_alias_forward(
     }
     alias_module = _resolve_pia_alias_module(model, alias_selector)
     alias_weight = getattr(alias_module, "weight", None)
-    alias_weight_shape = list(alias_weight.shape) if isinstance(alias_weight, torch.Tensor) else None
+    alias_weight_shape = (
+        list(alias_weight.shape) if isinstance(alias_weight, torch.Tensor) else None
+    )
     model_device = next(model.parameters()).device
     normalized_batch = (batch.to(model_device) * 2.0) - 1.0
     timestep_tensor = torch.full(
@@ -1157,7 +1176,9 @@ def export_pia_translated_alias_probe(
         return result
 
     components_module, model_module = load_pia_ddpm_modules(repo_root)
-    model, weights_key = load_pia_model(asset_summary["paths"]["checkpoint"], model_module, device=device)
+    model, weights_key = load_pia_model(
+        asset_summary["paths"]["checkpoint"], model_module, device=device
+    )
     attacker = _build_pia_attacker(
         components_module=components_module,
         model=model,
@@ -1165,6 +1186,7 @@ def export_pia_translated_alias_probe(
         attack_num=plan.attack_num,
         interval=plan.interval,
         device=device,
+        variant=plan.variant,
     )
 
     with np.load(asset_summary["paths"]["member_split"]) as split_payload:
@@ -1173,7 +1195,9 @@ def export_pia_translated_alias_probe(
     if int(member_index) not in member_all:
         raise ValueError(f"Requested member_index is not in PIA member split: {member_index}")
     if int(nonmember_index) not in nonmember_all:
-        raise ValueError(f"Requested nonmember_index is not in PIA non-member split: {nonmember_index}")
+        raise ValueError(
+            f"Requested nonmember_index is not in PIA non-member split: {nonmember_index}"
+        )
 
     member_indices = [int(member_index)]
     nonmember_indices = [int(nonmember_index)]
@@ -1192,7 +1216,9 @@ def export_pia_translated_alias_probe(
     member_batch = _collect_loader_batches(member_loader)
     nonmember_batch = _collect_loader_batches(nonmember_loader)
     if member_batch.shape[0] != 1 or nonmember_batch.shape[0] != 1:
-        raise ValueError("PIA translated alias probe currently requires exactly one member and one non-member sample")
+        raise ValueError(
+            "PIA translated alias probe currently requires exactly one member and one non-member sample"
+        )
 
     baseline_member_forward = _run_pia_alias_forward(
         model=model,
@@ -1213,8 +1239,12 @@ def export_pia_translated_alias_probe(
         alpha=1.0,
     )
     baseline_profiles = {
-        "member": _channelwise_profile_for_dim(baseline_member_forward["post_activation"], channel_dim=channel_dim),
-        "nonmember": _channelwise_profile_for_dim(baseline_nonmember_forward["post_activation"], channel_dim=channel_dim),
+        "member": _channelwise_profile_for_dim(
+            baseline_member_forward["post_activation"], channel_dim=channel_dim
+        ),
+        "nonmember": _channelwise_profile_for_dim(
+            baseline_nonmember_forward["post_activation"], channel_dim=channel_dim
+        ),
     }
     channel_indices = _select_mask_indices(
         canary_profile=baseline_profiles["member"],
@@ -1246,7 +1276,9 @@ def export_pia_translated_alias_probe(
         alpha=alpha,
     )
     intervened_profiles = {
-        "member": _channelwise_profile_for_dim(intervened_member_forward["post_activation"], channel_dim=channel_dim),
+        "member": _channelwise_profile_for_dim(
+            intervened_member_forward["post_activation"], channel_dim=channel_dim
+        ),
         "nonmember": _channelwise_profile_for_dim(
             intervened_nonmember_forward["post_activation"],
             channel_dim=channel_dim,
@@ -1255,24 +1287,37 @@ def export_pia_translated_alias_probe(
 
     pre_selected_delta = float(
         torch.abs(
-            baseline_profiles["member"][selected_index_tensor] - baseline_profiles["nonmember"][selected_index_tensor]
-        ).mean().item()
+            baseline_profiles["member"][selected_index_tensor]
+            - baseline_profiles["nonmember"][selected_index_tensor]
+        )
+        .mean()
+        .item()
     )
     post_selected_delta = float(
         torch.abs(
-            intervened_profiles["member"][selected_index_tensor] - intervened_profiles["nonmember"][selected_index_tensor]
-        ).mean().item()
+            intervened_profiles["member"][selected_index_tensor]
+            - intervened_profiles["nonmember"][selected_index_tensor]
+        )
+        .mean()
+        .item()
     )
-    selected_delta_retention_ratio = float(post_selected_delta / pre_selected_delta) if pre_selected_delta else 0.0
+    selected_delta_retention_ratio = (
+        float(post_selected_delta / pre_selected_delta) if pre_selected_delta else 0.0
+    )
     off_mask_drift_values: list[float] = []
     if off_mask_indices:
         off_mask_index_tensor = torch.tensor(off_mask_indices, dtype=torch.long)
         for role in ("member", "nonmember"):
             drift = torch.abs(
-                intervened_profiles[role][off_mask_index_tensor] - baseline_profiles[role][off_mask_index_tensor]
+                intervened_profiles[role][off_mask_index_tensor]
+                - baseline_profiles[role][off_mask_index_tensor]
             ).mean()
             off_mask_drift_values.append(float(drift.item()))
-    off_mask_drift = float(sum(off_mask_drift_values) / len(off_mask_drift_values)) if off_mask_drift_values else 0.0
+    off_mask_drift = (
+        float(sum(off_mask_drift_values) / len(off_mask_drift_values))
+        if off_mask_drift_values
+        else 0.0
+    )
 
     member_loader = _build_pia_packet_loader(
         dataset=plan.dataset,
@@ -1299,18 +1344,21 @@ def export_pia_translated_alias_probe(
             alpha=1.0,
         )
     )
-    baseline_nonmember_scores, baseline_nonmember_adaptive, baseline_nonmember_std, baseline_nonmember_probe = (
-        _score_loader_with_alias_probe(
-            attacker,
-            model=model,
-            loader=nonmember_loader,
-            alias_selector=alias_selector,
-            channel_dim=channel_dim,
-            device=device,
-            adaptive_query_repeats=adaptive_query_repeats,
-            channel_indices=None,
-            alpha=1.0,
-        )
+    (
+        baseline_nonmember_scores,
+        baseline_nonmember_adaptive,
+        baseline_nonmember_std,
+        baseline_nonmember_probe,
+    ) = _score_loader_with_alias_probe(
+        attacker,
+        model=model,
+        loader=nonmember_loader,
+        alias_selector=alias_selector,
+        channel_dim=channel_dim,
+        device=device,
+        adaptive_query_repeats=adaptive_query_repeats,
+        channel_indices=None,
+        alpha=1.0,
     )
     member_loader = _build_pia_packet_loader(
         dataset=plan.dataset,
@@ -1324,31 +1372,37 @@ def export_pia_translated_alias_probe(
         packet_indices=nonmember_indices,
         batch_size=batch_size,
     )
-    intervened_member_scores, intervened_member_adaptive, intervened_member_std, intervened_member_probe = (
-        _score_loader_with_alias_probe(
-            attacker,
-            model=model,
-            loader=member_loader,
-            alias_selector=alias_selector,
-            channel_dim=channel_dim,
-            device=device,
-            adaptive_query_repeats=adaptive_query_repeats,
-            channel_indices=channel_indices,
-            alpha=alpha,
-        )
+    (
+        intervened_member_scores,
+        intervened_member_adaptive,
+        intervened_member_std,
+        intervened_member_probe,
+    ) = _score_loader_with_alias_probe(
+        attacker,
+        model=model,
+        loader=member_loader,
+        alias_selector=alias_selector,
+        channel_dim=channel_dim,
+        device=device,
+        adaptive_query_repeats=adaptive_query_repeats,
+        channel_indices=channel_indices,
+        alpha=alpha,
     )
-    intervened_nonmember_scores, intervened_nonmember_adaptive, intervened_nonmember_std, intervened_nonmember_probe = (
-        _score_loader_with_alias_probe(
-            attacker,
-            model=model,
-            loader=nonmember_loader,
-            alias_selector=alias_selector,
-            channel_dim=channel_dim,
-            device=device,
-            adaptive_query_repeats=adaptive_query_repeats,
-            channel_indices=channel_indices,
-            alpha=alpha,
-        )
+    (
+        intervened_nonmember_scores,
+        intervened_nonmember_adaptive,
+        intervened_nonmember_std,
+        intervened_nonmember_probe,
+    ) = _score_loader_with_alias_probe(
+        attacker,
+        model=model,
+        loader=nonmember_loader,
+        alias_selector=alias_selector,
+        channel_dim=channel_dim,
+        device=device,
+        adaptive_query_repeats=adaptive_query_repeats,
+        channel_indices=channel_indices,
+        alpha=alpha,
     )
 
     member_score_mean = float(baseline_member_scores.mean().item())
@@ -1390,13 +1444,32 @@ def export_pia_translated_alias_probe(
         ),
     )
 
-    for membership, split_index, baseline_score, baseline_adaptive, baseline_std, intervened_score, intervened_adaptive, intervened_std, baseline_forward, intervened_forward, baseline_probe, intervened_probe in sample_specs:
+    for (
+        membership,
+        split_index,
+        baseline_score,
+        baseline_adaptive,
+        baseline_std,
+        intervened_score,
+        intervened_adaptive,
+        intervened_std,
+        baseline_forward,
+        intervened_forward,
+        baseline_probe,
+        intervened_probe,
+    ) in sample_specs:
         sample_dir = tensors_root / f"{membership}-{int(split_index):05d}"
         sample_dir.mkdir(parents=True, exist_ok=True)
         baseline_alias_path = sample_dir / f"{alias_selector.replace('.', '_')}_baseline_alias.pt"
-        intervened_alias_path = sample_dir / f"{alias_selector.replace('.', '_')}_intervened_alias.pt"
-        baseline_prediction_path = sample_dir / f"{alias_selector.replace('.', '_')}_baseline_prediction.pt"
-        intervened_prediction_path = sample_dir / f"{alias_selector.replace('.', '_')}_intervened_prediction.pt"
+        intervened_alias_path = (
+            sample_dir / f"{alias_selector.replace('.', '_')}_intervened_alias.pt"
+        )
+        baseline_prediction_path = (
+            sample_dir / f"{alias_selector.replace('.', '_')}_baseline_prediction.pt"
+        )
+        intervened_prediction_path = (
+            sample_dir / f"{alias_selector.replace('.', '_')}_intervened_prediction.pt"
+        )
         torch.save(baseline_forward["post_activation"], baseline_alias_path)
         torch.save(intervened_forward["post_activation"], intervened_alias_path)
         torch.save(baseline_forward["prediction"], baseline_prediction_path)
@@ -1412,7 +1485,9 @@ def export_pia_translated_alias_probe(
                 "score_delta": round(float((intervened_score - baseline_score)[0].item()), 6),
                 "baseline_adaptive_score": round(float(baseline_adaptive[0].item()), 6),
                 "intervened_adaptive_score": round(float(intervened_adaptive[0].item()), 6),
-                "adaptive_score_delta": round(float((intervened_adaptive - baseline_adaptive)[0].item()), 6),
+                "adaptive_score_delta": round(
+                    float((intervened_adaptive - baseline_adaptive)[0].item()), 6
+                ),
                 "baseline_score_std": round(float(baseline_std[0].item()), 6),
                 "intervened_score_std": round(float(intervened_std[0].item()), 6),
                 "alias_activation_shape": list(baseline_forward["post_activation"].shape),
@@ -1424,9 +1499,15 @@ def export_pia_translated_alias_probe(
                 },
                 "artifact_paths": {
                     "baseline_alias": baseline_alias_path.relative_to(workspace_path).as_posix(),
-                    "intervened_alias": intervened_alias_path.relative_to(workspace_path).as_posix(),
-                    "baseline_prediction": baseline_prediction_path.relative_to(workspace_path).as_posix(),
-                    "intervened_prediction": intervened_prediction_path.relative_to(workspace_path).as_posix(),
+                    "intervened_alias": intervened_alias_path.relative_to(
+                        workspace_path
+                    ).as_posix(),
+                    "baseline_prediction": baseline_prediction_path.relative_to(
+                        workspace_path
+                    ).as_posix(),
+                    "intervened_prediction": intervened_prediction_path.relative_to(
+                        workspace_path
+                    ).as_posix(),
                 },
             }
         )
@@ -1487,7 +1568,8 @@ def export_pia_translated_alias_probe(
                     baseline_member_forward["hook_hits"] + baseline_nonmember_forward["hook_hits"]
                 ),
                 "intervened_forward": int(
-                    intervened_member_forward["hook_hits"] + intervened_nonmember_forward["hook_hits"]
+                    intervened_member_forward["hook_hits"]
+                    + intervened_nonmember_forward["hook_hits"]
                 ),
             },
         },
@@ -1563,7 +1645,9 @@ def run_synthetic_pia_smoke(
         repo_root=repo_root,
     )
     components_module, model_module = load_pia_ddpm_modules(repo_root)
-    model, weights_key = load_pia_model(smoke_assets["checkpoint_path"], model_module, device=device)
+    model, weights_key = load_pia_model(
+        smoke_assets["checkpoint_path"], model_module, device=device
+    )
     attacker = _build_pia_attacker(
         components_module=components_module,
         model=model,
@@ -1583,7 +1667,10 @@ def run_synthetic_pia_smoke(
     threshold = torch.cat([member_scores, nonmember_scores]).median()
     asr = float(
         (
-            torch.cat([member_scores > threshold, nonmember_scores <= threshold]).float().mean().item()
+            torch.cat([member_scores > threshold, nonmember_scores <= threshold])
+            .float()
+            .mean()
+            .item()
         )
     )
 
@@ -1686,7 +1773,9 @@ def export_pia_packet_scores(
         return result
 
     components_module, model_module = load_pia_ddpm_modules(repo_root)
-    model, weights_key = load_pia_model(asset_summary["paths"]["checkpoint"], model_module, device=device)
+    model, weights_key = load_pia_model(
+        asset_summary["paths"]["checkpoint"], model_module, device=device
+    )
     attacker = _build_pia_attacker(
         components_module=components_module,
         model=model,
@@ -1694,13 +1783,16 @@ def export_pia_packet_scores(
         attack_num=plan.attack_num,
         interval=plan.interval,
         device=device,
+        variant=plan.variant,
     )
 
     split_payload = np.load(asset_summary["paths"]["member_split"])
     member_all = split_payload["mia_train_idxs"].tolist()
     nonmember_all = split_payload["mia_eval_idxs"].tolist()
     if (member_index_file is None) != (nonmember_index_file is None):
-        raise ValueError("PIA explicit packet export requires both member_index_file and nonmember_index_file")
+        raise ValueError(
+            "PIA explicit packet export requires both member_index_file and nonmember_index_file"
+        )
 
     selection_mode = "offset-slice"
     selected_packet_size: int | None = max(1, int(packet_size))
@@ -1715,9 +1807,15 @@ def export_pia_packet_scores(
         else:
             selected_packet_size = None
     else:
-        member_indices = member_all[int(member_offset) : int(member_offset) + int(selected_packet_size)]
-        nonmember_indices = nonmember_all[int(nonmember_offset) : int(nonmember_offset) + int(selected_packet_size)]
-        if len(member_indices) < int(selected_packet_size) or len(nonmember_indices) < int(selected_packet_size):
+        member_indices = member_all[
+            int(member_offset) : int(member_offset) + int(selected_packet_size)
+        ]
+        nonmember_indices = nonmember_all[
+            int(nonmember_offset) : int(nonmember_offset) + int(selected_packet_size)
+        ]
+        if len(member_indices) < int(selected_packet_size) or len(nonmember_indices) < int(
+            selected_packet_size
+        ):
             raise ValueError("Requested PIA packet exceeds available member/non-member indices")
 
     member_loader = _build_pia_packet_loader(
@@ -1748,7 +1846,13 @@ def export_pia_packet_scores(
 
     records: list[dict[str, Any]] = []
     for position, (split_index, score, adaptive_score, score_std) in enumerate(
-        zip(member_indices, member_scores.tolist(), member_adaptive_scores.tolist(), member_score_std.tolist(), strict=True)
+        zip(
+            member_indices,
+            member_scores.tolist(),
+            member_adaptive_scores.tolist(),
+            member_score_std.tolist(),
+            strict=True,
+        )
     ):
         records.append(
             {
@@ -1761,7 +1865,13 @@ def export_pia_packet_scores(
             }
         )
     for position, (split_index, score, adaptive_score, score_std) in enumerate(
-        zip(nonmember_indices, nonmember_scores.tolist(), nonmember_adaptive_scores.tolist(), nonmember_score_std.tolist(), strict=True)
+        zip(
+            nonmember_indices,
+            nonmember_scores.tolist(),
+            nonmember_adaptive_scores.tolist(),
+            nonmember_score_std.tolist(),
+            strict=True,
+        )
     ):
         records.append(
             {
@@ -1892,9 +2002,7 @@ def run_pia_runtime_smoke(
                 "interval": interval,
             },
         ),
-        report=ReportConfig(
-            output_dir="experiments/pia-runtime-smoke"
-        ),
+        report=ReportConfig(output_dir="experiments/pia-runtime-smoke"),
     )
     exit_code, payload = probe_pia_runtime(
         config,
@@ -1946,6 +2054,49 @@ def run_pia_runtime_smoke(
     return result
 
 
+def _load_canonical_score_packet(path: str | Path, expected_split: str) -> dict[str, np.ndarray]:
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    expected_fields = {
+        "schema",
+        "variant",
+        "timestep",
+        "lp_order",
+        "score_direction",
+        "split",
+        "rows",
+    }
+    if not isinstance(payload, dict) or set(payload) != expected_fields:
+        raise ValueError("canonical PIA score packet fields must be exact")
+    expected = {
+        "schema": "diffaudit.pia-score-packet.v1",
+        "variant": "canonical-ddpm-eq9",
+        "timestep": 200,
+        "lp_order": 4,
+        "score_direction": "higher_is_member",
+        "split": expected_split,
+    }
+    for key, value in expected.items():
+        if type(payload[key]) is not type(value) or payload[key] != value:
+            raise ValueError(f"canonical PIA score packet drift: {key}")
+    rows = payload["rows"]
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("canonical PIA score packet rows must be non-empty")
+    if any(
+        not isinstance(row, dict) or set(row) != {"dataset_index", "label", "score"} for row in rows
+    ):
+        raise ValueError("canonical PIA score packet row fields must be exact")
+    indices = np.asarray([row["dataset_index"] for row in rows])
+    labels = np.asarray([row["label"] for row in rows])
+    scores = np.asarray([row["score"] for row in rows], dtype=float)
+    if any(type(value) is not int for value in indices.tolist() + labels.tolist()):
+        raise ValueError("canonical PIA indices and labels must be integers")
+    if set(labels.tolist()) != {0, 1} or len(set(indices.tolist())) != len(indices):
+        raise ValueError("canonical PIA packet requires unique indices and both binary labels")
+    if not np.isfinite(scores).all():
+        raise ValueError("canonical PIA scores must be finite")
+    return {"indices": indices, "labels": labels, "scores": scores}
+
+
 def run_pia_runtime_mainline(
     config: AuditConfig,
     workspace: str | Path,
@@ -1962,7 +2113,37 @@ def run_pia_runtime_mainline(
     adaptive_query_repeats: int = 1,
     late_step_threshold: int | None = None,
     provenance_status: str = "source-retained-unverified",
+    calibration_score_packet: str | Path | None = None,
+    evaluation_score_packet: str | Path | None = None,
 ) -> dict[str, Any]:
+    plan = build_pia_plan(config)
+    if plan.variant == "canonical-ddpm-eq9":
+        if calibration_score_packet is None or evaluation_score_packet is None:
+            raise ValueError("canonical PIA requires both calibration and evaluation score packets")
+        calibration = _load_canonical_score_packet(calibration_score_packet, "calibration")
+        evaluation = _load_canonical_score_packet(evaluation_score_packet, "evaluation")
+        metrics = evaluate_calibrated_packets(
+            calibration["scores"],
+            calibration["labels"],
+            calibration["indices"],
+            evaluation["scores"],
+            evaluation["labels"],
+            evaluation["indices"],
+        )
+        result = {
+            "status": "ready",
+            "method": "pia",
+            "variant": plan.variant,
+            "mode": "canonical-calibrated-evaluation",
+            "metrics": {key: value for key, value in metrics.items() if key != "predictions"},
+            "calibration_packet": str(calibration_score_packet),
+            "evaluation_packet": str(evaluation_score_packet),
+        }
+        Path(workspace).mkdir(parents=True, exist_ok=True)
+        (Path(workspace) / "summary.json").write_text(
+            json.dumps(result, indent=2), encoding="utf-8"
+        )
+        return result
     started_at = time.perf_counter()
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
@@ -2121,9 +2302,13 @@ def run_pia_runtime_mainline(
         "query_repeats": int(max(adaptive_query_repeats, 1)),
         "aggregation": "mean",
         "member_scores": [round(float(value), 6) for value in member_adaptive_tensor.tolist()],
-        "nonmember_scores": [round(float(value), 6) for value in nonmember_adaptive_tensor.tolist()],
+        "nonmember_scores": [
+            round(float(value), 6) for value in nonmember_adaptive_tensor.tolist()
+        ],
         "member_score_std": [round(float(value), 6) for value in member_score_std_tensor.tolist()],
-        "nonmember_score_std": [round(float(value), 6) for value in nonmember_score_std_tensor.tolist()],
+        "nonmember_score_std": [
+            round(float(value), 6) for value in nonmember_score_std_tensor.tolist()
+        ],
         "member_indices": member_indices,
         "nonmember_indices": nonmember_indices,
     }
@@ -2158,7 +2343,14 @@ def run_pia_runtime_mainline(
     quality = _compute_surrogate_quality_metrics(
         reference_images=reference_batches,
         active_images=active_surrogates,
-        baseline_images=baseline_surrogates if (resolved_schedule != "off" or float(epsilon_output_noise_std) > 0.0 or epsilon_precision_bins is not None or float(input_gaussian_blur_sigma) > 0.0) else None,
+        baseline_images=baseline_surrogates
+        if (
+            resolved_schedule != "off"
+            or float(epsilon_output_noise_std) > 0.0
+            or epsilon_precision_bins is not None
+            or float(input_gaussian_blur_sigma) > 0.0
+        )
+        else None,
     )
 
     defense_name = "none"
@@ -2222,11 +2414,18 @@ def run_pia_runtime_mainline(
         },
         "defense": {
             "name": defense_name,
-            "enabled": bool(stochastic_dropout_defense or float(epsilon_output_noise_std) > 0.0 or epsilon_precision_bins is not None or float(input_gaussian_blur_sigma) > 0.0),
+            "enabled": bool(
+                stochastic_dropout_defense
+                or float(epsilon_output_noise_std) > 0.0
+                or epsilon_precision_bins is not None
+                or float(input_gaussian_blur_sigma) > 0.0
+            ),
             "dropout_activation_schedule": resolved_schedule,
             "late_step_threshold": int(late_step_threshold),
             "epsilon_output_noise_std": float(epsilon_output_noise_std),
-            "epsilon_precision_bins": int(epsilon_precision_bins) if epsilon_precision_bins is not None else None,
+            "epsilon_precision_bins": int(epsilon_precision_bins)
+            if epsilon_precision_bins is not None
+            else None,
             "input_gaussian_blur_sigma": float(input_gaussian_blur_sigma),
         },
         "defense_stage": defense_stage,

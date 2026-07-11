@@ -63,6 +63,31 @@ def build_pia_plan(config: AuditConfig) -> PiaPlan:
         raise ValueError("PIA requires attack.parameters.attacker_name")
     variant = str(params.get("variant", "legacy-upstream-multistep"))
     canonical = variant == "canonical-ddpm-eq9"
+    if canonical:
+        expected = {
+            "variant": "canonical-ddpm-eq9",
+            "attacker_name": "PIA",
+            "timestep": 200,
+            "lp_order": 4,
+            "score_form": "negative_residual_norm",
+            "score_direction": "higher_is_member",
+            "input_range": [-1.0, 1.0],
+            "query_timesteps": [0, 200],
+            "query_count": 2,
+            "normalization": "per_row_vector_lp",
+            "beta_semantics": "linear_1000_steps_inclusive_0.0001_to_0.02",
+            "threshold_calibration": "maximize_balanced_accuracy_then_minimize_fpr_then_highest_threshold",
+            "positive_control_gate": {
+                "auc_min": 0.95,
+                "balanced_accuracy_min": 0.90,
+                "fpr_max": 0.05,
+            },
+        }
+        if set(params) != {*expected, "batch_size"}:
+            raise ValueError("canonical PIA parameters must contain the exact sealed fields")
+        for key, value in expected.items():
+            if type(params[key]) is not type(value) or params[key] != value:
+                raise ValueError(f"canonical PIA parameter drift: {key}")
     if not canonical and "attack_num" not in params:
         raise ValueError("PIA requires attack.parameters.attack_num")
     if not canonical and "interval" not in params:

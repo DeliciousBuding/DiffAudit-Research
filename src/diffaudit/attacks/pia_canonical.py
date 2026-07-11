@@ -103,3 +103,22 @@ def apply_membership_threshold(
         "fpr": fpr,
         "predictions": predictions,
     }
+
+
+def evaluate_calibrated_packets(
+    calibration_scores: np.ndarray,
+    calibration_labels: np.ndarray,
+    calibration_indices: np.ndarray,
+    evaluation_scores: np.ndarray,
+    evaluation_labels: np.ndarray,
+    evaluation_indices: np.ndarray,
+) -> dict[str, Any]:
+    """Calibrate on one packet and apply to a disjoint evaluation packet."""
+
+    calibration_indices = np.asarray(calibration_indices)
+    evaluation_indices = np.asarray(evaluation_indices)
+    overlap = np.intersect1d(calibration_indices, evaluation_indices)
+    if overlap.size:
+        raise ValueError("calibration and evaluation rows must be disjoint")
+    threshold = calibrate_membership_threshold(calibration_scores, calibration_labels)
+    return apply_membership_threshold(evaluation_scores, evaluation_labels, threshold)

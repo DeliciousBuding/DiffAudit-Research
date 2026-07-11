@@ -8,6 +8,7 @@ from sklearn.metrics import balanced_accuracy_score, roc_auc_score
 from diffaudit.attacks.pia_canonical import (
     apply_membership_threshold,
     calibrate_membership_threshold,
+    evaluate_calibrated_packets,
     score_pia_canonical,
 )
 
@@ -107,3 +108,43 @@ def test_cpu_positive_control_and_calibration_only_threshold_gate() -> None:
     assert 0.45 <= float(np.mean(null_aucs)) <= 0.55
     assert positive_auc > max(null_aucs)
     assert balanced_accuracy_score(eval_labels, evaluated["predictions"]) >= 0.90
+
+
+def test_threshold_depends_only_on_calibration_labels_and_rejects_overlap() -> None:
+    cal_scores = np.array([0.9, 0.8, 0.2, 0.1])
+    eval_scores = np.array([0.7, 0.3])
+    first = evaluate_calibrated_packets(
+        cal_scores,
+        np.array([1, 1, 0, 0]),
+        np.arange(4),
+        eval_scores,
+        np.array([1, 0]),
+        np.arange(10, 12),
+    )
+    relabeled_eval = evaluate_calibrated_packets(
+        cal_scores,
+        np.array([1, 1, 0, 0]),
+        np.arange(4),
+        eval_scores,
+        np.array([0, 1]),
+        np.arange(10, 12),
+    )
+    changed_cal = evaluate_calibrated_packets(
+        cal_scores,
+        np.array([1, 0, 1, 0]),
+        np.arange(4),
+        eval_scores,
+        np.array([1, 0]),
+        np.arange(10, 12),
+    )
+    assert first["threshold"] == relabeled_eval["threshold"]
+    assert first["threshold"] != changed_cal["threshold"]
+    with pytest.raises(ValueError, match="disjoint"):
+        evaluate_calibrated_packets(
+            cal_scores,
+            np.array([1, 1, 0, 0]),
+            np.arange(4),
+            eval_scores,
+            np.array([1, 0]),
+            np.array([3, 10]),
+        )
