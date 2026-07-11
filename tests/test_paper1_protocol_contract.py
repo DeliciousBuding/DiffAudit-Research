@@ -197,6 +197,7 @@ def test_verify_paper1_contract_accepts_path_and_returns_detached_contract(
         manifest_path,
         split_path=paper1_split_path,
         class_labels=paper1_inputs[2],
+        expected_code_commit=_CODE_COMMIT,
     )
 
     assert verified == paper1_contract
@@ -249,6 +250,7 @@ def test_verify_paper1_contract_rejects_resigned_scientific_drift(
             envelope,
             split_path=paper1_split_path,
             class_labels=paper1_inputs[2],
+            expected_code_commit=_CODE_COMMIT,
         )
 
 
@@ -276,6 +278,7 @@ def test_verify_paper1_contract_rejects_invalid_row_identity_or_balance(
             envelope,
             split_path=paper1_split_path,
             class_labels=paper1_inputs[2],
+            expected_code_commit=_CODE_COMMIT,
         )
 
 
@@ -341,6 +344,26 @@ def test_verify_paper1_contract_rejects_resigned_balance_preserving_semantic_tam
             envelope,
             split_path=paper1_split_path,
             class_labels=paper1_inputs[2],
+            expected_code_commit=_CODE_COMMIT,
+        )
+
+
+def test_verify_paper1_contract_rejects_resigned_external_commit_mismatch(
+    paper1_contract: dict[str, object],
+    paper1_inputs: tuple[tuple[int, ...], tuple[int, ...], np.ndarray],
+    paper1_split_path: Path,
+) -> None:
+    envelope = _resign_with_mutation(
+        paper1_contract,
+        lambda contract: contract.update(code_commit="d" * 40),
+    )
+
+    with pytest.raises(ValueError, match="expected_code_commit"):
+        _api("verify_paper1_contract")(
+            envelope,
+            split_path=paper1_split_path,
+            class_labels=paper1_inputs[2],
+            expected_code_commit=_CODE_COMMIT,
         )
 
 

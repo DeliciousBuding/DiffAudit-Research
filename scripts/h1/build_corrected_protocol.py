@@ -1,17 +1,21 @@
-"""Build the signed Paper 1 corrected-evidence protocol manifest."""
+"""Build the hash-sealed Paper 1 corrected-evidence protocol manifest."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import os
+import tempfile
 from collections.abc import Sequence
+from contextlib import suppress
 from pathlib import Path
 
 from diffaudit.evidence.corrected_protocol import (
     build_paper1_corrected_contract,
     build_protocol_envelope,
     load_member_nonmember_indices,
+    load_protocol_envelope,
     verify_paper1_contract,
 )
 
@@ -55,6 +59,7 @@ def build_corrected_protocol(
         envelope,
         split_path=normalized_split_path,
         class_labels=targets,
+        expected_code_commit=code_commit,
     )
     return envelope
 
@@ -64,33 +69,90 @@ def write_protocol_envelope(
     envelope: dict[str, object],
     *,
     force: bool,
+    split_path: str | Path,
+    class_labels: Sequence[int],
+    expected_code_commit: str,
 ) -> bool:
-    """Write an indented envelope, preserving identical existing content."""
+    """Atomically write a verified envelope, preserving identical content."""
 
     output_path = Path(output)
+    source_split_path = Path(split_path)
+    paths_alias = output_path.resolve() == source_split_path.resolve()
+    if output_path.exists() and source_split_path.exists():
+        with suppress(OSError):
+            paths_alias = paths_alias or output_path.samefile(source_split_path)
+    if paths_alias:
+        raise ValueError("output path must not resolve to the membership split path")
+
+    verify_paper1_contract(
+        envelope,
+        split_path=source_split_path,
+        class_labels=class_labels,
+        expected_code_commit=expected_code_commit,
+    )
     if output_path.exists():
         try:
-            existing = json.loads(output_path.read_text(encoding="utf-8"))
-        except (OSError, UnicodeError, json.JSONDecodeError):
-            existing = None
-        if existing == envelope:
-            return False
-        if not force:
-            raise FileExistsError(
-                f"{output_path} already contains different content; pass --force to replace it"
+            existing = load_protocol_envelope(output_path)
+            verify_paper1_contract(
+                existing,
+                split_path=source_split_path,
+                class_labels=class_labels,
+                expected_code_commit=expected_code_commit,
             )
+        except ValueError as error:
+            if not force:
+                raise FileExistsError(
+                    f"{output_path} is invalid; pass --force to replace it"
+                ) from error
+        else:
+            if _canonical_json_bytes(existing) == _canonical_json_bytes(envelope):
+                return False
+            if not force:
+                raise FileExistsError(
+                    f"{output_path} contains different content; pass --force to replace it"
+                )
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(
-        json.dumps(envelope, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
-    )
+    payload = json.dumps(
+        envelope,
+        indent=2,
+        ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8") + b"\n"
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=output_path.parent,
+            prefix=f".{output_path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary:
+            temporary_path = Path(temporary.name)
+            temporary.write(payload)
+            temporary.flush()
+            os.fsync(temporary.fileno())
+        os.replace(temporary_path, output_path)
+    except BaseException:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
+        raise
     return True
+
+
+def _canonical_json_bytes(value: object) -> bytes:
+    return json.dumps(
+        value,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
 
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Build the signed Paper 1 corrected-evidence protocol manifest."
+        description="Build the hash-sealed Paper 1 corrected-evidence protocol manifest."
     )
     parser.add_argument("--split-path", required=True, type=Path)
     dataset_group = parser.add_mutually_exclusive_group(required=True)
@@ -109,7 +171,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         dataset_root=args.dataset_root,
         code_commit=args.code_commit,
     )
-    wrote = write_protocol_envelope(args.output, envelope, force=args.force)
+    class_labels = _load_cifar10_train_targets(args.dataset_root)
+    wrote = write_protocol_envelope(
+        args.output,
+        envelope,
+        force=args.force,
+        split_path=args.split_path,
+        class_labels=class_labels,
+        expected_code_commit=args.code_commit,
+    )
     print(f"{'Wrote' if wrote else 'Unchanged'} {args.output}")
     return 0
 

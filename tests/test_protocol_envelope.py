@@ -14,7 +14,7 @@ def _api(name: str):
     return value
 
 
-def test_build_protocol_envelope_is_exact_signed_json_safe_deep_copy() -> None:
+def test_build_protocol_envelope_is_exact_hash_sealed_json_safe_deep_copy() -> None:
     contract = {"rows": ({"dataset_index": 7},), "metadata": {"name": "safe"}}
 
     envelope = _api("build_protocol_envelope")(contract)
@@ -95,3 +95,20 @@ def test_load_protocol_envelope_rejects_non_json_and_absolute_paths(tmp_path: Pa
     }
     with pytest.raises(ValueError, match="absolute paths"):
         _api("load_protocol_envelope")(unsafe)
+
+
+def test_load_protocol_envelope_path_rejects_duplicate_json_keys(tmp_path: Path) -> None:
+    protocol_hash = protocol.canonical_protocol_hash({"name": "paper1"})
+    duplicate = tmp_path / "duplicate.json"
+    duplicate.write_text(
+        "{"
+        '"schema_version":1,'
+        '"schema_version":1,'
+        f'"protocol_hash":"{protocol_hash}",'
+        '"contract":{"name":"paper1"}'
+        "}",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="duplicate JSON key"):
+        _api("load_protocol_envelope")(duplicate)

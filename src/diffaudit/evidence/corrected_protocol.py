@@ -148,6 +148,15 @@ def _reject_json_constant(value: str) -> None:
     raise ValueError(f"non-finite JSON constant is not allowed: {value}")
 
 
+def _reject_duplicate_json_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    result: dict[str, object] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key is not allowed: {key}")
+        result[key] = value
+    return result
+
+
 def _require_exact_json_value(name: str, actual: object, expected: object) -> None:
     if type(actual) is not type(expected):
         raise ValueError(f"Paper 1 {name} does not match the fixed contract")
@@ -200,7 +209,7 @@ def canonical_protocol_hash(protocol: Mapping[str, object]) -> str:
 
 
 def build_protocol_envelope(contract: Mapping[str, object]) -> dict[str, object]:
-    """Return a signed, detached JSON-safe copy of a protocol contract."""
+    """Return a hash-sealed, detached JSON-safe copy of a protocol contract."""
 
     if not isinstance(contract, Mapping):
         raise ValueError("contract must be a JSON mapping")
@@ -217,7 +226,7 @@ def build_protocol_envelope(contract: Mapping[str, object]) -> dict[str, object]
 def load_protocol_envelope(
     source: Mapping[str, object] | str | Path,
 ) -> dict[str, object]:
-    """Load and verify a signed protocol envelope from a mapping or JSON path."""
+    """Load and verify a hash-sealed integrity envelope from a mapping or JSON path."""
 
     if isinstance(source, Mapping):
         raw_envelope: object = source
@@ -226,8 +235,9 @@ def load_protocol_envelope(
             raw_envelope = json.loads(
                 Path(source).read_text(encoding="utf-8"),
                 parse_constant=_reject_json_constant,
+                object_pairs_hook=_reject_duplicate_json_keys,
             )
-        except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
+        except (OSError, UnicodeError, json.JSONDecodeError) as error:
             raise ValueError("protocol envelope path must contain valid finite JSON") from error
 
     copied_envelope = _json_safe_copy(raw_envelope, name="protocol envelope")
@@ -671,10 +681,16 @@ def verify_paper1_contract(
     *,
     split_path: str | Path,
     class_labels: Sequence[int],
+    expected_code_commit: str,
 ) -> dict[str, object]:
     """Verify the signature and rebuild every field from external source truth."""
 
     loaded = load_protocol_envelope(envelope)
+    if (
+        not isinstance(expected_code_commit, str)
+        or _GIT_COMMIT_PATTERN.fullmatch(expected_code_commit) is None
+    ):
+        raise ValueError("expected_code_commit must be 40 lowercase hex characters")
     contract = loaded["contract"]
     if not isinstance(contract, dict) or set(contract) != _PAPER1_CONTRACT_FIELDS:
         raise ValueError("Paper 1 contract top-level fields do not match the fixed shape")
@@ -744,6 +760,8 @@ def verify_paper1_contract(
     code_commit = contract["code_commit"]
     if not isinstance(code_commit, str) or _GIT_COMMIT_PATTERN.fullmatch(code_commit) is None:
         raise ValueError("Paper 1 code_commit must be 40 lowercase hex characters")
+    if code_commit != expected_code_commit:
+        raise ValueError("Paper 1 code_commit does not match expected_code_commit")
 
     source_split_path = Path(split_path)
     if split["filename"] != source_split_path.name:
@@ -762,7 +780,7 @@ def verify_paper1_contract(
         member_indices=member_indices,
         nonmember_indices=nonmember_indices,
         class_labels=class_labels,
-        code_commit=code_commit,
+        code_commit=expected_code_commit,
     )
     _require_exact_json_value("contract source truth", contract, expected_contract)
 
