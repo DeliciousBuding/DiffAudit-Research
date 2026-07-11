@@ -9,10 +9,12 @@ import os
 import random
 import re
 import subprocess
+import sys
 import tempfile
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any
 
 import numpy as np
@@ -42,6 +44,175 @@ class CorrectedTrainingContract:
     run_label: str
     training_seeds: tuple[int, ...]
     member_indices: tuple[int, ...]
+
+
+def _freeze_mapping(value: Mapping[str, object]) -> Mapping[str, object]:
+    frozen: dict[str, object] = {}
+    for key, item in value.items():
+        if isinstance(item, Mapping):
+            frozen[key] = _freeze_mapping(item)
+        elif isinstance(item, list | tuple):
+            frozen[key] = tuple(item)
+        else:
+            frozen[key] = item
+    return MappingProxyType(frozen)
+
+
+def _thaw_value(value: object) -> object:
+    if isinstance(value, Mapping):
+        return {str(key): _thaw_value(item) for key, item in value.items()}
+    if isinstance(value, tuple):
+        return [_thaw_value(item) for item in value]
+    return value
+
+
+@dataclass(frozen=True, slots=True)
+class TrainingConfig:
+    precision: Mapping[str, object]
+    model: Mapping[str, object]
+    diffusion: Mapping[str, object]
+    optimizer: Mapping[str, object]
+    scheduler: Mapping[str, object]
+    ema_decay: float
+    grad_clip: float
+    transform: Mapping[str, object]
+    data: Mapping[str, object]
+    determinism: Mapping[str, object]
+    checkpointing: Mapping[str, object]
+    runtime: Mapping[str, object]
+
+    def to_dict(self) -> dict[str, object]:
+        return {
+            "precision": _thaw_value(self.precision),
+            "model": _thaw_value(self.model),
+            "diffusion": _thaw_value(self.diffusion),
+            "optimizer": _thaw_value(self.optimizer),
+            "scheduler": _thaw_value(self.scheduler),
+            "ema_decay": self.ema_decay,
+            "grad_clip": self.grad_clip,
+            "transform": _thaw_value(self.transform),
+            "data": _thaw_value(self.data),
+            "determinism": _thaw_value(self.determinism),
+            "checkpointing": _thaw_value(self.checkpointing),
+            "runtime": _thaw_value(self.runtime),
+        }
+
+
+def build_training_config(*, num_workers: int) -> TrainingConfig:
+    if type(num_workers) is not int or num_workers < 0:
+        raise ValueError("num_workers must be a non-negative integer")
+    return TrainingConfig(
+        precision=_freeze_mapping({"dtype": "float32", "amp": False}),
+        model=_freeze_mapping(
+            {
+                "architecture": "UNet",
+                "T": 1_000,
+                "channels": 128,
+                "channel_multipliers": [1, 2, 2, 2],
+                "attention_levels": [1],
+                "num_res_blocks": 2,
+                "dropout": 0.1,
+            }
+        ),
+        diffusion=_freeze_mapping(
+            {
+                "schedule": "linear",
+                "timesteps": 1_000,
+                "beta_1": 0.0001,
+                "beta_T": 0.02,
+                "mean_type": "epsilon",
+                "variance_type": "fixedlarge",
+            }
+        ),
+        optimizer=_freeze_mapping(
+            {"name": "Adam", "learning_rate": 0.0002, "betas": [0.9, 0.999], "eps": 1e-8}
+        ),
+        scheduler=_freeze_mapping(
+            {"name": "LambdaLR", "policy": "linear_warmup", "warmup_steps": 5_000}
+        ),
+        ema_decay=0.9999,
+        grad_clip=1.0,
+        transform=_freeze_mapping(
+            {
+                "operations": ["ToTensor", "Normalize"],
+                "normalize_mean": [0.5, 0.5, 0.5],
+                "normalize_std": [0.5, 0.5, 0.5],
+                "random_augmentation": False,
+            }
+        ),
+        data=_freeze_mapping(
+            {
+                "dataset": "CIFAR10",
+                "train_size": 50_000,
+                "member_size": 25_000,
+                "member_only": True,
+                "batch_size": 64,
+                "drop_last": True,
+                "shuffle": False,
+                "sampler": "DeterministicEpochBatchSampler",
+            }
+        ),
+        determinism=_freeze_mapping(
+            {
+                "deterministic_algorithms": True,
+                "cudnn_benchmark": False,
+                "cudnn_deterministic": True,
+                "allow_tf32_matmul": False,
+                "allow_tf32_cudnn": False,
+                "cublas_workspace_config": ":4096:8",
+                "seed_python": True,
+                "seed_numpy": True,
+                "seed_torch_cpu": True,
+                "seed_torch_cuda": True,
+                "worker_rng_independent": True,
+            }
+        ),
+        checkpointing=_freeze_mapping(
+            {
+                "save_every": 2_000,
+                "sample_every": 50_000,
+                "save_final": True,
+                "save_on_signal": "next_step_boundary",
+                "atomic_replace": True,
+                "weights_only_load": True,
+                "retention": "retain_all_corrected_checkpoints",
+            }
+        ),
+        runtime=_freeze_mapping(
+            {
+                "num_workers": num_workers,
+                "pin_memory": "cuda_available",
+                "persistent_workers": num_workers > 0,
+                "non_blocking_device_transfer": True,
+                "device_policy": "cuda_if_available_else_cpu",
+            }
+        ),
+    )
+
+
+def canonical_training_config_hash(config: TrainingConfig) -> str:
+    canonical = json.dumps(
+        config.to_dict(), sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def collect_environment() -> dict[str, object]:
+    cuda_available = torch.cuda.is_available()
+    gpu_name: str | None = None
+    gpu_uuid: str | None = None
+    if cuda_available:
+        properties = torch.cuda.get_device_properties(0)
+        gpu_name = torch.cuda.get_device_name(0)
+        gpu_uuid = str(properties.uuid) if hasattr(properties, "uuid") else None
+    return {
+        "python": sys.version.split()[0],
+        "pytorch": str(torch.__version__),
+        "cuda": torch.version.cuda if cuda_available else None,
+        "cudnn": torch.backends.cudnn.version() if cuda_available else None,
+        "gpu_name": gpu_name,
+        "gpu_uuid": gpu_uuid,
+    }
 
 
 def _load_protocol_envelope(path: Path) -> Mapping[str, object]:
@@ -260,6 +431,8 @@ def save_corrected_checkpoint(
     protocol_hash: str,
     split_sha256: str,
     code_commit: str,
+    training_config: TrainingConfig,
+    environment: Mapping[str, object],
 ) -> Path:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -267,6 +440,7 @@ def save_corrected_checkpoint(
     _require_hash("protocol_hash", protocol_hash, _SHA256_RE)
     _require_hash("split_sha256", split_sha256, _SHA256_RE)
     _require_hash("code_commit", code_commit, _COMMIT_RE)
+    training_config_hash = canonical_training_config_hash(training_config)
     payload = {
         "model": model.state_dict(),
         "ema": ema_model.state_dict(),
@@ -280,6 +454,9 @@ def save_corrected_checkpoint(
             "checkpoint_step": step,
             "split_sha256": split_sha256,
             "code_commit": code_commit,
+            "training_config": training_config.to_dict(),
+            "training_config_hash": training_config_hash,
+            "environment": dict(environment),
         },
         "rng_state": capture_rng_state(),
     }
@@ -312,6 +489,7 @@ def load_corrected_checkpoint(
     expected_protocol_hash: str,
     expected_split_sha256: str,
     expected_code_commit: str,
+    expected_training_config_hash: str,
 ) -> int:
     payload = torch.load(Path(path), map_location="cpu", weights_only=True)
     if not isinstance(payload, Mapping) or not isinstance(payload.get("metadata"), Mapping):
@@ -328,6 +506,21 @@ def load_corrected_checkpoint(
         raise ValueError("checkpoint split_sha256 does not match expected split")
     if metadata.get("code_commit") != expected_code_commit:
         raise ValueError("checkpoint code_commit does not match expected commit")
+    checkpoint_config = metadata.get("training_config")
+    checkpoint_config_hash = metadata.get("training_config_hash")
+    if not isinstance(checkpoint_config, Mapping) or not isinstance(
+        checkpoint_config_hash, str
+    ):
+        raise ValueError("checkpoint training_config or training_config_hash is invalid")
+    canonical_checkpoint_hash = hashlib.sha256(
+        json.dumps(
+            checkpoint_config, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode("utf-8")
+    ).hexdigest()
+    if checkpoint_config_hash != canonical_checkpoint_hash:
+        raise ValueError("checkpoint training_config_hash does not match training_config")
+    if checkpoint_config_hash != expected_training_config_hash:
+        raise ValueError("checkpoint training_config_hash does not match expected config")
     if payload.get("step") != validated_step:
         raise ValueError("checkpoint top-level step does not match validated metadata")
     model.load_state_dict(payload["model"])

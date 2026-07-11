@@ -9,6 +9,7 @@ import os
 import random
 import signal
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -26,8 +27,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from diffaudit.training.corrected_ddpm import (  # noqa: E402
     CorrectedTrainingContract,
+    TrainingConfig,
     build_corrected_dataloader,
     build_member_subset,
+    build_training_config,
+    canonical_training_config_hash,
+    collect_environment,
     load_corrected_checkpoint,
     load_training_contract,
     read_repository_state,
@@ -41,21 +46,6 @@ from diffaudit.training.exact_resume import (  # noqa: E402
     preserve_rng_state,
 )
 
-BATCH_SIZE = 64
-SAVE_EVERY = 2_000
-SAMPLE_EVERY = 50_000
-T = 1_000
-CH = 128
-CH_MULT = [1, 2, 2, 2]
-ATTN = [1]
-NUM_RES_BLOCKS = 2
-DROPOUT = 0.1
-BETA_1 = 0.0001
-BETA_T = 0.02
-LR = 2e-4
-EMA_DECAY = 0.9999
-GRAD_CLIP = 1.0
-WARMUP_STEPS = 5_000
 _interrupted = False
 
 
@@ -81,14 +71,12 @@ def _signal_handler(signum: int, _frame: Any) -> None:
     print(f"received signal {signum}; saving at the next step boundary", flush=True)
 
 
-def _warmup(step: int) -> float:
-    return 1.0 if step >= WARMUP_STEPS else step / WARMUP_STEPS
-
-
 @torch.no_grad()
-def _ema_update(model: torch.nn.Module, ema_model: torch.nn.Module) -> None:
+def _ema_update(
+    model: torch.nn.Module, ema_model: torch.nn.Module, *, decay: float
+) -> None:
     for source, target in zip(model.parameters(), ema_model.parameters(), strict=True):
-        target.mul_(EMA_DECAY).add_(source, alpha=1.0 - EMA_DECAY)
+        target.mul_(decay).add_(source, alpha=1.0 - decay)
 
 
 def _atomic_json(path: Path, value: dict[str, object]) -> None:
@@ -121,6 +109,8 @@ def _checkpoint(
     optimizer: torch.optim.Optimizer,
     scheduler: torch.optim.lr_scheduler.LRScheduler,
     step: int,
+    training_config: TrainingConfig,
+    environment: dict[str, object],
 ) -> Path:
     path = output_dir / f"checkpoint-step{step:06d}.pt"
     save_corrected_checkpoint(
@@ -135,10 +125,17 @@ def _checkpoint(
         protocol_hash=contract.protocol_hash,
         split_sha256=contract.split_sha256,
         code_commit=contract.code_commit,
+        training_config=training_config,
+        environment=environment,
     )
+    training_config_hash = canonical_training_config_hash(training_config)
     _atomic_json(
         output_dir / "training-state.json",
-        {**_identity(contract, step), "updated_at": datetime.now(timezone.utc).isoformat()},
+        {
+            **_identity(contract, step),
+            "training_config_hash": training_config_hash,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        },
     )
     _atomic_json(
         output_dir / "manifest.json",
@@ -146,7 +143,10 @@ def _checkpoint(
             **_identity(contract, step),
             "checkpoint": path.name,
             "member_count": 25_000,
-            "batch_size": BATCH_SIZE,
+            "batch_size": training_config.data["batch_size"],
+            "training_config": training_config.to_dict(),
+            "training_config_hash": training_config_hash,
+            "environment": environment,
         },
     )
     return path
@@ -162,14 +162,126 @@ def _load_dataset(dataset_root: Path) -> datasets.CIFAR10:
     return datasets.CIFAR10(root=str(dataset_root), train=True, download=False, transform=transform)
 
 
-def _prepare(args: argparse.Namespace):
+@dataclass(slots=True)
+class TrainingObjects:
+    model: torch.nn.Module
+    ema_model: torch.nn.Module
+    optimizer: torch.optim.Optimizer
+    scheduler: torch.optim.lr_scheduler.LRScheduler
+    trainer: torch.nn.Module
+    quality_sampler: torch.nn.Module
+    device: torch.device
+
+
+class ProductionRuntime:
+    def training_config(self, num_workers: int) -> TrainingConfig:
+        return build_training_config(num_workers=num_workers)
+
+    def read_repository_state(self, root: Path) -> tuple[str, str]:
+        return read_repository_state(root)
+
+    def load_dataset(self, root: Path):
+        return _load_dataset(root)
+
+    def configure_deterministic(self) -> None:
+        configure_deterministic_torch()
+
+    def seed_everything(self, seed: int) -> None:
+        _seed_everything(seed)
+
+    def collect_environment(self) -> dict[str, object]:
+        return collect_environment()
+
+    def build_training_objects(self, config: TrainingConfig) -> TrainingObjects:
+        from diffusion import GaussianDiffusionSampler, GaussianDiffusionTrainer
+        from model_unet import UNet
+
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model_config = config.model
+        model = UNet(
+            T=model_config["T"],
+            ch=model_config["channels"],
+            ch_mult=list(model_config["channel_multipliers"]),
+            attn=list(model_config["attention_levels"]),
+            num_res_blocks=model_config["num_res_blocks"],
+            dropout=model_config["dropout"],
+        ).to(device)
+        ema_model = copy.deepcopy(model).to(device)
+        optimizer_config = config.optimizer
+        optimizer = torch.optim.Adam(
+            model.parameters(),
+            lr=optimizer_config["learning_rate"],
+            betas=tuple(optimizer_config["betas"]),
+            eps=optimizer_config["eps"],
+        )
+        warmup_steps = int(config.scheduler["warmup_steps"])
+
+        def warmup(step: int) -> float:
+            return 1.0 if step >= warmup_steps else step / warmup_steps
+
+        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=warmup)
+        diffusion = config.diffusion
+        trainer = GaussianDiffusionTrainer(
+            model,
+            beta_1=diffusion["beta_1"],
+            beta_T=diffusion["beta_T"],
+            T=diffusion["timesteps"],
+        ).to(device)
+        quality_sampler = GaussianDiffusionSampler(
+            ema_model,
+            beta_1=diffusion["beta_1"],
+            beta_T=diffusion["beta_T"],
+            T=diffusion["timesteps"],
+            mean_type=diffusion["mean_type"],
+            var_type=diffusion["variance_type"],
+        ).to(device)
+        return TrainingObjects(
+            model=model,
+            ema_model=ema_model,
+            optimizer=optimizer,
+            scheduler=scheduler,
+            trainer=trainer,
+            quality_sampler=quality_sampler,
+            device=device,
+        )
+
+    def build_dataloader(
+        self, dataset, seed: int, start_step: int, stop_step: int, num_workers: int
+    ):
+        return build_corrected_dataloader(
+            dataset, seed, start_step, stop_step, num_workers=num_workers
+        )
+
+    def save_checkpoint(self, **kwargs) -> Path:
+        return _checkpoint(**kwargs)
+
+    def preserve_rng(self):
+        return preserve_rng_state()
+
+    def sample_quality(
+        self, *, objects: TrainingObjects, log_dir: Path, step: int
+    ) -> None:
+        with torch.no_grad():
+            noise = torch.randn(64, 3, 32, 32, device=objects.device)
+            samples = objects.quality_sampler(noise).cpu()
+            torch.save(samples, log_dir / f"quality-step{step:06d}.pt")
+
+    def interrupted(self) -> bool:
+        return _interrupted
+
+    def install_signal_handlers(self) -> None:
+        signal.signal(signal.SIGINT, _signal_handler)
+        signal.signal(signal.SIGTERM, _signal_handler)
+
+
+def _prepare(args: argparse.Namespace, runtime, training_config: TrainingConfig):
     stop_step = validate_stop_step(args.stop_step, preflight=args.preflight)
-    head, tracked_status = read_repository_state(RESEARCH_ROOT)
+    head, tracked_status = runtime.read_repository_state(RESEARCH_ROOT)
     dataset_root = (
         args.dataset_root
         or Path(os.environ.get("DIFFAUDIT_CIFAR10_ROOT", DOWNLOAD_ROOT / "datasets/cifar-10"))
     ).expanduser()
-    dataset = _load_dataset(dataset_root)
+    dataset = runtime.load_dataset(dataset_root)
     labels = np.asarray(dataset.targets, dtype=np.int64)
     contract = load_training_contract(
         args.protocol_manifest,
@@ -194,6 +306,8 @@ def _prepare(args: argparse.Namespace):
         raise ValueError("--resume must be less than --stop-step")
     if args.num_workers < 0:
         raise ValueError("--num-workers must be non-negative")
+    if training_config.runtime["num_workers"] != args.num_workers:
+        raise ValueError("training config num_workers does not match CLI")
     if args.log_file is not None:
         requested_log = args.log_file.resolve()
         try:
@@ -211,96 +325,102 @@ def _seed_everything(seed: int) -> None:
         torch.cuda.manual_seed_all(seed)
 
 
-def _train(args: argparse.Namespace) -> None:
-    contract, member_dataset, output_dir, log_dir, stop_step = _prepare(args)
+def _train(args: argparse.Namespace, runtime=None) -> dict[str, object]:
+    runtime = runtime or ProductionRuntime()
+    training_config = runtime.training_config(args.num_workers)
+    contract, member_dataset, output_dir, log_dir, stop_step = _prepare(
+        args, runtime, training_config
+    )
     if args.dry_run:
-        print(
-            json.dumps(
-                {
-                    **_identity(contract, args.resume or 0),
-                    "dataset": "CIFAR10",
-                    "dataset_size": 50_000,
-                    "member_count": len(member_dataset),
-                    "stop_step": stop_step,
-                    "preflight": args.preflight,
-                    "repository_clean": True,
-                    "output_scope": "corrected-only",
-                },
-                sort_keys=True,
-            )
-        )
-        return
+        summary = {
+            **_identity(contract, args.resume or 0),
+            "dataset": "CIFAR10",
+            "dataset_size": 50_000,
+            "member_count": len(member_dataset),
+            "stop_step": stop_step,
+            "preflight": args.preflight,
+            "repository_clean": True,
+            "output_scope": "corrected-only",
+            "training_config_hash": canonical_training_config_hash(training_config),
+        }
+        print(json.dumps(summary, sort_keys=True))
+        return summary
 
-    configure_deterministic_torch()
-    _seed_everything(contract.seed)
-    from diffusion import GaussianDiffusionSampler, GaussianDiffusionTrainer
-    from model_unet import UNet
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = UNet(
-        T=T,
-        ch=CH,
-        ch_mult=CH_MULT,
-        attn=ATTN,
-        num_res_blocks=NUM_RES_BLOCKS,
-        dropout=DROPOUT,
-    ).to(device)
-    ema_model = copy.deepcopy(model).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=LR)
-    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=_warmup)
-    trainer = GaussianDiffusionTrainer(model, beta_1=BETA_1, beta_T=BETA_T, T=T).to(device)
-    quality_sampler = GaussianDiffusionSampler(
-        ema_model, beta_1=BETA_1, beta_T=BETA_T, T=T
-    ).to(device)
+    runtime.configure_deterministic()
+    runtime.seed_everything(contract.seed)
+    environment = runtime.collect_environment()
+    objects = runtime.build_training_objects(training_config)
     start_step = args.resume or 0
     output_dir.mkdir(parents=True, exist_ok=True)
     log_dir.mkdir(parents=True, exist_ok=True)
     if args.resume is not None:
         load_corrected_checkpoint(
             output_dir / f"checkpoint-step{args.resume:06d}.pt",
-            model,
-            ema_model,
-            optimizer,
-            scheduler,
+            objects.model,
+            objects.ema_model,
+            objects.optimizer,
+            objects.scheduler,
             expected_step=args.resume,
             expected_run_label=contract.run_label,
             expected_seed=contract.seed,
             expected_protocol_hash=contract.protocol_hash,
             expected_split_sha256=contract.split_sha256,
             expected_code_commit=contract.code_commit,
+            expected_training_config_hash=canonical_training_config_hash(training_config),
         )
-    loader = build_corrected_dataloader(
+    loader = runtime.build_dataloader(
         member_dataset,
         contract.seed,
         start_step,
         stop_step,
-        num_workers=args.num_workers,
+        args.num_workers,
     )
-    signal.signal(signal.SIGINT, _signal_handler)
-    signal.signal(signal.SIGTERM, _signal_handler)
-    model.train()
+    if hasattr(runtime, "install_signal_handlers"):
+        runtime.install_signal_handlers()
+    objects.model.train()
     step = start_step
     for batch, _labels in loader:
-        batch = batch.to(device, non_blocking=True)
-        optimizer.zero_grad(set_to_none=True)
-        loss = trainer(batch)
+        batch = batch.to(objects.device, non_blocking=True)
+        objects.optimizer.zero_grad(set_to_none=True)
+        loss = objects.trainer(batch)
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), GRAD_CLIP)
-        optimizer.step()
-        scheduler.step()
-        _ema_update(model, ema_model)
+        torch.nn.utils.clip_grad_norm_(objects.model.parameters(), training_config.grad_clip)
+        objects.optimizer.step()
+        objects.scheduler.step()
+        _ema_update(objects.model, objects.ema_model, decay=training_config.ema_decay)
         step += 1
-        if step % SAVE_EVERY == 0:
-            _checkpoint(output_dir, contract, model, ema_model, optimizer, scheduler, step)
-        if step % SAMPLE_EVERY == 0:
-            with preserve_rng_state(), torch.no_grad():
-                noise = torch.randn(64, 3, 32, 32, device=device)
-                samples = quality_sampler(noise).cpu()
-                torch.save(samples, log_dir / f"quality-step{step:06d}.pt")
-        if _interrupted:
+        if step % int(training_config.checkpointing["save_every"]) == 0:
+            runtime.save_checkpoint(
+                output_dir=output_dir,
+                contract=contract,
+                model=objects.model,
+                ema_model=objects.ema_model,
+                optimizer=objects.optimizer,
+                scheduler=objects.scheduler,
+                step=step,
+                training_config=training_config,
+                environment=environment,
+            )
+        if step % int(training_config.checkpointing["sample_every"]) == 0:
+            with runtime.preserve_rng():
+                runtime.sample_quality(objects=objects, log_dir=log_dir, step=step)
+        if runtime.interrupted():
             break
-    _checkpoint(output_dir, contract, model, ema_model, optimizer, scheduler, step)
-    print(json.dumps({**_identity(contract, step), "interrupted": _interrupted}, sort_keys=True))
+    if step % int(training_config.checkpointing["save_every"]) != 0:
+        runtime.save_checkpoint(
+            output_dir=output_dir,
+            contract=contract,
+            model=objects.model,
+            ema_model=objects.ema_model,
+            optimizer=objects.optimizer,
+            scheduler=objects.scheduler,
+            step=step,
+            training_config=training_config,
+            environment=environment,
+        )
+    result = {"step": step, "interrupted": runtime.interrupted()}
+    print(json.dumps({**_identity(contract, step), **result}, sort_keys=True))
+    return result
 
 
 def main() -> None:

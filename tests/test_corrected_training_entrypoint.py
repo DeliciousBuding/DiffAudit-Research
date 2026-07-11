@@ -20,6 +20,9 @@ from diffaudit.evidence.corrected_protocol import (
 from diffaudit.training.corrected_ddpm import (
     build_corrected_dataloader,
     build_member_subset,
+    build_training_config,
+    canonical_training_config_hash,
+    collect_environment,
     load_corrected_checkpoint,
     load_training_contract,
     save_corrected_checkpoint,
@@ -170,6 +173,8 @@ def _tiny_training_state():
 def test_checkpoint_is_weights_only_safe_and_round_trips(tmp_path: Path) -> None:
     model, ema, optimizer, scheduler = _tiny_training_state()
     path = tmp_path / "checkpoint-step000001.pt"
+    training_config = build_training_config(num_workers=0)
+    environment = collect_environment()
     save_corrected_checkpoint(
         path,
         model,
@@ -182,12 +187,19 @@ def test_checkpoint_is_weights_only_safe_and_round_trips(tmp_path: Path) -> None
         protocol_hash="a" * 64,
         split_sha256="c" * 64,
         code_commit=CODE_COMMIT,
+        training_config=training_config,
+        environment=environment,
     )
     saved = torch.load(path, map_location="cpu", weights_only=True)
     assert set(saved) == {"model", "ema", "optim", "sched", "step", "metadata", "rng_state"}
     assert "x_T" not in saved
     assert saved["metadata"]["split_sha256"] == "c" * 64
     assert saved["metadata"]["code_commit"] == CODE_COMMIT
+    assert saved["metadata"]["training_config"] == training_config.to_dict()
+    assert saved["metadata"]["training_config_hash"] == canonical_training_config_hash(
+        training_config
+    )
+    assert saved["metadata"]["environment"] == environment
 
     restored = _tiny_training_state()
     restored_step = load_corrected_checkpoint(
@@ -199,6 +211,7 @@ def test_checkpoint_is_weights_only_safe_and_round_trips(tmp_path: Path) -> None
         expected_protocol_hash="a" * 64,
         expected_split_sha256="c" * 64,
         expected_code_commit=CODE_COMMIT,
+        expected_training_config_hash=canonical_training_config_hash(training_config),
     )
     assert restored_step == 1
     assert all(
@@ -212,6 +225,7 @@ def test_checkpoint_is_weights_only_safe_and_round_trips(tmp_path: Path) -> None
 def test_wrong_checkpoint_identity_is_rejected_before_model_or_rng_changes(tmp_path: Path) -> None:
     source = _tiny_training_state()
     path = tmp_path / "checkpoint-step000001.pt"
+    training_config = build_training_config(num_workers=0)
     save_corrected_checkpoint(
         path,
         *source,
@@ -221,6 +235,8 @@ def test_wrong_checkpoint_identity_is_rejected_before_model_or_rng_changes(tmp_p
         protocol_hash="a" * 64,
         split_sha256="c" * 64,
         code_commit=CODE_COMMIT,
+        training_config=training_config,
+        environment=collect_environment(),
     )
     target = _tiny_training_state()
     model_before = copy.deepcopy(target[0].state_dict())
@@ -238,6 +254,7 @@ def test_wrong_checkpoint_identity_is_rejected_before_model_or_rng_changes(tmp_p
             expected_protocol_hash="a" * 64,
             expected_split_sha256="c" * 64,
             expected_code_commit=CODE_COMMIT,
+            expected_training_config_hash=canonical_training_config_hash(training_config),
         )
 
     assert all(
@@ -248,6 +265,87 @@ def test_wrong_checkpoint_identity_is_rejected_before_model_or_rng_changes(tmp_p
     assert numpy_after[0] == numpy_before[0]
     assert np.array_equal(numpy_after[1], numpy_before[1])
     assert numpy_after[2:] == numpy_before[2:]
+    assert torch.equal(torch_before, torch.get_rng_state())
+
+
+def test_training_config_is_complete_immutable_and_canonically_hashed() -> None:
+    config = build_training_config(num_workers=3)
+    payload = config.to_dict()
+
+    assert set(payload) == {
+        "precision",
+        "model",
+        "diffusion",
+        "optimizer",
+        "scheduler",
+        "ema_decay",
+        "grad_clip",
+        "transform",
+        "data",
+        "determinism",
+        "checkpointing",
+        "runtime",
+    }
+    assert payload["precision"] == {"dtype": "float32", "amp": False}
+    assert payload["runtime"]["num_workers"] == 3
+    assert payload["checkpointing"]["save_every"] == 2_000
+    assert payload["checkpointing"]["sample_every"] == 50_000
+    assert canonical_training_config_hash(config) == canonical_training_config_hash(config)
+    with pytest.raises((AttributeError, TypeError)):
+        config.runtime["num_workers"] = 9
+
+
+def test_environment_is_separate_from_training_config_hash() -> None:
+    config = build_training_config(num_workers=0)
+    environment = collect_environment()
+
+    assert set(environment) == {
+        "python",
+        "pytorch",
+        "cuda",
+        "cudnn",
+        "gpu_name",
+        "gpu_uuid",
+    }
+    assert canonical_training_config_hash(config) == canonical_training_config_hash(config)
+
+
+def test_wrong_training_config_hash_is_rejected_before_any_mutation(tmp_path: Path) -> None:
+    source = _tiny_training_state()
+    path = tmp_path / "checkpoint-step000001.pt"
+    config = build_training_config(num_workers=0)
+    save_corrected_checkpoint(
+        path,
+        *source,
+        step=1,
+        run_label=f"corrected-s{SEEDS[0]}",
+        seed=SEEDS[0],
+        protocol_hash="a" * 64,
+        split_sha256="c" * 64,
+        code_commit=CODE_COMMIT,
+        training_config=config,
+        environment=collect_environment(),
+    )
+    target = _tiny_training_state()
+    model_before = copy.deepcopy(target[0].state_dict())
+    torch_before = torch.get_rng_state().clone()
+
+    with pytest.raises(ValueError, match="training_config_hash"):
+        load_corrected_checkpoint(
+            path,
+            *target,
+            expected_step=1,
+            expected_run_label=f"corrected-s{SEEDS[0]}",
+            expected_seed=SEEDS[0],
+            expected_protocol_hash="a" * 64,
+            expected_split_sha256="c" * 64,
+            expected_code_commit=CODE_COMMIT,
+            expected_training_config_hash="d" * 64,
+        )
+
+    assert all(
+        torch.equal(model_before[name], target[0].state_dict()[name]) for name in model_before
+    )
     assert torch.equal(torch_before, torch.get_rng_state())
 
 
