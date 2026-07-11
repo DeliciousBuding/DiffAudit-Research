@@ -416,3 +416,48 @@ def test_runbook_uses_only_corrected_entrypoint_with_required_identity_arguments
         assert runbook.count(option) >= 3
     assert "--preflight" in runbook
     assert "--resume 100000" in runbook
+
+
+def test_production_build_deepcopies_ema_while_model_is_still_on_cpu(
+    entrypoint: ModuleType, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    events: list[str] = []
+
+    class FakeUNet(torch.nn.Module):
+        def __init__(self, **_kwargs) -> None:
+            super().__init__()
+            self.weight = torch.nn.Parameter(torch.ones(1))
+            self.logical_device = "cpu"
+
+        def __deepcopy__(self, _memo):
+            events.append(f"deepcopy:{self.logical_device}")
+            clone = FakeUNet()
+            clone.weight.data.copy_(self.weight.data)
+            return clone
+
+        def to(self, device):
+            self.logical_device = str(device)
+            events.append(f"model_to:{self.logical_device}")
+            return self
+
+    class FakeDiffusion:
+        def __init__(self, *_args, **_kwargs) -> None:
+            return None
+
+        def to(self, device):
+            events.append(f"diffusion_to:{device}")
+            return self
+
+    model_module = ModuleType("model_unet")
+    model_module.UNet = FakeUNet
+    diffusion_module = ModuleType("diffusion")
+    diffusion_module.GaussianDiffusionTrainer = FakeDiffusion
+    diffusion_module.GaussianDiffusionSampler = FakeDiffusion
+    monkeypatch.setitem(sys.modules, "model_unet", model_module)
+    monkeypatch.setitem(sys.modules, "diffusion", diffusion_module)
+    monkeypatch.setattr(entrypoint.torch.cuda, "is_available", lambda: True)
+
+    entrypoint.ProductionRuntime().build_training_objects(build_training_config())
+
+    assert events.count("deepcopy:cpu") == 1
+    assert events.index("deepcopy:cpu") < events.index("model_to:cuda")

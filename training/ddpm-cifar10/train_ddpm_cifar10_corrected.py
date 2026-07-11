@@ -208,8 +208,10 @@ class ProductionRuntime:
             attn=list(model_config["attention_levels"]),
             num_res_blocks=model_config["num_res_blocks"],
             dropout=model_config["dropout"],
-        ).to(device)
-        ema_model = copy.deepcopy(model).to(device)
+        )
+        ema_model = copy.deepcopy(model)
+        model = model.to(device)
+        ema_model = ema_model.to(device)
         optimizer_config = config.optimizer
         optimizer = torch.optim.Adam(
             model.parameters(),
