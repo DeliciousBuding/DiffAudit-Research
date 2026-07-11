@@ -195,9 +195,13 @@ def test_derive_training_seeds_returns_unique_positive_31_bit_integers() -> None
     assert len(derive_training_seeds("paper1-corrected-evidence", count=3)) == 3
 
 
-def test_derive_training_seeds_rejects_nonpositive_count() -> None:
-    with pytest.raises(ValueError, match="count must be positive"):
-        derive_training_seeds("paper1-corrected-evidence", count=0)
+@pytest.mark.parametrize("invalid_count", [1.5, True, 0, -1])
+def test_derive_training_seeds_rejects_invalid_count(invalid_count: object) -> None:
+    with pytest.raises(ValueError, match="count must be a positive integer"):
+        derive_training_seeds(
+            "paper1-corrected-evidence",
+            count=invalid_count,  # type: ignore[arg-type]
+        )
 
 
 def test_derive_training_seeds_is_stable_across_processes() -> None:
@@ -459,6 +463,49 @@ def test_build_stratified_row_manifest_rejects_source_class_ids_outside_cifar10(
 
     with pytest.raises(ValueError, match="source class IDs must be in range 0..9"):
         build_stratified_row_manifest((0, 1), (2, 3), labels, random_state=42)
+
+
+@pytest.mark.parametrize(
+    ("calibration_count", "evaluation_count", "message"),
+    [
+        (1.5, 512, "n_calibration_per_group must be a non-negative integer"),
+        (True, 512, "n_calibration_per_group must be a non-negative integer"),
+        (-1, 512, "n_calibration_per_group must be a non-negative integer"),
+        (512, 1.5, "n_evaluation_per_group must be a non-negative integer"),
+        (512, False, "n_evaluation_per_group must be a non-negative integer"),
+        (512, -1, "n_evaluation_per_group must be a non-negative integer"),
+    ],
+)
+def test_build_stratified_row_manifest_rejects_invalid_counts(
+    calibration_count: object,
+    evaluation_count: object,
+    message: str,
+) -> None:
+    member_indices, nonmember_indices, class_labels = _balanced_row_inputs()
+
+    with pytest.raises(ValueError, match=message):
+        build_stratified_row_manifest(
+            member_indices,
+            nonmember_indices,
+            class_labels,
+            n_calibration_per_group=calibration_count,  # type: ignore[arg-type]
+            n_evaluation_per_group=evaluation_count,  # type: ignore[arg-type]
+            random_state=42,
+        )
+
+
+def test_build_stratified_row_manifest_rejects_zero_total_count() -> None:
+    member_indices, nonmember_indices, class_labels = _balanced_row_inputs()
+
+    with pytest.raises(ValueError, match="at least one row count must be positive"):
+        build_stratified_row_manifest(
+            member_indices,
+            nonmember_indices,
+            class_labels,
+            n_calibration_per_group=0,
+            n_evaluation_per_group=0,
+            random_state=42,
+        )
 
 
 def test_paper1_corrected_row_manifest_wrapper_freezes_group_sizes() -> None:

@@ -29,6 +29,12 @@ def _validated_indices(membership: str, values: Sequence[int]) -> tuple[int, ...
     return tuple(int(value) for value in raw_values)
 
 
+def _validated_nonnegative_count(name: str, value: int) -> int:
+    if isinstance(value, bool) or not isinstance(value, Integral) or value < 0:
+        raise ValueError(f"{name} must be a non-negative integer")
+    return int(value)
+
+
 def _balanced_split_class_counts(
     calibration_count: int,
     evaluation_count: int,
@@ -165,6 +171,15 @@ def build_stratified_row_manifest(
 ) -> tuple[ProtocolRow, ...]:
     """Build deterministic class-stratified calibration and evaluation rows."""
 
+    n_calibration_per_group = _validated_nonnegative_count(
+        "n_calibration_per_group", n_calibration_per_group
+    )
+    n_evaluation_per_group = _validated_nonnegative_count(
+        "n_evaluation_per_group", n_evaluation_per_group
+    )
+    if n_calibration_per_group + n_evaluation_per_group == 0:
+        raise ValueError("at least one row count must be positive")
+
     member = _validated_indices("member", member_indices)
     nonmember = _validated_indices("nonmember", nonmember_indices)
     labels = np.asarray(class_labels)
@@ -273,8 +288,9 @@ def build_paper1_corrected_row_manifest(
 def derive_training_seeds(seed_material: str | bytes, count: int = 8) -> tuple[int, ...]:
     """Derive deterministic training seeds from stable seed material."""
 
-    if count <= 0:
-        raise ValueError("count must be positive")
+    if isinstance(count, bool) or not isinstance(count, Integral) or count <= 0:
+        raise ValueError("count must be a positive integer")
+    count = int(count)
     material = seed_material.encode("utf-8") if isinstance(seed_material, str) else seed_material
     seeds: list[int] = []
     seen: set[int] = set()
