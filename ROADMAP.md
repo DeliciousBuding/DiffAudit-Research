@@ -1,96 +1,189 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-07-06
+> Last updated: 2026-07-11
 > Scope: current Research execution board. Historical long-form roadmap is in `docs/ROADMAP.md`.
 
 ## Current Baseline
 
-Paper 1 is in Phase G: H1/DAAB run-dynamics replication.
+Paper 1 is under evidence-contract reconstruction and is not submission-ready.
+The historical Phase G seed42/43/45 targets were trained on the full CIFAR-10
+training set while evaluation treated half of those rows as nonmembers. The old
+H1 scorer also fitted PCA/LR and reported AUC on the same rows.
 
-The active scientific question is no longer whether H1 exists. It is whether activation-level membership evidence is controlled mainly by training trajectory / run identity, and whether high-AUC runs retain N=512 low-FPR value while weak runs collapse.
+Consequences:
 
-Current verified facts:
+- all old H1 AUCs are diagnostic-only;
+- three-seed, continuation-direction, N=512 cluster, knockout, fine-temporal,
+  and run-identity claims are quarantined;
+- corrected training/scoring code cannot retroactively validate old targets;
+- historical targets MUST NOT be resumed into corrected runs.
 
-| Result | Status | Evidence |
-| --- | --- | --- |
-| DDPM-750k matched control | Complete | `docs/evidence/ddpm-750k-step-matched-control-2026-06-25.md` |
-| H1 v2 N=128 unified table | Complete | `outputs/h1-scout-750k/`, `outputs/h1-scout-800k-v2/`, `outputs/h1-scout-ddim-750k/`, `outputs/h1-scout-800k-same-trajectory/` |
-| Independent DDPM-800k N=512 | Complete | `outputs/h1-scout-800k-independent-n512/summary.json` |
-| DDIM-750k N=512 | Complete | `outputs/h1-scout-ddim-750k-n512/summary.json` |
-| Same-trajectory DDPM-800k N=512 | Complete | `outputs/h1-scout-800k-same-trajectory-n512/summary.json` records rerun AUC=0.605488, TPR@1%=0.025391, shuffle AUC=0.488052 |
-| seed=43 training to 750k | Complete | `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step750000.pt`, SHA256 `1dad28a63cef2ef4439f77457c10825bcb4ff66ef7c7e3e19dbe285e4503aba2` |
-| seed=43 H1 scout at 750k | Complete | `outputs/h1-scout-seed43-750k/summary.json` records AUC=0.666687, TPR@1%=0.015625, shuffle AUC=0.453552 |
-| seed=43 training to 800k | Complete | `<DOWNLOAD_ROOT>/checkpoints/ddpm-cifar10-seed43/checkpoint-step800000.pt`, SHA256 `19f62a7fbbc4a492e919d31174049bd3bc2e6c2f631d8d38a2a6c79871f47fa8` |
-| seed=43 H1 scout at 800k | Complete | `outputs/h1-scout-seed43-800k/summary.json` records AUC=0.664612, TPR@1%=0.015625, shuffle AUC=0.487793 |
-| seed=43 fine temporal grid at 800k | Complete | `outputs/h1-fine-grid-seed43-800k/summary.json` records max |delta|=0.1169 at `mid_0`, t=600; knockout mostly increases AUC |
+The active question is narrower: do newly trained member-only targets exhibit
+held-out H1 membership signal, and do differences among a predeclared finite
+target set exceed row-level measurement uncertainty? Four or eight targets do
+not estimate a population-level seed variance or establish a mechanism.
 
-Current command runbook: `docs/start-here/phase-g-runbook-2026-06-30.md`.
+Current command runbook:
+`docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md`.
 
-## Active Task Board
+## P0: Freeze the Corrected Evidence Contract
 
-### P0: Evidence Hygiene
+- [x] Train only on the fixed 25,000-row member subset.
+- [x] Keep fold-local repeated OOF H1 code for regression/exploratory checks.
+- [ ] Freeze code commit, environment, hyperparameters, precision, checkpoint
+  cadence, split SHA256, eight training seeds, and protocol hash.
+- [ ] Generate disjoint, class-stratified calibration and evaluation manifests;
+  each contains 512 members and 512 nonmembers.
+- [ ] Generate a common-noise manifest bound to dataset row, timestep, and draw
+  for use across all checkpoints.
+- [ ] Add confirmatory H1 scoring that fits PCA/LR only on calibration rows and
+  reports metrics only on evaluation rows.
+- [ ] Add stratified paired bootstrap that refits the attack inside each
+  replicate, plus at least 200 full label-permutation refits.
+- [ ] Repair PIA canonical and pass a positive-control gate before it is used as
+  the validation attack. Historical E3 PIA outputs are not valid for this gate.
+- [ ] Implement and test exact resume, including Python/NumPy/Torch CPU/CUDA and
+  data-loader state, or freeze a common restart policy and block uninterrupted-
+  trajectory claims.
+- [ ] Add row-bound score packets with dataset/run/checkpoint/noise/protocol
+  identities.
 
-- [x] Re-run or recover same-trajectory DDPM-800k N=512 raw output into `outputs/h1-scout-800k-same-trajectory-n512/`.
-- [ ] Add `summary.json` beside every Phase G H1 output that is cited by the paper.
-- [x] Keep `docs/paper1/frozen-claim-matrix.md`, `docs/evidence/experiment-master-log.md`, and the private paper evidence bank aligned after the seed43 750k/800k scouts.
+No corrected outcome may be viewed before these protocol choices are frozen.
 
-2026-07-01 closure: the same-trajectory DDPM-800k N=512 rerun completed with the readable CIFAR root. The rerun produced raw activation cache, `h1_results.json`, and `summary.json`; the archived AUC is 0.605488 rather than the previously documented unarchived 0.576 value.
+## P1: Short GPU Preflight
 
-2026-07-02 closure: seed43 reached 750k and the bounded N=128 H1 scout completed. The result (AUC=0.666687, TPR@1%=0.015625, shuffle AUC=0.453552) stays in the moderate 750k band rather than the strong-run cluster.
+Run a disposable 2k--5k-step `corrected-*` target before long training.
 
-2026-07-03 closure: seed43 reached 800k and the bounded N=128 H1 scout completed. The result (AUC=0.664612, TPR@1%=0.015625, shuffle AUC=0.487793) does not reproduce seed42 same-trajectory amplification and stays below the N=512 trigger threshold. The seed43 800k fine grid is pattern-changing rather than confirmatory: full-site knockout mostly increases AUC, with max |delta|=0.1169 at `mid_0`, t=600.
+Pass criteria:
 
-### P1: seed=43 Run-Dynamics Replication
+- dataset length is exactly 25,000 and split sets are disjoint;
+- no historical checkpoint/output directory is reused;
+- no OOM with the live 8 GB GPU state;
+- sustained throughput is at least 6.0k steps/hour without thermal throttling;
+- checkpoint/resume and manifest checks pass;
+- row-bound evaluation artifacts include all required identities.
+- projected training plus full evaluation plus a 10% failure buffer fits the
+  available GPU window; otherwise reduce the matrix symmetrically before any
+  corrected metric is viewed and refreeze the manifest.
 
-- [x] Resume seed=43 training from the durable 624k checkpoint to 750k.
-- [x] Run H1 scout at 750k with the parameterized `scripts/h1/h1_activation_scout.py`.
-- [x] Continue seed=43 from 750k to 800k only after the 750k scout is archived.
-- [x] Run H1 scout at 800k.
-- [x] Run fine temporal grid at 800k.
-- [x] Do not run N=512 tail because seed43 800k H1 scout AUC=0.664612 <= 0.70.
+Failure pauses long training. Fix the contract, repeat the same preflight seed,
+and record the deviation; do not replace the seed.
 
-Decision value: seed=43 decided that the current two-cluster N=512 pattern is run-sensitive but not yet a universal strong-run rule.
+## P2: First-Stage Matrix — 4 Targets × 100k
 
-### P2: Additional Seed Replication Gate
+Train the first four predeclared seeds symmetrically to 100k. Use independent
+`corrected-*` directories and never resume seed42/43/44/45 or other historical
+targets.
 
-Run additional seeds only after seed=43 800k:
+Evaluate every target with the same:
 
-| seed=43 result | Decision |
-| --- | --- |
-| AUC and fine-grid pattern close to seed42 same-trajectory | additional seeds optional |
-| AUC differs by 0.05-0.10 or pattern changes | one extra seed recommended |
-| AUC differs by >0.10, approaches the independent strong run, or creates a third pattern | one extra seed required |
+- fixed calibration and evaluation rows;
+- common-noise bank;
+- H1 configuration and fixed score direction;
+- PIA canonical validation attack;
+- primary AUC and secondary TPR@1%FPR;
+- bootstrap and label-permutation protocol.
 
-Current decision: any extra seed is optional/opportunistic, not a Paper 1 blocker. seed43 AUC differs from seed42 same-trajectory 800k by about 0.052 and its fine-grid sign pattern changes, but it does not approach the independent strong run. seed44 is stopped and should not be resumed. 
+The 100k analysis is interim futility/route selection only.
 
-2026-07-08 closure: seed45 reached 750k and 800k. 750k scout: AUC=0.693909 (three-seed DDPM-750k replication complete: 0.648/0.667/0.694, range=0.046). 800k scout: AUC=0.645996, **dropping** from 750k by Δ=-0.048. Three-seed 800k pattern: seed42 amplifies (+0.069), seed43 flat (-0.002), seed45 drops (-0.048). **750k→800k is not a universal effect.**
+## P3: Frozen 100k Branch
 
-### P3: H4 Site-Time Attenuation Scout
+### STOP
 
-Do not run H4 by default after the seed43 800k fine grid. H4 is a bounded site-time intervention scout, not a defense claim, and seed43 did not identify a compact site-time leakage bottleneck. If reopened, it must report H1 AUC/TPR deltas plus utility-cost proxies.
+Stop the run-uncertainty direction only if H1 and PIA AUC 95% upper confidence
+bounds are below 0.55 for every first-stage target. Do not fill secondary
+ablations after this gate.
 
-## Current Scientific Claims
+### REPLICATE
 
-Allowed:
+If the frozen membership-signal gate passes, train the four held-back seeds to
+100k. Report the first four as exploratory targets and the held-back four as an
+independent validation set. Do not pool and redefine the decision rule.
 
-- H1/DAAB is a real activation-level candidate signal across tested checkpoints.
-- Signal strength is training-trajectory sensitive.
-- Three-seed DDPM-750k replication (seed42/43/45) confirms moderate AUC regime (0.648-0.694, mean=0.669).
-- seed45 750k AUC=0.693909, TPR@1%=0.031 — highest DDPM-750k but still moderate, below N=512 threshold.
-- seed43 800k stays moderate (AUC=0.664612) and does not reproduce seed42 same-trajectory 750k->800k amplification.
-- DDIM-750k is stronger than step-matched DDPM-750k.
-- Same-trajectory 750k->800k amplification is modest compared with the independent DDPM-800k gap.
-- N=512 currently shows a strong cluster around 0.81 and a weak cluster around 0.56-0.61.
+The gate must be written in the protocol manifest before outcomes are viewed.
+Current intended rule: for the same attack, at least two first-stage targets
+have AUC >= 0.55 and individual 95% lower confidence bounds above 0.50, with a
+well-calibrated permutation null.
 
-Blocked:
+### MATURE
 
-- H1 is admitted evidence.
-- AUC > 0.8 is universal for DAAB.
-- DDPM always produces temporally distributed H1 geometry.
-- TPR@0.1%FPR claims at N=512.
-- H4 is an effective defense.
-- seed44/45 are required by current evidence.
+For all other non-futile outcomes, continue the original four targets
+symmetrically to 200k. Do not continue only the strongest target. Paired
+100k-to-200k trajectory claims require the exact-resume gate; otherwise the
+200k set is analyzed under the frozen common restart policy only.
+
+## P4: Confirmatory Analysis
+
+### Endpoints
+
+- Primary: held-out AUC.
+- Secondary: TPR@1%FPR with Wilson 95% CI.
+- TPR@0.1%FPR is blocked at 512 clean evaluation rows.
+- Rows quantify conditional measurement error; target runs are the paper-level
+  independent units.
+
+### Heterogeneity Gate
+
+For H1 and PIA separately:
+
+1. run a predeclared global equality test over the complete target set;
+2. require practical range `max(AUC)-min(AUC) >= 0.05`;
+3. report every predeclared pairwise delta with Holm correction;
+4. use paired stratified resampling across checkpoints and refit attacks inside
+   bootstrap replicates.
+
+Interpretation:
+
+- H1 + PIA pass: cross-attack finite-target heterogeneity;
+- H1 only: H1-specific variability;
+- membership signal without heterogeneity: run-identity thesis fails;
+- no minimal signal: stop the full-paper route or reframe as an audit-failure
+  case study.
+
+No outcome permits population seed-variance, prevalence, bimodality, or
+dominant-mechanism claims from four or eight targets.
+
+## P5: Evidence and Paper Decision
+
+After the chosen branch completes:
+
+- [ ] archive checkpoint hashes, protocol manifest, row manifests, noise bank,
+  row-bound scores, bootstrap/permutation outputs, and utility metrics;
+- [ ] write one dated corrected-evidence memo with a one-sentence verdict;
+- [ ] update `docs/evidence/experiment-master-log.md`;
+- [ ] update `docs/paper1/frozen-claim-matrix.md` only after the verdict is
+  independently checked;
+- [ ] synchronize the private evidence bank and submission-readiness review;
+- [ ] decide whether the manuscript should be rebuilt, shortened to a
+  cautionary note, or stopped.
+
+Venue formatting, taxonomy expansion, guardrail promotion, knockout, temporal
+grids, and mechanism writing remain blocked until the corrected confirmatory
+matrix changes the paper decision.
+
+## Claim Boundaries
+
+Allowed now:
+
+- the historical evidence contract was invalid and has been quarantined;
+- corrected member-only training and stronger scoring infrastructure exist;
+- a predeclared finite-target experiment is planned.
+
+Blocked now:
+
+- H1 is admitted membership evidence;
+- H1 is run-dependent;
+- seed controls MIA strength or is a dominant variable;
+- amplify/flat/drop are regimes;
+- the N=512 pattern forms natural strong/weak clusters;
+- Bonnaire's timescales explain the old observations;
+- knockout identifies a stable mechanism or defense target;
+- TPR@0.1%FPR for the corrected N=512 evaluation;
+- any submission-readiness claim before corrected evidence closure.
 
 ## Non-Active Lines
 
-Do not reopen H2 same-cache sweeps, C14 metadata expansion, scnet/DCU matrices, Beans/Fashion/MIDST repeats, MoFIT GPU work, or Retrace-Baseline work unless a new user decision explicitly changes the route.
+Do not reopen H2 same-cache sweeps, C14 metadata expansion, scnet/DCU matrices,
+Beans/Fashion/MIDST repeats, MoFIT GPU work, Retrace-Baseline work, H4,
+fine-temporal grids, or cosmetic paper ablations unless a new result changes a
+specific decision.

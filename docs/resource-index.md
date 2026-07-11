@@ -355,6 +355,10 @@ Every model checkpoint, architecture, format, and compatibility.
 
 #### H1 Activation Scouts
 
+> Historical H1 metrics and mechanism interpretations are quarantined as of
+> 2026-07-10. The rows below are an asset inventory, not current Paper 1
+> evidence. Use the corrected-evidence runbook for new work.
+
 | Experiment | Best AUC | Notes |
 |---|---|---|
 | H1 DDIM 750k channel knockout | 0.895 (baseline), 0.668 (targeted mean) | 16-channel knockout |

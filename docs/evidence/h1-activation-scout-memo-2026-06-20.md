@@ -1,5 +1,9 @@
 # H1 Activation-Subspace Fingerprint — Final Result
 
+> **QUARANTINED 2026-07-10**: the target/evaluation contract was invalid and
+> the old scorer reported resubstitution AUC. The verdict below is superseded;
+> this file is a historical diagnostic record only.
+
 > Date: 2026-06-20
 > Verdict: **CANDIDATE** — Real, stable, distinct white-box signal. Second mechanism confirmed.
 

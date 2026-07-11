@@ -110,17 +110,17 @@ conda run -n diffaudit python -m diffaudit probe-gsa-assets --repo-root external
 
 1. [Research ROADMAP](../../ROADMAP.md)
 2. [Research AGENTS](../../AGENTS.md)
-3. [Phase G runbook](phase-g-runbook-2026-06-30.md)
+3. [Paper 1 corrected-evidence runbook](paper1-corrected-evidence-runbook-2026-07-11.md)
 4. [frozen-claim-matrix.md](../paper1/frozen-claim-matrix.md)
 5. [experiment-master-log.md](../evidence/experiment-master-log.md)
-6. 对应 lane 的 `workspaces/<lane>/plan.md`，仅在 ROADMAP 明确重开非 Phase-G 方向时阅读。
+6. 对应 lane 的 `workspaces/<lane>/plan.md`，仅在 ROADMAP 明确重开其他方向时阅读。
 
 如果只是刚开始接手，不要一开始就扩展新数据集或新论文。先复现环境、自检资产、确认负责的 lane，再做新分支。
 
 ## 5. 当前最重要的入口文档
 
 - 当前路线：[../../ROADMAP.md](../../ROADMAP.md)
-- 当前 Phase G 手册：[phase-g-runbook-2026-06-30.md](phase-g-runbook-2026-06-30.md)
+- 当前 corrected-evidence 手册：[paper1-corrected-evidence-runbook-2026-07-11.md](paper1-corrected-evidence-runbook-2026-07-11.md)
 - 论文声明矩阵：[../paper1/frozen-claim-matrix.md](../paper1/frozen-claim-matrix.md)
 - 命令参考：[command-reference.md](command-reference.md)
 - 黑盒计划：[../workspaces/black-box/plan.md](../../workspaces/black-box/plan.md)（仅重开该方向时）

@@ -1,5 +1,12 @@
 # Phase G Runbook — H1/DAAB Run Dynamics
 
+> **SUPERSEDED 2026-07-11**: The targets and H1 metrics in this runbook are
+> quarantined because of invalid membership ground truth and resubstitution
+> scoring. Do not execute the historical resume commands and do not cite the
+> archived values in a paper. Use
+> `paper1-corrected-evidence-runbook-2026-07-11.md` instead. The remainder of
+> this file is retained only as a historical execution record.
+
 > Date: 2026-06-30
 > Scope: Paper 1 Phase G preparation and execution commands.
 

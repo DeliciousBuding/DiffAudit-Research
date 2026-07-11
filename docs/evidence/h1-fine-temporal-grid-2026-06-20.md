@@ -1,4 +1,8 @@
-# H1 Fine Temporal Grid — Training Stage, Procedure, and Run Identity Shape Membership Signal Geometry
+# H1 Fine Temporal Grid — Quarantined Historical Record
+
+> **QUARANTINED 2026-07-10**: this analysis inherits the invalid historical
+> target/scoring contract. Its temporal and knockout patterns cannot establish
+> run identity, mechanism, or a localized leakage target.
 
 > Date: 2026-06-20 (DDPM 800k + DDIM 750k), updated 2026-06-25 (DDPM 750k)
 > Status: **Complete for seed42/independent checkpoints** — DDPM 800k independent, DDIM 750k, DDPM 750k, and DDPM 750k->800k same-trajectory fine grids are done

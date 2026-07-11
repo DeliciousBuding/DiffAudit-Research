@@ -1,8 +1,14 @@
-# DDPM-750k Step-Matched Control — Evidence Packet
+# DDPM-750k Step-Matched Control — Quarantined Historical Packet
+
+> **QUARANTINED 2026-07-10**: this target did not satisfy the claimed
+> member/nonmember training contract, and its H1 metric used the historical
+> resubstitution scorer. It is not a valid matched control for Paper 1. Retain
+> numbers only for audit history; do not cite its run-dependent, continuation,
+> cluster, knockout, or mechanism conclusions.
 
 Date: 2026-06-25
-Status: COMPLETE
-Role: Step-count confound resolution for Paper 1 Section 6.5
+Status: QUARANTINED
+Role: Historical diagnostic record only
 
 ## Artifact Identity
 

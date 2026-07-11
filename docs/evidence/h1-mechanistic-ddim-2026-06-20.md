@@ -1,5 +1,8 @@
 # H1 DDIM 750k Mechanistic Analysis — Channel-Level DAAB Confirmation
 
+> **QUARANTINED 2026-07-10**: this analysis inherits the invalid historical H1
+> scoring contract and cannot confirm DAAB, training dependence, or mechanism.
+
 > Date: 2026-06-20
 > Status: **Complete**
 > Key finding: Channel-level DAAB properties hold for DDIM 750k. Temporal distribution is the ONLY training-dependent property.

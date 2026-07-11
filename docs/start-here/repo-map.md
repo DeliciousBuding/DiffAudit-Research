@@ -45,7 +45,7 @@
 
 1. [README.md](../../README.md)
 2. [ROADMAP.md](../../ROADMAP.md)
-3. [docs/start-here/phase-g-runbook-2026-06-30.md](phase-g-runbook-2026-06-30.md)
+3. [docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md](paper1-corrected-evidence-runbook-2026-07-11.md)
 4. [docs/paper1/frozen-claim-matrix.md](../paper1/frozen-claim-matrix.md)
 5. [docs/evidence/experiment-master-log.md](../evidence/experiment-master-log.md)
 6. [docs/start-here/teammate-setup.md](teammate-setup.md)

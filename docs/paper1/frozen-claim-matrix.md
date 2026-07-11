@@ -1,8 +1,25 @@
 # DiffAudit Evidence Claim Matrix (Frozen)
 
+> **2026-07-11 ACTIVE QUARANTINE**: H1/DAAB Phase G rows and all derived run-identity,
+> three-seed, continuation-direction, and N=512 cluster claims are not currently
+> admissible for Paper 1. The local seed42/43/45 targets were trained on the full
+> CIFAR-10 training set although the evaluator labeled half of those rows as
+> nonmembers, and the H1 scorer reported resubstitution AUC after fitting PCA/LR
+> on the same rows. Corrected member-only training and held-out scoring code now
+> exists, but existing checkpoints and metrics remain diagnostic-only. Old
+> checkpoints will not be retroactively unquarantined; only new `corrected-*`
+> targets under the 2026-07-11 frozen protocol may create new H1 claims. This
+> quarantine overrides all historical H1 text below.
+
+> **Current H1 status**: no admissible Paper 1 H1 result. The next gate is a
+> predeclared member-only finite-target experiment with disjoint calibration and
+> evaluation rows, common evaluation noise, row-bound scores, H1 as the primary
+> analysis, and PIA canonical as the validation attack. Four or eight targets
+> cannot establish population seed variance or a dominant mechanism.
+
 > 冻结时间：2026-06-19
 > **2026-07-03 更新**: H1/DAAB 行已纳入 Phase G run-dynamics baseline。旧数字（DDPM-800k AUC=0.873, DDIM-750k AUC=0.841）已被统一脚本重新评估的 v2 数字取代；same-trajectory DDPM-800k N=512 已补齐 raw JSON，rerun AUC=0.605488；seed43 750k/800k scout 完成，AUC=0.666687/0.664612。
-> 用途：Paper 1 submission 的唯一数据源。所有 Agent 写作必须引用本表，不得使用其他数字。
+> 用途：Paper 1 claim registry。当前旧 H1 数字仅作历史诊断，禁止进入 submission claim。
 > 规则：每个方法一行，包含允许的声明（allowed claim）和禁止的声明（blocked claim）。
 
 ## Admitted Evidence (5 rows)
@@ -154,11 +171,15 @@
 | # | Method | Access | Model/Data | AUC | TPR@1%FPR | N | Status |
 |---|--------|--------|-----------|:---:|:---------:|:---:|--------|
 | 22 | **PIA/TMIA-DM** | Gray-box | GPU512 | — | — | — | candidate / pending admission review |
-| 24 | **H1 Activation-Subspace (DAAB) v2** | White-box activation | CUDA UNet CIFAR-10, 6 ckpts | **0.648–0.872** | 0.016–0.227 | 128/128 | candidate-positive / run-sensitive |
-| 25 | **H1 DDPM-750k (matched controls)** | White-box activation | Self-trained 750k, seeds 42/43 | **0.648, 0.666687** | 0.094, 0.015625 | 128/128 | step-count / seed replication |
-| 26 | **H1 N=512 tail cluster** | White-box activation | DDPM/DDIM CIFAR-10 scaled | **0.560–0.815** | 0.014–0.158 | 512/512 | run-sensitive; same-trajectory raw artifact present |
+| 24 | **H1 Activation-Subspace (DAAB) v2** | White-box activation | CUDA UNet CIFAR-10, 8 historical ckpts | **0.646–0.872** | 0.016–0.227 | 128/128 | quarantined: invalid target/scoring contract |
+| 25 | **H1 DDPM-750k historical controls** | White-box activation | Self-trained 750k, seeds 42/43/45 | **0.648, 0.667, 0.694** | 0.094, 0.016, 0.031 | 128/128 | quarantined: nonmembers were trained rows |
+| 26 | **H1 N=512 selected historical set** | White-box activation | DDPM/DDIM CIFAR-10 scaled | **0.560–0.815** | 0.014–0.158 | 512/512 | quarantined: invalid contract + outcome selection |
 
-### Allowed Claims (H1/DAAB v2) — updated 2026-06-25
+### Quarantined Historical H1 Narrative — not allowed for claims
+
+The remainder of this H1 subsection records what was previously reported. It
+is retained only to support auditability and must not be copied into a paper,
+abstract, figure caption, or current evidence memo.
 
 H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PCA=6, 4 sites × 3 timesteps, 42 features). All prior numbers (DDPM-800k 0.873, DDIM-750k 0.841) are superseded.
 
@@ -189,6 +210,9 @@ H1 v2 uses a unified evaluation protocol (same script, N=128/128, 3-shadow LR PC
 - H4 closed: no compact post-training edit target exists
 
 ### Blocked Claims (H1/DAAB v2)
+- ❌ Any use of the historical H1 rows as valid membership or run-identity evidence
+- ❌ Any retroactive validation of old checkpoints by running the corrected scorer
+- ❌ Population seed variance, prevalence, bimodality, or dominant-variable claims from four/eight targets
 - ❌ "H1 is admitted membership evidence"
 - ❌ "AUC>0.8 is universal for DAAB" — DDPM-750k AUC=0.648 is below 0.8
 - ❌ "DDPM always produces temporally distributed signal" — DDPM-750k is moderately concentrated

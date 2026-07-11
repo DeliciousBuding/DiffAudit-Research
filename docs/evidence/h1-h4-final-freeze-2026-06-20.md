@@ -1,5 +1,9 @@
 # H1/H4 Final Freeze — 2026-06-20
 
+> **SUPERSEDED / QUARANTINED 2026-07-10**: the H1 evidence chain below inherits
+> invalid membership ground truth and resubstitution scoring. It cannot support
+> a paper claim, mechanism, or a no-more-GPU decision.
+
 > ChatGPT final verdict: **FREEZE.** Evidence complete. No more GPU.
 
 ## H1: Distributed Activation-Amplitude Bias (DAAB)

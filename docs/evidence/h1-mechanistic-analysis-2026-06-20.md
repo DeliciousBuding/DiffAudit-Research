@@ -1,5 +1,9 @@
 # H1 Mechanistic Analysis — Channel Importance Decomposition
 
+> **QUARANTINED 2026-07-10**: this analysis inherits the invalid historical H1
+> target/scoring contract. Channel patterns below do not establish a causal
+> mechanism or stable leakage locus.
+
 > Date: 2026-06-20
 > Purpose: Decompose H1 activation-subspace signal to identify causal mechanism.
 > Verdict: Signal originates from ~4% of UNet channels where member images produce systematically higher activation magnitudes, concentrated in pathway extremes.

@@ -2,6 +2,17 @@
 
 All notable changes to DiffAudit Research are documented here.
 
+## [2026-07-11] — Paper 1 Evidence-Contract Reconstruction
+
+### Changed
+- Quarantined historical Phase G H1 targets and claims after invalid
+  member/nonmember ground truth and resubstitution scoring were identified.
+- Replaced the run-dynamics execution route with a predeclared member-only
+  corrected-evidence protocol using held-out rows, common noise, row-bound
+  scores, a validation attack, and hard STOP/REPLICATE/MATURE gates.
+- Marked historical run-identity, continuation, N=512 cluster, temporal,
+  knockout, and mechanism interpretations as diagnostic-only.
+
 ## [2026-07-05] — Governance & Toolchain Upgrade
 
 ### Added

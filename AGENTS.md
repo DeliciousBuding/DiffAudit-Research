@@ -34,41 +34,42 @@ Read in this order:
 3. `<DIFFAUDIT_ROOT>/Research/ROADMAP.md`
 4. `<DIFFAUDIT_ROOT>/Research/README.md`
 5. `<DIFFAUDIT_ROOT>/Research/docs/README.md`
-6. `<DIFFAUDIT_ROOT>/Research/docs/start-here/phase-g-runbook-2026-06-30.md`
+6. `<DIFFAUDIT_ROOT>/Research/docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md`
 7. `<DIFFAUDIT_ROOT>/Research/docs/paper1/frozen-claim-matrix.md`
 8. `<DIFFAUDIT_ROOT>/Research/docs/evidence/experiment-master-log.md`
 9. The relevant `workspaces/<direction>/README.md` and `plan.md` only if reopening a non-Phase-G direction.
 
 Note: `docs/start-here/` files can drift when the active research direction
-changes. Re-check them against `ROADMAP.md` and the Phase G runbook before using
+changes. Re-check them against `ROADMAP.md` and the corrected-evidence runbook before using
 older onboarding prose for a new session.
 
 Do not start from memory, archived rebuild plans, or old chat context. Re-anchor on current repository files.
 
 ## Active Research Direction
 
-Paper 1 (DiffAudit MIA Audit) is in Phase G: H1/DAAB run-dynamics
-replication. The active scientific question is whether activation-level
-membership evidence is controlled mainly by training trajectory / run
-identity.
+Paper 1 is rebuilding its evidence contract after the historical Phase G
+targets and H1 scorer were quarantined. The active scientific question is
+whether newly trained member-only targets exhibit held-out H1 membership signal
+and whether any differences among a predeclared finite target set exceed
+measurement uncertainty. Run identity is a hypothesis, not an established
+finding or mechanism.
 
 Start from:
 1. `ROADMAP.md` — current task board and evidence baseline
-2. `docs/start-here/phase-g-runbook-2026-06-30.md` — operational commands
-3. `docs/evidence/ddpm-750k-step-matched-control-2026-06-25.md` — Phase G evidence packet
-4. `docs/paper1/frozen-claim-matrix.md` — canonical claim registry
+2. `docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md` — active protocol and commands
+3. `docs/paper1/frozen-claim-matrix.md` — claim registry and quarantine boundary
+4. `docs/evidence/experiment-master-log.md` — experiment verdict ledger
 
-Default CUDA environment: see `docs/start-here/phase-g-runbook-2026-06-30.md`.
+Default CUDA environment: see the corrected-evidence runbook.
 
 ### Related Work Context (2026-07-05 literature scan)
 
 Key published works that bound our contribution:
 
 - **Bonnaire et al. (NeurIPS 2025 Best Paper)**: "Why Diffusion Models Don't Memorize"
-  (arXiv:2505.17638). Proves that diffusion training follows two timescales — τ_gen
-  (generalization) and τ_mem (memorization) — and different optimization trajectories
-  reach different points on this spectrum. Provides the theoretical mechanism for why
-  run identity (random seed) affects MIA signal strength.
+  (arXiv:2505.17638). Studies training timescales and memorization/generalization in
+  diffusion models. It motivates a future hypothesis, but it does not validate a
+  mechanism for DiffAudit; mechanism language stays blocked until directly tested.
 - **SoK: Membership Inference is Harder Than Previously Thought** (PoPETs 2023).
   Systematic survey of MIA limitations and evaluation challenges.
 - **CopyMark** (arXiv:2410.03640). Shows that realistic benchmarks make many MIA

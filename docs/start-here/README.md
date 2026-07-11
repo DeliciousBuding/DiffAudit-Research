@@ -5,7 +5,7 @@
 请按以下顺序阅读：
 
 1. [../../ROADMAP.md](../../ROADMAP.md)
-2. [phase-g-runbook-2026-06-30.md](phase-g-runbook-2026-06-30.md)
+2. [paper1-corrected-evidence-runbook-2026-07-11.md](paper1-corrected-evidence-runbook-2026-07-11.md)
 3. [../paper1/frozen-claim-matrix.md](../paper1/frozen-claim-matrix.md)
 4. [../evidence/experiment-master-log.md](../evidence/experiment-master-log.md)
 5. [getting-started.md](getting-started.md)
@@ -14,7 +14,7 @@
 8. [command-reference.md](command-reference.md)
 9. [repo-map.md](repo-map.md)
 
-`workspaces/black-box/`、`workspaces/gray-box/`、`workspaces/white-box/` 是历史和候选方向入口。只有 `ROADMAP.md` 明确重开非 Phase-G 方向时，才把对应 plan 当成当前任务入口。
+`workspaces/black-box/`、`workspaces/gray-box/`、`workspaces/white-box/` 是历史和候选方向入口。只有 `ROADMAP.md` 明确重开其他方向时，才把对应 plan 当成当前任务入口。旧 Phase G runbook 仅作历史记录。
 
 如果某条命令需要本地数据集或权重，请先通过
 [../assets-and-storage/data-and-assets-handoff.md](../assets-and-storage/data-and-assets-handoff.md)
