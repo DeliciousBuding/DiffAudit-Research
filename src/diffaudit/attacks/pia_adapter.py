@@ -239,12 +239,10 @@ def _build_pia_attacker(
         epsilon_precision_bins=epsilon_precision_bins,
     )
     return attacker_cls(
-        betas,
-        interval,
-        attack_num,
-        1,  # k
-        eps_getter,
-        False,  # average
+        betas=betas,
+        interval=interval,
+        attack_num=attack_num,
+        eps_getter=eps_getter,
     )
 
 
@@ -600,12 +598,21 @@ def _compute_surrogate_quality_metrics(
                 "value": None,
                 "official": False,
                 "status": "not_computed",
-                "reason": "no classifier-backed surrogate quality model is wired into the current PIA runtime path",
+                "reason": (
+                    "no classifier-backed surrogate quality model is wired into the current "
+                    "PIA runtime path"
+                ),
             },
         },
         "notes": [
-            "Quality metrics are surrogate diagnostics over runtime batches, not paper-grade image generation metrics.",
-            "FID uses rgb-channel-moment features and LPIPS uses RMS image drift against the chosen reference batch.",
+            (
+                "Quality metrics are surrogate diagnostics over runtime batches, not paper-grade "
+                "image generation metrics."
+            ),
+            (
+                "FID uses rgb-channel-moment features and LPIPS uses RMS image drift against the "
+                "chosen reference batch."
+            ),
         ],
     }
 
@@ -888,10 +895,10 @@ def _load_packet_indices_file(path: str | Path) -> list[int]:
 
     try:
         payload = json.loads(text)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as exc:
         tokens = [token for token in re.split(r"[\s,]+", text) if token]
         if not tokens:
-            raise ValueError(f"PIA packet index file does not contain any indices: {path}")
+            raise ValueError(f"PIA packet index file does not contain any indices: {path}") from exc
         return [int(token) for token in tokens]
 
     if isinstance(payload, list):
@@ -914,7 +921,8 @@ def _validate_packet_indices(
     invalid = [int(value) for value in requested_indices if int(value) not in allowed]
     if invalid:
         raise ValueError(
-            f"PIA explicit {membership} packet includes indices outside the canonical {membership} split: {invalid[:5]}"
+            f"PIA explicit {membership} packet includes indices outside the canonical "
+            f"{membership} split: {invalid[:5]}"
         )
 
 
@@ -936,7 +944,8 @@ def _normalize_channel_dim(activation: torch.Tensor, channel_dim: int) -> int:
         normalized += int(activation.ndim)
     if normalized < 0 or normalized >= int(activation.ndim):
         raise ValueError(
-            f"Invalid channel_dim={channel_dim} for activation shape={tuple(int(dim) for dim in activation.shape)}"
+            f"Invalid channel_dim={channel_dim} for activation "
+            f"shape={tuple(int(dim) for dim in activation.shape)}"
         )
     return normalized
 
@@ -1217,7 +1226,8 @@ def export_pia_translated_alias_probe(
     nonmember_batch = _collect_loader_batches(nonmember_loader)
     if member_batch.shape[0] != 1 or nonmember_batch.shape[0] != 1:
         raise ValueError(
-            "PIA translated alias probe currently requires exactly one member and one non-member sample"
+            "PIA translated alias probe currently requires exactly one member and one "
+            "non-member sample"
         )
 
     baseline_member_forward = _run_pia_alias_forward(
@@ -1614,8 +1624,14 @@ def export_pia_translated_alias_probe(
         },
         "notes": [
             "This probe is an alias-scoped translated-contract canary, not same-spec reuse.",
-            "Gray-box channel masking is applied on BCHW activations with channel_dim=1 at middleblocks.0.attn.proj_v.",
-            "Packet deltas are local execution signals only and do not count as cross-box support by themselves.",
+            (
+                "Gray-box channel masking is applied on BCHW activations with channel_dim=1 at "
+                "middleblocks.0.attn.proj_v."
+            ),
+            (
+                "Packet deltas are local execution signals only and do not count as cross-box "
+                "support by themselves."
+            ),
         ],
     }
     (workspace_path / "summary.json").write_text(
@@ -1950,7 +1966,10 @@ def export_pia_packet_scores(
         },
         "notes": [
             "This scaffold exports packet-local PIA scores on a fixed member/non-member packet.",
-            "Exact-index mode can export pairboard-ready CPU-first scores on explicit PIA split indices.",
+            (
+                "Exact-index mode can export pairboard-ready CPU-first scores on explicit PIA "
+                "split indices."
+            ),
             "It is a CPU-first bridge artifact, not a benchmark or GPU release.",
         ],
     }
@@ -2179,7 +2198,10 @@ def run_pia_runtime_mainline(
                 "summary": str(workspace_path / "summary.json"),
             },
             "notes": [
-                "Runtime mainline requires the canonical checkpoint, dataset root, and member split to be ready.",
+                (
+                    "Runtime mainline requires the canonical checkpoint, dataset root, and member "
+                    "split to be ready."
+                ),
             ],
         }
         (workspace_path / "summary.json").write_text(
@@ -2447,7 +2469,10 @@ def run_pia_runtime_mainline(
         },
         "notes": [
             "Runtime mainline executes the current PIA DDPM path on canonical real assets.",
-            "Current evidence is suitable for a local baseline and must not be overstated as benchmark-ready.",
+            (
+                "Current evidence is suitable for a local baseline and must not be overstated as "
+                "benchmark-ready."
+            ),
         ],
     }
     (workspace_path / "summary.json").write_text(

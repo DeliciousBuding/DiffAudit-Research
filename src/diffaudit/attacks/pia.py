@@ -76,7 +76,9 @@ def build_pia_plan(config: AuditConfig) -> PiaPlan:
             "query_count": 2,
             "normalization": "per_row_vector_lp",
             "beta_semantics": "linear_1000_steps_inclusive_0.0001_to_0.02",
-            "threshold_calibration": "maximize_balanced_accuracy_then_minimize_fpr_then_highest_threshold",
+            "threshold_calibration": (
+                "maximize_balanced_accuracy_then_minimize_fpr_then_highest_threshold"
+            ),
             "positive_control_gate": {
                 "auc_min": 0.95,
                 "balanced_accuracy_min": 0.90,
