@@ -15,7 +15,9 @@ import numpy as np
 import torch
 from torch.utils.data import Sampler
 
-_CORRECTED_RUN_LABEL_RE = re.compile(r"ddpm-cifar10-corrected-[a-z0-9]+(?:-[a-z0-9]+)*\Z")
+_CORRECTED_RUN_LABEL_RE = re.compile(
+    r"(?:ddpm-cifar10-)?corrected-[a-z0-9]+(?:-[a-z0-9]+)*\Z"
+)
 _HISTORICAL_SEED_RE = re.compile(r"(?:^|-)seed-?(?:42|43|44|45)(?:-|$)")
 _PROTOCOL_HASH_RE = re.compile(r"[0-9a-f]{64}\Z")
 _RNG_SCHEMA_VERSION = 1
@@ -317,9 +319,9 @@ def validate_corrected_run_label(label: str) -> str:
         raise TypeError("run label must be a string")
     if _CORRECTED_RUN_LABEL_RE.fullmatch(label) is None:
         raise ValueError(
-            "run label must start with 'ddpm-cifar10-corrected-' and contain a safe slug"
+            "run label must use a corrected safe slug"
         )
-    suffix = label.removeprefix("ddpm-cifar10-corrected-")
+    suffix = label.removeprefix("ddpm-cifar10-").removeprefix("corrected-")
     if _HISTORICAL_SEED_RE.search(suffix) or "ddpm-cifar10-750k" in suffix:
         raise ValueError("run label must not identify a historical target")
     return label
