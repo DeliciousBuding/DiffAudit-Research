@@ -606,12 +606,16 @@ def test_evidence_package_exports_corrected_protocol_primitives() -> None:
     expected = {
         "MembershipSplit",
         "ProtocolRow",
+        "build_paper1_corrected_contract",
         "build_paper1_corrected_row_manifest",
+        "build_protocol_envelope",
         "build_stratified_row_manifest",
         "canonical_protocol_hash",
         "derive_noise_seed",
         "derive_training_seeds",
         "load_member_nonmember_indices",
+        "load_protocol_envelope",
+        "verify_paper1_contract",
     }
 
     assert set(evidence.__all__) == expected

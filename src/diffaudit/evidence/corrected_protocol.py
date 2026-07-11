@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from itertools import combinations
@@ -15,6 +16,24 @@ import numpy as np
 
 _SPLIT_FILENAMES = {"cifar10": "CIFAR10_train_ratio0.5.npz"}
 _CLASS_IDS = tuple(range(10))
+_PROTOCOL_ENVELOPE_FIELDS = {"schema_version", "protocol_hash", "contract"}
+_SHA256_PATTERN = re.compile(r"[0-9a-f]{64}")
+_GIT_COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
+_PAPER1_PROTOCOL_NAMESPACE = "paper1-corrected-evidence"
+_PAPER1_COMMON_NOISE_NAMESPACE = "paper1-corrected-v1"
+_PAPER1_ROW_RANDOM_STATE = 1746574482
+_PAPER1_CONTRACT_FIELDS = {
+    "protocol_namespace",
+    "dataset",
+    "training",
+    "evaluation",
+    "h1",
+    "pia",
+    "common_noise",
+    "branch_rules",
+    "confirmatory_heterogeneity",
+    "code_commit",
+}
 
 
 def _digest_parts(*parts: object) -> bytes:
@@ -110,6 +129,44 @@ def _reject_absolute_paths(value: object) -> None:
             _reject_absolute_paths(nested_value)
 
 
+def _json_safe_copy(value: object, *, name: str) -> object:
+    _reject_absolute_paths(value)
+    try:
+        payload = json.dumps(
+            value,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+            allow_nan=False,
+        )
+        return json.loads(payload)
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"{name} must contain only finite JSON values") from error
+
+
+def _reject_json_constant(value: str) -> None:
+    raise ValueError(f"non-finite JSON constant is not allowed: {value}")
+
+
+def _require_exact_json_value(name: str, actual: object, expected: object) -> None:
+    if type(actual) is not type(expected):
+        raise ValueError(f"Paper 1 {name} does not match the fixed contract")
+    if isinstance(expected, dict):
+        if set(actual) != set(expected):
+            raise ValueError(f"Paper 1 {name} does not match the fixed contract")
+        for key, expected_value in expected.items():
+            _require_exact_json_value(f"{name}.{key}", actual[key], expected_value)
+        return
+    if isinstance(expected, list):
+        if len(actual) != len(expected):
+            raise ValueError(f"Paper 1 {name} does not match the fixed contract")
+        for index, (actual_value, expected_value) in enumerate(zip(actual, expected, strict=True)):
+            _require_exact_json_value(f"{name}[{index}]", actual_value, expected_value)
+        return
+    if actual != expected:
+        raise ValueError(f"Paper 1 {name} does not match the fixed contract")
+
+
 @dataclass(frozen=True, slots=True)
 class MembershipSplit:
     """Validated member and nonmember dataset indices."""
@@ -140,6 +197,58 @@ def canonical_protocol_hash(protocol: Mapping[str, object]) -> str:
         allow_nan=False,
     ).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
+
+
+def build_protocol_envelope(contract: Mapping[str, object]) -> dict[str, object]:
+    """Return a signed, detached JSON-safe copy of a protocol contract."""
+
+    if not isinstance(contract, Mapping):
+        raise ValueError("contract must be a JSON mapping")
+    copied_contract = _json_safe_copy(contract, name="contract")
+    if not isinstance(copied_contract, dict):
+        raise ValueError("contract must be a JSON mapping")
+    return {
+        "schema_version": 1,
+        "protocol_hash": canonical_protocol_hash(copied_contract),
+        "contract": copied_contract,
+    }
+
+
+def load_protocol_envelope(
+    source: Mapping[str, object] | str | Path,
+) -> dict[str, object]:
+    """Load and verify a signed protocol envelope from a mapping or JSON path."""
+
+    if isinstance(source, Mapping):
+        raw_envelope: object = source
+    else:
+        try:
+            raw_envelope = json.loads(
+                Path(source).read_text(encoding="utf-8"),
+                parse_constant=_reject_json_constant,
+            )
+        except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
+            raise ValueError("protocol envelope path must contain valid finite JSON") from error
+
+    copied_envelope = _json_safe_copy(raw_envelope, name="protocol envelope")
+    if not isinstance(copied_envelope, dict):
+        raise ValueError("protocol envelope must be a JSON mapping")
+    if set(copied_envelope) != _PROTOCOL_ENVELOPE_FIELDS:
+        raise ValueError("protocol envelope top-level fields must be exact")
+    if type(copied_envelope["schema_version"]) is not int or copied_envelope[
+        "schema_version"
+    ] != 1:
+        raise ValueError("protocol envelope schema_version must be 1")
+
+    protocol_hash = copied_envelope["protocol_hash"]
+    if not isinstance(protocol_hash, str) or _SHA256_PATTERN.fullmatch(protocol_hash) is None:
+        raise ValueError("protocol envelope protocol_hash must be 64 lowercase hex characters")
+    contract = copied_envelope["contract"]
+    if not isinstance(contract, dict):
+        raise ValueError("protocol envelope contract must be a JSON mapping")
+    if canonical_protocol_hash(contract) != protocol_hash:
+        raise ValueError("protocol envelope protocol_hash does not match contract")
+    return copied_envelope
 
 
 def derive_noise_seed(
@@ -353,3 +462,287 @@ def load_member_nonmember_indices(
         member_indices=tuple(int(value) for value in member),
         nonmember_indices=tuple(int(value) for value in nonmember),
     )
+
+
+def _paper1_h1_contract() -> dict[str, object]:
+    return {
+        "sites": ["late_down", "mid_0", "mid_1", "early_up"],
+        "timesteps": [100, 400, 700],
+        "pca_components": 6,
+        "score_direction": "higher_is_member",
+    }
+
+
+def _paper1_pia_contract() -> dict[str, object]:
+    return {"validation_status": "positive_control_required"}
+
+
+def _paper1_common_noise_contract() -> dict[str, object]:
+    return {
+        "namespace": _PAPER1_COMMON_NOISE_NAMESPACE,
+        "algorithm": "diffaudit-common-noise-seed-v1",
+        "timesteps": [100, 400, 700],
+        "draws": [0],
+    }
+
+
+def _paper1_branch_rules() -> dict[str, object]:
+    return {
+        "STOP": {
+            "first_stage_target_count": 4,
+            "attacks": ["H1", "PIA"],
+            "all_auc_95pct_upper_bounds_below": 0.55,
+        },
+        "REPLICATE": {
+            "first_stage_target_count": 4,
+            "same_attack_minimum_target_count": 2,
+            "auc_point_estimate_at_least": 0.55,
+            "auc_95pct_lower_bound_above": 0.50,
+            "full_label_permutation_null_calibrated": True,
+            "minimum_full_label_permutations": 200,
+            "target_steps": 100_000,
+        },
+        "MATURE": {
+            "condition": "not_STOP_and_not_REPLICATE",
+            "target_count": 4,
+            "target_steps": 200_000,
+        },
+    }
+
+
+def _paper1_confirmatory_heterogeneity() -> dict[str, object]:
+    return {
+        "global_test_alpha": 0.05,
+        "practical_auc_range_at_least": 0.05,
+        "pairwise_correction": "holm",
+        "report_all_pairwise_deltas": True,
+    }
+
+
+def _validate_split_filename(split_filename: object) -> str:
+    if (
+        not isinstance(split_filename, str)
+        or not split_filename
+        or PurePosixPath(split_filename).name != split_filename
+        or PureWindowsPath(split_filename).name != split_filename
+    ):
+        raise ValueError("split_filename must be a public-safe filename")
+    _reject_absolute_paths(split_filename)
+    return split_filename
+
+
+def _validate_paper1_partition(
+    member_indices: Sequence[int],
+    nonmember_indices: Sequence[int],
+) -> tuple[tuple[int, ...], tuple[int, ...]]:
+    member = _validated_indices("member", member_indices)
+    nonmember = _validated_indices("nonmember", nonmember_indices)
+    if (
+        len(member) != 25_000
+        or len(nonmember) != 25_000
+        or len(set(member)) != 25_000
+        or len(set(nonmember)) != 25_000
+        or set(member).isdisjoint(nonmember) is False
+        or set(member) | set(nonmember) != set(range(50_000))
+    ):
+        raise ValueError(
+            "membership split must be a complete 25000/25000 partition of 0..49999"
+        )
+    return member, nonmember
+
+
+def build_paper1_corrected_contract(
+    *,
+    split_filename: str,
+    split_sha256: str,
+    member_indices: Sequence[int],
+    nonmember_indices: Sequence[int],
+    class_labels: Sequence[int],
+    code_commit: str,
+) -> dict[str, object]:
+    """Build the fixed, timestamp-free Paper 1 corrected-evidence contract."""
+
+    split_filename = _validate_split_filename(split_filename)
+    if not isinstance(split_sha256, str) or _SHA256_PATTERN.fullmatch(split_sha256) is None:
+        raise ValueError("split_sha256 must be 64 lowercase hex characters")
+    if not isinstance(code_commit, str) or _GIT_COMMIT_PATTERN.fullmatch(code_commit) is None:
+        raise ValueError("code_commit must be 40 lowercase hex characters")
+    member, nonmember = _validate_paper1_partition(member_indices, nonmember_indices)
+
+    labels = np.asarray(class_labels)
+    if labels.ndim != 1 or labels.size != 50_000:
+        raise ValueError("class_labels must contain exactly 50000 CIFAR10 train labels")
+    rows = build_paper1_corrected_row_manifest(
+        member,
+        nonmember,
+        labels,
+        random_state=_PAPER1_ROW_RANDOM_STATE,
+    )
+    row_payload = [
+        {
+            "dataset_index": row.dataset_index,
+            "label": row.label,
+            "class_id": row.class_id,
+            "split": row.split,
+        }
+        for row in rows
+    ]
+    training_seeds = list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE))
+    contract = {
+        "protocol_namespace": _PAPER1_PROTOCOL_NAMESPACE,
+        "dataset": {
+            "name": "CIFAR10",
+            "size": 50_000,
+            "split": {
+                "filename": split_filename,
+                "sha256": split_sha256,
+                "member_count": 25_000,
+                "nonmember_count": 25_000,
+            },
+        },
+        "training": {
+            "seeds": training_seeds,
+            "batch_size": 64,
+            "interim_steps": 100_000,
+            "mature_steps": 200_000,
+            "deterministic": True,
+            "member_only": True,
+        },
+        "evaluation": {"rows": row_payload},
+        "h1": _paper1_h1_contract(),
+        "pia": _paper1_pia_contract(),
+        "common_noise": _paper1_common_noise_contract(),
+        "branch_rules": _paper1_branch_rules(),
+        "confirmatory_heterogeneity": _paper1_confirmatory_heterogeneity(),
+        "code_commit": code_commit,
+    }
+    copied_contract = _json_safe_copy(contract, name="Paper 1 contract")
+    if not isinstance(copied_contract, dict):
+        raise ValueError("Paper 1 contract must be a JSON mapping")
+    return copied_contract
+
+
+def _validate_paper1_rows(value: object) -> None:
+    if not isinstance(value, list) or len(value) != 2048:
+        raise ValueError("Paper 1 evaluation rows must contain exactly 2048 rows")
+
+    seen_indices: set[int] = set()
+    group_class_counts: dict[tuple[int, str], dict[int, int]] = {
+        (label, split): {class_id: 0 for class_id in _CLASS_IDS}
+        for label in (0, 1)
+        for split in ("calibration", "evaluation")
+    }
+    row_fields = {"dataset_index", "label", "class_id", "split"}
+    for row in value:
+        if not isinstance(row, dict) or set(row) != row_fields:
+            raise ValueError("Paper 1 evaluation rows have invalid fields")
+        dataset_index = row["dataset_index"]
+        label = row["label"]
+        class_id = row["class_id"]
+        split = row["split"]
+        if (
+            type(dataset_index) is not int
+            or not 0 <= dataset_index < 50_000
+            or dataset_index in seen_indices
+            or type(label) is not int
+            or label not in (0, 1)
+            or type(class_id) is not int
+            or class_id not in _CLASS_IDS
+            or not isinstance(split, str)
+            or split not in ("calibration", "evaluation")
+        ):
+            raise ValueError("Paper 1 evaluation rows have invalid row identity")
+        seen_indices.add(dataset_index)
+        group_class_counts[(label, split)][class_id] += 1
+
+    for split in ("calibration", "evaluation"):
+        membership_vectors = []
+        for label in (0, 1):
+            vector = tuple(group_class_counts[(label, split)].values())
+            if sum(vector) != 512 or max(vector) - min(vector) > 1:
+                raise ValueError("Paper 1 evaluation rows are not class-balanced 512-row groups")
+            membership_vectors.append(vector)
+        if membership_vectors[0] != membership_vectors[1]:
+            raise ValueError("Paper 1 evaluation rows are not membership-balanced by class")
+
+
+def verify_paper1_contract(
+    envelope: Mapping[str, object] | str | Path,
+) -> dict[str, object]:
+    """Verify the signature and every frozen Paper 1 scientific field."""
+
+    loaded = load_protocol_envelope(envelope)
+    contract = loaded["contract"]
+    if not isinstance(contract, dict) or set(contract) != _PAPER1_CONTRACT_FIELDS:
+        raise ValueError("Paper 1 contract top-level fields do not match the fixed shape")
+    _require_exact_json_value(
+        "protocol_namespace", contract["protocol_namespace"], _PAPER1_PROTOCOL_NAMESPACE
+    )
+
+    dataset = contract["dataset"]
+    if not isinstance(dataset, dict) or set(dataset) != {"name", "size", "split"}:
+        raise ValueError("Paper 1 dataset does not match the fixed contract")
+    _require_exact_json_value("dataset.name", dataset["name"], "CIFAR10")
+    _require_exact_json_value("dataset.size", dataset["size"], 50_000)
+    split = dataset["split"]
+    if not isinstance(split, dict) or set(split) != {
+        "filename",
+        "sha256",
+        "member_count",
+        "nonmember_count",
+    }:
+        raise ValueError("Paper 1 dataset split does not match the fixed contract")
+    _validate_split_filename(split["filename"])
+    if not isinstance(split["sha256"], str) or _SHA256_PATTERN.fullmatch(split["sha256"]) is None:
+        raise ValueError("Paper 1 dataset split sha256 must be 64 lowercase hex characters")
+    _require_exact_json_value("dataset.split.member_count", split["member_count"], 25_000)
+    _require_exact_json_value("dataset.split.nonmember_count", split["nonmember_count"], 25_000)
+
+    training = contract["training"]
+    expected_training = {
+        "seeds": list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)),
+        "batch_size": 64,
+        "interim_steps": 100_000,
+        "mature_steps": 200_000,
+        "deterministic": True,
+        "member_only": True,
+    }
+    if not isinstance(training, dict):
+        raise ValueError("Paper 1 training does not match the fixed contract")
+    seeds = training.get("seeds")
+    if (
+        not isinstance(seeds, list)
+        or len(seeds) != 8
+        or any(type(seed) is not int or not 0 < seed < 2**31 for seed in seeds)
+        or len(set(seeds)) != 8
+    ):
+        raise ValueError("Paper 1 training seeds must be eight unique positive 31-bit integers")
+    _require_exact_json_value("training seeds", seeds, expected_training["seeds"])
+    _require_exact_json_value("training", training, expected_training)
+
+    evaluation = contract["evaluation"]
+    if not isinstance(evaluation, dict) or set(evaluation) != {"rows"}:
+        raise ValueError("Paper 1 evaluation does not match the fixed contract")
+    _validate_paper1_rows(evaluation["rows"])
+
+    _require_exact_json_value("h1", contract["h1"], _paper1_h1_contract())
+    _require_exact_json_value("pia", contract["pia"], _paper1_pia_contract())
+    _require_exact_json_value(
+        "common_noise", contract["common_noise"], _paper1_common_noise_contract()
+    )
+    _require_exact_json_value(
+        "branch_rules", contract["branch_rules"], _paper1_branch_rules()
+    )
+    _require_exact_json_value(
+        "confirmatory_heterogeneity",
+        contract["confirmatory_heterogeneity"],
+        _paper1_confirmatory_heterogeneity(),
+    )
+    code_commit = contract["code_commit"]
+    if not isinstance(code_commit, str) or _GIT_COMMIT_PATTERN.fullmatch(code_commit) is None:
+        raise ValueError("Paper 1 code_commit must be 40 lowercase hex characters")
+
+    copied_contract = _json_safe_copy(contract, name="Paper 1 contract")
+    if not isinstance(copied_contract, dict):
+        raise ValueError("Paper 1 contract must be a JSON mapping")
+    return copied_contract
