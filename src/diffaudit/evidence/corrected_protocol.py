@@ -7,6 +7,7 @@ import json
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from itertools import combinations
+from numbers import Integral
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Literal
 
@@ -21,20 +22,26 @@ def _digest_parts(*parts: object) -> bytes:
     return hashlib.sha256(encoded).digest()
 
 
+def _validated_indices(membership: str, values: Sequence[int]) -> tuple[int, ...]:
+    raw_values = tuple(values)
+    if any(isinstance(value, bool) or not isinstance(value, Integral) for value in raw_values):
+        raise ValueError(f"{membership} indices must contain integers")
+    return tuple(int(value) for value in raw_values)
+
+
 def _balanced_split_class_counts(
     calibration_count: int,
     evaluation_count: int,
     capacities: Mapping[int, int],
     *,
     random_state: int,
-    membership: str,
 ) -> tuple[dict[int, int], dict[int, int]]:
     calibration_base, calibration_remainder = divmod(calibration_count, len(_CLASS_IDS))
     evaluation_base, evaluation_remainder = divmod(evaluation_count, len(_CLASS_IDS))
     base_total = calibration_base + evaluation_base
     remaining = {class_id: capacities[class_id] - base_total for class_id in _CLASS_IDS}
     if any(capacity < 0 for capacity in remaining.values()):
-        raise ValueError(f"{membership} class capacities cannot support balanced splits")
+        raise ValueError("shared membership class capacities cannot support balanced splits")
 
     calibration_candidates = sorted(
         combinations(
@@ -44,7 +51,6 @@ def _balanced_split_class_counts(
         key=lambda classes: _digest_parts(
             "diffaudit-row-class-order-v1",
             random_state,
-            membership,
             "calibration",
             *classes,
         ),
@@ -61,7 +67,6 @@ def _balanced_split_class_counts(
             key=lambda classes: _digest_parts(
                 "diffaudit-row-class-order-v1",
                 random_state,
-                membership,
                 "evaluation",
                 *classes,
             ),
@@ -77,7 +82,7 @@ def _balanced_split_class_counts(
             evaluation_counts[class_id] += 1
         return calibration_counts, evaluation_counts
 
-    raise ValueError(f"{membership} class capacities cannot support balanced splits")
+    raise ValueError("shared membership class capacities cannot support balanced splits")
 
 
 def _reject_absolute_paths(value: object) -> None:
@@ -160,8 +165,8 @@ def build_stratified_row_manifest(
 ) -> tuple[ProtocolRow, ...]:
     """Build deterministic class-stratified calibration and evaluation rows."""
 
-    member = tuple(int(index) for index in member_indices)
-    nonmember = tuple(int(index) for index in nonmember_indices)
+    member = _validated_indices("member", member_indices)
+    nonmember = _validated_indices("nonmember", nonmember_indices)
     labels = np.asarray(class_labels)
     if labels.ndim != 1:
         raise ValueError("class_labels must be one-dimensional")
@@ -175,27 +180,46 @@ def build_stratified_row_manifest(
     if set(member) & set(nonmember):
         raise ValueError("member and nonmember indices overlap")
 
+    source_class_ids: dict[int, int] = {}
+    for index in (*member, *nonmember):
+        class_id = labels[index]
+        if isinstance(class_id, bool) or not isinstance(class_id, Integral):
+            raise ValueError("class_labels for source rows must contain integers")
+        normalized_class_id = int(class_id)
+        if normalized_class_id not in _CLASS_IDS:
+            raise ValueError("source class IDs must be in range 0..9")
+        source_class_ids[index] = normalized_class_id
+
     total_required = n_calibration_per_group + n_evaluation_per_group
-    rows: list[ProtocolRow] = []
-    for membership, label, source_indices in (
+    group_specs = (
         ("member", 1, member),
         ("nonmember", 0, nonmember),
-    ):
+    )
+    pools_by_membership: dict[str, dict[int, list[int]]] = {}
+    for membership, _, source_indices in group_specs:
         if len(source_indices) < total_required:
             raise ValueError(f"{membership} group requires at least {total_required} rows")
-
-        pools = {
-            class_id: [index for index in source_indices if int(labels[index]) == class_id]
+        pools_by_membership[membership] = {
+            class_id: [index for index in source_indices if source_class_ids[index] == class_id]
             for class_id in _CLASS_IDS
         }
-        calibration_counts, evaluation_counts = _balanced_split_class_counts(
-            n_calibration_per_group,
-            n_evaluation_per_group,
-            {class_id: len(pool) for class_id, pool in pools.items()},
-            random_state=random_state,
-            membership=membership,
-        )
 
+    calibration_counts, evaluation_counts = _balanced_split_class_counts(
+        n_calibration_per_group,
+        n_evaluation_per_group,
+        {
+            class_id: min(
+                len(pools_by_membership["member"][class_id]),
+                len(pools_by_membership["nonmember"][class_id]),
+            )
+            for class_id in _CLASS_IDS
+        },
+        random_state=random_state,
+    )
+
+    rows: list[ProtocolRow] = []
+    for membership, label, _ in group_specs:
+        pools = pools_by_membership[membership]
         for class_id in _CLASS_IDS:
             calibration_count = calibration_counts[class_id]
             evaluation_count = evaluation_counts[class_id]

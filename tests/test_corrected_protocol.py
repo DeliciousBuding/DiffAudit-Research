@@ -67,6 +67,25 @@ def _tight_row_inputs() -> tuple[tuple[int, ...], tuple[int, ...], np.ndarray]:
     return tuple(member_indices), tuple(nonmember_indices), np.asarray(class_labels)
 
 
+def _asymmetric_capacity_row_inputs() -> tuple[tuple[int, ...], tuple[int, ...], np.ndarray]:
+    member_counts = (103, 103, 103, 103, 103, 103, 102, 102, 102, 102)
+    nonmember_counts = (102, 102, 103, 103, 103, 103, 103, 103, 102, 102)
+    member_indices: list[int] = []
+    nonmember_indices: list[int] = []
+    class_labels: list[int] = []
+    for class_id, (member_count, nonmember_count) in enumerate(
+        zip(member_counts, nonmember_counts, strict=True)
+    ):
+        member_start = len(class_labels)
+        class_labels.extend([class_id] * member_count)
+        member_indices.extend(range(member_start, len(class_labels)))
+
+        nonmember_start = len(class_labels)
+        class_labels.extend([class_id] * nonmember_count)
+        nonmember_indices.extend(range(nonmember_start, len(class_labels)))
+    return tuple(member_indices), tuple(nonmember_indices), np.asarray(class_labels)
+
+
 def test_load_member_nonmember_indices_reads_valid_split(tmp_path: Path) -> None:
     split_path = tmp_path / "split.npz"
     _write_split(split_path)
@@ -272,6 +291,58 @@ def test_build_stratified_row_manifest_uses_feasible_tight_class_capacity() -> N
             assert max(counts.values()) - min(counts.values()) <= 1
 
 
+def test_build_stratified_row_manifest_shares_class_counts_across_membership() -> None:
+    member_indices, nonmember_indices, class_labels = _balanced_row_inputs()
+
+    rows = build_stratified_row_manifest(
+        member_indices,
+        nonmember_indices,
+        class_labels,
+        random_state=42,
+    )
+
+    for split_name in ("calibration", "evaluation"):
+        member_counts = tuple(
+            sum(
+                row.label == 1 and row.split == split_name and row.class_id == class_id
+                for row in rows
+            )
+            for class_id in range(10)
+        )
+        nonmember_counts = tuple(
+            sum(
+                row.label == 0 and row.split == split_name and row.class_id == class_id
+                for row in rows
+            )
+            for class_id in range(10)
+        )
+        assert member_counts == nonmember_counts
+
+
+def test_build_stratified_row_manifest_uses_joint_membership_capacities() -> None:
+    member_indices, nonmember_indices, class_labels = _asymmetric_capacity_row_inputs()
+
+    rows = build_stratified_row_manifest(
+        member_indices,
+        nonmember_indices,
+        class_labels,
+        random_state=42,
+    )
+
+    for split_name in ("calibration", "evaluation"):
+        vectors = [
+            tuple(
+                sum(
+                    row.label == label and row.split == split_name and row.class_id == class_id
+                    for row in rows
+                )
+                for class_id in range(10)
+            )
+            for label in (0, 1)
+        ]
+        assert vectors[0] == vectors[1]
+
+
 def test_build_stratified_row_manifest_rejects_insufficient_input() -> None:
     member_indices, nonmember_indices, class_labels = _balanced_row_inputs(per_class_per_group=100)
 
@@ -346,6 +417,48 @@ def test_build_stratified_row_manifest_requires_one_dimensional_labels() -> None
             class_labels[:, None],
             random_state=42,
         )
+
+
+@pytest.mark.parametrize(
+    ("member_indices", "nonmember_indices", "message"),
+    [
+        ((0, 1.9), (2, 3), "member indices must contain integers"),
+        ((0, 1), (2, 3.9), "nonmember indices must contain integers"),
+        ((0, True), (2, 3), "member indices must contain integers"),
+    ],
+)
+def test_build_stratified_row_manifest_rejects_noninteger_source_indices(
+    member_indices: tuple[object, ...],
+    nonmember_indices: tuple[object, ...],
+    message: str,
+) -> None:
+    with pytest.raises(ValueError, match=message):
+        build_stratified_row_manifest(
+            member_indices,  # type: ignore[arg-type]
+            nonmember_indices,  # type: ignore[arg-type]
+            np.asarray([0, 1, 2, 3]),
+            random_state=42,
+        )
+
+
+@pytest.mark.parametrize("invalid_label", [0.9, True])
+def test_build_stratified_row_manifest_rejects_noninteger_source_class_labels(
+    invalid_label: object,
+) -> None:
+    labels = np.asarray([invalid_label, 1, 2, 3], dtype=object)
+
+    with pytest.raises(ValueError, match="class_labels for source rows must contain integers"):
+        build_stratified_row_manifest((0, 1), (2, 3), labels, random_state=42)
+
+
+@pytest.mark.parametrize("invalid_label", [-1, 10])
+def test_build_stratified_row_manifest_rejects_source_class_ids_outside_cifar10(
+    invalid_label: int,
+) -> None:
+    labels = np.asarray([invalid_label, 1, 2, 3])
+
+    with pytest.raises(ValueError, match="source class IDs must be in range 0..9"):
+        build_stratified_row_manifest((0, 1), (2, 3), labels, random_state=42)
 
 
 def test_paper1_corrected_row_manifest_wrapper_freezes_group_sizes() -> None:
