@@ -32,6 +32,23 @@ class MetricsUtilsTests(unittest.TestCase):
         self.assertIn("tpr_at_0_1pct_fpr", metrics)
         self.assertEqual(metrics["tpr_at_0_1pct_fpr"], 1.0)
 
+    def test_auc_groups_tied_scores_at_the_group_endpoint(self) -> None:
+        from diffaudit.utils.metrics import auc_score
+
+        scores = np.asarray([3.0, 2.0, 2.0, 1.0])
+        labels = np.asarray([1, 1, 1, 0])
+
+        self.assertEqual(auc_score(scores, labels), 1.0)
+
+    def test_constant_scores_are_chance_auc_and_zero_tpr_below_one_percent_fpr(self) -> None:
+        from diffaudit.utils.metrics import auc_score, tpr_at_fpr
+
+        scores = np.zeros(1024, dtype=float)
+        labels = np.asarray([0, 1] * 512)
+
+        self.assertEqual(auc_score(scores, labels), 0.5)
+        self.assertEqual(tpr_at_fpr(scores, labels, 0.01), 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()

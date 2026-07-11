@@ -4,6 +4,7 @@ import hashlib
 import inspect
 from collections import Counter
 from copy import deepcopy
+from importlib.metadata import version
 from pathlib import Path
 
 import numpy as np
@@ -123,8 +124,29 @@ def test_paper1_contract_freezes_exact_scientific_shape(
     assert paper1_contract["h1"] == {
         "sites": ["late_down", "mid_0", "mid_1", "early_up"],
         "timesteps": [100, 400, 700],
-        "pca_components": 6,
         "score_direction": "higher_is_member",
+        "feature_scaler": "none",
+        "sklearn_version": version("scikit-learn"),
+        "pca": {
+            "n_components": 6,
+            "svd_solver": "full",
+            "whiten": False,
+            "random_state": 42,
+        },
+        "logistic_regression": {
+            "logical_penalty": "l2",
+            "constructor": {
+                "dual": False,
+                "l1_ratio": 0.0,
+                "C": 1.0,
+                "fit_intercept": True,
+                "class_weight": "balanced",
+                "solver": "lbfgs",
+                "max_iter": 5000,
+                "tol": 0.0001,
+                "random_state": 42,
+            },
+        },
     }
     assert paper1_contract["pia"] == {"validation_status": "positive_control_required"}
     assert paper1_contract["common_noise"] == {

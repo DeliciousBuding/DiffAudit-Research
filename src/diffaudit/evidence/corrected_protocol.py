@@ -7,6 +7,7 @@ import json
 import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from importlib.metadata import version
 from itertools import combinations
 from numbers import Integral
 from pathlib import Path, PurePosixPath, PureWindowsPath
@@ -481,8 +482,29 @@ def _paper1_h1_contract() -> dict[str, object]:
     return {
         "sites": ["late_down", "mid_0", "mid_1", "early_up"],
         "timesteps": [100, 400, 700],
-        "pca_components": 6,
         "score_direction": "higher_is_member",
+        "feature_scaler": "none",
+        "sklearn_version": version("scikit-learn"),
+        "pca": {
+            "n_components": 6,
+            "svd_solver": "full",
+            "whiten": False,
+            "random_state": 42,
+        },
+        "logistic_regression": {
+            "logical_penalty": "l2",
+            "constructor": {
+                "dual": False,
+                "l1_ratio": 0.0,
+                "C": 1.0,
+                "fit_intercept": True,
+                "class_weight": "balanced",
+                "solver": "lbfgs",
+                "max_iter": 5000,
+                "tol": 0.0001,
+                "random_state": 42,
+            },
+        },
     }
 
 

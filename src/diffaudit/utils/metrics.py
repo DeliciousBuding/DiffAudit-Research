@@ -10,7 +10,9 @@ def round6(value: float) -> float:
 
 
 def rounded_array(values: list[float] | np.ndarray) -> np.ndarray:
-    return np.asarray([round6(value) for value in np.asarray(values, dtype=float).tolist()], dtype=float)
+    return np.asarray(
+        [round6(value) for value in np.asarray(values, dtype=float).tolist()], dtype=float
+    )
 
 
 def zscore(values: np.ndarray, *, zero_mode: str = "zeros") -> np.ndarray:
@@ -88,9 +90,9 @@ def roc_curve_points(scores: np.ndarray, labels: np.ndarray) -> tuple[np.ndarray
     negatives = float(labels.shape[0] - labels.sum())
     tps = np.cumsum(labels_sorted == 1)
     fps = np.cumsum(labels_sorted == 0)
-    distinct = np.r_[True, scores_sorted[1:] != scores_sorted[:-1]]
-    tpr = np.r_[0.0, tps[distinct] / positives, 1.0]
-    fpr = np.r_[0.0, fps[distinct] / negatives, 1.0]
+    group_ends = np.r_[scores_sorted[:-1] != scores_sorted[1:], True]
+    tpr = np.r_[0.0, tps[group_ends] / positives]
+    fpr = np.r_[0.0, fps[group_ends] / negatives]
     return fpr, tpr
 
 
@@ -156,7 +158,9 @@ def threshold_metrics_grid(labels: np.ndarray, scores: np.ndarray) -> dict[str, 
             best_asr = current_asr
             best_threshold = float(threshold)
             best_tpr = tp / max(float((labels == 1).sum()), 1.0)
-            best_fpr = float(((preds == 1) & (labels == 0)).sum()) / max(float((labels == 0).sum()), 1.0)
+            best_fpr = float(((preds == 1) & (labels == 0)).sum()) / max(
+                float((labels == 0).sum()), 1.0
+            )
     return {
         "auc": auc,
         "asr": float(best_asr),
