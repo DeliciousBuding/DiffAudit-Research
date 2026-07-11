@@ -14,7 +14,7 @@ import torch
 from torch.utils.data import Sampler
 
 _CORRECTED_RUN_LABEL_RE = re.compile(r"ddpm-cifar10-corrected-[a-z0-9]+(?:-[a-z0-9]+)*\Z")
-_HISTORICAL_SEED_RE = re.compile(r"(?:^|-)seed(?:42|43|44|45)(?:-|$)")
+_HISTORICAL_SEED_RE = re.compile(r"(?:^|-)seed-?(?:42|43|44|45)(?:-|$)")
 _PROTOCOL_HASH_RE = re.compile(r"[0-9a-f]{64}\Z")
 
 

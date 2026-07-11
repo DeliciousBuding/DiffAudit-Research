@@ -249,6 +249,8 @@ def test_preserve_rng_state_restores_streams_after_an_exception() -> None:
     [
         "ddpm-cifar10-corrected-seed-1001",
         "ddpm-cifar10-corrected-preflight-a1",
+        "ddpm-cifar10-corrected-hash-a42b",
+        "ddpm-cifar10-corrected-seed-420",
     ],
 )
 def test_validate_corrected_run_label_accepts_public_safe_corrected_slugs(label: str) -> None:
@@ -274,6 +276,11 @@ def test_validate_corrected_run_label_accepts_public_safe_corrected_slugs(label:
         "ddpm-cifar10-corrected-reuse-seed43-target",
         "ddpm-cifar10-corrected-seed44-restart",
         "ddpm-cifar10-corrected-historical-seed45",
+        "ddpm-cifar10-corrected-seed-42",
+        "ddpm-cifar10-corrected-seed-43",
+        "ddpm-cifar10-corrected-seed-44",
+        "ddpm-cifar10-corrected-seed-45",
+        "ddpm-cifar10-corrected-historical-seed-42",
     ],
 )
 def test_validate_corrected_run_label_rejects_unsafe_or_historical_labels(label: str) -> None:
@@ -353,12 +360,16 @@ def test_validate_resume_identity_rejects_field_mismatches(
         "ddpm-cifar10-corrected-seed43",
         "ddpm-cifar10-corrected-seed44",
         "ddpm-cifar10-corrected-seed45",
+        "ddpm-cifar10-corrected-seed-42",
+        "ddpm-cifar10-corrected-historical-seed-43",
+        "ddpm-cifar10-corrected-seed-44-restart",
+        "ddpm-cifar10-corrected-reuse-seed-45-target",
     ],
 )
 def test_validate_resume_identity_rejects_historical_checkpoint_labels(
     historical_label: str,
 ) -> None:
-    with pytest.raises(ValueError, match="run_label"):
+    with pytest.raises(ValueError, match="checkpoint run_label is invalid"):
         validate_resume_identity(
             _checkpoint_metadata(run_label=historical_label),
             expected_run_label=_RUN_LABEL,
