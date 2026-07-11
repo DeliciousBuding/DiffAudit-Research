@@ -4,6 +4,8 @@ import json
 import math
 import warnings
 from copy import deepcopy
+from importlib.metadata import version
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -21,6 +23,7 @@ from diffaudit.evidence.h1_confirmatory import (
     full_label_permutation_test,
     h1_scorer_contract,
     score_h1_checkpoints,
+    summarize_h1_heterogeneity,
     tpr_at_1pct_fpr_with_wilson,
     validate_h1_feature_packets,
     wilson_interval,
@@ -33,6 +36,13 @@ from diffaudit.evidence.training_config import (
 _CODE_COMMIT = "c" * 40
 _SPLIT_SHA256 = "d" * 64
 _TRAINING_SEEDS = derive_training_seeds("paper1-corrected-evidence")
+
+
+@pytest.mark.parametrize("filename", ["environment.yml", "environment.gpu-cu128.yml"])
+def test_environment_pins_the_protocol_sklearn_version(filename: str) -> None:
+    environment = (Path(__file__).parents[1] / filename).read_text(encoding="utf-8")
+
+    assert f"scikit-learn=={version('scikit-learn')}" in environment
 
 
 def _make_setup(
@@ -165,6 +175,9 @@ def _make_setup(
             "confirmatory_heterogeneity": {
                 "global_test_alpha": 0.05,
                 "practical_auc_range_at_least": 0.05,
+                "global_statistic": "auc_range",
+                "global_null": "paired_stratified_refit_bootstrap_null_centering",
+                "pairwise_test": "two_sided_centered_paired_bootstrap",
                 "pairwise_correction": "holm",
                 "report_all_pairwise_deltas": True,
             },
@@ -246,6 +259,23 @@ def test_fitted_model_reports_the_exact_frozen_lr_contract() -> None:
     assert params["penalty"] in ("l2", "deprecated")
     assert params["dual"] is False
     assert params["l1_ratio"] == 0.0
+    assert model.pca.svd_solver == "randomized"
+    assert model.pca.n_oversamples == 10
+    assert model.pca.iterated_power == 4
+    assert model.pca.power_iteration_normalizer == "QR"
+
+
+def test_production_shape_randomized_pca_fit_completes() -> None:
+    from diffaudit.evidence import h1_confirmatory as h1
+
+    envelope, _ = _make_setup()
+    rng = np.random.default_rng(7)
+    features = rng.normal(size=(1024, 2048))
+    labels = np.asarray([0, 1] * 512)
+
+    model = h1._fit_h1_arrays(features, labels, envelope["contract"]["h1"])
+
+    assert model.pca.components_.shape == (6, 2048)
 
 
 def test_convergence_warning_is_a_hard_failure(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -493,6 +523,66 @@ def test_scorer_requires_external_trusted_protocol_hash() -> None:
         )
 
 
+@pytest.mark.parametrize("failure", ["duplicate_seed", "mixed_step", "wrong_stage"])
+def test_cross_target_mode_rejects_invalid_roster(failure: str) -> None:
+    envelope, packets = _make_setup(target_count=4)
+    stage = "stage1"
+    if failure == "duplicate_seed":
+        for row in packets[1]["rows"]:
+            row["run_seed"] = packets[0]["rows"][0]["run_seed"]
+    elif failure == "mixed_step":
+        for row in packets[1]["rows"]:
+            row["step"] = 200_000
+    else:
+        stage = "replicate"
+
+    with pytest.raises(ValueError, match="roster|same step|unique run_seed"):
+        score_h1_checkpoints(
+            packets,
+            **_protocol_kwargs(envelope),
+            analysis_mode="cross_target_same_step",
+            stage=stage,
+        )
+
+
+def test_heterogeneity_summary_uses_centered_paired_bootstrap_and_full_holm_family() -> None:
+    keys = ["a", "b", "c", "d"]
+    identical = summarize_h1_heterogeneity(
+        keys,
+        [0.7, 0.7, 0.7, 0.7],
+        [[0.69 + index * 0.0001] * 4 for index in range(200)],
+        alpha=0.05,
+        practical_range=0.05,
+    )
+    assert identical["global"]["decision"] is False
+    assert identical["global"]["p_value"] == 1.0
+
+    observed = [0.9, 0.5, 0.5, 0.5]
+    draws = [
+        [value + ((replicate + target) % 3 - 1) * 0.001 for target, value in enumerate(observed)]
+        for replicate in range(200)
+    ]
+    separated = summarize_h1_heterogeneity(
+        keys,
+        observed,
+        draws,
+        alpha=0.05,
+        practical_range=0.05,
+    )
+    assert separated["global"]["decision"] is True
+    assert separated["global"]["practical_gate"] is True
+    assert len(separated["pairwise"]) == 6
+    assert [(row["left"], row["right"]) for row in separated["pairwise"]] == [
+        ("a", "b"),
+        ("a", "c"),
+        ("a", "d"),
+        ("b", "c"),
+        ("b", "d"),
+        ("c", "d"),
+    ]
+    assert all("raw_p_value" in row and "adjusted_p_value" in row for row in separated["pairwise"])
+
+
 def test_tpr_at_one_percent_uses_maximum_point_not_a_curve_point_above_cap() -> None:
     positive_scores = np.asarray([100, 90, 80, 70, 60, 50, 40, 30, 20, 10], dtype=float)
     negative_scores = np.asarray([65, 55, 45, *range(-100, -297, -1)], dtype=float)
@@ -525,33 +615,53 @@ def test_wilson_interval_has_exact_probability_boundary(
 def test_bootstrap_refits_and_uses_shared_paired_draws(monkeypatch: pytest.MonkeyPatch) -> None:
     from diffaudit.evidence import h1_confirmatory as h1
 
-    envelope, packets = _make_setup(target_count=2)
+    envelope, packets = _make_setup(target_count=4)
     fitted_calibration_features: list[np.ndarray] = []
-    original_fit = h1._fit_h1_arrays
+
+    class FakeModel:
+        sklearn_version = "test"
+        realized_logistic_regression: dict[str, object] = {}
+
+        def predict_scores(self, features: np.ndarray) -> np.ndarray:
+            return features[:, 0]
 
     def fit_spy(features: np.ndarray, labels: np.ndarray, contract: dict[str, object]):
         fitted_calibration_features.append(features.copy())
-        return original_fit(features, labels, contract)
+        return FakeModel()
 
     monkeypatch.setattr(h1, "_fit_h1_arrays", fit_spy)
+
+    with pytest.raises(ValueError, match="sealed protocol count 200"):
+        bootstrap_h1_checkpoints(
+            packets,
+            **_protocol_kwargs(envelope),
+            n_bootstrap=199,
+            random_state=7,
+            analysis_mode="cross_target_same_step",
+            stage="stage1",
+        )
 
     result = bootstrap_h1_checkpoints(
         packets,
         **_protocol_kwargs(envelope),
-        n_bootstrap=3,
+        n_bootstrap=200,
         random_state=7,
+        analysis_mode="cross_target_same_step",
+        stage="stage1",
     )
 
-    assert len(fitted_calibration_features) == 8
-    for offset in range(2, 8, 2):
-        np.testing.assert_array_equal(
-            fitted_calibration_features[offset],
-            fitted_calibration_features[offset + 1],
-        )
-    assert len(result["paired_replicates"]) == 3
-    assert len(result["pairwise_deltas"][0]["samples"]) == 3
-    assert len(result["targets"][0]["auc_samples"]) == 3
+    assert len(fitted_calibration_features) == 804
+    for offset in range(4, 804, 4):
+        for target_offset in range(1, 4):
+            np.testing.assert_array_equal(
+                fitted_calibration_features[offset],
+                fitted_calibration_features[offset + target_offset],
+            )
+    assert len(result["paired_replicates"]) == 200
+    assert len(result["pairwise_deltas"][0]["samples"]) == 200
+    assert len(result["targets"][0]["auc_samples"]) == 200
     assert "observed_auc" in result["targets"][0]
+    assert "heterogeneity_summary" in result
     json.dumps(result, allow_nan=False)
 
 
@@ -561,7 +671,7 @@ def test_permutation_requires_200_and_refits_every_full_label_draw(
     from diffaudit.evidence import h1_confirmatory as h1
 
     envelope, packets = _make_setup()
-    with pytest.raises(ValueError, match="at least 200"):
+    with pytest.raises(ValueError, match="sealed protocol count"):
         full_label_permutation_test(
             packets[0],
             **_protocol_kwargs(envelope),

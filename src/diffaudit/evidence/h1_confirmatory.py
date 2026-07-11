@@ -111,6 +111,7 @@ class _ProtocolContext:
     common_noise_namespace: str
     common_noise_timesteps: tuple[int, ...]
     common_noise_draws: tuple[int, ...]
+    heterogeneity_contract: dict[str, object]
 
 
 @dataclass(frozen=True, slots=True)
@@ -227,10 +228,11 @@ def _validate_protocol_envelope(
     common_noise = _paper1_common_noise_contract()
     _require_exact_json_value("common_noise", contract["common_noise"], common_noise)
     _require_exact_json_value("branch_rules", contract["branch_rules"], _paper1_branch_rules())
+    heterogeneity_contract = _paper1_confirmatory_heterogeneity()
     _require_exact_json_value(
         "confirmatory_heterogeneity",
         contract["confirmatory_heterogeneity"],
-        _paper1_confirmatory_heterogeneity(),
+        heterogeneity_contract,
     )
 
     evaluation = contract.get("evaluation")
@@ -278,6 +280,7 @@ def _validate_protocol_envelope(
         common_noise_namespace=str(common_noise["namespace"]),
         common_noise_timesteps=tuple(int(value) for value in common_noise["timesteps"]),
         common_noise_draws=tuple(int(value) for value in common_noise["draws"]),
+        heterogeneity_contract=heterogeneity_contract,
     )
 
 
@@ -585,6 +588,9 @@ def _fit_h1_arrays(
         svd_solver=pca_contract["svd_solver"],
         whiten=pca_contract["whiten"],
         random_state=pca_contract["random_state"],
+        n_oversamples=pca_contract["n_oversamples"],
+        iterated_power=pca_contract["iterated_power"],
+        power_iteration_normalizer=pca_contract["power_iteration_normalizer"],
     )
     transformed = pca.fit_transform(np.asarray(features, dtype=float))
     classifier_kwargs: dict[str, Any] = dict(logistic_contract["constructor"])
@@ -740,11 +746,37 @@ def _target_result(
     }
 
 
+def _validate_cross_target_roster(
+    packets: Sequence[_FeaturePacket],
+    contract: Mapping[str, object],
+    *,
+    analysis_mode: str | None,
+    stage: str | None,
+) -> None:
+    if len(packets) == 1 and analysis_mode is None and stage is None:
+        return
+    if analysis_mode != "cross_target_same_step":
+        raise ValueError("multi-packet analysis_mode must be cross_target_same_step")
+    rosters = contract["cross_target_rosters"]
+    if stage not in rosters:
+        raise ValueError("cross-target stage does not identify a sealed target roster")
+    seeds = [int(packet.target_provenance["run_seed"]) for packet in packets]
+    if len(set(seeds)) != len(seeds):
+        raise ValueError("cross-target roster requires unique run_seed values")
+    if set(seeds) != set(rosters[stage]) or len(seeds) != len(rosters[stage]):
+        raise ValueError("cross-target roster does not exactly match the sealed stage roster")
+    steps = {int(packet.target_provenance["step"]) for packet in packets}
+    if len(steps) != 1:
+        raise ValueError("cross-target roster must use the same step for every target")
+
+
 def score_h1_checkpoints(
     packets: Sequence[Mapping[str, object]],
     *,
     protocol_envelope: Mapping[str, object],
     expected_protocol_hash: str,
+    analysis_mode: str | None = None,
+    stage: str | None = None,
 ) -> dict[str, object]:
     """Fit on calibration and report evaluation-only scores for every checkpoint."""
 
@@ -753,9 +785,17 @@ def score_h1_checkpoints(
         protocol_envelope=protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
     )
+    _validate_cross_target_roster(
+        validated,
+        context.h1_contract,
+        analysis_mode=analysis_mode,
+        stage=stage,
+    )
     result = {
         "schema_version": 1,
         "protocol_hash": context.protocol_hash,
+        "analysis_mode": analysis_mode or "single_checkpoint",
+        "stage": stage,
         "scorer_contract": context.h1_contract,
         "score_direction": "higher_is_member",
         "targets": [_target_result(packet, contract=context.h1_contract) for packet in validated],
@@ -792,6 +832,65 @@ def _target_key(packet: _FeaturePacket) -> str:
     return str(packet.target_provenance["checkpoint_sha256"])
 
 
+def summarize_h1_heterogeneity(
+    target_keys: Sequence[str],
+    observed_aucs: Sequence[float],
+    bootstrap_auc_vectors: Sequence[Sequence[float]],
+    *,
+    alpha: float,
+    practical_range: float,
+) -> dict[str, object]:
+    observed = np.asarray(observed_aucs, dtype=float)
+    draws = np.asarray(bootstrap_auc_vectors, dtype=float)
+    if draws.ndim != 2 or draws.shape[1] != observed.size or draws.shape[0] == 0:
+        raise ValueError("bootstrap AUC vectors must be a non-empty B by target matrix")
+    observed_range = float(np.ptp(observed))
+    null_draws = draws - observed[None, :] + float(observed.mean())
+    null_ranges = np.ptp(null_draws, axis=1)
+    global_p = float((1 + int((null_ranges >= observed_range).sum())) / (draws.shape[0] + 1))
+
+    pairwise: list[dict[str, object]] = []
+    for left_index, right_index in combinations(range(observed.size), 2):
+        observed_delta = float(observed[left_index] - observed[right_index])
+        bootstrap_deltas = draws[:, left_index] - draws[:, right_index]
+        centered = bootstrap_deltas - observed_delta
+        raw_p = float(
+            (1 + int((np.abs(centered) >= abs(observed_delta)).sum())) / (draws.shape[0] + 1)
+        )
+        pairwise.append(
+            {
+                "left": target_keys[left_index],
+                "right": target_keys[right_index],
+                "observed_delta": observed_delta,
+                "raw_p_value": raw_p,
+            }
+        )
+    order = sorted(range(len(pairwise)), key=lambda index: (pairwise[index]["raw_p_value"], index))
+    running = 0.0
+    adjusted = [1.0] * len(pairwise)
+    for rank, index in enumerate(order):
+        candidate = min(1.0, (len(pairwise) - rank) * float(pairwise[index]["raw_p_value"]))
+        running = max(running, candidate)
+        adjusted[index] = running
+    for index, row in enumerate(pairwise):
+        row["adjusted_p_value"] = adjusted[index]
+        row["decision"] = adjusted[index] <= alpha
+
+    practical_gate = observed_range >= practical_range
+    return {
+        "global": {
+            "statistic": "auc_range",
+            "observed_range": observed_range,
+            "null_ranges": [float(value) for value in null_ranges],
+            "p_value": global_p,
+            "practical_gate": practical_gate,
+            "decision": bool(global_p <= alpha and practical_gate),
+        },
+        "pairwise": pairwise,
+        "correction": "holm",
+    }
+
+
 def bootstrap_h1_checkpoints(
     packets: Sequence[Mapping[str, object]],
     *,
@@ -799,17 +898,26 @@ def bootstrap_h1_checkpoints(
     expected_protocol_hash: str,
     n_bootstrap: int,
     random_state: int,
+    analysis_mode: str,
+    stage: str,
 ) -> dict[str, object]:
     """Run paired stratified bootstrap draws, refitting PCA/LR in every replicate."""
 
-    if type(n_bootstrap) is not int or n_bootstrap <= 0:
-        raise ValueError("n_bootstrap must be a positive integer")
+    expected_bootstrap = int(h1_scorer_contract()["bootstrap_replicates"])
+    if type(n_bootstrap) is not int or n_bootstrap != expected_bootstrap:
+        raise ValueError(f"n_bootstrap must equal the sealed protocol count {expected_bootstrap}")
     if type(random_state) is not int or random_state < 0:
         raise ValueError("random_state must be a non-negative integer")
     context, validated = _validate_packets(
         packets,
         protocol_envelope=protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
+    )
+    _validate_cross_target_roster(
+        validated,
+        context.h1_contract,
+        analysis_mode=analysis_mode,
+        stage=stage,
     )
     rng = np.random.default_rng(random_state)
     keys = [_target_key(packet) for packet in validated]
@@ -868,6 +976,9 @@ def bootstrap_h1_checkpoints(
     result = {
         "schema_version": 1,
         "protocol_hash": context.protocol_hash,
+        "analysis_mode": analysis_mode,
+        "stage": stage,
+        "heterogeneity_contract": context.heterogeneity_contract,
         "random_state": random_state,
         "n_bootstrap": n_bootstrap,
         "strata": ["calibration_or_evaluation", "label", "class"],
@@ -891,6 +1002,13 @@ def bootstrap_h1_checkpoints(
             }
             for (left, right), samples in pair_samples.items()
         ],
+        "heterogeneity_summary": summarize_h1_heterogeneity(
+            keys,
+            [observed_aucs[key] for key in keys],
+            [[replicate["target_aucs"][key] for key in keys] for replicate in paired_replicates],
+            alpha=float(context.heterogeneity_contract["global_test_alpha"]),
+            practical_range=float(context.heterogeneity_contract["practical_auc_range_at_least"]),
+        ),
     }
     json.dumps(result, allow_nan=False)
     return result
@@ -919,8 +1037,11 @@ def full_label_permutation_test(
 ) -> dict[str, object]:
     """Run a full-refit, split/class-preserving membership-label null."""
 
-    if type(n_permutations) is not int or n_permutations < 200:
-        raise ValueError("n_permutations must be an integer of at least 200")
+    expected_permutations = int(h1_scorer_contract()["permutation_replicates"])
+    if type(n_permutations) is not int or n_permutations != expected_permutations:
+        raise ValueError(
+            f"n_permutations must equal the sealed protocol count {expected_permutations}"
+        )
     if type(random_state) is not int or random_state < 0:
         raise ValueError("random_state must be a non-negative integer")
     context, packets = _validate_packets(
@@ -981,6 +1102,7 @@ __all__ = [
     "full_label_permutation_test",
     "h1_scorer_contract",
     "score_h1_checkpoints",
+    "summarize_h1_heterogeneity",
     "tpr_at_1pct_fpr_with_wilson",
     "validate_h1_feature_packets",
     "wilson_interval",

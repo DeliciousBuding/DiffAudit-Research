@@ -129,9 +129,28 @@ def test_paper1_contract_freezes_exact_scientific_shape(
         "sklearn_version": version("scikit-learn"),
         "pca": {
             "n_components": 6,
-            "svd_solver": "full",
+            "svd_solver": "randomized",
             "whiten": False,
             "random_state": 42,
+            "n_oversamples": 10,
+            "iterated_power": 4,
+            "power_iteration_normalizer": "QR",
+        },
+        "bootstrap_replicates": 200,
+        "permutation_replicates": 200,
+        "cross_target_rosters": {
+            "stage1": [1746574482, 1403859882, 1877216607, 120492209],
+            "replicate": [1624907720, 761208184, 1867632528, 1918927372],
+            "full": [
+                1746574482,
+                1403859882,
+                1877216607,
+                120492209,
+                1624907720,
+                761208184,
+                1867632528,
+                1918927372,
+            ],
         },
         "logistic_regression": {
             "logical_penalty": "l2",
@@ -179,6 +198,9 @@ def test_paper1_contract_freezes_exact_scientific_shape(
     assert paper1_contract["confirmatory_heterogeneity"] == {
         "global_test_alpha": 0.05,
         "practical_auc_range_at_least": 0.05,
+        "global_statistic": "auc_range",
+        "global_null": "paired_stratified_refit_bootstrap_null_centering",
+        "pairwise_test": "two_sided_centered_paired_bootstrap",
         "pairwise_correction": "holm",
         "report_all_pairwise_deltas": True,
     }

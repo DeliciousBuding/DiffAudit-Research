@@ -479,6 +479,7 @@ def load_member_nonmember_indices(
 
 
 def _paper1_h1_contract() -> dict[str, object]:
+    seeds = list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE))
     return {
         "sites": ["late_down", "mid_0", "mid_1", "early_up"],
         "timesteps": [100, 400, 700],
@@ -487,9 +488,19 @@ def _paper1_h1_contract() -> dict[str, object]:
         "sklearn_version": version("scikit-learn"),
         "pca": {
             "n_components": 6,
-            "svd_solver": "full",
+            "svd_solver": "randomized",
             "whiten": False,
             "random_state": 42,
+            "n_oversamples": 10,
+            "iterated_power": 4,
+            "power_iteration_normalizer": "QR",
+        },
+        "bootstrap_replicates": 200,
+        "permutation_replicates": 200,
+        "cross_target_rosters": {
+            "stage1": seeds[:4],
+            "replicate": seeds[4:],
+            "full": seeds,
         },
         "logistic_regression": {
             "logical_penalty": "l2",
@@ -549,6 +560,9 @@ def _paper1_confirmatory_heterogeneity() -> dict[str, object]:
     return {
         "global_test_alpha": 0.05,
         "practical_auc_range_at_least": 0.05,
+        "global_statistic": "auc_range",
+        "global_null": "paired_stratified_refit_bootstrap_null_centering",
+        "pairwise_test": "two_sided_centered_paired_bootstrap",
         "pairwise_correction": "holm",
         "report_all_pairwise_deltas": True,
     }
