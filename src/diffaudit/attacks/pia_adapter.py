@@ -25,6 +25,7 @@ from diffaudit.attacks.pia import (
     probe_pia_assets,
     validate_pia_workspace,
 )
+from diffaudit.attacks.pia_canonical import score_pia_canonical
 from diffaudit.config import (
     AssetConfig,
     AttackConfig,
@@ -210,8 +211,19 @@ def _build_pia_attacker(
     epsilon_output_noise_std: float = 0.0,
     epsilon_precision_bins: int | None = None,
     defaults: PiaDefaults | None = None,
+    variant: str = "legacy-upstream-multistep",
 ):
     config = defaults or PiaDefaults()
+    if variant == "canonical-ddpm-eq9":
+        betas = torch.linspace(config.beta_1, config.beta_T, config.T, device=device)
+
+        def canonical_attacker(batch: torch.Tensor) -> torch.Tensor:
+            def epsilon_oracle(inputs: torch.Tensor, timesteps: torch.Tensor) -> torch.Tensor:
+                return model(inputs, t=timesteps)
+
+            return score_pia_canonical(epsilon_oracle, batch, betas)
+
+        return canonical_attacker
     attacker_cls = getattr(components_module, attacker_name, None)
     if attacker_cls is None:
         raise ValueError(f"PIA attacker class not found: {attacker_name}")
@@ -263,6 +275,7 @@ def prepare_pia_runtime(
         attack_num=plan.attack_num,
         interval=plan.interval,
         device=device,
+        variant=plan.variant,
     )
     return PiaAdapterContext(
         plan=plan,
@@ -310,8 +323,9 @@ def probe_pia_runtime(
             attack_num=plan.attack_num,
             interval=plan.interval,
             device=device,
+            variant=plan.variant,
         )
-        preview_batch = torch.rand(1, 3, 32, 32, device=device)
+        preview_batch = torch.rand(1, 3, 32, 32, device=device) * 2 - 1
         preview_scores = attacker(preview_batch)
         # The Rediffuse-variant attacker returns (intermediates, intermediates_denoise)
         if isinstance(preview_scores, tuple):
@@ -419,8 +433,10 @@ def _score_batch_once(
         batch,
         input_gaussian_blur_sigma=input_gaussian_blur_sigma,
     )
-    batch_scores = attacker(defended_batch.to(device)).mean(dim=0)
-    return (-batch_scores).detach().cpu()
+    batch_scores = attacker(defended_batch.to(device))
+    if batch_scores.ndim == 1:
+        return batch_scores.detach().cpu()
+    return (-batch_scores.mean(dim=0)).detach().cpu()
 
 
 def _score_loader(
@@ -600,7 +616,9 @@ def _load_pia_preview_batches(
     if not member_indices or not nonmember_indices:
         raise ValueError("PIA member split must contain non-empty member and non-member indices")
 
-    transform = tv_transforms.Compose([tv_transforms.ToTensor()])
+    transform = tv_transforms.Compose(
+        [tv_transforms.ToTensor(), tv_transforms.Normalize((0.5,) * 3, (0.5,) * 3)]
+    )
     dataset_obj = tv_datasets.CIFAR10(
         root=str(dataset_dir),
         train=True,
@@ -803,7 +821,9 @@ def _build_pia_subset_loader(
     if not selected_indices:
         raise ValueError(f"PIA split has no samples for membership={membership}")
 
-    transform = tv_transforms.Compose([tv_transforms.ToTensor()])
+    transform = tv_transforms.Compose(
+        [tv_transforms.ToTensor(), tv_transforms.Normalize((0.5,) * 3, (0.5,) * 3)]
+    )
     dataset_obj = tv_datasets.CIFAR10(
         root=str(dataset_dir),
         train=True,
@@ -2015,6 +2035,7 @@ def run_pia_runtime_mainline(
         late_step_threshold=late_step_threshold,
         epsilon_output_noise_std=epsilon_output_noise_std,
         epsilon_precision_bins=epsilon_precision_bins,
+        variant=runtime_context.plan.variant,
     )
 
     split_root = Path(member_split_root) if member_split_root else Path(repo_root) / "DDPM"

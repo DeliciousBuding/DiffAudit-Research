@@ -523,7 +523,32 @@ def _paper1_h1_contract() -> dict[str, object]:
 
 
 def _paper1_pia_contract() -> dict[str, object]:
-    return {"validation_status": "positive_control_required"}
+    return {
+        "variant": "canonical-ddpm-eq9",
+        "attack_name": "PIA",
+        "excluded_variant": "PIAN",
+        "timestep": 200,
+        "lp_order": 4,
+        "score_form": "negative_residual_norm",
+        "score_direction": "higher_is_member",
+        "input_range": [-1.0, 1.0],
+        "query_timesteps": [0, 200],
+        "query_count_per_batch": 2,
+        "normalization": "per_row_vector_lp",
+        "beta_semantics": "linear_1000_steps_inclusive_0.0001_to_0.02",
+        "threshold_calibration": (
+            "calibration_only_maximize_balanced_accuracy_then_minimize_fpr_then_highest_threshold"
+        ),
+        "positive_control_gate": {
+            "evaluation_auc_min": 0.95,
+            "evaluation_balanced_accuracy_min": 0.90,
+            "evaluation_fpr_max": 0.05,
+            "negative_score_auc_max": 0.05,
+            "permutations": 200,
+            "null_auc_mean_range": [0.45, 0.55],
+        },
+        "validation_status": "cpu_positive_control_required",
+    }
 
 
 def _paper1_common_noise_contract() -> dict[str, object]:
