@@ -683,7 +683,7 @@ def verify_paper1_contract(
     class_labels: Sequence[int],
     expected_code_commit: str,
 ) -> dict[str, object]:
-    """Verify the signature and rebuild every field from external source truth."""
+    """Verify the hash seal and rebuild every field from external source truth."""
 
     loaded = load_protocol_envelope(envelope)
     if (
