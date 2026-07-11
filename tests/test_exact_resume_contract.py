@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import io
 import json
 import os
@@ -174,12 +175,159 @@ def test_restore_rng_state_replays_python_numpy_and_torch_cpu_sequences() -> Non
     assert torch.equal(actual[2], expected[2])
 
 
-def test_captured_rng_state_is_torch_save_serializable() -> None:
+def test_captured_rng_state_uses_a_versioned_topology_bound_schema() -> None:
+    state = capture_rng_state()
+
+    assert set(state) == {
+        "schema_version",
+        "python",
+        "numpy",
+        "torch_cpu",
+        "cuda_device_count",
+        "cuda_device_uuids",
+        "torch_cuda",
+    }
+    assert state["schema_version"] == 1
+    assert state["cuda_device_count"] == torch.cuda.device_count()
+    assert state["cuda_device_uuids"] == [
+        str(torch.cuda.get_device_properties(index).uuid)
+        for index in range(torch.cuda.device_count())
+    ]
+    assert set(state["numpy"]) == {
+        "bit_generator",
+        "keys",
+        "position",
+        "has_gauss",
+        "cached_gaussian",
+    }
+    assert isinstance(state["numpy"]["keys"], torch.Tensor)
+    assert state["numpy"]["keys"].dtype is torch.int64
+    assert state["numpy"]["keys"].shape == (624,)
+    assert len(state["torch_cuda"]) == state["cuda_device_count"]
+
+
+def test_captured_rng_state_is_weights_only_safe_and_restorable() -> None:
+    random.seed(1111)
+    np.random.seed(2222)
+    torch.manual_seed(3333)
+    state = capture_rng_state()
+    expected = _draw_rng_sample()
     buffer = io.BytesIO()
+    torch.save(state, buffer)
+    buffer.seek(0)
 
-    torch.save(capture_rng_state(), buffer)
+    loaded = torch.load(buffer, map_location="cpu", weights_only=True)
+    restore_rng_state(loaded)
+    actual = _draw_rng_sample()
 
-    assert buffer.tell() > 0
+    _assert_rng_samples_equal(actual, expected)
+
+
+def _assert_invalid_rng_state_does_not_mutate_streams(
+    invalid_state: object,
+    *,
+    match: str,
+) -> None:
+    random.seed(4444)
+    np.random.seed(5555)
+    torch.manual_seed(6666)
+    current_state = capture_rng_state()
+    expected = _draw_rng_sample()
+    restore_rng_state(current_state)
+    cuda_before = [state.clone() for state in torch.cuda.get_rng_state_all()]
+
+    with pytest.raises(ValueError, match=match):
+        restore_rng_state(invalid_state)  # type: ignore[arg-type]
+
+    actual = _draw_rng_sample()
+    cuda_after = torch.cuda.get_rng_state_all()
+    _assert_rng_samples_equal(actual, expected)
+    assert all(
+        torch.equal(before, after) for before, after in zip(cuda_before, cuda_after, strict=True)
+    )
+
+
+@pytest.mark.parametrize(
+    "corruption",
+    [
+        "not_mapping",
+        "missing_top_level",
+        "unexpected_top_level",
+        "schema_version",
+        "python_state",
+        "numpy_fields",
+        "numpy_dtype",
+        "numpy_shape",
+        "torch_cpu_dtype",
+        "torch_cpu_shape",
+        "cuda_device_count_type",
+        "cuda_uuids_type",
+        "torch_cuda_type",
+    ],
+)
+def test_restore_rng_state_prevalidates_complete_schema(corruption: str) -> None:
+    state: object = copy.deepcopy(capture_rng_state())
+    if corruption == "not_mapping":
+        state = []
+    else:
+        assert isinstance(state, dict)
+        if corruption == "missing_top_level":
+            del state["numpy"]
+        elif corruption == "unexpected_top_level":
+            state["unexpected"] = 1
+        elif corruption == "schema_version":
+            state["schema_version"] = 2
+        elif corruption == "python_state":
+            state["python"] = ("invalid",)
+        elif corruption == "numpy_fields":
+            del state["numpy"]["position"]
+        elif corruption == "numpy_dtype":
+            state["numpy"]["keys"] = state["numpy"]["keys"].to(torch.uint8)
+        elif corruption == "numpy_shape":
+            state["numpy"]["keys"] = state["numpy"]["keys"][:-1]
+        elif corruption == "torch_cpu_dtype":
+            state["torch_cpu"] = state["torch_cpu"].to(torch.int64)
+        elif corruption == "torch_cpu_shape":
+            state["torch_cpu"] = state["torch_cpu"][:-1]
+        elif corruption == "cuda_device_count_type":
+            state["cuda_device_count"] = True
+        elif corruption == "cuda_uuids_type":
+            state["cuda_device_uuids"] = tuple(state["cuda_device_uuids"])
+        elif corruption == "torch_cuda_type":
+            state["torch_cuda"] = tuple(state["torch_cuda"])
+
+    _assert_invalid_rng_state_does_not_mutate_streams(state, match="RNG state")
+
+
+def test_restore_rng_state_rejects_cuda_device_count_mismatch_before_mutation() -> None:
+    state = copy.deepcopy(capture_rng_state())
+    state["cuda_device_count"] += 1
+
+    _assert_invalid_rng_state_does_not_mutate_streams(state, match="cuda_device_count")
+
+
+@pytest.mark.gpu
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable")
+def test_restore_rng_state_rejects_cuda_uuid_mismatch_before_mutation() -> None:
+    state = copy.deepcopy(capture_rng_state())
+    state["cuda_device_uuids"][0] = "00000000-0000-0000-0000-000000000000"
+
+    _assert_invalid_rng_state_does_not_mutate_streams(state, match="cuda_device_uuids")
+
+
+@pytest.mark.gpu
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable")
+@pytest.mark.parametrize("corruption", ["length", "dtype", "shape"])
+def test_restore_rng_state_prevalidates_cuda_rng_tensors(corruption: str) -> None:
+    state = copy.deepcopy(capture_rng_state())
+    if corruption == "length":
+        state["torch_cuda"] = []
+    elif corruption == "dtype":
+        state["torch_cuda"][0] = state["torch_cuda"][0].to(torch.int64)
+    else:
+        state["torch_cuda"][0] = state["torch_cuda"][0][:-1]
+
+    _assert_invalid_rng_state_does_not_mutate_streams(state, match="torch_cuda")
 
 
 @pytest.mark.gpu
@@ -311,12 +459,13 @@ def test_validate_resume_identity_accepts_matching_required_fields_with_extra_me
         expected_run_label=_RUN_LABEL,
         expected_seed=1001,
         expected_protocol_hash=_PROTOCOL_HASH,
+        expected_checkpoint_step=4,
     )
 
-    assert result is None
+    assert result == 4
 
 
-@pytest.mark.parametrize("missing_field", ["run_label", "seed", "protocol_hash"])
+@pytest.mark.parametrize("missing_field", ["run_label", "seed", "protocol_hash", "checkpoint_step"])
 def test_validate_resume_identity_rejects_missing_required_fields(missing_field: str) -> None:
     metadata = _checkpoint_metadata()
     del metadata[missing_field]
@@ -327,6 +476,7 @@ def test_validate_resume_identity_rejects_missing_required_fields(missing_field:
             expected_run_label=_RUN_LABEL,
             expected_seed=1001,
             expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=4,
         )
 
 
@@ -336,6 +486,7 @@ def test_validate_resume_identity_rejects_missing_required_fields(missing_field:
         ("run_label", "ddpm-cifar10-corrected-seed-1002", "run_label"),
         ("seed", 1002, "seed"),
         ("protocol_hash", "b" * 64, "protocol_hash"),
+        ("checkpoint_step", 5, "checkpoint_step"),
     ],
 )
 def test_validate_resume_identity_rejects_field_mismatches(
@@ -349,6 +500,7 @@ def test_validate_resume_identity_rejects_field_mismatches(
             expected_run_label=_RUN_LABEL,
             expected_seed=1001,
             expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=4,
         )
 
 
@@ -375,6 +527,7 @@ def test_validate_resume_identity_rejects_historical_checkpoint_labels(
             expected_run_label=_RUN_LABEL,
             expected_seed=1001,
             expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=4,
         )
 
 
@@ -388,6 +541,7 @@ def test_validate_resume_identity_rejects_invalid_expected_protocol_hashes(
             expected_run_label=_RUN_LABEL,
             expected_seed=1001,
             expected_protocol_hash=invalid_hash,  # type: ignore[arg-type]
+            expected_checkpoint_step=4,
         )
 
 
@@ -401,6 +555,7 @@ def test_validate_resume_identity_rejects_invalid_checkpoint_protocol_hashes(
             expected_run_label=_RUN_LABEL,
             expected_seed=1001,
             expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=4,
         )
 
 
@@ -412,7 +567,48 @@ def test_validate_resume_identity_rejects_invalid_expected_seeds(invalid_seed: o
             expected_run_label=_RUN_LABEL,
             expected_seed=invalid_seed,  # type: ignore[arg-type]
             expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=4,
         )
+
+
+@pytest.mark.parametrize("invalid_step", [True, 4.0, -1])
+def test_validate_resume_identity_rejects_invalid_expected_checkpoint_steps(
+    invalid_step: object,
+) -> None:
+    with pytest.raises((TypeError, ValueError), match="expected_checkpoint_step"):
+        validate_resume_identity(
+            _checkpoint_metadata(),
+            expected_run_label=_RUN_LABEL,
+            expected_seed=1001,
+            expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=invalid_step,  # type: ignore[arg-type]
+        )
+
+
+@pytest.mark.parametrize("invalid_step", [True, 4.0, -1])
+def test_validate_resume_identity_rejects_invalid_checkpoint_steps(
+    invalid_step: object,
+) -> None:
+    with pytest.raises(ValueError, match="checkpoint_step"):
+        validate_resume_identity(
+            _checkpoint_metadata(checkpoint_step=invalid_step),
+            expected_run_label=_RUN_LABEL,
+            expected_seed=1001,
+            expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=4,
+        )
+
+
+def test_validate_resume_identity_accepts_integral_checkpoint_steps() -> None:
+    result = validate_resume_identity(
+        _checkpoint_metadata(checkpoint_step=np.int64(4)),
+        expected_run_label=_RUN_LABEL,
+        expected_seed=1001,
+        expected_protocol_hash=_PROTOCOL_HASH,
+        expected_checkpoint_step=np.int64(4),  # type: ignore[arg-type]
+    )
+
+    assert result == 4
 
 
 def test_validate_resume_identity_rejects_non_mapping_metadata() -> None:
@@ -422,36 +618,76 @@ def test_validate_resume_identity_rejects_non_mapping_metadata() -> None:
             expected_run_label=_RUN_LABEL,
             expected_seed=1001,
             expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=4,
         )
 
 
-def test_configure_deterministic_torch_sets_cudnn_flags_only_when_called() -> None:
+def test_configure_deterministic_torch_sets_all_required_flags(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delenv("CUBLAS_WORKSPACE_CONFIG", raising=False)
+    original_algorithms = torch.are_deterministic_algorithms_enabled()
     original_benchmark = torch.backends.cudnn.benchmark
     original_deterministic = torch.backends.cudnn.deterministic
+    original_matmul_tf32 = torch.backends.cuda.matmul.allow_tf32
+    original_cudnn_tf32 = torch.backends.cudnn.allow_tf32
     try:
+        torch.use_deterministic_algorithms(False)
         torch.backends.cudnn.benchmark = True
         torch.backends.cudnn.deterministic = False
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
 
         result = configure_deterministic_torch()
 
         assert result is None
+        assert os.environ["CUBLAS_WORKSPACE_CONFIG"] == ":4096:8"
+        assert torch.are_deterministic_algorithms_enabled() is True
         assert torch.backends.cudnn.benchmark is False
         assert torch.backends.cudnn.deterministic is True
+        assert torch.backends.cuda.matmul.allow_tf32 is False
+        assert torch.backends.cudnn.allow_tf32 is False
     finally:
+        torch.use_deterministic_algorithms(original_algorithms)
         torch.backends.cudnn.benchmark = original_benchmark
         torch.backends.cudnn.deterministic = original_deterministic
+        torch.backends.cuda.matmul.allow_tf32 = original_matmul_tf32
+        torch.backends.cudnn.allow_tf32 = original_cudnn_tf32
+
+
+def test_configure_deterministic_torch_rejects_conflicting_cublas_workspace(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("CUBLAS_WORKSPACE_CONFIG", ":16:8")
+    original_algorithms = torch.are_deterministic_algorithms_enabled()
+    original_benchmark = torch.backends.cudnn.benchmark
+
+    with pytest.raises(RuntimeError, match="CUBLAS_WORKSPACE_CONFIG"):
+        configure_deterministic_torch()
+
+    assert torch.are_deterministic_algorithms_enabled() is original_algorithms
+    assert torch.backends.cudnn.benchmark is original_benchmark
 
 
 def test_importing_exact_resume_does_not_mutate_cudnn_flags() -> None:
     repository_root = Path(__file__).resolve().parents[1]
     script = """
+import os
 import torch
 
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = "sentinel"
+torch.use_deterministic_algorithms(False)
 torch.backends.cudnn.benchmark = True
 torch.backends.cudnn.deterministic = False
+torch.backends.cuda.matmul.allow_tf32 = True
+torch.backends.cudnn.allow_tf32 = True
 import diffaudit.training.exact_resume  # noqa: F401, E402
+assert os.environ["CUBLAS_WORKSPACE_CONFIG"] == "sentinel"
+assert torch.are_deterministic_algorithms_enabled() is False
 assert torch.backends.cudnn.benchmark is True
 assert torch.backends.cudnn.deterministic is False
+assert torch.backends.cuda.matmul.allow_tf32 is True
+assert torch.backends.cudnn.allow_tf32 is True
 """
     env = os.environ.copy()
     env["PYTHONPATH"] = str(repository_root / "src")
@@ -470,6 +706,8 @@ def _seed_tiny_training(seed: int) -> None:
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
 
 def _run_tiny_training_steps(
@@ -478,8 +716,10 @@ def _run_tiny_training_steps(
     *,
     start_step: int,
     stop_step: int,
+    device: torch.device | None = None,
 ) -> list[float]:
-    features = torch.linspace(-1.0, 1.0, 24, dtype=torch.float32).reshape(12, 2)
+    device = device or torch.device("cpu")
+    features = torch.linspace(-1.0, 1.0, 24, dtype=torch.float32, device=device).reshape(12, 2)
     sampler = DeterministicEpochBatchSampler(
         dataset_size=len(features),
         batch_size=4,
@@ -491,7 +731,9 @@ def _run_tiny_training_steps(
     for batch_indices in sampler:
         optimizer.zero_grad()
         prediction = model(features[batch_indices])
-        random_target = torch.rand(4, 1) + random.random() + float(np.random.random())
+        random_target = (
+            torch.rand(4, 1, device=device) + random.random() + float(np.random.random())
+        )
         loss = torch.nn.functional.mse_loss(prediction, random_target)
         loss.backward()
         optimizer.step()
@@ -531,13 +773,14 @@ def test_tiny_cpu_training_is_exact_after_checkpoint_resume() -> None:
     checkpoint_buffer = io.BytesIO()
     torch.save(checkpoint, checkpoint_buffer)
     checkpoint_buffer.seek(0)
-    loaded = torch.load(checkpoint_buffer, map_location="cpu", weights_only=False)
+    loaded = torch.load(checkpoint_buffer, map_location="cpu", weights_only=True)
 
-    validate_resume_identity(
+    resume_step = validate_resume_identity(
         loaded["metadata"],
         expected_run_label=_RUN_LABEL,
         expected_seed=1001,
         expected_protocol_hash=_PROTOCOL_HASH,
+        expected_checkpoint_step=checkpoint_step,
     )
     resumed_model = torch.nn.Linear(2, 1)
     resumed_optimizer = torch.optim.Adam(resumed_model.parameters(), lr=0.01)
@@ -548,7 +791,7 @@ def test_tiny_cpu_training_is_exact_after_checkpoint_resume() -> None:
         _run_tiny_training_steps(
             resumed_model,
             resumed_optimizer,
-            start_step=checkpoint_step,
+            start_step=resume_step,
             stop_step=total_steps,
         )
     )
@@ -562,3 +805,92 @@ def test_tiny_cpu_training_is_exact_after_checkpoint_resume() -> None:
             strict=True,
         )
     )
+
+
+@pytest.mark.gpu
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable")
+def test_tiny_cuda_training_is_exact_after_checkpoint_resume(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delenv("CUBLAS_WORKSPACE_CONFIG", raising=False)
+    original_algorithms = torch.are_deterministic_algorithms_enabled()
+    original_benchmark = torch.backends.cudnn.benchmark
+    original_deterministic = torch.backends.cudnn.deterministic
+    original_matmul_tf32 = torch.backends.cuda.matmul.allow_tf32
+    original_cudnn_tf32 = torch.backends.cudnn.allow_tf32
+    device = torch.device("cuda", 0)
+    total_steps = 6
+    checkpoint_step = 3
+    try:
+        configure_deterministic_torch()
+
+        _seed_tiny_training(777)
+        continuous_model = torch.nn.Linear(2, 1, device=device)
+        continuous_optimizer = torch.optim.Adam(continuous_model.parameters(), lr=0.01)
+        continuous_losses = _run_tiny_training_steps(
+            continuous_model,
+            continuous_optimizer,
+            start_step=0,
+            stop_step=total_steps,
+            device=device,
+        )
+
+        _seed_tiny_training(777)
+        checkpoint_model = torch.nn.Linear(2, 1, device=device)
+        checkpoint_optimizer = torch.optim.Adam(checkpoint_model.parameters(), lr=0.01)
+        resumed_losses = _run_tiny_training_steps(
+            checkpoint_model,
+            checkpoint_optimizer,
+            start_step=0,
+            stop_step=checkpoint_step,
+            device=device,
+        )
+        checkpoint = {
+            "model": checkpoint_model.state_dict(),
+            "optimizer": checkpoint_optimizer.state_dict(),
+            "rng": capture_rng_state(),
+            "metadata": _checkpoint_metadata(checkpoint_step=checkpoint_step),
+        }
+        checkpoint_buffer = io.BytesIO()
+        torch.save(checkpoint, checkpoint_buffer)
+        checkpoint_buffer.seek(0)
+        loaded = torch.load(checkpoint_buffer, map_location="cpu", weights_only=True)
+
+        resume_step = validate_resume_identity(
+            loaded["metadata"],
+            expected_run_label=_RUN_LABEL,
+            expected_seed=1001,
+            expected_protocol_hash=_PROTOCOL_HASH,
+            expected_checkpoint_step=checkpoint_step,
+        )
+        resumed_model = torch.nn.Linear(2, 1, device=device)
+        resumed_optimizer = torch.optim.Adam(resumed_model.parameters(), lr=0.01)
+        resumed_model.load_state_dict(loaded["model"])
+        resumed_optimizer.load_state_dict(loaded["optimizer"])
+        restore_rng_state(loaded["rng"])
+        resumed_losses.extend(
+            _run_tiny_training_steps(
+                resumed_model,
+                resumed_optimizer,
+                start_step=resume_step,
+                stop_step=total_steps,
+                device=device,
+            )
+        )
+        torch.cuda.synchronize(device)
+
+        assert resumed_losses == continuous_losses
+        assert all(
+            torch.equal(resumed_value, continuous_value)
+            for resumed_value, continuous_value in zip(
+                resumed_model.state_dict().values(),
+                continuous_model.state_dict().values(),
+                strict=True,
+            )
+        )
+    finally:
+        torch.use_deterministic_algorithms(original_algorithms)
+        torch.backends.cudnn.benchmark = original_benchmark
+        torch.backends.cudnn.deterministic = original_deterministic
+        torch.backends.cuda.matmul.allow_tf32 = original_matmul_tf32
+        torch.backends.cudnn.allow_tf32 = original_cudnn_tf32
