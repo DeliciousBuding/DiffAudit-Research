@@ -56,14 +56,23 @@ Long training is blocked until all items pass:
 
 ```powershell
 conda activate diffaudit
-$env:DIFFAUDIT_DATASET_ROOT = "<DIFFAUDIT_ROOT>\Download\datasets-readable"
 $env:DIFFAUDIT_DOWNLOAD_ROOT = "<DIFFAUDIT_ROOT>\Download"
+$env:DIFFAUDIT_CIFAR10_ROOT = "<CIFAR10_ROOT>"
 $env:PYTHONPATH = (Resolve-Path src).Path
+$protocolManifest = "<PROTOCOL_MANIFEST>"
+$splitPath = "<SPLIT_PATH>"
+$seed = <PREDECLARED_SEED>
 
 python -X utf8 -m pytest tests/test_h1_evidence_contract.py -q
-python -X utf8 training/ddpm-cifar10/train_ddpm_cifar10.py `
-  --seed <PREDECLARED_SEED> `
-  --run-label ddpm-cifar10-corrected-preflight `
+python -X utf8 training/ddpm-cifar10/train_ddpm_cifar10_corrected.py `
+  --protocol-manifest $protocolManifest `
+  --split-path $splitPath `
+  --seed $seed `
+  --run-label "corrected-preflight-s$seed" `
+  --stop-step 2000 `
+  --dataset-root $env:DIFFAUDIT_CIFAR10_ROOT `
+  --num-workers 4 `
+  --preflight `
   --dry-run
 ```
 
@@ -85,11 +94,15 @@ throttling, split mismatch, missing row IDs, or resume mismatch.
 Use only values from the frozen protocol manifest:
 
 ```powershell
-python -u training/ddpm-cifar10/train_ddpm_cifar10.py `
-  --seed <PREDECLARED_SEED> `
-  --run-label ddpm-cifar10-corrected-seed<SEED> `
+python -u training/ddpm-cifar10/train_ddpm_cifar10_corrected.py `
+  --protocol-manifest $protocolManifest `
+  --split-path $splitPath `
+  --seed $seed `
+  --run-label "corrected-s$seed" `
   --stop-step 100000 `
-  --log-file training/outputs/ddpm-cifar10-corrected-seed<SEED>/training-100k.log
+  --dataset-root $env:DIFFAUDIT_CIFAR10_ROOT `
+  --num-workers 4 `
+  --log-file "training/outputs/corrected-s$seed/training-100k.log"
 ```
 
 Never pass `--resume` against `ddpm-cifar10-seed42`, `seed43`, `seed44`,
@@ -98,12 +111,16 @@ Never pass `--resume` against `ddpm-cifar10-seed42`, `seed43`, `seed44`,
 If the MATURE branch is selected, resume only after the exact-resume gate:
 
 ```powershell
-python -u training/ddpm-cifar10/train_ddpm_cifar10.py `
-  --seed <PREDECLARED_SEED> `
-  --run-label ddpm-cifar10-corrected-seed<SEED> `
+python -u training/ddpm-cifar10/train_ddpm_cifar10_corrected.py `
+  --protocol-manifest $protocolManifest `
+  --split-path $splitPath `
+  --seed $seed `
+  --run-label "corrected-s$seed" `
   --resume 100000 `
   --stop-step 200000 `
-  --log-file training/outputs/ddpm-cifar10-corrected-seed<SEED>/training-200k.log
+  --dataset-root $env:DIFFAUDIT_CIFAR10_ROOT `
+  --num-workers 4 `
+  --log-file "training/outputs/corrected-s$seed/training-200k.log"
 ```
 
 All targets in the chosen branch must be trained symmetrically. Do not continue

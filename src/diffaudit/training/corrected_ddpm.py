@@ -14,7 +14,6 @@ import tempfile
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from types import MappingProxyType
 from typing import Any
 
 import numpy as np
@@ -22,11 +21,17 @@ import torch
 from torch.utils.data import DataLoader, Dataset, Subset
 
 from diffaudit.evidence.corrected_protocol import verify_paper1_contract
+from diffaudit.evidence.training_config import (
+    TrainingConfig,
+    build_training_config,
+    canonical_training_config_hash,
+)
 from diffaudit.training.exact_resume import (
     DeterministicEpochBatchSampler,
     capture_rng_state,
     restore_rng_state,
     validate_resume_identity,
+    validate_rng_state,
 )
 
 _SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
@@ -44,157 +49,8 @@ class CorrectedTrainingContract:
     run_label: str
     training_seeds: tuple[int, ...]
     member_indices: tuple[int, ...]
-
-
-def _freeze_mapping(value: Mapping[str, object]) -> Mapping[str, object]:
-    frozen: dict[str, object] = {}
-    for key, item in value.items():
-        if isinstance(item, Mapping):
-            frozen[key] = _freeze_mapping(item)
-        elif isinstance(item, list | tuple):
-            frozen[key] = tuple(item)
-        else:
-            frozen[key] = item
-    return MappingProxyType(frozen)
-
-
-def _thaw_value(value: object) -> object:
-    if isinstance(value, Mapping):
-        return {str(key): _thaw_value(item) for key, item in value.items()}
-    if isinstance(value, tuple):
-        return [_thaw_value(item) for item in value]
-    return value
-
-
-@dataclass(frozen=True, slots=True)
-class TrainingConfig:
-    precision: Mapping[str, object]
-    model: Mapping[str, object]
-    diffusion: Mapping[str, object]
-    optimizer: Mapping[str, object]
-    scheduler: Mapping[str, object]
-    ema_decay: float
-    grad_clip: float
-    transform: Mapping[str, object]
-    data: Mapping[str, object]
-    determinism: Mapping[str, object]
-    checkpointing: Mapping[str, object]
-    runtime: Mapping[str, object]
-
-    def to_dict(self) -> dict[str, object]:
-        return {
-            "precision": _thaw_value(self.precision),
-            "model": _thaw_value(self.model),
-            "diffusion": _thaw_value(self.diffusion),
-            "optimizer": _thaw_value(self.optimizer),
-            "scheduler": _thaw_value(self.scheduler),
-            "ema_decay": self.ema_decay,
-            "grad_clip": self.grad_clip,
-            "transform": _thaw_value(self.transform),
-            "data": _thaw_value(self.data),
-            "determinism": _thaw_value(self.determinism),
-            "checkpointing": _thaw_value(self.checkpointing),
-            "runtime": _thaw_value(self.runtime),
-        }
-
-
-def build_training_config(*, num_workers: int) -> TrainingConfig:
-    if type(num_workers) is not int or num_workers < 0:
-        raise ValueError("num_workers must be a non-negative integer")
-    return TrainingConfig(
-        precision=_freeze_mapping({"dtype": "float32", "amp": False}),
-        model=_freeze_mapping(
-            {
-                "architecture": "UNet",
-                "T": 1_000,
-                "channels": 128,
-                "channel_multipliers": [1, 2, 2, 2],
-                "attention_levels": [1],
-                "num_res_blocks": 2,
-                "dropout": 0.1,
-            }
-        ),
-        diffusion=_freeze_mapping(
-            {
-                "schedule": "linear",
-                "timesteps": 1_000,
-                "beta_1": 0.0001,
-                "beta_T": 0.02,
-                "mean_type": "epsilon",
-                "variance_type": "fixedlarge",
-            }
-        ),
-        optimizer=_freeze_mapping(
-            {"name": "Adam", "learning_rate": 0.0002, "betas": [0.9, 0.999], "eps": 1e-8}
-        ),
-        scheduler=_freeze_mapping(
-            {"name": "LambdaLR", "policy": "linear_warmup", "warmup_steps": 5_000}
-        ),
-        ema_decay=0.9999,
-        grad_clip=1.0,
-        transform=_freeze_mapping(
-            {
-                "operations": ["ToTensor", "Normalize"],
-                "normalize_mean": [0.5, 0.5, 0.5],
-                "normalize_std": [0.5, 0.5, 0.5],
-                "random_augmentation": False,
-            }
-        ),
-        data=_freeze_mapping(
-            {
-                "dataset": "CIFAR10",
-                "train_size": 50_000,
-                "member_size": 25_000,
-                "member_only": True,
-                "batch_size": 64,
-                "drop_last": True,
-                "shuffle": False,
-                "sampler": "DeterministicEpochBatchSampler",
-            }
-        ),
-        determinism=_freeze_mapping(
-            {
-                "deterministic_algorithms": True,
-                "cudnn_benchmark": False,
-                "cudnn_deterministic": True,
-                "allow_tf32_matmul": False,
-                "allow_tf32_cudnn": False,
-                "cublas_workspace_config": ":4096:8",
-                "seed_python": True,
-                "seed_numpy": True,
-                "seed_torch_cpu": True,
-                "seed_torch_cuda": True,
-                "worker_rng_independent": True,
-            }
-        ),
-        checkpointing=_freeze_mapping(
-            {
-                "save_every": 2_000,
-                "sample_every": 50_000,
-                "save_final": True,
-                "save_on_signal": "next_step_boundary",
-                "atomic_replace": True,
-                "weights_only_load": True,
-                "retention": "retain_all_corrected_checkpoints",
-            }
-        ),
-        runtime=_freeze_mapping(
-            {
-                "num_workers": num_workers,
-                "pin_memory": "cuda_available",
-                "persistent_workers": num_workers > 0,
-                "non_blocking_device_transfer": True,
-                "device_policy": "cuda_if_available_else_cpu",
-            }
-        ),
-    )
-
-
-def canonical_training_config_hash(config: TrainingConfig) -> str:
-    canonical = json.dumps(
-        config.to_dict(), sort_keys=True, separators=(",", ":"), ensure_ascii=True
-    ).encode("utf-8")
-    return hashlib.sha256(canonical).hexdigest()
+    training_config: TrainingConfig
+    training_config_hash: str
 
 
 def collect_environment() -> dict[str, object]:
@@ -275,6 +131,10 @@ def load_training_contract(
         raise ValueError("seed must be one of the eight verified training seeds")
     run_label = _validate_run_label(run_label, seed)
     split = verified["dataset"]["split"]
+    training_config = build_training_config()
+    training_config_hash = canonical_training_config_hash(training_config)
+    if training.get("training_config_hash") != training_config_hash:
+        raise ValueError("verified protocol training_config_hash is invalid")
     return CorrectedTrainingContract(
         protocol_hash=protocol_hash,
         split_sha256=split["sha256"],
@@ -283,6 +143,8 @@ def load_training_contract(
         run_label=run_label,
         training_seeds=training_seeds,
         member_indices=_load_member_indices(split_path),
+        training_config=training_config,
+        training_config_hash=training_config_hash,
     )
 
 
@@ -476,6 +338,95 @@ def save_corrected_checkpoint(
     return path
 
 
+def _clone_state_to_cpu(value: object) -> object:
+    if isinstance(value, torch.Tensor):
+        return value.detach().cpu().clone()
+    if isinstance(value, Mapping):
+        return {key: _clone_state_to_cpu(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_clone_state_to_cpu(item) for item in value]
+    if isinstance(value, tuple):
+        return tuple(_clone_state_to_cpu(item) for item in value)
+    if value is None or type(value) in (bool, int, float, str):
+        return value
+    raise ValueError(f"unsupported checkpoint state value type: {type(value).__name__}")
+
+
+def _validate_module_state(
+    name: str, candidate: object, current_state: Mapping[str, torch.Tensor]
+) -> None:
+    if not isinstance(candidate, Mapping) or set(candidate) != set(current_state):
+        raise ValueError(f"checkpoint {name} state keys do not match the target module")
+    for key, current in current_state.items():
+        saved = candidate[key]
+        if not isinstance(saved, torch.Tensor):
+            raise ValueError(f"checkpoint {name}.{key} must be a tensor")
+        if saved.device.type != "cpu":
+            raise ValueError(f"checkpoint {name}.{key} must load onto CPU for validation")
+        if saved.shape != current.shape or saved.dtype != current.dtype:
+            raise ValueError(f"checkpoint {name}.{key} shape or dtype does not match target")
+
+
+def _validate_optimizer_state(candidate: object, optimizer: torch.optim.Optimizer) -> None:
+    if not isinstance(candidate, Mapping) or set(candidate) != {"state", "param_groups"}:
+        raise ValueError("checkpoint optimizer state has invalid top-level fields")
+    states = candidate["state"]
+    groups = candidate["param_groups"]
+    current_groups = optimizer.state_dict()["param_groups"]
+    if not isinstance(states, Mapping) or not isinstance(groups, list):
+        raise ValueError("checkpoint optimizer state or param_groups is invalid")
+    if len(groups) != len(optimizer.param_groups) or len(groups) != len(current_groups):
+        raise ValueError("checkpoint optimizer param-group count does not match target")
+    saved_id_to_parameter: dict[int, torch.nn.Parameter] = {}
+    for saved_group, current_group, live_group in zip(
+        groups, current_groups, optimizer.param_groups, strict=True
+    ):
+        if not isinstance(saved_group, Mapping) or set(saved_group) != set(current_group):
+            raise ValueError("checkpoint optimizer param-group schema does not match target")
+        saved_ids = saved_group["params"]
+        live_parameters = live_group["params"]
+        if (
+            not isinstance(saved_ids, list)
+            or len(saved_ids) != len(live_parameters)
+            or any(type(identifier) is not int for identifier in saved_ids)
+        ):
+            raise ValueError("checkpoint optimizer parameter identities are invalid")
+        for identifier, parameter in zip(saved_ids, live_parameters, strict=True):
+            if identifier in saved_id_to_parameter:
+                raise ValueError("checkpoint optimizer parameter identities are duplicated")
+            saved_id_to_parameter[identifier] = parameter
+        _clone_state_to_cpu({key: value for key, value in saved_group.items() if key != "params"})
+    if not set(states).issubset(saved_id_to_parameter):
+        raise ValueError("checkpoint optimizer state references unknown parameters")
+    for identifier, state in states.items():
+        if not isinstance(state, Mapping):
+            raise ValueError("checkpoint optimizer per-parameter state must be a mapping")
+        if set(state) != {"step", "exp_avg", "exp_avg_sq"}:
+            raise ValueError("checkpoint Adam state fields do not match canonical optimizer")
+        parameter = saved_id_to_parameter[identifier]
+        for field in ("exp_avg", "exp_avg_sq"):
+            value = state[field]
+            if (
+                not isinstance(value, torch.Tensor)
+                or value.device.type != "cpu"
+                or value.shape != parameter.shape
+                or value.dtype != parameter.dtype
+            ):
+                raise ValueError(f"checkpoint optimizer {field} does not match parameter")
+        step = state["step"]
+        if not isinstance(step, torch.Tensor) or step.device.type != "cpu" or step.numel() != 1:
+            raise ValueError("checkpoint optimizer step must be a scalar CPU tensor")
+
+
+def _validate_scheduler_state(
+    candidate: object, scheduler: torch.optim.lr_scheduler.LRScheduler
+) -> None:
+    current = scheduler.state_dict()
+    if not isinstance(candidate, Mapping) or set(candidate) != set(current):
+        raise ValueError("checkpoint scheduler state schema does not match target")
+    _clone_state_to_cpu(candidate)
+
+
 def load_corrected_checkpoint(
     path: str | Path,
     model: torch.nn.Module,
@@ -490,11 +441,36 @@ def load_corrected_checkpoint(
     expected_split_sha256: str,
     expected_code_commit: str,
     expected_training_config_hash: str,
+    expected_environment: Mapping[str, object],
 ) -> int:
     payload = torch.load(Path(path), map_location="cpu", weights_only=True)
     if not isinstance(payload, Mapping) or not isinstance(payload.get("metadata"), Mapping):
         raise ValueError("checkpoint payload or metadata is invalid")
+    expected_payload_fields = {
+        "model",
+        "ema",
+        "optim",
+        "sched",
+        "step",
+        "metadata",
+        "rng_state",
+    }
+    if set(payload) != expected_payload_fields:
+        raise ValueError("checkpoint payload fields do not match the corrected schema")
     metadata = payload["metadata"]
+    expected_metadata_fields = {
+        "run_label",
+        "seed",
+        "protocol_hash",
+        "checkpoint_step",
+        "split_sha256",
+        "code_commit",
+        "training_config",
+        "training_config_hash",
+        "environment",
+    }
+    if set(metadata) != expected_metadata_fields:
+        raise ValueError("checkpoint metadata fields do not match the corrected schema")
     validated_step = validate_resume_identity(
         metadata,
         expected_run_label,
@@ -508,9 +484,7 @@ def load_corrected_checkpoint(
         raise ValueError("checkpoint code_commit does not match expected commit")
     checkpoint_config = metadata.get("training_config")
     checkpoint_config_hash = metadata.get("training_config_hash")
-    if not isinstance(checkpoint_config, Mapping) or not isinstance(
-        checkpoint_config_hash, str
-    ):
+    if not isinstance(checkpoint_config, Mapping) or not isinstance(checkpoint_config_hash, str):
         raise ValueError("checkpoint training_config or training_config_hash is invalid")
     canonical_checkpoint_hash = hashlib.sha256(
         json.dumps(
@@ -521,11 +495,59 @@ def load_corrected_checkpoint(
         raise ValueError("checkpoint training_config_hash does not match training_config")
     if checkpoint_config_hash != expected_training_config_hash:
         raise ValueError("checkpoint training_config_hash does not match expected config")
+    checkpoint_environment = metadata.get("environment")
+    environment_fields = {
+        "python",
+        "pytorch",
+        "cuda",
+        "cudnn",
+        "gpu_name",
+        "gpu_uuid",
+    }
+    if (
+        not isinstance(checkpoint_environment, Mapping)
+        or set(checkpoint_environment) != environment_fields
+        or set(expected_environment) != environment_fields
+        or dict(checkpoint_environment) != dict(expected_environment)
+    ):
+        raise ValueError("checkpoint environment does not match expected environment")
     if payload.get("step") != validated_step:
         raise ValueError("checkpoint top-level step does not match validated metadata")
-    model.load_state_dict(payload["model"])
-    ema_model.load_state_dict(payload["ema"])
-    optimizer.load_state_dict(payload["optim"])
-    scheduler.load_state_dict(payload["sched"])
-    restore_rng_state(payload["rng_state"])
+    _validate_module_state("model", payload["model"], model.state_dict())
+    _validate_module_state("ema", payload["ema"], ema_model.state_dict())
+    _validate_optimizer_state(payload["optim"], optimizer)
+    _validate_scheduler_state(payload["sched"], scheduler)
+    validate_rng_state(payload["rng_state"])
+
+    rollback_model = _clone_state_to_cpu(model.state_dict())
+    rollback_ema = _clone_state_to_cpu(ema_model.state_dict())
+    rollback_optimizer = _clone_state_to_cpu(optimizer.state_dict())
+    rollback_scheduler = _clone_state_to_cpu(scheduler.state_dict())
+    rollback_rng = capture_rng_state()
+    try:
+        model.load_state_dict(payload["model"])
+        ema_model.load_state_dict(payload["ema"])
+        optimizer.load_state_dict(payload["optim"])
+        scheduler.load_state_dict(payload["sched"])
+        restore_rng_state(payload["rng_state"])
+    except BaseException as load_error:
+        rollback_errors: list[str] = []
+        rollback_actions = (
+            ("model", lambda: model.load_state_dict(rollback_model)),
+            ("ema", lambda: ema_model.load_state_dict(rollback_ema)),
+            ("optimizer", lambda: optimizer.load_state_dict(rollback_optimizer)),
+            ("scheduler", lambda: scheduler.load_state_dict(rollback_scheduler)),
+            ("rng", lambda: restore_rng_state(rollback_rng)),
+        )
+        for component, action in rollback_actions:
+            try:
+                action()
+            except BaseException as rollback_error:
+                rollback_errors.append(f"{component}: {rollback_error}")
+        if rollback_errors:
+            detail = "; ".join(rollback_errors)
+            raise RuntimeError(
+                f"checkpoint load failed and rollback was incomplete: {detail}"
+            ) from load_error
+        raise
     return validated_step

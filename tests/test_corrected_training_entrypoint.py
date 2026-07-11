@@ -173,7 +173,7 @@ def _tiny_training_state():
 def test_checkpoint_is_weights_only_safe_and_round_trips(tmp_path: Path) -> None:
     model, ema, optimizer, scheduler = _tiny_training_state()
     path = tmp_path / "checkpoint-step000001.pt"
-    training_config = build_training_config(num_workers=0)
+    training_config = build_training_config()
     environment = collect_environment()
     save_corrected_checkpoint(
         path,
@@ -212,6 +212,7 @@ def test_checkpoint_is_weights_only_safe_and_round_trips(tmp_path: Path) -> None
         expected_split_sha256="c" * 64,
         expected_code_commit=CODE_COMMIT,
         expected_training_config_hash=canonical_training_config_hash(training_config),
+        expected_environment=environment,
     )
     assert restored_step == 1
     assert all(
@@ -225,7 +226,7 @@ def test_checkpoint_is_weights_only_safe_and_round_trips(tmp_path: Path) -> None
 def test_wrong_checkpoint_identity_is_rejected_before_model_or_rng_changes(tmp_path: Path) -> None:
     source = _tiny_training_state()
     path = tmp_path / "checkpoint-step000001.pt"
-    training_config = build_training_config(num_workers=0)
+    training_config = build_training_config()
     save_corrected_checkpoint(
         path,
         *source,
@@ -255,6 +256,7 @@ def test_wrong_checkpoint_identity_is_rejected_before_model_or_rng_changes(tmp_p
             expected_split_sha256="c" * 64,
             expected_code_commit=CODE_COMMIT,
             expected_training_config_hash=canonical_training_config_hash(training_config),
+            expected_environment=collect_environment(),
         )
 
     assert all(
@@ -269,7 +271,7 @@ def test_wrong_checkpoint_identity_is_rejected_before_model_or_rng_changes(tmp_p
 
 
 def test_training_config_is_complete_immutable_and_canonically_hashed() -> None:
-    config = build_training_config(num_workers=3)
+    config = build_training_config()
     payload = config.to_dict()
 
     assert set(payload) == {
@@ -287,7 +289,7 @@ def test_training_config_is_complete_immutable_and_canonically_hashed() -> None:
         "runtime",
     }
     assert payload["precision"] == {"dtype": "float32", "amp": False}
-    assert payload["runtime"]["num_workers"] == 3
+    assert payload["runtime"]["num_workers"] == 4
     assert payload["checkpointing"]["save_every"] == 2_000
     assert payload["checkpointing"]["sample_every"] == 50_000
     assert canonical_training_config_hash(config) == canonical_training_config_hash(config)
@@ -296,7 +298,7 @@ def test_training_config_is_complete_immutable_and_canonically_hashed() -> None:
 
 
 def test_environment_is_separate_from_training_config_hash() -> None:
-    config = build_training_config(num_workers=0)
+    config = build_training_config()
     environment = collect_environment()
 
     assert set(environment) == {
@@ -313,7 +315,7 @@ def test_environment_is_separate_from_training_config_hash() -> None:
 def test_wrong_training_config_hash_is_rejected_before_any_mutation(tmp_path: Path) -> None:
     source = _tiny_training_state()
     path = tmp_path / "checkpoint-step000001.pt"
-    config = build_training_config(num_workers=0)
+    config = build_training_config()
     save_corrected_checkpoint(
         path,
         *source,
@@ -341,12 +343,302 @@ def test_wrong_training_config_hash_is_rejected_before_any_mutation(tmp_path: Pa
             expected_split_sha256="c" * 64,
             expected_code_commit=CODE_COMMIT,
             expected_training_config_hash="d" * 64,
+            expected_environment=collect_environment(),
         )
 
     assert all(
         torch.equal(model_before[name], target[0].state_dict()[name]) for name in model_before
     )
     assert torch.equal(torch_before, torch.get_rng_state())
+
+
+def _assert_nested_equal(left: object, right: object) -> None:
+    if isinstance(left, torch.Tensor):
+        assert isinstance(right, torch.Tensor)
+        assert torch.equal(left, right)
+    elif isinstance(left, dict):
+        assert isinstance(right, dict)
+        assert left.keys() == right.keys()
+        for key in left:
+            _assert_nested_equal(left[key], right[key])
+    elif isinstance(left, list | tuple):
+        assert isinstance(right, type(left))
+        assert len(left) == len(right)
+        for left_item, right_item in zip(left, right, strict=True):
+            _assert_nested_equal(left_item, right_item)
+    else:
+        assert left == right
+
+
+def _snapshot_training_state(objects) -> dict[str, object]:
+    model, ema, optimizer, scheduler = objects
+    return {
+        "model": copy.deepcopy(model.state_dict()),
+        "ema": copy.deepcopy(ema.state_dict()),
+        "optim": copy.deepcopy(optimizer.state_dict()),
+        "sched": copy.deepcopy(scheduler.state_dict()),
+        "python_rng": random.getstate(),
+        "numpy_rng": np.random.get_state(),
+        "torch_rng": torch.get_rng_state().clone(),
+    }
+
+
+def _assert_training_state_unchanged(objects, before: dict[str, object]) -> None:
+    model, ema, optimizer, scheduler = objects
+    _assert_nested_equal(model.state_dict(), before["model"])
+    _assert_nested_equal(ema.state_dict(), before["ema"])
+    _assert_nested_equal(optimizer.state_dict(), before["optim"])
+    _assert_nested_equal(scheduler.state_dict(), before["sched"])
+    assert random.getstate() == before["python_rng"]
+    numpy_after = np.random.get_state()
+    numpy_before = before["numpy_rng"]
+    assert numpy_after[0] == numpy_before[0]
+    assert np.array_equal(numpy_after[1], numpy_before[1])
+    assert numpy_after[2:] == numpy_before[2:]
+    assert torch.equal(torch.get_rng_state(), before["torch_rng"])
+
+
+def test_resume_environment_mismatch_is_rejected_before_any_mutation(tmp_path: Path) -> None:
+    source = _tiny_training_state()
+    path = tmp_path / "checkpoint-step000001.pt"
+    config = build_training_config()
+    environment = collect_environment()
+    save_corrected_checkpoint(
+        path,
+        *source,
+        step=1,
+        run_label=f"corrected-s{SEEDS[0]}",
+        seed=SEEDS[0],
+        protocol_hash="a" * 64,
+        split_sha256="c" * 64,
+        code_commit=CODE_COMMIT,
+        training_config=config,
+        environment=environment,
+    )
+    target = _tiny_training_state()
+    before = _snapshot_training_state(target)
+    mismatched = dict(environment)
+    mismatched["python"] = "different"
+
+    with pytest.raises(ValueError, match="environment"):
+        load_corrected_checkpoint(
+            path,
+            *target,
+            expected_step=1,
+            expected_run_label=f"corrected-s{SEEDS[0]}",
+            expected_seed=SEEDS[0],
+            expected_protocol_hash="a" * 64,
+            expected_split_sha256="c" * 64,
+            expected_code_commit=CODE_COMMIT,
+            expected_training_config_hash=canonical_training_config_hash(config),
+            expected_environment=mismatched,
+        )
+
+    _assert_training_state_unchanged(target, before)
+
+
+@pytest.mark.parametrize("corrupt_field", ["model", "ema", "optim", "sched", "rng_state"])
+def test_corrupt_checkpoint_component_is_atomic_and_leaves_all_state_unchanged(
+    tmp_path: Path, corrupt_field: str
+) -> None:
+    source = _tiny_training_state()
+    path = tmp_path / f"checkpoint-{corrupt_field}.pt"
+    config = build_training_config()
+    environment = collect_environment()
+    save_corrected_checkpoint(
+        path,
+        *source,
+        step=1,
+        run_label=f"corrected-s{SEEDS[0]}",
+        seed=SEEDS[0],
+        protocol_hash="a" * 64,
+        split_sha256="c" * 64,
+        code_commit=CODE_COMMIT,
+        training_config=config,
+        environment=environment,
+    )
+    payload = torch.load(path, map_location="cpu", weights_only=True)
+    payload[corrupt_field] = None
+    torch.save(payload, path)
+    target = _tiny_training_state()
+    before = _snapshot_training_state(target)
+
+    with pytest.raises((TypeError, ValueError, RuntimeError, AttributeError)):
+        load_corrected_checkpoint(
+            path,
+            *target,
+            expected_step=1,
+            expected_run_label=f"corrected-s{SEEDS[0]}",
+            expected_seed=SEEDS[0],
+            expected_protocol_hash="a" * 64,
+            expected_split_sha256="c" * 64,
+            expected_code_commit=CODE_COMMIT,
+            expected_training_config_hash=canonical_training_config_hash(config),
+            expected_environment=environment,
+        )
+
+    _assert_training_state_unchanged(target, before)
+
+
+class NoDeviceDeepcopyLinear(torch.nn.Linear):
+    def __deepcopy__(self, _memo):
+        raise AssertionError("resume validation must not deepcopy modules on their device")
+
+
+def _no_deepcopy_training_state():
+    model = NoDeviceDeepcopyLinear(3, 2)
+    ema = NoDeviceDeepcopyLinear(3, 2)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda _: 1.0)
+    return model, ema, optimizer, scheduler
+
+
+def test_resume_validation_never_deepcopies_model_or_optimizer_bundle(tmp_path: Path) -> None:
+    source = _no_deepcopy_training_state()
+    path = tmp_path / "checkpoint-no-device-deepcopy.pt"
+    config = build_training_config()
+    environment = collect_environment()
+    save_corrected_checkpoint(
+        path,
+        *source,
+        step=1,
+        run_label=f"corrected-s{SEEDS[0]}",
+        seed=SEEDS[0],
+        protocol_hash="a" * 64,
+        split_sha256="c" * 64,
+        code_commit=CODE_COMMIT,
+        training_config=config,
+        environment=environment,
+    )
+
+    assert (
+        load_corrected_checkpoint(
+            path,
+            *_no_deepcopy_training_state(),
+            expected_step=1,
+            expected_run_label=f"corrected-s{SEEDS[0]}",
+            expected_seed=SEEDS[0],
+            expected_protocol_hash="a" * 64,
+            expected_split_sha256="c" * 64,
+            expected_code_commit=CODE_COMMIT,
+            expected_training_config_hash=canonical_training_config_hash(config),
+            expected_environment=environment,
+        )
+        == 1
+    )
+
+
+class FailOnceLambdaLR(torch.optim.lr_scheduler.LambdaLR):
+    def __init__(self, optimizer: torch.optim.Optimizer, *, fail_once: bool) -> None:
+        self._inject_failure = fail_once
+        super().__init__(optimizer, lambda _: 1.0)
+
+    def state_dict(self):
+        state = super().state_dict()
+        state.pop("_inject_failure", None)
+        return state
+
+    def load_state_dict(self, state_dict) -> None:
+        super().load_state_dict(state_dict)
+        if self._inject_failure:
+            self._inject_failure = False
+            raise RuntimeError("injected scheduler commit failure")
+
+
+def _transactional_training_state(*, fail_scheduler_once: bool):
+    model = torch.nn.Linear(3, 2)
+    ema = torch.nn.Linear(3, 2)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    scheduler = FailOnceLambdaLR(optimizer, fail_once=fail_scheduler_once)
+    return model, ema, optimizer, scheduler
+
+
+def test_commit_phase_failure_rolls_back_every_training_and_rng_state(tmp_path: Path) -> None:
+    source = _transactional_training_state(fail_scheduler_once=False)
+    source[2].zero_grad()
+    source[0](torch.ones(1, 3)).sum().backward()
+    source[2].step()
+    source[3].step()
+    path = tmp_path / "checkpoint-transaction.pt"
+    config = build_training_config()
+    environment = collect_environment()
+    save_corrected_checkpoint(
+        path,
+        *source,
+        step=1,
+        run_label=f"corrected-s{SEEDS[0]}",
+        seed=SEEDS[0],
+        protocol_hash="a" * 64,
+        split_sha256="c" * 64,
+        code_commit=CODE_COMMIT,
+        training_config=config,
+        environment=environment,
+    )
+    target = _transactional_training_state(fail_scheduler_once=True)
+    before = _snapshot_training_state(target)
+
+    with pytest.raises(RuntimeError, match="injected scheduler commit failure"):
+        load_corrected_checkpoint(
+            path,
+            *target,
+            expected_step=1,
+            expected_run_label=f"corrected-s{SEEDS[0]}",
+            expected_seed=SEEDS[0],
+            expected_protocol_hash="a" * 64,
+            expected_split_sha256="c" * 64,
+            expected_code_commit=CODE_COMMIT,
+            expected_training_config_hash=canonical_training_config_hash(config),
+            expected_environment=environment,
+        )
+
+    _assert_training_state_unchanged(target, before)
+
+
+@pytest.mark.parametrize("corruption", ["adam_moment_shape", "scheduler_extra_key"])
+def test_semantically_invalid_state_is_rejected_before_commit(
+    tmp_path: Path, corruption: str
+) -> None:
+    source = _tiny_training_state()
+    path = tmp_path / f"checkpoint-{corruption}.pt"
+    config = build_training_config()
+    environment = collect_environment()
+    save_corrected_checkpoint(
+        path,
+        *source,
+        step=1,
+        run_label=f"corrected-s{SEEDS[0]}",
+        seed=SEEDS[0],
+        protocol_hash="a" * 64,
+        split_sha256="c" * 64,
+        code_commit=CODE_COMMIT,
+        training_config=config,
+        environment=environment,
+    )
+    payload = torch.load(path, map_location="cpu", weights_only=True)
+    if corruption == "adam_moment_shape":
+        first_state = next(iter(payload["optim"]["state"].values()))
+        first_state["exp_avg"] = torch.zeros(99)
+    else:
+        payload["sched"]["unexpected"] = True
+    torch.save(payload, path)
+    target = _tiny_training_state()
+    before = _snapshot_training_state(target)
+
+    with pytest.raises(ValueError, match="optimizer|scheduler"):
+        load_corrected_checkpoint(
+            path,
+            *target,
+            expected_step=1,
+            expected_run_label=f"corrected-s{SEEDS[0]}",
+            expected_seed=SEEDS[0],
+            expected_protocol_hash="a" * 64,
+            expected_split_sha256="c" * 64,
+            expected_code_commit=CODE_COMMIT,
+            expected_training_config_hash=canonical_training_config_hash(config),
+            expected_environment=environment,
+        )
+
+    _assert_training_state_unchanged(target, before)
 
 
 @pytest.mark.parametrize(

@@ -72,9 +72,7 @@ def _signal_handler(signum: int, _frame: Any) -> None:
 
 
 @torch.no_grad()
-def _ema_update(
-    model: torch.nn.Module, ema_model: torch.nn.Module, *, decay: float
-) -> None:
+def _ema_update(model: torch.nn.Module, ema_model: torch.nn.Module, *, decay: float) -> None:
     for source, target in zip(model.parameters(), ema_model.parameters(), strict=True):
         target.mul_(decay).add_(source, alpha=1.0 - decay)
 
@@ -175,7 +173,12 @@ class TrainingObjects:
 
 class ProductionRuntime:
     def training_config(self, num_workers: int) -> TrainingConfig:
-        return build_training_config(num_workers=num_workers)
+        config = build_training_config()
+        if num_workers != config.runtime["num_workers"]:
+            raise ValueError(
+                f"--num-workers must equal protocol-frozen value {config.runtime['num_workers']}"
+            )
+        return config
 
     def read_repository_state(self, root: Path) -> tuple[str, str]:
         return read_repository_state(root)
@@ -258,9 +261,7 @@ class ProductionRuntime:
     def preserve_rng(self):
         return preserve_rng_state()
 
-    def sample_quality(
-        self, *, objects: TrainingObjects, log_dir: Path, step: int
-    ) -> None:
+    def sample_quality(self, *, objects: TrainingObjects, log_dir: Path, step: int) -> None:
         with torch.no_grad():
             noise = torch.randn(64, 3, 32, 32, device=objects.device)
             samples = objects.quality_sampler(noise).cpu()
@@ -308,6 +309,10 @@ def _prepare(args: argparse.Namespace, runtime, training_config: TrainingConfig)
         raise ValueError("--num-workers must be non-negative")
     if training_config.runtime["num_workers"] != args.num_workers:
         raise ValueError("training config num_workers does not match CLI")
+    if training_config.to_dict() != contract.training_config.to_dict():
+        raise ValueError("runtime training_config does not match frozen protocol config")
+    if canonical_training_config_hash(training_config) != contract.training_config_hash:
+        raise ValueError("runtime training_config_hash does not match frozen protocol hash")
     if args.log_file is not None:
         requested_log = args.log_file.resolve()
         try:
@@ -366,7 +371,8 @@ def _train(args: argparse.Namespace, runtime=None) -> dict[str, object]:
             expected_protocol_hash=contract.protocol_hash,
             expected_split_sha256=contract.split_sha256,
             expected_code_commit=contract.code_commit,
-            expected_training_config_hash=canonical_training_config_hash(training_config),
+            expected_training_config_hash=contract.training_config_hash,
+            expected_environment=environment,
         )
     loader = runtime.build_dataloader(
         member_dataset,

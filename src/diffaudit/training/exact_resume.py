@@ -301,6 +301,12 @@ def restore_rng_state(state: object) -> None:
         torch.cuda.set_rng_state_all(torch_cuda)
 
 
+def validate_rng_state(state: object) -> None:
+    """Validate a captured RNG payload without mutating process RNG streams."""
+
+    _validate_rng_state(state)
+
+
 @contextmanager
 def preserve_rng_state() -> Iterator[None]:
     """Restore all RNG streams after a temporary block, including on error."""

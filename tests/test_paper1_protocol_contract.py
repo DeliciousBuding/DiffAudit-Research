@@ -10,6 +10,10 @@ import numpy as np
 import pytest
 
 from diffaudit.evidence import corrected_protocol as protocol
+from diffaudit.evidence.training_config import (
+    build_training_config,
+    canonical_training_config_hash,
+)
 
 _SPLIT_SHA256 = "a" * 64
 _CODE_COMMIT = "b" * 40
@@ -113,6 +117,8 @@ def test_paper1_contract_freezes_exact_scientific_shape(
         "mature_steps": 200_000,
         "deterministic": True,
         "member_only": True,
+        "training_config": build_training_config().to_dict(),
+        "training_config_hash": canonical_training_config_hash(build_training_config()),
     }
     assert paper1_contract["h1"] == {
         "sites": ["late_down", "mid_0", "mid_1", "early_up"],
@@ -220,9 +226,15 @@ def _resign_with_mutation(
         (lambda value: value["evaluation"]["rows"].pop(), "2048"),
         (lambda value: value["training"]["seeds"].__setitem__(1, 0), "seeds"),
         (
-            lambda value: value["training"]["seeds"].__setitem__(
-                1, value["training"]["seeds"][0]
-            ),
+            lambda value: value["training"]["training_config"]["runtime"].update(num_workers=0),
+            "training",
+        ),
+        (
+            lambda value: value["training"].update(training_config_hash="f" * 64),
+            "training",
+        ),
+        (
+            lambda value: value["training"]["seeds"].__setitem__(1, value["training"]["seeds"][0]),
             "seeds",
         ),
         (
@@ -310,9 +322,7 @@ def _swap_balanced_membership_labels(contract: dict[str, object]) -> None:
 
 def _swap_balanced_calibration_evaluation(contract: dict[str, object]) -> None:
     rows = contract["evaluation"]["rows"]
-    calibration = next(
-        row for row in rows if row["label"] == 1 and row["split"] == "calibration"
-    )
+    calibration = next(row for row in rows if row["label"] == 1 and row["split"] == "calibration")
     evaluation = next(
         row
         for row in rows

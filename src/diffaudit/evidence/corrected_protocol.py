@@ -14,6 +14,11 @@ from typing import Literal
 
 import numpy as np
 
+from diffaudit.evidence.training_config import (
+    build_training_config,
+    canonical_training_config_hash,
+)
+
 _SPLIT_FILENAMES = {"cifar10": "CIFAR10_train_ratio0.5.npz"}
 _CLASS_IDS = tuple(range(10))
 _PROTOCOL_ENVELOPE_FIELDS = {"schema_version", "protocol_hash", "contract"}
@@ -245,9 +250,7 @@ def load_protocol_envelope(
         raise ValueError("protocol envelope must be a JSON mapping")
     if set(copied_envelope) != _PROTOCOL_ENVELOPE_FIELDS:
         raise ValueError("protocol envelope top-level fields must be exact")
-    if type(copied_envelope["schema_version"]) is not int or copied_envelope[
-        "schema_version"
-    ] != 1:
+    if type(copied_envelope["schema_version"]) is not int or copied_envelope["schema_version"] != 1:
         raise ValueError("protocol envelope schema_version must be 1")
 
     protocol_hash = copied_envelope["protocol_hash"]
@@ -555,9 +558,7 @@ def _validate_paper1_partition(
         or set(member).isdisjoint(nonmember) is False
         or set(member) | set(nonmember) != set(range(50_000))
     ):
-        raise ValueError(
-            "membership split must be a complete 25000/25000 partition of 0..49999"
-        )
+        raise ValueError("membership split must be a complete 25000/25000 partition of 0..49999")
     return member, nonmember
 
 
@@ -598,6 +599,7 @@ def build_paper1_corrected_contract(
         for row in rows
     ]
     training_seeds = list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE))
+    training_config = build_training_config()
     contract = {
         "protocol_namespace": _PAPER1_PROTOCOL_NAMESPACE,
         "dataset": {
@@ -617,6 +619,8 @@ def build_paper1_corrected_contract(
             "mature_steps": 200_000,
             "deterministic": True,
             "member_only": True,
+            "training_config": training_config.to_dict(),
+            "training_config_hash": canonical_training_config_hash(training_config),
         },
         "evaluation": {"rows": row_payload},
         "h1": _paper1_h1_contract(),
@@ -725,6 +729,8 @@ def verify_paper1_contract(
         "mature_steps": 200_000,
         "deterministic": True,
         "member_only": True,
+        "training_config": build_training_config().to_dict(),
+        "training_config_hash": canonical_training_config_hash(build_training_config()),
     }
     if not isinstance(training, dict):
         raise ValueError("Paper 1 training does not match the fixed contract")
@@ -749,9 +755,7 @@ def verify_paper1_contract(
     _require_exact_json_value(
         "common_noise", contract["common_noise"], _paper1_common_noise_contract()
     )
-    _require_exact_json_value(
-        "branch_rules", contract["branch_rules"], _paper1_branch_rules()
-    )
+    _require_exact_json_value("branch_rules", contract["branch_rules"], _paper1_branch_rules())
     _require_exact_json_value(
         "confirmatory_heterogeneity",
         contract["confirmatory_heterogeneity"],

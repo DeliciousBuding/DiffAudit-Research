@@ -3,11 +3,12 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import signal
+import sys
 from argparse import Namespace
 from contextlib import contextmanager
-from dataclasses import replace
 from pathlib import Path
-from types import MappingProxyType, ModuleType
+from types import ModuleType
 
 import numpy as np
 import pytest
@@ -39,36 +40,65 @@ class SyntheticCIFAR(Dataset[tuple[torch.Tensor, int]]):
         return torch.tensor([float(index)]), self.targets[index]
 
 
+class FakeBatch:
+    def to(self, *_args, **_kwargs):
+        return self
+
+
+class FakeLoss:
+    def backward(self) -> None:
+        return None
+
+
+class FakeModel:
+    def train(self) -> None:
+        return None
+
+    def parameters(self):
+        return iter(())
+
+
+class FakeOptimizer:
+    def zero_grad(self, **_kwargs) -> None:
+        return None
+
+    def step(self) -> None:
+        return None
+
+
+class FakeScheduler:
+    def step(self) -> None:
+        return None
+
+
 class FakeTrainer:
-    def __init__(self, model: torch.nn.Module, runtime: "FakeRuntime") -> None:
-        self.model = model
+    def __init__(self, runtime: "FakeRuntime") -> None:
         self.runtime = runtime
 
-    def __call__(self, batch: torch.Tensor) -> torch.Tensor:
+    def __call__(self, _batch: FakeBatch) -> FakeLoss:
         self.runtime.completed_steps += 1
-        return self.model(batch.float()).mean()
+        return FakeLoss()
 
 
 class FakeRuntime:
     def __init__(
         self,
         *,
-        save_every: int = 2_000,
-        sample_every: int = 50_000,
         interrupt_after: int | None = None,
+        interrupted_callback=None,
+        reject_side_effects: bool = False,
     ) -> None:
         self.events: list[str] = []
         self.saved_steps: list[int] = []
         self.sampled_steps: list[int] = []
         self.completed_steps = 0
         self.interrupt_after = interrupt_after
-        base = build_training_config(num_workers=0)
-        checkpointing = dict(base.checkpointing)
-        checkpointing.update(save_every=save_every, sample_every=sample_every)
-        self.config = replace(base, checkpointing=MappingProxyType(checkpointing))
+        self.interrupted_callback = interrupted_callback
+        self.reject_side_effects = reject_side_effects
+        self.config = build_training_config()
 
     def training_config(self, num_workers: int):
-        assert num_workers == 0
+        assert num_workers == 4
         return self.config
 
     def read_repository_state(self, _root: Path) -> tuple[str, str]:
@@ -97,24 +127,23 @@ class FakeRuntime:
 
     def build_training_objects(self, _config):
         self.events.append("build_model")
-        model = torch.nn.Linear(1, 1)
-        ema = torch.nn.Linear(1, 1)
-        optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
-        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda _: 1.0)
+        model = FakeModel()
         return Namespace(
             model=model,
-            ema_model=ema,
-            optimizer=optimizer,
-            scheduler=scheduler,
-            trainer=FakeTrainer(model, self),
+            ema_model=FakeModel(),
+            optimizer=FakeOptimizer(),
+            scheduler=FakeScheduler(),
+            trainer=FakeTrainer(self),
             quality_sampler=object(),
             device=torch.device("cpu"),
         )
 
     def build_dataloader(self, _dataset, _seed, start_step, stop_step, _num_workers):
-        return [(torch.ones(1, 1), torch.zeros(1)) for _ in range(start_step, stop_step)]
+        return ((FakeBatch(), None) for _ in range(start_step, stop_step))
 
     def save_checkpoint(self, *, step: int, **_kwargs) -> Path:
+        if self.reject_side_effects:
+            raise AssertionError("dry-run must not call checkpoint saving")
         self.events.append(f"save:{step}")
         self.saved_steps.append(step)
         return Path(f"checkpoint-step{step:06d}.pt")
@@ -128,10 +157,14 @@ class FakeRuntime:
             self.events.append("preserve_exit")
 
     def sample_quality(self, *, step: int, **_kwargs) -> None:
+        if self.reject_side_effects:
+            raise AssertionError("dry-run must not call sampling")
         self.events.append(f"sample:{step}")
         self.sampled_steps.append(step)
 
     def interrupted(self) -> bool:
+        if self.interrupted_callback is not None:
+            return bool(self.interrupted_callback())
         return self.interrupt_after is not None and self.completed_steps >= self.interrupt_after
 
 
@@ -177,10 +210,10 @@ def _args(protocol_path: Path, split_path: Path, *, stop_step: int, dry_run: boo
         stop_step=stop_step,
         resume=None,
         dataset_root=Path("synthetic-cifar"),
-        num_workers=0,
+        num_workers=4,
         log_file=None,
         dry_run=dry_run,
-        preflight=True,
+        preflight=stop_step <= 5_000,
     )
 
 
@@ -191,11 +224,13 @@ def test_dry_run_validates_real_contract_without_model_or_outputs(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     protocol_path, split_path = protocol_files
-    runtime = FakeRuntime()
+    runtime = FakeRuntime(reject_side_effects=True)
     research_root = tmp_path / "Research"
     download_root = tmp_path / "Download"
     monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", research_root)
     monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", download_root)
+    monkeypatch.delitem(sys.modules, "model_unet", raising=False)
+    monkeypatch.delitem(sys.modules, "diffusion", raising=False)
 
     summary = entrypoint._train(
         _args(protocol_path, split_path, stop_step=5, dry_run=True), runtime
@@ -204,8 +239,18 @@ def test_dry_run_validates_real_contract_without_model_or_outputs(
     assert summary["member_count"] == 25_000
     assert "build_model" not in runtime.events
     assert "configure" not in runtime.events
+    assert "model_unet" not in sys.modules
+    assert "diffusion" not in sys.modules
+    assert not any(event.startswith(("save:", "sample:")) for event in runtime.events)
     assert not download_root.exists()
     assert not research_root.exists()
+
+
+def test_production_runtime_rejects_num_workers_outside_frozen_protocol(
+    entrypoint: ModuleType,
+) -> None:
+    with pytest.raises(ValueError, match="protocol-frozen"):
+        entrypoint.ProductionRuntime().training_config(0)
 
 
 def test_training_runs_exact_steps_and_saves_periodic_plus_final(
@@ -215,17 +260,24 @@ def test_training_runs_exact_steps_and_saves_periodic_plus_final(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     protocol_path, split_path = protocol_files
-    runtime = FakeRuntime(save_every=2, sample_every=99)
+    runtime = FakeRuntime()
     monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", tmp_path / "Research")
     monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
 
     result = entrypoint._train(
-        _args(protocol_path, split_path, stop_step=5, dry_run=False), runtime
+        _args(protocol_path, split_path, stop_step=2_000, dry_run=False), runtime
     )
 
-    assert runtime.completed_steps == 5
-    assert runtime.saved_steps == [2, 4, 5]
-    assert result["step"] == 5
+    assert runtime.completed_steps == 2_000
+    assert runtime.saved_steps == [2_000]
+    assert result["step"] == 2_000
+
+    final_runtime = FakeRuntime()
+    result = entrypoint._train(
+        _args(protocol_path, split_path, stop_step=2_001, dry_run=False), final_runtime
+    )
+    assert final_runtime.saved_steps == [2_000, 2_001]
+    assert result["step"] == 2_001
 
 
 def test_sampling_executes_inside_rng_preservation(
@@ -235,18 +287,19 @@ def test_sampling_executes_inside_rng_preservation(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     protocol_path, split_path = protocol_files
-    runtime = FakeRuntime(save_every=99, sample_every=2)
+    runtime = FakeRuntime()
     monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", tmp_path / "Research")
     monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
 
-    entrypoint._train(_args(protocol_path, split_path, stop_step=3, dry_run=False), runtime)
+    entrypoint._train(_args(protocol_path, split_path, stop_step=100_000, dry_run=False), runtime)
 
-    sample_index = runtime.events.index("sample:2")
+    sample_index = runtime.events.index("sample:50000")
     assert runtime.events[sample_index - 1 : sample_index + 2] == [
         "preserve_enter",
-        "sample:2",
+        "sample:50000",
         "preserve_exit",
     ]
+    assert runtime.sampled_steps == [50_000, 100_000]
 
 
 def test_signal_interrupt_saves_at_next_step_boundary(
@@ -256,17 +309,29 @@ def test_signal_interrupt_saves_at_next_step_boundary(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     protocol_path, split_path = protocol_files
-    runtime = FakeRuntime(save_every=99, sample_every=99, interrupt_after=2)
+    original_sigint = signal.getsignal(signal.SIGINT)
+    original_sigterm = signal.getsignal(signal.SIGTERM)
+    entrypoint._interrupted = False
+    production_runtime = entrypoint.ProductionRuntime()
+    production_runtime.install_signal_handlers()
+    installed = signal.getsignal(signal.SIGINT)
+    assert callable(installed)
+    installed(signal.SIGINT, None)
+    runtime = FakeRuntime(interrupted_callback=lambda: entrypoint._interrupted)
     monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", tmp_path / "Research")
     monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
 
-    result = entrypoint._train(
-        _args(protocol_path, split_path, stop_step=5, dry_run=False), runtime
-    )
-
-    assert runtime.completed_steps == 2
-    assert runtime.saved_steps == [2]
-    assert result == {"step": 2, "interrupted": True}
+    try:
+        result = entrypoint._train(
+            _args(protocol_path, split_path, stop_step=5, dry_run=False), runtime
+        )
+        assert runtime.completed_steps == 1
+        assert runtime.saved_steps == [1]
+        assert result == {"step": 1, "interrupted": True}
+    finally:
+        signal.signal(signal.SIGINT, original_sigint)
+        signal.signal(signal.SIGTERM, original_sigterm)
+        entrypoint._interrupted = False
 
 
 def test_deterministic_configuration_precedes_environment_and_model_workload(
@@ -276,7 +341,7 @@ def test_deterministic_configuration_precedes_environment_and_model_workload(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     protocol_path, split_path = protocol_files
-    runtime = FakeRuntime(save_every=99, sample_every=99)
+    runtime = FakeRuntime()
     monkeypatch.setattr(entrypoint, "RESEARCH_ROOT", tmp_path / "Research")
     monkeypatch.setattr(entrypoint, "DOWNLOAD_ROOT", tmp_path / "Download")
 
@@ -293,7 +358,7 @@ def test_output_manifest_binds_training_config_hash_and_environment(
     ema_model = torch.nn.Linear(1, 1)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda _: 1.0)
-    config = build_training_config(num_workers=0)
+    config = build_training_config()
     environment = {
         "python": "test",
         "pytorch": "test",
@@ -310,6 +375,8 @@ def test_output_manifest_binds_training_config_hash_and_environment(
         run_label=f"corrected-s{SEED}",
         training_seeds=(SEED,),
         member_indices=tuple(range(25_000)),
+        training_config=config,
+        training_config_hash=canonical_training_config_hash(config),
     )
 
     entrypoint._checkpoint(
@@ -328,3 +395,24 @@ def test_output_manifest_binds_training_config_hash_and_environment(
     assert manifest["training_config"] == config.to_dict()
     assert manifest["training_config_hash"] == canonical_training_config_hash(config)
     assert manifest["environment"] == environment
+
+
+def test_runbook_uses_only_corrected_entrypoint_with_required_identity_arguments() -> None:
+    runbook = (
+        Path(__file__).resolve().parents[1]
+        / "docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md"
+    ).read_text(encoding="utf-8")
+    corrected_command = "training/ddpm-cifar10/train_ddpm_cifar10_corrected.py"
+
+    assert "training/ddpm-cifar10/train_ddpm_cifar10.py" not in runbook
+    assert runbook.count(corrected_command) == 3
+    for option in (
+        "--protocol-manifest",
+        "--split-path",
+        "--seed",
+        "--run-label",
+        "--stop-step",
+    ):
+        assert runbook.count(option) >= 3
+    assert "--preflight" in runbook
+    assert "--resume 100000" in runbook
