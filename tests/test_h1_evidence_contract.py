@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import json
 import math
 import warnings
@@ -727,6 +728,14 @@ def test_permutation_requires_200_and_refits_every_full_label_draw(
     from diffaudit.evidence import h1_confirmatory as h1
 
     envelope, packets = _make_setup()
+    parameter = inspect.signature(full_label_permutation_test).parameters["random_state"]
+    assert parameter.default is inspect.Parameter.empty
+    with pytest.raises(TypeError, match="random_state"):
+        full_label_permutation_test(
+            packets[0],
+            **_protocol_kwargs(envelope),
+            n_permutations=200,
+        )
     with pytest.raises(ValueError, match="sealed protocol count"):
         full_label_permutation_test(
             packets[0],

@@ -1037,7 +1037,7 @@ def full_label_permutation_test(
     protocol_envelope: Mapping[str, object],
     expected_protocol_hash: str,
     n_permutations: int,
-    random_state: int = 42,
+    random_state: int,
 ) -> dict[str, object]:
     """Run a full-refit, split/class-preserving membership-label null."""
 
