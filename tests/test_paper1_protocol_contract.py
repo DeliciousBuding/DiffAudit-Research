@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import inspect
 from collections import Counter
 from copy import deepcopy
@@ -30,13 +31,25 @@ def paper1_inputs() -> tuple[tuple[int, ...], tuple[int, ...], np.ndarray]:
 
 
 @pytest.fixture(scope="module")
+def paper1_split_path(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    split_path = tmp_path_factory.mktemp("paper1-source") / "CIFAR10_train_ratio0.5.npz"
+    np.savez(
+        split_path,
+        mia_train_idxs=np.arange(25_000, dtype=np.int64),
+        mia_eval_idxs=np.arange(25_000, 50_000, dtype=np.int64),
+    )
+    return split_path
+
+
+@pytest.fixture(scope="module")
 def paper1_contract(
     paper1_inputs: tuple[tuple[int, ...], tuple[int, ...], np.ndarray],
+    paper1_split_path: Path,
 ) -> dict[str, object]:
     member_indices, nonmember_indices, class_labels = paper1_inputs
     return _api("build_paper1_corrected_contract")(
         split_filename="CIFAR10_train_ratio0.5.npz",
-        split_sha256=_SPLIT_SHA256,
+        split_sha256=hashlib.sha256(paper1_split_path.read_bytes()).hexdigest(),
         member_indices=member_indices,
         nonmember_indices=nonmember_indices,
         class_labels=class_labels,
@@ -59,6 +72,7 @@ def test_paper1_contract_builder_has_no_free_scientific_size_or_threshold_parame
 
 def test_paper1_contract_freezes_exact_scientific_shape(
     paper1_contract: dict[str, object],
+    paper1_split_path: Path,
 ) -> None:
     assert set(paper1_contract) == {
         "protocol_namespace",
@@ -78,7 +92,7 @@ def test_paper1_contract_freezes_exact_scientific_shape(
         "size": 50_000,
         "split": {
             "filename": "CIFAR10_train_ratio0.5.npz",
-            "sha256": _SPLIT_SHA256,
+            "sha256": hashlib.sha256(paper1_split_path.read_bytes()).hexdigest(),
             "member_count": 25_000,
             "nonmember_count": 25_000,
         },
@@ -172,12 +186,18 @@ def test_paper1_contract_inlines_four_balanced_disjoint_512_row_groups(
 def test_verify_paper1_contract_accepts_path_and_returns_detached_contract(
     tmp_path: Path,
     paper1_contract: dict[str, object],
+    paper1_inputs: tuple[tuple[int, ...], tuple[int, ...], np.ndarray],
+    paper1_split_path: Path,
 ) -> None:
     envelope = protocol.build_protocol_envelope(paper1_contract)
     manifest_path = tmp_path / "paper1-protocol.json"
     manifest_path.write_text(__import__("json").dumps(envelope), encoding="utf-8")
 
-    verified = _api("verify_paper1_contract")(manifest_path)
+    verified = _api("verify_paper1_contract")(
+        manifest_path,
+        split_path=paper1_split_path,
+        class_labels=paper1_inputs[2],
+    )
 
     assert verified == paper1_contract
     envelope["contract"]["training"]["seeds"][0] = 1
@@ -217,13 +237,19 @@ def _resign_with_mutation(
 )
 def test_verify_paper1_contract_rejects_resigned_scientific_drift(
     paper1_contract: dict[str, object],
+    paper1_inputs: tuple[tuple[int, ...], tuple[int, ...], np.ndarray],
+    paper1_split_path: Path,
     mutator,
     message: str,
 ) -> None:
     envelope = _resign_with_mutation(paper1_contract, mutator)
 
     with pytest.raises(ValueError, match=message):
-        _api("verify_paper1_contract")(envelope)
+        _api("verify_paper1_contract")(
+            envelope,
+            split_path=paper1_split_path,
+            class_labels=paper1_inputs[2],
+        )
 
 
 @pytest.mark.parametrize(
@@ -236,6 +262,8 @@ def test_verify_paper1_contract_rejects_resigned_scientific_drift(
 )
 def test_verify_paper1_contract_rejects_invalid_row_identity_or_balance(
     paper1_contract: dict[str, object],
+    paper1_inputs: tuple[tuple[int, ...], tuple[int, ...], np.ndarray],
+    paper1_split_path: Path,
     mutator,
 ) -> None:
     envelope = _resign_with_mutation(
@@ -244,7 +272,76 @@ def test_verify_paper1_contract_rejects_invalid_row_identity_or_balance(
     )
 
     with pytest.raises(ValueError, match="evaluation rows"):
-        _api("verify_paper1_contract")(envelope)
+        _api("verify_paper1_contract")(
+            envelope,
+            split_path=paper1_split_path,
+            class_labels=paper1_inputs[2],
+        )
+
+
+def _swap_balanced_class_ids(contract: dict[str, object]) -> None:
+    rows = contract["evaluation"]["rows"]
+    first = next(row for row in rows if row["label"] == 1 and row["split"] == "calibration")
+    second = next(
+        row
+        for row in rows
+        if row["label"] == 1
+        and row["split"] == "calibration"
+        and row["class_id"] != first["class_id"]
+    )
+    first["class_id"], second["class_id"] = second["class_id"], first["class_id"]
+
+
+def _swap_balanced_membership_labels(contract: dict[str, object]) -> None:
+    rows = contract["evaluation"]["rows"]
+    member = next(row for row in rows if row["label"] == 1 and row["split"] == "calibration")
+    nonmember = next(
+        row
+        for row in rows
+        if row["label"] == 0
+        and row["split"] == member["split"]
+        and row["class_id"] == member["class_id"]
+    )
+    member["label"], nonmember["label"] = nonmember["label"], member["label"]
+
+
+def _swap_balanced_calibration_evaluation(contract: dict[str, object]) -> None:
+    rows = contract["evaluation"]["rows"]
+    calibration = next(
+        row for row in rows if row["label"] == 1 and row["split"] == "calibration"
+    )
+    evaluation = next(
+        row
+        for row in rows
+        if row["label"] == calibration["label"]
+        and row["class_id"] == calibration["class_id"]
+        and row["split"] == "evaluation"
+    )
+    calibration["split"], evaluation["split"] = evaluation["split"], calibration["split"]
+
+
+@pytest.mark.parametrize(
+    "mutator",
+    [
+        _swap_balanced_class_ids,
+        _swap_balanced_membership_labels,
+        _swap_balanced_calibration_evaluation,
+    ],
+)
+def test_verify_paper1_contract_rejects_resigned_balance_preserving_semantic_tamper(
+    paper1_contract: dict[str, object],
+    paper1_inputs: tuple[tuple[int, ...], tuple[int, ...], np.ndarray],
+    paper1_split_path: Path,
+    mutator,
+) -> None:
+    envelope = _resign_with_mutation(paper1_contract, mutator)
+
+    with pytest.raises(ValueError, match="source truth"):
+        _api("verify_paper1_contract")(
+            envelope,
+            split_path=paper1_split_path,
+            class_labels=paper1_inputs[2],
+        )
 
 
 @pytest.mark.parametrize(

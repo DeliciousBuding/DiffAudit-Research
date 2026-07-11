@@ -668,8 +668,11 @@ def _validate_paper1_rows(value: object) -> None:
 
 def verify_paper1_contract(
     envelope: Mapping[str, object] | str | Path,
+    *,
+    split_path: str | Path,
+    class_labels: Sequence[int],
 ) -> dict[str, object]:
-    """Verify the signature and every frozen Paper 1 scientific field."""
+    """Verify the signature and rebuild every field from external source truth."""
 
     loaded = load_protocol_envelope(envelope)
     contract = loaded["contract"]
@@ -741,6 +744,27 @@ def verify_paper1_contract(
     code_commit = contract["code_commit"]
     if not isinstance(code_commit, str) or _GIT_COMMIT_PATTERN.fullmatch(code_commit) is None:
         raise ValueError("Paper 1 code_commit must be 40 lowercase hex characters")
+
+    source_split_path = Path(split_path)
+    if split["filename"] != source_split_path.name:
+        raise ValueError("Paper 1 split filename does not match source truth")
+    source_split_sha256 = hashlib.sha256(source_split_path.read_bytes()).hexdigest()
+    if split["sha256"] != source_split_sha256:
+        raise ValueError("Paper 1 split sha256 does not match source truth")
+    source_split = load_member_nonmember_indices(source_split_path, dataset_size=50_000)
+    member_indices, nonmember_indices = _validate_paper1_partition(
+        source_split.member_indices,
+        source_split.nonmember_indices,
+    )
+    expected_contract = build_paper1_corrected_contract(
+        split_filename=source_split_path.name,
+        split_sha256=source_split_sha256,
+        member_indices=member_indices,
+        nonmember_indices=nonmember_indices,
+        class_labels=class_labels,
+        code_commit=code_commit,
+    )
+    _require_exact_json_value("contract source truth", contract, expected_contract)
 
     copied_contract = _json_safe_copy(contract, name="Paper 1 contract")
     if not isinstance(copied_contract, dict):

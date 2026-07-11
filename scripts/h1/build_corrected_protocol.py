@@ -12,6 +12,7 @@ from diffaudit.evidence.corrected_protocol import (
     build_paper1_corrected_contract,
     build_protocol_envelope,
     load_member_nonmember_indices,
+    verify_paper1_contract,
 )
 
 
@@ -49,7 +50,13 @@ def build_corrected_protocol(
         class_labels=targets,
         code_commit=code_commit,
     )
-    return build_protocol_envelope(contract)
+    envelope = build_protocol_envelope(contract)
+    verify_paper1_contract(
+        envelope,
+        split_path=normalized_split_path,
+        class_labels=targets,
+    )
+    return envelope
 
 
 def write_protocol_envelope(

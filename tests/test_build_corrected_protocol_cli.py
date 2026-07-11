@@ -75,7 +75,11 @@ def test_build_corrected_protocol_uses_fake_split_sha_and_synthetic_targets(
         dataset_root=dataset_root,
         code_commit=_CODE_COMMIT,
     )
-    contract = verify_paper1_contract(envelope)
+    contract = verify_paper1_contract(
+        envelope,
+        split_path=split_path,
+        class_labels=_balanced_targets(),
+    )
 
     assert contract["dataset"]["split"] == {
         "filename": split_path.name,
@@ -151,6 +155,10 @@ def test_main_accepts_cifar10_root_alias_and_writes_verified_manifest(
     )
 
     assert result == 0
-    verified = verify_paper1_contract(output)
+    verified = verify_paper1_contract(
+        output,
+        split_path=split_path,
+        class_labels=_balanced_targets(),
+    )
     assert verified["dataset"]["split"]["filename"] == "split.npz"
     assert str(output.parent) not in output.read_text(encoding="utf-8")
