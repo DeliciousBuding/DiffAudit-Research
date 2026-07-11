@@ -497,10 +497,13 @@ def _paper1_h1_contract() -> dict[str, object]:
         },
         "bootstrap_replicates": 200,
         "permutation_replicates": 200,
+        "bootstrap_random_state": 20260711,
+        "permutation_random_state": 20260712,
         "cross_target_rosters": {
-            "stage1": seeds[:4],
-            "replicate": seeds[4:],
-            "full": seeds,
+            "stage1": {"seeds": seeds[:4], "step": 100_000},
+            "replicate": {"seeds": seeds[4:], "step": 100_000},
+            "full": {"seeds": seeds, "step": 100_000},
+            "mature": {"seeds": seeds[:4], "step": 200_000},
         },
         "logistic_regression": {
             "logical_penalty": "l2",

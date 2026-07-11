@@ -760,14 +760,15 @@ def _validate_cross_target_roster(
     rosters = contract["cross_target_rosters"]
     if stage not in rosters:
         raise ValueError("cross-target stage does not identify a sealed target roster")
+    roster = rosters[stage]
     seeds = [int(packet.target_provenance["run_seed"]) for packet in packets]
     if len(set(seeds)) != len(seeds):
         raise ValueError("cross-target roster requires unique run_seed values")
-    if set(seeds) != set(rosters[stage]) or len(seeds) != len(rosters[stage]):
+    if set(seeds) != set(roster["seeds"]) or len(seeds) != len(roster["seeds"]):
         raise ValueError("cross-target roster does not exactly match the sealed stage roster")
     steps = {int(packet.target_provenance["step"]) for packet in packets}
-    if len(steps) != 1:
-        raise ValueError("cross-target roster must use the same step for every target")
+    if steps != {int(roster["step"])}:
+        raise ValueError("cross-target roster must use the exact sealed stage step")
 
 
 def score_h1_checkpoints(
@@ -906,8 +907,11 @@ def bootstrap_h1_checkpoints(
     expected_bootstrap = int(h1_scorer_contract()["bootstrap_replicates"])
     if type(n_bootstrap) is not int or n_bootstrap != expected_bootstrap:
         raise ValueError(f"n_bootstrap must equal the sealed protocol count {expected_bootstrap}")
-    if type(random_state) is not int or random_state < 0:
-        raise ValueError("random_state must be a non-negative integer")
+    expected_random_state = int(h1_scorer_contract()["bootstrap_random_state"])
+    if type(random_state) is not int or random_state != expected_random_state:
+        raise ValueError(
+            f"bootstrap random_state must equal the sealed protocol value {expected_random_state}"
+        )
     context, validated = _validate_packets(
         packets,
         protocol_envelope=protocol_envelope,
@@ -1042,8 +1046,11 @@ def full_label_permutation_test(
         raise ValueError(
             f"n_permutations must equal the sealed protocol count {expected_permutations}"
         )
-    if type(random_state) is not int or random_state < 0:
-        raise ValueError("random_state must be a non-negative integer")
+    expected_random_state = int(h1_scorer_contract()["permutation_random_state"])
+    if type(random_state) is not int or random_state != expected_random_state:
+        raise ValueError(
+            f"permutation random_state must equal the sealed protocol value {expected_random_state}"
+        )
     context, packets = _validate_packets(
         [packet],
         protocol_envelope=protocol_envelope,

@@ -189,7 +189,7 @@ def _make_setup(
         row["protocol_hash"] = protocol_hash
 
     packets: list[dict[str, object]] = []
-    checkpoint_hashes = "abcdefgh"
+    checkpoint_hashes = "01234567"
     for target_index in range(target_count):
         target_rows = deepcopy(rows)
         for row in target_rows:
@@ -536,12 +536,50 @@ def test_cross_target_mode_rejects_invalid_roster(failure: str) -> None:
     else:
         stage = "replicate"
 
-    with pytest.raises(ValueError, match="roster|same step|unique run_seed"):
+    with pytest.raises(ValueError, match="roster|stage step|unique run_seed"):
         score_h1_checkpoints(
             packets,
             **_protocol_kwargs(envelope),
             analysis_mode="cross_target_same_step",
             stage=stage,
+        )
+
+
+def test_cross_target_stage_locks_the_exact_step() -> None:
+    envelope, packets = _make_setup(target_count=4)
+    for packet in packets:
+        for row in packet["rows"]:
+            row["step"] = 200_000
+
+    mature = score_h1_checkpoints(
+        packets,
+        **_protocol_kwargs(envelope),
+        analysis_mode="cross_target_same_step",
+        stage="mature",
+    )
+    assert mature["stage"] == "mature"
+
+    for index, packet in enumerate(packets):
+        for row in packet["rows"]:
+            row["run_seed"] = _TRAINING_SEEDS[index + 4]
+    with pytest.raises(ValueError, match="stage step"):
+        score_h1_checkpoints(
+            packets,
+            **_protocol_kwargs(envelope),
+            analysis_mode="cross_target_same_step",
+            stage="replicate",
+        )
+
+    full_envelope, full_packets = _make_setup(target_count=8)
+    for packet in full_packets:
+        for row in packet["rows"]:
+            row["step"] = 200_000
+    with pytest.raises(ValueError, match="stage step"):
+        score_h1_checkpoints(
+            full_packets,
+            **_protocol_kwargs(full_envelope),
+            analysis_mode="cross_target_same_step",
+            stage="full",
         )
 
 
@@ -636,6 +674,15 @@ def test_bootstrap_refits_and_uses_shared_paired_draws(monkeypatch: pytest.Monke
             packets,
             **_protocol_kwargs(envelope),
             n_bootstrap=199,
+            random_state=20260711,
+            analysis_mode="cross_target_same_step",
+            stage="stage1",
+        )
+    with pytest.raises(ValueError, match="bootstrap random_state"):
+        bootstrap_h1_checkpoints(
+            packets,
+            **_protocol_kwargs(envelope),
+            n_bootstrap=200,
             random_state=7,
             analysis_mode="cross_target_same_step",
             stage="stage1",
@@ -645,7 +692,7 @@ def test_bootstrap_refits_and_uses_shared_paired_draws(monkeypatch: pytest.Monke
         packets,
         **_protocol_kwargs(envelope),
         n_bootstrap=200,
-        random_state=7,
+        random_state=20260711,
         analysis_mode="cross_target_same_step",
         stage="stage1",
     )
@@ -662,6 +709,15 @@ def test_bootstrap_refits_and_uses_shared_paired_draws(monkeypatch: pytest.Monke
     assert len(result["targets"][0]["auc_samples"]) == 200
     assert "observed_auc" in result["targets"][0]
     assert "heterogeneity_summary" in result
+    repeated = bootstrap_h1_checkpoints(
+        packets,
+        **_protocol_kwargs(envelope),
+        n_bootstrap=200,
+        random_state=20260711,
+        analysis_mode="cross_target_same_step",
+        stage="stage1",
+    )
+    assert json.dumps(repeated, sort_keys=True) == json.dumps(result, sort_keys=True)
     json.dumps(result, allow_nan=False)
 
 
@@ -676,6 +732,14 @@ def test_permutation_requires_200_and_refits_every_full_label_draw(
             packets[0],
             **_protocol_kwargs(envelope),
             n_permutations=199,
+            random_state=20260712,
+        )
+    with pytest.raises(ValueError, match="permutation random_state"):
+        full_label_permutation_test(
+            packets[0],
+            **_protocol_kwargs(envelope),
+            n_permutations=200,
+            random_state=11,
         )
 
     fitted_labels: list[np.ndarray] = []
@@ -696,7 +760,7 @@ def test_permutation_requires_200_and_refits_every_full_label_draw(
         packets[0],
         **_protocol_kwargs(envelope),
         n_permutations=200,
-        random_state=11,
+        random_state=20260712,
     )
 
     assert len(fitted_labels) == 201
@@ -707,6 +771,13 @@ def test_permutation_requires_200_and_refits_every_full_label_draw(
     assert result["p_value"] == pytest.approx(expected_p)
     assert result["permutation_scheme"] == "within_each_split_and_class"
     json.dumps(result, allow_nan=False)
+    repeated = full_label_permutation_test(
+        packets[0],
+        **_protocol_kwargs(envelope),
+        n_permutations=200,
+        random_state=20260712,
+    )
+    assert json.dumps(repeated, sort_keys=True) == json.dumps(result, sort_keys=True)
 
 
 def test_scoring_rows_carry_complete_provenance_and_result_is_json_safe() -> None:
