@@ -211,7 +211,7 @@ def _validate_protocol_envelope(
     training_config = build_training_config()
     expected_training = {
         "seeds": list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)),
-        "batch_size": 64,
+        "batch_size": training_config.data["batch_size"],
         "interim_steps": 100_000,
         "mature_steps": 200_000,
         "deterministic": True,

@@ -388,9 +388,16 @@ def test_output_manifest_binds_training_config_hash_and_environment(
     )
 
     manifest = json.loads((tmp_path / "manifest.json").read_text(encoding="utf-8"))
+    checkpoint = torch.load(
+        tmp_path / "checkpoint-step000001.pt", map_location="cpu", weights_only=True
+    )
+    assert manifest["batch_size"] == 32
+    assert manifest["training_config"]["data"]["batch_size"] == 32
     assert manifest["training_config"] == config.to_dict()
     assert manifest["training_config_hash"] == canonical_training_config_hash(config)
     assert manifest["environment"] == environment
+    assert checkpoint["metadata"]["training_config"]["data"]["batch_size"] == 32
+    assert checkpoint["metadata"]["training_config_hash"] == manifest["training_config_hash"]
     receipt = manifest["checkpoint_receipts"]["checkpoint-step000001.pt"]
     assert receipt == {
         "checkpoint_sha256": hashlib.sha256(
@@ -621,7 +628,7 @@ def test_production_dataloader_receives_all_frozen_runtime_and_batch_fields(
         "seed": SEED,
         "start_step": 3,
         "stop_step": 9,
-        "batch_size": 64,
+        "batch_size": 32,
         "num_workers": 4,
         "pin_memory": False,
         "persistent_workers": True,

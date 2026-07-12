@@ -136,7 +136,7 @@ def _make_setup(
             },
             "training": {
                 "seeds": list(_TRAINING_SEEDS),
-                "batch_size": 64,
+                "batch_size": 32,
                 "interim_steps": 100_000,
                 "mature_steps": 200_000,
                 "deterministic": True,
@@ -206,6 +206,23 @@ def _protocol_kwargs(envelope: dict[str, object]) -> dict[str, object]:
         "protocol_envelope": envelope,
         "expected_protocol_hash": envelope["protocol_hash"],
     }
+
+
+@pytest.mark.parametrize("location", ["protocol", "config"])
+def test_h1_rejects_resigned_legacy_batch64_training_contract(location: str) -> None:
+    envelope, packets = _make_setup()
+    changed_contract = deepcopy(envelope["contract"])
+    if location == "protocol":
+        changed_contract["training"]["batch_size"] = 64
+    else:
+        changed_contract["training"]["training_config"]["data"]["batch_size"] = 64
+    changed_envelope = build_protocol_envelope(changed_contract)
+    for packet in packets:
+        for row in packet["rows"]:
+            row["protocol_hash"] = changed_envelope["protocol_hash"]
+
+    with pytest.raises(ValueError, match="training"):
+        score_h1_checkpoints(packets, **_protocol_kwargs(changed_envelope))
 
 
 def test_score_h1_checkpoint_separates_signal_and_keeps_fixed_direction() -> None:

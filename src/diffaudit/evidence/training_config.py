@@ -109,7 +109,7 @@ def build_training_config() -> TrainingConfig:
                 "train_size": 50_000,
                 "member_size": 25_000,
                 "member_only": True,
-                "batch_size": 64,
+                "batch_size": 32,
                 "drop_last": True,
                 "shuffle": False,
                 "sampler": "DeterministicEpochBatchSampler",

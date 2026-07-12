@@ -113,7 +113,7 @@ def test_paper1_contract_freezes_exact_scientific_shape(
             1867632528,
             1918927372,
         ],
-        "batch_size": 64,
+        "batch_size": 32,
         "interim_steps": 100_000,
         "mature_steps": 200_000,
         "deterministic": True,
@@ -322,6 +322,32 @@ def _resign_with_mutation(
     changed = deepcopy(paper1_contract)
     mutator(changed)
     return protocol.build_protocol_envelope(changed)
+
+
+@pytest.mark.parametrize("batch_size", [31, 33, 64, 96, 128])
+@pytest.mark.parametrize("location", ["protocol", "config"])
+def test_verify_paper1_contract_rejects_noncanonical_training_batch_size(
+    paper1_contract: dict[str, object],
+    paper1_inputs: tuple[tuple[int, ...], tuple[int, ...], np.ndarray],
+    paper1_split_path: Path,
+    batch_size: int,
+    location: str,
+) -> None:
+    def mutate(value: dict[str, object]) -> None:
+        if location == "protocol":
+            value["training"]["batch_size"] = batch_size
+        else:
+            value["training"]["training_config"]["data"]["batch_size"] = batch_size
+
+    envelope = _resign_with_mutation(paper1_contract, mutate)
+
+    with pytest.raises(ValueError, match="training"):
+        _api("verify_paper1_contract")(
+            envelope,
+            split_path=paper1_split_path,
+            class_labels=paper1_inputs[2],
+            expected_code_commit=_CODE_COMMIT,
+        )
 
 
 @pytest.mark.parametrize(

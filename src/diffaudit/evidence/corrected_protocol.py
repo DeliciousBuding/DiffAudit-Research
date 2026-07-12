@@ -663,15 +663,16 @@ def validate_paper1_protocol_envelope(
     _require_exact_json_value("dataset.split.member_count", split["member_count"], 25_000)
     _require_exact_json_value("dataset.split.nonmember_count", split["nonmember_count"], 25_000)
 
+    training_config = build_training_config()
     expected_training = {
         "seeds": list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)),
-        "batch_size": 64,
+        "batch_size": training_config.data["batch_size"],
         "interim_steps": 100_000,
         "mature_steps": 200_000,
         "deterministic": True,
         "member_only": True,
-        "training_config": build_training_config().to_dict(),
-        "training_config_hash": canonical_training_config_hash(build_training_config()),
+        "training_config": training_config.to_dict(),
+        "training_config_hash": canonical_training_config_hash(training_config),
     }
     _require_exact_json_value("training", contract["training"], expected_training)
     evaluation = contract["evaluation"]
@@ -778,7 +779,7 @@ def build_paper1_corrected_contract(
         },
         "training": {
             "seeds": training_seeds,
-            "batch_size": 64,
+            "batch_size": training_config.data["batch_size"],
             "interim_steps": 100_000,
             "mature_steps": 200_000,
             "deterministic": True,
@@ -886,15 +887,16 @@ def verify_paper1_contract(
     _require_exact_json_value("dataset.split.nonmember_count", split["nonmember_count"], 25_000)
 
     training = contract["training"]
+    training_config = build_training_config()
     expected_training = {
         "seeds": list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)),
-        "batch_size": 64,
+        "batch_size": training_config.data["batch_size"],
         "interim_steps": 100_000,
         "mature_steps": 200_000,
         "deterministic": True,
         "member_only": True,
-        "training_config": build_training_config().to_dict(),
-        "training_config_hash": canonical_training_config_hash(build_training_config()),
+        "training_config": training_config.to_dict(),
+        "training_config_hash": canonical_training_config_hash(training_config),
     }
     if not isinstance(training, dict):
         raise ValueError("Paper 1 training does not match the fixed contract")

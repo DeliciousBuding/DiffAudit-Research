@@ -151,7 +151,7 @@ def test_dataloader_uses_finite_exact_resume_sampler_without_global_rng_consumpt
     before = torch.get_rng_state().clone()
     loader_kwargs = {
         "num_workers": 0,
-        "batch_size": 64,
+        "batch_size": 32,
         "pin_memory": False,
         "persistent_workers": False,
     }
@@ -204,6 +204,7 @@ def test_checkpoint_is_weights_only_safe_and_round_trips(tmp_path: Path) -> None
     assert saved["metadata"]["split_sha256"] == "c" * 64
     assert saved["metadata"]["code_commit"] == CODE_COMMIT
     assert saved["metadata"]["training_config"] == training_config.to_dict()
+    assert saved["metadata"]["training_config"]["data"]["batch_size"] == 32
     assert saved["metadata"]["training_config_hash"] == canonical_training_config_hash(
         training_config
     )
@@ -297,6 +298,7 @@ def test_training_config_is_complete_immutable_and_canonically_hashed() -> None:
         "runtime",
     }
     assert payload["precision"] == {"dtype": "float32", "amp": False}
+    assert payload["data"]["batch_size"] == 32
     assert payload["runtime"]["num_workers"] == 4
     assert payload["checkpointing"]["save_every"] == 2_000
     assert payload["checkpointing"]["sample_every"] == 50_000
@@ -704,3 +706,12 @@ def test_cli_requires_contract_identity_and_stop_step() -> None:
     assert result.returncode == 2
     for option in ("--protocol-manifest", "--split-path", "--seed", "--run-label", "--stop-step"):
         assert option in result.stderr
+
+    help_result = subprocess.run(
+        [sys.executable, str(script), "--help"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert help_result.returncode == 0
+    assert "--batch-size" not in help_result.stdout
