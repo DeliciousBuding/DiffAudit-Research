@@ -96,6 +96,15 @@ def protocol_manifest(tmp_path: Path, protocol_envelope: dict[str, object]) -> P
     return path
 
 
+@pytest.fixture(autouse=True)
+def sealed_repository_state(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        pia_adapter,
+        "read_pia_repository_state",
+        lambda _root: (CODE_COMMIT, "", ()),
+    )
+
+
 def _packet(
     envelope: dict[str, object],
     *,
@@ -290,6 +299,7 @@ def test_cli_reports_complete_heldout_fixed_direction_metrics(
     assert summary["status"] == "evaluation_complete"
     assert summary["mode"] == "canonical_pia_evaluation"
     assert summary["packet_purpose"] == "corrected_evaluation"
+    assert summary["evaluator_code_commit"] == CODE_COMMIT
     assert summary["metrics"]["evaluation_auc"] == pytest.approx(1.0)
     assert summary["metrics"]["calibration_threshold"] == pytest.approx(0.9)
     assert summary["metrics"]["evaluation_balanced_accuracy"] == pytest.approx(1.0)
@@ -705,6 +715,45 @@ def test_canonical_exporter_rejects_repository_identity_before_writing_output(
             calibration_or_evaluation="calibration",
         )
 
+    assert not workspace.exists()
+
+
+@pytest.mark.parametrize(
+    ("repository_state", "match"),
+    [
+        (("f" * 40, "", ()), "HEAD"),
+        ((CODE_COMMIT, " M src/diffaudit/attacks/pia.py", ()), "tracked worktree"),
+        ((CODE_COMMIT, "", ("configs/injected.yaml",)), "untracked scorer code"),
+    ],
+)
+def test_canonical_evaluator_rejects_repository_identity_before_writing_output(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    repository_state: tuple[str, str, tuple[str, ...]],
+    match: str,
+) -> None:
+    calibration, evaluation = _write_packet_pair(tmp_path, protocol_envelope)
+    calls: list[Path] = []
+
+    def fake_repository_state(root: Path) -> tuple[str, str, tuple[str, ...]]:
+        calls.append(root)
+        return repository_state
+
+    monkeypatch.setattr(pia_adapter, "read_pia_repository_state", fake_repository_state)
+    workspace = tmp_path / "evaluator-must-not-exist"
+
+    with pytest.raises(ValueError, match=match):
+        _run_canonical_cli(
+            workspace,
+            protocol_manifest=protocol_manifest,
+            protocol_hash=str(protocol_envelope["protocol_hash"]),
+            calibration_packet=calibration,
+            evaluation_packet=evaluation,
+        )
+
+    assert calls == [pia_adapter.RESEARCH_ROOT]
     assert not workspace.exists()
 
 

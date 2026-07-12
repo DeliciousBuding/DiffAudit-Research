@@ -1980,7 +1980,6 @@ def export_pia_packet_scores(
         variant=plan.variant,
     )
 
-
     split_payload = np.load(asset_summary["paths"]["member_split"])
     member_all = split_payload["mia_train_idxs"].tolist()
     nonmember_all = split_payload["mia_eval_idxs"].tolist()
@@ -2323,6 +2322,13 @@ def run_pia_runtime_mainline(
             protocol_manifest,
             expected_protocol_hash=expected_protocol_hash,
         )
+        evaluator_head, tracked_status, untracked_code = read_pia_repository_state(RESEARCH_ROOT)
+        validate_pia_repository_state(
+            evaluator_head,
+            context.code_commit,
+            tracked_status,
+            untracked_code,
+        )
         calibration, evaluation = validate_pia_score_packet_pair(
             calibration_score_packet,
             evaluation_score_packet,
@@ -2366,6 +2372,7 @@ def run_pia_runtime_mainline(
             "variant": "pia",
             "mode": "canonical_pia_evaluation",
             "packet_purpose": packet_purpose,
+            "evaluator_code_commit": evaluator_head,
             "stage": derive_pia_stage(
                 context,
                 run_seed=calibration.provenance["run_seed"],
