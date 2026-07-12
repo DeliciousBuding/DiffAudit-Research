@@ -478,11 +478,34 @@ def load_member_nonmember_indices(
     )
 
 
+def _paper1_h1_feature_definition() -> dict[str, object]:
+    sites = ["late_down", "mid_0", "mid_1", "early_up"]
+    timesteps = [100, 400, 700]
+    channels_per_site = {site: 256 for site in sites}
+    return {
+        "name": "sample_level_channel_statistics_v1",
+        "sites": sites,
+        "timesteps": timesteps,
+        "channels_per_site": channels_per_site,
+        "per_channel_statistics": ["mu_abs", "var", "sparsity"],
+        "scalar_statistics": ["mu_abs_mean", "var_mean", "sparsity_mean"],
+        "sparsity_threshold": "0.01_times_population_std_per_channel",
+        "pca_input_dimension": len(sites) * len(timesteps) * 3 * 256,
+        "scalar_feature_dimension": len(sites) * len(timesteps) * 3,
+        "lr_input_dimension": 42,
+        "input_range": [-1.0, 1.0],
+    }
+
+
 def _paper1_h1_contract() -> dict[str, object]:
     seeds = list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE))
     return {
         "sites": ["late_down", "mid_0", "mid_1", "early_up"],
         "timesteps": [100, 400, 700],
+        "packet_schema_version": 1,
+        "packet_format": "h1-feature-packet-v2",
+        "packet_purposes": ["corrected_evaluation", "preflight_benchmark"],
+        "feature_definition": _paper1_h1_feature_definition(),
         "score_direction": "higher_is_member",
         "feature_scaler": "none",
         "sklearn_version": version("scikit-learn"),

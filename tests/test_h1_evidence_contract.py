@@ -13,6 +13,7 @@ import numpy as np
 import pytest
 from sklearn.exceptions import ConvergenceWarning
 
+import diffaudit.evidence.h1_confirmatory as h1_module
 from diffaudit.evidence import corrected_protocol as protocol
 from diffaudit.evidence.corrected_protocol import (
     build_protocol_envelope,
@@ -20,16 +21,17 @@ from diffaudit.evidence.corrected_protocol import (
     derive_training_seeds,
 )
 from diffaudit.evidence.h1_confirmatory import (
+    benchmark_h1_refit_runtime,
     bootstrap_h1_checkpoints,
     fit_h1_model,
     full_label_permutation_test,
-    h1_scorer_contract,
     score_h1_checkpoints,
     summarize_h1_heterogeneity,
     tpr_at_1pct_fpr_with_wilson,
     validate_h1_feature_packets,
     wilson_interval,
 )
+from diffaudit.evidence.h1_extraction import write_h1_feature_packet
 from diffaudit.evidence.training_config import (
     build_training_config,
     canonical_training_config_hash,
@@ -38,6 +40,17 @@ from diffaudit.evidence.training_config import (
 _CODE_COMMIT = "c" * 40
 _SPLIT_SHA256 = "d" * 64
 _TRAINING_SEEDS = derive_training_seeds("paper1-corrected-evidence")
+_PRODUCTION_H1_CONTRACT = h1_module.h1_scorer_contract()
+
+
+@pytest.fixture(autouse=True)
+def _bounded_feature_layout(monkeypatch: pytest.MonkeyPatch) -> None:
+    contract = deepcopy(_PRODUCTION_H1_CONTRACT)
+    definition = contract["feature_definition"]
+    definition["pca_input_dimension"] = 8
+    definition["scalar_feature_dimension"] = 4
+    definition["lr_input_dimension"] = 10
+    monkeypatch.setattr(h1_module, "h1_scorer_contract", lambda: deepcopy(contract))
 
 
 @pytest.mark.parametrize("filename", ["environment.yml", "environment.gpu-cu128.yml"])
@@ -54,6 +67,8 @@ def _make_setup(
     reverse_evaluation: bool = False,
 ) -> tuple[dict[str, object], list[dict[str, object]]]:
     rows: list[dict[str, object]] = []
+    pca_rows: list[list[float]] = []
+    scalar_rows: list[list[float]] = []
     manifest_rows: list[dict[str, object]] = []
     dataset_index = 0
     for split in ("calibration", "evaluation"):
@@ -78,15 +93,10 @@ def _make_setup(
                         float(class_id),
                     ]
                     row = {
-                        "dataset_id": "CIFAR10",
                         "dataset_index": dataset_index,
                         "label": membership,
                         "class": class_id,
                         "calibration_or_evaluation": split,
-                        "run_seed": 1746574482,
-                        "step": 100_000,
-                        "attack": "H1",
-                        "features": {f"f{index}": value for index, value in enumerate(values)},
                         "noise_id": {
                             "namespace": "paper1-corrected-v1",
                             "dataset_index": dataset_index,
@@ -104,12 +114,10 @@ def _make_setup(
                                 for timestep in (100, 400, 700)
                             ],
                         },
-                        "checkpoint_sha256": "a" * 64,
-                        "code_commit": _CODE_COMMIT,
-                        "split_sha256": _SPLIT_SHA256,
-                        "protocol_hash": "pending",
                     }
                     rows.append(row)
+                    pca_rows.append(values)
+                    scalar_rows.append(values[:4])
                     manifest_rows.append(
                         {
                             "dataset_index": dataset_index,
@@ -145,7 +153,7 @@ def _make_setup(
                 "training_config_hash": canonical_training_config_hash(training_config),
             },
             "evaluation": {"rows": manifest_rows},
-            "h1": h1_scorer_contract(),
+            "h1": h1_module.h1_scorer_contract(),
             "pia": protocol.paper1_pia_contract(),
             "common_noise": {
                 "namespace": "paper1-corrected-v1",
@@ -187,17 +195,32 @@ def _make_setup(
         }
     )
     protocol_hash = envelope["protocol_hash"]
-    for row in rows:
-        row["protocol_hash"] = protocol_hash
 
-    packets: list[dict[str, object]] = []
     checkpoint_hashes = "01234567"
-    for target_index in range(target_count):
-        target_rows = deepcopy(rows)
-        for row in target_rows:
-            row["run_seed"] = _TRAINING_SEEDS[target_index]
-            row["checkpoint_sha256"] = checkpoint_hashes[target_index] * 64
-        packets.append({"rows": target_rows})
+    packets: list[dict[str, object]] = [
+        {
+            "schema_version": 1,
+            "packet_format": "h1-feature-packet-v2",
+            "packet_purpose": "corrected_evaluation",
+            "provenance": {
+                "dataset_id": "CIFAR10",
+                "run_seed": _TRAINING_SEEDS[target_index],
+                "step": 100_000,
+                "attack": "H1",
+                "checkpoint_sha256": checkpoint_hashes[target_index] * 64,
+                "training_manifest_sha256": "89abcdef"[target_index] * 64,
+                "target_code_commit": _CODE_COMMIT,
+                "scorer_code_commit": "e" * 40,
+                "split_sha256": _SPLIT_SHA256,
+                "protocol_hash": protocol_hash,
+                "run_label": f"corrected-s{_TRAINING_SEEDS[target_index]}",
+            },
+            "rows": deepcopy(rows),
+            "pca_features": np.asarray(pca_rows, dtype=np.float32),
+            "scalar_features": np.asarray(scalar_rows, dtype=np.float32),
+        }
+        for target_index in range(target_count)
+    ]
     return envelope, packets
 
 
@@ -253,9 +276,11 @@ def test_score_h1_checkpoint_reports_chance_for_nonseparable_rows() -> None:
 def test_evaluation_feature_changes_cannot_change_fitted_calibration_model() -> None:
     envelope, packets = _make_setup()
     changed_packet = deepcopy(packets[0])
-    for row in changed_packet["rows"]:
-        if row["calibration_or_evaluation"] == "evaluation":
-            row["features"] = {key: value * -1000.0 for key, value in row["features"].items()}
+    evaluation = np.asarray(
+        [row["calibration_or_evaluation"] == "evaluation" for row in changed_packet["rows"]]
+    )
+    changed_packet["pca_features"][evaluation] *= -1000.0
+    changed_packet["scalar_features"][evaluation] *= -1000.0
 
     original_model = fit_h1_model(packets[0], **_protocol_kwargs(envelope))
     changed_model = fit_h1_model(changed_packet, **_protocol_kwargs(envelope))
@@ -284,17 +309,21 @@ def test_fitted_model_reports_the_exact_frozen_lr_contract() -> None:
     assert model.pca.power_iteration_normalizer == "QR"
 
 
-def test_production_shape_randomized_pca_fit_completes() -> None:
+def test_production_shape_randomized_pca_fit_completes(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     from diffaudit.evidence import h1_confirmatory as h1
 
-    envelope, _ = _make_setup()
     rng = np.random.default_rng(7)
-    features = rng.normal(size=(1024, 2048))
+    pca_features = rng.normal(size=(1024, 9216)).astype(np.float32)
+    scalar_features = rng.normal(size=(1024, 36)).astype(np.float32)
     labels = np.asarray([0, 1] * 512)
 
-    model = h1._fit_h1_arrays(features, labels, envelope["contract"]["h1"])
+    monkeypatch.setattr(h1, "h1_scorer_contract", lambda: deepcopy(_PRODUCTION_H1_CONTRACT))
+    model = h1._fit_h1_arrays(pca_features, scalar_features, labels, _PRODUCTION_H1_CONTRACT)
 
-    assert model.pca.components_.shape == (6, 2048)
+    assert model.pca.components_.shape == (6, 9216)
+    assert model.classifier.coef_.shape == (1, 42)
 
 
 def test_convergence_warning_is_a_hard_failure(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -353,35 +382,37 @@ def test_reaching_max_iter_without_warning_is_a_hard_failure(
             "dataset_index must be a non-negative integer",
         ),
         (
-            lambda packets: packets[0]["rows"][0].__setitem__("run_seed", True),
+            lambda packets: packets[0]["provenance"].__setitem__("run_seed", True),
             "run_seed must be a positive integer",
         ),
         (
-            lambda packets: packets[0]["rows"][0].__setitem__("step", True),
+            lambda packets: packets[0]["provenance"].__setitem__("step", True),
             "step must be a positive integer",
         ),
         (
-            lambda packets: packets[0]["rows"][0]["features"].__setitem__("f0", float("nan")),
-            "features must contain only finite",
+            lambda packets: packets[0]["pca_features"].__setitem__((0, 0), float("nan")),
+            "pca_features must contain only finite",
         ),
         (
-            lambda packets: packets[0]["rows"][0]["features"].__setitem__("f0", float("inf")),
-            "features must contain only finite",
+            lambda packets: packets[0]["scalar_features"].__setitem__((0, 0), float("inf")),
+            "scalar_features must contain only finite",
         ),
         (
-            lambda packets: packets[0]["rows"][1]["features"].pop("f7"),
-            "feature schema",
+            lambda packets: packets[0].__setitem__(
+                "pca_features", packets[0]["pca_features"][:, :-1]
+            ),
+            "pca_features shape",
         ),
         (
-            lambda packets: packets[0]["rows"][0].__setitem__("checkpoint_sha256", "abc"),
+            lambda packets: packets[0]["provenance"].__setitem__("checkpoint_sha256", "abc"),
             "checkpoint_sha256 must be 64 lowercase hex",
         ),
         (
-            lambda packets: packets[0]["rows"][0].__setitem__("split_sha256", "abc"),
+            lambda packets: packets[0]["provenance"].__setitem__("split_sha256", "abc"),
             "split_sha256 must be 64 lowercase hex",
         ),
         (
-            lambda packets: packets[0]["rows"][0].__setitem__("protocol_hash", "abc"),
+            lambda packets: packets[0]["provenance"].__setitem__("protocol_hash", "abc"),
             "protocol_hash must be 64 lowercase hex",
         ),
     ],
@@ -441,31 +472,90 @@ def test_packet_validator_rejects_extra_row_fields() -> None:
         validate_h1_feature_packets(packets, **_protocol_kwargs(envelope))
 
 
-def test_packet_validator_distinguishes_mapping_and_list_feature_schemas() -> None:
-    envelope, packets = _make_setup(target_count=2)
-    for row in packets[0]["rows"]:
-        values = [row["features"][f"f{index}"] for index in range(8)]
-        row["features"] = {str(index): value for index, value in enumerate(values)}
-    for row in packets[1]["rows"]:
-        row["features"] = [row["features"][f"f{index}"] for index in range(8)]
+def test_preflight_packet_validates_but_all_scientific_scoring_rejects_it() -> None:
+    envelope, packets = _make_setup()
+    packet = packets[0]
+    packet["packet_purpose"] = "preflight_benchmark"
+    packet["provenance"]["step"] = 2000
+    packet["provenance"]["run_label"] = "corrected-preflight-s1746574482"
 
-    with pytest.raises(ValueError, match="feature schema"):
+    validated = validate_h1_feature_packets([packet], **_protocol_kwargs(envelope))
+    assert validated["row_count_per_checkpoint"] == 2048
+    with pytest.raises(ValueError, match="preflight_benchmark.*forbidden"):
+        score_h1_checkpoints([packet], **_protocol_kwargs(envelope))
+
+
+def test_exported_v2_packet_is_consumed_by_the_h1_validator(tmp_path: Path) -> None:
+    envelope, packets = _make_setup()
+    packet = packets[0]
+    output = tmp_path / "packet"
+    write_h1_feature_packet(
+        output,
+        packet_purpose=packet["packet_purpose"],
+        provenance=packet["provenance"],
+        rows=packet["rows"],
+        pca_features=packet["pca_features"],
+        scalar_features=packet["scalar_features"],
+    )
+
+    validated = validate_h1_feature_packets([output], **_protocol_kwargs(envelope))
+    assert validated["row_count_per_checkpoint"] == 2048
+    assert validated["pca_feature_dimension"] == 8
+    assert validated["scalar_feature_dimension"] == 4
+
+
+def test_refit_runtime_benchmark_returns_time_only(monkeypatch: pytest.MonkeyPatch) -> None:
+    envelope, packets = _make_setup()
+    calls = 0
+
+    def fake_fit(*_args: object, **_kwargs: object) -> object:
+        nonlocal calls
+        calls += 1
+        return object()
+
+    monkeypatch.setattr(h1_module, "_fit_h1_arrays", fake_fit)
+    summary = benchmark_h1_refit_runtime(
+        packets[0],
+        **_protocol_kwargs(envelope),
+        fit_count=3,
+    )
+
+    assert calls == 3
+    assert set(summary) == {
+        "fit_count",
+        "total_seconds",
+        "seconds_per_fit",
+        "calibration_rows",
+        "pca_input_dimension",
+        "scalar_feature_dimension",
+    }
+    assert not ({"auc", "tpr", "accuracy", "score"} & set(summary))
+
+
+def test_packet_validator_rejects_non_float32_feature_matrices() -> None:
+    envelope, packets = _make_setup()
+    packets[0]["pca_features"] = packets[0]["pca_features"].astype(np.float64)
+
+    with pytest.raises(ValueError, match="dtype must be float32"):
         validate_h1_feature_packets(packets, **_protocol_kwargs(envelope))
 
 
-@pytest.mark.parametrize("field", ["split_sha256", "protocol_hash", "code_commit", "noise_id"])
+@pytest.mark.parametrize(
+    "field",
+    ["split_sha256", "protocol_hash", "target_code_commit", "scorer_code_commit", "noise_id"],
+)
 def test_packet_validator_rejects_cross_packet_provenance_drift(field: str) -> None:
     envelope, packets = _make_setup(target_count=2)
-    if field == "code_commit":
-        packets[1]["rows"][0][field] = "e" * 40
-    elif field.endswith("sha256"):
-        packets[1]["rows"][0][field] = "e" * 64
-    else:
+    if field == "noise_id":
         packets[1]["rows"][0][field] = "drift"
+    elif field.endswith("commit"):
+        packets[1]["provenance"][field] = "f" * 40
+    elif field.endswith("sha256") or field == "protocol_hash":
+        packets[1]["provenance"][field] = "e" * 64
 
     with pytest.raises(
         ValueError,
-        match="cross-packet provenance drift|protocol_hash|noise_id",
+        match="target_code_commit|protocol_hash|split_sha256|noise_id|scorer commit drift",
     ):
         validate_h1_feature_packets(packets, **_protocol_kwargs(envelope))
 
@@ -492,8 +582,7 @@ def test_scorer_rejects_resigned_fit_parameter_drift_and_bool_substitution() -> 
         contract = deepcopy(envelope["contract"])
         contract["h1"]["logistic_regression"]["constructor"]["max_iter"] = changed_value
         changed_envelope = build_protocol_envelope(contract)
-        for row in packets[0]["rows"]:
-            row["protocol_hash"] = changed_envelope["protocol_hash"]
+        packets[0]["provenance"]["protocol_hash"] = changed_envelope["protocol_hash"]
 
         with pytest.raises(ValueError, match="fixed H1 scorer contract"):
             score_h1_checkpoints(packets, **_protocol_kwargs(changed_envelope))
@@ -502,10 +591,9 @@ def test_scorer_rejects_resigned_fit_parameter_drift_and_bool_substitution() -> 
 @pytest.mark.parametrize(("field", "value"), [("run_seed", 42), ("step", 123)])
 def test_scorer_rejects_off_protocol_checkpoint_identity(field: str, value: int) -> None:
     envelope, packets = _make_setup()
-    for row in packets[0]["rows"]:
-        row[field] = value
+    packets[0]["provenance"][field] = value
 
-    with pytest.raises(ValueError, match=f"{field} is not allowed by the sealed protocol"):
+    with pytest.raises(ValueError, match=f"{field}.*sealed protocol"):
         score_h1_checkpoints(packets, **_protocol_kwargs(envelope))
 
 
@@ -520,8 +608,7 @@ def test_scorer_rejects_resigned_partial_protocol_contract() -> None:
             "code_commit": contract["code_commit"],
         }
     )
-    for row in packets[0]["rows"]:
-        row["protocol_hash"] = partial_envelope["protocol_hash"]
+    packets[0]["provenance"]["protocol_hash"] = partial_envelope["protocol_hash"]
 
     with pytest.raises(ValueError, match="protocol top-level fields"):
         score_h1_checkpoints(
@@ -547,11 +634,9 @@ def test_cross_target_mode_rejects_invalid_roster(failure: str) -> None:
     envelope, packets = _make_setup(target_count=4)
     stage = "stage1"
     if failure == "duplicate_seed":
-        for row in packets[1]["rows"]:
-            row["run_seed"] = packets[0]["rows"][0]["run_seed"]
+        packets[1]["provenance"]["run_seed"] = packets[0]["provenance"]["run_seed"]
     elif failure == "mixed_step":
-        for row in packets[1]["rows"]:
-            row["step"] = 200_000
+        packets[1]["provenance"]["step"] = 200_000
     else:
         stage = "replicate"
 
@@ -567,8 +652,7 @@ def test_cross_target_mode_rejects_invalid_roster(failure: str) -> None:
 def test_cross_target_stage_locks_the_exact_step() -> None:
     envelope, packets = _make_setup(target_count=4)
     for packet in packets:
-        for row in packet["rows"]:
-            row["step"] = 200_000
+        packet["provenance"]["step"] = 200_000
 
     mature = score_h1_checkpoints(
         packets,
@@ -579,8 +663,7 @@ def test_cross_target_stage_locks_the_exact_step() -> None:
     assert mature["stage"] == "mature"
 
     for index, packet in enumerate(packets):
-        for row in packet["rows"]:
-            row["run_seed"] = _TRAINING_SEEDS[index + 4]
+        packet["provenance"]["run_seed"] = _TRAINING_SEEDS[index + 4]
     with pytest.raises(ValueError, match="stage step"):
         score_h1_checkpoints(
             packets,
@@ -591,8 +674,7 @@ def test_cross_target_stage_locks_the_exact_step() -> None:
 
     full_envelope, full_packets = _make_setup(target_count=8)
     for packet in full_packets:
-        for row in packet["rows"]:
-            row["step"] = 200_000
+        packet["provenance"]["step"] = 200_000
     with pytest.raises(ValueError, match="stage step"):
         score_h1_checkpoints(
             full_packets,
@@ -679,11 +761,20 @@ def test_bootstrap_refits_and_uses_shared_paired_draws(monkeypatch: pytest.Monke
         sklearn_version = "test"
         realized_logistic_regression: dict[str, object] = {}
 
-        def predict_scores(self, features: np.ndarray) -> np.ndarray:
-            return features[:, 0]
+        def predict_scores(
+            self, pca_features: np.ndarray, scalar_features: np.ndarray
+        ) -> np.ndarray:
+            del scalar_features
+            return pca_features[:, 0]
 
-    def fit_spy(features: np.ndarray, labels: np.ndarray, contract: dict[str, object]):
-        fitted_calibration_features.append(features.copy())
+    def fit_spy(
+        pca_features: np.ndarray,
+        scalar_features: np.ndarray,
+        labels: np.ndarray,
+        contract: dict[str, object],
+    ):
+        del scalar_features, labels, contract
+        fitted_calibration_features.append(pca_features.copy())
         return FakeModel()
 
     monkeypatch.setattr(h1, "_fit_h1_arrays", fit_spy)
@@ -775,10 +866,19 @@ def test_permutation_requires_200_and_refits_every_full_label_draw(
         sklearn_version = "test"
         realized_logistic_regression: dict[str, object] = {}
 
-        def predict_scores(self, features: np.ndarray) -> np.ndarray:
-            return features[:, 0]
+        def predict_scores(
+            self, pca_features: np.ndarray, scalar_features: np.ndarray
+        ) -> np.ndarray:
+            del scalar_features
+            return pca_features[:, 0]
 
-    def fake_fit(features: np.ndarray, labels: np.ndarray, contract: dict[str, object]):
+    def fake_fit(
+        pca_features: np.ndarray,
+        scalar_features: np.ndarray,
+        labels: np.ndarray,
+        contract: dict[str, object],
+    ):
+        del pca_features, scalar_features, contract
         fitted_labels.append(labels.copy())
         return FakeModel()
 
@@ -816,20 +916,25 @@ def test_scoring_rows_carry_complete_provenance_and_result_is_json_safe() -> Non
     assert "tpr_at_0_1pct_fpr" not in target["metrics"]
     row = target["evaluation_rows"][0]
     assert set(row) == {
-        "dataset_id",
         "dataset_index",
         "label",
         "class",
         "calibration_or_evaluation",
+        "noise_id",
+        "score",
+    }
+    assert set(target["target"]) == {
+        "dataset_id",
         "run_seed",
         "step",
         "attack",
-        "noise_id",
         "checkpoint_sha256",
-        "code_commit",
+        "training_manifest_sha256",
+        "target_code_commit",
+        "scorer_code_commit",
         "split_sha256",
         "protocol_hash",
-        "score",
+        "run_label",
     }
     assert row["calibration_or_evaluation"] == "evaluation"
     json.dumps(result, allow_nan=False)

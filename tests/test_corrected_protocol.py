@@ -20,6 +20,7 @@ from diffaudit.evidence.corrected_protocol import (
     derive_training_seeds,
     load_member_nonmember_indices,
 )
+from diffaudit.evidence.h1_confirmatory import h1_scorer_contract
 
 
 def _write_split(
@@ -600,6 +601,32 @@ def test_canonical_protocol_hash_allows_relative_public_paths() -> None:
     digest = canonical_protocol_hash({"split": "data/splits/cifar10.npz"})
 
     assert len(digest) == 64
+
+
+def test_paper1_h1_contract_freezes_the_legacy_42_dimensional_feature_layout() -> None:
+    contract = h1_scorer_contract()
+
+    assert contract["packet_schema_version"] == 1
+    assert contract["packet_format"] == "h1-feature-packet-v2"
+    assert contract["packet_purposes"] == ["corrected_evaluation", "preflight_benchmark"]
+    definition = contract["feature_definition"]
+    assert definition["sites"] == ["late_down", "mid_0", "mid_1", "early_up"]
+    assert definition["timesteps"] == [100, 400, 700]
+    assert definition["channels_per_site"] == {
+        "late_down": 256,
+        "mid_0": 256,
+        "mid_1": 256,
+        "early_up": 256,
+    }
+    assert definition["per_channel_statistics"] == ["mu_abs", "var", "sparsity"]
+    assert definition["scalar_statistics"] == [
+        "mu_abs_mean",
+        "var_mean",
+        "sparsity_mean",
+    ]
+    assert definition["pca_input_dimension"] == 9216
+    assert definition["scalar_feature_dimension"] == 36
+    assert definition["lr_input_dimension"] == 42
 
 
 def test_evidence_package_exports_corrected_protocol_primitives() -> None:

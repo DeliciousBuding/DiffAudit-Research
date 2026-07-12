@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import re
+import time
 import warnings
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
@@ -26,20 +27,33 @@ _GIT_COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
 _SPLITS = ("calibration", "evaluation")
 _CLASS_IDS = tuple(range(10))
 _REQUIRED_ROW_FIELDS = {
-    "dataset_id",
     "dataset_index",
     "label",
     "class",
     "calibration_or_evaluation",
+    "noise_id",
+}
+_PACKET_FIELDS = {
+    "schema_version",
+    "packet_format",
+    "packet_purpose",
+    "provenance",
+    "rows",
+    "pca_features",
+    "scalar_features",
+}
+_PACKET_PROVENANCE_FIELDS = {
+    "dataset_id",
     "run_seed",
     "step",
     "attack",
-    "features",
-    "noise_id",
     "checkpoint_sha256",
-    "code_commit",
+    "training_manifest_sha256",
+    "target_code_commit",
+    "scorer_code_commit",
     "split_sha256",
     "protocol_hash",
+    "run_label",
 }
 _CHECKPOINT_PROVENANCE_FIELDS = (
     "dataset_id",
@@ -47,21 +61,19 @@ _CHECKPOINT_PROVENANCE_FIELDS = (
     "step",
     "attack",
     "checkpoint_sha256",
-    "code_commit",
+    "training_manifest_sha256",
+    "target_code_commit",
+    "scorer_code_commit",
     "split_sha256",
     "protocol_hash",
+    "run_label",
 )
 _LOCKED_ROW_FIELDS = (
-    "dataset_id",
     "dataset_index",
     "label",
     "class",
     "calibration_or_evaluation",
-    "attack",
     "noise_id",
-    "code_commit",
-    "split_sha256",
-    "protocol_hash",
 )
 
 
@@ -117,21 +129,20 @@ class _ProtocolContext:
 @dataclass(frozen=True, slots=True)
 class _FeatureRow:
     provenance: dict[str, object]
-    features: np.ndarray
-    feature_schema: tuple[str, ...]
 
 
 @dataclass(frozen=True, slots=True)
 class _FeaturePacket:
     rows: tuple[_FeatureRow, ...]
-    features: np.ndarray
+    pca_features: np.ndarray
+    scalar_features: np.ndarray
     labels: np.ndarray
     classes: np.ndarray
     split_values: tuple[str, ...]
     calibration_indices: np.ndarray
     evaluation_indices: np.ndarray
-    feature_schema: tuple[str, ...]
     target_provenance: dict[str, object]
+    packet_purpose: str
 
 
 @dataclass(slots=True)
@@ -143,11 +154,11 @@ class H1FittedModel:
     sklearn_version: str
     realized_logistic_regression: dict[str, object]
 
-    def predict_scores(self, features: np.ndarray) -> np.ndarray:
-        matrix = np.asarray(features, dtype=float)
-        transformed = self.pca.transform(matrix)
+    def predict_scores(self, pca_features: np.ndarray, scalar_features: np.ndarray) -> np.ndarray:
+        transformed = self.pca.transform(np.asarray(pca_features, dtype=float))
+        matrix = np.concatenate([transformed, np.asarray(scalar_features, dtype=float)], axis=1)
         member_column = int(np.flatnonzero(self.classifier.classes_ == 1)[0])
-        return np.asarray(self.classifier.predict_proba(transformed)[:, member_column], dtype=float)
+        return np.asarray(self.classifier.predict_proba(matrix)[:, member_column], dtype=float)
 
 
 def _validate_protocol_envelope(
@@ -291,37 +302,29 @@ def _require_hash(name: str, value: object, pattern: re.Pattern[str]) -> str:
     return value
 
 
-def _parse_features(value: object) -> tuple[np.ndarray, tuple[str, ...]]:
-    if isinstance(value, Mapping):
-        if not value or any(not isinstance(key, str) or not key for key in value):
-            raise ValueError("features mapping keys must be non-empty strings")
-        keys = tuple(sorted(value))
-        schema = tuple(f"mapping:{key}" for key in keys)
-        raw_values = [value[key] for key in keys]
-    elif isinstance(value, list):
-        if not value:
-            raise ValueError("features must not be empty")
-        schema = tuple(f"index:{index}" for index in range(len(value)))
-        raw_values = value
-    else:
-        raise ValueError("features must be a JSON list or mapping")
-    if any(type(item) not in (int, float) for item in raw_values):
-        raise ValueError("features must contain only finite numbers and never booleans")
-    matrix = np.asarray(raw_values, dtype=float)
+def _parse_feature_matrix(
+    name: str,
+    value: object,
+    *,
+    row_count: int,
+    feature_count: int,
+) -> np.ndarray:
+    matrix = np.asarray(value)
+    if matrix.shape != (row_count, feature_count):
+        raise ValueError(f"{name} shape does not match the frozen H1 feature definition")
+    if matrix.dtype != np.float32:
+        raise ValueError(f"{name} dtype must be float32")
     if not np.isfinite(matrix).all():
-        raise ValueError("features must contain only finite numbers")
-    return matrix, schema
+        raise ValueError(f"{name} must contain only finite values")
+    return matrix
 
 
-def _validate_row(raw_row: object, *, pca_components: int) -> _FeatureRow:
+def _validate_row(raw_row: object) -> _FeatureRow:
     if not isinstance(raw_row, Mapping):
         raise ValueError("each packet row must be a JSON mapping")
     if set(raw_row) != _REQUIRED_ROW_FIELDS:
         raise ValueError("packet row fields must exactly match the H1 row schema")
 
-    dataset_id = raw_row["dataset_id"]
-    if not isinstance(dataset_id, str) or not dataset_id:
-        raise ValueError("dataset_id must be a non-empty string")
     dataset_index = raw_row["dataset_index"]
     if type(dataset_index) is not int or dataset_index < 0:
         raise ValueError("dataset_index must be a non-negative integer")
@@ -334,32 +337,14 @@ def _validate_row(raw_row: object, *, pca_components: int) -> _FeatureRow:
     split = raw_row["calibration_or_evaluation"]
     if not isinstance(split, str) or split not in _SPLITS:
         raise ValueError("calibration_or_evaluation must be calibration or evaluation")
-    for name in ("run_seed", "step"):
-        value = raw_row[name]
-        if type(value) is not int or value <= 0:
-            raise ValueError(f"{name} must be a positive integer")
-    if raw_row["attack"] != "H1":
-        raise ValueError("attack must be H1")
     if not isinstance(raw_row["noise_id"], Mapping):
         raise ValueError("noise_id must be the canonical common-noise mapping")
-    _require_hash("checkpoint_sha256", raw_row["checkpoint_sha256"], _SHA256_PATTERN)
-    _require_hash("code_commit", raw_row["code_commit"], _GIT_COMMIT_PATTERN)
-    _require_hash("split_sha256", raw_row["split_sha256"], _SHA256_PATTERN)
-    _require_hash("protocol_hash", raw_row["protocol_hash"], _SHA256_PATTERN)
-    features, feature_schema = _parse_features(raw_row["features"])
-    if features.size < pca_components:
-        raise ValueError(f"features must contain at least {pca_components} dimensions")
 
     try:
         json.dumps(raw_row, allow_nan=False)
     except (TypeError, ValueError) as error:
         raise ValueError("packet rows must be finite JSON-safe structures") from error
-    provenance = {field: raw_row[field] for field in _REQUIRED_ROW_FIELDS - {"features"}}
-    return _FeatureRow(
-        provenance=provenance,
-        features=features,
-        feature_schema=feature_schema,
-    )
+    return _FeatureRow(provenance={field: raw_row[field] for field in _REQUIRED_ROW_FIELDS})
 
 
 def _canonical_row_key(row: _FeatureRow) -> tuple[int, int, int, int]:
@@ -423,51 +408,76 @@ def _validate_one_packet(
     *,
     context: _ProtocolContext,
 ) -> _FeaturePacket:
-    if (
-        not isinstance(raw_packet, Mapping)
-        or set(raw_packet) != {"rows"}
-        or not isinstance(raw_packet.get("rows"), list)
+    if not isinstance(raw_packet, Mapping) or set(raw_packet) != _PACKET_FIELDS:
+        raise ValueError("feature packet fields must exactly match h1-feature-packet-v2")
+    if raw_packet["schema_version"] != 1 or raw_packet["packet_format"] != "h1-feature-packet-v2":
+        raise ValueError("feature packet schema version or format is invalid")
+    packet_purpose = raw_packet["packet_purpose"]
+    if packet_purpose not in context.h1_contract["packet_purposes"]:
+        raise ValueError("feature packet purpose is not allowed by the sealed H1 contract")
+    provenance = raw_packet["provenance"]
+    if not isinstance(provenance, Mapping) or set(provenance) != _PACKET_PROVENANCE_FIELDS:
+        raise ValueError("feature packet provenance fields do not match the exact schema")
+    if provenance["attack"] != "H1":
+        raise ValueError("packet attack must be H1")
+    if not isinstance(provenance["dataset_id"], str) or not provenance["dataset_id"]:
+        raise ValueError("packet dataset_id must be a non-empty string")
+    for name in ("run_seed", "step"):
+        value = provenance[name]
+        if type(value) is not int or value <= 0:
+            raise ValueError(f"packet {name} must be a positive integer")
+    for name in (
+        "checkpoint_sha256",
+        "training_manifest_sha256",
+        "split_sha256",
+        "protocol_hash",
     ):
-        raise ValueError("feature packet fields must exactly match the rows-only schema")
+        _require_hash(name, provenance[name], _SHA256_PATTERN)
+    for name in ("target_code_commit", "scorer_code_commit"):
+        _require_hash(name, provenance[name], _GIT_COMMIT_PATTERN)
+    if not isinstance(provenance["run_label"], str) or not provenance["run_label"]:
+        raise ValueError("packet run_label must be a non-empty string")
     raw_rows = raw_packet["rows"]
-    if len(raw_rows) != 2048:
+    if not isinstance(raw_rows, list) or len(raw_rows) != 2048:
         raise ValueError("each feature packet must contain exactly 2048 rows")
-    pca_components = int(context.h1_contract["pca"]["n_components"])
-    rows = [_validate_row(row, pca_components=pca_components) for row in raw_rows]
+    rows = [_validate_row(row) for row in raw_rows]
+    definition = context.h1_contract["feature_definition"]
+    pca_features = _parse_feature_matrix(
+        "pca_features",
+        raw_packet["pca_features"],
+        row_count=len(rows),
+        feature_count=int(definition["pca_input_dimension"]),
+    )
+    scalar_features = _parse_feature_matrix(
+        "scalar_features",
+        raw_packet["scalar_features"],
+        row_count=len(rows),
+        feature_count=int(definition["scalar_feature_dimension"]),
+    )
 
-    first_schema = rows[0].feature_schema
-    if any(row.feature_schema != first_schema for row in rows[1:]):
-        raise ValueError("feature schema must be identical for every row and checkpoint")
-    first_provenance = rows[0].provenance
-    for row in rows[1:]:
-        if any(
-            row.provenance[field] != first_provenance[field]
-            for field in _CHECKPOINT_PROVENANCE_FIELDS
-        ):
-            raise ValueError(
-                "cross-packet provenance drift or inconsistent checkpoint packet provenance"
-            )
-
-    identities: set[tuple[object, object]] = set()
+    identities: set[int] = set()
     for row in rows:
-        identity = (row.provenance["dataset_id"], row.provenance["dataset_index"])
+        identity = int(row.provenance["dataset_index"])
         if identity in identities:
             raise ValueError("duplicate row identity or calibration/evaluation overlap")
         identities.add(identity)
     _validate_cell_balance(rows)
 
-    if first_provenance["protocol_hash"] != context.protocol_hash:
+    if provenance["protocol_hash"] != context.protocol_hash:
         raise ValueError("packet protocol_hash does not match the sealed protocol")
-    if first_provenance["dataset_id"] != context.dataset_id:
+    if provenance["dataset_id"] != context.dataset_id:
         raise ValueError("packet dataset_id does not match the sealed protocol")
-    if first_provenance["split_sha256"] != context.split_sha256:
+    if provenance["split_sha256"] != context.split_sha256:
         raise ValueError("packet split_sha256 does not match the sealed protocol")
-    if first_provenance["code_commit"] != context.code_commit:
-        raise ValueError("packet code_commit does not match the sealed protocol")
-    if first_provenance["run_seed"] not in context.allowed_run_seeds:
+    if provenance["target_code_commit"] != context.code_commit:
+        raise ValueError("packet target_code_commit does not match the sealed protocol")
+    if provenance["run_seed"] not in context.allowed_run_seeds:
         raise ValueError("run_seed is not allowed by the sealed protocol")
-    if first_provenance["step"] not in context.allowed_steps:
-        raise ValueError("step is not allowed by the sealed protocol")
+    if packet_purpose == "corrected_evaluation":
+        if provenance["step"] not in context.allowed_steps:
+            raise ValueError("corrected evaluation step is not allowed by the sealed protocol")
+    elif provenance["step"] > 5000 or "corrected" not in provenance["run_label"]:
+        raise ValueError("preflight packet requires a corrected label and step <= 5000")
 
     for row in rows:
         dataset_index = int(row.provenance["dataset_index"])
@@ -485,12 +495,14 @@ def _validate_one_packet(
     if {int(row.provenance["dataset_index"]) for row in rows} != set(context.manifest_rows):
         raise ValueError("packet rows do not match the complete locked protocol row set")
     try:
-        json.dumps(raw_packet, allow_nan=False)
+        json.dumps({"provenance": provenance, "rows": raw_rows}, allow_nan=False)
     except (TypeError, ValueError) as error:
-        raise ValueError("packet must be a finite JSON-safe structure") from error
+        raise ValueError("packet manifest must be a finite JSON-safe structure") from error
 
-    sorted_rows = tuple(sorted(rows, key=_canonical_row_key))
-    features = np.vstack([row.features for row in sorted_rows])
+    order = sorted(range(len(rows)), key=lambda index: _canonical_row_key(rows[index]))
+    sorted_rows = tuple(rows[index] for index in order)
+    pca_features = pca_features[order]
+    scalar_features = scalar_features[order]
     labels = np.asarray([row.provenance["label"] for row in sorted_rows], dtype=int)
     classes = np.asarray([row.provenance["class"] for row in sorted_rows], dtype=int)
     split_values = tuple(str(row.provenance["calibration_or_evaluation"]) for row in sorted_rows)
@@ -502,17 +514,17 @@ def _validate_one_packet(
         [index for index, split in enumerate(split_values) if split == "evaluation"],
         dtype=int,
     )
-    target_provenance = {field: first_provenance[field] for field in _CHECKPOINT_PROVENANCE_FIELDS}
     return _FeaturePacket(
         rows=sorted_rows,
-        features=features,
+        pca_features=pca_features,
+        scalar_features=scalar_features,
         labels=labels,
         classes=classes,
         split_values=split_values,
         calibration_indices=calibration_indices,
         evaluation_indices=evaluation_indices,
-        feature_schema=first_schema,
-        target_provenance=target_provenance,
+        target_provenance=dict(provenance),
+        packet_purpose=str(packet_purpose),
     )
 
 
@@ -521,10 +533,11 @@ def _locked_row_signature(row: _FeatureRow) -> tuple[object, ...]:
 
 
 def _validate_packets(
-    packets: Sequence[Mapping[str, object]],
+    packets: Sequence[Mapping[str, object] | str | Any],
     *,
     protocol_envelope: Mapping[str, object],
     expected_protocol_hash: str,
+    require_corrected_evaluation: bool,
 ) -> tuple[_ProtocolContext, tuple[_FeaturePacket, ...]]:
     if not isinstance(packets, Sequence) or isinstance(packets, (str, bytes)) or not packets:
         raise ValueError("at least one feature packet is required")
@@ -532,20 +545,35 @@ def _validate_packets(
         protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
     )
-    validated = tuple(_validate_one_packet(packet, context=context) for packet in packets)
+    from diffaudit.evidence.h1_extraction import load_h1_feature_packet
+
+    loaded_packets = tuple(
+        packet if isinstance(packet, Mapping) else load_h1_feature_packet(packet)
+        for packet in packets
+    )
+    validated = tuple(_validate_one_packet(packet, context=context) for packet in loaded_packets)
+    if require_corrected_evaluation and any(
+        packet.packet_purpose != "corrected_evaluation" for packet in validated
+    ):
+        raise ValueError("preflight_benchmark packets are forbidden for scientific H1 scoring")
     checkpoint_hashes = [str(packet.target_provenance["checkpoint_sha256"]) for packet in validated]
     if len(set(checkpoint_hashes)) != len(checkpoint_hashes):
         raise ValueError("checkpoint_sha256 must be unique across feature packets")
 
     reference = validated[0]
     for packet in validated[1:]:
-        if packet.feature_schema != reference.feature_schema:
-            raise ValueError("feature schema must be identical for every row and checkpoint")
         if len(packet.rows) != len(reference.rows) or any(
             _locked_row_signature(left) != _locked_row_signature(right)
             for left, right in zip(reference.rows, packet.rows, strict=True)
         ):
             raise ValueError("cross-packet provenance drift in locked row provenance")
+        if packet.packet_purpose != reference.packet_purpose:
+            raise ValueError("cross-packet purpose drift is forbidden")
+        if (
+            packet.target_provenance["scorer_code_commit"]
+            != reference.target_provenance["scorer_code_commit"]
+        ):
+            raise ValueError("cross-packet scorer commit drift is forbidden")
     return context, validated
 
 
@@ -561,11 +589,13 @@ def validate_h1_feature_packets(
         packets,
         protocol_envelope=protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
+        require_corrected_evaluation=False,
     )
     return {
         "protocol_hash": context.protocol_hash,
         "row_count_per_checkpoint": len(validated[0].rows),
-        "feature_schema": list(validated[0].feature_schema),
+        "pca_feature_dimension": int(validated[0].pca_features.shape[1]),
+        "scalar_feature_dimension": int(validated[0].scalar_features.shape[1]),
         "checkpoint_sha256s": [
             packet.target_provenance["checkpoint_sha256"] for packet in validated
         ],
@@ -573,7 +603,8 @@ def validate_h1_feature_packets(
 
 
 def _fit_h1_arrays(
-    features: np.ndarray,
+    pca_features: np.ndarray,
+    scalar_features: np.ndarray,
     labels: np.ndarray,
     contract: dict[str, object],
 ) -> H1FittedModel:
@@ -592,12 +623,18 @@ def _fit_h1_arrays(
         iterated_power=pca_contract["iterated_power"],
         power_iteration_normalizer=pca_contract["power_iteration_normalizer"],
     )
-    transformed = pca.fit_transform(np.asarray(features, dtype=float))
+    transformed = pca.fit_transform(np.asarray(pca_features, dtype=float))
+    classifier_features = np.concatenate(
+        [transformed, np.asarray(scalar_features, dtype=float)], axis=1
+    )
+    expected_lr_dimension = int(contract["feature_definition"]["lr_input_dimension"])
+    if classifier_features.shape[1] != expected_lr_dimension:
+        raise ValueError("realized H1 LR input dimension does not match the frozen contract")
     classifier_kwargs: dict[str, Any] = dict(logistic_contract["constructor"])
     classifier = LogisticRegression(**classifier_kwargs)
     with warnings.catch_warnings():
         warnings.simplefilter("error", ConvergenceWarning)
-        classifier.fit(transformed, np.asarray(labels, dtype=int))
+        classifier.fit(classifier_features, np.asarray(labels, dtype=int))
     if np.any(classifier.n_iter_ >= int(classifier_kwargs["max_iter"])):
         raise RuntimeError("LogisticRegression reached max_iter without confirmed convergence")
     params = classifier.get_params()
@@ -643,14 +680,54 @@ def fit_h1_model(
         [packet],
         protocol_envelope=protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
+        require_corrected_evaluation=True,
     )
     validated = packets[0]
     indices = validated.calibration_indices
     return _fit_h1_arrays(
-        validated.features[indices],
+        validated.pca_features[indices],
+        validated.scalar_features[indices],
         validated.labels[indices],
         context.h1_contract,
     )
+
+
+def benchmark_h1_refit_runtime(
+    packet: Mapping[str, object] | str,
+    *,
+    protocol_envelope: Mapping[str, object],
+    expected_protocol_hash: str,
+    fit_count: int,
+) -> dict[str, object]:
+    """Time repeated calibration-only H1 refits without computing any attack outcome."""
+
+    if type(fit_count) is not int or fit_count <= 0:
+        raise ValueError("fit_count must be a positive integer")
+    context, packets = _validate_packets(
+        [packet],
+        protocol_envelope=protocol_envelope,
+        expected_protocol_hash=expected_protocol_hash,
+        require_corrected_evaluation=False,
+    )
+    validated = packets[0]
+    calibration = validated.calibration_indices
+    started = time.perf_counter()
+    for _ in range(fit_count):
+        _fit_h1_arrays(
+            validated.pca_features[calibration],
+            validated.scalar_features[calibration],
+            validated.labels[calibration],
+            context.h1_contract,
+        )
+    total_seconds = time.perf_counter() - started
+    return {
+        "fit_count": fit_count,
+        "total_seconds": total_seconds,
+        "seconds_per_fit": total_seconds / fit_count,
+        "calibration_rows": int(calibration.size),
+        "pca_input_dimension": int(validated.pca_features.shape[1]),
+        "scalar_feature_dimension": int(validated.scalar_features.shape[1]),
+    }
 
 
 def wilson_interval(
@@ -710,7 +787,7 @@ def tpr_at_1pct_fpr_with_wilson(
 
 
 def _evaluation_row_result(row: _FeatureRow, score: float) -> dict[str, object]:
-    result = {field: row.provenance[field] for field in _REQUIRED_ROW_FIELDS if field != "features"}
+    result = dict(row.provenance)
     result["score"] = float(score)
     return result
 
@@ -722,8 +799,15 @@ def _target_result(
 ) -> dict[str, object]:
     calibration = packet.calibration_indices
     evaluation = packet.evaluation_indices
-    model = _fit_h1_arrays(packet.features[calibration], packet.labels[calibration], contract)
-    scores = model.predict_scores(packet.features[evaluation])
+    model = _fit_h1_arrays(
+        packet.pca_features[calibration],
+        packet.scalar_features[calibration],
+        packet.labels[calibration],
+        contract,
+    )
+    scores = model.predict_scores(
+        packet.pca_features[evaluation], packet.scalar_features[evaluation]
+    )
     labels = packet.labels[evaluation]
     tpr_metric = tpr_at_1pct_fpr_with_wilson(scores, labels)
     return {
@@ -785,6 +869,7 @@ def score_h1_checkpoints(
         packets,
         protocol_envelope=protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
+        require_corrected_evaluation=True,
     )
     _validate_cross_target_roster(
         validated,
@@ -916,6 +1001,7 @@ def bootstrap_h1_checkpoints(
         packets,
         protocol_envelope=protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
+        require_corrected_evaluation=True,
     )
     _validate_cross_target_roster(
         validated,
@@ -935,11 +1021,14 @@ def bootstrap_h1_checkpoints(
         calibration = packet.calibration_indices
         evaluation = packet.evaluation_indices
         model = _fit_h1_arrays(
-            packet.features[calibration],
+            packet.pca_features[calibration],
+            packet.scalar_features[calibration],
             packet.labels[calibration],
             context.h1_contract,
         )
-        scores = model.predict_scores(packet.features[evaluation])
+        scores = model.predict_scores(
+            packet.pca_features[evaluation], packet.scalar_features[evaluation]
+        )
         observed_aucs[key] = float(auc_score(scores, packet.labels[evaluation]))
         observed_fit_provenance[key] = {
             "sklearn_version": model.sklearn_version,
@@ -955,11 +1044,14 @@ def bootstrap_h1_checkpoints(
         target_aucs: dict[str, float] = {}
         for key, packet in zip(keys, validated, strict=True):
             model = _fit_h1_arrays(
-                packet.features[calibration_draw],
+                packet.pca_features[calibration_draw],
+                packet.scalar_features[calibration_draw],
                 packet.labels[calibration_draw],
                 context.h1_contract,
             )
-            scores = model.predict_scores(packet.features[evaluation_draw])
+            scores = model.predict_scores(
+                packet.pca_features[evaluation_draw], packet.scalar_features[evaluation_draw]
+            )
             auc = float(auc_score(scores, packet.labels[evaluation_draw]))
             target_samples[key].append(auc)
             target_aucs[key] = auc
@@ -1055,17 +1147,21 @@ def full_label_permutation_test(
         [packet],
         protocol_envelope=protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
+        require_corrected_evaluation=True,
     )
     validated = packets[0]
     calibration = validated.calibration_indices
     evaluation = validated.evaluation_indices
 
     observed_model = _fit_h1_arrays(
-        validated.features[calibration],
+        validated.pca_features[calibration],
+        validated.scalar_features[calibration],
         validated.labels[calibration],
         context.h1_contract,
     )
-    observed_scores = observed_model.predict_scores(validated.features[evaluation])
+    observed_scores = observed_model.predict_scores(
+        validated.pca_features[evaluation], validated.scalar_features[evaluation]
+    )
     observed_auc = float(auc_score(observed_scores, validated.labels[evaluation]))
 
     rng = np.random.default_rng(random_state)
@@ -1073,11 +1169,14 @@ def full_label_permutation_test(
     for _ in range(n_permutations):
         permuted_labels = _permuted_membership_labels(validated, rng)
         null_model = _fit_h1_arrays(
-            validated.features[calibration],
+            validated.pca_features[calibration],
+            validated.scalar_features[calibration],
             permuted_labels[calibration],
             context.h1_contract,
         )
-        null_scores = null_model.predict_scores(validated.features[evaluation])
+        null_scores = null_model.predict_scores(
+            validated.pca_features[evaluation], validated.scalar_features[evaluation]
+        )
         null_aucs.append(float(auc_score(null_scores, permuted_labels[evaluation])))
     exceedances = sum(value >= observed_auc for value in null_aucs)
     result = {
@@ -1104,6 +1203,7 @@ def full_label_permutation_test(
 
 __all__ = [
     "H1FittedModel",
+    "benchmark_h1_refit_runtime",
     "bootstrap_h1_checkpoints",
     "fit_h1_model",
     "full_label_permutation_test",
