@@ -54,6 +54,9 @@ _PACKET_PROVENANCE_FIELDS = {
     "split_sha256",
     "protocol_hash",
     "run_label",
+    "extraction_config",
+    "extraction_config_hash",
+    "evaluator_environment",
 }
 _CHECKPOINT_PROVENANCE_FIELDS = (
     "dataset_id",
@@ -67,6 +70,9 @@ _CHECKPOINT_PROVENANCE_FIELDS = (
     "split_sha256",
     "protocol_hash",
     "run_label",
+    "extraction_config",
+    "extraction_config_hash",
+    "evaluator_environment",
 )
 _LOCKED_ROW_FIELDS = (
     "dataset_index",
@@ -452,6 +458,17 @@ def _validate_one_packet(
         _require_hash(name, provenance[name], _GIT_COMMIT_PATTERN)
     if not isinstance(provenance["run_label"], str) or not provenance["run_label"]:
         raise ValueError("packet run_label must be a non-empty string")
+    from diffaudit.evidence.corrected_protocol import canonical_protocol_hash
+
+    extraction_config = provenance["extraction_config"]
+    expected_extraction_config = context.h1_contract["extraction"]
+    if extraction_config != expected_extraction_config:
+        raise ValueError("packet extraction_config does not match the sealed protocol")
+    _require_hash("extraction_config_hash", provenance["extraction_config_hash"], _SHA256_PATTERN)
+    if provenance["extraction_config_hash"] != canonical_protocol_hash(extraction_config):
+        raise ValueError("packet extraction_config_hash does not match extraction_config")
+    if provenance["evaluator_environment"] != expected_extraction_config["evaluator_environment"]:
+        raise ValueError("packet evaluator_environment does not match the sealed protocol")
     raw_rows = raw_packet["rows"]
     if not isinstance(raw_rows, list) or len(raw_rows) != 2048:
         raise ValueError("each feature packet must contain exactly 2048 rows")
@@ -515,9 +532,12 @@ def _validate_one_packet(
         raise ValueError("packet manifest must be a finite JSON-safe structure") from error
 
     order = sorted(range(len(rows)), key=lambda index: _canonical_row_key(rows[index]))
-    sorted_rows = tuple(rows[index] for index in order)
-    pca_features = pca_features[order]
-    scalar_features = scalar_features[order]
+    if all(position == source_index for position, source_index in enumerate(order)):
+        sorted_rows = tuple(rows)
+    else:
+        sorted_rows = tuple(rows[index] for index in order)
+        pca_features = pca_features[order]
+        scalar_features = scalar_features[order]
     labels = np.asarray([row.provenance["label"] for row in sorted_rows], dtype=int)
     classes = np.asarray([row.provenance["class"] for row in sorted_rows], dtype=int)
     split_values = tuple(str(row.provenance["calibration_or_evaluation"]) for row in sorted_rows)

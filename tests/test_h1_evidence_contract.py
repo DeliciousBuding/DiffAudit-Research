@@ -17,6 +17,7 @@ import diffaudit.evidence.h1_confirmatory as h1_module
 from diffaudit.evidence import corrected_protocol as protocol
 from diffaudit.evidence.corrected_protocol import (
     build_protocol_envelope,
+    canonical_protocol_hash,
     derive_noise_seed,
     derive_training_seeds,
 )
@@ -214,6 +215,13 @@ def _make_setup(
                 "split_sha256": _SPLIT_SHA256,
                 "protocol_hash": protocol_hash,
                 "run_label": f"corrected-s{_TRAINING_SEEDS[target_index]}",
+                "extraction_config": deepcopy(envelope["contract"]["h1"]["extraction"]),
+                "extraction_config_hash": canonical_protocol_hash(
+                    envelope["contract"]["h1"]["extraction"]
+                ),
+                "evaluator_environment": deepcopy(
+                    envelope["contract"]["h1"]["extraction"]["evaluator_environment"]
+                ),
             },
             "rows": deepcopy(rows),
             "pca_features": np.asarray(pca_rows, dtype=np.float32),
@@ -550,6 +558,20 @@ def test_exported_v2_packet_is_consumed_by_the_h1_validator(tmp_path: Path) -> N
     assert validated["scalar_feature_dimension"] == 4
 
 
+def test_canonical_packet_validation_does_not_copy_feature_matrices() -> None:
+    envelope, packets = _make_setup()
+    packet = packets[0]
+
+    _, validated = h1_module._validate_packets(
+        [packet],
+        **_protocol_kwargs(envelope),
+        require_corrected_evaluation=False,
+    )
+
+    assert validated[0].pca_features is packet["pca_features"]
+    assert validated[0].scalar_features is packet["scalar_features"]
+
+
 def test_refit_runtime_benchmark_returns_time_only(monkeypatch: pytest.MonkeyPatch) -> None:
     envelope, packets = _make_setup()
     calls = 0
@@ -584,6 +606,26 @@ def test_packet_validator_rejects_non_float32_feature_matrices() -> None:
 
     with pytest.raises(ValueError, match="dtype must be float32"):
         validate_h1_feature_packets(packets, **_protocol_kwargs(envelope))
+
+
+@pytest.mark.parametrize("batch_size", [1, 2])
+def test_packet_validator_rejects_extraction_batch_drift(batch_size: int) -> None:
+    envelope, packets = _make_setup()
+    packets[0]["provenance"]["extraction_config"]["batch_size"] = batch_size
+    packets[0]["provenance"]["extraction_config_hash"] = canonical_protocol_hash(
+        packets[0]["provenance"]["extraction_config"]
+    )
+
+    with pytest.raises(ValueError, match="extraction_config"):
+        validate_h1_feature_packets(packets, **_protocol_kwargs(envelope))
+
+
+def test_packet_validator_allows_same_frozen_batch_across_packets() -> None:
+    envelope, packets = _make_setup(target_count=2)
+
+    validated = validate_h1_feature_packets(packets, **_protocol_kwargs(envelope))
+
+    assert len(validated["checkpoint_sha256s"]) == 2
 
 
 @pytest.mark.parametrize(
@@ -981,6 +1023,9 @@ def test_scoring_rows_carry_complete_provenance_and_result_is_json_safe() -> Non
         "split_sha256",
         "protocol_hash",
         "run_label",
+        "extraction_config",
+        "extraction_config_hash",
+        "evaluator_environment",
     }
     assert row["calibration_or_evaluation"] == "evaluation"
     json.dumps(result, allow_nan=False)

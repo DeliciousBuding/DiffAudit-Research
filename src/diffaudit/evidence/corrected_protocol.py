@@ -500,6 +500,23 @@ def _paper1_h1_feature_definition() -> dict[str, object]:
     }
 
 
+def collect_h1_evaluator_environment() -> dict[str, object]:
+    """Collect the exact evaluator runtime identity sealed into the H1 protocol."""
+
+    from diffaudit.training.corrected_ddpm import collect_environment
+
+    return collect_environment()
+
+
+def _paper1_h1_extraction_contract() -> dict[str, object]:
+    return {
+        "batch_size": 16,
+        "device_policy": "cuda_required_for_confirmatory",
+        "determinism": dict(build_training_config().determinism),
+        "evaluator_environment": collect_h1_evaluator_environment(),
+    }
+
+
 def _paper1_h1_contract() -> dict[str, object]:
     seeds = list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE))
     return {
@@ -509,6 +526,7 @@ def _paper1_h1_contract() -> dict[str, object]:
         "packet_format": "h1-feature-packet-v2",
         "packet_purposes": ["corrected_evaluation", "preflight_benchmark"],
         "feature_definition": _paper1_h1_feature_definition(),
+        "extraction": _paper1_h1_extraction_contract(),
         "score_direction": "higher_is_member",
         "feature_scaler": "none",
         "sklearn_version": version("scikit-learn"),

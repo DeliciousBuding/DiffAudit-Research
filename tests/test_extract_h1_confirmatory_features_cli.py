@@ -19,7 +19,16 @@ def test_cli_prints_only_outcome_blind_benchmark_summary(monkeypatch, capsys) ->
     expected = {
         "rows": 2048,
         "queries": 6144,
-        "total_seconds": 10.0,
+        "end_to_end_seconds": 20.0,
+        "extraction_seconds": 10.0,
+        "phase_timings": {
+            "identity_protocol": 1.0,
+            "checkpoint_hash_load": 2.0,
+            "model_to_device": 3.0,
+            "dataset_load": 1.0,
+            "extraction": 10.0,
+            "packet_write_hash": 2.0,
+        },
         "rows_per_second": 204.8,
         "peak_cuda_allocated_bytes": 1,
         "peak_cuda_reserved_bytes": 2,

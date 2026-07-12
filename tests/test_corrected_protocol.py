@@ -21,6 +21,7 @@ from diffaudit.evidence.corrected_protocol import (
     load_member_nonmember_indices,
 )
 from diffaudit.evidence.h1_confirmatory import h1_scorer_contract
+from diffaudit.evidence.training_config import build_training_config
 
 
 def _write_split(
@@ -630,6 +631,18 @@ def test_paper1_h1_contract_freezes_the_legacy_42_dimensional_feature_layout() -
     assert definition["pca_feature_order"] == "site_then_timestep_then_statistic_then_channel"
     assert definition["scalar_feature_order"] == "timestep_then_site_then_statistic"
     assert definition["lr_feature_order"] == ["scalar_features", "pca_components"]
+    extraction = contract["extraction"]
+    assert extraction["batch_size"] == 16
+    assert extraction["device_policy"] == "cuda_required_for_confirmatory"
+    assert extraction["determinism"] == dict(build_training_config().determinism)
+    assert set(extraction["evaluator_environment"]) == {
+        "python",
+        "pytorch",
+        "cuda",
+        "cudnn",
+        "gpu_name",
+        "gpu_uuid",
+    }
 
 
 def test_evidence_package_exports_corrected_protocol_primitives() -> None:

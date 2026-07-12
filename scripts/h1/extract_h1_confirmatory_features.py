@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import sys
 import time
@@ -19,16 +18,21 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from diffaudit.evidence.corrected_protocol import (  # noqa: E402
+    canonical_protocol_hash,
     validate_paper1_protocol_envelope,
 )
 from diffaudit.evidence.h1_extraction import (  # noqa: E402
     build_benchmark_summary,
     extract_locked_rows,
     read_h1_repository_state,
+    sha256_file,
     validate_checkpoint_bundle,
+    validate_h1_extraction_runtime,
     validate_h1_repository_state,
     write_h1_feature_packet,
 )
+from diffaudit.training.corrected_ddpm import collect_environment  # noqa: E402
+from diffaudit.training.exact_resume import configure_deterministic_torch  # noqa: E402
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -85,6 +89,10 @@ def _load_dataset(root: Path):
 
 
 def _execute(args: argparse.Namespace) -> dict[str, object]:
+    end_to_end_started = getattr(args, "_process_started", time.perf_counter())
+    phase_timings: dict[str, float] = {}
+    phase_started = time.perf_counter()
+    configure_deterministic_torch()
     envelope = validate_paper1_protocol_envelope(
         args.protocol_manifest,
         expected_protocol_hash=args.expected_protocol_hash,
@@ -97,6 +105,17 @@ def _execute(args: argparse.Namespace) -> dict[str, object]:
         relevant_untracked,
         expected_scorer_commit=args.scorer_code_commit,
     )
+    extraction_config = contract["h1"]["extraction"]
+    evaluator_environment = collect_environment()
+    validate_h1_extraction_runtime(
+        extraction_config,
+        batch_size=args.batch_size,
+        device=args.device,
+        evaluator_environment=evaluator_environment,
+    )
+    phase_timings["identity_protocol"] = time.perf_counter() - phase_started
+
+    phase_started = time.perf_counter()
     bundle = validate_checkpoint_bundle(
         args.checkpoint,
         args.training_manifest,
@@ -107,16 +126,24 @@ def _execute(args: argparse.Namespace) -> dict[str, object]:
         packet_purpose=args.packet_purpose,
         preflight=args.preflight,
     )
+    phase_timings["checkpoint_hash_load"] = time.perf_counter() - phase_started
+
+    phase_started = time.perf_counter()
     device = torch.device(args.device)
     if device.type == "cuda" and not torch.cuda.is_available():
         raise ValueError("CUDA device requested but CUDA is unavailable")
     model = _load_model(bundle.ema_state_dict, device)
+    if device.type == "cuda":
+        torch.cuda.reset_peak_memory_stats(device)
+    phase_timings["model_to_device"] = time.perf_counter() - phase_started
+
+    phase_started = time.perf_counter()
     dataset = _load_dataset(args.dataset_root)
     if len(dataset) != 50_000:
         raise ValueError("CIFAR10 train dataset must contain exactly 50000 rows")
-    if device.type == "cuda":
-        torch.cuda.reset_peak_memory_stats(device)
-    started = time.perf_counter()
+    phase_timings["dataset_load"] = time.perf_counter() - phase_started
+
+    phase_started = time.perf_counter()
     extracted = extract_locked_rows(
         model,
         dataset,
@@ -126,7 +153,8 @@ def _execute(args: argparse.Namespace) -> dict[str, object]:
         batch_size=args.batch_size,
         device=device,
     )
-    total_seconds = time.perf_counter() - started
+    extraction_seconds = time.perf_counter() - phase_started
+    phase_timings["extraction"] = extraction_seconds
     provenance = {
         "dataset_id": contract["dataset"]["name"],
         "run_seed": bundle.provenance.run_seed,
@@ -139,7 +167,11 @@ def _execute(args: argparse.Namespace) -> dict[str, object]:
         "split_sha256": bundle.provenance.split_sha256,
         "protocol_hash": bundle.provenance.protocol_hash,
         "run_label": bundle.provenance.run_label,
+        "extraction_config": extraction_config,
+        "extraction_config_hash": canonical_protocol_hash(extraction_config),
+        "evaluator_environment": evaluator_environment,
     }
+    phase_started = time.perf_counter()
     write_h1_feature_packet(
         args.output,
         packet_purpose=args.packet_purpose,
@@ -148,25 +180,31 @@ def _execute(args: argparse.Namespace) -> dict[str, object]:
         pca_features=extracted.pca_features,
         scalar_features=extracted.scalar_features,
     )
-    manifest_bytes = (args.output / "manifest.json").read_bytes()
+    packet_sha256 = sha256_file(args.output / "manifest.json")
+    phase_timings["packet_write_hash"] = time.perf_counter() - phase_started
     peak_allocated = 0
     peak_reserved = 0
     if device.type == "cuda":
         peak_allocated = int(torch.cuda.max_memory_allocated(device))
         peak_reserved = int(torch.cuda.max_memory_reserved(device))
+    end_to_end_seconds = time.perf_counter() - end_to_end_started
     return build_benchmark_summary(
         rows=len(extracted.rows),
         queries=len(extracted.rows) * len(contract["h1"]["timesteps"]),
-        total_seconds=total_seconds,
+        end_to_end_seconds=end_to_end_seconds,
+        extraction_seconds=extraction_seconds,
+        phase_timings=phase_timings,
         peak_cuda_allocated_bytes=peak_allocated,
         peak_cuda_reserved_bytes=peak_reserved,
         packet_path=str(args.output),
-        packet_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
+        packet_sha256=packet_sha256,
     )
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    process_started = time.perf_counter()
     args = _parser().parse_args(argv)
+    args._process_started = process_started
     summary = _execute(args)
     print(json.dumps(summary, sort_keys=True, allow_nan=False))
     return 0

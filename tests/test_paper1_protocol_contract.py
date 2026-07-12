@@ -148,6 +148,12 @@ def test_paper1_contract_freezes_exact_scientific_shape(
             "lr_input_dimension": 42,
             "input_range": [-1.0, 1.0],
         },
+        "extraction": {
+            "batch_size": 16,
+            "device_policy": "cuda_required_for_confirmatory",
+            "determinism": dict(build_training_config().determinism),
+            "evaluator_environment": protocol.collect_h1_evaluator_environment(),
+        },
         "score_direction": "higher_is_member",
         "feature_scaler": "none",
         "sklearn_version": version("scikit-learn"),

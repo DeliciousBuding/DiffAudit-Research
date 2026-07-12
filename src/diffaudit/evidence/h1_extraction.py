@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
@@ -40,6 +41,21 @@ _METADATA_FIELDS = {
     "training_config_hash",
     "environment",
 }
+_MANIFEST_FIELDS = {
+    "protocol_hash",
+    "split_sha256",
+    "code_commit",
+    "seed",
+    "run_label",
+    "step",
+    "checkpoint",
+    "member_count",
+    "batch_size",
+    "training_config",
+    "training_config_hash",
+    "environment",
+    "checkpoint_receipts",
+}
 _RECEIPT_FIELDS = {
     "checkpoint_sha256",
     "protocol_hash",
@@ -49,6 +65,18 @@ _RECEIPT_FIELDS = {
     "run_label",
     "training_config_hash",
 }
+
+
+def sha256_file(path: str | Path, *, chunk_size: int = 8 * 1024 * 1024) -> str:
+    """Hash a file with bounded memory."""
+
+    if type(chunk_size) is not int or chunk_size <= 0:
+        raise ValueError("chunk_size must be a positive integer")
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(chunk_size), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 @dataclass(frozen=True, slots=True)
@@ -370,15 +398,17 @@ def validate_checkpoint_bundle(
 
     checkpoint_path = Path(checkpoint_path)
     manifest_path = Path(training_manifest_path)
-    checkpoint_sha256 = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
-    manifest_bytes = manifest_path.read_bytes()
-    training_manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+    checkpoint_sha256 = sha256_file(checkpoint_path)
+    training_manifest_sha256 = sha256_file(manifest_path)
     try:
-        manifest = json.loads(manifest_bytes)
+        with manifest_path.open("r", encoding="utf-8") as handle:
+            manifest = json.load(handle)
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
         raise ValueError("training manifest must contain valid JSON") from error
     if not isinstance(manifest, Mapping):
         raise ValueError("training manifest must contain a JSON mapping")
+    if set(manifest) != _MANIFEST_FIELDS:
+        raise ValueError("training manifest fields do not match the exact corrected schema")
     payload = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     if not isinstance(payload, Mapping) or set(payload) != _CHECKPOINT_FIELDS:
         raise ValueError("checkpoint payload fields do not match the corrected schema")
@@ -402,6 +432,18 @@ def validate_checkpoint_bundle(
         raise ValueError("checkpoint training_config_hash does not match training_config")
     if manifest.get("training_config") != training_config:
         raise ValueError("training manifest config does not match checkpoint metadata")
+    if manifest.get("environment") != metadata.get("environment"):
+        raise ValueError("training manifest environment does not match checkpoint metadata")
+    config_data = training_config.get("data")
+    expected_batch_size = (
+        config_data.get("batch_size")
+        if isinstance(config_data, Mapping)
+        else training_config.get("batch_size")
+    )
+    if manifest.get("member_count") != 25_000:
+        raise ValueError("training manifest member_count must equal 25000")
+    if manifest.get("batch_size") != expected_batch_size:
+        raise ValueError("training manifest batch_size does not match checkpoint config")
     step = metadata.get("checkpoint_step")
     seed = metadata.get("seed")
     run_label = metadata.get("run_label")
@@ -521,11 +563,35 @@ def read_h1_repository_state(root: str | Path) -> tuple[str, str, tuple[str, ...
     return head, tracked, untracked
 
 
+def validate_h1_extraction_runtime(
+    extraction_config: Mapping[str, object],
+    *,
+    batch_size: int,
+    device: str,
+    evaluator_environment: Mapping[str, object],
+) -> None:
+    from diffaudit.evidence.training_config import build_training_config
+
+    if extraction_config.get("batch_size") != 16 or batch_size != 16:
+        raise ValueError("H1 extraction batch_size must equal the protocol-frozen value 16")
+    if (
+        extraction_config.get("device_policy") != "cuda_required_for_confirmatory"
+        or device != "cuda"
+    ):
+        raise ValueError("H1 extraction device_policy requires the exact cuda device")
+    if extraction_config.get("determinism") != dict(build_training_config().determinism):
+        raise ValueError("H1 extraction determinism does not match the complete policy")
+    if extraction_config.get("evaluator_environment") != dict(evaluator_environment):
+        raise ValueError("H1 extraction evaluator_environment does not match the sealed protocol")
+
+
 def build_benchmark_summary(
     *,
     rows: int,
     queries: int,
-    total_seconds: float,
+    end_to_end_seconds: float,
+    extraction_seconds: float,
+    phase_timings: Mapping[str, float],
     peak_cuda_allocated_bytes: int,
     peak_cuda_reserved_bytes: int,
     packet_path: str,
@@ -533,14 +599,35 @@ def build_benchmark_summary(
 ) -> dict[str, object]:
     """Build the only permitted outcome-blind preflight stdout payload."""
 
-    if rows <= 0 or queries <= 0 or total_seconds <= 0:
+    expected_phases = {
+        "identity_protocol",
+        "checkpoint_hash_load",
+        "model_to_device",
+        "dataset_load",
+        "extraction",
+        "packet_write_hash",
+    }
+    if (
+        rows <= 0
+        or queries <= 0
+        or end_to_end_seconds <= 0
+        or extraction_seconds <= 0
+        or set(phase_timings) != expected_phases
+        or any(type(value) not in (int, float) or value < 0 for value in phase_timings.values())
+    ):
         raise ValueError("benchmark timing inputs must be positive")
+    if not math.isclose(
+        float(phase_timings["extraction"]), extraction_seconds, rel_tol=0.0, abs_tol=1e-9
+    ):
+        raise ValueError("phase_timings extraction must equal extraction_seconds")
     _require_hash("packet_sha256", packet_sha256, _SHA256_RE)
     return {
         "rows": rows,
         "queries": queries,
-        "total_seconds": total_seconds,
-        "rows_per_second": rows / total_seconds,
+        "end_to_end_seconds": end_to_end_seconds,
+        "extraction_seconds": extraction_seconds,
+        "phase_timings": dict(phase_timings),
+        "rows_per_second": rows / extraction_seconds,
         "peak_cuda_allocated_bytes": peak_cuda_allocated_bytes,
         "peak_cuda_reserved_bytes": peak_cuda_reserved_bytes,
         "packet_path": packet_path,
@@ -625,7 +712,7 @@ def write_h1_feature_packet(
         except BaseException:
             temporary_features.unlink(missing_ok=True)
             raise
-        features_sha256 = hashlib.sha256(features_path.read_bytes()).hexdigest()
+        features_sha256 = sha256_file(features_path)
         manifest = {
             "schema_version": 1,
             "packet_format": "h1-feature-packet-v2",
@@ -685,18 +772,19 @@ def load_h1_feature_packet(packet_dir: str | Path) -> dict[str, object]:
         raise ValueError("H1 packet feature manifest is invalid")
     features_path = root / "features.npz"
     try:
-        payload = features_path.read_bytes()
-    except OSError as error:
-        raise ValueError("H1 packet NPZ is missing") from error
-    if hashlib.sha256(payload).hexdigest() != feature_manifest["sha256"]:
-        raise ValueError("H1 packet features hash does not match manifest")
-    try:
-        with np.load(features_path, allow_pickle=False) as arrays:
-            if set(arrays.files) != {"dataset_indices", "pca_features", "scalar_features"}:
-                raise ValueError("H1 packet NPZ arrays do not match the exact schema")
-            dataset_indices = np.asarray(arrays["dataset_indices"])
-            pca = np.asarray(arrays["pca_features"])
-            scalar = np.asarray(arrays["scalar_features"])
+        with features_path.open("rb") as handle:
+            digest = hashlib.sha256()
+            for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
+                digest.update(chunk)
+            if digest.hexdigest() != feature_manifest["sha256"]:
+                raise ValueError("H1 packet features hash does not match manifest")
+            handle.seek(0)
+            with np.load(handle, allow_pickle=False) as arrays:
+                if set(arrays.files) != {"dataset_indices", "pca_features", "scalar_features"}:
+                    raise ValueError("H1 packet NPZ arrays do not match the exact schema")
+                dataset_indices = np.asarray(arrays["dataset_indices"])
+                pca = np.asarray(arrays["pca_features"])
+                scalar = np.asarray(arrays["scalar_features"])
     except (OSError, ValueError) as error:
         raise ValueError("H1 packet NPZ is invalid or truncated") from error
     array_manifest = feature_manifest["arrays"]
@@ -747,7 +835,9 @@ __all__ = [
     "extract_locked_rows",
     "load_h1_feature_packet",
     "read_h1_repository_state",
+    "sha256_file",
     "validate_checkpoint_bundle",
+    "validate_h1_extraction_runtime",
     "validate_h1_repository_state",
     "write_h1_feature_packet",
 ]

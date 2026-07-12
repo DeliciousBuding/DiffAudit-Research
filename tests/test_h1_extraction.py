@@ -18,10 +18,13 @@ from diffaudit.evidence.h1_extraction import (
     compute_activation_features,
     extract_locked_rows,
     load_h1_feature_packet,
+    sha256_file,
     validate_checkpoint_bundle,
+    validate_h1_extraction_runtime,
     validate_h1_repository_state,
     write_h1_feature_packet,
 )
+from diffaudit.evidence.training_config import build_training_config
 
 
 def _feature_definition(channels: int = 2) -> dict[str, object]:
@@ -354,6 +357,63 @@ def test_checkpoint_tamper_is_rejected(tmp_path: Path) -> None:
 
 
 @pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("environment", {"python": "tampered"}),
+        ("member_count", 24_999),
+        ("batch_size", 64),
+        ("seed", 7),
+        ("run_label", "corrected-preflight-s7"),
+        ("step", 1999),
+        ("protocol_hash", "f" * 64),
+        ("split_sha256", "f" * 64),
+        ("training_config", {"batch_size": 64}),
+        ("training_config_hash", "f" * 64),
+    ],
+)
+def test_checkpoint_validation_rejects_every_manifest_duplicate_field_tamper(
+    tmp_path: Path,
+    field: str,
+    value: object,
+) -> None:
+    checkpoint_path, manifest_path, metadata = _checkpoint_fixture(tmp_path)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest[field] = value
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="manifest|checkpoint identity|config"):
+        validate_checkpoint_bundle(
+            checkpoint_path,
+            manifest_path,
+            expected_protocol_hash=str(metadata["protocol_hash"]),
+            expected_split_sha256=str(metadata["split_sha256"]),
+            expected_target_code_commit=str(metadata["code_commit"]),
+            expected_training_config_hash=str(metadata["training_config_hash"]),
+            packet_purpose="preflight_benchmark",
+            preflight=True,
+        )
+
+
+def test_checkpoint_validation_rejects_extra_manifest_fields(tmp_path: Path) -> None:
+    checkpoint_path, manifest_path, metadata = _checkpoint_fixture(tmp_path)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["unexpected"] = True
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="manifest fields"):
+        validate_checkpoint_bundle(
+            checkpoint_path,
+            manifest_path,
+            expected_protocol_hash=str(metadata["protocol_hash"]),
+            expected_split_sha256=str(metadata["split_sha256"]),
+            expected_target_code_commit=str(metadata["code_commit"]),
+            expected_training_config_hash=str(metadata["training_config_hash"]),
+            packet_purpose="preflight_benchmark",
+            preflight=True,
+        )
+
+
+@pytest.mark.parametrize(
     ("state", "message"),
     [
         (("d" * 40, "", ()), "HEAD"),
@@ -426,10 +486,20 @@ def test_atomic_packet_write_leaves_no_output_on_validation_failure(tmp_path: Pa
 
 
 def test_benchmark_summary_is_outcome_blind() -> None:
+    phase_timings = {
+        "identity_protocol": 1.0,
+        "checkpoint_hash_load": 2.0,
+        "model_to_device": 3.0,
+        "dataset_load": 4.0,
+        "extraction": 12.5,
+        "packet_write_hash": 5.0,
+    }
     summary = build_benchmark_summary(
         rows=2048,
         queries=6144,
-        total_seconds=12.5,
+        end_to_end_seconds=27.5,
+        extraction_seconds=12.5,
+        phase_timings=phase_timings,
         peak_cuda_allocated_bytes=100,
         peak_cuda_reserved_bytes=200,
         packet_path="outputs/h1-preflight",
@@ -439,7 +509,9 @@ def test_benchmark_summary_is_outcome_blind() -> None:
     assert set(summary) == {
         "rows",
         "queries",
-        "total_seconds",
+        "end_to_end_seconds",
+        "extraction_seconds",
+        "phase_timings",
         "rows_per_second",
         "peak_cuda_allocated_bytes",
         "peak_cuda_reserved_bytes",
@@ -448,6 +520,48 @@ def test_benchmark_summary_is_outcome_blind() -> None:
     }
     serialized = json.dumps(summary).lower()
     assert all(token not in serialized for token in ("auc", "tpr", "accuracy", "metric", "outcome"))
+    assert summary["phase_timings"] == phase_timings
+
+
+@pytest.mark.parametrize(
+    ("batch_size", "device", "environment_mutation", "message"),
+    [
+        (1, "cuda", None, "batch_size"),
+        (2, "cuda", None, "batch_size"),
+        (16, "cpu", None, "device_policy"),
+        (16, "cuda", ("python", "0.0"), "evaluator_environment"),
+    ],
+)
+def test_extraction_runtime_rejects_batch_device_or_environment_drift(
+    batch_size: int,
+    device: str,
+    environment_mutation: tuple[str, object] | None,
+    message: str,
+) -> None:
+    environment = {
+        "python": "3.12",
+        "pytorch": "2.7",
+        "cuda": "12.8",
+        "cudnn": 90100,
+        "gpu_name": "GPU",
+        "gpu_uuid": "uuid",
+    }
+    extraction_config = {
+        "batch_size": 16,
+        "device_policy": "cuda_required_for_confirmatory",
+        "determinism": dict(build_training_config().determinism),
+        "evaluator_environment": deepcopy(environment),
+    }
+    if environment_mutation is not None:
+        environment[environment_mutation[0]] = environment_mutation[1]
+
+    with pytest.raises(ValueError, match=message):
+        validate_h1_extraction_runtime(
+            extraction_config,
+            batch_size=batch_size,
+            device=device,
+            evaluator_environment=environment,
+        )
 
 
 def test_feature_packet_round_trip_binds_rows_to_float32_npz(tmp_path: Path) -> None:
@@ -471,6 +585,51 @@ def test_feature_packet_round_trip_binds_rows_to_float32_npz(tmp_path: Path) -> 
     assert loaded["pca_features"].dtype == np.float32
     assert np.array_equal(loaded["pca_features"], pca_features)
     assert np.array_equal(loaded["scalar_features"], scalar_features)
+
+
+def test_streaming_hash_handles_large_file_without_path_read_bytes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    payload = bytes(range(256)) * (17 * 1024 * 1024 // 256)
+    path = tmp_path / "large.bin"
+    path.write_bytes(payload)
+    monkeypatch.setattr(
+        Path,
+        "read_bytes",
+        lambda _self: (_ for _ in ()).throw(AssertionError("read_bytes is forbidden")),
+    )
+
+    assert sha256_file(path) == hashlib.sha256(payload).hexdigest()
+
+
+def test_npz_loader_hashes_and_loads_through_one_seekable_handle(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    output = tmp_path / "packet"
+    provenance, rows, pca_features, scalar_features = _small_packet()
+    write_h1_feature_packet(
+        output,
+        packet_purpose="preflight_benchmark",
+        provenance=provenance,
+        rows=rows,
+        pca_features=pca_features,
+        scalar_features=scalar_features,
+    )
+    original_open = Path.open
+    feature_opens = 0
+
+    def count_open(path: Path, *args: object, **kwargs: object):
+        nonlocal feature_opens
+        if path == output / "features.npz":
+            feature_opens += 1
+        return original_open(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "open", count_open)
+    load_h1_feature_packet(output)
+
+    assert feature_opens == 1
 
 
 @pytest.mark.parametrize("mutation", ["tamper", "truncate", "row_reorder", "swap"])
