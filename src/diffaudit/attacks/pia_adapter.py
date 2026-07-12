@@ -155,7 +155,9 @@ def resolve_pia_weights_key(checkpoint: dict[str, Any]) -> str:
         return "ema_model"
     if "net_model" in checkpoint:
         return "net_model"
-    raise KeyError("PIA checkpoint must contain 'ema_model' or 'net_model'")
+    if "ema" in checkpoint:
+        return "ema"
+    raise KeyError("PIA checkpoint must contain 'ema_model', 'net_model', or 'ema'")
 
 
 def load_pia_model(

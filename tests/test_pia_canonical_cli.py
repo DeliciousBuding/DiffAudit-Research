@@ -203,6 +203,8 @@ def _write_corrected_checkpoint_and_manifest(
     *,
     step: int = 100_000,
     seed: int | None = None,
+    model_state_dict: dict[str, torch.Tensor] | None = None,
+    ema_state_dict: dict[str, torch.Tensor] | None = None,
 ) -> tuple[Path, Path, str, str]:
     contract = envelope["contract"]
     assert isinstance(contract, dict)
@@ -211,10 +213,14 @@ def _write_corrected_checkpoint_and_manifest(
     run_label = f"corrected-s{run_seed}"
     config_hash = canonical_training_config_hash(build_training_config())
     checkpoint = tmp_path / f"checkpoint-step{step:06d}.pt"
+    corrected_model_weights = {} if model_state_dict is None else model_state_dict
+    corrected_ema_weights = (
+        corrected_model_weights if ema_state_dict is None else ema_state_dict
+    )
     torch.save(
         {
-            "model": {},
-            "ema": {},
+            "model": corrected_model_weights,
+            "ema": corrected_ema_weights,
             "optim": {"state": {}, "param_groups": []},
             "sched": {},
             "step": step,
@@ -656,6 +662,112 @@ def test_canonical_exporter_packet_is_consumed_without_translation(
     summary = json.loads(capsys.readouterr().out)
     assert summary["status"] == "evaluation_complete"
     assert summary["metrics"]["evaluation_auc"] == pytest.approx(1.0)
+
+
+def test_canonical_exporter_loads_corrected_checkpoint_ema_weights(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    online_model = torch.nn.Linear(1, 1)
+    with torch.no_grad():
+        online_model.weight.fill_(-2.0)
+        online_model.bias.fill_(-3.0)
+    expected_model = torch.nn.Linear(1, 1)
+    with torch.no_grad():
+        expected_model.weight.fill_(2.0)
+        expected_model.bias.fill_(3.0)
+    checkpoint, training_manifest, _, _ = _write_corrected_checkpoint_and_manifest(
+        tmp_path,
+        protocol_envelope,
+        model_state_dict=online_model.state_dict(),
+        ema_state_dict=expected_model.state_dict(),
+    )
+    contract = protocol_envelope["contract"]
+    assert isinstance(contract, dict)
+    manifest_rows = contract["evaluation"]["rows"]
+    by_index = {int(row["dataset_index"]): row for row in manifest_rows}
+
+    class TinyModelModule:
+        @staticmethod
+        def UNet(**_kwargs: object) -> torch.nn.Module:
+            return torch.nn.Linear(1, 1)
+
+    monkeypatch.setattr(pia_adapter, "validate_pia_workspace", lambda _path: {"status": "ready"})
+    monkeypatch.setattr(
+        pia_adapter,
+        "probe_pia_assets",
+        lambda **_kwargs: {
+            "status": "ready",
+            "paths": {
+                "checkpoint": str(checkpoint),
+                "dataset_dir": str(tmp_path / "dataset"),
+                "member_split": str(tmp_path / "unused.npz"),
+            },
+            "checks": {"checkpoint": True},
+        },
+    )
+    monkeypatch.setattr(
+        pia_adapter,
+        "load_pia_ddpm_modules",
+        lambda _root: (object(), TinyModelModule),
+    )
+
+    real_load_pia_model = pia_adapter.load_pia_model
+    loaded_weight_keys: list[str] = []
+
+    def capture_load_pia_model(*args: Any, **kwargs: Any) -> tuple[torch.nn.Module, str]:
+        model, weights_key = real_load_pia_model(*args, **kwargs)
+        loaded_weight_keys.append(weights_key)
+        return model, weights_key
+
+    monkeypatch.setattr(pia_adapter, "load_pia_model", capture_load_pia_model)
+
+    loaded_models: list[torch.nn.Module] = []
+
+    def fake_attacker(**kwargs: object):
+        model = kwargs["model"]
+        assert isinstance(model, torch.nn.Linear)
+        loaded_models.append(model)
+        return lambda batch: batch[:, 0, 0, 0]
+
+    monkeypatch.setattr(pia_adapter, "_build_pia_attacker", fake_attacker)
+
+    def fake_loader(
+        dataset: str,
+        dataset_dir: str | Path,
+        packet_indices: list[int],
+        batch_size: int,
+    ) -> DataLoader:
+        del dataset, dataset_dir
+        values = torch.zeros(len(packet_indices), 3, 2, 2)
+        labels = torch.tensor([by_index[index]["class_id"] for index in packet_indices])
+        return DataLoader(TensorDataset(values, labels), batch_size=batch_size, shuffle=False)
+
+    monkeypatch.setattr(pia_adapter, "_build_pia_packet_loader", fake_loader)
+
+    result = pia_adapter.export_pia_packet_scores(
+        load_audit_config(CANONICAL_CONFIG),
+        tmp_path / "export-corrected-checkpoint",
+        repo_root=tmp_path / "repo",
+        member_split_root=tmp_path / "unused",
+        device="cpu",
+        batch_size=64,
+        protocol_manifest=protocol_manifest,
+        expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
+        training_output_manifest=training_manifest,
+        packet_purpose="corrected_evaluation",
+        calibration_or_evaluation="calibration",
+    )
+
+    assert result["status"] == "score_packet_exported"
+    assert loaded_weight_keys == ["ema"]
+    assert len(loaded_models) == 1
+    assert torch.equal(loaded_models[0].weight, expected_model.weight)
+    assert torch.equal(loaded_models[0].bias, expected_model.bias)
+    assert not torch.equal(loaded_models[0].weight, online_model.weight)
+    assert not torch.equal(loaded_models[0].bias, online_model.bias)
 
 
 def test_canonical_cli_parser_accepts_training_manifest_without_identity_labels() -> None:
