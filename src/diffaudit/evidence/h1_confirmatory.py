@@ -156,9 +156,24 @@ class H1FittedModel:
 
     def predict_scores(self, pca_features: np.ndarray, scalar_features: np.ndarray) -> np.ndarray:
         transformed = self.pca.transform(np.asarray(pca_features, dtype=float))
-        matrix = np.concatenate([transformed, np.asarray(scalar_features, dtype=float)], axis=1)
+        matrix = _assemble_h1_lr_features(transformed, scalar_features)
         member_column = int(np.flatnonzero(self.classifier.classes_ == 1)[0])
         return np.asarray(self.classifier.predict_proba(matrix)[:, member_column], dtype=float)
+
+
+def _assemble_h1_lr_features(
+    pca_components: np.ndarray,
+    scalar_features: np.ndarray,
+) -> np.ndarray:
+    """Assemble the frozen legacy LR column order: scalar summaries, then PCA."""
+
+    pca_matrix = np.asarray(pca_components, dtype=float)
+    scalar_matrix = np.asarray(scalar_features, dtype=float)
+    if pca_matrix.ndim != 2 or scalar_matrix.ndim != 2:
+        raise ValueError("H1 LR feature blocks must be two-dimensional")
+    if pca_matrix.shape[0] != scalar_matrix.shape[0]:
+        raise ValueError("H1 LR feature blocks must have the same row count")
+    return np.concatenate([scalar_matrix, pca_matrix], axis=1)
 
 
 def _validate_protocol_envelope(
@@ -624,9 +639,7 @@ def _fit_h1_arrays(
         power_iteration_normalizer=pca_contract["power_iteration_normalizer"],
     )
     transformed = pca.fit_transform(np.asarray(pca_features, dtype=float))
-    classifier_features = np.concatenate(
-        [np.asarray(scalar_features, dtype=float), transformed], axis=1
-    )
+    classifier_features = _assemble_h1_lr_features(transformed, scalar_features)
     expected_lr_dimension = int(contract["feature_definition"]["lr_input_dimension"])
     if classifier_features.shape[1] != expected_lr_dimension:
         raise ValueError("realized H1 LR input dimension does not match the frozen contract")

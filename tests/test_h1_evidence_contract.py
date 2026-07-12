@@ -326,7 +326,7 @@ def test_production_shape_randomized_pca_fit_completes(
     assert model.classifier.coef_.shape == (1, 42)
 
 
-def test_lr_columns_lock_scalar_then_pca_component_order(
+def test_fit_and_predict_lock_the_same_scalar_then_pca_column_order(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     rng = np.random.default_rng(19)
@@ -353,6 +353,23 @@ def test_lr_columns_lock_scalar_then_pca_component_order(
     assert len(captured) == 1
     np.testing.assert_allclose(captured[0][:, :4], scalar_features)
     np.testing.assert_allclose(captured[0][:, 4:], model.pca.transform(pca_features))
+
+    predicted: list[np.ndarray] = []
+
+    class SpyClassifier:
+        classes_ = np.asarray([0, 1])
+
+        def predict_proba(self, features: np.ndarray) -> np.ndarray:
+            predicted.append(features.copy())
+            return np.column_stack(
+                [np.full(features.shape[0], 0.5), np.full(features.shape[0], 0.5)]
+            )
+
+    model.classifier = SpyClassifier()
+    model.predict_scores(pca_features, scalar_features)
+
+    assert len(predicted) == 1
+    np.testing.assert_allclose(predicted[0], captured[0])
 
 
 def test_convergence_warning_is_a_hard_failure(monkeypatch: pytest.MonkeyPatch) -> None:
