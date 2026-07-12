@@ -7,8 +7,9 @@ import json
 import math
 import pickle
 import re
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
+from itertools import combinations
 from pathlib import Path
 from typing import Any, Literal
 
@@ -86,8 +87,9 @@ class PiaProtocolContext:
     code_commit: str
     manifest_rows: dict[int, tuple[int, int, str]]
     role_indices: dict[str, tuple[int, ...]]
-    rosters: dict[str, tuple[frozenset[int], int]]
+    rosters: dict[str, tuple[tuple[int, ...], int]]
     pia_contract: dict[str, object]
+    heterogeneity_contract: dict[str, object]
 
 
 @dataclass(frozen=True, slots=True)
@@ -306,14 +308,12 @@ def load_pia_protocol_context(
     assert isinstance(h1, dict)
     raw_rosters = h1["cross_target_rosters"]
     assert isinstance(raw_rosters, dict)
-    rosters: dict[str, tuple[frozenset[int], int]] = {}
+    rosters: dict[str, tuple[tuple[int, ...], int]] = {}
     for stage, raw_roster in raw_rosters.items():
         assert isinstance(stage, str) and isinstance(raw_roster, dict)
-        if stage == "full":
-            continue
         seeds = raw_roster["seeds"]
         assert isinstance(seeds, list)
-        rosters[stage] = (frozenset(int(seed) for seed in seeds), int(raw_roster["step"]))
+        rosters[stage] = (tuple(int(seed) for seed in seeds), int(raw_roster["step"]))
     protocol_hash = loaded["protocol_hash"]
     assert isinstance(protocol_hash, str)
     return PiaProtocolContext(
@@ -325,6 +325,7 @@ def load_pia_protocol_context(
         role_indices={role: tuple(indices) for role, indices in role_indices.items()},
         rosters=rosters,
         pia_contract=paper1_pia_contract(),
+        heterogeneity_contract=dict(contract["confirmatory_heterogeneity"]),
     )
 
 
@@ -341,7 +342,8 @@ def validate_pia_stage_identity(
         raise ValueError("run_seed must be a positive integer")
     if type(step) is not int or step <= 0:
         raise ValueError("step must be a positive integer")
-    roster_seeds, roster_step = context.rosters[stage]
+    roster_seed_order, roster_step = context.rosters[stage]
+    roster_seeds = set(roster_seed_order)
     if run_seed not in roster_seeds:
         raise ValueError("run_seed is not allowed by the sealed stage roster")
     if step != roster_step:
@@ -359,15 +361,22 @@ def derive_pia_stage(context: PiaProtocolContext, *, run_seed: object, step: obj
         for stage in context.rosters
         if _stage_identity_matches(context, stage=stage, run_seed=run_seed, step=step)
     ]
-    if len(matches) != 1:
+    if not matches:
         raise ValueError("checkpoint seed and step do not map to one sealed stage")
-    return matches[0]
+    minimum_roster_size = min(len(context.rosters[stage][0]) for stage in matches)
+    most_specific = [
+        stage for stage in matches if len(context.rosters[stage][0]) == minimum_roster_size
+    ]
+    if len(most_specific) != 1:
+        raise ValueError("checkpoint seed and step map ambiguously to sealed stages")
+    return most_specific[0]
 
 
 def _stage_identity_matches(
     context: PiaProtocolContext, *, stage: str, run_seed: object, step: object
 ) -> bool:
-    roster_seeds, roster_step = context.rosters[stage]
+    roster_seed_order, roster_step = context.rosters[stage]
+    roster_seeds = set(roster_seed_order)
     return (
         type(run_seed) is int
         and type(step) is int
@@ -654,6 +663,555 @@ def validate_pia_score_packet_pair(
     return calibration, evaluation
 
 
+def _validate_pia_checkpoint_sources(
+    sources: Sequence[
+        tuple[
+            Mapping[str, object] | str | Path,
+            Mapping[str, object] | str | Path,
+            str | Path,
+        ]
+    ],
+    *,
+    protocol_envelope: Mapping[str, object] | str | Path,
+    expected_protocol_hash: str,
+    analysis_mode: str | None,
+    stage: str | None,
+) -> tuple[PiaProtocolContext, list[tuple[PiaScorePacket, PiaScorePacket]], str]:
+    if not isinstance(sources, Sequence) or isinstance(sources, (str, bytes)) or not sources:
+        raise ValueError("PIA checkpoint sources must be a non-empty sequence")
+    context = load_pia_protocol_context(
+        protocol_envelope,
+        expected_protocol_hash=expected_protocol_hash,
+    )
+    analysis_code_commit = _validate_analysis_repository_state(context)
+    validated: list[tuple[PiaScorePacket, PiaScorePacket]] = []
+    for source in sources:
+        if not isinstance(source, (tuple, list)) or len(source) != 3:
+            raise ValueError(
+                "each PIA checkpoint source must contain calibration, evaluation, and manifest"
+            )
+        calibration_source, evaluation_source, training_output_manifest = source
+        calibration, evaluation = validate_pia_score_packet_pair(
+            calibration_source,
+            evaluation_source,
+            context=context,
+            training_output_manifest=training_output_manifest,
+        )
+        if calibration.provenance["packet_purpose"] != "corrected_evaluation":
+            raise ValueError("confirmatory PIA analysis requires corrected_evaluation packets")
+        validated.append((calibration, evaluation))
+
+    if len(validated) == 1 and analysis_mode is None and stage is None:
+        return context, validated, analysis_code_commit
+    if analysis_mode != "cross_target_same_step":
+        raise ValueError("multi-target analysis_mode must be cross_target_same_step")
+    if stage not in context.rosters:
+        raise ValueError("cross-target stage does not identify a sealed target roster")
+    roster_seed_order, roster_step = context.rosters[stage]
+    roster_seeds = set(roster_seed_order)
+    seeds = [int(calibration.provenance["run_seed"]) for calibration, _ in validated]
+    if len(set(seeds)) != len(seeds):
+        raise ValueError("cross-target roster contains a duplicate seed")
+    seed_set = set(seeds)
+    missing = roster_seeds - seed_set
+    extra = seed_set - roster_seeds
+    if missing and extra:
+        raise ValueError("cross-target roster has missing and extra seeds")
+    if missing:
+        raise ValueError("cross-target roster has a missing seed")
+    if extra:
+        raise ValueError("cross-target roster has an extra seed")
+    if len(seeds) != len(roster_seeds):
+        raise ValueError("cross-target roster does not exactly match the sealed stage roster")
+    steps = {int(calibration.provenance["step"]) for calibration, _ in validated}
+    if steps != {roster_step}:
+        raise ValueError("cross-target roster has a wrong step")
+    validated_by_seed = {
+        int(calibration.provenance["run_seed"]): (calibration, evaluation)
+        for calibration, evaluation in validated
+    }
+    validated = [validated_by_seed[seed] for seed in roster_seed_order]
+    return context, validated, analysis_code_commit
+
+
+def _validate_analysis_repository_state(context: PiaProtocolContext) -> str:
+    from diffaudit.attacks import pia_adapter
+
+    head, tracked_status, untracked_code = pia_adapter.read_pia_repository_state(
+        pia_adapter.RESEARCH_ROOT
+    )
+    return pia_adapter.validate_pia_repository_state(
+        head,
+        context.code_commit,
+        tracked_status,
+        untracked_code,
+    )
+
+
+def _canonical_payload_sha256(payload: Mapping[str, object]) -> str:
+    encoded = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _analysis_provenance(
+    context: PiaProtocolContext,
+    analysis_code_commit: str,
+) -> dict[str, str]:
+    analysis_contract = {
+        "pia": context.pia_contract,
+        "confirmatory_heterogeneity": context.heterogeneity_contract,
+    }
+    return {
+        "analysis_code_commit": analysis_code_commit,
+        "analysis_contract_hash": _canonical_payload_sha256(analysis_contract),
+    }
+
+
+def _pia_target_provenance(
+    context: PiaProtocolContext,
+    calibration: PiaScorePacket,
+    evaluation: PiaScorePacket,
+) -> dict[str, object]:
+    return {
+        **calibration.provenance,
+        "dataset_id": context.dataset_id,
+        "calibration_packet_sha256": _canonical_payload_sha256(calibration.payload),
+        "evaluation_packet_sha256": _canonical_payload_sha256(evaluation.payload),
+    }
+
+
+def _score_pia_packet_pair(
+    context: PiaProtocolContext,
+    calibration: PiaScorePacket,
+    evaluation: PiaScorePacket,
+) -> dict[str, object]:
+    evaluated = evaluate_calibrated_packets(
+        calibration.scores,
+        calibration.labels,
+        calibration.indices,
+        evaluation.scores,
+        evaluation.labels,
+        evaluation.indices,
+    )
+    metrics = {key: value for key, value in evaluated.items() if key != "predictions"}
+    raw_rows = evaluation.payload["rows"]
+    assert isinstance(raw_rows, list)
+    evaluation_rows = [
+        {
+            "dataset_index": row["dataset_index"],
+            "label": row["label"],
+            "class": row["class"],
+            "calibration_or_evaluation": row["calibration_or_evaluation"],
+            "noise_id": row["noise_id"],
+            "score": float(row["score"]),
+        }
+        for row in raw_rows
+    ]
+    return {
+        "target": _pia_target_provenance(context, calibration, evaluation),
+        "metrics": metrics,
+        "evaluation_rows": evaluation_rows,
+    }
+
+
+def summarize_pia_heterogeneity(
+    target_keys: Sequence[str],
+    observed_aucs: Sequence[float],
+    bootstrap_auc_vectors: Sequence[Sequence[float]],
+    *,
+    alpha: float,
+    practical_range: float,
+) -> dict[str, object]:
+    """Summarize the sealed AUC-range null and all Holm-adjusted paired deltas."""
+
+    keys = list(target_keys)
+    observed = np.asarray(observed_aucs, dtype=float)
+    draws = np.asarray(bootstrap_auc_vectors, dtype=float)
+    if len(keys) < 2 or any(not isinstance(key, str) or not key for key in keys):
+        raise ValueError("PIA heterogeneity requires at least two non-empty target keys")
+    if len(set(keys)) != len(keys):
+        raise ValueError("PIA heterogeneity target keys must be unique")
+    if observed.ndim != 1 or observed.size != len(keys):
+        raise ValueError("observed AUCs must match the target keys")
+    if draws.ndim != 2 or draws.shape[1] != observed.size or draws.shape[0] == 0:
+        raise ValueError("bootstrap AUC vectors must be a non-empty B by target matrix")
+    if not np.isfinite(observed).all() or not np.isfinite(draws).all():
+        raise ValueError("PIA heterogeneity AUC values must be finite")
+    if bool(((observed < 0) | (observed > 1)).any()) or bool(((draws < 0) | (draws > 1)).any()):
+        raise ValueError("PIA heterogeneity AUC values must lie in [0, 1]")
+    if (
+        isinstance(alpha, bool)
+        or not isinstance(alpha, (int, float))
+        or not math.isfinite(alpha)
+        or not 0 < float(alpha) <= 1
+    ):
+        raise ValueError("alpha must be finite and lie in (0, 1]")
+    if (
+        isinstance(practical_range, bool)
+        or not isinstance(practical_range, (int, float))
+        or not math.isfinite(practical_range)
+        or not 0 <= float(practical_range) <= 1
+    ):
+        raise ValueError("practical_range must be finite and lie in [0, 1]")
+
+    observed_range = float(np.ptp(observed))
+    null_draws = draws - observed[None, :] + float(observed.mean())
+    null_ranges = np.ptp(null_draws, axis=1)
+    global_p = float((1 + int((null_ranges >= observed_range).sum())) / (draws.shape[0] + 1))
+
+    pairwise: list[dict[str, object]] = []
+    for left_index, right_index in combinations(range(observed.size), 2):
+        observed_delta = float(observed[left_index] - observed[right_index])
+        bootstrap_deltas = draws[:, left_index] - draws[:, right_index]
+        centered = bootstrap_deltas - observed_delta
+        raw_p = float(
+            (1 + int((np.abs(centered) >= abs(observed_delta)).sum())) / (draws.shape[0] + 1)
+        )
+        pairwise.append(
+            {
+                "left": keys[left_index],
+                "right": keys[right_index],
+                "observed_delta": observed_delta,
+                "test": "two_sided_centered_paired_bootstrap",
+                "raw_p_value": raw_p,
+            }
+        )
+    order = sorted(range(len(pairwise)), key=lambda index: (pairwise[index]["raw_p_value"], index))
+    running = 0.0
+    adjusted = [1.0] * len(pairwise)
+    for rank, index in enumerate(order):
+        candidate = min(1.0, (len(pairwise) - rank) * float(pairwise[index]["raw_p_value"]))
+        running = max(running, candidate)
+        adjusted[index] = running
+    for index, row in enumerate(pairwise):
+        row["adjusted_p_value"] = adjusted[index]
+        row["decision"] = bool(adjusted[index] <= float(alpha))
+
+    practical_gate = bool(observed_range >= float(practical_range))
+    result = {
+        "global": {
+            "statistic": "auc_range",
+            "null_centering": "target_observed_to_grand_mean",
+            "observed_range": observed_range,
+            "null_ranges": [float(value) for value in null_ranges],
+            "p_value": global_p,
+            "practical_range_at_least": float(practical_range),
+            "practical_gate": practical_gate,
+            "decision": bool(global_p <= float(alpha) and practical_gate),
+        },
+        "pairwise": pairwise,
+        "correction": "holm",
+    }
+    json.dumps(result, allow_nan=False)
+    return result
+
+
+def _draw_pia_stratified_indices(
+    packet: PiaScorePacket,
+    rng: np.random.Generator,
+) -> np.ndarray:
+    draws: list[np.ndarray] = []
+    for label in (0, 1):
+        for class_id in range(10):
+            indices = np.flatnonzero((packet.labels == label) & (packet.classes == class_id))
+            if indices.size == 0:
+                raise ValueError("PIA bootstrap requires every label/class stratum")
+            draws.append(rng.choice(indices, size=indices.size, replace=True))
+    return np.concatenate(draws).astype(int, copy=False)
+
+
+def _percentile_interval(samples: Sequence[float]) -> list[float]:
+    values = np.asarray(samples, dtype=float)
+    return [float(np.quantile(values, 0.025)), float(np.quantile(values, 0.975))]
+
+
+def _pia_target_key(calibration: PiaScorePacket) -> str:
+    return str(calibration.provenance["checkpoint_sha256"])
+
+
+def bootstrap_pia_checkpoints(
+    sources: Sequence[
+        tuple[
+            Mapping[str, object] | str | Path,
+            Mapping[str, object] | str | Path,
+            str | Path,
+        ]
+    ],
+    *,
+    protocol_envelope: Mapping[str, object] | str | Path,
+    expected_protocol_hash: str,
+    n_bootstrap: int,
+    random_state: int,
+    analysis_mode: str,
+    stage: str,
+) -> dict[str, object]:
+    """Run paired label/class-stratified PIA bootstrap draws for a sealed roster."""
+
+    contract = paper1_pia_contract()
+    expected_bootstrap = int(contract["bootstrap_replicates"])
+    if type(n_bootstrap) is not int or n_bootstrap != expected_bootstrap:
+        raise ValueError(f"n_bootstrap must equal the sealed protocol count {expected_bootstrap}")
+    expected_random_state = int(contract["bootstrap_random_state"])
+    if type(random_state) is not int or random_state != expected_random_state:
+        raise ValueError(
+            f"bootstrap random_state must equal the sealed protocol value {expected_random_state}"
+        )
+    context, validated, analysis_code_commit = _validate_pia_checkpoint_sources(
+        sources,
+        protocol_envelope=protocol_envelope,
+        expected_protocol_hash=expected_protocol_hash,
+        analysis_mode=analysis_mode,
+        stage=stage,
+    )
+    keys = [_pia_target_key(calibration) for calibration, _ in validated]
+    if len(set(keys)) != len(keys):
+        raise ValueError("PIA checkpoint identities must be unique")
+    target_samples: dict[str, list[float]] = {key: [] for key in keys}
+    threshold_samples: dict[str, list[float]] = {key: [] for key in keys}
+    observed_aucs: dict[str, float] = {}
+    observed_thresholds: dict[str, float] = {}
+    pair_samples: dict[tuple[str, str], list[float]] = {pair: [] for pair in combinations(keys, 2)}
+
+    for key, (calibration, evaluation) in zip(keys, validated, strict=True):
+        observed = evaluate_calibrated_packets(
+            calibration.scores,
+            calibration.labels,
+            calibration.indices,
+            evaluation.scores,
+            evaluation.labels,
+            evaluation.indices,
+        )
+        observed_aucs[key] = float(observed["evaluation_auc"])
+        observed_thresholds[key] = float(observed["calibration_threshold"])
+
+    rng = np.random.default_rng(random_state)
+    paired_replicates: list[dict[str, object]] = []
+    for replicate in range(n_bootstrap):
+        calibration_draw = _draw_pia_stratified_indices(validated[0][0], rng)
+        evaluation_draw = _draw_pia_stratified_indices(validated[0][1], rng)
+        shared_rows = (
+            validated[0][0].indices[calibration_draw].astype("<i8", copy=False).tobytes()
+            + validated[0][1].indices[evaluation_draw].astype("<i8", copy=False).tobytes()
+        )
+        digest = hashlib.sha256(shared_rows).hexdigest()
+        target_aucs: dict[str, float] = {}
+        target_thresholds: dict[str, float] = {}
+        for key, (calibration, evaluation) in zip(keys, validated, strict=True):
+            evaluated = evaluate_calibrated_packets(
+                calibration.scores[calibration_draw],
+                calibration.labels[calibration_draw],
+                calibration.indices[calibration_draw],
+                evaluation.scores[evaluation_draw],
+                evaluation.labels[evaluation_draw],
+                evaluation.indices[evaluation_draw],
+            )
+            auc = float(evaluated["evaluation_auc"])
+            threshold = float(evaluated["calibration_threshold"])
+            target_samples[key].append(auc)
+            threshold_samples[key].append(threshold)
+            target_aucs[key] = auc
+            target_thresholds[key] = threshold
+        replicate_deltas: list[dict[str, object]] = []
+        for left, right in combinations(keys, 2):
+            delta = target_aucs[left] - target_aucs[right]
+            pair_samples[(left, right)].append(delta)
+            replicate_deltas.append({"left": left, "right": right, "delta": delta})
+        paired_replicates.append(
+            {
+                "replicate": replicate,
+                "shared_draw_sha256": digest,
+                "target_aucs": target_aucs,
+                "target_calibration_thresholds": target_thresholds,
+                "pairwise_auc_deltas": replicate_deltas,
+            }
+        )
+
+    result = {
+        "schema_version": 1,
+        "protocol_hash": context.protocol_hash,
+        **_analysis_provenance(context, analysis_code_commit),
+        "analysis_mode": analysis_mode,
+        "stage": stage,
+        "heterogeneity_contract": context.heterogeneity_contract,
+        "random_state": random_state,
+        "n_bootstrap": n_bootstrap,
+        "strata": ["calibration_or_evaluation", "label", "class"],
+        "recalibrate_threshold_per_replicate": True,
+        "targets": [
+            {
+                "target": _pia_target_provenance(context, calibration, evaluation),
+                "observed_auc": observed_aucs[key],
+                "observed_calibration_threshold": observed_thresholds[key],
+                "auc_samples": target_samples[key],
+                "auc_ci_95": _percentile_interval(target_samples[key]),
+                "calibration_threshold_samples": threshold_samples[key],
+            }
+            for key, (calibration, evaluation) in zip(keys, validated, strict=True)
+        ],
+        "paired_replicates": paired_replicates,
+        "pairwise_deltas": [
+            {
+                "left": left,
+                "right": right,
+                "observed_delta": observed_aucs[left] - observed_aucs[right],
+                "samples": samples,
+                "ci_95": _percentile_interval(samples),
+            }
+            for (left, right), samples in pair_samples.items()
+        ],
+        "heterogeneity_summary": summarize_pia_heterogeneity(
+            keys,
+            [observed_aucs[key] for key in keys],
+            [[replicate["target_aucs"][key] for key in keys] for replicate in paired_replicates],
+            alpha=float(context.heterogeneity_contract["global_test_alpha"]),
+            practical_range=float(context.heterogeneity_contract["practical_auc_range_at_least"]),
+        ),
+    }
+    json.dumps(result, allow_nan=False)
+    return result
+
+
+def _permuted_pia_membership_labels(
+    packet: PiaScorePacket,
+    rng: np.random.Generator,
+) -> np.ndarray:
+    labels = packet.labels.copy()
+    for class_id in range(10):
+        indices = np.flatnonzero(packet.classes == class_id)
+        if indices.size == 0:
+            raise ValueError("PIA permutation requires every class stratum")
+        labels[indices] = rng.permutation(labels[indices])
+    return labels
+
+
+def full_label_permutation_test_pia(
+    source: tuple[
+        Mapping[str, object] | str | Path,
+        Mapping[str, object] | str | Path,
+        str | Path,
+    ],
+    *,
+    protocol_envelope: Mapping[str, object] | str | Path,
+    expected_protocol_hash: str,
+    n_permutations: int,
+    random_state: int,
+) -> dict[str, object]:
+    """Run the sealed split/class-preserving PIA full membership-label null."""
+
+    contract = paper1_pia_contract()
+    expected_permutations = int(contract["permutation_replicates"])
+    if type(n_permutations) is not int or n_permutations != expected_permutations:
+        raise ValueError(
+            f"n_permutations must equal the sealed protocol count {expected_permutations}"
+        )
+    expected_random_state = int(contract["permutation_random_state"])
+    if type(random_state) is not int or random_state != expected_random_state:
+        raise ValueError(
+            f"permutation random_state must equal the sealed protocol value {expected_random_state}"
+        )
+    context, validated, analysis_code_commit = _validate_pia_checkpoint_sources(
+        [source],
+        protocol_envelope=protocol_envelope,
+        expected_protocol_hash=expected_protocol_hash,
+        analysis_mode=None,
+        stage=None,
+    )
+    calibration, evaluation = validated[0]
+    observed = evaluate_calibrated_packets(
+        calibration.scores,
+        calibration.labels,
+        calibration.indices,
+        evaluation.scores,
+        evaluation.labels,
+        evaluation.indices,
+    )
+    observed_auc = float(observed["evaluation_auc"])
+    observed_threshold = float(observed["calibration_threshold"])
+
+    rng = np.random.default_rng(random_state)
+    null_aucs: list[float] = []
+    null_thresholds: list[float] = []
+    for _ in range(n_permutations):
+        calibration_labels = _permuted_pia_membership_labels(calibration, rng)
+        evaluation_labels = _permuted_pia_membership_labels(evaluation, rng)
+        permuted = evaluate_calibrated_packets(
+            calibration.scores,
+            calibration_labels,
+            calibration.indices,
+            evaluation.scores,
+            evaluation_labels,
+            evaluation.indices,
+        )
+        null_aucs.append(float(permuted["evaluation_auc"]))
+        null_thresholds.append(float(permuted["calibration_threshold"]))
+    exceedances = sum(value >= observed_auc for value in null_aucs)
+    result = {
+        "schema_version": 1,
+        "protocol_hash": context.protocol_hash,
+        **_analysis_provenance(context, analysis_code_commit),
+        "target": _pia_target_provenance(context, calibration, evaluation),
+        "score_direction": "higher_is_member",
+        "permutation_scheme": "within_each_split_and_class",
+        "random_state": random_state,
+        "n_permutations": n_permutations,
+        "observed_auc": observed_auc,
+        "observed_calibration_threshold": observed_threshold,
+        "null_aucs": null_aucs,
+        "null_calibration_thresholds": null_thresholds,
+        "p_value": float((exceedances + 1) / (n_permutations + 1)),
+        "p_value_correction": "plus_one",
+        "recalibrate_threshold_per_permutation": True,
+    }
+    json.dumps(result, allow_nan=False)
+    return result
+
+
+def score_pia_checkpoints(
+    sources: Sequence[
+        tuple[
+            Mapping[str, object] | str | Path,
+            Mapping[str, object] | str | Path,
+            str | Path,
+        ]
+    ],
+    *,
+    protocol_envelope: Mapping[str, object] | str | Path,
+    expected_protocol_hash: str,
+    analysis_mode: str | None = None,
+    stage: str | None = None,
+) -> dict[str, object]:
+    """Validate one checkpoint or one complete sealed same-step PIA roster."""
+
+    context, validated, analysis_code_commit = _validate_pia_checkpoint_sources(
+        sources,
+        protocol_envelope=protocol_envelope,
+        expected_protocol_hash=expected_protocol_hash,
+        analysis_mode=analysis_mode,
+        stage=stage,
+    )
+    result = {
+        "schema_version": 1,
+        "protocol_hash": context.protocol_hash,
+        **_analysis_provenance(context, analysis_code_commit),
+        "analysis_mode": analysis_mode or "single_checkpoint",
+        "stage": stage,
+        "scorer_contract": context.pia_contract,
+        "score_direction": "higher_is_member",
+        "targets": [
+            _score_pia_packet_pair(context, calibration, evaluation)
+            for calibration, evaluation in validated
+        ],
+    }
+    json.dumps(result, allow_nan=False)
+    return result
+
+
 def build_pia_score_packet(
     context: PiaProtocolContext,
     *,
@@ -741,7 +1299,11 @@ def calibrate_membership_threshold(scores: np.ndarray, labels: np.ndarray) -> fl
     """Select an observed calibration threshold by BA, FPR, then conservatism."""
 
     score_values, label_values = _validated_score_labels(scores, labels)
-    candidates = np.unique(score_values)[::-1]
+    observed_candidates = np.unique(score_values)[::-1]
+    all_negative_threshold = np.nextafter(observed_candidates[0], np.inf)
+    if not np.isfinite(all_negative_threshold):
+        raise ValueError("scores are too large to construct a finite all-negative threshold")
+    candidates = np.concatenate(([all_negative_threshold], observed_candidates))
     best: tuple[float, float, float] | None = None
     best_threshold = float(candidates[0])
     for threshold in candidates:

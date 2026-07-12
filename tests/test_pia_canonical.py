@@ -310,3 +310,17 @@ def test_threshold_depends_only_on_calibration_and_heldout_metrics_are_fixed_dir
             np.array([1, 0, 1, 0]),
             np.array([3, 10, 11, 12]),
         )
+
+
+def test_threshold_tie_includes_all_negative_candidate_and_minimizes_fpr() -> None:
+    scores = np.array([0.1, 0.2, 0.8, 0.9])
+    labels = np.array([1, 1, 0, 0])
+
+    threshold = pia.calibrate_membership_threshold(scores, labels)
+    applied = pia.apply_membership_threshold(scores, labels, threshold)
+
+    assert np.isfinite(threshold)
+    assert threshold > float(scores.max())
+    assert applied["evaluation_balanced_accuracy"] == pytest.approx(0.5)
+    assert applied["evaluation_fpr"] == 0.0
+    np.testing.assert_array_equal(applied["predictions"], np.zeros(4, dtype=np.int64))

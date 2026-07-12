@@ -1,7 +1,7 @@
 # Paper 1 Corrected Evidence Runbook
 
 > Date: 2026-07-11
-> Status: active protocol scaffold; long training remains gated by the checks below.
+> Status: active protocol repair; the first formal launch was stopped outcome-blind and must be restarted under a new sealed hash.
 
 This runbook supersedes `phase-g-runbook-2026-06-30.md`. It rebuilds the H1
 evidence contract after the previous local targets and resubstitution scorer
@@ -159,9 +159,24 @@ calibration rows and compute metrics only on the locked evaluation rows.
 - Do not report TPR at 0.1% FPR with 512 clean evaluation rows.
 - Bootstrap calibration and evaluation rows stratified by class; refit the
   attack inside every replicate and use paired row draws across checkpoints.
+- Use exactly 1,000 paired bootstrap draws for H1 and PIA. With eight targets
+  there are 28 pairwise comparisons; 200 plus-one draws cannot make the first
+  Holm-adjusted p-value smaller than 0.05.
 - Run at least 200 full label permutations with attack refitting.
 - PIA is the fixed validation attack after its positive-control gate. SecMI is
   exploratory unless frozen before any corrected outcome is inspected.
+
+## Outcome-Blind Restart Rule
+
+The first formal Stage 1 launch was stopped at step 22,000 on its first target
+after the post-training command audit found an incomplete canonical PIA bridge
+and missing complete-roster PIA statistics. No membership outcome was generated
+or viewed, and the remaining targets did not start.
+
+That partial target MUST NOT be resumed, scored, or relabeled. After the PIA
+repair is committed, rebuild the protocol with the same predeclared seeds and
+training matrix, use fresh corrected run labels, repeat the required dry-run and
+resource checks, and start every target from step zero.
 
 ## Interim Branch Rules
 

@@ -1,8 +1,8 @@
 # Paper 1: corrected training preflight
 
 - **Date**: 2026-07-12
-- **Status**: final
-- **Verdict**: Batch size 32 passes the corrected target training and exact-resume preflight, but long training remains blocked until a complete protocol-bound H1 + PIA evaluation is timed.
+- **Status**: superseded by outcome-blind evaluation-contract repair
+- **Verdict**: Batch size 32 passed the training and exact-resume resource gate, but the first formal matrix was stopped before outcomes when the canonical PIA post-training path was found incomplete.
 
 ## Scope
 
@@ -69,3 +69,33 @@ required gate is a complete evaluation benchmark on the 2,000-step checkpoint:
    a 10% failure buffer.
 
 No long training begins until that projection fits the available GPU window.
+
+## Outcome-blind formal-matrix abort
+
+The full H1 and canonical PIA timing projection subsequently fit the available
+window. A formal Stage 1 launch therefore began on the frozen target matrix.
+During an independent audit of the commands that would consume the completed
+100k checkpoints, two remaining P0 gaps were found before any membership score
+or metric was generated:
+
+1. the formal canonical PIA exporter accepted legacy `ema_model`/`net_model`
+   checkpoint keys but not the corrected trainer's `ema` key;
+2. the PIA path did not yet expose the predeclared complete-roster paired
+   bootstrap, global AUC-range test, and Holm family required for the paper
+   decision.
+
+The first target was stopped at step 22,000. Its final saved checkpoint receipt
+matched its on-disk SHA256; the other three targets had not started. This partial
+target is an infrastructure-abort artifact and MUST NOT be resumed or scored.
+
+Because no corrected outcome had been viewed, the protocol was reopened rather
+than patched after results. The repair adds corrected EMA loading, explicit
+analysis repository-state provenance, canonical target ordering, PIA
+confirmatory statistics, and 1,000 paired bootstrap draws for both H1 and PIA.
+The increase from 200 to 1,000 is required because 200 plus-one draws make Holm
+rejection mathematically unreachable for the 28 pairs in an eight-target set.
+
+Long training remains blocked until the repaired code is committed, a new
+protocol hash is sealed, and the necessary dry-run/resource preflight is
+repeated with fresh output labels. The aborted target and its protocol are never
+part of corrected evidence.

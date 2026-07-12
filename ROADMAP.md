@@ -26,6 +26,14 @@ not estimate a population-level seed variance or establish a mechanism.
 Current command runbook:
 `docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md`.
 
+The first formal corrected matrix was stopped outcome-blind at step 22,000 on
+its first target when the post-training audit found that canonical PIA could not
+load corrected `ema` checkpoints and lacked the frozen complete-roster
+statistics. No membership outcome was generated or viewed. The partial target
+is permanently excluded. The protocol is being refrozen after corrected EMA
+loading, repository-bound analysis provenance, canonical target ordering, and
+1,000-draw H1/PIA paired bootstrap are completed.
+
 ## P0: Freeze the Corrected Evidence Contract
 
 - [x] Train only on the fixed 25,000-row member subset.
@@ -39,7 +47,9 @@ Current command runbook:
 - [x] Add confirmatory H1 scoring that fits PCA/LR only on calibration rows and
   reports metrics only on evaluation rows.
 - [x] Add stratified paired bootstrap that refits the attack inside each
-  replicate, plus at least 200 full label-permutation refits.
+  replicate, plus at least 200 full label-permutation refits. Paired bootstrap
+  is now 1,000 draws so the eight-target Holm family is mathematically capable
+  of rejection.
 - [x] Repair PIA canonical and pass a synthetic-checkpoint positive-control gate
   before it is used as
   the validation attack. Historical E3 PIA outputs are not valid for this gate.

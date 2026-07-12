@@ -867,11 +867,11 @@ def test_bootstrap_refits_and_uses_shared_paired_draws(monkeypatch: pytest.Monke
 
     monkeypatch.setattr(h1, "_fit_h1_arrays", fit_spy)
 
-    with pytest.raises(ValueError, match="sealed protocol count 200"):
+    with pytest.raises(ValueError, match="sealed protocol count 1000"):
         bootstrap_h1_checkpoints(
             packets,
             **_protocol_kwargs(envelope),
-            n_bootstrap=199,
+            n_bootstrap=999,
             random_state=20260711,
             analysis_mode="cross_target_same_step",
             stage="stage1",
@@ -880,7 +880,7 @@ def test_bootstrap_refits_and_uses_shared_paired_draws(monkeypatch: pytest.Monke
         bootstrap_h1_checkpoints(
             packets,
             **_protocol_kwargs(envelope),
-            n_bootstrap=200,
+            n_bootstrap=1000,
             random_state=7,
             analysis_mode="cross_target_same_step",
             stage="stage1",
@@ -889,28 +889,28 @@ def test_bootstrap_refits_and_uses_shared_paired_draws(monkeypatch: pytest.Monke
     result = bootstrap_h1_checkpoints(
         packets,
         **_protocol_kwargs(envelope),
-        n_bootstrap=200,
+        n_bootstrap=1000,
         random_state=20260711,
         analysis_mode="cross_target_same_step",
         stage="stage1",
     )
 
-    assert len(fitted_calibration_features) == 804
-    for offset in range(4, 804, 4):
+    assert len(fitted_calibration_features) == 4004
+    for offset in range(4, 4004, 4):
         for target_offset in range(1, 4):
             np.testing.assert_array_equal(
                 fitted_calibration_features[offset],
                 fitted_calibration_features[offset + target_offset],
             )
-    assert len(result["paired_replicates"]) == 200
-    assert len(result["pairwise_deltas"][0]["samples"]) == 200
-    assert len(result["targets"][0]["auc_samples"]) == 200
+    assert len(result["paired_replicates"]) == 1000
+    assert len(result["pairwise_deltas"][0]["samples"]) == 1000
+    assert len(result["targets"][0]["auc_samples"]) == 1000
     assert "observed_auc" in result["targets"][0]
     assert "heterogeneity_summary" in result
     repeated = bootstrap_h1_checkpoints(
         packets,
         **_protocol_kwargs(envelope),
-        n_bootstrap=200,
+        n_bootstrap=1000,
         random_state=20260711,
         analysis_mode="cross_target_same_step",
         stage="stage1",
