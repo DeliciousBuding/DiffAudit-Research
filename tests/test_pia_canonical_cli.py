@@ -12,18 +12,59 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 
 from diffaudit.attacks import pia_adapter
+from diffaudit.attacks.pia_canonical import load_pia_protocol_context, load_pia_training_identity
 from diffaudit.cli import main
+from diffaudit.cli._parser import build_parser
 from diffaudit.config import load_audit_config
 from diffaudit.evidence.corrected_protocol import (
     build_paper1_corrected_contract,
     build_protocol_envelope,
 )
+from diffaudit.training.corrected_ddpm import build_training_config, canonical_training_config_hash
 
 RESEARCH_ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_CONFIG = RESEARCH_ROOT / "configs" / "attacks" / "pia-mainline-canonical.yaml"
 CODE_COMMIT = "c" * 40
 SPLIT_SHA256 = "d" * 64
 CHECKPOINT_SHA256 = "e" * 64
+
+
+def _training_manifest_payload(
+    envelope: dict[str, object], checkpoint_sha256: str = CHECKPOINT_SHA256
+) -> dict[str, object]:
+    contract = envelope["contract"]
+    roster = contract["h1"]["cross_target_rosters"]["stage1"]
+    seed = roster["seeds"][0]
+    step = roster["step"]
+    run_label = f"corrected-s{seed}"
+    config_hash = canonical_training_config_hash(build_training_config())
+    checkpoint_name = f"checkpoint-step{step:06d}.pt"
+    return {
+        "protocol_hash": envelope["protocol_hash"],
+        "split_sha256": SPLIT_SHA256,
+        "code_commit": CODE_COMMIT,
+        "seed": seed,
+        "run_label": run_label,
+        "step": step,
+        "training_config_hash": config_hash,
+        "checkpoint_receipts": {
+            checkpoint_name: {
+                "checkpoint_sha256": checkpoint_sha256,
+                "protocol_hash": envelope["protocol_hash"],
+                "code_commit": CODE_COMMIT,
+                "run_seed": seed,
+                "step": step,
+                "run_label": run_label,
+                "training_config_hash": config_hash,
+            }
+        },
+    }
+
+
+def _training_manifest_bytes(
+    envelope: dict[str, object], checkpoint_sha256: str = CHECKPOINT_SHA256
+) -> bytes:
+    return json.dumps(_training_manifest_payload(envelope, checkpoint_sha256)).encode("utf-8")
 
 
 def _canonical_noise_id(protocol_hash: str, dataset_index: int) -> str:
@@ -113,7 +154,11 @@ def _packet(
         "run_seed": seeds[0] if run_seed is None else run_seed,
         "step": step,
         "checkpoint_sha256": checkpoint_sha256,
-        "code_commit": CODE_COMMIT,
+        "training_manifest_sha256": hashlib.sha256(
+            _training_manifest_bytes(envelope, checkpoint_sha256)
+        ).hexdigest(),
+        "target_code_commit": CODE_COMMIT,
+        "scorer_code_commit": CODE_COMMIT,
         "split_sha256": SPLIT_SHA256,
         "protocol_hash": protocol_hash,
         "rows": rows,
@@ -143,6 +188,48 @@ def _write_packet_pair(
     )
 
 
+def _write_corrected_checkpoint_and_manifest(
+    tmp_path: Path,
+    envelope: dict[str, object],
+    *,
+    step: int = 100_000,
+    seed: int | None = None,
+) -> tuple[Path, Path, str, str]:
+    contract = envelope["contract"]
+    assert isinstance(contract, dict)
+    roster = contract["h1"]["cross_target_rosters"]["stage1"]
+    run_seed = roster["seeds"][0] if seed is None else seed
+    run_label = f"corrected-s{run_seed}"
+    config_hash = canonical_training_config_hash(build_training_config())
+    checkpoint = tmp_path / f"checkpoint-step{step:06d}.pt"
+    torch.save(
+        {
+            "model": {},
+            "ema": {},
+            "optim": {"state": {}, "param_groups": []},
+            "sched": {},
+            "step": step,
+            "metadata": {
+                "run_label": run_label,
+                "seed": run_seed,
+                "protocol_hash": envelope["protocol_hash"],
+                "checkpoint_step": step,
+                "split_sha256": SPLIT_SHA256,
+                "code_commit": CODE_COMMIT,
+                "training_config": build_training_config().to_dict(),
+                "training_config_hash": config_hash,
+                "environment": {},
+            },
+            "rng_state": {},
+        },
+        checkpoint,
+    )
+    checkpoint_sha = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+    manifest = tmp_path / "training-manifest.json"
+    manifest.write_bytes(_training_manifest_bytes(envelope, checkpoint_sha))
+    return checkpoint, manifest, checkpoint_sha, hashlib.sha256(manifest.read_bytes()).hexdigest()
+
+
 def _run_canonical_cli(
     workspace: Path,
     *,
@@ -151,8 +238,13 @@ def _run_canonical_cli(
     calibration_packet: Path | None,
     evaluation_packet: Path | None,
     checkpoint_sha256: str = CHECKPOINT_SHA256,
+    training_output_manifest: Path | None = None,
     extra_args: list[str] | None = None,
 ) -> int:
+    if training_output_manifest is None:
+        envelope = json.loads(protocol_manifest.read_text(encoding="utf-8"))
+        training_output_manifest = workspace.parent / "training-manifest.json"
+        training_output_manifest.write_bytes(_training_manifest_bytes(envelope, checkpoint_sha256))
     argv = [
         "run-pia-runtime-mainline",
         "--config",
@@ -163,10 +255,8 @@ def _run_canonical_cli(
         str(protocol_manifest),
         "--expected-protocol-hash",
         protocol_hash,
-        "--expected-checkpoint-sha256",
-        checkpoint_sha256,
-        "--stage",
-        "stage1",
+        "--training-output-manifest",
+        str(training_output_manifest),
     ]
     if calibration_packet is not None:
         argv.extend(["--calibration-score-packet", str(calibration_packet)])
@@ -235,7 +325,12 @@ def test_cli_rejects_a_missing_canonical_score_packet(
         (lambda packet: packet.update(run_seed=True), "run_seed"),
         (lambda packet: packet.update(step=123), "step"),
         (lambda packet: packet.update(checkpoint_sha256="f" * 64), "checkpoint"),
-        (lambda packet: packet.update(code_commit="f" * 40), "code_commit"),
+        (
+            lambda packet: packet.update(training_manifest_sha256="f" * 64),
+            "training_manifest_sha256",
+        ),
+        (lambda packet: packet.update(target_code_commit="f" * 40), "target_code_commit"),
+        (lambda packet: packet.update(scorer_code_commit="f" * 40), "scorer_code_commit"),
         (lambda packet: packet.update(split_sha256="f" * 64), "split_sha256"),
         (lambda packet: packet.update(protocol_hash="f" * 64), "protocol_hash"),
         (lambda packet: packet.update(extra="forbidden"), "fields"),
@@ -455,15 +550,20 @@ def test_canonical_exporter_packet_is_consumed_without_translation(
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],
 ) -> None:
-    checkpoint = tmp_path / "checkpoint.pt"
-    checkpoint.write_bytes(b"canonical-checkpoint")
-    checkpoint_sha256 = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+    checkpoint, training_manifest, checkpoint_sha256, training_manifest_sha256 = (
+        _write_corrected_checkpoint_and_manifest(tmp_path, protocol_envelope)
+    )
     contract = protocol_envelope["contract"]
     assert isinstance(contract, dict)
     manifest_rows = contract["evaluation"]["rows"]
     by_index = {int(row["dataset_index"]): row for row in manifest_rows}
 
     monkeypatch.setattr(pia_adapter, "validate_pia_workspace", lambda _path: {"status": "ready"})
+    monkeypatch.setattr(
+        pia_adapter,
+        "read_pia_repository_state",
+        lambda _root: (CODE_COMMIT, "", ()),
+    )
     monkeypatch.setattr(
         pia_adapter,
         "probe_pia_assets",
@@ -512,10 +612,7 @@ def test_canonical_exporter_packet_is_consumed_without_translation(
         "batch_size": 64,
         "protocol_manifest": protocol_manifest,
         "expected_protocol_hash": str(protocol_envelope["protocol_hash"]),
-        "expected_checkpoint_sha256": checkpoint_sha256,
-        "stage": "stage1",
-        "run_seed": contract["h1"]["cross_target_rosters"]["stage1"]["seeds"][0],
-        "step": 100_000,
+        "training_output_manifest": training_manifest,
         "packet_purpose": "corrected_evaluation",
     }
     calibration_result = pia_adapter.export_pia_packet_scores(
@@ -532,18 +629,151 @@ def test_canonical_exporter_packet_is_consumed_without_translation(
     )
     calibration_packet = Path(calibration_result["artifact_paths"]["score_packet"])
     evaluation_packet = Path(evaluation_result["artifact_paths"]["score_packet"])
+    exported = json.loads(calibration_packet.read_text(encoding="utf-8"))
+    assert exported["training_manifest_sha256"] == training_manifest_sha256
 
     assert (
         _run_canonical_cli(
             tmp_path / "evaluate-export",
             protocol_manifest=protocol_manifest,
             protocol_hash=str(protocol_envelope["protocol_hash"]),
-            checkpoint_sha256=checkpoint_sha256,
             calibration_packet=calibration_packet,
             evaluation_packet=evaluation_packet,
+            training_output_manifest=training_manifest,
         )
         == 0
     )
     summary = json.loads(capsys.readouterr().out)
     assert summary["status"] == "evaluation_complete"
     assert summary["metrics"]["evaluation_auc"] == pytest.approx(1.0)
+
+
+def test_canonical_cli_parser_accepts_training_manifest_without_identity_labels() -> None:
+    args = build_parser().parse_args(
+        [
+            "export-pia-packet-scores",
+            "--config",
+            str(CANONICAL_CONFIG),
+            "--workspace",
+            "out",
+            "--protocol-manifest",
+            "protocol.json",
+            "--expected-protocol-hash",
+            "a" * 64,
+            "--training-output-manifest",
+            "manifest.json",
+            "--packet-purpose",
+            "corrected_evaluation",
+            "--calibration-or-evaluation",
+            "calibration",
+        ]
+    )
+
+    assert args.training_output_manifest == "manifest.json"
+    assert args.stage is None
+    assert args.run_seed is None
+    assert args.step is None
+
+
+@pytest.mark.parametrize(
+    ("repository_state", "match"),
+    [
+        (("f" * 40, "", ()), "HEAD"),
+        ((CODE_COMMIT, " M src/diffaudit/attacks/pia.py", ()), "tracked worktree"),
+        ((CODE_COMMIT, "", ("src/injected.py",)), "untracked scorer code"),
+    ],
+)
+def test_canonical_exporter_rejects_repository_identity_before_writing_output(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    repository_state: tuple[str, str, tuple[str, ...]],
+    match: str,
+) -> None:
+    monkeypatch.setattr(pia_adapter, "read_pia_repository_state", lambda _root: repository_state)
+    workspace = tmp_path / "must-not-exist"
+
+    with pytest.raises(ValueError, match=match):
+        pia_adapter.export_pia_packet_scores(
+            load_audit_config(CANONICAL_CONFIG),
+            workspace,
+            protocol_manifest=protocol_manifest,
+            expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
+            training_output_manifest=tmp_path / "unused-manifest.json",
+            packet_purpose="corrected_evaluation",
+            calibration_or_evaluation="calibration",
+        )
+
+    assert not workspace.exists()
+
+
+@pytest.mark.parametrize(
+    "identity_args",
+    [
+        {"expected_checkpoint_sha256": CHECKPOINT_SHA256},
+        {"stage": "stage1"},
+        {"run_seed": 1},
+        {"step": 100_000},
+    ],
+)
+def test_canonical_exporter_rejects_cli_supplied_checkpoint_identity(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    identity_args: dict[str, object],
+) -> None:
+    with pytest.raises(ValueError, match="rejects CLI identity fields"):
+        pia_adapter.export_pia_packet_scores(
+            load_audit_config(CANONICAL_CONFIG),
+            tmp_path / "must-not-exist",
+            protocol_manifest=protocol_manifest,
+            expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
+            training_output_manifest=tmp_path / "unused-manifest.json",
+            packet_purpose="corrected_evaluation",
+            calibration_or_evaluation="calibration",
+            **identity_args,
+        )
+
+
+@pytest.mark.parametrize(
+    "mutation", ["arbitrary-bytes", "receipt-sha", "seed-relabel", "step-relabel"]
+)
+def test_checkpoint_and_training_receipt_identity_tampering_is_rejected(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    mutation: str,
+) -> None:
+    checkpoint, manifest, _, _ = _write_corrected_checkpoint_and_manifest(
+        tmp_path, protocol_envelope
+    )
+    if mutation == "arbitrary-bytes":
+        checkpoint.write_bytes(b"not-a-corrected-checkpoint")
+    elif mutation == "receipt-sha":
+        payload = json.loads(manifest.read_text(encoding="utf-8"))
+        receipt = next(iter(payload["checkpoint_receipts"].values()))
+        receipt["checkpoint_sha256"] = "f" * 64
+        manifest.write_text(json.dumps(payload), encoding="utf-8")
+    else:
+        payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
+        if mutation == "seed-relabel":
+            payload["metadata"]["seed"] = protocol_envelope["contract"]["h1"][
+                "cross_target_rosters"
+            ]["stage1"]["seeds"][1]
+        else:
+            payload["metadata"]["checkpoint_step"] = 200_000
+            payload["step"] = 200_000
+        torch.save(payload, checkpoint)
+
+    context = load_pia_protocol_context(
+        protocol_manifest,
+        expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
+    )
+    with pytest.raises(ValueError):
+        load_pia_training_identity(
+            context,
+            checkpoint_path=checkpoint,
+            training_output_manifest=manifest,
+            scorer_code_commit=CODE_COMMIT,
+        )

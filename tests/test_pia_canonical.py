@@ -199,10 +199,10 @@ def test_label_blind_loaded_checkpoint_clears_the_full_synthetic_control_gate(
 ) -> None:
     betas = torch.linspace(1e-4, 0.02, 1000, dtype=torch.float64)
     alpha_bar_t = torch.cumprod(1.0 - betas, dim=0)[200]
-    calibration_member = np.arange(1, 33)
-    calibration_nonmember = np.arange(101, 133)
-    evaluation_member = np.arange(201, 233)
-    evaluation_nonmember = np.arange(301, 333)
+    calibration_member = np.arange(1, 129)
+    calibration_nonmember = np.arange(129, 257)
+    evaluation_member = np.arange(257, 385)
+    evaluation_nonmember = np.arange(385, 513)
     member_bank = _rows(np.concatenate([calibration_member, evaluation_member]))
 
     positive_model = _save_and_load_memorization_checkpoint(
@@ -253,24 +253,21 @@ def test_label_blind_loaded_checkpoint_clears_the_full_synthetic_control_gate(
     assert result["metrics"]["evaluation_auc"] > result["metrics"]["permutation_auc_max"]
 
 
-def test_synthetic_checkpoint_control_fails_if_zero_signal_is_self_proving() -> None:
-    calibration_scores = np.array([0.9, 0.8, 0.2, 0.1])
-    calibration_labels = np.array([1, 1, 0, 0])
-    evaluation_scores = np.array([0.85, 0.75, 0.25, 0.15])
-    evaluation_labels = np.array([1, 1, 0, 0])
-    result = _api("aggregate_synthetic_checkpoint_positive_control")(
-        calibration_scores,
-        calibration_labels,
-        np.arange(4),
-        evaluation_scores,
-        evaluation_labels,
-        np.arange(10, 14),
-        evaluation_scores,
-        evaluation_labels,
-    )
+def test_synthetic_checkpoint_positive_control_rejects_32_per_class() -> None:
+    labels = _labels(32, 32)
+    scores = np.concatenate([np.ones(32), np.zeros(32)])
 
-    assert result["status"] == "synthetic_checkpoint_positive_control_failed"
-    assert result["checks"]["zero_signal_auc"] is False
+    with pytest.raises(ValueError, match="exactly 128 members and 128 nonmembers"):
+        _api("aggregate_synthetic_checkpoint_positive_control")(
+            scores,
+            labels,
+            np.arange(64),
+            scores,
+            labels,
+            np.arange(100, 164),
+            np.zeros(64),
+            labels,
+        )
 
 
 def test_threshold_depends_only_on_calibration_and_heldout_metrics_are_fixed_direction() -> None:

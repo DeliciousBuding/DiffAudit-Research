@@ -759,6 +759,7 @@ def build_parser() -> argparse.ArgumentParser:
     pia_packet_export_parser.add_argument("--provenance-status", default="workspace-verified")
     pia_packet_export_parser.add_argument("--protocol-manifest", default=None)
     pia_packet_export_parser.add_argument("--expected-protocol-hash", default=None)
+    pia_packet_export_parser.add_argument("--training-output-manifest", default=None)
     pia_packet_export_parser.add_argument("--expected-checkpoint-sha256", default=None)
     pia_packet_export_parser.add_argument("--stage", default=None)
     pia_packet_export_parser.add_argument("--run-seed", type=int, default=None)
@@ -1047,6 +1048,7 @@ def build_parser() -> argparse.ArgumentParser:
     pia_runtime_mainline_parser.add_argument("--evaluation-score-packet", default=None)
     pia_runtime_mainline_parser.add_argument("--protocol-manifest", default=None)
     pia_runtime_mainline_parser.add_argument("--expected-protocol-hash", default=None)
+    pia_runtime_mainline_parser.add_argument("--training-output-manifest", default=None)
     pia_runtime_mainline_parser.add_argument("--expected-checkpoint-sha256", default=None)
     pia_runtime_mainline_parser.add_argument("--stage", default=None)
     pia_runtime_mainline_parser.add_argument(

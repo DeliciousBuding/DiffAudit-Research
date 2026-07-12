@@ -555,6 +555,10 @@ def paper1_pia_contract() -> dict[str, object]:
             "forbidden_endpoint": "tpr_at_0.1pct_fpr",
         },
         "positive_control_gate": {
+            "calibration_member_count": 128,
+            "calibration_nonmember_count": 128,
+            "evaluation_member_count": 128,
+            "evaluation_nonmember_count": 128,
             "evaluation_auc_min": 0.95,
             "evaluation_balanced_accuracy_min": 0.90,
             "evaluation_fpr_max": 0.05,

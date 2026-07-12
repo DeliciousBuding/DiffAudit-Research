@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-import hashlib
 import importlib.util
 import json
 import re
 import shutil
+import subprocess
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -27,8 +27,10 @@ from diffaudit.attacks.pia import (
 )
 from diffaudit.attacks.pia_canonical import (
     build_pia_score_packet,
+    derive_pia_stage,
     evaluate_calibrated_packets,
     load_pia_protocol_context,
+    load_pia_training_identity,
     score_pia_canonical,
     validate_pia_score_packet_pair,
     write_pia_score_packet,
@@ -40,7 +42,47 @@ from diffaudit.config import (
     ReportConfig,
     TaskConfig,
 )
+from diffaudit.training.corrected_ddpm import read_repository_state, validate_repository_state
 from diffaudit.utils.metrics import auc_score
+
+RESEARCH_ROOT = Path(__file__).resolve().parents[3]
+
+
+def read_pia_repository_state(root: str | Path) -> tuple[str, str, tuple[str, ...]]:
+    head, tracked_status = read_repository_state(root)
+    status = subprocess.run(
+        [
+            "git",
+            "status",
+            "--short",
+            "--untracked-files=all",
+            "--",
+            "src",
+            "configs",
+            "training",
+            "scripts",
+        ],
+        cwd=Path(root),
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout
+    code_suffixes = {".py", ".yaml", ".yml", ".toml"}
+    untracked_code = tuple(
+        line[3:].strip()
+        for line in status.splitlines()
+        if line.startswith("?? ") and Path(line[3:].strip()).suffix.lower() in code_suffixes
+    )
+    return head, tracked_status, untracked_code
+
+
+def validate_pia_repository_state(
+    head: str, expected_code_commit: str, tracked_status: str, untracked_code: tuple[str, ...]
+) -> str:
+    validate_repository_state(head, expected_code_commit, tracked_status)
+    if untracked_code:
+        raise ValueError("repository has untracked scorer code or configuration")
+    return head
 
 
 @dataclass(frozen=True)
@@ -1174,6 +1216,7 @@ def export_pia_translated_alias_probe(
         member_split_root=split_root,
     )
     if asset_summary["status"] != "ready":
+        workspace_path.mkdir(parents=True, exist_ok=True)
         result = {
             "status": "blocked",
             "track": "gray-box",
@@ -1764,6 +1807,7 @@ def export_pia_packet_scores(
     provenance_status: str = "workspace-verified",
     protocol_manifest: str | Path | None = None,
     expected_protocol_hash: str | None = None,
+    training_output_manifest: str | Path | None = None,
     expected_checkpoint_sha256: str | None = None,
     stage: str | None = None,
     run_seed: int | None = None,
@@ -1775,8 +1819,40 @@ def export_pia_packet_scores(
         raise ValueError("PIA packet export is CPU-first and does not authorize GPU use.")
 
     workspace_path = Path(workspace)
-    workspace_path.mkdir(parents=True, exist_ok=True)
     plan = build_pia_plan(config)
+    if plan.variant != "canonical-ddpm-eq9":
+        workspace_path.mkdir(parents=True, exist_ok=True)
+    if plan.variant == "canonical-ddpm-eq9":
+        forbidden_identity = {
+            "expected_checkpoint_sha256": expected_checkpoint_sha256,
+            "stage": stage,
+            "run_seed": run_seed,
+            "step": step,
+        }
+        supplied_identity = [
+            name for name, value in forbidden_identity.items() if value is not None
+        ]
+        if supplied_identity:
+            raise ValueError(
+                "canonical PIA derives checkpoint identity and rejects CLI identity fields: "
+                + ", ".join(sorted(supplied_identity))
+            )
+        required = {
+            "protocol_manifest": protocol_manifest,
+            "expected_protocol_hash": expected_protocol_hash,
+            "training_output_manifest": training_output_manifest,
+            "packet_purpose": packet_purpose,
+            "calibration_or_evaluation": calibration_or_evaluation,
+        }
+        missing = [name for name, value in required.items() if value is None]
+        if missing:
+            raise ValueError("canonical PIA exporter requires: " + ", ".join(sorted(missing)))
+        assert expected_protocol_hash is not None
+        context = load_pia_protocol_context(
+            protocol_manifest, expected_protocol_hash=expected_protocol_hash
+        )
+        head, tracked_status, untracked_code = read_pia_repository_state(RESEARCH_ROOT)
+        validate_pia_repository_state(head, context.code_commit, tracked_status, untracked_code)
     validate_pia_workspace(repo_root)
     split_root = Path(member_split_root) if member_split_root else Path(repo_root) / "DDPM"
     asset_summary = probe_pia_assets(
@@ -1805,55 +1881,34 @@ def export_pia_packet_scores(
         )
         return result
 
-    components_module, model_module = load_pia_ddpm_modules(repo_root)
-    model, weights_key = load_pia_model(
-        asset_summary["paths"]["checkpoint"], model_module, device=device
-    )
-    attacker = _build_pia_attacker(
-        components_module=components_module,
-        model=model,
-        attacker_name=plan.attacker_name,
-        attack_num=plan.attack_num,
-        interval=plan.interval,
-        device=device,
-        variant=plan.variant,
-    )
-
     if plan.variant == "canonical-ddpm-eq9":
-        required = {
-            "protocol_manifest": protocol_manifest,
-            "expected_protocol_hash": expected_protocol_hash,
-            "expected_checkpoint_sha256": expected_checkpoint_sha256,
-            "stage": stage,
-            "run_seed": run_seed,
-            "step": step,
-            "packet_purpose": packet_purpose,
-            "calibration_or_evaluation": calibration_or_evaluation,
-        }
-        missing = [name for name, value in required.items() if value is None]
-        if missing:
-            raise ValueError("canonical PIA exporter requires: " + ", ".join(sorted(missing)))
         if calibration_or_evaluation not in {"calibration", "evaluation"}:
             raise ValueError("calibration_or_evaluation must be calibration or evaluation")
         if adaptive_query_repeats != 1:
             raise ValueError("canonical PIA has no adaptive or repeated random-noise queries")
-        assert expected_protocol_hash is not None
-        assert expected_checkpoint_sha256 is not None
-        assert stage is not None
-        assert run_seed is not None
-        assert step is not None
         assert packet_purpose is not None
-        context = load_pia_protocol_context(
-            protocol_manifest,
-            expected_protocol_hash=expected_protocol_hash,
-        )
+        assert training_output_manifest is not None
         if plan.dataset.upper() != context.dataset_id.upper():
             raise ValueError("canonical PIA config dataset does not match the sealed protocol")
-        actual_checkpoint_sha256 = hashlib.sha256(
-            Path(asset_summary["paths"]["checkpoint"]).read_bytes()
-        ).hexdigest()
-        if actual_checkpoint_sha256 != expected_checkpoint_sha256:
-            raise ValueError("checkpoint file does not match expected_checkpoint_sha256")
+        training_identity = load_pia_training_identity(
+            context,
+            checkpoint_path=asset_summary["paths"]["checkpoint"],
+            training_output_manifest=training_output_manifest,
+            scorer_code_commit=head,
+        )
+        components_module, model_module = load_pia_ddpm_modules(repo_root)
+        model, weights_key = load_pia_model(
+            asset_summary["paths"]["checkpoint"], model_module, device=device
+        )
+        attacker = _build_pia_attacker(
+            components_module=components_module,
+            model=model,
+            attacker_name=plan.attacker_name,
+            attack_num=plan.attack_num,
+            interval=plan.interval,
+            device=device,
+            variant=plan.variant,
+        )
         packet_indices = list(context.role_indices[calibration_or_evaluation])
         loader = _build_pia_packet_loader(
             dataset=plan.dataset,
@@ -1884,11 +1939,10 @@ def export_pia_packet_scores(
             calibration_or_evaluation=calibration_or_evaluation,
             scores_by_index=scores_by_index,
             packet_purpose=packet_purpose,
-            stage=stage,
-            run_seed=run_seed,
-            step=step,
-            checkpoint_sha256=actual_checkpoint_sha256,
+            training_identity=training_identity,
+            training_output_manifest=training_output_manifest,
         )
+        workspace_path.mkdir(parents=True, exist_ok=True)
         packet_path = write_pia_score_packet(workspace_path / "score-packet.json", packet)
         result = {
             "status": "score_packet_exported",
@@ -1897,9 +1951,9 @@ def export_pia_packet_scores(
             "mode": "canonical_score_packet_export",
             "packet_purpose": packet_purpose,
             "calibration_or_evaluation": calibration_or_evaluation,
-            "stage": stage,
-            "run_seed": run_seed,
-            "step": step,
+            "stage": training_identity.stage,
+            "run_seed": training_identity.run_seed,
+            "step": training_identity.step,
             "row_count": len(packet_indices),
             "artifact_paths": {
                 "summary": str(workspace_path / "summary.json"),
@@ -1911,6 +1965,21 @@ def export_pia_packet_scores(
             encoding="utf-8",
         )
         return result
+
+    components_module, model_module = load_pia_ddpm_modules(repo_root)
+    model, weights_key = load_pia_model(
+        asset_summary["paths"]["checkpoint"], model_module, device=device
+    )
+    attacker = _build_pia_attacker(
+        components_module=components_module,
+        model=model,
+        attacker_name=plan.attacker_name,
+        attack_num=plan.attack_num,
+        interval=plan.interval,
+        device=device,
+        variant=plan.variant,
+    )
+
 
     split_payload = np.load(asset_summary["paths"]["member_split"])
     member_all = split_payload["mia_train_idxs"].tolist()
@@ -2203,6 +2272,7 @@ def run_pia_runtime_mainline(
     evaluation_score_packet: str | Path | None = None,
     protocol_manifest: str | Path | None = None,
     expected_protocol_hash: str | None = None,
+    training_output_manifest: str | Path | None = None,
     expected_checkpoint_sha256: str | None = None,
     stage: str | None = None,
 ) -> dict[str, Any]:
@@ -2232,11 +2302,14 @@ def run_pia_runtime_mainline(
             )
         if calibration_score_packet is None or evaluation_score_packet is None:
             raise ValueError("canonical PIA requires both calibration and evaluation score packets")
+        if expected_checkpoint_sha256 is not None or stage is not None:
+            raise ValueError(
+                "canonical PIA evaluator derives identity and rejects CLI identity fields"
+            )
         required_trust = {
             "protocol_manifest": protocol_manifest,
             "expected_protocol_hash": expected_protocol_hash,
-            "expected_checkpoint_sha256": expected_checkpoint_sha256,
-            "stage": stage,
+            "training_output_manifest": training_output_manifest,
         }
         missing_trust = [name for name, value in required_trust.items() if value is None]
         if missing_trust:
@@ -2245,8 +2318,7 @@ def run_pia_runtime_mainline(
                 + ", ".join(sorted(missing_trust))
             )
         assert expected_protocol_hash is not None
-        assert expected_checkpoint_sha256 is not None
-        assert stage is not None
+        assert training_output_manifest is not None
         context = load_pia_protocol_context(
             protocol_manifest,
             expected_protocol_hash=expected_protocol_hash,
@@ -2255,8 +2327,7 @@ def run_pia_runtime_mainline(
             calibration_score_packet,
             evaluation_score_packet,
             context=context,
-            stage=stage,
-            expected_checkpoint_sha256=expected_checkpoint_sha256,
+            training_output_manifest=training_output_manifest,
         )
         metrics = evaluate_calibrated_packets(
             calibration.scores,
@@ -2295,7 +2366,11 @@ def run_pia_runtime_mainline(
             "variant": "pia",
             "mode": "canonical_pia_evaluation",
             "packet_purpose": packet_purpose,
-            "stage": stage,
+            "stage": derive_pia_stage(
+                context,
+                run_seed=calibration.provenance["run_seed"],
+                step=calibration.provenance["step"],
+            ),
             "complete_positive_control_gate": complete_positive_control_gate,
             "metrics": {key: value for key, value in metrics.items() if key != "predictions"},
             "target_provenance": calibration.provenance,

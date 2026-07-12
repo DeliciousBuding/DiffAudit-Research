@@ -391,6 +391,18 @@ def test_output_manifest_binds_training_config_hash_and_environment(
     assert manifest["training_config"] == config.to_dict()
     assert manifest["training_config_hash"] == canonical_training_config_hash(config)
     assert manifest["environment"] == environment
+    receipt = manifest["checkpoint_receipts"]["checkpoint-step000001.pt"]
+    assert receipt == {
+        "checkpoint_sha256": hashlib.sha256(
+            (tmp_path / "checkpoint-step000001.pt").read_bytes()
+        ).hexdigest(),
+        "protocol_hash": contract.protocol_hash,
+        "code_commit": contract.code_commit,
+        "run_seed": contract.seed,
+        "step": 1,
+        "run_label": contract.run_label,
+        "training_config_hash": contract.training_config_hash,
+    }
 
 
 def test_runbook_uses_only_corrected_entrypoint_with_required_identity_arguments() -> None:

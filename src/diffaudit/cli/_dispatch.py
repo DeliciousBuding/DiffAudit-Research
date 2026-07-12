@@ -701,6 +701,7 @@ def _handle_pia_runtime(args: Any) -> int:
             provenance_status=args.provenance_status,
             protocol_manifest=args.protocol_manifest,
             expected_protocol_hash=args.expected_protocol_hash,
+            training_output_manifest=args.training_output_manifest,
             expected_checkpoint_sha256=args.expected_checkpoint_sha256,
             stage=args.stage,
             run_seed=args.run_seed,
@@ -952,6 +953,7 @@ def _handle_secmi_pia_smokes(args: Any) -> int:
             evaluation_score_packet=args.evaluation_score_packet,
             protocol_manifest=args.protocol_manifest,
             expected_protocol_hash=args.expected_protocol_hash,
+            training_output_manifest=args.training_output_manifest,
             expected_checkpoint_sha256=args.expected_checkpoint_sha256,
             stage=args.stage,
         )

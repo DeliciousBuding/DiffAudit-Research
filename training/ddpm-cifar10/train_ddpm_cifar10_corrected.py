@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import os
 import random
@@ -160,6 +161,23 @@ def _checkpoint(
         environment=environment,
     )
     training_config_hash = canonical_training_config_hash(training_config)
+    checkpoint_sha256 = hashlib.sha256(path.read_bytes()).hexdigest()
+    manifest_path = output_dir / "manifest.json"
+    checkpoint_receipts: dict[str, object] = {}
+    if manifest_path.exists():
+        previous_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        previous_receipts = previous_manifest.get("checkpoint_receipts", {})
+        if isinstance(previous_receipts, dict):
+            checkpoint_receipts.update(previous_receipts)
+    checkpoint_receipts[path.name] = {
+        "checkpoint_sha256": checkpoint_sha256,
+        "protocol_hash": contract.protocol_hash,
+        "code_commit": contract.code_commit,
+        "run_seed": contract.seed,
+        "step": step,
+        "run_label": contract.run_label,
+        "training_config_hash": training_config_hash,
+    }
     _atomic_json(
         output_dir / "training-state.json",
         {
@@ -169,7 +187,7 @@ def _checkpoint(
         },
     )
     _atomic_json(
-        output_dir / "manifest.json",
+        manifest_path,
         {
             **_identity(contract, step),
             "checkpoint": path.name,
@@ -178,6 +196,7 @@ def _checkpoint(
             "training_config": training_config.to_dict(),
             "training_config_hash": training_config_hash,
             "environment": environment,
+            "checkpoint_receipts": checkpoint_receipts,
         },
     )
     return path
