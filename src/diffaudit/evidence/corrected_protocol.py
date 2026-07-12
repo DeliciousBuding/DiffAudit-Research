@@ -522,33 +522,55 @@ def _paper1_h1_contract() -> dict[str, object]:
     }
 
 
-def _paper1_pia_contract() -> dict[str, object]:
+def paper1_pia_contract() -> dict[str, object]:
+    """Return the fixed canonical PIA packet, evaluation, and control contract."""
+
     return {
-        "variant": "canonical-ddpm-eq9",
-        "attack_name": "PIA",
+        "packet_schema_version": 1,
+        "attack": "pia",
+        "variant": "pia",
         "excluded_variant": "PIAN",
         "timestep": 200,
         "lp_order": 4,
-        "score_form": "negative_residual_norm",
+        "score_form": "negative_lp_norm",
         "score_direction": "higher_is_member",
         "input_range": [-1.0, 1.0],
         "query_timesteps": [0, 200],
         "query_count_per_batch": 2,
         "normalization": "per_row_vector_lp",
         "beta_semantics": "linear_1000_steps_inclusive_0.0001_to_0.02",
+        "packet_purposes": ["corrected_evaluation", "cpu_positive_control"],
+        "noise_id": {
+            "random_noise": False,
+            "derivation": "sha256_canonical_json_v1",
+            "draw": "pia-e0",
+            "fields": ["protocol_hash", "dataset_index", "timestep", "draw"],
+        },
         "threshold_calibration": (
             "calibration_only_maximize_balanced_accuracy_then_minimize_fpr_then_highest_threshold"
         ),
+        "reporting": {
+            "primary_endpoint": "held_out_fixed_direction_auc",
+            "secondary_endpoint": "tpr_at_1pct_fpr_with_wilson_95_ci",
+            "forbidden_endpoint": "tpr_at_0.1pct_fpr",
+        },
         "positive_control_gate": {
             "evaluation_auc_min": 0.95,
             "evaluation_balanced_accuracy_min": 0.90,
             "evaluation_fpr_max": 0.05,
             "negative_score_auc_max": 0.05,
+            "zero_signal_auc_range": [0.45, 0.55],
             "permutations": 200,
+            "permutation_random_state": 20260712,
             "null_auc_mean_range": [0.45, 0.55],
+            "positive_auc_exceeds_all_permutations": True,
         },
-        "validation_status": "cpu_positive_control_required",
+        "validation_status": "synthetic_checkpoint_positive_control_required",
     }
+
+
+def _paper1_pia_contract() -> dict[str, object]:
+    return paper1_pia_contract()
 
 
 def _paper1_common_noise_contract() -> dict[str, object]:
@@ -594,6 +616,80 @@ def _paper1_confirmatory_heterogeneity() -> dict[str, object]:
         "pairwise_correction": "holm",
         "report_all_pairwise_deltas": True,
     }
+
+
+def validate_paper1_protocol_envelope(
+    source: Mapping[str, object] | str | Path,
+    *,
+    expected_protocol_hash: str,
+) -> dict[str, object]:
+    """Validate the complete Paper 1 envelope against an external trusted hash."""
+
+    if (
+        not isinstance(expected_protocol_hash, str)
+        or _SHA256_PATTERN.fullmatch(expected_protocol_hash) is None
+    ):
+        raise ValueError("expected_protocol_hash must be 64 lowercase hex characters")
+    loaded = load_protocol_envelope(source)
+    if loaded["protocol_hash"] != expected_protocol_hash:
+        raise ValueError("sealed protocol hash does not match trusted expected_protocol_hash")
+    contract = loaded["contract"]
+    if not isinstance(contract, dict) or set(contract) != _PAPER1_CONTRACT_FIELDS:
+        raise ValueError("Paper 1 contract top-level fields do not match the fixed shape")
+    _require_exact_json_value(
+        "protocol_namespace", contract["protocol_namespace"], _PAPER1_PROTOCOL_NAMESPACE
+    )
+
+    dataset = contract["dataset"]
+    if not isinstance(dataset, dict) or set(dataset) != {"name", "size", "split"}:
+        raise ValueError("Paper 1 dataset does not match the fixed contract")
+    _require_exact_json_value("dataset.name", dataset["name"], "CIFAR10")
+    _require_exact_json_value("dataset.size", dataset["size"], 50_000)
+    split = dataset["split"]
+    if not isinstance(split, dict) or set(split) != {
+        "filename",
+        "sha256",
+        "member_count",
+        "nonmember_count",
+    }:
+        raise ValueError("Paper 1 dataset split does not match the fixed contract")
+    _validate_split_filename(split["filename"])
+    if not isinstance(split["sha256"], str) or _SHA256_PATTERN.fullmatch(split["sha256"]) is None:
+        raise ValueError("Paper 1 dataset split sha256 must be 64 lowercase hex characters")
+    _require_exact_json_value("dataset.split.member_count", split["member_count"], 25_000)
+    _require_exact_json_value("dataset.split.nonmember_count", split["nonmember_count"], 25_000)
+
+    expected_training = {
+        "seeds": list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)),
+        "batch_size": 64,
+        "interim_steps": 100_000,
+        "mature_steps": 200_000,
+        "deterministic": True,
+        "member_only": True,
+        "training_config": build_training_config().to_dict(),
+        "training_config_hash": canonical_training_config_hash(build_training_config()),
+    }
+    _require_exact_json_value("training", contract["training"], expected_training)
+    evaluation = contract["evaluation"]
+    if not isinstance(evaluation, dict) or set(evaluation) != {"rows"}:
+        raise ValueError("Paper 1 evaluation does not match the fixed contract")
+    _validate_paper1_rows(evaluation["rows"])
+
+    _require_exact_json_value("h1", contract["h1"], _paper1_h1_contract())
+    _require_exact_json_value("pia", contract["pia"], paper1_pia_contract())
+    _require_exact_json_value(
+        "common_noise", contract["common_noise"], _paper1_common_noise_contract()
+    )
+    _require_exact_json_value("branch_rules", contract["branch_rules"], _paper1_branch_rules())
+    _require_exact_json_value(
+        "confirmatory_heterogeneity",
+        contract["confirmatory_heterogeneity"],
+        _paper1_confirmatory_heterogeneity(),
+    )
+    code_commit = contract["code_commit"]
+    if not isinstance(code_commit, str) or _GIT_COMMIT_PATTERN.fullmatch(code_commit) is None:
+        raise ValueError("Paper 1 code_commit must be 40 lowercase hex characters")
+    return loaded
 
 
 def _validate_split_filename(split_filename: object) -> str:

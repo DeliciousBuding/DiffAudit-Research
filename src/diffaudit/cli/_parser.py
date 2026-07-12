@@ -757,6 +757,18 @@ def build_parser() -> argparse.ArgumentParser:
     pia_packet_export_parser.add_argument("--batch-size", type=int, default=4)
     pia_packet_export_parser.add_argument("--adaptive-query-repeats", type=int, default=1)
     pia_packet_export_parser.add_argument("--provenance-status", default="workspace-verified")
+    pia_packet_export_parser.add_argument("--protocol-manifest", default=None)
+    pia_packet_export_parser.add_argument("--expected-protocol-hash", default=None)
+    pia_packet_export_parser.add_argument("--expected-checkpoint-sha256", default=None)
+    pia_packet_export_parser.add_argument("--stage", default=None)
+    pia_packet_export_parser.add_argument("--run-seed", type=int, default=None)
+    pia_packet_export_parser.add_argument("--step", type=int, default=None)
+    pia_packet_export_parser.add_argument("--packet-purpose", default=None)
+    pia_packet_export_parser.add_argument(
+        "--calibration-or-evaluation",
+        choices=["calibration", "evaluation"],
+        default=None,
+    )
 
     sima_packet_export_parser = subparsers.add_parser(
         "export-sima-packet-scores",
@@ -1033,6 +1045,10 @@ def build_parser() -> argparse.ArgumentParser:
     pia_runtime_mainline_parser.add_argument("--config", required=True, help="path to audit yaml")
     pia_runtime_mainline_parser.add_argument("--calibration-score-packet", default=None)
     pia_runtime_mainline_parser.add_argument("--evaluation-score-packet", default=None)
+    pia_runtime_mainline_parser.add_argument("--protocol-manifest", default=None)
+    pia_runtime_mainline_parser.add_argument("--expected-protocol-hash", default=None)
+    pia_runtime_mainline_parser.add_argument("--expected-checkpoint-sha256", default=None)
+    pia_runtime_mainline_parser.add_argument("--stage", default=None)
     pia_runtime_mainline_parser.add_argument(
         "--workspace",
         required=True,
@@ -1040,17 +1056,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     pia_runtime_mainline_parser.add_argument(
         "--repo-root",
-        default="external/PIA",
+        default=None,
         help="path to local PIA repository root",
     )
     pia_runtime_mainline_parser.add_argument(
         "--member-split-root",
-        default="external/PIA/DDPM",
+        default=None,
         help="path to PIA DDPM member split npz files",
     )
     pia_runtime_mainline_parser.add_argument(
         "--device",
-        default="cpu",
+        default=None,
         help="device used for the runtime mainline run",
     )
     pia_runtime_mainline_parser.add_argument(
@@ -1062,7 +1078,7 @@ def build_parser() -> argparse.ArgumentParser:
     pia_runtime_mainline_parser.add_argument(
         "--batch-size",
         type=int,
-        default=8,
+        default=None,
         help="batch size used while scoring member and non-member batches",
     )
     pia_runtime_mainline_parser.add_argument(
@@ -1072,7 +1088,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     pia_runtime_mainline_parser.add_argument(
         "--dropout-activation-schedule",
-        default="off",
+        default=None,
         choices=["off", "all_steps", "late_steps_only"],
         help=(
             "when stochastic dropout is enabled, choose whether it stays on for all attack steps "
@@ -1082,7 +1098,7 @@ def build_parser() -> argparse.ArgumentParser:
     pia_runtime_mainline_parser.add_argument(
         "--adaptive-query-repeats",
         type=int,
-        default=1,
+        default=None,
         help=(
             "repeat the same score query this many times and aggregate by mean for adaptive "
             "attacker review"
@@ -1104,7 +1120,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     pia_runtime_mainline_parser.add_argument(
         "--provenance-status",
-        default="source-retained-unverified",
+        default=None,
         help="provenance label recorded in the emitted summary",
     )
 

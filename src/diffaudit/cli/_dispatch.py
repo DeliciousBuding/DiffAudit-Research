@@ -699,9 +699,17 @@ def _handle_pia_runtime(args: Any) -> int:
             batch_size=args.batch_size,
             adaptive_query_repeats=args.adaptive_query_repeats,
             provenance_status=args.provenance_status,
+            protocol_manifest=args.protocol_manifest,
+            expected_protocol_hash=args.expected_protocol_hash,
+            expected_checkpoint_sha256=args.expected_checkpoint_sha256,
+            stage=args.stage,
+            run_seed=args.run_seed,
+            step=args.step,
+            packet_purpose=args.packet_purpose,
+            calibration_or_evaluation=args.calibration_or_evaluation,
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
-        return 0 if payload["status"] == "ready" else 1
+        return 0 if payload["status"] in {"ready", "score_packet_exported"} else 1
 
     if args.command == "export-sima-packet-scores":
         from diffaudit.attacks.sima_adapter import export_sima_packet_scores
@@ -942,9 +950,17 @@ def _handle_secmi_pia_smokes(args: Any) -> int:
             provenance_status=args.provenance_status,
             calibration_score_packet=args.calibration_score_packet,
             evaluation_score_packet=args.evaluation_score_packet,
+            protocol_manifest=args.protocol_manifest,
+            expected_protocol_hash=args.expected_protocol_hash,
+            expected_checkpoint_sha256=args.expected_checkpoint_sha256,
+            stage=args.stage,
         )
         print(json.dumps(payload, indent=2, ensure_ascii=True))
-        return 0 if payload["status"] == "ready" else 1
+        return (
+            0
+            if payload["status"] in {"ready", "evaluation_complete", "cpu_positive_control_partial"}
+            else 1
+        )
 
     raise RuntimeError(f"Unsupported secmi_pia_smokes command: {args.command}")
 

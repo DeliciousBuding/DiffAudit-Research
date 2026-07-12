@@ -69,7 +69,7 @@ def build_pia_plan(config: AuditConfig) -> PiaPlan:
             "attacker_name": "PIA",
             "timestep": 200,
             "lp_order": 4,
-            "score_form": "negative_residual_norm",
+            "score_form": "negative_lp_norm",
             "score_direction": "higher_is_member",
             "input_range": [-1.0, 1.0],
             "query_timesteps": [0, 200],

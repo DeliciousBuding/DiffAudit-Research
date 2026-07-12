@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import re
@@ -24,7 +25,14 @@ from diffaudit.attacks.pia import (
     probe_pia_assets,
     validate_pia_workspace,
 )
-from diffaudit.attacks.pia_canonical import evaluate_calibrated_packets, score_pia_canonical
+from diffaudit.attacks.pia_canonical import (
+    build_pia_score_packet,
+    evaluate_calibrated_packets,
+    load_pia_protocol_context,
+    score_pia_canonical,
+    validate_pia_score_packet_pair,
+    write_pia_score_packet,
+)
 from diffaudit.config import (
     AssetConfig,
     AttackConfig,
@@ -32,6 +40,7 @@ from diffaudit.config import (
     ReportConfig,
     TaskConfig,
 )
+from diffaudit.utils.metrics import auc_score
 
 
 @dataclass(frozen=True)
@@ -1753,6 +1762,14 @@ def export_pia_packet_scores(
     batch_size: int = 4,
     adaptive_query_repeats: int = 1,
     provenance_status: str = "workspace-verified",
+    protocol_manifest: str | Path | None = None,
+    expected_protocol_hash: str | None = None,
+    expected_checkpoint_sha256: str | None = None,
+    stage: str | None = None,
+    run_seed: int | None = None,
+    step: int | None = None,
+    packet_purpose: str | None = None,
+    calibration_or_evaluation: str | None = None,
 ) -> dict[str, Any]:
     if device.lower() != "cpu":
         raise ValueError("PIA packet export is CPU-first and does not authorize GPU use.")
@@ -1801,6 +1818,99 @@ def export_pia_packet_scores(
         device=device,
         variant=plan.variant,
     )
+
+    if plan.variant == "canonical-ddpm-eq9":
+        required = {
+            "protocol_manifest": protocol_manifest,
+            "expected_protocol_hash": expected_protocol_hash,
+            "expected_checkpoint_sha256": expected_checkpoint_sha256,
+            "stage": stage,
+            "run_seed": run_seed,
+            "step": step,
+            "packet_purpose": packet_purpose,
+            "calibration_or_evaluation": calibration_or_evaluation,
+        }
+        missing = [name for name, value in required.items() if value is None]
+        if missing:
+            raise ValueError("canonical PIA exporter requires: " + ", ".join(sorted(missing)))
+        if calibration_or_evaluation not in {"calibration", "evaluation"}:
+            raise ValueError("calibration_or_evaluation must be calibration or evaluation")
+        if adaptive_query_repeats != 1:
+            raise ValueError("canonical PIA has no adaptive or repeated random-noise queries")
+        assert expected_protocol_hash is not None
+        assert expected_checkpoint_sha256 is not None
+        assert stage is not None
+        assert run_seed is not None
+        assert step is not None
+        assert packet_purpose is not None
+        context = load_pia_protocol_context(
+            protocol_manifest,
+            expected_protocol_hash=expected_protocol_hash,
+        )
+        if plan.dataset.upper() != context.dataset_id.upper():
+            raise ValueError("canonical PIA config dataset does not match the sealed protocol")
+        actual_checkpoint_sha256 = hashlib.sha256(
+            Path(asset_summary["paths"]["checkpoint"]).read_bytes()
+        ).hexdigest()
+        if actual_checkpoint_sha256 != expected_checkpoint_sha256:
+            raise ValueError("checkpoint file does not match expected_checkpoint_sha256")
+        packet_indices = list(context.role_indices[calibration_or_evaluation])
+        loader = _build_pia_packet_loader(
+            dataset=plan.dataset,
+            dataset_dir=asset_summary["paths"]["dataset_dir"],
+            packet_indices=packet_indices,
+            batch_size=batch_size,
+        )
+        observed_classes = [
+            int(class_id)
+            for _, batch_classes in loader
+            for class_id in batch_classes.detach().cpu().tolist()
+        ]
+        expected_classes = [context.manifest_rows[index][1] for index in packet_indices]
+        if observed_classes != expected_classes:
+            raise ValueError("dataset classes do not match the sealed protocol manifest")
+        scores, _, _ = _score_loader(
+            attacker,
+            loader,
+            device=device,
+            adaptive_query_repeats=1,
+        )
+        scores_by_index = {
+            dataset_index: float(score)
+            for dataset_index, score in zip(packet_indices, scores.tolist(), strict=True)
+        }
+        packet = build_pia_score_packet(
+            context,
+            calibration_or_evaluation=calibration_or_evaluation,
+            scores_by_index=scores_by_index,
+            packet_purpose=packet_purpose,
+            stage=stage,
+            run_seed=run_seed,
+            step=step,
+            checkpoint_sha256=actual_checkpoint_sha256,
+        )
+        packet_path = write_pia_score_packet(workspace_path / "score-packet.json", packet)
+        result = {
+            "status": "score_packet_exported",
+            "method": "pia",
+            "variant": "pia",
+            "mode": "canonical_score_packet_export",
+            "packet_purpose": packet_purpose,
+            "calibration_or_evaluation": calibration_or_evaluation,
+            "stage": stage,
+            "run_seed": run_seed,
+            "step": step,
+            "row_count": len(packet_indices),
+            "artifact_paths": {
+                "summary": str(workspace_path / "summary.json"),
+                "score_packet": str(packet_path),
+            },
+        }
+        (workspace_path / "summary.json").write_text(
+            json.dumps(result, indent=2, ensure_ascii=True, allow_nan=False),
+            encoding="utf-8",
+        )
+        return result
 
     split_payload = np.load(asset_summary["paths"]["member_split"])
     member_all = split_payload["mia_train_idxs"].tolist()
@@ -2073,96 +2183,154 @@ def run_pia_runtime_smoke(
     return result
 
 
-def _load_canonical_score_packet(path: str | Path, expected_split: str) -> dict[str, np.ndarray]:
-    payload = json.loads(Path(path).read_text(encoding="utf-8"))
-    expected_fields = {
-        "schema",
-        "variant",
-        "timestep",
-        "lp_order",
-        "score_direction",
-        "split",
-        "rows",
-    }
-    if not isinstance(payload, dict) or set(payload) != expected_fields:
-        raise ValueError("canonical PIA score packet fields must be exact")
-    expected = {
-        "schema": "diffaudit.pia-score-packet.v1",
-        "variant": "canonical-ddpm-eq9",
-        "timestep": 200,
-        "lp_order": 4,
-        "score_direction": "higher_is_member",
-        "split": expected_split,
-    }
-    for key, value in expected.items():
-        if type(payload[key]) is not type(value) or payload[key] != value:
-            raise ValueError(f"canonical PIA score packet drift: {key}")
-    rows = payload["rows"]
-    if not isinstance(rows, list) or not rows:
-        raise ValueError("canonical PIA score packet rows must be non-empty")
-    if any(
-        not isinstance(row, dict) or set(row) != {"dataset_index", "label", "score"} for row in rows
-    ):
-        raise ValueError("canonical PIA score packet row fields must be exact")
-    indices = np.asarray([row["dataset_index"] for row in rows])
-    labels = np.asarray([row["label"] for row in rows])
-    scores = np.asarray([row["score"] for row in rows], dtype=float)
-    if any(type(value) is not int for value in indices.tolist() + labels.tolist()):
-        raise ValueError("canonical PIA indices and labels must be integers")
-    if set(labels.tolist()) != {0, 1} or len(set(indices.tolist())) != len(indices):
-        raise ValueError("canonical PIA packet requires unique indices and both binary labels")
-    if not np.isfinite(scores).all():
-        raise ValueError("canonical PIA scores must be finite")
-    return {"indices": indices, "labels": labels, "scores": scores}
-
-
 def run_pia_runtime_mainline(
     config: AuditConfig,
     workspace: str | Path,
-    repo_root: str | Path = "external/PIA",
+    repo_root: str | Path | None = None,
     member_split_root: str | Path | None = None,
-    device: str = "cpu",
+    device: str | None = None,
     max_samples: int | None = None,
-    batch_size: int = 8,
+    batch_size: int | None = None,
     stochastic_dropout_defense: bool = False,
-    dropout_activation_schedule: str = "off",
-    epsilon_output_noise_std: float = 0.0,
+    dropout_activation_schedule: str | None = None,
+    epsilon_output_noise_std: float | None = None,
     epsilon_precision_bins: int | None = None,
-    input_gaussian_blur_sigma: float = 0.0,
-    adaptive_query_repeats: int = 1,
+    input_gaussian_blur_sigma: float | None = None,
+    adaptive_query_repeats: int | None = None,
     late_step_threshold: int | None = None,
-    provenance_status: str = "source-retained-unverified",
+    provenance_status: str | None = None,
     calibration_score_packet: str | Path | None = None,
     evaluation_score_packet: str | Path | None = None,
+    protocol_manifest: str | Path | None = None,
+    expected_protocol_hash: str | None = None,
+    expected_checkpoint_sha256: str | None = None,
+    stage: str | None = None,
 ) -> dict[str, Any]:
     plan = build_pia_plan(config)
     if plan.variant == "canonical-ddpm-eq9":
+        legacy_values = {
+            "repo_root": repo_root,
+            "member_split_root": member_split_root,
+            "device": device,
+            "max_samples": max_samples,
+            "batch_size": batch_size,
+            "dropout_activation_schedule": dropout_activation_schedule,
+            "epsilon_output_noise_std": epsilon_output_noise_std,
+            "epsilon_precision_bins": epsilon_precision_bins,
+            "input_gaussian_blur_sigma": input_gaussian_blur_sigma,
+            "adaptive_query_repeats": adaptive_query_repeats,
+            "late_step_threshold": late_step_threshold,
+            "provenance_status": provenance_status,
+        }
+        supplied_legacy = [name for name, value in legacy_values.items() if value is not None]
+        if stochastic_dropout_defense:
+            supplied_legacy.append("stochastic_dropout_defense")
+        if supplied_legacy:
+            raise ValueError(
+                "canonical PIA rejects legacy runtime flag(s): "
+                + ", ".join(sorted(supplied_legacy))
+            )
         if calibration_score_packet is None or evaluation_score_packet is None:
             raise ValueError("canonical PIA requires both calibration and evaluation score packets")
-        calibration = _load_canonical_score_packet(calibration_score_packet, "calibration")
-        evaluation = _load_canonical_score_packet(evaluation_score_packet, "evaluation")
-        metrics = evaluate_calibrated_packets(
-            calibration["scores"],
-            calibration["labels"],
-            calibration["indices"],
-            evaluation["scores"],
-            evaluation["labels"],
-            evaluation["indices"],
+        required_trust = {
+            "protocol_manifest": protocol_manifest,
+            "expected_protocol_hash": expected_protocol_hash,
+            "expected_checkpoint_sha256": expected_checkpoint_sha256,
+            "stage": stage,
+        }
+        missing_trust = [name for name, value in required_trust.items() if value is None]
+        if missing_trust:
+            raise ValueError(
+                "canonical PIA requires trusted evaluation inputs: "
+                + ", ".join(sorted(missing_trust))
+            )
+        assert expected_protocol_hash is not None
+        assert expected_checkpoint_sha256 is not None
+        assert stage is not None
+        context = load_pia_protocol_context(
+            protocol_manifest,
+            expected_protocol_hash=expected_protocol_hash,
         )
+        calibration, evaluation = validate_pia_score_packet_pair(
+            calibration_score_packet,
+            evaluation_score_packet,
+            context=context,
+            stage=stage,
+            expected_checkpoint_sha256=expected_checkpoint_sha256,
+        )
+        metrics = evaluate_calibrated_packets(
+            calibration.scores,
+            calibration.labels,
+            calibration.indices,
+            evaluation.scores,
+            evaluation.labels,
+            evaluation.indices,
+        )
+        packet_purpose = str(calibration.provenance["packet_purpose"])
+        complete_positive_control_gate = False
+        status = "evaluation_complete"
+        checks: dict[str, bool] | None = None
+        if packet_purpose == "cpu_positive_control":
+            gate = context.pia_contract["positive_control_gate"]
+            assert isinstance(gate, dict)
+            negative_score_auc = float(auc_score(-evaluation.scores, evaluation.labels))
+            checks = {
+                "evaluation_auc": float(metrics["evaluation_auc"])
+                >= float(gate["evaluation_auc_min"]),
+                "evaluation_balanced_accuracy": float(metrics["evaluation_balanced_accuracy"])
+                >= float(gate["evaluation_balanced_accuracy_min"]),
+                "evaluation_fpr": float(metrics["evaluation_fpr"])
+                <= float(gate["evaluation_fpr_max"]),
+                "negative_score_auc": negative_score_auc <= float(gate["negative_score_auc_max"]),
+            }
+            metrics["negative_score_auc"] = negative_score_auc
+            status = (
+                "cpu_positive_control_partial"
+                if all(checks.values())
+                else "cpu_positive_control_failed"
+            )
         result = {
-            "status": "ready",
+            "status": status,
             "method": "pia",
-            "variant": plan.variant,
-            "mode": "canonical-calibrated-evaluation",
+            "variant": "pia",
+            "mode": "canonical_pia_evaluation",
+            "packet_purpose": packet_purpose,
+            "stage": stage,
+            "complete_positive_control_gate": complete_positive_control_gate,
             "metrics": {key: value for key, value in metrics.items() if key != "predictions"},
+            "target_provenance": calibration.provenance,
             "calibration_packet": str(calibration_score_packet),
             "evaluation_packet": str(evaluation_score_packet),
         }
+        if checks is not None:
+            result["partial_positive_control_checks"] = checks
         Path(workspace).mkdir(parents=True, exist_ok=True)
         (Path(workspace) / "summary.json").write_text(
-            json.dumps(result, indent=2), encoding="utf-8"
+            json.dumps(result, indent=2, allow_nan=False), encoding="utf-8"
         )
         return result
+    if any(
+        value is not None
+        for value in (
+            calibration_score_packet,
+            evaluation_score_packet,
+            protocol_manifest,
+            expected_protocol_hash,
+            expected_checkpoint_sha256,
+            stage,
+        )
+    ):
+        raise ValueError("legacy PIA runtime rejects canonical packet and protocol flags")
+    repo_root = repo_root or "external/PIA"
+    device = device or "cpu"
+    batch_size = 8 if batch_size is None else batch_size
+    dropout_activation_schedule = dropout_activation_schedule or "off"
+    epsilon_output_noise_std = 0.0 if epsilon_output_noise_std is None else epsilon_output_noise_std
+    input_gaussian_blur_sigma = (
+        0.0 if input_gaussian_blur_sigma is None else input_gaussian_blur_sigma
+    )
+    adaptive_query_repeats = 1 if adaptive_query_repeats is None else adaptive_query_repeats
+    provenance_status = provenance_status or "source-retained-unverified"
     started_at = time.perf_counter()
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)

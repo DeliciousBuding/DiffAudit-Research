@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import math
+from statistics import NormalDist
+
 import numpy as np
 
 
@@ -125,6 +128,69 @@ def tpr_at_fpr_from_curve(fpr: np.ndarray, tpr: np.ndarray, target_fpr: float) -
 def tpr_at_fpr(scores: np.ndarray, labels: np.ndarray, target_fpr: float) -> float:
     fpr, tpr = roc_curve_points(scores, labels)
     return tpr_at_fpr_from_curve(fpr, tpr, target_fpr)
+
+
+def wilson_interval(
+    successes: int,
+    total: int,
+    *,
+    confidence: float = 0.95,
+) -> tuple[float, float]:
+    """Return a two-sided Wilson score interval for a binomial proportion."""
+
+    if type(successes) is not int or type(total) is not int:
+        raise ValueError("successes and total must be integers")
+    if total <= 0 or not 0 <= successes <= total:
+        raise ValueError("Wilson counts must satisfy 0 <= successes <= total and total > 0")
+    if type(confidence) is not float or not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must be a float strictly between zero and one")
+    z = NormalDist().inv_cdf(0.5 + confidence / 2.0)
+    proportion = successes / total
+    denominator = 1.0 + z * z / total
+    center = (proportion + z * z / (2.0 * total)) / denominator
+    radius = (
+        z
+        * math.sqrt(proportion * (1.0 - proportion) / total + z * z / (4.0 * total * total))
+        / denominator
+    )
+    lower = max(0.0, center - radius)
+    upper = min(1.0, center + radius)
+    if successes == 0:
+        lower = 0.0
+    if successes == total:
+        upper = 1.0
+    return float(lower), float(upper)
+
+
+def tpr_at_fpr_with_wilson(
+    scores: np.ndarray,
+    labels: np.ndarray,
+    *,
+    target_fpr: float = 0.01,
+) -> dict[str, object]:
+    """Return a tie-safe empirical TPR at an FPR cap and its Wilson interval."""
+
+    score_values = np.asarray(scores, dtype=float)
+    label_values = np.asarray(labels, dtype=np.int64)
+    if score_values.ndim != 1 or label_values.shape != score_values.shape:
+        raise ValueError("scores and labels must be matching vectors")
+    if not np.isfinite(score_values).all():
+        raise ValueError("scores must contain only finite values")
+    _require_binary_labels(label_values)
+    estimate = tpr_at_fpr(score_values, label_values, target_fpr)
+    positives = int((label_values == 1).sum())
+    raw_successes = estimate * positives
+    successes = int(round(raw_successes))
+    if not math.isclose(raw_successes, successes, rel_tol=0.0, abs_tol=1e-9):
+        raise RuntimeError("TPR helper returned a value that is not an exact empirical count")
+    lower, upper = wilson_interval(successes, positives)
+    return {
+        "estimate": float(estimate),
+        "wilson_95_ci": [lower, upper],
+        "member_successes": successes,
+        "member_total": positives,
+        "fpr_cap": float(target_fpr),
+    }
 
 
 def metric_bundle(scores: np.ndarray, labels: np.ndarray) -> dict[str, float]:

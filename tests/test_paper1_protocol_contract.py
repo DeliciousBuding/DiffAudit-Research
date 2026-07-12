@@ -182,7 +182,48 @@ def test_paper1_contract_freezes_exact_scientific_shape(
             },
         },
     }
-    assert paper1_contract["pia"] == {"validation_status": "positive_control_required"}
+    assert paper1_contract["pia"] == {
+        "packet_schema_version": 1,
+        "attack": "pia",
+        "variant": "pia",
+        "excluded_variant": "PIAN",
+        "timestep": 200,
+        "lp_order": 4,
+        "score_form": "negative_lp_norm",
+        "score_direction": "higher_is_member",
+        "input_range": [-1.0, 1.0],
+        "query_timesteps": [0, 200],
+        "query_count_per_batch": 2,
+        "normalization": "per_row_vector_lp",
+        "beta_semantics": "linear_1000_steps_inclusive_0.0001_to_0.02",
+        "packet_purposes": ["corrected_evaluation", "cpu_positive_control"],
+        "noise_id": {
+            "random_noise": False,
+            "derivation": "sha256_canonical_json_v1",
+            "draw": "pia-e0",
+            "fields": ["protocol_hash", "dataset_index", "timestep", "draw"],
+        },
+        "threshold_calibration": (
+            "calibration_only_maximize_balanced_accuracy_then_minimize_fpr_then_highest_threshold"
+        ),
+        "reporting": {
+            "primary_endpoint": "held_out_fixed_direction_auc",
+            "secondary_endpoint": "tpr_at_1pct_fpr_with_wilson_95_ci",
+            "forbidden_endpoint": "tpr_at_0.1pct_fpr",
+        },
+        "positive_control_gate": {
+            "evaluation_auc_min": 0.95,
+            "evaluation_balanced_accuracy_min": 0.90,
+            "evaluation_fpr_max": 0.05,
+            "negative_score_auc_max": 0.05,
+            "zero_signal_auc_range": [0.45, 0.55],
+            "permutations": 200,
+            "permutation_random_state": 20260712,
+            "null_auc_mean_range": [0.45, 0.55],
+            "positive_auc_exceeds_all_permutations": True,
+        },
+        "validation_status": "synthetic_checkpoint_positive_control_required",
+    }
     assert paper1_contract["common_noise"] == {
         "namespace": "paper1-corrected-v1",
         "algorithm": "diffaudit-common-noise-seed-v1",

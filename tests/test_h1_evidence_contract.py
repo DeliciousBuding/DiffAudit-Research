@@ -13,6 +13,7 @@ import numpy as np
 import pytest
 from sklearn.exceptions import ConvergenceWarning
 
+from diffaudit.evidence import corrected_protocol as protocol
 from diffaudit.evidence.corrected_protocol import (
     build_protocol_envelope,
     derive_noise_seed,
@@ -145,7 +146,7 @@ def _make_setup(
             },
             "evaluation": {"rows": manifest_rows},
             "h1": h1_scorer_contract(),
-            "pia": {"validation_status": "positive_control_required"},
+            "pia": protocol.paper1_pia_contract(),
             "common_noise": {
                 "namespace": "paper1-corrected-v1",
                 "algorithm": "diffaudit-common-noise-seed-v1",
