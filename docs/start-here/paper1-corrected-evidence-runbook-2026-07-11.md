@@ -89,6 +89,26 @@ Never drop a target after seeing its score because the budget became tight.
 Stop preflight on OOM, sustained throughput below 6.0k steps/hour, thermal
 throttling, split mismatch, missing row IDs, or resume mismatch.
 
+### Current preflight result (2026-07-12)
+
+- The first frozen batch-64 attempt was stopped before completion: the observed
+  GPU allocation reached about 7.9 GiB on an 8 GiB device and 2,000 steps had not
+  completed after about 22 minutes.
+- Before any corrected metric was viewed, the single canonical training config
+  was revised to batch size 32 and the protocol was rebuilt.
+- The replacement run used the same first predeclared seed and completed
+  `0 -> 200 -> 400 -> 2,000`, including two exact-resume launches.
+- Active segment time was 583 seconds for 2,000 steps, about 12.3k steps/hour.
+  Observed peak allocation was about 6.74 GiB during resume, with at least about
+  1.21 GiB free. The observed maximum temperature was 71 C.
+- Checkpoints at steps 200, 400, and 2,000 have matching SHA256 receipts,
+  protocol identity, training config, seed, and step metadata.
+
+This passes the training portion of Stage 0. Long training is still blocked
+until one full checkpoint H1 + PIA evaluation is timed and the protocol-bound H1
+activation extractor emits a valid row-bound packet. No corrected AUC or other
+membership outcome has been inspected.
+
 ## Training Template
 
 Use only values from the frozen protocol manifest:

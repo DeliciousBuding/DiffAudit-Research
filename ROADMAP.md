@@ -1,6 +1,6 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-07-11
+> Last updated: 2026-07-12
 > Scope: current Research execution board. Historical long-form roadmap is in `docs/ROADMAP.md`.
 
 ## Current Baseline
@@ -30,23 +30,26 @@ Current command runbook:
 
 - [x] Train only on the fixed 25,000-row member subset.
 - [x] Keep fold-local repeated OOF H1 code for regression/exploratory checks.
-- [ ] Freeze code commit, environment, hyperparameters, precision, checkpoint
+- [x] Freeze code commit, environment, hyperparameters, precision, checkpoint
   cadence, split SHA256, eight training seeds, and protocol hash.
-- [ ] Generate disjoint, class-stratified calibration and evaluation manifests;
+- [x] Generate disjoint, class-stratified calibration and evaluation manifests;
   each contains 512 members and 512 nonmembers.
-- [ ] Generate a common-noise manifest bound to dataset row, timestep, and draw
+- [x] Generate a common-noise manifest bound to dataset row, timestep, and draw
   for use across all checkpoints.
-- [ ] Add confirmatory H1 scoring that fits PCA/LR only on calibration rows and
+- [x] Add confirmatory H1 scoring that fits PCA/LR only on calibration rows and
   reports metrics only on evaluation rows.
-- [ ] Add stratified paired bootstrap that refits the attack inside each
+- [x] Add stratified paired bootstrap that refits the attack inside each
   replicate, plus at least 200 full label-permutation refits.
-- [ ] Repair PIA canonical and pass a positive-control gate before it is used as
+- [x] Repair PIA canonical and pass a synthetic-checkpoint positive-control gate
+  before it is used as
   the validation attack. Historical E3 PIA outputs are not valid for this gate.
-- [ ] Implement and test exact resume, including Python/NumPy/Torch CPU/CUDA and
+- [x] Implement and test exact resume, including Python/NumPy/Torch CPU/CUDA and
   data-loader state, or freeze a common restart policy and block uninterrupted-
   trajectory claims.
-- [ ] Add row-bound score packets with dataset/run/checkpoint/noise/protocol
-  identities.
+- [x] Add strict row-bound H1 and PIA packet schemas with
+  dataset/run/checkpoint/noise/protocol identities.
+- [ ] Bind H1 activation extraction to the locked rows and common-noise contract,
+  then generate a preflight score packet from the corrected checkpoint.
 
 No corrected outcome may be viewed before these protocol choices are frozen.
 
@@ -68,6 +71,13 @@ Pass criteria:
 
 Failure pauses long training. Fix the contract, repeat the same preflight seed,
 and record the deviation; do not replace the seed.
+
+2026-07-12 status: the original batch-64 preflight failed the throughput and
+VRAM-headroom gates. The contract was revised before viewing any corrected
+metric to batch size 32, then refrozen. The corrected 0 -> 200 -> 400 -> 2,000
+run passed training, exact-resume, checkpoint receipt, thermal, throughput, and
+output-schema checks. Long training remains blocked on one complete H1 + PIA
+checkpoint-evaluation benchmark and the H1 extraction binding above.
 
 ## P2: First-Stage Matrix — 4 Targets × 100k
 
