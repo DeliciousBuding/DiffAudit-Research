@@ -627,6 +627,9 @@ def test_paper1_h1_contract_freezes_the_legacy_42_dimensional_feature_layout() -
     assert definition["pca_input_dimension"] == 9216
     assert definition["scalar_feature_dimension"] == 36
     assert definition["lr_input_dimension"] == 42
+    assert definition["pca_feature_order"] == "site_then_timestep_then_statistic_then_channel"
+    assert definition["scalar_feature_order"] == "timestep_then_site_then_statistic"
+    assert definition["lr_feature_order"] == ["scalar_features", "pca_components"]
 
 
 def test_evidence_package_exports_corrected_protocol_primitives() -> None:

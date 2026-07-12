@@ -326,6 +326,35 @@ def test_production_shape_randomized_pca_fit_completes(
     assert model.classifier.coef_.shape == (1, 42)
 
 
+def test_lr_columns_lock_scalar_then_pca_component_order(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    rng = np.random.default_rng(19)
+    pca_features = rng.normal(size=(64, 8)).astype(np.float32)
+    scalar_features = np.column_stack(
+        [np.arange(64, dtype=np.float32) + 1000.0 * (column + 1) for column in range(4)]
+    )
+    labels = np.asarray([0, 1] * 32)
+    captured: list[np.ndarray] = []
+    original_fit = h1_module.LogisticRegression.fit
+
+    def capture_fit(self: object, features: np.ndarray, target: np.ndarray) -> object:
+        captured.append(features.copy())
+        return original_fit(self, features, target)
+
+    monkeypatch.setattr(h1_module.LogisticRegression, "fit", capture_fit)
+    model = h1_module._fit_h1_arrays(
+        pca_features,
+        scalar_features,
+        labels,
+        h1_module.h1_scorer_contract(),
+    )
+
+    assert len(captured) == 1
+    np.testing.assert_allclose(captured[0][:, :4], scalar_features)
+    np.testing.assert_allclose(captured[0][:, 4:], model.pca.transform(pca_features))
+
+
 def test_convergence_warning_is_a_hard_failure(monkeypatch: pytest.MonkeyPatch) -> None:
     from diffaudit.evidence import h1_confirmatory as h1
 

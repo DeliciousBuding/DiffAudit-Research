@@ -625,7 +625,7 @@ def _fit_h1_arrays(
     )
     transformed = pca.fit_transform(np.asarray(pca_features, dtype=float))
     classifier_features = np.concatenate(
-        [transformed, np.asarray(scalar_features, dtype=float)], axis=1
+        [np.asarray(scalar_features, dtype=float), transformed], axis=1
     )
     expected_lr_dimension = int(contract["feature_definition"]["lr_input_dimension"])
     if classifier_features.shape[1] != expected_lr_dimension:

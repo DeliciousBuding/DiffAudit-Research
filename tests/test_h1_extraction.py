@@ -35,6 +35,9 @@ def _feature_definition(channels: int = 2) -> dict[str, object]:
         "per_channel_statistics": ["mu_abs", "var", "sparsity"],
         "scalar_statistics": ["mu_abs_mean", "var_mean", "sparsity_mean"],
         "sparsity_threshold": "0.01_times_population_std_per_channel",
+        "pca_feature_order": "site_then_timestep_then_statistic_then_channel",
+        "scalar_feature_order": "timestep_then_site_then_statistic",
+        "lr_feature_order": ["scalar_features", "pca_components"],
         "pca_input_dimension": len(sites) * len(timesteps) * 3 * channels,
         "scalar_feature_dimension": len(sites) * len(timesteps) * 3,
         "lr_input_dimension": 42,
@@ -114,6 +117,40 @@ def test_compute_activation_features_reproduces_sample_level_scout_statistics() 
     assert scalar_features[0, :3].tolist() == pytest.approx([1.5, 0.5, 0.0])
     assert pca_features[1, :6].tolist() == pytest.approx([0.0, 2.0, 0.0, 4.0, 0.0, 0.0])
     assert scalar_features[1, :3].tolist() == pytest.approx([1.0, 2.0, 0.0])
+
+
+def test_activation_feature_columns_lock_legacy_pca_and_scalar_orders() -> None:
+    definition = _feature_definition(channels=2)
+    sites = definition["sites"]
+    timesteps = definition["timesteps"]
+    activations: dict[tuple[str, int], torch.Tensor] = {}
+    markers: dict[tuple[str, int], float] = {}
+    for timestep_index, timestep in enumerate(timesteps):
+        for site_index, site in enumerate(sites):
+            marker = float(10 * timestep_index + site_index + 1)
+            markers[(site, timestep)] = marker
+            activations[(site, timestep)] = torch.tensor(
+                [[[[0.0, marker]], [[0.0, marker]]]], dtype=torch.float32
+            )
+
+    pca_features, scalar_features = compute_activation_features(activations, definition)
+
+    expected_scalar: list[float] = []
+    for timestep in timesteps:
+        for site in sites:
+            marker = markers[(site, timestep)]
+            expected_scalar.extend([marker / 2.0, marker**2 / 4.0, 0.5])
+    assert scalar_features[0].tolist() == pytest.approx(expected_scalar)
+
+    pca_block_width = 3 * 2
+    expected_pca_mu_sentinels = [
+        markers[(site, timestep)] / 2.0 for site in sites for timestep in timesteps
+    ]
+    actual_pca_mu_sentinels = [
+        float(pca_features[0, block * pca_block_width])
+        for block in range(len(expected_pca_mu_sentinels))
+    ]
+    assert actual_pca_mu_sentinels == pytest.approx(expected_pca_mu_sentinels)
 
 
 def test_common_noise_is_row_bound_across_batch_order_and_checkpoint() -> None:

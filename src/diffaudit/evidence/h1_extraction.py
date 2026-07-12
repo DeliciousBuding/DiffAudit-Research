@@ -161,6 +161,13 @@ def _validate_feature_definition(definition: Mapping[str, object]) -> tuple[list
         value = channels.get(site)
         if type(value) is not int or value <= 0:
             raise ValueError("H1 feature definition channels_per_site is invalid")
+    expected_orders = {
+        "pca_feature_order": "site_then_timestep_then_statistic_then_channel",
+        "scalar_feature_order": "timestep_then_site_then_statistic",
+        "lr_feature_order": ["scalar_features", "pca_components"],
+    }
+    if any(definition.get(name) != expected for name, expected in expected_orders.items()):
+        raise ValueError("H1 feature definition column order does not match the frozen contract")
     return sites, timesteps
 
 
@@ -174,6 +181,7 @@ def compute_activation_features(
     channels = feature_definition["channels_per_site"]
     pca_parts: list[torch.Tensor] = []
     scalar_parts: list[torch.Tensor] = []
+    statistics: dict[tuple[str, int], tuple[torch.Tensor, torch.Tensor, torch.Tensor]] = {}
     batch_size: int | None = None
     for site in sites:
         for timestep in timesteps:
@@ -193,13 +201,12 @@ def compute_activation_features(
             variance = flat.var(dim=-1, unbiased=False)
             threshold = 0.01 * flat.std(dim=-1, unbiased=False)
             sparsity = (flat.abs() < threshold.unsqueeze(-1)).to(torch.float32).mean(dim=-1)
+            statistics[(site, timestep)] = (mu_abs, variance, sparsity)
             pca_parts.extend((mu_abs, variance, sparsity))
+    for timestep in timesteps:
+        for site in sites:
             scalar_parts.extend(
-                (
-                    mu_abs.mean(dim=1, keepdim=True),
-                    variance.mean(dim=1, keepdim=True),
-                    sparsity.mean(dim=1, keepdim=True),
-                )
+                statistic.mean(dim=1, keepdim=True) for statistic in statistics[(site, timestep)]
             )
     pca_features = torch.cat(pca_parts, dim=1)
     scalar_features = torch.cat(scalar_parts, dim=1)
