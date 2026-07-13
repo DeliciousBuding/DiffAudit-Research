@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import json
 import os
 import subprocess
 import sys
@@ -14,11 +15,13 @@ import diffaudit.evidence as evidence
 from diffaudit.evidence.corrected_protocol import (
     MembershipSplit,
     ProtocolRow,
+    build_paper1_corrected_contract,
     build_stratified_row_manifest,
     canonical_protocol_hash,
     derive_noise_seed,
     derive_training_seeds,
     load_member_nonmember_indices,
+    paper1_pia_contract,
 )
 from diffaudit.evidence.h1_confirmatory import h1_scorer_contract
 from diffaudit.evidence.training_config import build_training_config
@@ -643,6 +646,74 @@ def test_paper1_h1_contract_freezes_the_legacy_42_dimensional_feature_layout() -
         "gpu_name",
         "gpu_uuid",
     }
+
+
+def test_paper1_pia_contract_freezes_one_outcome_blind_preflight_identity() -> None:
+    contract = paper1_pia_contract()
+
+    assert contract["packet_purposes"] == [
+        "corrected_evaluation",
+        "preflight_benchmark",
+    ]
+    assert contract["preflight_identity"] == {
+        "run_seed": 1746574482,
+        "step": 2_000,
+    }
+    extraction = contract["extraction"]
+    assert extraction["batch_size"] == 8
+    assert extraction["device"] == "cpu"
+    assert extraction["weights_key"] == "ema"
+    assert set(extraction["evaluator_environment"]) == {
+        "os",
+        "platform",
+        "machine",
+        "cpu_model",
+        "python",
+        "pytorch",
+        "torch_num_threads",
+        "torch_num_interop_threads",
+        "blas_backend",
+        "mkl_available",
+        "mkldnn_available",
+        "openmp_available",
+        "omp_num_threads",
+        "mkl_num_threads",
+        "parallel_info",
+    }
+    assert contract["upstream"] == {
+        "repository_url": "https://github.com/kong13661/PIA.git",
+        "commit": "0d7e08a5a07f44931692d52d54d0ce41aff8f54c",
+        "required_file_sha256": {
+            "DDPM/attack.py": "362a58e30fe7a123edd107d2dda3716874d84e98001611ec9159006b7eb4da61",
+            "DDPM/components.py": (
+                "d61ebadb4643741116e2b08f61a4db7f4805dd84efdc15d6e0447cc357b4871a"
+            ),
+            "DDPM/dataset_utils.py": (
+                "7766a985246ce868e861a751a651d3740419456106ea1277a357fdf1b6a9ce82"
+            ),
+            "DDPM/model.py": "b8714f85649dadc9223c0e77d63ee24515be4a87dba25a796c8d611f0cff17ed",
+        },
+    }
+    assert "preflight" not in h1_scorer_contract()["cross_target_rosters"]
+
+
+def test_paper1_protocol_seals_non_circular_preflight_and_formal_run_label_templates() -> None:
+    contract = build_paper1_corrected_contract(
+        split_filename="CIFAR10_train_ratio0.5.npz",
+        split_sha256="a" * 64,
+        member_indices=tuple(range(25_000)),
+        nonmember_indices=tuple(range(25_000, 50_000)),
+        class_labels=np.arange(50_000, dtype=np.int64) % 10,
+        code_commit="b" * 40,
+    )
+
+    assert contract["training"]["run_label_templates"] == {
+        "preflight": "corrected-preflight-s{seed}",
+        "formal": "corrected-s{seed}",
+    }
+    serialized = json.dumps(contract["training"]["run_label_templates"], sort_keys=True)
+    assert "protocol_hash" not in serialized
+    assert "{" + "protocol" not in serialized
 
 
 def test_evidence_package_exports_corrected_protocol_primitives() -> None:

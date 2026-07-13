@@ -113,6 +113,10 @@ def test_paper1_contract_freezes_exact_scientific_shape(
             1867632528,
             1918927372,
         ],
+        "run_label_templates": {
+            "preflight": "corrected-preflight-s{seed}",
+            "formal": "corrected-s{seed}",
+        },
         "batch_size": 32,
         "interim_steps": 100_000,
         "mature_steps": 200_000,
@@ -213,7 +217,7 @@ def test_paper1_contract_freezes_exact_scientific_shape(
         },
     }
     assert paper1_contract["pia"] == {
-        "packet_schema_version": 1,
+        "packet_schema_version": 2,
         "attack": "pia",
         "variant": "pia",
         "excluded_variant": "PIAN",
@@ -226,7 +230,38 @@ def test_paper1_contract_freezes_exact_scientific_shape(
         "query_count_per_batch": 2,
         "normalization": "per_row_vector_lp",
         "beta_semantics": "linear_1000_steps_inclusive_0.0001_to_0.02",
-        "packet_purposes": ["corrected_evaluation", "cpu_positive_control"],
+        "packet_purposes": [
+            "corrected_evaluation",
+            "preflight_benchmark",
+        ],
+        "preflight_identity": {
+            "run_seed": 1746574482,
+            "step": 2_000,
+        },
+        "extraction": {
+            "batch_size": 8,
+            "device": "cpu",
+            "weights_key": "ema",
+            "evaluator_environment": protocol.collect_pia_cpu_environment(),
+        },
+        "upstream": {
+            "repository_url": "https://github.com/kong13661/PIA.git",
+            "commit": "0d7e08a5a07f44931692d52d54d0ce41aff8f54c",
+            "required_file_sha256": {
+                "DDPM/attack.py": (
+                    "362a58e30fe7a123edd107d2dda3716874d84e98001611ec9159006b7eb4da61"
+                ),
+                "DDPM/components.py": (
+                    "d61ebadb4643741116e2b08f61a4db7f4805dd84efdc15d6e0447cc357b4871a"
+                ),
+                "DDPM/dataset_utils.py": (
+                    "7766a985246ce868e861a751a651d3740419456106ea1277a357fdf1b6a9ce82"
+                ),
+                "DDPM/model.py": (
+                    "b8714f85649dadc9223c0e77d63ee24515be4a87dba25a796c8d611f0cff17ed"
+                ),
+            },
+        },
         "noise_id": {
             "random_noise": False,
             "derivation": "sha256_canonical_json_v1",

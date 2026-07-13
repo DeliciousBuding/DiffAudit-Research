@@ -215,7 +215,7 @@ def _args(protocol_path: Path, split_path: Path, *, stop_step: int, dry_run: boo
         protocol_manifest=protocol_path,
         split_path=split_path,
         seed=SEED,
-        run_label=f"corrected-preflight-s{SEED}",
+        run_label=(f"corrected-preflight-s{SEED}" if stop_step <= 5_000 else f"corrected-s{SEED}"),
         stop_step=stop_step,
         resume=None,
         dataset_root=Path("synthetic-cifar"),

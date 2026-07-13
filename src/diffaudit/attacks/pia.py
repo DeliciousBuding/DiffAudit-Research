@@ -84,8 +84,9 @@ def build_pia_plan(config: AuditConfig) -> PiaPlan:
                 "balanced_accuracy_min": 0.90,
                 "fpr_max": 0.05,
             },
+            "batch_size": 8,
         }
-        if set(params) != {*expected, "batch_size"}:
+        if set(params) != set(expected):
             raise ValueError("canonical PIA parameters must contain the exact sealed fields")
         for key, value in expected.items():
             if type(params[key]) is not type(value) or params[key] != value:

@@ -754,7 +754,7 @@ def build_parser() -> argparse.ArgumentParser:
     pia_packet_export_parser.add_argument("--nonmember-offset", type=int, default=0)
     pia_packet_export_parser.add_argument("--member-index-file", default=None)
     pia_packet_export_parser.add_argument("--nonmember-index-file", default=None)
-    pia_packet_export_parser.add_argument("--batch-size", type=int, default=4)
+    pia_packet_export_parser.add_argument("--batch-size", type=int, default=8)
     pia_packet_export_parser.add_argument("--adaptive-query-repeats", type=int, default=1)
     pia_packet_export_parser.add_argument("--provenance-status", default="workspace-verified")
     pia_packet_export_parser.add_argument("--protocol-manifest", default=None)

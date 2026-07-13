@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import math
 import pickle
@@ -10,7 +11,7 @@ import re
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from itertools import combinations
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any, Literal
 
 import numpy as np
@@ -18,6 +19,7 @@ import torch
 
 from diffaudit.evidence.corrected_protocol import (
     paper1_pia_contract,
+    render_paper1_run_label,
     validate_paper1_protocol_envelope,
 )
 from diffaudit.utils.metrics import auc_score, tpr_at_fpr_with_wilson
@@ -47,6 +49,7 @@ _PACKET_FIELDS = {
     "scorer_code_commit",
     "split_sha256",
     "protocol_hash",
+    "extraction",
     "rows",
 }
 _RECEIPT_FIELDS = {
@@ -68,7 +71,7 @@ _ROW_FIELDS = {
     "noise_id",
 }
 _FIXED_PACKET_VALUES: dict[str, object] = {
-    "schema_version": 1,
+    "schema_version": 2,
     "attack": "pia",
     "variant": "pia",
     "timestep": CANONICAL_TIMESTEP,
@@ -101,6 +104,18 @@ class PiaScorePacket:
     classes: np.ndarray
     scores: np.ndarray
     provenance: dict[str, object]
+    trusted_source_sha256: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class TrustedPiaCheckpointSource:
+    """Path-only formal PIA inputs bound to externally supplied raw-byte hashes."""
+
+    calibration_packet: str | Path
+    calibration_packet_sha256: str
+    evaluation_packet: str | Path
+    evaluation_packet_sha256: str
+    training_output_manifest: str | Path
 
 
 @dataclass(frozen=True, slots=True)
@@ -109,6 +124,7 @@ class PiaTrainingIdentity:
     run_seed: int
     step: int
     run_label: str
+    checkpoint_filename: str
     checkpoint_sha256: str
     training_manifest_sha256: str
     training_config_hash: str
@@ -225,6 +241,42 @@ def _load_finite_json(source: Mapping[str, object] | str | Path, *, name: str) -
     return copied
 
 
+def _load_trusted_packet_payload(
+    path_source: str | Path,
+    expected_sha256: str,
+    *,
+    role: str,
+) -> tuple[dict[str, object], str]:
+    if isinstance(path_source, Mapping) or not isinstance(path_source, (str, Path)):
+        raise ValueError("formal corrected_evaluation packets must use trusted path-based sources")
+    expected = _require_hash(f"expected {role} packet SHA256", expected_sha256, _SHA256_RE)
+    path = Path(path_source)
+    try:
+        raw_bytes = path.read_bytes()
+    except OSError as error:
+        raise ValueError(f"canonical PIA {role} packet path is unreadable") from error
+    realized = hashlib.sha256(raw_bytes).hexdigest()
+    if realized != expected:
+        raise ValueError(
+            f"canonical PIA {role} packet SHA256 does not match the trusted expected hash"
+        )
+    try:
+        raw = json.loads(
+            raw_bytes.decode("utf-8"),
+            parse_constant=_reject_json_constant,
+            object_pairs_hook=_reject_duplicate_json_keys,
+        )
+    except (UnicodeError, json.JSONDecodeError) as error:
+        raise ValueError(f"canonical PIA {role} packet must contain valid finite JSON") from error
+    try:
+        copied = json.loads(json.dumps(raw, allow_nan=False))
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"canonical PIA {role} packet must contain finite JSON") from error
+    if not isinstance(copied, dict):
+        raise ValueError(f"canonical PIA {role} packet must be a JSON mapping")
+    return copied, realized
+
+
 def _require_exact_value(name: str, actual: object, expected: object) -> None:
     if type(actual) is not type(expected):
         raise ValueError(f"canonical PIA {name} does not match the sealed contract")
@@ -335,7 +387,22 @@ def validate_pia_stage_identity(
     stage: str,
     run_seed: object,
     step: object,
+    packet_purpose: str = "corrected_evaluation",
 ) -> tuple[int, int]:
+    if packet_purpose == "preflight_benchmark":
+        if stage != "preflight":
+            raise ValueError("preflight_benchmark requires the sealed preflight stage")
+        identity = context.pia_contract["preflight_identity"]
+        assert isinstance(identity, dict)
+        expected_seed = identity["run_seed"]
+        expected_step = identity["step"]
+        if type(run_seed) is not int or type(step) is not int:
+            raise ValueError("preflight identity requires integer run_seed and step")
+        if run_seed != expected_seed or step != expected_step:
+            raise ValueError("preflight identity does not match the sealed seed and step")
+        return run_seed, step
+    if stage == "preflight":
+        raise ValueError("preflight stage requires packet_purpose=preflight_benchmark")
     if stage not in context.rosters:
         raise ValueError("stage does not identify a sealed H1/PIA target roster")
     if type(run_seed) is not int or run_seed <= 0:
@@ -351,11 +418,54 @@ def validate_pia_stage_identity(
     return run_seed, step
 
 
-def derive_pia_stage(context: PiaProtocolContext, *, run_seed: object, step: object) -> str:
+def validate_pia_cpu_runtime(
+    extraction_contract: Mapping[str, object],
+    *,
+    device: str,
+    batch_size: int,
+    evaluator_environment: Mapping[str, object],
+) -> None:
+    """Enforce the exact CPU-only PIA extraction runtime frozen in the protocol."""
+
+    expected_fields = {"batch_size", "device", "weights_key", "evaluator_environment"}
+    if set(extraction_contract) != expected_fields:
+        raise ValueError("canonical PIA extraction contract fields must be exact")
+    if device != "cpu" or extraction_contract["device"] != "cpu":
+        raise ValueError("canonical PIA runtime device must be exactly cpu")
+    if type(batch_size) is not int or batch_size != 8 or extraction_contract["batch_size"] != 8:
+        raise ValueError("canonical PIA runtime batch_size must be exactly 8")
+    expected_environment = extraction_contract["evaluator_environment"]
+    if not isinstance(expected_environment, Mapping):
+        raise ValueError("canonical PIA evaluator_environment must be a mapping")
+    if dict(evaluator_environment) != dict(expected_environment):
+        raise ValueError(
+            "canonical PIA CPU evaluator_environment does not match the sealed runtime"
+        )
+
+
+def derive_pia_stage(
+    context: PiaProtocolContext,
+    *,
+    run_seed: object,
+    step: object,
+    packet_purpose: str = "corrected_evaluation",
+) -> str:
+    purposes = context.pia_contract["packet_purposes"]
+    if type(packet_purpose) is not str or packet_purpose not in purposes:
+        raise ValueError("canonical PIA packet_purpose does not match the sealed contract")
     if type(run_seed) is not int or run_seed <= 0:
         raise ValueError("run_seed must be a positive integer")
     if type(step) is not int or step <= 0:
         raise ValueError("step must be a positive integer")
+    if packet_purpose == "preflight_benchmark":
+        validate_pia_stage_identity(
+            context,
+            stage="preflight",
+            run_seed=run_seed,
+            step=step,
+            packet_purpose=packet_purpose,
+        )
+        return "preflight"
     matches = [
         stage
         for stage in context.rosters
@@ -406,17 +516,63 @@ def _load_training_manifest(
     return payload, manifest_sha256, receipts
 
 
+def _manifest_checkpoint_path(
+    manifest_path: Path,
+    payload: Mapping[str, object],
+    receipts: Mapping[str, Mapping[str, object]],
+) -> Path:
+    raw_name = payload.get("checkpoint")
+    if (
+        not isinstance(raw_name, str)
+        or not raw_name
+        or PurePosixPath(raw_name).name != raw_name
+        or PureWindowsPath(raw_name).name != raw_name
+    ):
+        raise ValueError("training manifest checkpoint must be a safe basename")
+    if raw_name not in receipts:
+        raise ValueError("training manifest checkpoint does not identify one checkpoint receipt")
+    checkpoint_path = (manifest_path.parent / raw_name).resolve()
+    if checkpoint_path.parent != manifest_path.parent.resolve():
+        raise ValueError("training manifest checkpoint must stay under the manifest parent")
+    if not checkpoint_path.is_file():
+        raise ValueError("training manifest checkpoint file does not exist")
+    return checkpoint_path
+
+
+def resolve_pia_training_checkpoint_path(
+    training_output_manifest: str | Path,
+    *,
+    expected_model_dir: str | Path,
+) -> Path:
+    """Resolve only the safe checkpoint named by the corrected training manifest."""
+
+    manifest_path = Path(training_output_manifest).resolve()
+    payload, _, receipts = _load_training_manifest(manifest_path)
+    checkpoint_path = _manifest_checkpoint_path(manifest_path, payload, receipts)
+    if checkpoint_path.parent != Path(expected_model_dir).resolve():
+        raise ValueError("canonical PIA model_dir must equal the training manifest parent")
+    return checkpoint_path
+
+
 def load_pia_training_identity(
     context: PiaProtocolContext,
     *,
     checkpoint_path: str | Path,
     training_output_manifest: str | Path,
     scorer_code_commit: str,
+    packet_purpose: str = "corrected_evaluation",
+    checkpoint_snapshot: bytes | None = None,
 ) -> PiaTrainingIdentity:
     checkpoint_path = Path(checkpoint_path)
-    checkpoint_sha256 = _sha256_file(checkpoint_path)
     try:
-        checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
+        checkpoint_bytes = (
+            checkpoint_path.read_bytes() if checkpoint_snapshot is None else checkpoint_snapshot
+        )
+    except OSError as error:
+        raise ValueError("corrected checkpoint is unreadable") from error
+    checkpoint_sha256 = hashlib.sha256(checkpoint_bytes).hexdigest()
+    try:
+        checkpoint = torch.load(io.BytesIO(checkpoint_bytes), map_location="cpu", weights_only=True)
     except (OSError, RuntimeError, EOFError, ValueError, pickle.UnpicklingError) as error:
         raise ValueError("checkpoint must be a weights-only-safe corrected checkpoint") from error
     expected_checkpoint_fields = {"model", "ema", "optim", "sched", "step", "metadata", "rng_state"}
@@ -436,7 +592,11 @@ def load_pia_training_identity(
     }
     if not isinstance(metadata, Mapping) or set(metadata) != expected_metadata_fields:
         raise ValueError("checkpoint metadata fields do not match the corrected schema")
-    payload, manifest_sha256, receipts = _load_training_manifest(training_output_manifest)
+    manifest_path = Path(training_output_manifest).resolve()
+    payload, manifest_sha256, receipts = _load_training_manifest(manifest_path)
+    manifest_checkpoint_path = _manifest_checkpoint_path(manifest_path, payload, receipts)
+    if checkpoint_path.resolve() != manifest_checkpoint_path:
+        raise ValueError("checkpoint path does not match the training manifest checkpoint")
     receipt = receipts.get(checkpoint_path.name)
     if receipt is None:
         raise ValueError("training output manifest has no receipt for checkpoint")
@@ -454,7 +614,17 @@ def load_pia_training_identity(
     ).hexdigest()
     if training_config_hash != canonical_config_hash:
         raise ValueError("checkpoint training_config_hash does not match training_config")
-    stage = derive_pia_stage(context, run_seed=run_seed, step=step)
+    stage = derive_pia_stage(
+        context,
+        run_seed=run_seed,
+        step=step,
+        packet_purpose=packet_purpose,
+    )
+    expected_run_label = render_paper1_run_label(
+        int(run_seed), preflight=packet_purpose == "preflight_benchmark"
+    )
+    if run_label != expected_run_label:
+        raise ValueError("checkpoint run_label does not match the sealed purpose-specific template")
     expected_identity = {
         "checkpoint_sha256": checkpoint_sha256,
         "protocol_hash": context.protocol_hash,
@@ -492,6 +662,7 @@ def load_pia_training_identity(
         run_seed=int(run_seed),
         step=int(step),
         run_label=run_label,
+        checkpoint_filename=checkpoint_path.name,
         checkpoint_sha256=checkpoint_sha256,
         training_manifest_sha256=manifest_sha256,
         training_config_hash=_require_hash(
@@ -507,6 +678,7 @@ def validate_pia_score_packet(
     expected_role: Literal["calibration", "evaluation"],
     context: PiaProtocolContext,
     training_output_manifest: str | Path,
+    trusted_source_sha256: str | None = None,
 ) -> PiaScorePacket:
     """Validate one exact, complete, row-bound PIA score packet."""
 
@@ -518,9 +690,23 @@ def validate_pia_score_packet(
     purposes = context.pia_contract["packet_purposes"]
     if type(payload["packet_purpose"]) is not str or payload["packet_purpose"] not in purposes:
         raise ValueError("canonical PIA packet_purpose does not match the sealed contract")
-    stage = derive_pia_stage(context, run_seed=payload["run_seed"], step=payload["step"])
+    packet_purpose = payload["packet_purpose"]
+    assert isinstance(packet_purpose, str)
+    stage = derive_pia_stage(
+        context,
+        run_seed=payload["run_seed"],
+        step=payload["step"],
+        packet_purpose=packet_purpose,
+    )
     run_seed, step = validate_pia_stage_identity(
-        context, stage=stage, run_seed=payload["run_seed"], step=payload["step"]
+        context,
+        stage=stage,
+        run_seed=payload["run_seed"],
+        step=payload["step"],
+        packet_purpose=packet_purpose,
+    )
+    expected_run_label = render_paper1_run_label(
+        run_seed, preflight=packet_purpose == "preflight_benchmark"
     )
     checkpoint_sha256 = _require_hash("checkpoint_sha256", payload["checkpoint_sha256"], _SHA256_RE)
     manifest_payload, manifest_sha256, receipts = _load_training_manifest(training_output_manifest)
@@ -537,6 +723,16 @@ def validate_pia_score_packet(
     if len(matching_receipts) != 1:
         raise ValueError("packet checkpoint_sha256 does not identify one training receipt")
     receipt = matching_receipts[0]
+    if receipt["run_label"] != expected_run_label:
+        raise ValueError("packet run_label does not match the sealed purpose-specific template")
+    checkpoint_filename = manifest_payload.get("checkpoint")
+    if (
+        not isinstance(checkpoint_filename, str)
+        or PurePosixPath(checkpoint_filename).name != checkpoint_filename
+        or PureWindowsPath(checkpoint_filename).name != checkpoint_filename
+        or receipts.get(checkpoint_filename) is not receipt
+    ):
+        raise ValueError("packet checkpoint does not match the training manifest checkpoint")
     for field, expected in {
         "protocol_hash": context.protocol_hash,
         "code_commit": context.code_commit,
@@ -571,6 +767,21 @@ def validate_pia_score_packet(
     protocol_hash = _require_hash("protocol_hash", payload["protocol_hash"], _SHA256_RE)
     if protocol_hash != context.protocol_hash:
         raise ValueError("packet protocol_hash does not match trusted expected_protocol_hash")
+    extraction_contract = context.pia_contract["extraction"]
+    upstream_contract = context.pia_contract["upstream"]
+    assert isinstance(extraction_contract, dict) and isinstance(upstream_contract, dict)
+    expected_extraction = {
+        "packet_purpose": packet_purpose,
+        "device": extraction_contract["device"],
+        "batch_size": extraction_contract["batch_size"],
+        "weights_key": extraction_contract["weights_key"],
+        "evaluator_environment": extraction_contract["evaluator_environment"],
+        "upstream": {**upstream_contract, "git_clean": True},
+        "checkpoint_filename": checkpoint_filename,
+        "run_label": receipt["run_label"],
+        "training_config_hash": receipt["training_config_hash"],
+    }
+    _require_exact_value("extraction", payload["extraction"], expected_extraction)
 
     raw_rows = payload["rows"]
     if not isinstance(raw_rows, list) or not raw_rows:
@@ -634,6 +845,7 @@ def validate_pia_score_packet(
         classes=np.asarray(classes, dtype=np.int64),
         scores=np.asarray(scores, dtype=float),
         provenance=provenance,
+        trusted_source_sha256=trusted_source_sha256,
     )
 
 
@@ -643,18 +855,22 @@ def validate_pia_score_packet_pair(
     *,
     context: PiaProtocolContext,
     training_output_manifest: str | Path,
+    calibration_trusted_sha256: str | None = None,
+    evaluation_trusted_sha256: str | None = None,
 ) -> tuple[PiaScorePacket, PiaScorePacket]:
     calibration = validate_pia_score_packet(
         calibration_source,
         expected_role="calibration",
         context=context,
         training_output_manifest=training_output_manifest,
+        trusted_source_sha256=calibration_trusted_sha256,
     )
     evaluation = validate_pia_score_packet(
         evaluation_source,
         expected_role="evaluation",
         context=context,
         training_output_manifest=training_output_manifest,
+        trusted_source_sha256=evaluation_trusted_sha256,
     )
     if calibration.provenance != evaluation.provenance:
         raise ValueError("calibration/evaluation packet provenance must be identical")
@@ -664,13 +880,7 @@ def validate_pia_score_packet_pair(
 
 
 def _validate_pia_checkpoint_sources(
-    sources: Sequence[
-        tuple[
-            Mapping[str, object] | str | Path,
-            Mapping[str, object] | str | Path,
-            str | Path,
-        ]
-    ],
+    sources: Sequence[TrustedPiaCheckpointSource],
     *,
     protocol_envelope: Mapping[str, object] | str | Path,
     expected_protocol_hash: str,
@@ -686,25 +896,34 @@ def _validate_pia_checkpoint_sources(
     analysis_code_commit = _validate_analysis_repository_state(context)
     validated: list[tuple[PiaScorePacket, PiaScorePacket]] = []
     for source in sources:
-        if not isinstance(source, (tuple, list)) or len(source) != 3:
+        if not isinstance(source, TrustedPiaCheckpointSource):
             raise ValueError(
-                "each PIA checkpoint source must contain calibration, evaluation, and manifest"
+                "formal corrected_evaluation sources must be trusted path-based packet sources"
             )
-        calibration_source, evaluation_source, training_output_manifest = source
+        calibration_source, calibration_sha256 = _load_trusted_packet_payload(
+            source.calibration_packet,
+            source.calibration_packet_sha256,
+            role="calibration",
+        )
+        evaluation_source, evaluation_sha256 = _load_trusted_packet_payload(
+            source.evaluation_packet,
+            source.evaluation_packet_sha256,
+            role="evaluation",
+        )
         calibration, evaluation = validate_pia_score_packet_pair(
             calibration_source,
             evaluation_source,
             context=context,
-            training_output_manifest=training_output_manifest,
+            training_output_manifest=source.training_output_manifest,
+            calibration_trusted_sha256=calibration_sha256,
+            evaluation_trusted_sha256=evaluation_sha256,
         )
         if calibration.provenance["packet_purpose"] != "corrected_evaluation":
             raise ValueError("confirmatory PIA analysis requires corrected_evaluation packets")
         validated.append((calibration, evaluation))
 
-    if len(validated) == 1 and analysis_mode is None and stage is None:
-        return context, validated, analysis_code_commit
     if analysis_mode != "cross_target_same_step":
-        raise ValueError("multi-target analysis_mode must be cross_target_same_step")
+        raise ValueError("formal PIA analysis_mode must be cross_target_same_step")
     if stage not in context.rosters:
         raise ValueError("cross-target stage does not identify a sealed target roster")
     roster_seed_order, roster_step = context.rosters[stage]
@@ -781,8 +1000,8 @@ def _pia_target_provenance(
     return {
         **calibration.provenance,
         "dataset_id": context.dataset_id,
-        "calibration_packet_sha256": _canonical_payload_sha256(calibration.payload),
-        "evaluation_packet_sha256": _canonical_payload_sha256(evaluation.payload),
+        "calibration_packet_sha256": calibration.trusted_source_sha256,
+        "evaluation_packet_sha256": evaluation.trusted_source_sha256,
     }
 
 
@@ -936,13 +1155,7 @@ def _pia_target_key(calibration: PiaScorePacket) -> str:
 
 
 def bootstrap_pia_checkpoints(
-    sources: Sequence[
-        tuple[
-            Mapping[str, object] | str | Path,
-            Mapping[str, object] | str | Path,
-            str | Path,
-        ]
-    ],
+    sources: Sequence[TrustedPiaCheckpointSource],
     *,
     protocol_envelope: Mapping[str, object] | str | Path,
     expected_protocol_hash: str,
@@ -1091,16 +1304,15 @@ def _permuted_pia_membership_labels(
 
 
 def full_label_permutation_test_pia(
-    source: tuple[
-        Mapping[str, object] | str | Path,
-        Mapping[str, object] | str | Path,
-        str | Path,
-    ],
+    sources: Sequence[TrustedPiaCheckpointSource],
     *,
     protocol_envelope: Mapping[str, object] | str | Path,
     expected_protocol_hash: str,
     n_permutations: int,
     random_state: int,
+    analysis_mode: str,
+    stage: str,
+    target_seed: int,
 ) -> dict[str, object]:
     """Run the sealed split/class-preserving PIA full membership-label null."""
 
@@ -1116,13 +1328,16 @@ def full_label_permutation_test_pia(
             f"permutation random_state must equal the sealed protocol value {expected_random_state}"
         )
     context, validated, analysis_code_commit = _validate_pia_checkpoint_sources(
-        [source],
+        sources,
         protocol_envelope=protocol_envelope,
         expected_protocol_hash=expected_protocol_hash,
-        analysis_mode=None,
-        stage=None,
+        analysis_mode=analysis_mode,
+        stage=stage,
     )
-    calibration, evaluation = validated[0]
+    matches = [pair for pair in validated if int(pair[0].provenance["run_seed"]) == target_seed]
+    if len(matches) != 1:
+        raise ValueError("target_seed must identify exactly one target in the sealed roster")
+    calibration, evaluation = matches[0]
     observed = evaluate_calibrated_packets(
         calibration.scores,
         calibration.labels,
@@ -1173,13 +1388,7 @@ def full_label_permutation_test_pia(
 
 
 def score_pia_checkpoints(
-    sources: Sequence[
-        tuple[
-            Mapping[str, object] | str | Path,
-            Mapping[str, object] | str | Path,
-            str | Path,
-        ]
-    ],
+    sources: Sequence[TrustedPiaCheckpointSource],
     *,
     protocol_envelope: Mapping[str, object] | str | Path,
     expected_protocol_hash: str,
@@ -1220,6 +1429,10 @@ def build_pia_score_packet(
     packet_purpose: str,
     training_identity: PiaTrainingIdentity,
     training_output_manifest: str | Path,
+    device: str,
+    batch_size: int,
+    weights_key: str,
+    upstream_verification: Mapping[str, object],
 ) -> dict[str, object]:
     """Build and self-validate the sole canonical exporter packet shape."""
 
@@ -1228,7 +1441,16 @@ def build_pia_score_packet(
         stage=training_identity.stage,
         run_seed=training_identity.run_seed,
         step=training_identity.step,
+        packet_purpose=packet_purpose,
     )
+    extraction_contract = context.pia_contract["extraction"]
+    upstream_contract = context.pia_contract["upstream"]
+    assert isinstance(extraction_contract, dict) and isinstance(upstream_contract, dict)
+    expected_upstream = {**upstream_contract, "git_clean": True}
+    _require_exact_value("extraction.device", device, extraction_contract["device"])
+    _require_exact_value("extraction.batch_size", batch_size, extraction_contract["batch_size"])
+    _require_exact_value("extraction.weights_key", weights_key, extraction_contract["weights_key"])
+    _require_exact_value("extraction.upstream", dict(upstream_verification), expected_upstream)
     expected_indices = context.role_indices[calibration_or_evaluation]
     if set(scores_by_index) != set(expected_indices) or len(scores_by_index) != len(
         expected_indices
@@ -1259,6 +1481,17 @@ def build_pia_score_packet(
         "scorer_code_commit": training_identity.scorer_code_commit,
         "split_sha256": context.split_sha256,
         "protocol_hash": context.protocol_hash,
+        "extraction": {
+            "packet_purpose": packet_purpose,
+            "device": device,
+            "batch_size": batch_size,
+            "weights_key": weights_key,
+            "evaluator_environment": extraction_contract["evaluator_environment"],
+            "upstream": dict(upstream_verification),
+            "checkpoint_filename": training_identity.checkpoint_filename,
+            "run_label": training_identity.run_label,
+            "training_config_hash": training_identity.training_config_hash,
+        },
         "rows": rows,
     }
     return validate_pia_score_packet(

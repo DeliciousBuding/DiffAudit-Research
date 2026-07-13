@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import platform
 import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
@@ -14,6 +16,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Literal
 
 import numpy as np
+import torch
 
 from diffaudit.evidence.training_config import (
     build_training_config,
@@ -28,6 +31,10 @@ _GIT_COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
 _PAPER1_PROTOCOL_NAMESPACE = "paper1-corrected-evidence"
 _PAPER1_COMMON_NOISE_NAMESPACE = "paper1-corrected-v1"
 _PAPER1_ROW_RANDOM_STATE = 1746574482
+_PAPER1_RUN_LABEL_TEMPLATES = {
+    "preflight": "corrected-preflight-s{seed}",
+    "formal": "corrected-s{seed}",
+}
 _PAPER1_CONTRACT_FIELDS = {
     "protocol_namespace",
     "dataset",
@@ -508,6 +515,43 @@ def collect_h1_evaluator_environment() -> dict[str, object]:
     return collect_environment()
 
 
+def collect_pia_cpu_environment() -> dict[str, object]:
+    """Collect the exact public-safe CPU runtime identity for canonical PIA."""
+
+    cpu_model = platform.processor() or os.environ.get("PROCESSOR_IDENTIFIER") or "unknown"
+    mkl_available = bool(torch.backends.mkl.is_available())
+    return {
+        "os": platform.system(),
+        "platform": platform.platform(aliased=True, terse=False),
+        "machine": platform.machine(),
+        "cpu_model": cpu_model,
+        "python": platform.python_version(),
+        "pytorch": str(torch.__version__),
+        "torch_num_threads": int(torch.get_num_threads()),
+        "torch_num_interop_threads": int(torch.get_num_interop_threads()),
+        "blas_backend": "mkl" if mkl_available else "unknown",
+        "mkl_available": mkl_available,
+        "mkldnn_available": bool(torch.backends.mkldnn.is_available()),
+        "openmp_available": bool(torch.backends.openmp.is_available()),
+        "omp_num_threads": os.environ.get("OMP_NUM_THREADS"),
+        "mkl_num_threads": os.environ.get("MKL_NUM_THREADS"),
+        "parallel_info": torch.__config__.parallel_info(),
+    }
+
+
+def paper1_run_label_templates() -> dict[str, str]:
+    """Return the exact non-circular run-label templates sealed by Paper 1."""
+
+    return dict(_PAPER1_RUN_LABEL_TEMPLATES)
+
+
+def render_paper1_run_label(seed: int, *, preflight: bool) -> str:
+    if type(seed) is not int or seed <= 0:
+        raise ValueError("run-label seed must be a positive integer")
+    role = "preflight" if preflight else "formal"
+    return _PAPER1_RUN_LABEL_TEMPLATES[role].format(seed=seed)
+
+
 def _paper1_h1_extraction_contract() -> dict[str, object]:
     return {
         "batch_size": 16,
@@ -569,8 +613,9 @@ def _paper1_h1_contract() -> dict[str, object]:
 def paper1_pia_contract() -> dict[str, object]:
     """Return the fixed canonical PIA packet, evaluation, and control contract."""
 
+    preflight_seed = derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)[0]
     return {
-        "packet_schema_version": 1,
+        "packet_schema_version": 2,
         "attack": "pia",
         "variant": "pia",
         "excluded_variant": "PIAN",
@@ -583,7 +628,38 @@ def paper1_pia_contract() -> dict[str, object]:
         "query_count_per_batch": 2,
         "normalization": "per_row_vector_lp",
         "beta_semantics": "linear_1000_steps_inclusive_0.0001_to_0.02",
-        "packet_purposes": ["corrected_evaluation", "cpu_positive_control"],
+        "packet_purposes": [
+            "corrected_evaluation",
+            "preflight_benchmark",
+        ],
+        "preflight_identity": {
+            "run_seed": preflight_seed,
+            "step": 2_000,
+        },
+        "extraction": {
+            "batch_size": 8,
+            "device": "cpu",
+            "weights_key": "ema",
+            "evaluator_environment": collect_pia_cpu_environment(),
+        },
+        "upstream": {
+            "repository_url": "https://github.com/kong13661/PIA.git",
+            "commit": "0d7e08a5a07f44931692d52d54d0ce41aff8f54c",
+            "required_file_sha256": {
+                "DDPM/attack.py": (
+                    "362a58e30fe7a123edd107d2dda3716874d84e98001611ec9159006b7eb4da61"
+                ),
+                "DDPM/components.py": (
+                    "d61ebadb4643741116e2b08f61a4db7f4805dd84efdc15d6e0447cc357b4871a"
+                ),
+                "DDPM/dataset_utils.py": (
+                    "7766a985246ce868e861a751a651d3740419456106ea1277a357fdf1b6a9ce82"
+                ),
+                "DDPM/model.py": (
+                    "b8714f85649dadc9223c0e77d63ee24515be4a87dba25a796c8d611f0cff17ed"
+                ),
+            },
+        },
         "noise_id": {
             "random_noise": False,
             "derivation": "sha256_canonical_json_v1",
@@ -714,6 +790,7 @@ def validate_paper1_protocol_envelope(
     training_config = build_training_config()
     expected_training = {
         "seeds": list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)),
+        "run_label_templates": paper1_run_label_templates(),
         "batch_size": training_config.data["batch_size"],
         "interim_steps": 100_000,
         "mature_steps": 200_000,
@@ -827,6 +904,7 @@ def build_paper1_corrected_contract(
         },
         "training": {
             "seeds": training_seeds,
+            "run_label_templates": paper1_run_label_templates(),
             "batch_size": training_config.data["batch_size"],
             "interim_steps": 100_000,
             "mature_steps": 200_000,
@@ -938,6 +1016,7 @@ def verify_paper1_contract(
     training_config = build_training_config()
     expected_training = {
         "seeds": list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)),
+        "run_label_templates": paper1_run_label_templates(),
         "batch_size": training_config.data["batch_size"],
         "interim_steps": 100_000,
         "mature_steps": 200_000,

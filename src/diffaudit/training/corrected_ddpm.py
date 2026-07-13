@@ -20,7 +20,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset, Subset
 
-from diffaudit.evidence.corrected_protocol import verify_paper1_contract
+from diffaudit.evidence.corrected_protocol import render_paper1_run_label, verify_paper1_contract
 from diffaudit.evidence.training_config import (
     TrainingConfig,
     build_training_config,
@@ -81,12 +81,16 @@ def _load_protocol_envelope(path: Path) -> Mapping[str, object]:
     return value
 
 
-def _validate_run_label(run_label: str, seed: int) -> str:
+def _validate_run_label(run_label: str, seed: int, *, preflight: bool) -> str:
     if not isinstance(run_label, str) or _RUN_LABEL_RE.fullmatch(run_label) is None:
         raise ValueError("run label must be a corrected slug containing one s<seed> token")
     tokens = [int(value) for value in _SEED_TOKEN_RE.findall(run_label)]
     if tokens != [seed]:
         raise ValueError("run label must contain exactly the requested s<seed> token")
+    expected = render_paper1_run_label(seed, preflight=preflight)
+    if run_label != expected:
+        role = "preflight" if preflight else "formal"
+        raise ValueError(f"run label does not match the sealed {role} template")
     return run_label
 
 
@@ -108,6 +112,8 @@ def load_training_contract(
     expected_code_commit: str,
     seed: int,
     run_label: str,
+    *,
+    preflight: bool = False,
 ) -> CorrectedTrainingContract:
     """Verify the frozen protocol and select one corrected training identity."""
 
@@ -129,7 +135,7 @@ def load_training_contract(
     training_seeds = tuple(training["seeds"])
     if type(seed) is not int or seed not in training_seeds:
         raise ValueError("seed must be one of the eight verified training seeds")
-    run_label = _validate_run_label(run_label, seed)
+    run_label = _validate_run_label(run_label, seed, preflight=preflight)
     split = verified["dataset"]["split"]
     training_config = build_training_config()
     training_config_hash = canonical_training_config_hash(training_config)
@@ -309,7 +315,7 @@ def save_corrected_checkpoint(
 ) -> Path:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    _validate_run_label(run_label, seed)
+    _validate_run_label(run_label, seed, preflight=run_label.startswith("corrected-preflight-"))
     _require_hash("protocol_hash", protocol_hash, _SHA256_RE)
     _require_hash("split_sha256", split_sha256, _SHA256_RE)
     _require_hash("code_commit", code_commit, _COMMIT_RE)

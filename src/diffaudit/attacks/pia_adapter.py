@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
+import io
 import json
+import pickle
 import re
 import shutil
 import subprocess
 import time
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
-from typing import Any
+from typing import Any, BinaryIO
 
 import numpy as np
 import torch
@@ -20,6 +24,7 @@ from torchvision import datasets as tv_datasets
 from torchvision import transforms as tv_transforms
 
 from diffaudit.attacks.pia import (
+    REQUIRED_PIA_WORKSPACE_FILES,
     PiaPlan,
     build_pia_plan,
     probe_pia_assets,
@@ -27,11 +32,11 @@ from diffaudit.attacks.pia import (
 )
 from diffaudit.attacks.pia_canonical import (
     build_pia_score_packet,
-    derive_pia_stage,
-    evaluate_calibrated_packets,
     load_pia_protocol_context,
     load_pia_training_identity,
+    resolve_pia_training_checkpoint_path,
     score_pia_canonical,
+    validate_pia_cpu_runtime,
     validate_pia_score_packet_pair,
     write_pia_score_packet,
 )
@@ -42,8 +47,8 @@ from diffaudit.config import (
     ReportConfig,
     TaskConfig,
 )
+from diffaudit.evidence.corrected_protocol import collect_pia_cpu_environment
 from diffaudit.training.corrected_ddpm import read_repository_state, validate_repository_state
-from diffaudit.utils.metrics import auc_score
 
 RESEARCH_ROOT = Path(__file__).resolve().parents[3]
 
@@ -85,6 +90,65 @@ def validate_pia_repository_state(
     return head
 
 
+def validate_canonical_pia_workspace(
+    repo_root: str | Path,
+    pia_contract: Mapping[str, object],
+) -> dict[str, object]:
+    """Verify the exact clean official PIA checkout before importing upstream code."""
+
+    root = Path(repo_root).resolve()
+    upstream = pia_contract.get("upstream")
+    if not isinstance(upstream, Mapping) or set(upstream) != {
+        "repository_url",
+        "commit",
+        "required_file_sha256",
+    }:
+        raise ValueError("canonical PIA upstream contract fields must be exact")
+
+    def git(*args: str) -> str:
+        try:
+            return subprocess.run(
+                ["git", *args],
+                cwd=root,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+        except (OSError, subprocess.CalledProcessError) as error:
+            raise ValueError("canonical PIA upstream must be an exact git checkout") from error
+
+    top_level = Path(git("rev-parse", "--show-toplevel")).resolve()
+    if top_level != root:
+        raise ValueError("canonical PIA upstream git root does not match repo_root")
+    origin = git("remote", "get-url", "origin")
+    if origin != upstream["repository_url"]:
+        raise ValueError("canonical PIA upstream origin does not match the sealed contract")
+    head = git("rev-parse", "HEAD")
+    if head != upstream["commit"]:
+        raise ValueError("canonical PIA upstream HEAD does not match the sealed contract")
+    if git("status", "--porcelain=v1", "--untracked-files=all"):
+        raise ValueError("canonical PIA upstream checkout must be completely clean")
+
+    raw_hashes = upstream["required_file_sha256"]
+    if not isinstance(raw_hashes, Mapping) or set(raw_hashes) != set(REQUIRED_PIA_WORKSPACE_FILES):
+        raise ValueError("canonical PIA upstream required file set does not match the contract")
+    realized_hashes: dict[str, str] = {}
+    for relative_path in REQUIRED_PIA_WORKSPACE_FILES:
+        path = root / relative_path
+        if not path.is_file():
+            raise ValueError(f"canonical PIA upstream file is missing: {relative_path}")
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        if digest != raw_hashes[relative_path]:
+            raise ValueError(f"canonical PIA upstream SHA256 mismatch: {relative_path}")
+        realized_hashes[relative_path] = digest
+    return {
+        "repository_url": origin,
+        "commit": head,
+        "required_file_sha256": realized_hashes,
+        "git_clean": True,
+    }
+
+
 @dataclass(frozen=True)
 class PiaDefaults:
     T: int = 1000
@@ -123,16 +187,46 @@ def _load_module_from_path(module_name: str, module_path: Path) -> ModuleType:
     return module
 
 
-def load_pia_ddpm_modules(repo_root: str | Path) -> tuple[ModuleType, ModuleType]:
+def _load_module_from_verified_source(
+    module_name: str,
+    module_path: Path,
+    expected_sha256: str,
+) -> ModuleType:
+    try:
+        source = module_path.read_bytes()
+    except OSError as error:
+        raise ValueError(f"verified PIA source is unreadable: {module_path.name}") from error
+    if hashlib.sha256(source).hexdigest() != expected_sha256:
+        raise ValueError(f"verified source SHA256 mismatch: {module_path.name}")
+    module = ModuleType(module_name)
+    module.__file__ = str(module_path)
+    exec(compile(source, str(module_path), "exec"), module.__dict__)
+    return module
+
+
+def load_pia_ddpm_modules(
+    repo_root: str | Path,
+    *,
+    required_file_sha256: Mapping[str, object] | None = None,
+) -> tuple[ModuleType, ModuleType]:
     repo_path = Path(repo_root)
-    components_module = _load_module_from_path(
-        f"diffaudit_pia_components_{abs(hash(repo_path.resolve()))}",
-        repo_path / "DDPM" / "components.py",
+    module_specs = (
+        ("components", "DDPM/components.py"),
+        ("model", "DDPM/model.py"),
     )
-    model_module = _load_module_from_path(
-        f"diffaudit_pia_model_{abs(hash(repo_path.resolve()))}",
-        repo_path / "DDPM" / "model.py",
-    )
+    loaded: list[ModuleType] = []
+    for module_stem, relative_path in module_specs:
+        module_name = f"diffaudit_pia_{module_stem}_{abs(hash(repo_path.resolve()))}"
+        module_path = repo_path / relative_path
+        if required_file_sha256 is None:
+            module = _load_module_from_path(module_name, module_path)
+        else:
+            expected = required_file_sha256.get(relative_path)
+            if not isinstance(expected, str):
+                raise ValueError(f"verified source SHA256 is missing: {relative_path}")
+            module = _load_module_from_verified_source(module_name, module_path, expected)
+        loaded.append(module)
+    components_module, model_module = loaded
     return components_module, model_module
 
 
@@ -161,16 +255,24 @@ def resolve_pia_weights_key(checkpoint: dict[str, Any]) -> str:
 
 
 def load_pia_model(
-    checkpoint_path: str | Path,
+    checkpoint_path: str | Path | BinaryIO,
     model_module: ModuleType,
     device: str = "cpu",
     defaults: PiaDefaults | None = None,
+    *,
+    weights_only: bool = False,
 ) -> tuple[torch.nn.Module, str]:
     model = build_pia_unet(model_module, defaults=defaults)
-    try:
-        checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
-    except TypeError:
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+    if weights_only:
+        try:
+            checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
+        except (OSError, RuntimeError, EOFError, ValueError, pickle.UnpicklingError) as error:
+            raise ValueError("canonical PIA checkpoint must be weights-only safe") from error
+    else:
+        try:
+            checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
+        except TypeError:
+            checkpoint = torch.load(checkpoint_path, map_location=device)
     if not isinstance(checkpoint, dict):
         raise TypeError("PIA checkpoint must be a dict-like torch checkpoint")
     weights_key = resolve_pia_weights_key(checkpoint)
@@ -1817,7 +1919,7 @@ def export_pia_packet_scores(
     packet_purpose: str | None = None,
     calibration_or_evaluation: str | None = None,
 ) -> dict[str, Any]:
-    if device.lower() != "cpu":
+    if device != "cpu":
         raise ValueError("PIA packet export is CPU-first and does not authorize GPU use.")
 
     workspace_path = Path(workspace)
@@ -1853,14 +1955,33 @@ def export_pia_packet_scores(
         context = load_pia_protocol_context(
             protocol_manifest, expected_protocol_hash=expected_protocol_hash
         )
+        extraction_contract = context.pia_contract["extraction"]
+        assert isinstance(extraction_contract, dict)
+        validate_pia_cpu_runtime(
+            extraction_contract,
+            device=device,
+            batch_size=batch_size,
+            evaluator_environment=collect_pia_cpu_environment(),
+        )
+        if plan.batch_size != batch_size:
+            raise ValueError("canonical PIA config batch_size does not match the sealed contract")
         head, tracked_status, untracked_code = read_pia_repository_state(RESEARCH_ROOT)
         validate_pia_repository_state(head, context.code_commit, tracked_status, untracked_code)
+        assert training_output_manifest is not None
+        checkpoint_path = resolve_pia_training_checkpoint_path(
+            training_output_manifest,
+            expected_model_dir=plan.model_dir,
+        )
     validate_pia_workspace(repo_root)
+    if plan.variant == "canonical-ddpm-eq9":
+        upstream_verification = validate_canonical_pia_workspace(repo_root, context.pia_contract)
     split_root = Path(member_split_root) if member_split_root else Path(repo_root) / "DDPM"
     asset_summary = probe_pia_assets(
         dataset=plan.dataset,
         dataset_root=plan.data_root,
-        model_dir=plan.model_dir,
+        model_dir=checkpoint_path.parent
+        if plan.variant == "canonical-ddpm-eq9"
+        else plan.model_dir,
         member_split_root=split_root,
     )
     if asset_summary["status"] != "ready":
@@ -1890,18 +2011,40 @@ def export_pia_packet_scores(
             raise ValueError("canonical PIA has no adaptive or repeated random-noise queries")
         assert packet_purpose is not None
         assert training_output_manifest is not None
+        asset_summary["paths"]["checkpoint"] = str(checkpoint_path)
         if plan.dataset.upper() != context.dataset_id.upper():
             raise ValueError("canonical PIA config dataset does not match the sealed protocol")
+        try:
+            checkpoint_snapshot = checkpoint_path.read_bytes()
+        except OSError as error:
+            raise ValueError("canonical PIA checkpoint is unreadable") from error
         training_identity = load_pia_training_identity(
             context,
-            checkpoint_path=asset_summary["paths"]["checkpoint"],
+            checkpoint_path=checkpoint_path,
             training_output_manifest=training_output_manifest,
             scorer_code_commit=head,
+            packet_purpose=packet_purpose,
+            checkpoint_snapshot=checkpoint_snapshot,
         )
-        components_module, model_module = load_pia_ddpm_modules(repo_root)
+        export_started = time.perf_counter()
+        upstream_contract = context.pia_contract["upstream"]
+        assert isinstance(upstream_contract, Mapping)
+        required_file_sha256 = upstream_contract["required_file_sha256"]
+        assert isinstance(required_file_sha256, Mapping)
+        components_module, model_module = load_pia_ddpm_modules(
+            repo_root,
+            required_file_sha256=required_file_sha256,
+        )
         model, weights_key = load_pia_model(
-            asset_summary["paths"]["checkpoint"], model_module, device=device
+            io.BytesIO(checkpoint_snapshot), model_module, device=device, weights_only=True
         )
+        if weights_key != extraction_contract["weights_key"]:
+            raise ValueError("canonical PIA must load corrected checkpoint EMA weights")
+        if (
+            hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
+            != training_identity.checkpoint_sha256
+        ):
+            raise ValueError("checkpoint changed while the canonical PIA model was loading")
         attacker = _build_pia_attacker(
             components_module=components_module,
             model=model,
@@ -1932,6 +2075,17 @@ def export_pia_packet_scores(
             device=device,
             adaptive_query_repeats=1,
         )
+        try:
+            live_checkpoint_sha256 = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
+        except OSError as error:
+            raise ValueError("checkpoint changed during score export") from error
+        if live_checkpoint_sha256 != training_identity.checkpoint_sha256:
+            raise ValueError("checkpoint changed during score export")
+        live_upstream_verification = validate_canonical_pia_workspace(
+            repo_root, context.pia_contract
+        )
+        if live_upstream_verification != upstream_verification:
+            raise ValueError("canonical PIA upstream changed during score export")
         scores_by_index = {
             dataset_index: float(score)
             for dataset_index, score in zip(packet_indices, scores.tolist(), strict=True)
@@ -1943,9 +2097,15 @@ def export_pia_packet_scores(
             packet_purpose=packet_purpose,
             training_identity=training_identity,
             training_output_manifest=training_output_manifest,
+            device=device,
+            batch_size=batch_size,
+            weights_key=weights_key,
+            upstream_verification=upstream_verification,
         )
         workspace_path.mkdir(parents=True, exist_ok=True)
         packet_path = write_pia_score_packet(workspace_path / "score-packet.json", packet)
+        packet_sha256 = hashlib.sha256(packet_path.read_bytes()).hexdigest()
+        elapsed_seconds = time.perf_counter() - export_started
         result = {
             "status": "score_packet_exported",
             "method": "pia",
@@ -1957,6 +2117,26 @@ def export_pia_packet_scores(
             "run_seed": training_identity.run_seed,
             "step": training_identity.step,
             "row_count": len(packet_indices),
+            "elapsed_seconds": elapsed_seconds,
+            "packet_sha256": packet_sha256,
+            "raw_score_packet_status": "embargoed",
+            "outcome_boundary": (
+                "generated and sealed raw score packet, but did not compute/display/inspect "
+                "aggregate metrics or score contents"
+            ),
+            "provenance_receipt": {
+                "protocol_hash": context.protocol_hash,
+                "packet_purpose": packet_purpose,
+                "stage": training_identity.stage,
+                "run_seed": training_identity.run_seed,
+                "step": training_identity.step,
+                "checkpoint_sha256": training_identity.checkpoint_sha256,
+                "checkpoint_filename": training_identity.checkpoint_filename,
+                "training_manifest_sha256": training_identity.training_manifest_sha256,
+                "run_label": training_identity.run_label,
+                "training_config_hash": training_identity.training_config_hash,
+                "extraction": packet["extraction"],
+            },
             "artifact_paths": {
                 "summary": str(workspace_path / "summary.json"),
                 "score_packet": str(packet_path),
@@ -2337,62 +2517,15 @@ def run_pia_runtime_mainline(
             context=context,
             training_output_manifest=training_output_manifest,
         )
-        metrics = evaluate_calibrated_packets(
-            calibration.scores,
-            calibration.labels,
-            calibration.indices,
-            evaluation.scores,
-            evaluation.labels,
-            evaluation.indices,
-        )
         packet_purpose = str(calibration.provenance["packet_purpose"])
-        complete_positive_control_gate = False
-        status = "evaluation_complete"
-        checks: dict[str, bool] | None = None
-        if packet_purpose == "cpu_positive_control":
-            gate = context.pia_contract["positive_control_gate"]
-            assert isinstance(gate, dict)
-            negative_score_auc = float(auc_score(-evaluation.scores, evaluation.labels))
-            checks = {
-                "evaluation_auc": float(metrics["evaluation_auc"])
-                >= float(gate["evaluation_auc_min"]),
-                "evaluation_balanced_accuracy": float(metrics["evaluation_balanced_accuracy"])
-                >= float(gate["evaluation_balanced_accuracy_min"]),
-                "evaluation_fpr": float(metrics["evaluation_fpr"])
-                <= float(gate["evaluation_fpr_max"]),
-                "negative_score_auc": negative_score_auc <= float(gate["negative_score_auc_max"]),
-            }
-            metrics["negative_score_auc"] = negative_score_auc
-            status = (
-                "cpu_positive_control_partial"
-                if all(checks.values())
-                else "cpu_positive_control_failed"
+        if packet_purpose == "preflight_benchmark":
+            raise ValueError(
+                "preflight_benchmark packets are export-only and forbidden from runtime evaluation"
             )
-        result = {
-            "status": status,
-            "method": "pia",
-            "variant": "pia",
-            "mode": "canonical_pia_evaluation",
-            "packet_purpose": packet_purpose,
-            "evaluator_code_commit": evaluator_head,
-            "stage": derive_pia_stage(
-                context,
-                run_seed=calibration.provenance["run_seed"],
-                step=calibration.provenance["step"],
-            ),
-            "complete_positive_control_gate": complete_positive_control_gate,
-            "metrics": {key: value for key, value in metrics.items() if key != "predictions"},
-            "target_provenance": calibration.provenance,
-            "calibration_packet": str(calibration_score_packet),
-            "evaluation_packet": str(evaluation_score_packet),
-        }
-        if checks is not None:
-            result["partial_positive_control_checks"] = checks
-        Path(workspace).mkdir(parents=True, exist_ok=True)
-        (Path(workspace) / "summary.json").write_text(
-            json.dumps(result, indent=2, allow_nan=False), encoding="utf-8"
-        )
-        return result
+        if packet_purpose == "corrected_evaluation":
+            raise ValueError(
+                "corrected_evaluation packets require formal complete-roster confirmatory analysis"
+            )
     if any(
         value is not None
         for value in (

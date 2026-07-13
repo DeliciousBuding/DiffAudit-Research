@@ -99,6 +99,43 @@ def test_load_training_contract_returns_typed_verified_identity(
 
 
 @pytest.mark.parametrize(
+    ("preflight", "accepted", "rejected"),
+    [
+        (True, f"corrected-preflight-s{SEEDS[0]}", f"corrected-s{SEEDS[0]}"),
+        (False, f"corrected-s{SEEDS[0]}", f"corrected-preflight-s{SEEDS[0]}"),
+    ],
+)
+def test_training_contract_enforces_exact_protocol_run_label_lineage(
+    protocol_files: tuple[Path, Path, np.ndarray],
+    preflight: bool,
+    accepted: str,
+    rejected: str,
+) -> None:
+    protocol_path, split_path, labels = protocol_files
+
+    loaded = load_training_contract(
+        protocol_path,
+        split_path,
+        labels,
+        CODE_COMMIT,
+        SEEDS[0],
+        accepted,
+        preflight=preflight,
+    )
+    assert loaded.run_label == accepted
+    with pytest.raises(ValueError, match="run label.*preflight|run label.*formal"):
+        load_training_contract(
+            protocol_path,
+            split_path,
+            labels,
+            CODE_COMMIT,
+            SEEDS[0],
+            rejected,
+            preflight=preflight,
+        )
+
+
+@pytest.mark.parametrize(
     ("seed", "label"),
     [
         (99, "corrected-s99"),

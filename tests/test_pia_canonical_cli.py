@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import json
+import subprocess
 from copy import deepcopy
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -12,7 +15,11 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 
 from diffaudit.attacks import pia_adapter
-from diffaudit.attacks.pia_canonical import load_pia_protocol_context, load_pia_training_identity
+from diffaudit.attacks.pia_canonical import (
+    load_pia_protocol_context,
+    load_pia_training_identity,
+    validate_pia_score_packet_pair,
+)
 from diffaudit.cli import main
 from diffaudit.cli._parser import build_parser
 from diffaudit.config import load_audit_config
@@ -27,32 +34,42 @@ CANONICAL_CONFIG = RESEARCH_ROOT / "configs" / "attacks" / "pia-mainline-canonic
 CODE_COMMIT = "c" * 40
 SPLIT_SHA256 = "d" * 64
 CHECKPOINT_SHA256 = "e" * 64
+INVALID_PREFLIGHT_IDENTITY_CASES = (
+    ("corrected_evaluation", 0, 2_000),
+    ("preflight_benchmark", 1, 2_000),
+    ("preflight_benchmark", 0, 2_001),
+    ("preflight_benchmark", 0, 100_000),
+)
 
 
 def _training_manifest_payload(
-    envelope: dict[str, object], checkpoint_sha256: str = CHECKPOINT_SHA256
+    envelope: dict[str, object],
+    checkpoint_sha256: str = CHECKPOINT_SHA256,
+    *,
+    seed: int | None = None,
+    step: int = 100_000,
 ) -> dict[str, object]:
     contract = envelope["contract"]
     roster = contract["h1"]["cross_target_rosters"]["stage1"]
-    seed = roster["seeds"][0]
-    step = roster["step"]
-    run_label = f"corrected-s{seed}"
+    run_seed = roster["seeds"][0] if seed is None else seed
+    run_label = f"corrected-preflight-s{run_seed}" if step == 2_000 else f"corrected-s{run_seed}"
     config_hash = canonical_training_config_hash(build_training_config())
     checkpoint_name = f"checkpoint-step{step:06d}.pt"
     return {
         "protocol_hash": envelope["protocol_hash"],
         "split_sha256": SPLIT_SHA256,
         "code_commit": CODE_COMMIT,
-        "seed": seed,
+        "seed": run_seed,
         "run_label": run_label,
         "step": step,
+        "checkpoint": checkpoint_name,
         "training_config_hash": config_hash,
         "checkpoint_receipts": {
             checkpoint_name: {
                 "checkpoint_sha256": checkpoint_sha256,
                 "protocol_hash": envelope["protocol_hash"],
                 "code_commit": CODE_COMMIT,
-                "run_seed": seed,
+                "run_seed": run_seed,
                 "step": step,
                 "run_label": run_label,
                 "training_config_hash": config_hash,
@@ -62,9 +79,20 @@ def _training_manifest_payload(
 
 
 def _training_manifest_bytes(
-    envelope: dict[str, object], checkpoint_sha256: str = CHECKPOINT_SHA256
+    envelope: dict[str, object],
+    checkpoint_sha256: str = CHECKPOINT_SHA256,
+    *,
+    seed: int | None = None,
+    step: int = 100_000,
 ) -> bytes:
-    return json.dumps(_training_manifest_payload(envelope, checkpoint_sha256)).encode("utf-8")
+    return json.dumps(
+        _training_manifest_payload(
+            envelope,
+            checkpoint_sha256,
+            seed=seed,
+            step=step,
+        )
+    ).encode("utf-8")
 
 
 def _canonical_noise_id(protocol_hash: str, dataset_index: int) -> str:
@@ -150,8 +178,19 @@ def _packet(
                 "noise_id": _canonical_noise_id(protocol_hash, dataset_index),
             }
         )
+    packet_seed = seeds[0] if run_seed is None else run_seed
+    pia_contract = contract["pia"]
+    extraction_contract = pia_contract["extraction"]
+    upstream_contract = pia_contract["upstream"]
+    config_hash = canonical_training_config_hash(build_training_config())
+    checkpoint_filename = f"checkpoint-step{step:06d}.pt"
+    run_label = (
+        f"corrected-preflight-s{packet_seed}"
+        if purpose == "preflight_benchmark"
+        else f"corrected-s{packet_seed}"
+    )
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "attack": "pia",
         "variant": "pia",
         "timestep": 200,
@@ -160,16 +199,35 @@ def _packet(
         "score_direction": "higher_is_member",
         "input_range": [-1.0, 1.0],
         "packet_purpose": purpose,
-        "run_seed": seeds[0] if run_seed is None else run_seed,
+        "run_seed": packet_seed,
         "step": step,
         "checkpoint_sha256": checkpoint_sha256,
         "training_manifest_sha256": hashlib.sha256(
-            _training_manifest_bytes(envelope, checkpoint_sha256)
+            _training_manifest_bytes(
+                envelope,
+                checkpoint_sha256,
+                seed=int(packet_seed),
+                step=step,
+            )
         ).hexdigest(),
         "target_code_commit": CODE_COMMIT,
         "scorer_code_commit": CODE_COMMIT,
         "split_sha256": SPLIT_SHA256,
         "protocol_hash": protocol_hash,
+        "extraction": {
+            "packet_purpose": purpose,
+            "device": extraction_contract["device"],
+            "batch_size": extraction_contract["batch_size"],
+            "weights_key": extraction_contract["weights_key"],
+            "evaluator_environment": extraction_contract["evaluator_environment"],
+            "upstream": {
+                **upstream_contract,
+                "git_clean": True,
+            },
+            "checkpoint_filename": checkpoint_filename,
+            "run_label": run_label,
+            "training_config_hash": config_hash,
+        },
         "rows": rows,
     }
 
@@ -184,15 +242,29 @@ def _write_packet_pair(
     envelope: dict[str, object],
     *,
     purpose: str = "corrected_evaluation",
+    run_seed: int | None = None,
+    step: int = 100_000,
 ) -> tuple[Path, Path]:
     return (
         _write_packet(
             tmp_path / "calibration.json",
-            _packet(envelope, role="calibration", purpose=purpose),
+            _packet(
+                envelope,
+                role="calibration",
+                purpose=purpose,
+                run_seed=run_seed,
+                step=step,
+            ),
         ),
         _write_packet(
             tmp_path / "evaluation.json",
-            _packet(envelope, role="evaluation", purpose=purpose),
+            _packet(
+                envelope,
+                role="evaluation",
+                purpose=purpose,
+                run_seed=run_seed,
+                step=step,
+            ),
         ),
     )
 
@@ -210,13 +282,11 @@ def _write_corrected_checkpoint_and_manifest(
     assert isinstance(contract, dict)
     roster = contract["h1"]["cross_target_rosters"]["stage1"]
     run_seed = roster["seeds"][0] if seed is None else seed
-    run_label = f"corrected-s{run_seed}"
+    run_label = f"corrected-preflight-s{run_seed}" if step == 2_000 else f"corrected-s{run_seed}"
     config_hash = canonical_training_config_hash(build_training_config())
     checkpoint = tmp_path / f"checkpoint-step{step:06d}.pt"
     corrected_model_weights = {} if model_state_dict is None else model_state_dict
-    corrected_ema_weights = (
-        corrected_model_weights if ema_state_dict is None else ema_state_dict
-    )
+    corrected_ema_weights = corrected_model_weights if ema_state_dict is None else ema_state_dict
     torch.save(
         {
             "model": corrected_model_weights,
@@ -241,8 +311,110 @@ def _write_corrected_checkpoint_and_manifest(
     )
     checkpoint_sha = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
     manifest = tmp_path / "training-manifest.json"
-    manifest.write_bytes(_training_manifest_bytes(envelope, checkpoint_sha))
+    manifest.write_bytes(
+        _training_manifest_bytes(
+            envelope,
+            checkpoint_sha,
+            seed=int(run_seed),
+            step=step,
+        )
+    )
     return checkpoint, manifest, checkpoint_sha, hashlib.sha256(manifest.read_bytes()).hexdigest()
+
+
+def _canonical_config_for_model_dir(model_dir: Path):
+    config = load_audit_config(CANONICAL_CONFIG)
+    return replace(config, assets=replace(config.assets, model_dir=str(model_dir)))
+
+
+def _sealed_upstream_verification(envelope: dict[str, object]) -> dict[str, object]:
+    contract = envelope["contract"]
+    assert isinstance(contract, dict)
+    return {**contract["pia"]["upstream"], "git_clean": True}
+
+
+def _assert_metric_free_export_receipt(receipt: dict[str, object], *, expected_stage: str) -> None:
+    assert receipt["status"] == "score_packet_exported"
+    assert receipt["stage"] == expected_stage
+    assert receipt["packet_sha256"]
+    assert receipt["raw_score_packet_status"] == "embargoed"
+    assert "metrics" not in receipt and "scores" not in receipt
+    assert (
+        "did not compute/display/inspect aggregate metrics or score contents"
+        in receipt["outcome_boundary"]
+    )
+
+
+def _stub_canonical_export_assets(
+    monkeypatch: pytest.MonkeyPatch,
+    envelope: dict[str, object],
+    tmp_path: Path,
+    checkpoint: Path,
+    *,
+    modules: tuple[object, object] | None = None,
+) -> None:
+    monkeypatch.setattr(pia_adapter, "validate_pia_workspace", lambda _path: {"status": "ready"})
+    monkeypatch.setattr(
+        pia_adapter,
+        "validate_canonical_pia_workspace",
+        lambda *_args: _sealed_upstream_verification(envelope),
+        raising=False,
+    )
+    monkeypatch.setattr(
+        pia_adapter,
+        "probe_pia_assets",
+        lambda **_kwargs: {
+            "status": "ready",
+            "paths": {
+                "checkpoint": str(checkpoint),
+                "dataset_dir": str(tmp_path / "dataset"),
+                "member_split": str(tmp_path / "unused.npz"),
+            },
+            "checks": {"checkpoint": True},
+        },
+    )
+    if modules is not None:
+
+        def load_verified_modules(
+            _root: str | Path, *, required_file_sha256: object = None
+        ) -> tuple[object, object]:
+            contract = envelope["contract"]
+            assert isinstance(contract, dict)
+            assert required_file_sha256 == contract["pia"]["upstream"]["required_file_sha256"]
+            return modules
+
+        monkeypatch.setattr(pia_adapter, "load_pia_ddpm_modules", load_verified_modules)
+
+
+def _stub_canonical_packet_loader(
+    monkeypatch: pytest.MonkeyPatch,
+    envelope: dict[str, object],
+    *,
+    member_value: float = 0.0,
+    nonmember_value: float = 0.0,
+) -> None:
+    contract = envelope["contract"]
+    assert isinstance(contract, dict)
+    by_index = {int(row["dataset_index"]): row for row in contract["evaluation"]["rows"]}
+
+    def fake_loader(
+        dataset: str,
+        dataset_dir: str | Path,
+        packet_indices: list[int],
+        batch_size: int,
+    ) -> DataLoader:
+        del dataset, dataset_dir
+        values = torch.zeros(len(packet_indices), 3, 2, 2)
+        values[:, 0, 0, 0] = torch.tensor(
+            [
+                member_value if by_index[index]["label"] == 1 else nonmember_value
+                for index in packet_indices
+            ]
+        )
+        labels = torch.tensor([by_index[index]["class_id"] for index in packet_indices])
+        return DataLoader(TensorDataset(values, labels), batch_size=batch_size, shuffle=False)
+
+    monkeypatch.setattr(pia_adapter, "_build_pia_packet_loader", fake_loader)
 
 
 def _run_canonical_cli(
@@ -281,7 +453,7 @@ def _run_canonical_cli(
     return main(argv)
 
 
-def test_cli_reports_complete_heldout_fixed_direction_metrics(
+def test_corrected_packets_are_rejected_before_single_pair_metrics(
     tmp_path: Path,
     protocol_envelope: dict[str, object],
     protocol_manifest: Path,
@@ -290,29 +462,187 @@ def test_cli_reports_complete_heldout_fixed_direction_metrics(
     calibration, evaluation = _write_packet_pair(tmp_path, protocol_envelope)
     workspace = tmp_path / "success"
 
-    exit_code = _run_canonical_cli(
-        workspace,
-        protocol_manifest=protocol_manifest,
-        protocol_hash=str(protocol_envelope["protocol_hash"]),
-        calibration_packet=calibration,
-        evaluation_packet=evaluation,
+    with pytest.raises(ValueError, match="corrected_evaluation.*complete-roster"):
+        _run_canonical_cli(
+            workspace,
+            protocol_manifest=protocol_manifest,
+            protocol_hash=str(protocol_envelope["protocol_hash"]),
+            calibration_packet=calibration,
+            evaluation_packet=evaluation,
+        )
+
+    assert capsys.readouterr().out == ""
+    assert not workspace.exists()
+
+
+def test_preflight_packets_validate_but_runtime_evaluator_never_computes_or_emits_metrics(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    contract = protocol_envelope["contract"]
+    assert isinstance(contract, dict)
+    identity = contract["pia"]["preflight_identity"]
+    seed = int(identity["run_seed"])
+    step = int(identity["step"])
+    checkpoint_sha256 = CHECKPOINT_SHA256
+    training_manifest = tmp_path / "preflight-training-manifest.json"
+    training_manifest.write_bytes(
+        _training_manifest_bytes(
+            protocol_envelope,
+            checkpoint_sha256,
+            seed=seed,
+            step=step,
+        )
+    )
+    calibration, evaluation = _write_packet_pair(
+        tmp_path,
+        protocol_envelope,
+        purpose="preflight_benchmark",
+        run_seed=seed,
+        step=step,
+    )
+    context = load_pia_protocol_context(
+        protocol_manifest,
+        expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
+    )
+    validated, _ = validate_pia_score_packet_pair(
+        calibration,
+        evaluation,
+        context=context,
+        training_output_manifest=training_manifest,
+    )
+    assert validated.provenance["packet_purpose"] == "preflight_benchmark"
+    workspace = tmp_path / "preflight-evaluator-must-not-exist"
+
+    with pytest.raises(ValueError, match="preflight_benchmark.*export-only"):
+        _run_canonical_cli(
+            workspace,
+            protocol_manifest=protocol_manifest,
+            protocol_hash=str(protocol_envelope["protocol_hash"]),
+            calibration_packet=calibration,
+            evaluation_packet=evaluation,
+            training_output_manifest=training_manifest,
+        )
+
+    assert capsys.readouterr().out == ""
+    assert not workspace.exists()
+
+
+@pytest.mark.parametrize(
+    ("purpose", "seed_offset", "step"),
+    INVALID_PREFLIGHT_IDENTITY_CASES,
+)
+def test_preflight_packet_identity_rejects_wrong_purpose_seed_step_and_relabeling(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    purpose: str,
+    seed_offset: int,
+    step: int,
+) -> None:
+    contract = protocol_envelope["contract"]
+    assert isinstance(contract, dict)
+    seeds = contract["training"]["seeds"]
+    seed = int(seeds[seed_offset])
+    training_manifest = tmp_path / "identity-training-manifest.json"
+    training_manifest.write_bytes(
+        _training_manifest_bytes(
+            protocol_envelope,
+            seed=seed,
+            step=step,
+        )
+    )
+    calibration, evaluation = _write_packet_pair(
+        tmp_path,
+        protocol_envelope,
+        purpose=purpose,
+        run_seed=seed,
+        step=step,
     )
 
-    emitted = json.loads(capsys.readouterr().out)
-    summary = json.loads((workspace / "summary.json").read_text(encoding="utf-8"))
-    assert exit_code == 0
-    assert emitted == summary
-    assert summary["status"] == "evaluation_complete"
-    assert summary["mode"] == "canonical_pia_evaluation"
-    assert summary["packet_purpose"] == "corrected_evaluation"
-    assert summary["evaluator_code_commit"] == CODE_COMMIT
-    assert summary["metrics"]["evaluation_auc"] == pytest.approx(1.0)
-    assert summary["metrics"]["calibration_threshold"] == pytest.approx(0.9)
-    assert summary["metrics"]["evaluation_balanced_accuracy"] == pytest.approx(1.0)
-    assert summary["metrics"]["evaluation_fpr"] == pytest.approx(0.0)
-    assert summary["metrics"]["tpr_at_1pct_fpr"] == pytest.approx(1.0)
-    assert len(summary["metrics"]["tpr_at_1pct_fpr_wilson_95_ci"]) == 2
-    assert all("0_1pct" not in key for key in summary["metrics"])
+    with pytest.raises(ValueError, match="preflight|sealed|stage|identity"):
+        _run_canonical_cli(
+            tmp_path / "identity-must-not-exist",
+            protocol_manifest=protocol_manifest,
+            protocol_hash=str(protocol_envelope["protocol_hash"]),
+            calibration_packet=calibration,
+            evaluation_packet=evaluation,
+            training_output_manifest=training_manifest,
+        )
+
+
+def test_canonical_upstream_validation_checks_origin_head_cleanliness_and_file_hashes(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+) -> None:
+    repo = tmp_path / "PIA"
+    required_files = (
+        "DDPM/attack.py",
+        "DDPM/components.py",
+        "DDPM/dataset_utils.py",
+        "DDPM/model.py",
+    )
+    hashes: dict[str, str] = {}
+    for index, relative in enumerate(required_files):
+        path = repo / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(f"UPSTREAM_VALUE = {index}\n".encode("ascii"))
+        hashes[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "PIA Test"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.email", "pia@example.invalid"], cwd=repo, check=True)
+    subprocess.run(["git", "add", "DDPM"], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "-qm", "fixture"], cwd=repo, check=True)
+    repository_url = "https://github.com/kong13661/PIA.git"
+    subprocess.run(["git", "remote", "add", "origin", repository_url], cwd=repo, check=True)
+    commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    pia_contract = deepcopy(protocol_envelope["contract"]["pia"])
+    pia_contract["upstream"] = {
+        "repository_url": repository_url,
+        "commit": commit,
+        "required_file_sha256": hashes,
+    }
+
+    verified = pia_adapter.validate_canonical_pia_workspace(repo, pia_contract)
+    assert verified["git_clean"] is True
+    assert verified["commit"] == commit
+
+    (repo / "untracked.py").write_text("drift\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="clean"):
+        pia_adapter.validate_canonical_pia_workspace(repo, pia_contract)
+    (repo / "untracked.py").unlink()
+
+    wrong_origin = deepcopy(pia_contract)
+    wrong_origin["upstream"]["repository_url"] = "https://example.invalid/PIA.git"
+    with pytest.raises(ValueError, match="origin"):
+        pia_adapter.validate_canonical_pia_workspace(repo, wrong_origin)
+
+    wrong_head = deepcopy(pia_contract)
+    wrong_head["upstream"]["commit"] = "f" * 40
+    with pytest.raises(ValueError, match="HEAD"):
+        pia_adapter.validate_canonical_pia_workspace(repo, wrong_head)
+
+    wrong_hash = deepcopy(pia_contract)
+    wrong_hash["upstream"]["required_file_sha256"]["DDPM/model.py"] = "f" * 64
+    with pytest.raises(ValueError, match="SHA256"):
+        pia_adapter.validate_canonical_pia_workspace(repo, wrong_hash)
+
+    (repo / "DDPM/model.py").write_text(
+        "raise AssertionError('unverified source executed')\n", encoding="utf-8"
+    )
+    with pytest.raises(ValueError, match="verified source SHA256"):
+        pia_adapter.load_pia_ddpm_modules(
+            repo,
+            required_file_sha256=hashes,
+        )
 
 
 @pytest.mark.parametrize("missing", ["calibration", "evaluation"])
@@ -349,6 +679,17 @@ def test_cli_rejects_a_missing_canonical_score_packet(
         (lambda packet: packet.update(scorer_code_commit="f" * 40), "scorer_code_commit"),
         (lambda packet: packet.update(split_sha256="f" * 64), "split_sha256"),
         (lambda packet: packet.update(protocol_hash="f" * 64), "protocol_hash"),
+        (lambda packet: packet["extraction"].update(batch_size=7), "extraction.batch_size"),
+        (lambda packet: packet["extraction"].update(device="cuda"), "extraction.device"),
+        (lambda packet: packet["extraction"].update(weights_key="model"), "weights_key"),
+        (
+            lambda packet: packet["extraction"].update(packet_purpose="cpu_positive_control"),
+            "extraction.packet_purpose",
+        ),
+        (
+            lambda packet: packet["extraction"]["upstream"].update(git_clean=False),
+            "git_clean",
+        ),
         (lambda packet: packet.update(extra="forbidden"), "fields"),
         (lambda packet: packet.pop("score_form"), "fields"),
         (lambda packet: packet["rows"][0].update(noise_id="arbitrary"), "noise_id"),
@@ -447,7 +788,7 @@ def test_cli_rejects_cross_packet_overlap_and_provenance_drift(
         run_seed=second_seed,
     )
     evaluation = _write_packet(tmp_path / "provenance-drift.json", evaluation_payload)
-    with pytest.raises(ValueError, match="provenance"):
+    with pytest.raises(ValueError, match="provenance|training_manifest_sha256"):
         _run_canonical_cli(
             tmp_path / "provenance",
             protocol_manifest=protocol_manifest,
@@ -473,7 +814,7 @@ def test_cli_rejects_a_self_signed_protocol_hash(
         )
 
 
-def test_cli_never_claims_a_full_positive_control_from_one_packet_pair(
+def test_cli_rejects_legacy_single_pair_positive_control_packets(
     tmp_path: Path,
     protocol_envelope: dict[str, object],
     protocol_manifest: Path,
@@ -484,45 +825,18 @@ def test_cli_never_claims_a_full_positive_control_from_one_packet_pair(
         protocol_envelope,
         purpose="cpu_positive_control",
     )
-    assert (
+    workspace = tmp_path / "positive-control"
+    with pytest.raises(ValueError, match="packet_purpose"):
         _run_canonical_cli(
-            tmp_path / "positive-control",
+            workspace,
             protocol_manifest=protocol_manifest,
             protocol_hash=str(protocol_envelope["protocol_hash"]),
             calibration_packet=calibration,
             evaluation_packet=evaluation,
         )
-        == 0
-    )
-    summary = json.loads(capsys.readouterr().out)
-    assert summary["status"] == "cpu_positive_control_partial"
-    assert summary["complete_positive_control_gate"] is False
 
-    failed_calibration = _packet(
-        protocol_envelope, role="calibration", purpose="cpu_positive_control"
-    )
-    failed_evaluation = _packet(
-        protocol_envelope, role="evaluation", purpose="cpu_positive_control"
-    )
-    for packet in (failed_calibration, failed_evaluation):
-        rows = packet["rows"]
-        assert isinstance(rows, list)
-        for row in rows:
-            row["score"] = 0.0
-    calibration = _write_packet(tmp_path / "failed-calibration.json", failed_calibration)
-    evaluation = _write_packet(tmp_path / "failed-evaluation.json", failed_evaluation)
-    assert (
-        _run_canonical_cli(
-            tmp_path / "failed-positive-control",
-            protocol_manifest=protocol_manifest,
-            protocol_hash=str(protocol_envelope["protocol_hash"]),
-            calibration_packet=calibration,
-            evaluation_packet=evaluation,
-        )
-        == 1
-    )
-    failed = json.loads(capsys.readouterr().out)
-    assert failed["status"] == "cpu_positive_control_failed"
+    assert capsys.readouterr().out == ""
+    assert not workspace.exists()
 
 
 @pytest.mark.parametrize(
@@ -559,7 +873,7 @@ def test_canonical_cli_explicitly_rejects_every_legacy_runtime_flag(
         )
 
 
-def test_canonical_exporter_packet_is_consumed_without_translation(
+def test_corrected_exporter_packets_require_formal_complete_roster_analysis(
     tmp_path: Path,
     protocol_envelope: dict[str, object],
     protocol_manifest: Path,
@@ -569,12 +883,14 @@ def test_canonical_exporter_packet_is_consumed_without_translation(
     checkpoint, training_manifest, checkpoint_sha256, training_manifest_sha256 = (
         _write_corrected_checkpoint_and_manifest(tmp_path, protocol_envelope)
     )
-    contract = protocol_envelope["contract"]
-    assert isinstance(contract, dict)
-    manifest_rows = contract["evaluation"]["rows"]
-    by_index = {int(row["dataset_index"]): row for row in manifest_rows}
 
-    monkeypatch.setattr(pia_adapter, "validate_pia_workspace", lambda _path: {"status": "ready"})
+    _stub_canonical_export_assets(
+        monkeypatch,
+        protocol_envelope,
+        tmp_path,
+        checkpoint,
+        modules=(object(), object()),
+    )
     monkeypatch.setattr(
         pia_adapter,
         "read_pia_repository_state",
@@ -582,50 +898,23 @@ def test_canonical_exporter_packet_is_consumed_without_translation(
     )
     monkeypatch.setattr(
         pia_adapter,
-        "probe_pia_assets",
-        lambda **_kwargs: {
-            "status": "ready",
-            "paths": {
-                "checkpoint": str(checkpoint),
-                "dataset_dir": str(tmp_path / "dataset"),
-                "member_split": str(tmp_path / "unused.npz"),
-            },
-            "checks": {"checkpoint": True},
-        },
-    )
-    monkeypatch.setattr(pia_adapter, "load_pia_ddpm_modules", lambda _root: (object(), object()))
-    monkeypatch.setattr(
-        pia_adapter,
         "load_pia_model",
-        lambda *_args, **_kwargs: (torch.nn.Identity(), "ema_model"),
+        lambda *_args, **_kwargs: (torch.nn.Identity(), "ema"),
     )
     monkeypatch.setattr(
         pia_adapter,
         "_build_pia_attacker",
         lambda **_kwargs: lambda batch: batch[:, 0, 0, 0],
     )
-
-    def fake_loader(
-        dataset: str,
-        dataset_dir: str | Path,
-        packet_indices: list[int],
-        batch_size: int,
-    ) -> DataLoader:
-        del dataset, dataset_dir
-        values = torch.zeros(len(packet_indices), 3, 2, 2)
-        values[:, 0, 0, 0] = torch.tensor(
-            [0.9 if by_index[index]["label"] == 1 else 0.1 for index in packet_indices]
-        )
-        labels = torch.tensor([by_index[index]["class_id"] for index in packet_indices])
-        return DataLoader(TensorDataset(values, labels), batch_size=batch_size, shuffle=False)
-
-    monkeypatch.setattr(pia_adapter, "_build_pia_packet_loader", fake_loader)
-    config = load_audit_config(CANONICAL_CONFIG)
+    _stub_canonical_packet_loader(
+        monkeypatch, protocol_envelope, member_value=0.9, nonmember_value=0.1
+    )
+    config = _canonical_config_for_model_dir(tmp_path)
     common = {
         "repo_root": tmp_path / "repo",
         "member_split_root": tmp_path / "unused",
         "device": "cpu",
-        "batch_size": 64,
+        "batch_size": 8,
         "protocol_manifest": protocol_manifest,
         "expected_protocol_hash": str(protocol_envelope["protocol_hash"]),
         "training_output_manifest": training_manifest,
@@ -648,27 +937,36 @@ def test_canonical_exporter_packet_is_consumed_without_translation(
     exported = json.loads(calibration_packet.read_text(encoding="utf-8"))
     assert exported["training_manifest_sha256"] == training_manifest_sha256
 
-    assert (
+    evaluation_workspace = tmp_path / "evaluate-export"
+    with pytest.raises(ValueError, match="corrected_evaluation.*complete-roster"):
         _run_canonical_cli(
-            tmp_path / "evaluate-export",
+            evaluation_workspace,
             protocol_manifest=protocol_manifest,
             protocol_hash=str(protocol_envelope["protocol_hash"]),
             calibration_packet=calibration_packet,
             evaluation_packet=evaluation_packet,
             training_output_manifest=training_manifest,
         )
-        == 0
-    )
-    summary = json.loads(capsys.readouterr().out)
-    assert summary["status"] == "evaluation_complete"
-    assert summary["metrics"]["evaluation_auc"] == pytest.approx(1.0)
+
+    assert capsys.readouterr().out == ""
+    assert not evaluation_workspace.exists()
 
 
-def test_canonical_exporter_loads_corrected_checkpoint_ema_weights(
+@pytest.mark.parametrize(
+    ("packet_purpose", "step", "expected_stage"),
+    [
+        ("corrected_evaluation", 100_000, "stage1"),
+        ("preflight_benchmark", 2_000, "preflight"),
+    ],
+)
+def test_canonical_exporter_uses_manifest_checkpoint_and_corrected_ema_weights(
     tmp_path: Path,
     protocol_envelope: dict[str, object],
     protocol_manifest: Path,
     monkeypatch: pytest.MonkeyPatch,
+    packet_purpose: str,
+    step: int,
+    expected_stage: str,
 ) -> None:
     online_model = torch.nn.Linear(1, 1)
     with torch.no_grad():
@@ -681,44 +979,44 @@ def test_canonical_exporter_loads_corrected_checkpoint_ema_weights(
     checkpoint, training_manifest, _, _ = _write_corrected_checkpoint_and_manifest(
         tmp_path,
         protocol_envelope,
+        step=step,
         model_state_dict=online_model.state_dict(),
         ema_state_dict=expected_model.state_dict(),
     )
-    contract = protocol_envelope["contract"]
-    assert isinstance(contract, dict)
-    manifest_rows = contract["evaluation"]["rows"]
-    by_index = {int(row["dataset_index"]): row for row in manifest_rows}
+    decoy_checkpoint = tmp_path / "checkpoint.pt"
+    decoy_checkpoint.write_bytes(b"must-never-be-loaded")
 
     class TinyModelModule:
         @staticmethod
         def UNet(**_kwargs: object) -> torch.nn.Module:
             return torch.nn.Linear(1, 1)
 
-    monkeypatch.setattr(pia_adapter, "validate_pia_workspace", lambda _path: {"status": "ready"})
-    monkeypatch.setattr(
-        pia_adapter,
-        "probe_pia_assets",
-        lambda **_kwargs: {
-            "status": "ready",
-            "paths": {
-                "checkpoint": str(checkpoint),
-                "dataset_dir": str(tmp_path / "dataset"),
-                "member_split": str(tmp_path / "unused.npz"),
-            },
-            "checks": {"checkpoint": True},
-        },
-    )
-    monkeypatch.setattr(
-        pia_adapter,
-        "load_pia_ddpm_modules",
-        lambda _root: (object(), TinyModelModule),
+    _stub_canonical_export_assets(
+        monkeypatch,
+        protocol_envelope,
+        tmp_path,
+        decoy_checkpoint,
+        modules=(object(), TinyModelModule),
     )
 
     real_load_pia_model = pia_adapter.load_pia_model
     loaded_weight_keys: list[str] = []
+    transient_model = torch.nn.Linear(1, 1)
+    with torch.no_grad():
+        transient_model.weight.fill_(9.0)
+        transient_model.bias.fill_(9.0)
+    transient_buffer = io.BytesIO()
+    torch.save({"ema": transient_model.state_dict()}, transient_buffer)
+    transient_checkpoint = transient_buffer.getvalue()
 
     def capture_load_pia_model(*args: Any, **kwargs: Any) -> tuple[torch.nn.Module, str]:
-        model, weights_key = real_load_pia_model(*args, **kwargs)
+        assert kwargs["weights_only"] is True
+        original_checkpoint = checkpoint.read_bytes()
+        checkpoint.write_bytes(transient_checkpoint)
+        try:
+            model, weights_key = real_load_pia_model(*args, **kwargs)
+        finally:
+            checkpoint.write_bytes(original_checkpoint)
         loaded_weight_keys.append(weights_key)
         return model, weights_key
 
@@ -733,41 +1031,297 @@ def test_canonical_exporter_loads_corrected_checkpoint_ema_weights(
         return lambda batch: batch[:, 0, 0, 0]
 
     monkeypatch.setattr(pia_adapter, "_build_pia_attacker", fake_attacker)
-
-    def fake_loader(
-        dataset: str,
-        dataset_dir: str | Path,
-        packet_indices: list[int],
-        batch_size: int,
-    ) -> DataLoader:
-        del dataset, dataset_dir
-        values = torch.zeros(len(packet_indices), 3, 2, 2)
-        labels = torch.tensor([by_index[index]["class_id"] for index in packet_indices])
-        return DataLoader(TensorDataset(values, labels), batch_size=batch_size, shuffle=False)
-
-    monkeypatch.setattr(pia_adapter, "_build_pia_packet_loader", fake_loader)
+    _stub_canonical_packet_loader(monkeypatch, protocol_envelope)
 
     result = pia_adapter.export_pia_packet_scores(
-        load_audit_config(CANONICAL_CONFIG),
+        _canonical_config_for_model_dir(tmp_path),
         tmp_path / "export-corrected-checkpoint",
         repo_root=tmp_path / "repo",
         member_split_root=tmp_path / "unused",
         device="cpu",
-        batch_size=64,
+        batch_size=8,
         protocol_manifest=protocol_manifest,
         expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
         training_output_manifest=training_manifest,
-        packet_purpose="corrected_evaluation",
+        packet_purpose=packet_purpose,
         calibration_or_evaluation="calibration",
     )
 
-    assert result["status"] == "score_packet_exported"
+    _assert_metric_free_export_receipt(result, expected_stage=expected_stage)
+    assert (
+        result["packet_sha256"]
+        == hashlib.sha256(Path(result["artifact_paths"]["score_packet"]).read_bytes()).hexdigest()
+    )
+    assert result["elapsed_seconds"] > 0
+    persisted = json.loads(Path(result["artifact_paths"]["summary"]).read_text(encoding="utf-8"))
+    assert persisted == result
     assert loaded_weight_keys == ["ema"]
     assert len(loaded_models) == 1
     assert torch.equal(loaded_models[0].weight, expected_model.weight)
     assert torch.equal(loaded_models[0].bias, expected_model.bias)
     assert not torch.equal(loaded_models[0].weight, online_model.weight)
     assert not torch.equal(loaded_models[0].bias, online_model.bias)
+
+
+def test_preflight_cli_emits_the_persisted_metric_free_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    receipt = {
+        "status": "score_packet_exported",
+        "stage": "preflight",
+        "packet_sha256": "a" * 64,
+        "raw_score_packet_status": "embargoed",
+        "outcome_boundary": (
+            "generated and sealed raw score packet, but did not compute/display/inspect "
+            "aggregate metrics or score contents"
+        ),
+    }
+
+    def fake_export(_config: object, workspace: str | Path, **kwargs: object) -> dict[str, object]:
+        assert kwargs["batch_size"] == 8
+        assert kwargs["packet_purpose"] == "preflight_benchmark"
+        destination = Path(workspace)
+        destination.mkdir(parents=True)
+        (destination / "summary.json").write_text(json.dumps(receipt), encoding="utf-8")
+        return receipt
+
+    monkeypatch.setattr(pia_adapter, "export_pia_packet_scores", fake_export)
+    workspace = tmp_path / "preflight-cli-export"
+    assert (
+        main(
+            [
+                "export-pia-packet-scores",
+                "--config",
+                str(CANONICAL_CONFIG),
+                "--workspace",
+                str(workspace),
+                "--protocol-manifest",
+                str(tmp_path / "protocol.json"),
+                "--expected-protocol-hash",
+                "b" * 64,
+                "--training-output-manifest",
+                str(tmp_path / "training-manifest.json"),
+                "--packet-purpose",
+                "preflight_benchmark",
+                "--calibration-or-evaluation",
+                "evaluation",
+            ]
+        )
+        == 0
+    )
+    emitted = json.loads(capsys.readouterr().out)
+    persisted = json.loads((workspace / "summary.json").read_text(encoding="utf-8"))
+    assert emitted == persisted
+    _assert_metric_free_export_receipt(emitted, expected_stage="preflight")
+
+
+@pytest.mark.parametrize(
+    ("packet_purpose", "seed_offset", "step"),
+    INVALID_PREFLIGHT_IDENTITY_CASES,
+)
+def test_preflight_exporter_rejects_identity_relabeling_before_upstream_import_or_model_load(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    packet_purpose: str,
+    seed_offset: int,
+    step: int,
+) -> None:
+    contract = protocol_envelope["contract"]
+    assert isinstance(contract, dict)
+    seed = int(contract["training"]["seeds"][seed_offset])
+    checkpoint, training_manifest, _, _ = _write_corrected_checkpoint_and_manifest(
+        tmp_path,
+        protocol_envelope,
+        seed=seed,
+        step=step,
+    )
+    _stub_canonical_export_assets(monkeypatch, protocol_envelope, tmp_path, checkpoint)
+
+    def fail_if_import_starts(*_args: object, **_kwargs: object):
+        raise AssertionError("identity validation must finish before upstream import")
+
+    monkeypatch.setattr(pia_adapter, "load_pia_ddpm_modules", fail_if_import_starts)
+    with pytest.raises(ValueError, match="preflight|stage|identity"):
+        pia_adapter.export_pia_packet_scores(
+            _canonical_config_for_model_dir(tmp_path),
+            tmp_path / "must-not-exist",
+            repo_root=tmp_path / "repo",
+            member_split_root=tmp_path / "unused",
+            device="cpu",
+            batch_size=8,
+            protocol_manifest=protocol_manifest,
+            expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
+            training_output_manifest=training_manifest,
+            packet_purpose=packet_purpose,
+            calibration_or_evaluation="calibration",
+        )
+
+
+def test_canonical_exporter_rejects_batch_upstream_and_model_dir_drift_before_import(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint, training_manifest, _, _ = _write_corrected_checkpoint_and_manifest(
+        tmp_path, protocol_envelope
+    )
+    _stub_canonical_export_assets(monkeypatch, protocol_envelope, tmp_path, checkpoint)
+
+    def fail_if_import_starts(*_args: object, **_kwargs: object):
+        raise AssertionError("pre-import contract gate was bypassed")
+
+    monkeypatch.setattr(pia_adapter, "load_pia_ddpm_modules", fail_if_import_starts)
+    common = {
+        "workspace": tmp_path / "must-not-exist",
+        "repo_root": tmp_path / "repo",
+        "member_split_root": tmp_path / "unused",
+        "device": "cpu",
+        "protocol_manifest": protocol_manifest,
+        "expected_protocol_hash": str(protocol_envelope["protocol_hash"]),
+        "training_output_manifest": training_manifest,
+        "packet_purpose": "corrected_evaluation",
+        "calibration_or_evaluation": "calibration",
+    }
+
+    with pytest.raises(ValueError, match="batch_size"):
+        pia_adapter.export_pia_packet_scores(
+            _canonical_config_for_model_dir(tmp_path), batch_size=7, **common
+        )
+
+    monkeypatch.setattr(
+        pia_adapter,
+        "validate_canonical_pia_workspace",
+        lambda *_args: (_ for _ in ()).throw(ValueError("canonical PIA upstream HEAD mismatch")),
+        raising=False,
+    )
+    with pytest.raises(ValueError, match="upstream HEAD"):
+        pia_adapter.export_pia_packet_scores(
+            _canonical_config_for_model_dir(tmp_path), batch_size=8, **common
+        )
+
+    monkeypatch.setattr(
+        pia_adapter,
+        "validate_canonical_pia_workspace",
+        lambda *_args: _sealed_upstream_verification(protocol_envelope),
+        raising=False,
+    )
+    with pytest.raises(ValueError, match="model_dir"):
+        pia_adapter.export_pia_packet_scores(
+            _canonical_config_for_model_dir(tmp_path / "other-model-dir"),
+            batch_size=8,
+            **common,
+        )
+
+
+@pytest.mark.parametrize("drift", ["checkpoint", "upstream"])
+def test_canonical_exporter_revalidates_live_inputs_after_scoring_before_writing(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    drift: str,
+) -> None:
+    checkpoint, training_manifest, _, _ = _write_corrected_checkpoint_and_manifest(
+        tmp_path, protocol_envelope, step=2_000
+    )
+    _stub_canonical_export_assets(
+        monkeypatch,
+        protocol_envelope,
+        tmp_path,
+        checkpoint,
+        modules=(object(), object()),
+    )
+    monkeypatch.setattr(
+        pia_adapter,
+        "load_pia_model",
+        lambda *_args, **_kwargs: (torch.nn.Identity(), "ema"),
+    )
+    monkeypatch.setattr(
+        pia_adapter,
+        "_build_pia_attacker",
+        lambda **_kwargs: lambda batch: batch[:, 0, 0, 0],
+    )
+    _stub_canonical_packet_loader(monkeypatch, protocol_envelope)
+    real_score_loader = pia_adapter._score_loader
+
+    def score_then_drift(*args: object, **kwargs: object):
+        result = real_score_loader(*args, **kwargs)
+        if drift == "checkpoint":
+            checkpoint.write_bytes(b"changed-during-score-export")
+        return result
+
+    monkeypatch.setattr(pia_adapter, "_score_loader", score_then_drift)
+    validation_calls = 0
+
+    def validate_live_upstream(*_args: object) -> dict[str, object]:
+        nonlocal validation_calls
+        validation_calls += 1
+        if drift == "upstream" and validation_calls == 2:
+            raise ValueError("canonical PIA upstream changed during score export")
+        return _sealed_upstream_verification(protocol_envelope)
+
+    monkeypatch.setattr(pia_adapter, "validate_canonical_pia_workspace", validate_live_upstream)
+    workspace = tmp_path / "must-not-exist"
+    with pytest.raises(ValueError, match=f"{drift} changed during score export"):
+        pia_adapter.export_pia_packet_scores(
+            _canonical_config_for_model_dir(tmp_path),
+            workspace,
+            repo_root=tmp_path / "repo",
+            member_split_root=tmp_path / "unused",
+            device="cpu",
+            batch_size=8,
+            protocol_manifest=protocol_manifest,
+            expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
+            training_output_manifest=training_manifest,
+            packet_purpose="preflight_benchmark",
+            calibration_or_evaluation="evaluation",
+        )
+
+    assert validation_calls == (1 if drift == "checkpoint" else 2)
+    assert not workspace.exists()
+
+
+def test_canonical_exporter_rejects_manifest_checkpoint_traversal_before_import(
+    tmp_path: Path,
+    protocol_envelope: dict[str, object],
+    protocol_manifest: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _, training_manifest, _, _ = _write_corrected_checkpoint_and_manifest(
+        tmp_path, protocol_envelope
+    )
+    payload = json.loads(training_manifest.read_text(encoding="utf-8"))
+    payload["checkpoint"] = "../checkpoint-step100000.pt"
+    training_manifest.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(
+        pia_adapter,
+        "validate_canonical_pia_workspace",
+        lambda *_args: _sealed_upstream_verification(protocol_envelope),
+        raising=False,
+    )
+
+    def fail_if_import_starts(*_args: object, **_kwargs: object):
+        raise AssertionError("unsafe checkpoint path must reject before import")
+
+    monkeypatch.setattr(pia_adapter, "load_pia_ddpm_modules", fail_if_import_starts)
+    with pytest.raises(ValueError, match="safe basename"):
+        pia_adapter.export_pia_packet_scores(
+            _canonical_config_for_model_dir(tmp_path),
+            tmp_path / "must-not-exist",
+            repo_root=tmp_path / "repo",
+            device="cpu",
+            batch_size=8,
+            protocol_manifest=protocol_manifest,
+            expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
+            training_output_manifest=training_manifest,
+            packet_purpose="corrected_evaluation",
+            calibration_or_evaluation="calibration",
+        )
 
 
 def test_canonical_cli_parser_accepts_training_manifest_without_identity_labels() -> None:
@@ -792,6 +1346,7 @@ def test_canonical_cli_parser_accepts_training_manifest_without_identity_labels(
     )
 
     assert args.training_output_manifest == "manifest.json"
+    assert args.batch_size == 8
     assert args.stage is None
     assert args.run_seed is None
     assert args.step is None
@@ -823,6 +1378,7 @@ def test_canonical_exporter_rejects_repository_identity_before_writing_output(
             protocol_manifest=protocol_manifest,
             expected_protocol_hash=str(protocol_envelope["protocol_hash"]),
             training_output_manifest=tmp_path / "unused-manifest.json",
+            batch_size=8,
             packet_purpose="corrected_evaluation",
             calibration_or_evaluation="calibration",
         )
@@ -898,7 +1454,14 @@ def test_canonical_exporter_rejects_cli_supplied_checkpoint_identity(
 
 
 @pytest.mark.parametrize(
-    "mutation", ["arbitrary-bytes", "receipt-sha", "seed-relabel", "step-relabel"]
+    "mutation",
+    [
+        "arbitrary-bytes",
+        "receipt-sha",
+        "checkpoint-relabel",
+        "seed-relabel",
+        "step-relabel",
+    ],
 )
 def test_checkpoint_and_training_receipt_identity_tampering_is_rejected(
     tmp_path: Path,
@@ -915,6 +1478,10 @@ def test_checkpoint_and_training_receipt_identity_tampering_is_rejected(
         payload = json.loads(manifest.read_text(encoding="utf-8"))
         receipt = next(iter(payload["checkpoint_receipts"].values()))
         receipt["checkpoint_sha256"] = "f" * 64
+        manifest.write_text(json.dumps(payload), encoding="utf-8")
+    elif mutation == "checkpoint-relabel":
+        payload = json.loads(manifest.read_text(encoding="utf-8"))
+        payload["checkpoint"] = "decoy.pt"
         manifest.write_text(json.dumps(payload), encoding="utf-8")
     else:
         payload = torch.load(checkpoint, map_location="cpu", weights_only=True)

@@ -405,6 +405,7 @@ def _prepare(args: argparse.Namespace, runtime, training_config: TrainingConfig)
         head,
         args.seed,
         args.run_label,
+        preflight=args.preflight,
     )
     validate_repository_state(head, contract.code_commit, tracked_status)
     member_dataset = build_member_subset(dataset, contract.member_indices)
