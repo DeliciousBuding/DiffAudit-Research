@@ -214,7 +214,7 @@ After a branch completes, update together:
 2. `docs/evidence/experiment-master-log.md`
 3. `docs/paper1/frozen-claim-matrix.md`
 4. one new dated evidence memo for the corrected experiment
-5. the private paper evidence bank and readiness review, if available
+5. the paper evidence bank and submission-readiness review (in `Papers/`)
 
 Before any public commit:
 
