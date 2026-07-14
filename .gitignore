@@ -295,3 +295,4 @@ papers/
 # Training: track source code, ignore outputs
 training/outputs/
 training/**/__pycache__/
+.worktrees/
