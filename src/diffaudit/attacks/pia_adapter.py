@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
+import io
 import json
-import math
+import pickle
 import re
 import shutil
+import subprocess
 import time
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
-from typing import Any
+from typing import Any, BinaryIO
 
 import numpy as np
 import torch
@@ -20,10 +24,21 @@ from torchvision import datasets as tv_datasets
 from torchvision import transforms as tv_transforms
 
 from diffaudit.attacks.pia import (
+    REQUIRED_PIA_WORKSPACE_FILES,
     PiaPlan,
     build_pia_plan,
     probe_pia_assets,
     validate_pia_workspace,
+)
+from diffaudit.attacks.pia_canonical import (
+    build_pia_score_packet,
+    load_pia_protocol_context,
+    load_pia_training_identity,
+    resolve_pia_training_checkpoint_path,
+    score_pia_canonical,
+    validate_pia_cpu_runtime,
+    validate_pia_score_packet_pair,
+    write_pia_score_packet,
 )
 from diffaudit.config import (
     AssetConfig,
@@ -32,6 +47,106 @@ from diffaudit.config import (
     ReportConfig,
     TaskConfig,
 )
+from diffaudit.evidence.corrected_protocol import collect_pia_cpu_environment
+from diffaudit.training.corrected_ddpm import read_repository_state, validate_repository_state
+
+RESEARCH_ROOT = Path(__file__).resolve().parents[3]
+
+
+def read_pia_repository_state(root: str | Path) -> tuple[str, str, tuple[str, ...]]:
+    head, tracked_status = read_repository_state(root)
+    status = subprocess.run(
+        [
+            "git",
+            "status",
+            "--short",
+            "--untracked-files=all",
+            "--",
+            "src",
+            "configs",
+            "training",
+            "scripts",
+        ],
+        cwd=Path(root),
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout
+    code_suffixes = {".py", ".yaml", ".yml", ".toml"}
+    untracked_code = tuple(
+        line[3:].strip()
+        for line in status.splitlines()
+        if line.startswith("?? ") and Path(line[3:].strip()).suffix.lower() in code_suffixes
+    )
+    return head, tracked_status, untracked_code
+
+
+def validate_pia_repository_state(
+    head: str, expected_code_commit: str, tracked_status: str, untracked_code: tuple[str, ...]
+) -> str:
+    validate_repository_state(head, expected_code_commit, tracked_status)
+    if untracked_code:
+        raise ValueError("repository has untracked scorer code or configuration")
+    return head
+
+
+def validate_canonical_pia_workspace(
+    repo_root: str | Path,
+    pia_contract: Mapping[str, object],
+) -> dict[str, object]:
+    """Verify the exact clean official PIA checkout before importing upstream code."""
+
+    root = Path(repo_root).resolve()
+    upstream = pia_contract.get("upstream")
+    if not isinstance(upstream, Mapping) or set(upstream) != {
+        "repository_url",
+        "commit",
+        "required_file_sha256",
+    }:
+        raise ValueError("canonical PIA upstream contract fields must be exact")
+
+    def git(*args: str) -> str:
+        try:
+            return subprocess.run(
+                ["git", *args],
+                cwd=root,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+        except (OSError, subprocess.CalledProcessError) as error:
+            raise ValueError("canonical PIA upstream must be an exact git checkout") from error
+
+    top_level = Path(git("rev-parse", "--show-toplevel")).resolve()
+    if top_level != root:
+        raise ValueError("canonical PIA upstream git root does not match repo_root")
+    origin = git("remote", "get-url", "origin")
+    if origin != upstream["repository_url"]:
+        raise ValueError("canonical PIA upstream origin does not match the sealed contract")
+    head = git("rev-parse", "HEAD")
+    if head != upstream["commit"]:
+        raise ValueError("canonical PIA upstream HEAD does not match the sealed contract")
+    if git("status", "--porcelain=v1", "--untracked-files=all"):
+        raise ValueError("canonical PIA upstream checkout must be completely clean")
+
+    raw_hashes = upstream["required_file_sha256"]
+    if not isinstance(raw_hashes, Mapping) or set(raw_hashes) != set(REQUIRED_PIA_WORKSPACE_FILES):
+        raise ValueError("canonical PIA upstream required file set does not match the contract")
+    realized_hashes: dict[str, str] = {}
+    for relative_path in REQUIRED_PIA_WORKSPACE_FILES:
+        path = root / relative_path
+        if not path.is_file():
+            raise ValueError(f"canonical PIA upstream file is missing: {relative_path}")
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        if digest != raw_hashes[relative_path]:
+            raise ValueError(f"canonical PIA upstream SHA256 mismatch: {relative_path}")
+        realized_hashes[relative_path] = digest
+    return {
+        "repository_url": origin,
+        "commit": head,
+        "required_file_sha256": realized_hashes,
+        "git_clean": True,
+    }
 
 
 @dataclass(frozen=True)
@@ -72,20 +187,52 @@ def _load_module_from_path(module_name: str, module_path: Path) -> ModuleType:
     return module
 
 
-def load_pia_ddpm_modules(repo_root: str | Path) -> tuple[ModuleType, ModuleType]:
+def _load_module_from_verified_source(
+    module_name: str,
+    module_path: Path,
+    expected_sha256: str,
+) -> ModuleType:
+    try:
+        source = module_path.read_bytes()
+    except OSError as error:
+        raise ValueError(f"verified PIA source is unreadable: {module_path.name}") from error
+    if hashlib.sha256(source).hexdigest() != expected_sha256:
+        raise ValueError(f"verified source SHA256 mismatch: {module_path.name}")
+    module = ModuleType(module_name)
+    module.__file__ = str(module_path)
+    exec(compile(source, str(module_path), "exec"), module.__dict__)
+    return module
+
+
+def load_pia_ddpm_modules(
+    repo_root: str | Path,
+    *,
+    required_file_sha256: Mapping[str, object] | None = None,
+) -> tuple[ModuleType, ModuleType]:
     repo_path = Path(repo_root)
-    components_module = _load_module_from_path(
-        f"diffaudit_pia_components_{abs(hash(repo_path.resolve()))}",
-        repo_path / "DDPM" / "components.py",
+    module_specs = (
+        ("components", "DDPM/components.py"),
+        ("model", "DDPM/model.py"),
     )
-    model_module = _load_module_from_path(
-        f"diffaudit_pia_model_{abs(hash(repo_path.resolve()))}",
-        repo_path / "DDPM" / "model.py",
-    )
+    loaded: list[ModuleType] = []
+    for module_stem, relative_path in module_specs:
+        module_name = f"diffaudit_pia_{module_stem}_{abs(hash(repo_path.resolve()))}"
+        module_path = repo_path / relative_path
+        if required_file_sha256 is None:
+            module = _load_module_from_path(module_name, module_path)
+        else:
+            expected = required_file_sha256.get(relative_path)
+            if not isinstance(expected, str):
+                raise ValueError(f"verified source SHA256 is missing: {relative_path}")
+            module = _load_module_from_verified_source(module_name, module_path, expected)
+        loaded.append(module)
+    components_module, model_module = loaded
     return components_module, model_module
 
 
-def build_pia_unet(model_module: ModuleType, defaults: PiaDefaults | None = None) -> torch.nn.Module:
+def build_pia_unet(
+    model_module: ModuleType, defaults: PiaDefaults | None = None
+) -> torch.nn.Module:
     config = defaults or PiaDefaults()
     return model_module.UNet(
         T=config.T,
@@ -102,27 +249,36 @@ def resolve_pia_weights_key(checkpoint: dict[str, Any]) -> str:
         return "ema_model"
     if "net_model" in checkpoint:
         return "net_model"
-    raise KeyError("PIA checkpoint must contain 'ema_model' or 'net_model'")
+    if "ema" in checkpoint:
+        return "ema"
+    raise KeyError("PIA checkpoint must contain 'ema_model', 'net_model', or 'ema'")
 
 
 def load_pia_model(
-    checkpoint_path: str | Path,
+    checkpoint_path: str | Path | BinaryIO,
     model_module: ModuleType,
     device: str = "cpu",
     defaults: PiaDefaults | None = None,
+    *,
+    weights_only: bool = False,
 ) -> tuple[torch.nn.Module, str]:
     model = build_pia_unet(model_module, defaults=defaults)
-    try:
-        checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
-    except TypeError:
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+    if weights_only:
+        try:
+            checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
+        except (OSError, RuntimeError, EOFError, ValueError, pickle.UnpicklingError) as error:
+            raise ValueError("canonical PIA checkpoint must be weights-only safe") from error
+    else:
+        try:
+            checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
+        except TypeError:
+            checkpoint = torch.load(checkpoint_path, map_location=device)
     if not isinstance(checkpoint, dict):
         raise TypeError("PIA checkpoint must be a dict-like torch checkpoint")
     weights_key = resolve_pia_weights_key(checkpoint)
     weights = checkpoint[weights_key]
     state_dict = {
-        (key[7:] if key.startswith("module.") else key): value
-        for key, value in weights.items()
+        (key[7:] if key.startswith("module.") else key): value for key, value in weights.items()
     }
     model.load_state_dict(state_dict)
     model.to(device)
@@ -192,7 +348,9 @@ def _build_pia_eps_getter(
             eps_prediction = self.model(xt, t=timestep)
             eps_prediction = precision_throttle(eps_prediction)
             if float(epsilon_output_noise_std) > 0.0:
-                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(epsilon_output_noise_std)
+                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(
+                    epsilon_output_noise_std
+                )
             return eps_prediction
 
     return RuntimeEpsGetter(model)
@@ -210,8 +368,19 @@ def _build_pia_attacker(
     epsilon_output_noise_std: float = 0.0,
     epsilon_precision_bins: int | None = None,
     defaults: PiaDefaults | None = None,
+    variant: str = "legacy-upstream-multistep",
 ):
     config = defaults or PiaDefaults()
+    if variant == "canonical-ddpm-eq9":
+        betas = torch.linspace(config.beta_1, config.beta_T, config.T, device=device)
+
+        def canonical_attacker(batch: torch.Tensor) -> torch.Tensor:
+            def epsilon_oracle(inputs: torch.Tensor, timesteps: torch.Tensor) -> torch.Tensor:
+                return model(inputs, t=timesteps)
+
+            return score_pia_canonical(epsilon_oracle, batch, betas)
+
+        return canonical_attacker
     attacker_cls = getattr(components_module, attacker_name, None)
     if attacker_cls is None:
         raise ValueError(f"PIA attacker class not found: {attacker_name}")
@@ -225,12 +394,10 @@ def _build_pia_attacker(
         epsilon_precision_bins=epsilon_precision_bins,
     )
     return attacker_cls(
-        betas,
-        interval,
-        attack_num,
-        1,                # k
-        eps_getter,
-        False,            # average
+        betas=betas,
+        interval=interval,
+        attack_num=attack_num,
+        eps_getter=eps_getter,
     )
 
 
@@ -263,6 +430,7 @@ def prepare_pia_runtime(
         attack_num=plan.attack_num,
         interval=plan.interval,
         device=device,
+        variant=plan.variant,
     )
     return PiaAdapterContext(
         plan=plan,
@@ -302,7 +470,9 @@ def probe_pia_runtime(
             }
 
         components_module, model_module = load_pia_ddpm_modules(repo_root)
-        model, weights_key = load_pia_model(summary["paths"]["checkpoint"], model_module, device=device)
+        model, weights_key = load_pia_model(
+            summary["paths"]["checkpoint"], model_module, device=device
+        )
         attacker = _build_pia_attacker(
             components_module=components_module,
             model=model,
@@ -310,8 +480,9 @@ def probe_pia_runtime(
             attack_num=plan.attack_num,
             interval=plan.interval,
             device=device,
+            variant=plan.variant,
         )
-        preview_batch = torch.rand(1, 3, 32, 32, device=device)
+        preview_batch = torch.rand(1, 3, 32, 32, device=device) * 2 - 1
         preview_scores = attacker(preview_batch)
         # The Rediffuse-variant attacker returns (intermediates, intermediates_denoise)
         if isinstance(preview_scores, tuple):
@@ -364,7 +535,9 @@ def _normalize_dropout_activation_schedule(
     schedule = str(dropout_activation_schedule).strip().lower() or "off"
     if schedule not in VALID_DROPOUT_ACTIVATION_SCHEDULES:
         allowed = ", ".join(sorted(VALID_DROPOUT_ACTIVATION_SCHEDULES))
-        raise ValueError(f"Unsupported dropout activation schedule: {schedule}. Expected one of {allowed}")
+        raise ValueError(
+            f"Unsupported dropout activation schedule: {schedule}. Expected one of {allowed}"
+        )
     if not stochastic_dropout_defense:
         return "off"
     if schedule == "off":
@@ -419,8 +592,10 @@ def _score_batch_once(
         batch,
         input_gaussian_blur_sigma=input_gaussian_blur_sigma,
     )
-    batch_scores = attacker(defended_batch.to(device)).mean(dim=0)
-    return (-batch_scores).detach().cpu()
+    batch_scores = attacker(defended_batch.to(device))
+    if batch_scores.ndim == 1:
+        return batch_scores.detach().cpu()
+    return (-batch_scores.mean(dim=0)).detach().cpu()
 
 
 def _score_loader(
@@ -511,7 +686,9 @@ def _predict_surrogate_images(
             eps_prediction = model(normalized, t=timestep)
             eps_prediction = precision_throttle(eps_prediction)
             if float(epsilon_output_noise_std) > 0.0:
-                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(epsilon_output_noise_std)
+                eps_prediction = eps_prediction + torch.randn_like(eps_prediction) * float(
+                    epsilon_output_noise_std
+                )
             surrogate = torch.clamp((normalized - eps_prediction + 1.0) / 2.0, 0.0, 1.0)
             surrogate_chunks.append(surrogate.detach().cpu())
     model.train(was_training)
@@ -549,7 +726,9 @@ def _compute_surrogate_quality_metrics(
     reference_name = "baseline_surrogate" if baseline_images is not None else "input_batch"
     comparison_reference = baseline_images if baseline_images is not None else reference_images
     comparison_reference = comparison_reference.to(active_images.dtype)
-    lpips_value = torch.sqrt(((active_images - comparison_reference) ** 2).mean(dim=(1, 2, 3))).mean()
+    lpips_value = torch.sqrt(
+        ((active_images - comparison_reference) ** 2).mean(dim=(1, 2, 3))
+    ).mean()
     fid_value = _frechet_distance_from_features(
         _surrogate_feature_vectors(active_images),
         _surrogate_feature_vectors(comparison_reference),
@@ -574,12 +753,21 @@ def _compute_surrogate_quality_metrics(
                 "value": None,
                 "official": False,
                 "status": "not_computed",
-                "reason": "no classifier-backed surrogate quality model is wired into the current PIA runtime path",
+                "reason": (
+                    "no classifier-backed surrogate quality model is wired into the current "
+                    "PIA runtime path"
+                ),
             },
         },
         "notes": [
-            "Quality metrics are surrogate diagnostics over runtime batches, not paper-grade image generation metrics.",
-            "FID uses rgb-channel-moment features and LPIPS uses RMS image drift against the chosen reference batch.",
+            (
+                "Quality metrics are surrogate diagnostics over runtime batches, not paper-grade "
+                "image generation metrics."
+            ),
+            (
+                "FID uses rgb-channel-moment features and LPIPS uses RMS image drift against the "
+                "chosen reference batch."
+            ),
         ],
     }
 
@@ -600,7 +788,9 @@ def _load_pia_preview_batches(
     if not member_indices or not nonmember_indices:
         raise ValueError("PIA member split must contain non-empty member and non-member indices")
 
-    transform = tv_transforms.Compose([tv_transforms.ToTensor()])
+    transform = tv_transforms.Compose(
+        [tv_transforms.ToTensor(), tv_transforms.Normalize((0.5,) * 3, (0.5,) * 3)]
+    )
     dataset_obj = tv_datasets.CIFAR10(
         root=str(dataset_dir),
         train=True,
@@ -654,7 +844,9 @@ def probe_pia_runtime_preview(
             }
 
         components_module, model_module = load_pia_ddpm_modules(repo_root)
-        model, weights_key = load_pia_model(summary["paths"]["checkpoint"], model_module, device=device)
+        model, weights_key = load_pia_model(
+            summary["paths"]["checkpoint"], model_module, device=device
+        )
         attacker = _build_pia_attacker(
             components_module=components_module,
             model=model,
@@ -662,6 +854,7 @@ def probe_pia_runtime_preview(
             attack_num=plan.attack_num,
             interval=plan.interval,
             device=device,
+            variant=plan.variant,
         )
         member_batch, nonmember_batch = _load_pia_preview_batches(
             dataset=plan.dataset,
@@ -780,7 +973,7 @@ def _select_preview_indices(
 ) -> list[int]:
     if max_samples is None or max_samples <= 0:
         return list(split_indices)
-    return list(split_indices[: max_samples])
+    return list(split_indices[:max_samples])
 
 
 def _build_pia_subset_loader(
@@ -803,7 +996,9 @@ def _build_pia_subset_loader(
     if not selected_indices:
         raise ValueError(f"PIA split has no samples for membership={membership}")
 
-    transform = tv_transforms.Compose([tv_transforms.ToTensor()])
+    transform = tv_transforms.Compose(
+        [tv_transforms.ToTensor(), tv_transforms.Normalize((0.5,) * 3, (0.5,) * 3)]
+    )
     dataset_obj = tv_datasets.CIFAR10(
         root=str(dataset_dir),
         train=True,
@@ -830,7 +1025,9 @@ def _build_pia_packet_loader(
     if not packet_indices:
         raise ValueError("PIA packet export requires at least one packet index")
 
-    transform = tv_transforms.Compose([tv_transforms.ToTensor()])
+    transform = tv_transforms.Compose(
+        [tv_transforms.ToTensor(), tv_transforms.Normalize((0.5,) * 3, (0.5,) * 3)]
+    )
     dataset_obj = tv_datasets.CIFAR10(
         root=str(dataset_dir),
         train=True,
@@ -853,10 +1050,10 @@ def _load_packet_indices_file(path: str | Path) -> list[int]:
 
     try:
         payload = json.loads(text)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as exc:
         tokens = [token for token in re.split(r"[\s,]+", text) if token]
         if not tokens:
-            raise ValueError(f"PIA packet index file does not contain any indices: {path}")
+            raise ValueError(f"PIA packet index file does not contain any indices: {path}") from exc
         return [int(token) for token in tokens]
 
     if isinstance(payload, list):
@@ -879,7 +1076,8 @@ def _validate_packet_indices(
     invalid = [int(value) for value in requested_indices if int(value) not in allowed]
     if invalid:
         raise ValueError(
-            f"PIA explicit {membership} packet includes indices outside the canonical {membership} split: {invalid[:5]}"
+            f"PIA explicit {membership} packet includes indices outside the canonical "
+            f"{membership} split: {invalid[:5]}"
         )
 
 
@@ -901,7 +1099,8 @@ def _normalize_channel_dim(activation: torch.Tensor, channel_dim: int) -> int:
         normalized += int(activation.ndim)
     if normalized < 0 or normalized >= int(activation.ndim):
         raise ValueError(
-            f"Invalid channel_dim={channel_dim} for activation shape={tuple(int(dim) for dim in activation.shape)}"
+            f"Invalid channel_dim={channel_dim} for activation "
+            f"shape={tuple(int(dim) for dim in activation.shape)}"
         )
     return normalized
 
@@ -950,7 +1149,9 @@ def _select_mask_indices(
         return torch.argsort(delta, descending=False)[:selected_k].tolist()
     if mask_kind == "random_k_seeded":
         rng = np.random.default_rng(int(random_seed))
-        return sorted(int(idx) for idx in rng.choice(channel_count, size=selected_k, replace=False).tolist())
+        return sorted(
+            int(idx) for idx in rng.choice(channel_count, size=selected_k, replace=False).tolist()
+        )
     raise ValueError(f"Unsupported mask kind: {mask_kind}")
 
 
@@ -978,7 +1179,9 @@ def _run_pia_alias_forward(
     }
     alias_module = _resolve_pia_alias_module(model, alias_selector)
     alias_weight = getattr(alias_module, "weight", None)
-    alias_weight_shape = list(alias_weight.shape) if isinstance(alias_weight, torch.Tensor) else None
+    alias_weight_shape = (
+        list(alias_weight.shape) if isinstance(alias_weight, torch.Tensor) else None
+    )
     model_device = next(model.parameters()).device
     normalized_batch = (batch.to(model_device) * 2.0) - 1.0
     timestep_tensor = torch.full(
@@ -1117,6 +1320,7 @@ def export_pia_translated_alias_probe(
         member_split_root=split_root,
     )
     if asset_summary["status"] != "ready":
+        workspace_path.mkdir(parents=True, exist_ok=True)
         result = {
             "status": "blocked",
             "track": "gray-box",
@@ -1137,7 +1341,9 @@ def export_pia_translated_alias_probe(
         return result
 
     components_module, model_module = load_pia_ddpm_modules(repo_root)
-    model, weights_key = load_pia_model(asset_summary["paths"]["checkpoint"], model_module, device=device)
+    model, weights_key = load_pia_model(
+        asset_summary["paths"]["checkpoint"], model_module, device=device
+    )
     attacker = _build_pia_attacker(
         components_module=components_module,
         model=model,
@@ -1145,6 +1351,7 @@ def export_pia_translated_alias_probe(
         attack_num=plan.attack_num,
         interval=plan.interval,
         device=device,
+        variant=plan.variant,
     )
 
     with np.load(asset_summary["paths"]["member_split"]) as split_payload:
@@ -1153,7 +1360,9 @@ def export_pia_translated_alias_probe(
     if int(member_index) not in member_all:
         raise ValueError(f"Requested member_index is not in PIA member split: {member_index}")
     if int(nonmember_index) not in nonmember_all:
-        raise ValueError(f"Requested nonmember_index is not in PIA non-member split: {nonmember_index}")
+        raise ValueError(
+            f"Requested nonmember_index is not in PIA non-member split: {nonmember_index}"
+        )
 
     member_indices = [int(member_index)]
     nonmember_indices = [int(nonmember_index)]
@@ -1172,7 +1381,10 @@ def export_pia_translated_alias_probe(
     member_batch = _collect_loader_batches(member_loader)
     nonmember_batch = _collect_loader_batches(nonmember_loader)
     if member_batch.shape[0] != 1 or nonmember_batch.shape[0] != 1:
-        raise ValueError("PIA translated alias probe currently requires exactly one member and one non-member sample")
+        raise ValueError(
+            "PIA translated alias probe currently requires exactly one member and one "
+            "non-member sample"
+        )
 
     baseline_member_forward = _run_pia_alias_forward(
         model=model,
@@ -1193,8 +1405,12 @@ def export_pia_translated_alias_probe(
         alpha=1.0,
     )
     baseline_profiles = {
-        "member": _channelwise_profile_for_dim(baseline_member_forward["post_activation"], channel_dim=channel_dim),
-        "nonmember": _channelwise_profile_for_dim(baseline_nonmember_forward["post_activation"], channel_dim=channel_dim),
+        "member": _channelwise_profile_for_dim(
+            baseline_member_forward["post_activation"], channel_dim=channel_dim
+        ),
+        "nonmember": _channelwise_profile_for_dim(
+            baseline_nonmember_forward["post_activation"], channel_dim=channel_dim
+        ),
     }
     channel_indices = _select_mask_indices(
         canary_profile=baseline_profiles["member"],
@@ -1226,7 +1442,9 @@ def export_pia_translated_alias_probe(
         alpha=alpha,
     )
     intervened_profiles = {
-        "member": _channelwise_profile_for_dim(intervened_member_forward["post_activation"], channel_dim=channel_dim),
+        "member": _channelwise_profile_for_dim(
+            intervened_member_forward["post_activation"], channel_dim=channel_dim
+        ),
         "nonmember": _channelwise_profile_for_dim(
             intervened_nonmember_forward["post_activation"],
             channel_dim=channel_dim,
@@ -1235,24 +1453,37 @@ def export_pia_translated_alias_probe(
 
     pre_selected_delta = float(
         torch.abs(
-            baseline_profiles["member"][selected_index_tensor] - baseline_profiles["nonmember"][selected_index_tensor]
-        ).mean().item()
+            baseline_profiles["member"][selected_index_tensor]
+            - baseline_profiles["nonmember"][selected_index_tensor]
+        )
+        .mean()
+        .item()
     )
     post_selected_delta = float(
         torch.abs(
-            intervened_profiles["member"][selected_index_tensor] - intervened_profiles["nonmember"][selected_index_tensor]
-        ).mean().item()
+            intervened_profiles["member"][selected_index_tensor]
+            - intervened_profiles["nonmember"][selected_index_tensor]
+        )
+        .mean()
+        .item()
     )
-    selected_delta_retention_ratio = float(post_selected_delta / pre_selected_delta) if pre_selected_delta else 0.0
+    selected_delta_retention_ratio = (
+        float(post_selected_delta / pre_selected_delta) if pre_selected_delta else 0.0
+    )
     off_mask_drift_values: list[float] = []
     if off_mask_indices:
         off_mask_index_tensor = torch.tensor(off_mask_indices, dtype=torch.long)
         for role in ("member", "nonmember"):
             drift = torch.abs(
-                intervened_profiles[role][off_mask_index_tensor] - baseline_profiles[role][off_mask_index_tensor]
+                intervened_profiles[role][off_mask_index_tensor]
+                - baseline_profiles[role][off_mask_index_tensor]
             ).mean()
             off_mask_drift_values.append(float(drift.item()))
-    off_mask_drift = float(sum(off_mask_drift_values) / len(off_mask_drift_values)) if off_mask_drift_values else 0.0
+    off_mask_drift = (
+        float(sum(off_mask_drift_values) / len(off_mask_drift_values))
+        if off_mask_drift_values
+        else 0.0
+    )
 
     member_loader = _build_pia_packet_loader(
         dataset=plan.dataset,
@@ -1279,18 +1510,21 @@ def export_pia_translated_alias_probe(
             alpha=1.0,
         )
     )
-    baseline_nonmember_scores, baseline_nonmember_adaptive, baseline_nonmember_std, baseline_nonmember_probe = (
-        _score_loader_with_alias_probe(
-            attacker,
-            model=model,
-            loader=nonmember_loader,
-            alias_selector=alias_selector,
-            channel_dim=channel_dim,
-            device=device,
-            adaptive_query_repeats=adaptive_query_repeats,
-            channel_indices=None,
-            alpha=1.0,
-        )
+    (
+        baseline_nonmember_scores,
+        baseline_nonmember_adaptive,
+        baseline_nonmember_std,
+        baseline_nonmember_probe,
+    ) = _score_loader_with_alias_probe(
+        attacker,
+        model=model,
+        loader=nonmember_loader,
+        alias_selector=alias_selector,
+        channel_dim=channel_dim,
+        device=device,
+        adaptive_query_repeats=adaptive_query_repeats,
+        channel_indices=None,
+        alpha=1.0,
     )
     member_loader = _build_pia_packet_loader(
         dataset=plan.dataset,
@@ -1304,31 +1538,37 @@ def export_pia_translated_alias_probe(
         packet_indices=nonmember_indices,
         batch_size=batch_size,
     )
-    intervened_member_scores, intervened_member_adaptive, intervened_member_std, intervened_member_probe = (
-        _score_loader_with_alias_probe(
-            attacker,
-            model=model,
-            loader=member_loader,
-            alias_selector=alias_selector,
-            channel_dim=channel_dim,
-            device=device,
-            adaptive_query_repeats=adaptive_query_repeats,
-            channel_indices=channel_indices,
-            alpha=alpha,
-        )
+    (
+        intervened_member_scores,
+        intervened_member_adaptive,
+        intervened_member_std,
+        intervened_member_probe,
+    ) = _score_loader_with_alias_probe(
+        attacker,
+        model=model,
+        loader=member_loader,
+        alias_selector=alias_selector,
+        channel_dim=channel_dim,
+        device=device,
+        adaptive_query_repeats=adaptive_query_repeats,
+        channel_indices=channel_indices,
+        alpha=alpha,
     )
-    intervened_nonmember_scores, intervened_nonmember_adaptive, intervened_nonmember_std, intervened_nonmember_probe = (
-        _score_loader_with_alias_probe(
-            attacker,
-            model=model,
-            loader=nonmember_loader,
-            alias_selector=alias_selector,
-            channel_dim=channel_dim,
-            device=device,
-            adaptive_query_repeats=adaptive_query_repeats,
-            channel_indices=channel_indices,
-            alpha=alpha,
-        )
+    (
+        intervened_nonmember_scores,
+        intervened_nonmember_adaptive,
+        intervened_nonmember_std,
+        intervened_nonmember_probe,
+    ) = _score_loader_with_alias_probe(
+        attacker,
+        model=model,
+        loader=nonmember_loader,
+        alias_selector=alias_selector,
+        channel_dim=channel_dim,
+        device=device,
+        adaptive_query_repeats=adaptive_query_repeats,
+        channel_indices=channel_indices,
+        alpha=alpha,
     )
 
     member_score_mean = float(baseline_member_scores.mean().item())
@@ -1370,13 +1610,32 @@ def export_pia_translated_alias_probe(
         ),
     )
 
-    for membership, split_index, baseline_score, baseline_adaptive, baseline_std, intervened_score, intervened_adaptive, intervened_std, baseline_forward, intervened_forward, baseline_probe, intervened_probe in sample_specs:
+    for (
+        membership,
+        split_index,
+        baseline_score,
+        baseline_adaptive,
+        baseline_std,
+        intervened_score,
+        intervened_adaptive,
+        intervened_std,
+        baseline_forward,
+        intervened_forward,
+        baseline_probe,
+        intervened_probe,
+    ) in sample_specs:
         sample_dir = tensors_root / f"{membership}-{int(split_index):05d}"
         sample_dir.mkdir(parents=True, exist_ok=True)
         baseline_alias_path = sample_dir / f"{alias_selector.replace('.', '_')}_baseline_alias.pt"
-        intervened_alias_path = sample_dir / f"{alias_selector.replace('.', '_')}_intervened_alias.pt"
-        baseline_prediction_path = sample_dir / f"{alias_selector.replace('.', '_')}_baseline_prediction.pt"
-        intervened_prediction_path = sample_dir / f"{alias_selector.replace('.', '_')}_intervened_prediction.pt"
+        intervened_alias_path = (
+            sample_dir / f"{alias_selector.replace('.', '_')}_intervened_alias.pt"
+        )
+        baseline_prediction_path = (
+            sample_dir / f"{alias_selector.replace('.', '_')}_baseline_prediction.pt"
+        )
+        intervened_prediction_path = (
+            sample_dir / f"{alias_selector.replace('.', '_')}_intervened_prediction.pt"
+        )
         torch.save(baseline_forward["post_activation"], baseline_alias_path)
         torch.save(intervened_forward["post_activation"], intervened_alias_path)
         torch.save(baseline_forward["prediction"], baseline_prediction_path)
@@ -1392,7 +1651,9 @@ def export_pia_translated_alias_probe(
                 "score_delta": round(float((intervened_score - baseline_score)[0].item()), 6),
                 "baseline_adaptive_score": round(float(baseline_adaptive[0].item()), 6),
                 "intervened_adaptive_score": round(float(intervened_adaptive[0].item()), 6),
-                "adaptive_score_delta": round(float((intervened_adaptive - baseline_adaptive)[0].item()), 6),
+                "adaptive_score_delta": round(
+                    float((intervened_adaptive - baseline_adaptive)[0].item()), 6
+                ),
                 "baseline_score_std": round(float(baseline_std[0].item()), 6),
                 "intervened_score_std": round(float(intervened_std[0].item()), 6),
                 "alias_activation_shape": list(baseline_forward["post_activation"].shape),
@@ -1404,9 +1665,15 @@ def export_pia_translated_alias_probe(
                 },
                 "artifact_paths": {
                     "baseline_alias": baseline_alias_path.relative_to(workspace_path).as_posix(),
-                    "intervened_alias": intervened_alias_path.relative_to(workspace_path).as_posix(),
-                    "baseline_prediction": baseline_prediction_path.relative_to(workspace_path).as_posix(),
-                    "intervened_prediction": intervened_prediction_path.relative_to(workspace_path).as_posix(),
+                    "intervened_alias": intervened_alias_path.relative_to(
+                        workspace_path
+                    ).as_posix(),
+                    "baseline_prediction": baseline_prediction_path.relative_to(
+                        workspace_path
+                    ).as_posix(),
+                    "intervened_prediction": intervened_prediction_path.relative_to(
+                        workspace_path
+                    ).as_posix(),
                 },
             }
         )
@@ -1467,7 +1734,8 @@ def export_pia_translated_alias_probe(
                     baseline_member_forward["hook_hits"] + baseline_nonmember_forward["hook_hits"]
                 ),
                 "intervened_forward": int(
-                    intervened_member_forward["hook_hits"] + intervened_nonmember_forward["hook_hits"]
+                    intervened_member_forward["hook_hits"]
+                    + intervened_nonmember_forward["hook_hits"]
                 ),
             },
         },
@@ -1512,8 +1780,14 @@ def export_pia_translated_alias_probe(
         },
         "notes": [
             "This probe is an alias-scoped translated-contract canary, not same-spec reuse.",
-            "Gray-box channel masking is applied on BCHW activations with channel_dim=1 at middleblocks.0.attn.proj_v.",
-            "Packet deltas are local execution signals only and do not count as cross-box support by themselves.",
+            (
+                "Gray-box channel masking is applied on BCHW activations with channel_dim=1 at "
+                "middleblocks.0.attn.proj_v."
+            ),
+            (
+                "Packet deltas are local execution signals only and do not count as cross-box "
+                "support by themselves."
+            ),
         ],
     }
     (workspace_path / "summary.json").write_text(
@@ -1543,7 +1817,9 @@ def run_synthetic_pia_smoke(
         repo_root=repo_root,
     )
     components_module, model_module = load_pia_ddpm_modules(repo_root)
-    model, weights_key = load_pia_model(smoke_assets["checkpoint_path"], model_module, device=device)
+    model, weights_key = load_pia_model(
+        smoke_assets["checkpoint_path"], model_module, device=device
+    )
     attacker = _build_pia_attacker(
         components_module=components_module,
         model=model,
@@ -1563,7 +1839,10 @@ def run_synthetic_pia_smoke(
     threshold = torch.cat([member_scores, nonmember_scores]).median()
     asr = float(
         (
-            torch.cat([member_scores > threshold, nonmember_scores <= threshold]).float().mean().item()
+            torch.cat([member_scores > threshold, nonmember_scores <= threshold])
+            .float()
+            .mean()
+            .item()
         )
     )
 
@@ -1630,19 +1909,79 @@ def export_pia_packet_scores(
     batch_size: int = 4,
     adaptive_query_repeats: int = 1,
     provenance_status: str = "workspace-verified",
+    protocol_manifest: str | Path | None = None,
+    expected_protocol_hash: str | None = None,
+    training_output_manifest: str | Path | None = None,
+    expected_checkpoint_sha256: str | None = None,
+    stage: str | None = None,
+    run_seed: int | None = None,
+    step: int | None = None,
+    packet_purpose: str | None = None,
+    calibration_or_evaluation: str | None = None,
 ) -> dict[str, Any]:
-    if device.lower() != "cpu":
+    if device != "cpu":
         raise ValueError("PIA packet export is CPU-first and does not authorize GPU use.")
 
     workspace_path = Path(workspace)
-    workspace_path.mkdir(parents=True, exist_ok=True)
     plan = build_pia_plan(config)
+    if plan.variant != "canonical-ddpm-eq9":
+        workspace_path.mkdir(parents=True, exist_ok=True)
+    if plan.variant == "canonical-ddpm-eq9":
+        forbidden_identity = {
+            "expected_checkpoint_sha256": expected_checkpoint_sha256,
+            "stage": stage,
+            "run_seed": run_seed,
+            "step": step,
+        }
+        supplied_identity = [
+            name for name, value in forbidden_identity.items() if value is not None
+        ]
+        if supplied_identity:
+            raise ValueError(
+                "canonical PIA derives checkpoint identity and rejects CLI identity fields: "
+                + ", ".join(sorted(supplied_identity))
+            )
+        required = {
+            "protocol_manifest": protocol_manifest,
+            "expected_protocol_hash": expected_protocol_hash,
+            "training_output_manifest": training_output_manifest,
+            "packet_purpose": packet_purpose,
+            "calibration_or_evaluation": calibration_or_evaluation,
+        }
+        missing = [name for name, value in required.items() if value is None]
+        if missing:
+            raise ValueError("canonical PIA exporter requires: " + ", ".join(sorted(missing)))
+        assert expected_protocol_hash is not None
+        context = load_pia_protocol_context(
+            protocol_manifest, expected_protocol_hash=expected_protocol_hash
+        )
+        extraction_contract = context.pia_contract["extraction"]
+        assert isinstance(extraction_contract, dict)
+        validate_pia_cpu_runtime(
+            extraction_contract,
+            device=device,
+            batch_size=batch_size,
+            evaluator_environment=collect_pia_cpu_environment(),
+        )
+        if plan.batch_size != batch_size:
+            raise ValueError("canonical PIA config batch_size does not match the sealed contract")
+        head, tracked_status, untracked_code = read_pia_repository_state(RESEARCH_ROOT)
+        validate_pia_repository_state(head, context.code_commit, tracked_status, untracked_code)
+        assert training_output_manifest is not None
+        checkpoint_path = resolve_pia_training_checkpoint_path(
+            training_output_manifest,
+            expected_model_dir=plan.model_dir,
+        )
     validate_pia_workspace(repo_root)
+    if plan.variant == "canonical-ddpm-eq9":
+        upstream_verification = validate_canonical_pia_workspace(repo_root, context.pia_contract)
     split_root = Path(member_split_root) if member_split_root else Path(repo_root) / "DDPM"
     asset_summary = probe_pia_assets(
         dataset=plan.dataset,
         dataset_root=plan.data_root,
-        model_dir=plan.model_dir,
+        model_dir=checkpoint_path.parent
+        if plan.variant == "canonical-ddpm-eq9"
+        else plan.model_dir,
         member_split_root=split_root,
     )
     if asset_summary["status"] != "ready":
@@ -1665,8 +2004,154 @@ def export_pia_packet_scores(
         )
         return result
 
+    if plan.variant == "canonical-ddpm-eq9":
+        if calibration_or_evaluation not in {"calibration", "evaluation"}:
+            raise ValueError("calibration_or_evaluation must be calibration or evaluation")
+        if adaptive_query_repeats != 1:
+            raise ValueError("canonical PIA has no adaptive or repeated random-noise queries")
+        assert packet_purpose is not None
+        assert training_output_manifest is not None
+        asset_summary["paths"]["checkpoint"] = str(checkpoint_path)
+        if plan.dataset.upper() != context.dataset_id.upper():
+            raise ValueError("canonical PIA config dataset does not match the sealed protocol")
+        try:
+            checkpoint_snapshot = checkpoint_path.read_bytes()
+        except OSError as error:
+            raise ValueError("canonical PIA checkpoint is unreadable") from error
+        training_identity = load_pia_training_identity(
+            context,
+            checkpoint_path=checkpoint_path,
+            training_output_manifest=training_output_manifest,
+            scorer_code_commit=head,
+            packet_purpose=packet_purpose,
+            checkpoint_snapshot=checkpoint_snapshot,
+        )
+        export_started = time.perf_counter()
+        upstream_contract = context.pia_contract["upstream"]
+        assert isinstance(upstream_contract, Mapping)
+        required_file_sha256 = upstream_contract["required_file_sha256"]
+        assert isinstance(required_file_sha256, Mapping)
+        components_module, model_module = load_pia_ddpm_modules(
+            repo_root,
+            required_file_sha256=required_file_sha256,
+        )
+        model, weights_key = load_pia_model(
+            io.BytesIO(checkpoint_snapshot), model_module, device=device, weights_only=True
+        )
+        if weights_key != extraction_contract["weights_key"]:
+            raise ValueError("canonical PIA must load corrected checkpoint EMA weights")
+        if (
+            hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
+            != training_identity.checkpoint_sha256
+        ):
+            raise ValueError("checkpoint changed while the canonical PIA model was loading")
+        attacker = _build_pia_attacker(
+            components_module=components_module,
+            model=model,
+            attacker_name=plan.attacker_name,
+            attack_num=plan.attack_num,
+            interval=plan.interval,
+            device=device,
+            variant=plan.variant,
+        )
+        packet_indices = list(context.role_indices[calibration_or_evaluation])
+        loader = _build_pia_packet_loader(
+            dataset=plan.dataset,
+            dataset_dir=asset_summary["paths"]["dataset_dir"],
+            packet_indices=packet_indices,
+            batch_size=batch_size,
+        )
+        observed_classes = [
+            int(class_id)
+            for _, batch_classes in loader
+            for class_id in batch_classes.detach().cpu().tolist()
+        ]
+        expected_classes = [context.manifest_rows[index][1] for index in packet_indices]
+        if observed_classes != expected_classes:
+            raise ValueError("dataset classes do not match the sealed protocol manifest")
+        scores, _, _ = _score_loader(
+            attacker,
+            loader,
+            device=device,
+            adaptive_query_repeats=1,
+        )
+        try:
+            live_checkpoint_sha256 = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
+        except OSError as error:
+            raise ValueError("checkpoint changed during score export") from error
+        if live_checkpoint_sha256 != training_identity.checkpoint_sha256:
+            raise ValueError("checkpoint changed during score export")
+        live_upstream_verification = validate_canonical_pia_workspace(
+            repo_root, context.pia_contract
+        )
+        if live_upstream_verification != upstream_verification:
+            raise ValueError("canonical PIA upstream changed during score export")
+        scores_by_index = {
+            dataset_index: float(score)
+            for dataset_index, score in zip(packet_indices, scores.tolist(), strict=True)
+        }
+        packet = build_pia_score_packet(
+            context,
+            calibration_or_evaluation=calibration_or_evaluation,
+            scores_by_index=scores_by_index,
+            packet_purpose=packet_purpose,
+            training_identity=training_identity,
+            training_output_manifest=training_output_manifest,
+            device=device,
+            batch_size=batch_size,
+            weights_key=weights_key,
+            upstream_verification=upstream_verification,
+        )
+        workspace_path.mkdir(parents=True, exist_ok=True)
+        packet_path = write_pia_score_packet(workspace_path / "score-packet.json", packet)
+        packet_sha256 = hashlib.sha256(packet_path.read_bytes()).hexdigest()
+        elapsed_seconds = time.perf_counter() - export_started
+        result = {
+            "status": "score_packet_exported",
+            "method": "pia",
+            "variant": "pia",
+            "mode": "canonical_score_packet_export",
+            "packet_purpose": packet_purpose,
+            "calibration_or_evaluation": calibration_or_evaluation,
+            "stage": training_identity.stage,
+            "run_seed": training_identity.run_seed,
+            "step": training_identity.step,
+            "row_count": len(packet_indices),
+            "elapsed_seconds": elapsed_seconds,
+            "packet_sha256": packet_sha256,
+            "raw_score_packet_status": "embargoed",
+            "outcome_boundary": (
+                "generated and sealed raw score packet, but did not compute/display/inspect "
+                "aggregate metrics or score contents"
+            ),
+            "provenance_receipt": {
+                "protocol_hash": context.protocol_hash,
+                "packet_purpose": packet_purpose,
+                "stage": training_identity.stage,
+                "run_seed": training_identity.run_seed,
+                "step": training_identity.step,
+                "checkpoint_sha256": training_identity.checkpoint_sha256,
+                "checkpoint_filename": training_identity.checkpoint_filename,
+                "training_manifest_sha256": training_identity.training_manifest_sha256,
+                "run_label": training_identity.run_label,
+                "training_config_hash": training_identity.training_config_hash,
+                "extraction": packet["extraction"],
+            },
+            "artifact_paths": {
+                "summary": str(workspace_path / "summary.json"),
+                "score_packet": str(packet_path),
+            },
+        }
+        (workspace_path / "summary.json").write_text(
+            json.dumps(result, indent=2, ensure_ascii=True, allow_nan=False),
+            encoding="utf-8",
+        )
+        return result
+
     components_module, model_module = load_pia_ddpm_modules(repo_root)
-    model, weights_key = load_pia_model(asset_summary["paths"]["checkpoint"], model_module, device=device)
+    model, weights_key = load_pia_model(
+        asset_summary["paths"]["checkpoint"], model_module, device=device
+    )
     attacker = _build_pia_attacker(
         components_module=components_module,
         model=model,
@@ -1674,13 +2159,16 @@ def export_pia_packet_scores(
         attack_num=plan.attack_num,
         interval=plan.interval,
         device=device,
+        variant=plan.variant,
     )
 
     split_payload = np.load(asset_summary["paths"]["member_split"])
     member_all = split_payload["mia_train_idxs"].tolist()
     nonmember_all = split_payload["mia_eval_idxs"].tolist()
     if (member_index_file is None) != (nonmember_index_file is None):
-        raise ValueError("PIA explicit packet export requires both member_index_file and nonmember_index_file")
+        raise ValueError(
+            "PIA explicit packet export requires both member_index_file and nonmember_index_file"
+        )
 
     selection_mode = "offset-slice"
     selected_packet_size: int | None = max(1, int(packet_size))
@@ -1695,9 +2183,15 @@ def export_pia_packet_scores(
         else:
             selected_packet_size = None
     else:
-        member_indices = member_all[int(member_offset) : int(member_offset) + int(selected_packet_size)]
-        nonmember_indices = nonmember_all[int(nonmember_offset) : int(nonmember_offset) + int(selected_packet_size)]
-        if len(member_indices) < int(selected_packet_size) or len(nonmember_indices) < int(selected_packet_size):
+        member_indices = member_all[
+            int(member_offset) : int(member_offset) + int(selected_packet_size)
+        ]
+        nonmember_indices = nonmember_all[
+            int(nonmember_offset) : int(nonmember_offset) + int(selected_packet_size)
+        ]
+        if len(member_indices) < int(selected_packet_size) or len(nonmember_indices) < int(
+            selected_packet_size
+        ):
             raise ValueError("Requested PIA packet exceeds available member/non-member indices")
 
     member_loader = _build_pia_packet_loader(
@@ -1728,7 +2222,13 @@ def export_pia_packet_scores(
 
     records: list[dict[str, Any]] = []
     for position, (split_index, score, adaptive_score, score_std) in enumerate(
-        zip(member_indices, member_scores.tolist(), member_adaptive_scores.tolist(), member_score_std.tolist(), strict=True)
+        zip(
+            member_indices,
+            member_scores.tolist(),
+            member_adaptive_scores.tolist(),
+            member_score_std.tolist(),
+            strict=True,
+        )
     ):
         records.append(
             {
@@ -1741,7 +2241,13 @@ def export_pia_packet_scores(
             }
         )
     for position, (split_index, score, adaptive_score, score_std) in enumerate(
-        zip(nonmember_indices, nonmember_scores.tolist(), nonmember_adaptive_scores.tolist(), nonmember_score_std.tolist(), strict=True)
+        zip(
+            nonmember_indices,
+            nonmember_scores.tolist(),
+            nonmember_adaptive_scores.tolist(),
+            nonmember_score_std.tolist(),
+            strict=True,
+        )
     ):
         records.append(
             {
@@ -1820,7 +2326,10 @@ def export_pia_packet_scores(
         },
         "notes": [
             "This scaffold exports packet-local PIA scores on a fixed member/non-member packet.",
-            "Exact-index mode can export pairboard-ready CPU-first scores on explicit PIA split indices.",
+            (
+                "Exact-index mode can export pairboard-ready CPU-first scores on explicit PIA "
+                "split indices."
+            ),
             "It is a CPU-first bridge artifact, not a benchmark or GPU release.",
         ],
     }
@@ -1872,9 +2381,7 @@ def run_pia_runtime_smoke(
                 "interval": interval,
             },
         ),
-        report=ReportConfig(
-            output_dir="experiments/pia-runtime-smoke"
-        ),
+        report=ReportConfig(output_dir="experiments/pia-runtime-smoke"),
     )
     exit_code, payload = probe_pia_runtime(
         config,
@@ -1929,20 +2436,118 @@ def run_pia_runtime_smoke(
 def run_pia_runtime_mainline(
     config: AuditConfig,
     workspace: str | Path,
-    repo_root: str | Path = "external/PIA",
+    repo_root: str | Path | None = None,
     member_split_root: str | Path | None = None,
-    device: str = "cpu",
+    device: str | None = None,
     max_samples: int | None = None,
-    batch_size: int = 8,
+    batch_size: int | None = None,
     stochastic_dropout_defense: bool = False,
-    dropout_activation_schedule: str = "off",
-    epsilon_output_noise_std: float = 0.0,
+    dropout_activation_schedule: str | None = None,
+    epsilon_output_noise_std: float | None = None,
     epsilon_precision_bins: int | None = None,
-    input_gaussian_blur_sigma: float = 0.0,
-    adaptive_query_repeats: int = 1,
+    input_gaussian_blur_sigma: float | None = None,
+    adaptive_query_repeats: int | None = None,
     late_step_threshold: int | None = None,
-    provenance_status: str = "source-retained-unverified",
+    provenance_status: str | None = None,
+    calibration_score_packet: str | Path | None = None,
+    evaluation_score_packet: str | Path | None = None,
+    protocol_manifest: str | Path | None = None,
+    expected_protocol_hash: str | None = None,
+    training_output_manifest: str | Path | None = None,
+    expected_checkpoint_sha256: str | None = None,
+    stage: str | None = None,
 ) -> dict[str, Any]:
+    plan = build_pia_plan(config)
+    if plan.variant == "canonical-ddpm-eq9":
+        legacy_values = {
+            "repo_root": repo_root,
+            "member_split_root": member_split_root,
+            "device": device,
+            "max_samples": max_samples,
+            "batch_size": batch_size,
+            "dropout_activation_schedule": dropout_activation_schedule,
+            "epsilon_output_noise_std": epsilon_output_noise_std,
+            "epsilon_precision_bins": epsilon_precision_bins,
+            "input_gaussian_blur_sigma": input_gaussian_blur_sigma,
+            "adaptive_query_repeats": adaptive_query_repeats,
+            "late_step_threshold": late_step_threshold,
+            "provenance_status": provenance_status,
+        }
+        supplied_legacy = [name for name, value in legacy_values.items() if value is not None]
+        if stochastic_dropout_defense:
+            supplied_legacy.append("stochastic_dropout_defense")
+        if supplied_legacy:
+            raise ValueError(
+                "canonical PIA rejects legacy runtime flag(s): "
+                + ", ".join(sorted(supplied_legacy))
+            )
+        if calibration_score_packet is None or evaluation_score_packet is None:
+            raise ValueError("canonical PIA requires both calibration and evaluation score packets")
+        if expected_checkpoint_sha256 is not None or stage is not None:
+            raise ValueError(
+                "canonical PIA evaluator derives identity and rejects CLI identity fields"
+            )
+        required_trust = {
+            "protocol_manifest": protocol_manifest,
+            "expected_protocol_hash": expected_protocol_hash,
+            "training_output_manifest": training_output_manifest,
+        }
+        missing_trust = [name for name, value in required_trust.items() if value is None]
+        if missing_trust:
+            raise ValueError(
+                "canonical PIA requires trusted evaluation inputs: "
+                + ", ".join(sorted(missing_trust))
+            )
+        assert expected_protocol_hash is not None
+        assert training_output_manifest is not None
+        context = load_pia_protocol_context(
+            protocol_manifest,
+            expected_protocol_hash=expected_protocol_hash,
+        )
+        evaluator_head, tracked_status, untracked_code = read_pia_repository_state(RESEARCH_ROOT)
+        validate_pia_repository_state(
+            evaluator_head,
+            context.code_commit,
+            tracked_status,
+            untracked_code,
+        )
+        calibration, evaluation = validate_pia_score_packet_pair(
+            calibration_score_packet,
+            evaluation_score_packet,
+            context=context,
+            training_output_manifest=training_output_manifest,
+        )
+        packet_purpose = str(calibration.provenance["packet_purpose"])
+        if packet_purpose == "preflight_benchmark":
+            raise ValueError(
+                "preflight_benchmark packets are export-only and forbidden from runtime evaluation"
+            )
+        if packet_purpose == "corrected_evaluation":
+            raise ValueError(
+                "corrected_evaluation packets require formal complete-roster confirmatory analysis"
+            )
+    if any(
+        value is not None
+        for value in (
+            calibration_score_packet,
+            evaluation_score_packet,
+            protocol_manifest,
+            expected_protocol_hash,
+            expected_checkpoint_sha256,
+            stage,
+        )
+    ):
+        raise ValueError("legacy PIA runtime rejects canonical packet and protocol flags")
+    repo_root = repo_root or "external/PIA"
+    device = device or "cpu"
+    batch_size = 8 if batch_size is None else batch_size
+    dropout_activation_schedule = dropout_activation_schedule or "off"
+    epsilon_output_noise_std = 0.0 if epsilon_output_noise_std is None else epsilon_output_noise_std
+    input_gaussian_blur_sigma = (
+        0.0 if input_gaussian_blur_sigma is None else input_gaussian_blur_sigma
+    )
+    adaptive_query_repeats = 1 if adaptive_query_repeats is None else adaptive_query_repeats
+    provenance_status = provenance_status or "source-retained-unverified"
     started_at = time.perf_counter()
     workspace_path = Path(workspace)
     workspace_path.mkdir(parents=True, exist_ok=True)
@@ -1978,7 +2583,10 @@ def run_pia_runtime_mainline(
                 "summary": str(workspace_path / "summary.json"),
             },
             "notes": [
-                "Runtime mainline requires the canonical checkpoint, dataset root, and member split to be ready.",
+                (
+                    "Runtime mainline requires the canonical checkpoint, dataset root, and member "
+                    "split to be ready."
+                ),
             ],
         }
         (workspace_path / "summary.json").write_text(
@@ -2015,6 +2623,7 @@ def run_pia_runtime_mainline(
         late_step_threshold=late_step_threshold,
         epsilon_output_noise_std=epsilon_output_noise_std,
         epsilon_precision_bins=epsilon_precision_bins,
+        variant=runtime_context.plan.variant,
     )
 
     split_root = Path(member_split_root) if member_split_root else Path(repo_root) / "DDPM"
@@ -2100,9 +2709,13 @@ def run_pia_runtime_mainline(
         "query_repeats": int(max(adaptive_query_repeats, 1)),
         "aggregation": "mean",
         "member_scores": [round(float(value), 6) for value in member_adaptive_tensor.tolist()],
-        "nonmember_scores": [round(float(value), 6) for value in nonmember_adaptive_tensor.tolist()],
+        "nonmember_scores": [
+            round(float(value), 6) for value in nonmember_adaptive_tensor.tolist()
+        ],
         "member_score_std": [round(float(value), 6) for value in member_score_std_tensor.tolist()],
-        "nonmember_score_std": [round(float(value), 6) for value in nonmember_score_std_tensor.tolist()],
+        "nonmember_score_std": [
+            round(float(value), 6) for value in nonmember_score_std_tensor.tolist()
+        ],
         "member_indices": member_indices,
         "nonmember_indices": nonmember_indices,
     }
@@ -2137,7 +2750,14 @@ def run_pia_runtime_mainline(
     quality = _compute_surrogate_quality_metrics(
         reference_images=reference_batches,
         active_images=active_surrogates,
-        baseline_images=baseline_surrogates if (resolved_schedule != "off" or float(epsilon_output_noise_std) > 0.0 or epsilon_precision_bins is not None or float(input_gaussian_blur_sigma) > 0.0) else None,
+        baseline_images=baseline_surrogates
+        if (
+            resolved_schedule != "off"
+            or float(epsilon_output_noise_std) > 0.0
+            or epsilon_precision_bins is not None
+            or float(input_gaussian_blur_sigma) > 0.0
+        )
+        else None,
     )
 
     defense_name = "none"
@@ -2201,11 +2821,18 @@ def run_pia_runtime_mainline(
         },
         "defense": {
             "name": defense_name,
-            "enabled": bool(stochastic_dropout_defense or float(epsilon_output_noise_std) > 0.0 or epsilon_precision_bins is not None or float(input_gaussian_blur_sigma) > 0.0),
+            "enabled": bool(
+                stochastic_dropout_defense
+                or float(epsilon_output_noise_std) > 0.0
+                or epsilon_precision_bins is not None
+                or float(input_gaussian_blur_sigma) > 0.0
+            ),
             "dropout_activation_schedule": resolved_schedule,
             "late_step_threshold": int(late_step_threshold),
             "epsilon_output_noise_std": float(epsilon_output_noise_std),
-            "epsilon_precision_bins": int(epsilon_precision_bins) if epsilon_precision_bins is not None else None,
+            "epsilon_precision_bins": int(epsilon_precision_bins)
+            if epsilon_precision_bins is not None
+            else None,
             "input_gaussian_blur_sigma": float(input_gaussian_blur_sigma),
         },
         "defense_stage": defense_stage,
@@ -2227,7 +2854,10 @@ def run_pia_runtime_mainline(
         },
         "notes": [
             "Runtime mainline executes the current PIA DDPM path on canonical real assets.",
-            "Current evidence is suitable for a local baseline and must not be overstated as benchmark-ready.",
+            (
+                "Current evidence is suitable for a local baseline and must not be overstated as "
+                "benchmark-ready."
+            ),
         ],
     }
     (workspace_path / "summary.json").write_text(

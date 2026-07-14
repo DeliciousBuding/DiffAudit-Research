@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import math
+from statistics import NormalDist
+
 import numpy as np
 
 
@@ -10,7 +13,9 @@ def round6(value: float) -> float:
 
 
 def rounded_array(values: list[float] | np.ndarray) -> np.ndarray:
-    return np.asarray([round6(value) for value in np.asarray(values, dtype=float).tolist()], dtype=float)
+    return np.asarray(
+        [round6(value) for value in np.asarray(values, dtype=float).tolist()], dtype=float
+    )
 
 
 def zscore(values: np.ndarray, *, zero_mode: str = "zeros") -> np.ndarray:
@@ -88,9 +93,9 @@ def roc_curve_points(scores: np.ndarray, labels: np.ndarray) -> tuple[np.ndarray
     negatives = float(labels.shape[0] - labels.sum())
     tps = np.cumsum(labels_sorted == 1)
     fps = np.cumsum(labels_sorted == 0)
-    distinct = np.r_[True, scores_sorted[1:] != scores_sorted[:-1]]
-    tpr = np.r_[0.0, tps[distinct] / positives, 1.0]
-    fpr = np.r_[0.0, fps[distinct] / negatives, 1.0]
+    group_ends = np.r_[scores_sorted[:-1] != scores_sorted[1:], True]
+    tpr = np.r_[0.0, tps[group_ends] / positives]
+    fpr = np.r_[0.0, fps[group_ends] / negatives]
     return fpr, tpr
 
 
@@ -125,6 +130,69 @@ def tpr_at_fpr(scores: np.ndarray, labels: np.ndarray, target_fpr: float) -> flo
     return tpr_at_fpr_from_curve(fpr, tpr, target_fpr)
 
 
+def wilson_interval(
+    successes: int,
+    total: int,
+    *,
+    confidence: float = 0.95,
+) -> tuple[float, float]:
+    """Return a two-sided Wilson score interval for a binomial proportion."""
+
+    if type(successes) is not int or type(total) is not int:
+        raise ValueError("successes and total must be integers")
+    if total <= 0 or not 0 <= successes <= total:
+        raise ValueError("Wilson counts must satisfy 0 <= successes <= total and total > 0")
+    if type(confidence) is not float or not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must be a float strictly between zero and one")
+    z = NormalDist().inv_cdf(0.5 + confidence / 2.0)
+    proportion = successes / total
+    denominator = 1.0 + z * z / total
+    center = (proportion + z * z / (2.0 * total)) / denominator
+    radius = (
+        z
+        * math.sqrt(proportion * (1.0 - proportion) / total + z * z / (4.0 * total * total))
+        / denominator
+    )
+    lower = max(0.0, center - radius)
+    upper = min(1.0, center + radius)
+    if successes == 0:
+        lower = 0.0
+    if successes == total:
+        upper = 1.0
+    return float(lower), float(upper)
+
+
+def tpr_at_fpr_with_wilson(
+    scores: np.ndarray,
+    labels: np.ndarray,
+    *,
+    target_fpr: float = 0.01,
+) -> dict[str, object]:
+    """Return a tie-safe empirical TPR at an FPR cap and its Wilson interval."""
+
+    score_values = np.asarray(scores, dtype=float)
+    label_values = np.asarray(labels, dtype=np.int64)
+    if score_values.ndim != 1 or label_values.shape != score_values.shape:
+        raise ValueError("scores and labels must be matching vectors")
+    if not np.isfinite(score_values).all():
+        raise ValueError("scores must contain only finite values")
+    _require_binary_labels(label_values)
+    estimate = tpr_at_fpr(score_values, label_values, target_fpr)
+    positives = int((label_values == 1).sum())
+    raw_successes = estimate * positives
+    successes = int(round(raw_successes))
+    if not math.isclose(raw_successes, successes, rel_tol=0.0, abs_tol=1e-9):
+        raise RuntimeError("TPR helper returned a value that is not an exact empirical count")
+    lower, upper = wilson_interval(successes, positives)
+    return {
+        "estimate": float(estimate),
+        "wilson_95_ci": [lower, upper],
+        "member_successes": successes,
+        "member_total": positives,
+        "fpr_cap": float(target_fpr),
+    }
+
+
 def metric_bundle(scores: np.ndarray, labels: np.ndarray) -> dict[str, float]:
     return {
         "auc": round6(auc_score(scores, labels)),
@@ -156,7 +224,9 @@ def threshold_metrics_grid(labels: np.ndarray, scores: np.ndarray) -> dict[str, 
             best_asr = current_asr
             best_threshold = float(threshold)
             best_tpr = tp / max(float((labels == 1).sum()), 1.0)
-            best_fpr = float(((preds == 1) & (labels == 0)).sum()) / max(float((labels == 0).sum()), 1.0)
+            best_fpr = float(((preds == 1) & (labels == 0)).sum()) / max(
+                float((labels == 0).sum()), 1.0
+            )
     return {
         "auc": auc,
         "asr": float(best_asr),

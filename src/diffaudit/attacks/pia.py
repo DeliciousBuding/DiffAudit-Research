@@ -19,6 +19,9 @@ class PiaPlan:
     attack_num: int
     interval: int
     batch_size: int
+    variant: str = "legacy-upstream-multistep"
+    timestep: int | None = None
+    lp_order: int | None = None
 
 
 REQUIRED_PIA_WORKSPACE_FILES = (
@@ -58,22 +61,56 @@ def build_pia_plan(config: AuditConfig) -> PiaPlan:
         raise ValueError("PIA requires assets.model_dir")
     if "attacker_name" not in params:
         raise ValueError("PIA requires attack.parameters.attacker_name")
-    if "attack_num" not in params:
+    variant = str(params.get("variant", "legacy-upstream-multistep"))
+    canonical = variant == "canonical-ddpm-eq9"
+    if canonical:
+        expected = {
+            "variant": "canonical-ddpm-eq9",
+            "attacker_name": "PIA",
+            "timestep": 200,
+            "lp_order": 4,
+            "score_form": "negative_lp_norm",
+            "score_direction": "higher_is_member",
+            "input_range": [-1.0, 1.0],
+            "query_timesteps": [0, 200],
+            "query_count": 2,
+            "normalization": "per_row_vector_lp",
+            "beta_semantics": "linear_1000_steps_inclusive_0.0001_to_0.02",
+            "threshold_calibration": (
+                "maximize_balanced_accuracy_then_minimize_fpr_then_highest_threshold"
+            ),
+            "positive_control_gate": {
+                "auc_min": 0.95,
+                "balanced_accuracy_min": 0.90,
+                "fpr_max": 0.05,
+            },
+            "batch_size": 8,
+        }
+        if set(params) != set(expected):
+            raise ValueError("canonical PIA parameters must contain the exact sealed fields")
+        for key, value in expected.items():
+            if type(params[key]) is not type(value) or params[key] != value:
+                raise ValueError(f"canonical PIA parameter drift: {key}")
+    if not canonical and "attack_num" not in params:
         raise ValueError("PIA requires attack.parameters.attack_num")
-    if "interval" not in params:
+    if not canonical and "interval" not in params:
         raise ValueError("PIA requires attack.parameters.interval")
 
     attacker_name = str(params["attacker_name"]).strip()
     if not attacker_name:
         raise ValueError("PIA requires a non-empty attack.parameters.attacker_name")
 
-    attack_num = int(params["attack_num"])
-    interval = int(params["interval"])
+    attack_num = int(params.get("attack_num", 1))
+    interval = int(params.get("interval", 200))
     if attack_num <= 0:
         raise ValueError("PIA requires attack.parameters.attack_num > 0")
     if interval <= 0:
         raise ValueError("PIA requires attack.parameters.interval > 0")
 
+    timestep = int(params.get("timestep", 200)) if canonical else None
+    lp_order = int(params.get("lp_order", 4)) if canonical else None
+    if canonical and (attacker_name != "PIA" or timestep != 200 or lp_order != 4):
+        raise ValueError("canonical DDPM PIA requires attacker_name=PIA, timestep=200, lp_order=4")
     return PiaPlan(
         entrypoint="DDPM/attack.py",
         dataset=dataset,
@@ -84,6 +121,9 @@ def build_pia_plan(config: AuditConfig) -> PiaPlan:
         attack_num=attack_num,
         interval=interval,
         batch_size=int(params.get("batch_size", 64)),
+        variant=variant,
+        timestep=timestep,
+        lp_order=lp_order,
     )
 
 
@@ -111,9 +151,7 @@ def validate_pia_workspace(workspace_dir: str | Path) -> dict[str, str]:
         if not (workspace_path / relative_path).exists()
     ]
     if missing:
-        raise FileNotFoundError(
-            f"PIA workspace is missing required files: {', '.join(missing)}"
-        )
+        raise FileNotFoundError(f"PIA workspace is missing required files: {', '.join(missing)}")
 
     return {
         "status": "ready",
@@ -289,7 +327,10 @@ def probe_pia_dry_run(
         "missing_keys": missing_keys,
         "missing_items": [Path(item).name for item in missing],
         "missing_description": " / ".join(
-            [summary["missing_description"], *[extra_labels[key] for key in extra_labels if not checks[key]]]
+            [
+                summary["missing_description"],
+                *[extra_labels[key] for key in extra_labels if not checks[key]],
+            ]
         ).strip(" /"),
     }
     return (0 if status == "ready" else 1), payload

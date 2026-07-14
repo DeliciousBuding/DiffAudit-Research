@@ -1,7 +1,9 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-07-11
+> Last updated: 2026-07-12
 > Scope: current Research execution board.
+>
+> Implementation branch: `feat/paper1-corrected-evidence`. See `.worktrees/paper1-corrected-evidence` for active code.
 
 ## Current Baseline
 
@@ -26,6 +28,14 @@ not estimate a population-level seed variance or establish a mechanism.
 Current command runbook:
 `docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md`.
 
+The first formal corrected matrix was stopped outcome-blind at step 22,000 on
+its first target when the post-training audit found that canonical PIA could not
+load corrected `ema` checkpoints and lacked the frozen complete-roster
+statistics. No membership outcome was generated or viewed. The partial target
+is permanently excluded. The protocol is being refrozen after corrected EMA
+loading, repository-bound analysis provenance, canonical target ordering, and
+1,000-draw H1/PIA paired bootstrap are completed.
+
 ## P0: Freeze the Corrected Evidence Contract
 
 - [x] Train only on the fixed 25,000-row member subset.
@@ -39,33 +49,55 @@ Current command runbook:
 - [x] Add confirmatory H1 scoring that fits PCA/LR only on calibration rows and
   reports metrics only on evaluation rows.
 - [x] Add stratified paired bootstrap that refits the attack inside each
-  replicate, plus at least 200 full label-permutation refits.
-- [x] Repair PIA canonical and pass a positive-control gate before it is used as
+  replicate, plus at least 200 full label-permutation refits. Paired bootstrap
+  is now 1,000 draws so the eight-target Holm family is mathematically capable
+  of rejection.
+- [x] Repair PIA canonical and pass a synthetic-checkpoint positive-control gate
+  before it is used as
   the validation attack. Historical E3 PIA outputs are not valid for this gate.
 - [x] Implement and test exact resume, including Python/NumPy/Torch CPU/CUDA and
   data-loader state, or freeze a common restart policy and block uninterrupted-
   trajectory claims.
-- [x] Add row-bound score packets with dataset/run/checkpoint/noise/protocol
-  identities.
+- [x] Add strict row-bound H1 and PIA packet schemas with
+  dataset/run/checkpoint/noise/protocol identities.
+- [ ] Bind H1 activation extraction to the locked rows and common-noise contract,
+  then generate a preflight score packet from the corrected checkpoint.
 
-Implementation branch: `feat/paper1-corrected-evidence` (commit `d6ef148`).
+P0 gates implemented on `feat/paper1-corrected-evidence` (commit `d6ef148`).
 Protocol v3 hash: `b73b8244`. 304 focused tests pass.
 
 No corrected outcome may be viewed before these protocol choices are frozen.
 
 ## P1: Short GPU Preflight
 
-- [x] Run a disposable 2k-step `corrected-*` target: batch 32, seed 1746574482.
-- [x] dataset length is exactly 25,000 and split sets are disjoint
-- [x] no historical checkpoint/output directory is reused
-- [x] no OOM with the live 8 GB GPU state (peak ~6.74 GiB, min free ~1.21 GiB)
-- [x] sustained throughput at least 6.0k steps/hour (observed ~12.3k/h)
-- [x] checkpoint/resume and manifest checks pass
-- [x] projected training plus full evaluation plus 10% buffer fits 6-day window
+- [x] P1 preflight done: training throughput gate passed; full H1+PIA evaluation
+  benchmark pending protocol regeneration.
 
-Preflight passed 2026-07-12. Protocol v3 frozen. GPU queue ready.
+Run a disposable 2k--5k-step `corrected-*` target before long training.
 
-## P2: First-Stage Matrix — 4 Targets × 100k
+Pass criteria:
+
+- dataset length is exactly 25,000 and split sets are disjoint;
+- no historical checkpoint/output directory is reused;
+- no OOM with the live 8 GB GPU state;
+- sustained throughput is at least 6.0k steps/hour without thermal throttling;
+- checkpoint/resume and manifest checks pass;
+- row-bound evaluation artifacts include all required identities.
+- projected training plus full evaluation plus a 10% failure buffer fits the
+  available GPU window; otherwise reduce the matrix symmetrically before any
+  corrected metric is viewed and refreeze the manifest.
+
+Failure pauses long training. Fix the contract, repeat the same preflight seed,
+and record the deviation; do not replace the seed.
+
+2026-07-12 status: the original batch-64 preflight failed the throughput and
+VRAM-headroom gates. The contract was revised before viewing any corrected
+metric to batch size 32, then refrozen. The corrected 0 -> 200 -> 400 -> 2,000
+run passed training, exact-resume, checkpoint receipt, thermal, throughput, and
+output-schema checks. Long training remains blocked on one complete H1 + PIA
+checkpoint-evaluation benchmark and the H1 extraction binding above.
+
+## P2: First-Stage Matrix — 4 Targets x 100k
 
 Train the first four predeclared seeds symmetrically to 100k. Use independent
 `corrected-*` directories and never resume seed42/43/44/45 or other historical

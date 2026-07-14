@@ -1,7 +1,7 @@
 # Paper 1 Corrected Evidence Runbook
 
 > Date: 2026-07-11
-> Status: active protocol scaffold; long training remains gated by the checks below.
+> Status: active protocol repair; the first formal launch was stopped outcome-blind and must be restarted under a new sealed hash.
 
 This runbook supersedes `phase-g-runbook-2026-06-30.md`. It rebuilds the H1
 evidence contract after the previous local targets and resubstitution scorer
@@ -56,14 +56,23 @@ Long training is blocked until all items pass:
 
 ```powershell
 conda activate diffaudit
-$env:DIFFAUDIT_DATASET_ROOT = "<DIFFAUDIT_ROOT>\Download\datasets-readable"
 $env:DIFFAUDIT_DOWNLOAD_ROOT = "<DIFFAUDIT_ROOT>\Download"
+$env:DIFFAUDIT_CIFAR10_ROOT = "<CIFAR10_ROOT>"
 $env:PYTHONPATH = (Resolve-Path src).Path
+$protocolManifest = "<PROTOCOL_MANIFEST>"
+$splitPath = "<SPLIT_PATH>"
+$seed = <PREDECLARED_SEED>
 
 python -X utf8 -m pytest tests/test_h1_evidence_contract.py -q
-python -X utf8 training/ddpm-cifar10/train_ddpm_cifar10.py `
-  --seed <PREDECLARED_SEED> `
-  --run-label ddpm-cifar10-corrected-preflight `
+python -X utf8 training/ddpm-cifar10/train_ddpm_cifar10_corrected.py `
+  --protocol-manifest $protocolManifest `
+  --split-path $splitPath `
+  --seed $seed `
+  --run-label "corrected-preflight-s$seed" `
+  --stop-step 2000 `
+  --dataset-root $env:DIFFAUDIT_CIFAR10_ROOT `
+  --num-workers 4 `
+  --preflight `
   --dry-run
 ```
 
@@ -80,16 +89,40 @@ Never drop a target after seeing its score because the budget became tight.
 Stop preflight on OOM, sustained throughput below 6.0k steps/hour, thermal
 throttling, split mismatch, missing row IDs, or resume mismatch.
 
+### Current preflight result (2026-07-12)
+
+- The first frozen batch-64 attempt was stopped before completion: the observed
+  GPU allocation reached about 7.9 GiB on an 8 GiB device and 2,000 steps had not
+  completed after about 22 minutes.
+- Before any corrected metric was viewed, the single canonical training config
+  was revised to batch size 32 and the protocol was rebuilt.
+- The replacement run used the same first predeclared seed and completed
+  `0 -> 200 -> 400 -> 2,000`, including two exact-resume launches.
+- Active segment time was 583 seconds for 2,000 steps, about 12.3k steps/hour.
+  Observed peak allocation was about 6.74 GiB during resume, with at least about
+  1.21 GiB free. The observed maximum temperature was 71 C.
+- Checkpoints at steps 200, 400, and 2,000 have matching SHA256 receipts,
+  protocol identity, training config, seed, and step metadata.
+
+This passes the training portion of Stage 0. Long training is still blocked
+until one full checkpoint H1 + PIA evaluation is timed and the protocol-bound H1
+activation extractor emits a valid row-bound packet. No corrected AUC or other
+membership outcome has been inspected.
+
 ## Training Template
 
 Use only values from the frozen protocol manifest:
 
 ```powershell
-python -u training/ddpm-cifar10/train_ddpm_cifar10.py `
-  --seed <PREDECLARED_SEED> `
-  --run-label ddpm-cifar10-corrected-seed<SEED> `
+python -u training/ddpm-cifar10/train_ddpm_cifar10_corrected.py `
+  --protocol-manifest $protocolManifest `
+  --split-path $splitPath `
+  --seed $seed `
+  --run-label "corrected-s$seed" `
   --stop-step 100000 `
-  --log-file training/outputs/ddpm-cifar10-corrected-seed<SEED>/training-100k.log
+  --dataset-root $env:DIFFAUDIT_CIFAR10_ROOT `
+  --num-workers 4 `
+  --log-file "training/outputs/corrected-s$seed/training-100k.log"
 ```
 
 Never pass `--resume` against `ddpm-cifar10-seed42`, `seed43`, `seed44`,
@@ -98,12 +131,16 @@ Never pass `--resume` against `ddpm-cifar10-seed42`, `seed43`, `seed44`,
 If the MATURE branch is selected, resume only after the exact-resume gate:
 
 ```powershell
-python -u training/ddpm-cifar10/train_ddpm_cifar10.py `
-  --seed <PREDECLARED_SEED> `
-  --run-label ddpm-cifar10-corrected-seed<SEED> `
+python -u training/ddpm-cifar10/train_ddpm_cifar10_corrected.py `
+  --protocol-manifest $protocolManifest `
+  --split-path $splitPath `
+  --seed $seed `
+  --run-label "corrected-s$seed" `
   --resume 100000 `
   --stop-step 200000 `
-  --log-file training/outputs/ddpm-cifar10-corrected-seed<SEED>/training-200k.log
+  --dataset-root $env:DIFFAUDIT_CIFAR10_ROOT `
+  --num-workers 4 `
+  --log-file "training/outputs/corrected-s$seed/training-200k.log"
 ```
 
 All targets in the chosen branch must be trained symmetrically. Do not continue
@@ -122,9 +159,24 @@ calibration rows and compute metrics only on the locked evaluation rows.
 - Do not report TPR at 0.1% FPR with 512 clean evaluation rows.
 - Bootstrap calibration and evaluation rows stratified by class; refit the
   attack inside every replicate and use paired row draws across checkpoints.
+- Use exactly 1,000 paired bootstrap draws for H1 and PIA. With eight targets
+  there are 28 pairwise comparisons; 200 plus-one draws cannot make the first
+  Holm-adjusted p-value smaller than 0.05.
 - Run at least 200 full label permutations with attack refitting.
 - PIA is the fixed validation attack after its positive-control gate. SecMI is
   exploratory unless frozen before any corrected outcome is inspected.
+
+## Outcome-Blind Restart Rule
+
+The first formal Stage 1 launch was stopped at step 22,000 on its first target
+after the post-training command audit found an incomplete canonical PIA bridge
+and missing complete-roster PIA statistics. No membership outcome was generated
+or viewed, and the remaining targets did not start.
+
+That partial target MUST NOT be resumed, scored, or relabeled. After the PIA
+repair is committed, rebuild the protocol with the same predeclared seeds and
+training matrix, use fresh corrected run labels, repeat the required dry-run and
+resource checks, and start every target from step zero.
 
 ## Interim Branch Rules
 
