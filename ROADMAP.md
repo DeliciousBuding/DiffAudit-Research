@@ -1,7 +1,9 @@
 # DiffAudit Research Roadmap
 
 > Last updated: 2026-07-12
-> Scope: current Research execution board. Historical long-form roadmap is in `docs/ROADMAP.md`.
+> Scope: current Research execution board.
+>
+> Implementation branch: `feat/paper1-corrected-evidence`. See `.worktrees/paper1-corrected-evidence` for active code.
 
 ## Current Baseline
 
@@ -61,9 +63,15 @@ loading, repository-bound analysis provenance, canonical target ordering, and
 - [ ] Bind H1 activation extraction to the locked rows and common-noise contract,
   then generate a preflight score packet from the corrected checkpoint.
 
+P0 gates implemented on `feat/paper1-corrected-evidence` (commit `d6ef148`).
+Protocol v3 hash: `b73b8244`. 304 focused tests pass.
+
 No corrected outcome may be viewed before these protocol choices are frozen.
 
 ## P1: Short GPU Preflight
+
+- [x] P1 preflight done: training throughput gate passed; full H1+PIA evaluation
+  benchmark pending protocol regeneration.
 
 Run a disposable 2k--5k-step `corrected-*` target before long training.
 
@@ -89,7 +97,7 @@ run passed training, exact-resume, checkpoint receipt, thermal, throughput, and
 output-schema checks. Long training remains blocked on one complete H1 + PIA
 checkpoint-evaluation benchmark and the H1 extraction binding above.
 
-## P2: First-Stage Matrix — 4 Targets × 100k
+## P2: First-Stage Matrix — 4 Targets x 100k
 
 Train the first four predeclared seeds symmetrically to 100k. Use independent
 `corrected-*` directories and never resume seed42/43/44/45 or other historical
