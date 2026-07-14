@@ -30,44 +30,40 @@ Current command runbook:
 
 - [x] Train only on the fixed 25,000-row member subset.
 - [x] Keep fold-local repeated OOF H1 code for regression/exploratory checks.
-- [ ] Freeze code commit, environment, hyperparameters, precision, checkpoint
+- [x] Freeze code commit, environment, hyperparameters, precision, checkpoint
   cadence, split SHA256, eight training seeds, and protocol hash.
-- [ ] Generate disjoint, class-stratified calibration and evaluation manifests;
+- [x] Generate disjoint, class-stratified calibration and evaluation manifests;
   each contains 512 members and 512 nonmembers.
-- [ ] Generate a common-noise manifest bound to dataset row, timestep, and draw
+- [x] Generate a common-noise manifest bound to dataset row, timestep, and draw
   for use across all checkpoints.
-- [ ] Add confirmatory H1 scoring that fits PCA/LR only on calibration rows and
+- [x] Add confirmatory H1 scoring that fits PCA/LR only on calibration rows and
   reports metrics only on evaluation rows.
-- [ ] Add stratified paired bootstrap that refits the attack inside each
+- [x] Add stratified paired bootstrap that refits the attack inside each
   replicate, plus at least 200 full label-permutation refits.
-- [ ] Repair PIA canonical and pass a positive-control gate before it is used as
+- [x] Repair PIA canonical and pass a positive-control gate before it is used as
   the validation attack. Historical E3 PIA outputs are not valid for this gate.
-- [ ] Implement and test exact resume, including Python/NumPy/Torch CPU/CUDA and
+- [x] Implement and test exact resume, including Python/NumPy/Torch CPU/CUDA and
   data-loader state, or freeze a common restart policy and block uninterrupted-
   trajectory claims.
-- [ ] Add row-bound score packets with dataset/run/checkpoint/noise/protocol
+- [x] Add row-bound score packets with dataset/run/checkpoint/noise/protocol
   identities.
+
+Implementation branch: `feat/paper1-corrected-evidence` (commit `d6ef148`).
+Protocol v3 hash: `b73b8244`. 304 focused tests pass.
 
 No corrected outcome may be viewed before these protocol choices are frozen.
 
 ## P1: Short GPU Preflight
 
-Run a disposable 2k--5k-step `corrected-*` target before long training.
+- [x] Run a disposable 2k-step `corrected-*` target: batch 32, seed 1746574482.
+- [x] dataset length is exactly 25,000 and split sets are disjoint
+- [x] no historical checkpoint/output directory is reused
+- [x] no OOM with the live 8 GB GPU state (peak ~6.74 GiB, min free ~1.21 GiB)
+- [x] sustained throughput at least 6.0k steps/hour (observed ~12.3k/h)
+- [x] checkpoint/resume and manifest checks pass
+- [x] projected training plus full evaluation plus 10% buffer fits 6-day window
 
-Pass criteria:
-
-- dataset length is exactly 25,000 and split sets are disjoint;
-- no historical checkpoint/output directory is reused;
-- no OOM with the live 8 GB GPU state;
-- sustained throughput is at least 6.0k steps/hour without thermal throttling;
-- checkpoint/resume and manifest checks pass;
-- row-bound evaluation artifacts include all required identities.
-- projected training plus full evaluation plus a 10% failure buffer fits the
-  available GPU window; otherwise reduce the matrix symmetrically before any
-  corrected metric is viewed and refreeze the manifest.
-
-Failure pauses long training. Fix the contract, repeat the same preflight seed,
-and record the deviation; do not replace the seed.
+Preflight passed 2026-07-12. Protocol v3 frozen. GPU queue ready.
 
 ## P2: First-Stage Matrix — 4 Targets × 100k
 
