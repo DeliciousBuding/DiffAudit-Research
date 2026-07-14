@@ -1,7 +1,7 @@
 # DiffAudit Research Roadmap
 
 > Last updated: 2026-07-11
-> Scope: current Research execution board. Historical long-form roadmap is in `docs/ROADMAP.md`.
+> Scope: current Research execution board.
 
 ## Current Baseline
 
