@@ -33,7 +33,7 @@ All notable changes to DiffAudit Research are documented here.
 - `envOrDefault("true", ...)` → `strconv.ParseBool` for demo mode
 - Dependabot: actions/checkout 6 → 7
 
-## [2026-06-19] — Phase G Evidence Freeze
+## [2026-06-19] — Phase G Evidence Freeze (now quarantined)
 
 - Frozen claim matrix established
 - H1/DAAB run-dynamics replication (Phase G)
