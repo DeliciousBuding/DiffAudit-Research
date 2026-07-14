@@ -198,6 +198,7 @@ def _validate_protocol_envelope(
         _validate_split_filename,
         derive_training_seeds,
         load_protocol_envelope,
+        paper1_run_label_templates,
     )
     from diffaudit.evidence.training_config import (
         build_training_config,
@@ -241,8 +242,10 @@ def _validate_protocol_envelope(
     _require_exact_json_value("dataset.split.nonmember_count", split["nonmember_count"], 25_000)
 
     training_config = build_training_config()
+    # Must match validate_paper1_protocol_envelope training seal (includes run_label_templates).
     expected_training = {
         "seeds": list(derive_training_seeds(_PAPER1_PROTOCOL_NAMESPACE)),
+        "run_label_templates": paper1_run_label_templates(),
         "batch_size": training_config.data["batch_size"],
         "interim_steps": 100_000,
         "mature_steps": 200_000,
