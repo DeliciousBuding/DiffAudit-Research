@@ -1,10 +1,22 @@
 # DiffAudit Research Roadmap
 
-> Last updated: 2026-07-18
-> Scope: current Research execution board (public-safe).
+> Last updated: 2026-07-18 15:00 +08:00  
+> Scope: **Paper-1 / Research public execution board only** (public-safe).  
+> Cross-lane control board: workspace root `ROADMAP.md`.  
+> **Default live science is not here** — black-box defense transfer lives in
+> sibling `defense-transfer/` and must not mutate this ledger.
 >
 > Implementation: corrected-evidence code is on main (merged from
 > feat/paper1-corrected-evidence). Do not resume historical Phase G targets.
+
+## Board status (read first)
+
+| Item | State |
+|------|--------|
+| Corrected confirmatory matrix | **CLOSED** (Route C) |
+| Formal long training | **hold** (no >200k / held-back / threshold edit without new protocol) |
+| Default agent work in *this* repo | ledger hygiene, public-safe packaging, **no claim upgrade** |
+| Live scientific default (workspace) | **`defense-transfer/` Step D** — see that repo’s ROADMAP |
 
 ## Current Baseline
 

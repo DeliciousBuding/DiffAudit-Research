@@ -49,15 +49,28 @@ Do not start from memory, archived rebuild plans, or old chat context. Re-anchor
 
 Paper 1 corrected-evidence matrix is **closed (2026-07-18, Route C)**. Historical Phase G targets and the resubstitution H1 scorer remain permanently quarantined. Admitted claim ceiling is **audit-failure / non-reproduction only** — not positive membership recovery, run-identity heterogeneity, or seed-population variance.
 
-Active work in this public repo is ledger hygiene, documentation alignment, and artifact packaging that does **not** upgrade claims. Do not relaunch formal training, open held-back seeds, exceed 200k, or change the 0.55 threshold without a new pre-registered protocol and explicit authorization.
+**What agents should do in this repo by default**
+
+- ledger hygiene, public-safe docs alignment, exploratory-script packaging that does **not** upgrade claims
+- do **not** treat “matrix closed” as “the whole DiffAudit science is frozen”
+
+**What is *not* blocked by this board**
+
+- workspace-default live science is **`defense-transfer/` Step D** (sibling repo). That work must not edit this evidence ledger.
+- private manuscript packaging under `Papers/` only after the user’s venue phrase
+
+**Hard stops (this repo)**
+
+- no formal relaunch, held-back seeds, >200k, or 0.55 threshold change without a **new** pre-registered protocol and explicit authorization
 
 Start from:
-1. `ROADMAP.md` — current task board and evidence baseline
-2. `docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md` — closed protocol record (replay only)
-3. `docs/paper1/frozen-claim-matrix.md` — claim registry and quarantine boundary
-4. `docs/evidence/experiment-master-log.md` — experiment verdict ledger
+1. workspace root `ROADMAP.md` — cross-lane control board (if present)
+2. `ROADMAP.md` — this board (closed matrix + claim boundaries)
+3. `docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md` — closed protocol record (replay only)
+4. `docs/paper1/frozen-claim-matrix.md` — claim registry and quarantine boundary
+5. `docs/evidence/experiment-master-log.md` — experiment verdict ledger
 
-Default CUDA environment: see the corrected-evidence runbook (do not treat as a live formal resume checklist).
+Default CUDA environment for *historical* formal path: corrected-evidence runbook (not a live formal resume checklist). For defense-transfer GPU work use the sibling repo + `diffaudit` conda env.
 
 ### Related Work Context (2026-07-05 literature scan)
 
