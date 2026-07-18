@@ -225,6 +225,8 @@ coverage.xml
 
 # Jupyter
 .ipynb_checkpoints/
+# Local exploratory notebooks (keep untracked; public Research must not grow notebook noise)
+notebooks/
 
 # Environment files
 .env
