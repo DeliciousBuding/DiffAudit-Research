@@ -10,8 +10,11 @@
 > package. **No** positive membership claim, **no** run-identity heterogeneity
 > claim, **no** population seed-variance / prevalence / mechanism claim.
 > Claim ceiling must not be upgraded from modest near-threshold PIA point
-> estimates alone. Offline fault-injection E1–E3 is exploratory support only;
-> E4–E5 not run. Engineering preflight / tiny / exp are never confirmatory.
+> estimates alone. Offline fault-injection E1–E3 is exploratory support only.
+> E4–E5 exploratory runs (2026-07-18) are appendix-only under `faultinj-*`
+> labels: E5 instrument controls PASS; E4 short-budget invalid-GT micro-demo
+> did not clear the illustrative pathology mark. Neither upgrades the claim
+> ceiling. Engineering preflight / tiny / exp are never confirmatory.
 
 > **2026-07-11 ACTIVE QUARANTINE (still in force for Phase G)**: H1/DAAB Phase G
 > rows and all derived run-identity, three-seed, continuation-direction, and
