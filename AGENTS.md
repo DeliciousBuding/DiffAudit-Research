@@ -47,20 +47,17 @@ Do not start from memory, archived rebuild plans, or old chat context. Re-anchor
 
 ## Active Research Direction
 
-Paper 1 is rebuilding its evidence contract after the historical Phase G
-targets and H1 scorer were quarantined. The active scientific question is
-whether newly trained member-only targets exhibit held-out H1 membership signal
-and whether any differences among a predeclared finite target set exceed
-measurement uncertainty. Run identity is a hypothesis, not an established
-finding or mechanism.
+Paper 1 corrected-evidence matrix is **closed (2026-07-18, Route C)**. Historical Phase G targets and the resubstitution H1 scorer remain permanently quarantined. Admitted claim ceiling is **audit-failure / non-reproduction only** — not positive membership recovery, run-identity heterogeneity, or seed-population variance.
+
+Active work in this public repo is ledger hygiene, documentation alignment, and artifact packaging that does **not** upgrade claims. Do not relaunch formal training, open held-back seeds, exceed 200k, or change the 0.55 threshold without a new pre-registered protocol and explicit authorization.
 
 Start from:
 1. `ROADMAP.md` — current task board and evidence baseline
-2. `docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md` — active protocol and commands
+2. `docs/start-here/paper1-corrected-evidence-runbook-2026-07-11.md` — closed protocol record (replay only)
 3. `docs/paper1/frozen-claim-matrix.md` — claim registry and quarantine boundary
 4. `docs/evidence/experiment-master-log.md` — experiment verdict ledger
 
-Default CUDA environment: see the corrected-evidence runbook.
+Default CUDA environment: see the corrected-evidence runbook (do not treat as a live formal resume checklist).
 
 ### Related Work Context (2026-07-05 literature scan)
 
@@ -179,7 +176,7 @@ Current research state lives in:
 - `workspaces/runtime/`
 - `workspaces/cross-box/`
 - `workspaces/defense/`
-- `workspaces/xuchi-reproduction-20260516/`
+- `workspaces/legacy-reproduction-20260516/`
 
 Historical notes are in `legacy/workspaces/`. Don't add new dated logs to the
 active workspace directories unless they are current summaries.

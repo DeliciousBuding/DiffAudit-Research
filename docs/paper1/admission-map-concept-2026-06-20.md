@@ -1,5 +1,8 @@
 # Admission Map — Conceptual Figure for Paper 1
 
+> **QUARANTINED historical narrative (2026-07-18).** Phase G / positive H1 language is not paper-admissible. Corrected matrix = Route C audit-failure only. SSOT: `frozen-claim-matrix.md`.
+
+
 > ChatGPT recommendation: "One memorable conceptual figure" showing evidence states.
 
 ## 3-Axis Admission Map

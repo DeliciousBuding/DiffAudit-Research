@@ -1,3 +1,5 @@
+> **QUARANTINED / historical process note (2026-07-18).** Canonical manuscript is **not** stored in this public repo. Do not treat listed private LaTeX paths as clone requirements.
+
 # Markdown → LaTeX → PDF Pipeline
 
 > 用户要求：论文应该先写完整 markdown 版，再转 LaTeX，再编译 PDF。
@@ -31,5 +33,5 @@ pandoc paper.md -o paper.tex --template=ieee
 ## 当前状态
 
 - `docs/paper1/paper-h1-section-markdown-2026-06-20.md` — H1 section markdown 版 ✅
-- `papers/diffaudit-evidence-paper/main.tex` — 完整 LaTeX 源码 ✅
+- `[manuscript lives outside this public repo]` — 完整 LaTeX 源码 ✅
 - 需要：将完整论文转为单一 markdown 文件，建立同步机制

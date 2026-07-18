@@ -1,8 +1,9 @@
 # Paper 1 — Markdown Draft (H1 Section Update)
 
-> **Public research report — not the anonymous submission manuscript. See private Papers/ repository for canonical LaTeX source.**
-> Based on: ChatGPT deep review 2026-06-20, Workflow 3-agent review, H1 mechanistic experiments.
-> Core thesis: "Membership inference is not a score-ranking problem; it is an evidence-admission problem."
+> **QUARANTINED historical narrative (2026-07-10+). Not paper-admissible.**
+> Invalid Phase G membership GT / resubstitution scoring. Corrected matrix closed **Route C** (2026-07-18): audit-failure / non-reproduction only.
+> Historical AUC 0.84–0.88 / “real, replicated membership signal” language is **not** paper-admissible. Do not treat as submission draft.
+> SSOT: `docs/paper1/frozen-claim-matrix.md` + `ROADMAP.md`.
 
 ---
 
@@ -24,7 +25,7 @@ We register forward hooks at four UNet sites on the E3-calibrated CUDA DDPM 800k
 | DDPM 800k | 128 | 0.873 | 0.055 | 0.486 |
 | DDIM 750k | 128 | 0.841 | 0.078 | 0.504 |
 
-AUC is stable (ΔAUC = +0.001 from N=64 to N=128) and replicates across checkpoints (ΔAUC = -0.032 from DDPM to DDIM). Label-shuffle controls return chance-level AUC. Per-site ablation removes each hook site in turn; all ablated AUCs remain within [0.867, 0.879], ruling out single-site artifacts. H1 thus carries a real, replicated, aggregate membership signal.
+AUC is stable (ΔAUC = +0.001 from N=64 to N=128) and replicates across checkpoints (ΔAUC = -0.032 from DDPM to DDIM). Label-shuffle controls return chance-level AUC. Per-site ablation removes each hook site in turn; all ablated AUCs remain within [0.867, 0.879], ruling out single-site artifacts. H1 was historically described as carrying an aggregate membership signal; that packet is **quarantined** (invalid GT / resubstitution) and is not paper-admissible after Route C.
 
 ### 4. Feature Decomposition
 

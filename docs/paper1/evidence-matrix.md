@@ -1,5 +1,8 @@
 # Paper 1 Evidence Matrix
 
+> **Historical / non-authoritative snapshot.** Claim SSOT is `frozen-claim-matrix.md` (Route C, 2026-07-18). Workspace paths below may be absent in a clean public clone; prefer `docs/evidence/*` notes.
+
+
 Complete experiment table for Paper 1 "Weak, Spurious, and Non-Portable: Diagnosing Membership Signals in Diffusion Models."
 
 Status stages: admitted / candidate / hold / weak / blocked / deferred / killed  
@@ -47,7 +50,7 @@ Failure modes: weak / spurious / non-portable / admitted
 |---|--------|---------------|
 | 1 | GSA | `docs/evidence/admitted-results-summary.md` |
 | 3 | PIA | `docs/evidence/admitted-results-summary.md` |
-| 4 | Recon | `docs/evidence/admitted-results-summary.md`, `workspaces/recon/` |
+| 4 | Recon | `docs/evidence/admitted-results-summary.md`, `docs/evidence/admitted-results-summary.md` (Recon) |
 | 5-6 | CLiD | `docs/evidence/clid-prompt-perturbation.md` |
 | 7-9 | scnet | `../scnet/output/dcu_experiments_2026-06-05.md`, MANIFEST.json |
-| 17 | H2 | `workspaces/h2-output-cloud/` (candidate-only) |
+| 17 | H2 | `docs/evidence/` H2 notes (candidate-only) |

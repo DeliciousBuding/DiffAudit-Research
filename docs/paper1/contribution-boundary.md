@@ -1,6 +1,8 @@
 # Paper 1 Contribution Boundary
 
-**Last updated**: 2026-06-18
+**Last updated**: 2026-07-18
+
+**Corrected matrix**: closed Route C (2026-07-18); admitted ceiling = audit-failure / non-reproduction. See `frozen-claim-matrix.md`.
 
 ## Repository-to-Paper Mapping
 
@@ -56,11 +58,6 @@ Runtime-Server/              → Not relevant to papers
 4. Do NOT mix Research MIA data into the watermark paper
 5. Do NOT mix watermark baseline data into Paper 1
 
-## Anonymous Submission Checklist
+## Manuscript Packaging
 
-Before Paper 1 submission:
-- [ ] Create anonymous copy of Research/docs/paper1/
-- [ ] Strip local workspace paths, personal user-home paths, and personal names
-- [ ] Replace GitHub URLs with anonymous artifact links
-- [ ] Remove author-identifying metadata from all figures and tables
-- [ ] Verify no watermark baseline data leaked into Paper 1 materials
+Manuscript packaging and anonymous artifact production live outside this public Research repository. Contribution boundary here is evidence taxonomy only.

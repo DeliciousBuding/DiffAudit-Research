@@ -1,5 +1,9 @@
 # Paper 1: corrected training preflight
 
+> **SUPERSEDED by 2026-07-18 Route C closed matrix.**
+> Long-training blocker language below is historical. Do not resume formal training from this memo.
+
+
 - **Date**: 2026-07-12
 - **Status**: superseded by outcome-blind evaluation-contract repair
 - **Verdict**: Batch size 32 passed the training and exact-resume resource gate, but the first formal matrix was stopped before outcomes when the canonical PIA post-training path was found incomplete.

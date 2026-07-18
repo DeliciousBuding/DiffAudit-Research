@@ -1,5 +1,8 @@
 # Paper 1 — Scientific Narrative Restructuring
 
+> **QUARANTINED historical narrative (2026-07-18).** Phase G / positive H1 language is not paper-admissible. Corrected matrix = Route C audit-failure only. SSOT: `frozen-claim-matrix.md`.
+
+
 > Based on ChatGPT deep scientific review 2026-06-20.
 > Core insight: "Membership inference is not a score-ranking problem; it is an evidence-admission problem."
 

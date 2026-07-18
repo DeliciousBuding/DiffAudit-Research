@@ -1,7 +1,10 @@
 # Paper 1 Corrected Evidence Runbook
 
-> Date: 2026-07-11
-> Status: active protocol repair; the first formal launch was stopped outcome-blind and must be restarted under a new sealed hash.
+> Date: 2026-07-11 (outcome closed 2026-07-18)
+> Status: **CLOSED** protocol record for the completed corrected matrix (2026-07-18 Route C).
+> Outcome: H1+PIA membership-signal and heterogeneity gates failed at 100k and 200k. Claim ceiling = audit-failure / non-reproduction only.
+> Do **not** relaunch formal training, open held-back seeds, exceed 200k, or change the 0.55 threshold without a new pre-registered protocol and explicit authorization.
+> Commands below remain for audit replay only — not a live resume checklist.
 
 This runbook supersedes `phase-g-runbook-2026-06-30.md`. It rebuilds the H1
 evidence contract after the previous local targets and resubstitution scorer
@@ -33,7 +36,7 @@ metric is viewed.
 
 ## Evidence-Contract Gates
 
-Long training is blocked until all items pass:
+Historical gate list (matrix already closed 2026-07-18). Do not treat as a reason to restart formal training. Original checklist:
 
 1. The training dataset is a `Subset` of exactly 25,000 fixed member rows.
 2. Member and nonmember indices are disjoint and the split SHA256 is recorded.
@@ -104,7 +107,7 @@ throttling, split mismatch, missing row IDs, or resume mismatch.
 - Checkpoints at steps 200, 400, and 2,000 have matching SHA256 receipts,
   protocol identity, training config, seed, and step metadata.
 
-This passes the training portion of Stage 0. Long training is still blocked
+This passes the training portion of Stage 0. Long training was historically blocked (matrix now closed; do not resume formal)
 until one full checkpoint H1 + PIA evaluation is timed and the protocol-bound H1
 activation extractor emits a valid row-bound packet. No corrected AUC or other
 membership outcome has been inspected.
@@ -214,7 +217,7 @@ After a branch completes, update together:
 2. `docs/evidence/experiment-master-log.md`
 3. `docs/paper1/frozen-claim-matrix.md`
 4. one new dated evidence memo for the corrected experiment
-5. the paper evidence bank and submission-readiness review (in `Papers/`)
+5. manuscript packaging / readiness review lives outside this public Research repository
 
 Before any public commit:
 

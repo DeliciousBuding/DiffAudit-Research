@@ -1,5 +1,8 @@
 # Phase G Runbook — H1/DAAB Run Dynamics
 
+> **ARCHIVED — never resume seed42–45 / Phase G.** Historical only. Use the closed corrected-evidence runbook for audit replay, not this file.
+
+
 > **SUPERSEDED 2026-07-11**: The targets and H1 metrics in this runbook are
 > quarantined because of invalid membership ground truth and resubstitution
 > scoring. Do not execute the historical resume commands and do not cite the

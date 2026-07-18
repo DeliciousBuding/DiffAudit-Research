@@ -1,10 +1,9 @@
 # A Claim-Admission Protocol for Diffusion Membership-Inference Scores
 
-> **Public research report — not the anonymous submission manuscript. See private Papers/ repository for canonical LaTeX source.**
-> Submission Draft — 2026-06-20
-> Markdown version for scientific discussion and review.
-> Full LaTeX source: `papers/diffaudit-evidence-paper/main.tex`
-> Compiled PDF: `papers/diffaudit-evidence-paper/paper.pdf`
+> **QUARANTINED historical narrative (2026-07-10+). Not paper-admissible.**
+> Invalid Phase G membership GT / resubstitution scoring. Corrected matrix closed **Route C** (2026-07-18): audit-failure / non-reproduction only.
+> Do **not** cite AUC 0.84–0.88 / DAAB / run-identity as positive claims. No submission draft lives in this public repo.
+> SSOT: `docs/paper1/frozen-claim-matrix.md` + `ROADMAP.md`.
 
 ---
 
@@ -90,5 +89,5 @@ We term this **Distributed Activation-Amplitude Bias (DAAB)**: a real, replicate
 - **Git**: `DeliciousBuding/DiffAudit-Research`, branch `paper/evidence-contracted-workspace`
 - **Scripts**: `scripts/h1_activation_scout.py`, `scripts/h2_score_vector_sidecar.py`, `scripts/h1_matched_knockout.py`
 - **Evidence**: `docs/evidence/h1-*.md`, `docs/evidence/h2-*.md`
-- **Paper**: `papers/diffaudit-evidence-paper/main.tex`, `paper.pdf`
+- **Paper**: [manuscript outside public repo], `paper.pdf`
 - **Claim matrix**: `docs/paper1/frozen-claim-matrix.md` (24 rows)

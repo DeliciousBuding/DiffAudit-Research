@@ -1,5 +1,8 @@
 # Workflow Review — Paper 1 Status Assessment (Redacted)
 
+> **QUARANTINED historical narrative (2026-07-18).** Phase G / positive H1 language is not paper-admissible. Corrected matrix = Route C audit-failure only. SSOT: `frozen-claim-matrix.md`.
+
+
 > Date: 2026-06-20
 > Status: Internal operational review (sensitive details removed)
 

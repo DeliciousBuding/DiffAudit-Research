@@ -2,7 +2,7 @@
 
 ## Diagnosing Membership Signals in Diffusion Models
 
-**Status**: Evidence organization phase (2026-06-18)  
+**Status**: Corrected matrix closed (**Route C**, 2026-07-18); historical Phase G quarantined. SSOT: `frozen-claim-matrix.md` + `ROADMAP.md`  
 **Scope**: Research repo + scnet DCU external evidence  
 **NOT included**: Watermark baseline data (Retrace-Baseline), Gaussian Shading, Stable Signature, Tree-Ring collapse  
 
@@ -29,7 +29,7 @@
 | Admitted results | `docs/evidence/admitted-results-summary.md` | GSA, PIA, Recon, DPDM verified rows |
 | Reproduction status | `docs/evidence/reproduction-status.md` | All lines with status stages |
 | CLiD case study | `docs/evidence/clid-prompt-perturbation.md` | Spurious signal evidence |
-| H2 candidate | (workspace) | Non-portable candidate |
+| H2 candidate | docs/evidence H2 notes | Non-portable candidate |
 | scnet external | `../scnet/output/` | Weak signal evidence (DCU CIFAR-10) |
 
 ## Paper 1 Evidence Files (this directory)
@@ -41,10 +41,7 @@
 | `statistical-audit.md` | CI calculations, significance tests, low-FPR warnings |
 | `contribution-boundary.md` | Paper 1 vs Paper 2 vs external evidence boundaries |
 
-## Anonymous Submission Note
+## Manuscript Packaging
 
-Research repo is currently public. Before double-blind submission:
-- Create anonymous artifact package
-- Strip author identities, school names, personal paths
-- Provide as supplementary material zip, NOT as GitHub link
-- After acceptance: point to public repo
+Manuscript packaging lives outside this public Research repository. Do not store double-blind / acceptance playbooks here.
+

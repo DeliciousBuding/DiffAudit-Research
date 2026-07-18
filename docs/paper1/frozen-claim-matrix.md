@@ -1,28 +1,63 @@
 # DiffAudit Evidence Claim Matrix (Frozen)
 
-> **2026-07-11 ACTIVE QUARANTINE**: H1/DAAB Phase G rows and all derived run-identity,
-> three-seed, continuation-direction, and N=512 cluster claims are not currently
-> admissible for Paper 1. The local seed42/43/45 targets were trained on the full
-> CIFAR-10 training set although the evaluator labeled half of those rows as
-> nonmembers, and the H1 scorer reported resubstitution AUC after fitting PCA/LR
-> on the same rows. Corrected member-only training and held-out scoring code now
-> exists, but existing checkpoints and metrics remain diagnostic-only. Old
-> checkpoints will not be retroactively unquarantined; only new `corrected-*`
-> targets under the 2026-07-11 frozen protocol may create new H1 claims. This
-> quarantine overrides all historical H1 text below.
+> **2026-07-18 CORRECTED MATRIX CLOSED (Route C)**: Four predeclared member-only
+> `corrected-*` targets completed 100k and exact-resume MATURE 200k under the
+> frozen protocol. Held-out H1 and canonical PIA both fail the membership-signal
+> gate (AUC ≥ 0.55 and 95% CI lower > 0.50) and the heterogeneity gate
+> (practical range ≥ 0.05 with predeclared global test) at both horizons.
+> **Admitted scientific ceiling for this matrix:** audit-failure /
+> non-reproduction of the historical multi-seed membership / run-identity
+> package. **No** positive membership claim, **no** run-identity heterogeneity
+> claim, **no** population seed-variance / prevalence / mechanism claim.
+> Claim ceiling must not be upgraded from modest near-threshold PIA point
+> estimates alone. Offline fault-injection E1–E3 is exploratory support only;
+> E4–E5 not run. Engineering preflight / tiny / exp are never confirmatory.
 
-> **Current H1 status**: no admissible Paper 1 H1 result. The next gate is a
-> predeclared member-only finite-target experiment with disjoint calibration and
-> evaluation rows, common evaluation noise, row-bound scores, H1 as the primary
-> analysis, and PIA canonical as the validation attack. Four or eight targets
-> cannot establish population seed variance or a dominant mechanism.
+> **2026-07-11 ACTIVE QUARANTINE (still in force for Phase G)**: H1/DAAB Phase G
+> rows and all derived run-identity, three-seed, continuation-direction, and
+> N=512 cluster claims are not admissible for Paper 1 from historical targets.
+> Local seed42/43/45 trained on full CIFAR-10 train while evaluator labeled half
+> as nonmembers; old H1 reported resubstitution AUC. Old checkpoints will not be
+> retroactively unquarantined.
+
+> **Current corrected-H1/PIA status**: finite-target confirmatory matrix executed;
+> gates failed; admitted language is non-reproduction / audit-failure only.
+> Public board: `../ROADMAP.md` (2026-07-18).
 
 > 冻结时间：2026-06-19
-> **2026-07-03 更新**: H1/DAAB 行已纳入 Phase G run-dynamics baseline。旧数字（DDPM-800k AUC=0.873, DDIM-750k AUC=0.841）已被统一脚本重新评估的 v2 数字取代；same-trajectory DDPM-800k N=512 已补齐 raw JSON，rerun AUC=0.605488；seed43 750k/800k scout 完成，AUC=0.666687/0.664612。
-> 用途：Paper 1 claim registry。当前旧 H1 数字仅作历史诊断，禁止进入 submission claim。
+> **2026-07-03 更新**: H1/DAAB 行已纳入 Phase G run-dynamics baseline（历史诊断）。
+> 用途：Paper 1 claim registry。Phase G 旧数字禁止进入 submission claim。
 > 规则：每个方法一行，包含允许的声明（allowed claim）和禁止的声明（blocked claim）。
 
-## Admitted Evidence (5 rows)
+## Corrected-evidence matrix (2026-07-18) — claim ceiling only
+
+| Field | Value |
+|-------|--------|
+| Targets | 4 predeclared `corrected-*` seeds |
+| Steps | 100k Stage-1 + MATURE exact-resume 200k |
+| Attacks | confirmatory held-out H1; canonical PIA validation |
+| Membership-signal gate | fail @100k and @200k |
+| Heterogeneity gate | fail @100k and @200k |
+| Branch | MATURE (not STOP, not REPLICATE) |
+| Allowed claim | historical multi-seed package not reproduced under pre-registered member-only held-out contract |
+| Blocked claim | positive membership; run-identity heterogeneity; population seed variance; mechanism; claim upgrade from ~0.54 PIA points |
+
+### Allowed Claims (Corrected matrix)
+- Historical Phase G evidence contract was invalid and remains quarantined
+- Corrected member-only + held-out scoring infrastructure exists and was executed
+- Complete four-target sealed roster does not re-establish the historical multi-seed membership / run-identity package under frozen gates
+- Claim ceiling is audit-failure / non-reproduction measurement
+
+### Blocked Claims (Corrected matrix)
+- ❌ H1 or PIA admits positive membership under this matrix
+- ❌ Run-identity / seed-dominant MIA as positive claim
+- ❌ Population seed variance, prevalence, bimodality, mechanism
+- ❌ Engineering preflight, executor tests, or tiny/exp as confirmatory evidence
+- ❌ Any submission-ready claim that upgrades ceiling without a new pre-registered protocol
+
+---
+
+## Admitted Evidence (5 rows — historical product/runtime ledger; not Route C corrected matrix)
 
 | # | Method | Access | Model/Data | AUC | TPR@1%FPR | TPR@0.1%FPR | N (m/nm) | Status |
 |---|--------|--------|-----------|:---:|:---------:|:-----------:|:---:|--------|

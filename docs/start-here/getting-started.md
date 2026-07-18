@@ -4,7 +4,7 @@
 > [paper1-corrected-evidence-runbook-2026-07-11.md](paper1-corrected-evidence-runbook-2026-07-11.md).
 > The old Phase G runbook is historical and MUST NOT be used to resume targets.
 
-*Last updated: 2026-07-11*
+*Last updated: 2026-07-18*
 
 这份文档面向第一次进入 DiffAudit Research 仓库的新成员或外部贡献者。
 
@@ -23,8 +23,7 @@
 ## 需要先知道的几件事
 
 - 这是研究仓库，不是产品仓库
-- 当前默认主线是 Paper 1 corrected evidence：member-only matched targets、held-out
-  row-bound H1 与预注册 validation attack。run identity 仍是待检验假设
+- Paper 1 corrected matrix 已于 2026-07-18 闭合为 **Route C**（membership-signal / 异质性门失败）；admitted ceiling = audit-failure / non-reproduction。默认 **不** 启动 formal GPU。历史 Phase G 永久 quarantine。详见 `ROADMAP.md` 与 `docs/paper1/frozen-claim-matrix.md`
 - 黑盒、灰盒、白盒工作区是历史/候选方向入口；除非 `ROADMAP.md` 明确重开，不作为当前主线
 - 代码、资产、实验三者必须分开表述
 - 没有真实运行证据，不要说“复现成功”
