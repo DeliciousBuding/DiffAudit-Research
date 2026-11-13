@@ -159,3 +159,26 @@ python -X utf8 scripts/util/run_local_checks.py
 
 Skip GPU commands unless the PR explicitly changes a model-run contract and the
 roadmap has released exactly one bounded GPU task.
+
+## Naming & Script Conventions
+
+- **Directories**: `kebab-case`, single purpose (no `PascalCase`, `snake_case`, spaces, or CJK in tracked code/dir names).
+- **Scripts**: `scripts/{section}/{section}_{experiment}_{variant}.py` or `scripts/util/`. No `YYYYMMDD` in filenames; use ISO `YYYY-MM-DD` for dated filenames (e.g., evidence docs `{section}-{topic}-YYYY-MM-DD.md`).
+- **Config files**: `kebab-case.yaml`; local overrides use git-ignored `*.local.yaml`.
+- **Checkpoints**: Load paths from `configs/assets/checkpoint-registry.yaml` (`from diffaudit.utils.config import load_checkpoint_registry`) instead of hardcoding machine paths.
+
+## Evidence Document Schema
+
+New evidence docs under `docs/evidence/` SHOULD begin with:
+
+```markdown
+# {section}: {topic}
+
+- **Date**: YYYY-MM-DD
+- **Status**: draft | review | final | superseded
+- **Verdict**: One-sentence conclusion.
+```
+
+## Pre-Commit & CI Guards
+
+Run `python -X utf8 scripts/util/run_pr_checks.py` before commits (which runs `run_docs_checks.py`, public-surface checks, Markdown links, stale-doc max age 90d, attack/defense table checks, and `diffaudit` checks). Commits reject `YYYYMMDD` filenames, top-level `.py` files directly under `scripts/`, hardcoded local paths, and tracked binaries >1 MB.
